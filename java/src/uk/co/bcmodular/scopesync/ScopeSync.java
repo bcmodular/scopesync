@@ -20,7 +20,7 @@
  *
  * Contributors:
  *  Simon Russell
- * 	Will Ellis
+ *  Will Ellis
  *  Jessica Brandt
  */
 package uk.co.bcmodular.scopesync;
