@@ -1,7 +1,7 @@
 /**
  * ScopeSync mxj~ Main class
  *
- *  (C) Copyright ${year} bcmodular (http://www.bcmodular.co.uk/)
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeSync.
  *
