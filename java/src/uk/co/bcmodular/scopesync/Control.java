@@ -1,3 +1,28 @@
+/**
+ * ScopeSync mxj~ Control class
+ *
+ *  (C) Copyright ${year} bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ * 	Will Ellis
+ *  Jessica Brandt
+ */
 package uk.co.bcmodular.scopesync;
 import java.util.*;
 
@@ -26,7 +51,7 @@ public class Control {
 				                   "M1","M2","M3","M4","M5","M6","M7","M8",
 				                   "N1","N2","N3","N4","N5","N6","N7","N8",
 				                   "O1","O2","O3","O4","O5","O6","O7","O8",
-				                   "P1","P2","P3","P4","P5","P6","P7","P8"}; 
+				                   "P1","P2","P3","P4","P5","P6","P7","P8"};
 		final int[]  destCodes = {  1,  2,  3,  4,  5,  6,  7,  8,
 				                    9, 10, 11, 12, 13, 14, 15, 16,
 				                   19, 20, 21, 22, 23, 24, 25, 26,
@@ -43,12 +68,12 @@ public class Control {
 				                  117,118,119,120,121,122,123,124,
 				                  127,128,129,130,131,132,133,134,
 				                  135,136,137,138,139,140,141,142};
-		
+
 		for (int i=0; i<controls.length; i++){
 			controlDestCodeMap.put(controls[i], new int[]{i,destCodes[i]});
 		}
 	}
-	
+
 	public Control(String control) {
 		int[] control_info;
 		control_info = controlDestCodeMap.get(control);
