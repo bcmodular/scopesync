@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.0"
+              bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
+              jucerVersion="3.1.0">
+  <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
+    <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
+      <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
+        <FILE id="UUomSl" name="ScopeSyncAsync.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncAsync.cpp"/>
+        <FILE id="P4Xjre" name="ScopeSyncAsync.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncAsync.h"/>
+        <FILE id="UCicV4" name="ScopeSyncAudio.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncAudio.cpp"/>
+        <FILE id="nA5l9B" name="ScopeSyncAudio.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncAudio.h"/>
+        <FILE id="i5nULv" name="ScopeSyncControl.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncControl.cpp"/>
+        <FILE id="aLY7EB" name="ScopeSyncControl.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncControl.h"/>
+      </GROUP>
+      <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
+        <FILE id="iOUs8X" name="ComboBoxProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/ComboBoxProperties.cpp"/>
+        <FILE id="yDYnkx" name="ComboBoxProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/ComboBoxProperties.h"/>
+        <FILE id="HpqJop" name="ComponentProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/ComponentProperties.cpp"/>
+        <FILE id="IPudvW" name="ComponentProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/ComponentProperties.h"/>
+        <FILE id="k1VwWG" name="LabelProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/LabelProperties.cpp"/>
+        <FILE id="AtE0lE" name="LabelProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/LabelProperties.h"/>
+        <FILE id="mKj26G" name="PropertiesHelper.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/PropertiesHelper.h"/>
+        <FILE id="UROmRV" name="SliderProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/SliderProperties.cpp"/>
+        <FILE id="dwYxfp" name="SliderProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/SliderProperties.h"/>
+        <FILE id="cDanIA" name="TabProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/TabProperties.cpp"/>
+        <FILE id="a6NgqB" name="TabProperties.h" compile="0" resource="0" file="../ScopeSyncShared/Properties/TabProperties.h"/>
+        <FILE id="oOu90s" name="TabbedComponentProperties.cpp" compile="1"
+              resource="0" file="../ScopeSyncShared/Properties/TabbedComponentProperties.cpp"/>
+        <FILE id="bDQnnd" name="TabbedComponentProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/TabbedComponentProperties.h"/>
+        <FILE id="wkfQU7" name="TextButtonProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/TextButtonProperties.cpp"/>
+        <FILE id="bqpoR9" name="TextButtonProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
+      </GROUP>
+      <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="mXl8wg" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>
+        <FILE id="MOfU5O" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSyncShared/Components/ImageLoader.h"/>
+        <FILE id="tgSHCF" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.cpp"/>
+        <FILE id="LDNWGA" name="BCMComboBox.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.h"/>
+        <FILE id="Oadt4C" name="BCMComponent.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMComponent.cpp"/>
+        <FILE id="FsUxLh" name="BCMComponent.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMComponent.h"/>
+        <FILE id="eYGfBf" name="BCMLabel.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMLabel.cpp"/>
+        <FILE id="bqTpu2" name="BCMLabel.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMLabel.h"/>
+        <FILE id="Wj417T" name="BCMLookAndFeel.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMLookAndFeel.cpp"/>
+        <FILE id="amfouW" name="BCMLookAndFeel.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/BCMLookAndFeel.h"/>
+        <FILE id="ZmkbWb" name="BCMSlider.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMSlider.cpp"/>
+        <FILE id="znBeUl" name="BCMSlider.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMSlider.h"/>
+        <FILE id="VCSOKu" name="BCMTabbedComponent.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMTabbedComponent.cpp"/>
+        <FILE id="wg9Jfw" name="BCMTabbedComponent.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/BCMTabbedComponent.h"/>
+        <FILE id="Ov4pd0" name="BCMTextButton.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMTextButton.cpp"/>
+        <FILE id="RTnmKW" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMTextButton.h"/>
+        <FILE id="vnxlwu" name="UserSettings.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/UserSettings.cpp"/>
+        <FILE id="pV5855" name="UserSettings.h" compile="0" resource="0" file="../ScopeSyncShared/Components/UserSettings.h"/>
+      </GROUP>
+      <GROUP id="{56BA3D79-F9D5-1CA1-9B57-6128B1A1E3DE}" name="Include">
+        <GROUP id="{0E33D926-BB3A-9A94-5618-F29D1267E249}" name="SonicCore">
+          <FILE id="dZukTX" name="effclass.h" compile="0" resource="0" file="Include/SonicCore/effclass.h"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{734BDC74-2CCC-CC9B-07AE-98A76FF5F477}" name="ScopeFX">
+        <FILE id="M7eFwV" name="ScopeFX.cpp" compile="1" resource="0" file="Source/ScopeFX.cpp"/>
+        <FILE id="rGmjZV" name="ScopeFX.h" compile="0" resource="0" file="Source/ScopeFX.h"/>
+        <FILE id="JSCB3h" name="ScopeFXGUI.cpp" compile="1" resource="0" file="Source/ScopeFXGUI.cpp"/>
+        <FILE id="Rrqddr" name="ScopeFXGUI.h" compile="0" resource="0" file="Source/ScopeFXGUI.h"/>
+        <FILE id="qaEj5f" name="ScopeFXParameterDefinitions.h" compile="0"
+              resource="0" file="Source/ScopeFXParameterDefinitions.h"/>
+      </GROUP>
+      <GROUP id="{8E6A20B8-4642-DDA1-74BA-8CB8F8AF0F06}" name="Utils">
+        <FILE id="SbJFxo" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
+        <FILE id="AhwtTw" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
+      </GROUP>
+      <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
+        <FILE id="lxDrpT" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSyncShared/Core/ScopeSync.cpp"/>
+        <FILE id="ziX49Q" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSync.h"/>
+        <FILE id="ojDawd" name="ScopeSyncGUI.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Core/ScopeSyncGUI.cpp"/>
+        <FILE id="CQEvNQ" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2010 targetFolder="Builds/VisualStudio2010" extraDefs="JUCE_NO_COMPILER_THREAD_LOCAL=1"
+            externalLibraries="${SCOPELIB};">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
+                       libraryPath="..\..\Include\SonicCore" useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       headerPath="../../Include/SonicCore"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeSync" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       libraryPath="..\..\Include\SonicCore" headerPath="../../Include/SonicCore"
+                       useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2010>
+    <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1"
+            extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug" headerPath="../../Include/SonicCore"
+                       libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
+                       postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       useRuntimeLibDLL="1"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeSync" headerPath="../../Include/SonicCore"
+                       libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2013>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
+</JUCERPROJECT>
