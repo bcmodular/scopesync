@@ -78,6 +78,6 @@ public class Control {
 		int[] control_info;
 		control_info = controlDestCodeMap.get(control);
 		control_id = control_info[0];
-		dest_value = (float)control_info[1] / 144.0f;
+		dest_value = (float)control_info[1] / 256.0f;
 	}
 }
