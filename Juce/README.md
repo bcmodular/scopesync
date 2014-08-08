@@ -5,6 +5,9 @@ This is the Juce-based version of ScopeSync, comprising of two DLLs: ScopeSyncVS
 
 Most of the code is found in /ScopeSyncShared, as the two modules share the majority of the feature set.
 
+### Build information
+See within the /ScopeSyncFX and /ScopeSyncPlugin directories for details on how to build
+
 ### Authors and Contributors
 Main authors: @bcsharc, @wellis and @jssbrandt
 
