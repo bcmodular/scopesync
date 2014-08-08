@@ -30,13 +30,23 @@
 		<uiskewfactor type="frommidpoint">0.990991</uiskewfactor>
     </parametertype>
 	<parametertype>
+        <name>BC CoarseFine (cents)</name>
+        <uisuffix> cents</uisuffix>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <uirangemin>-100</uirangemin>
+        <uirangemax>100</uirangemax>
+        <uirangeinterval>1</uirangeinterval>
+		<uiresetvalue>0</uiresetvalue>
+    </parametertype>
+	<parametertype>
         <name>Env Time (s)nu</name>
         <uisuffix> s</uisuffix>
         <scoperangemin>24</scoperangemin>
         <scoperangemax>240000</scoperangemax>
         <uirangemin>0.0005</uirangemin>
         <uirangemax>5</uirangemax>
-        <uirangeinterval>0.0001</uirangeinterval>
+        <uirangeinterval>0.001</uirangeinterval>
 		<uiresetvalue>0.5</uiresetvalue>
         <uiskewfactor type="frommidpoint">1.0001</uiskewfactor>
     </parametertype>

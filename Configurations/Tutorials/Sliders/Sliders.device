@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <device>
     <parameter name="PARAM1">
-        <shortdescription>ScopeSync A1</shortdescription>
+        <shortdescription>Param 1</shortdescription>
         <fulldescription>Multimode Osc Wave</fulldescription>
 		<parametertype name="MultimodeOsc Wave"/>
         <scopesync>A1</scopesync>
     </parameter>
     <parameter name="PARAM2">
-        <shortdescription>ScopeSync A2</shortdescription>
+        <shortdescription>Param 2</shortdescription>
         <fulldescription>Mod Depth</fulldescription>
 		<parametertype name="bipolar%"/>
         <scopesync>A2</scopesync>
     </parameter>
     <parameter name="PARAM3">
-        <shortdescription>ScopeSync A3</shortdescription>
+        <shortdescription>Param 3</shortdescription>
         <fulldescription>EQ Freq(Hz)</fulldescription>
 		<parametertype name="EQ Freq Hz"/>
         <scopesync>A3</scopesync>
     </parameter>
     <parameter name="PARAM4">
-        <shortdescription>ScopeSync A4</shortdescription>
-        <fulldescription>Level Control dB(0)</fulldescription>
-		<parametertype name="dB(0)"/>
+        <shortdescription>Param 4</shortdescription>
+        <fulldescription>BC CoarseFine (cents)</fulldescription>
+		<parametertype name="BC CoarseFine (cents)"/>
         <scopesync>A4</scopesync>
     </parameter>
     <parameter name="PARAM5">
         <shortdescription>Param 5</shortdescription>
-        <fulldescription>Parameter 5</fulldescription>
+        <fulldescription>LFO Freq(Hz)</fulldescription>
+		<parametertype name="LFO Freq Hz"/>
         <scopesync>A5</scopesync>
     </parameter>
     <parameter name="PARAM6">
         <shortdescription>Param 6</shortdescription>
-        <fulldescription>Parameter 6</fulldescription>
-		<parametertype name="bipolar%"/>
-        <scopesync>A6</scopesync>
+        <fulldescription>Envelope Attack Time</fulldescription>
+        <parametertype name="Env Time (s)nu"/>
+		<scopesync>A6</scopesync>
     </parameter>
     <parameter name="PARAM7">
         <shortdescription>Param 7</shortdescription>
-        <fulldescription>Parameter 7</fulldescription>
-        <scopesync>A7</scopesync>
+        <fulldescription>Level Control dB(0)</fulldescription>
+        <parametertype name="dB(0)"/>
+		<scopesync>A7</scopesync>
     </parameter>
     <parameter name="PARAM8">
         <shortdescription>Param 8</shortdescription>
