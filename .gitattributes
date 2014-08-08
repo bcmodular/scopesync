@@ -8,6 +8,11 @@
 *.java text
 *.maxpat text
 *.h text
+*.layout text
+*.device text
+*.paramtypes text
+*.configuration text
+*.paramtypes text
 
 # Declare files that will always have CRLF line endings on checkout.
 *.sln text eol=crlf
