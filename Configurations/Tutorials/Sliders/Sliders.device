@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device>
+    <parameter name="PARAM1">
+        <shortdescription>ScopeSync A1</shortdescription>
+        <fulldescription>Multimode Osc Wave</fulldescription>
+		<parametertype name="MultimodeOsc Wave"/>
+        <scopesync>A1</scopesync>
+    </parameter>
+    <parameter name="PARAM2">
+        <shortdescription>ScopeSync A2</shortdescription>
+        <fulldescription>Mod Depth</fulldescription>
+		<parametertype name="bipolar%"/>
+        <scopesync>A2</scopesync>
+    </parameter>
+    <parameter name="PARAM3">
+        <shortdescription>ScopeSync A3</shortdescription>
+        <fulldescription>EQ Freq(Hz)</fulldescription>
+		<parametertype name="EQ Freq Hz"/>
+        <scopesync>A3</scopesync>
+    </parameter>
+    <parameter name="PARAM4">
+        <shortdescription>ScopeSync A4</shortdescription>
+        <fulldescription>Level Control dB(0)</fulldescription>
+		<parametertype name="dB(0)"/>
+        <scopesync>A4</scopesync>
+    </parameter>
+    <parameter name="PARAM5">
+        <shortdescription>Param 5</shortdescription>
+        <fulldescription>Parameter 5</fulldescription>
+        <scopesync>A5</scopesync>
+    </parameter>
+    <parameter name="PARAM6">
+        <shortdescription>Param 6</shortdescription>
+        <fulldescription>Parameter 6</fulldescription>
+		<parametertype name="bipolar%"/>
+        <scopesync>A6</scopesync>
+    </parameter>
+    <parameter name="PARAM7">
+        <shortdescription>Param 7</shortdescription>
+        <fulldescription>Parameter 7</fulldescription>
+        <scopesync>A7</scopesync>
+    </parameter>
+    <parameter name="PARAM8">
+        <shortdescription>Param 8</shortdescription>
+        <fulldescription>Parameter 8</fulldescription>
+        <scopesync>A8</scopesync>
+    </parameter>
+    <parameter name="PARAM9">
+        <shortdescription>Param 9</shortdescription>
+        <fulldescription>Parameter 9</fulldescription>
+        <scopesync>B1</scopesync>
+    </parameter>
+    <parameter name="PARAM10">
+        <shortdescription>Param 10</shortdescription>
+        <fulldescription>Parameter 10</fulldescription>
+        <scopesync>B2</scopesync>
+    </parameter>
+    <parameter name="PARAM11">
+        <shortdescription>Param 11</shortdescription>
+        <fulldescription>Parameter 11</fulldescription>
+        <scopesync>B3</scopesync>
+    </parameter>
+    <parameter name="PARAM12">
+        <shortdescription>Param 12</shortdescription>
+        <fulldescription>Parameter 12</fulldescription>
+        <scopesync>B4</scopesync>
+    </parameter>
+    <parameter name="PARAM13">
+        <shortdescription>Param 13</shortdescription>
+        <fulldescription>Parameter 13</fulldescription>
+        <scopesync>B5</scopesync>
+    </parameter>
+    <parameter name="PARAM14">
+        <shortdescription>Param 14</shortdescription>
+        <fulldescription>Parameter 14</fulldescription>
+        <scopesync>B6</scopesync>
+    </parameter>
+    <parameter name="PARAM15">
+        <shortdescription>Param 15</shortdescription>
+        <fulldescription>Parameter 15</fulldescription>
+        <scopesync>B7</scopesync>
+    </parameter>
+    <parameter name="PARAM16">
+        <shortdescription>Param 16</shortdescription>
+        <fulldescription>Parameter 16</fulldescription>
+        <scopesync>B8</scopesync>
+    </parameter>
+    <parameter name="PARAM17">
+        <shortdescription>Param 17</shortdescription>
+        <fulldescription>Parameter 17</fulldescription>
+        <scopesync>C1</scopesync>
+    </parameter>
+    <parameter name="PARAM18">
+        <shortdescription>Param 18</shortdescription>
+        <fulldescription>Parameter 18</fulldescription>
+        <scopesync>C2</scopesync>
+    </parameter>
+    <parameter name="PARAM19">
+        <shortdescription>Param 19</shortdescription>
+        <fulldescription>Parameter 19</fulldescription>
+        <scopesync>C3</scopesync>
+    </parameter>
+    <parameter name="PARAM20">
+        <shortdescription>Param 20</shortdescription>
+        <fulldescription>Parameter 20</fulldescription>
+        <scopesync>C4</scopesync>
+    </parameter>
+    <parameter name="PARAM21">
+        <shortdescription>Param 21</shortdescription>
+        <fulldescription>Parameter 21</fulldescription>
+        <scopesync>C5</scopesync>
+    </parameter>
+    <parameter name="PARAM22">
+        <shortdescription>Param 22</shortdescription>
+        <fulldescription>Parameter 22</fulldescription>
+        <scopesync>C6</scopesync>
+    </parameter>
+    <parameter name="PARAM23">
+        <shortdescription>Param 23</shortdescription>
+        <fulldescription>Parameter 23</fulldescription>
+        <scopesync>C7</scopesync>
+    </parameter>
+    <parameter name="PARAM24">
+        <shortdescription>Param 24</shortdescription>
+        <fulldescription>Parameter 24</fulldescription>
+        <scopesync>C8</scopesync>
+    </parameter>
+    <parameter name="PARAM25">
+        <shortdescription>Param 25</shortdescription>
+        <fulldescription>Parameter 25</fulldescription>
+        <scopesync>D1</scopesync>
+    </parameter>
+    <parameter name="PARAM26">
+        <shortdescription>Param 26</shortdescription>
+        <fulldescription>Parameter 26</fulldescription>
+        <scopesync>D2</scopesync>
+    </parameter>
+    <parameter name="PARAM27">
+        <shortdescription>Param 27</shortdescription>
+        <fulldescription>Parameter 27</fulldescription>
+        <scopesync>D3</scopesync>
+    </parameter>
+    <parameter name="PARAM28">
+        <shortdescription>Param 28</shortdescription>
+        <fulldescription>Parameter 28</fulldescription>
+        <scopesync>D4</scopesync>
+    </parameter>
+    <parameter name="PARAM29">
+        <shortdescription>Param 29</shortdescription>
+        <fulldescription>Parameter 29</fulldescription>
+        <scopesync>D5</scopesync>
+    </parameter>
+    <parameter name="PARAM30">
+        <shortdescription>Param 30</shortdescription>
+        <fulldescription>Parameter 30</fulldescription>
+        <scopesync>D6</scopesync>
+    </parameter>
+    <parameter name="PARAM31">
+        <shortdescription>Param 31</shortdescription>
+        <fulldescription>Parameter 31</fulldescription>
+        <scopesync>D7</scopesync>
+    </parameter>
+    <parameter name="PARAM32">
+        <shortdescription>Param 32</shortdescription>
+        <fulldescription>Parameter 32</fulldescription>
+        <scopesync>D8</scopesync>
+    </parameter>
+    <parameter name="PARAM33">
+        <shortdescription>Param 33</shortdescription>
+        <fulldescription>Parameter 33</fulldescription>
+        <scopesync>E1</scopesync>
+    </parameter>
+    <parameter name="PARAM34">
+        <shortdescription>Param 34</shortdescription>
+        <fulldescription>Parameter 34</fulldescription>
+        <scopesync>E2</scopesync>
+    </parameter>
+    <parameter name="PARAM35">
+        <shortdescription>Param 35</shortdescription>
+        <fulldescription>Parameter 35</fulldescription>
+        <scopesync>E3</scopesync>
+    </parameter>
+    <parameter name="PARAM36">
+        <shortdescription>Param 36</shortdescription>
+        <fulldescription>Parameter 36</fulldescription>
+        <scopesync>E4</scopesync>
+    </parameter>
+    <parameter name="PARAM37">
+        <shortdescription>Param 37</shortdescription>
+        <fulldescription>Parameter 37</fulldescription>
+        <scopesync>E5</scopesync>
+    </parameter>
+    <parameter name="PARAM38">
+        <shortdescription>Param 38</shortdescription>
+        <fulldescription>Parameter 38</fulldescription>
+        <scopesync>E6</scopesync>
+    </parameter>
+    <parameter name="PARAM39">
+        <shortdescription>Param 39</shortdescription>
+        <fulldescription>Parameter 39</fulldescription>
+        <scopesync>E7</scopesync>
+    </parameter>
+    <parameter name="PARAM40">
+        <shortdescription>Param 40</shortdescription>
+        <fulldescription>Parameter 40</fulldescription>
+        <scopesync>E8</scopesync>
+    </parameter>
+    <parameter name="PARAM41">
+        <shortdescription>Param 41</shortdescription>
+        <fulldescription>Parameter 41</fulldescription>
+        <scopesync>F1</scopesync>
+    </parameter>
+    <parameter name="PARAM42">
+        <shortdescription>Param 42</shortdescription>
+        <fulldescription>Parameter 42</fulldescription>
+        <scopesync>F2</scopesync>
+    </parameter>
+    <parameter name="PARAM43">
+        <shortdescription>Param 43</shortdescription>
+        <fulldescription>Parameter 43</fulldescription>
+        <scopesync>F3</scopesync>
+    </parameter>
+    <parameter name="PARAM44">
+        <shortdescription>Param 44</shortdescription>
+        <fulldescription>Parameter 44</fulldescription>
+        <scopesync>F4</scopesync>
+    </parameter>
+    <parameter name="PARAM45">
+        <shortdescription>Param 45</shortdescription>
+        <fulldescription>Parameter 45</fulldescription>
+        <scopesync>F5</scopesync>
+    </parameter>
+    <parameter name="PARAM46">
+        <shortdescription>Param 46</shortdescription>
+        <fulldescription>Parameter 46</fulldescription>
+        <scopesync>F6</scopesync>
+    </parameter>
+    <parameter name="PARAM47">
+        <shortdescription>Param 47</shortdescription>
+        <fulldescription>Parameter 47</fulldescription>
+        <scopesync>F7</scopesync>
+    </parameter>
+    <parameter name="PARAM48">
+        <shortdescription>Param 48</shortdescription>
+        <fulldescription>Parameter 48</fulldescription>
+        <scopesync>F8</scopesync>
+    </parameter>
+    <parameter name="PARAM49">
+        <shortdescription>Param 49</shortdescription>
+        <fulldescription>Parameter 49</fulldescription>
+        <scopesync>G1</scopesync>
+    </parameter>
+    <parameter name="PARAM50">
+        <shortdescription>Param 50</shortdescription>
+        <fulldescription>Parameter 50</fulldescription>
+        <scopesync>G2</scopesync>
+    </parameter>
+    <parameter name="PARAM51">
+        <shortdescription>Param 51</shortdescription>
+        <fulldescription>Parameter 51</fulldescription>
+        <scopesync>G3</scopesync>
+    </parameter>
+    <parameter name="PARAM52">
+        <shortdescription>Param 52</shortdescription>
+        <fulldescription>Parameter 52</fulldescription>
+        <scopesync>G4</scopesync>
+    </parameter>
+    <parameter name="PARAM53">
+        <shortdescription>Param 53</shortdescription>
+        <fulldescription>Parameter 53</fulldescription>
+        <scopesync>G5</scopesync>
+    </parameter>
+    <parameter name="PARAM54">
+        <shortdescription>Param 54</shortdescription>
+        <fulldescription>Parameter 54</fulldescription>
+        <scopesync>G6</scopesync>
+    </parameter>
+    <parameter name="PARAM55">
+        <shortdescription>Param 55</shortdescription>
+        <fulldescription>Parameter 55</fulldescription>
+        <scopesync>G7</scopesync>
+    </parameter>
+    <parameter name="PARAM56">
+        <shortdescription>Param 56</shortdescription>
+        <fulldescription>Parameter 56</fulldescription>
+        <scopesync>G8</scopesync>
+    </parameter>
+    <parameter name="PARAM57">
+        <shortdescription>Param 57</shortdescription>
+        <fulldescription>Parameter 57</fulldescription>
+        <scopesync>H1</scopesync>
+    </parameter>
+    <parameter name="PARAM58">
+        <shortdescription>Param 58</shortdescription>
+        <fulldescription>Parameter 58</fulldescription>
+        <scopesync>H2</scopesync>
+    </parameter>
+    <parameter name="PARAM59">
+        <shortdescription>Param 59</shortdescription>
+        <fulldescription>Parameter 59</fulldescription>
+        <scopesync>H3</scopesync>
+    </parameter>
+    <parameter name="PARAM60">
+        <shortdescription>Param 60</shortdescription>
+        <fulldescription>Parameter 60</fulldescription>
+        <scopesync>H4</scopesync>
+    </parameter>
+    <parameter name="PARAM61">
+        <shortdescription>Param 61</shortdescription>
+        <fulldescription>Parameter 61</fulldescription>
+        <scopesync>H5</scopesync>
+    </parameter>
+    <parameter name="PARAM62">
+        <shortdescription>Param 62</shortdescription>
+        <fulldescription>Parameter 62</fulldescription>
+        <scopesync>H6</scopesync>
+    </parameter>
+    <parameter name="PARAM63">
+        <shortdescription>Param 63</shortdescription>
+        <fulldescription>Parameter 63</fulldescription>
+        <scopesync>H7</scopesync>
+    </parameter>
+    <parameter name="PARAM64">
+        <shortdescription>Param 64</shortdescription>
+        <fulldescription>Parameter 64</fulldescription>
+        <scopesync>H8</scopesync>
+    </parameter>
+    <parameter name="PARAM65">
+        <shortdescription>Param 65</shortdescription>
+        <fulldescription>Parameter 65</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I1</scopesync>
+    </parameter>
+    <parameter name="PARAM66">
+        <shortdescription>Param 66</shortdescription>
+        <fulldescription>Parameter 66</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I2</scopesync>
+    </parameter>
+    <parameter name="PARAM67">
+        <shortdescription>Param 67</shortdescription>
+        <fulldescription>Parameter 67</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I3</scopesync>
+    </parameter>
+    <parameter name="PARAM68">
+        <shortdescription>Param 68</shortdescription>
+        <fulldescription>Parameter 68</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I4</scopesync>
+    </parameter>
+    <parameter name="PARAM69">
+        <shortdescription>Param 69</shortdescription>
+        <fulldescription>Parameter 69</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I5</scopesync>
+    </parameter>
+    <parameter name="PARAM70">
+        <shortdescription>Param 70</shortdescription>
+        <fulldescription>Parameter 70</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I6</scopesync>
+    </parameter>
+    <parameter name="PARAM71">
+        <shortdescription>Param 71</shortdescription>
+        <fulldescription>Parameter 71</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I7</scopesync>
+    </parameter>
+    <parameter name="PARAM72">
+        <shortdescription>Param 72</shortdescription>
+        <fulldescription>Parameter 72</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>I8</scopesync>
+    </parameter>
+    <parameter name="PARAM73">
+        <shortdescription>Param 73</shortdescription>
+        <fulldescription>Parameter 73</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J1</scopesync>
+    </parameter>
+    <parameter name="PARAM74">
+        <shortdescription>Param 74</shortdescription>
+        <fulldescription>Parameter 74</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J2</scopesync>
+    </parameter>
+    <parameter name="PARAM75">
+        <shortdescription>Param 75</shortdescription>
+        <fulldescription>Parameter 75</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J3</scopesync>
+    </parameter>
+    <parameter name="PARAM76">
+        <shortdescription>Param 76</shortdescription>
+        <fulldescription>Parameter 76</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J4</scopesync>
+    </parameter>
+    <parameter name="PARAM77">
+        <shortdescription>Param 77</shortdescription>
+        <fulldescription>Parameter 77</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J5</scopesync>
+    </parameter>
+    <parameter name="PARAM78">
+        <shortdescription>Param 78</shortdescription>
+        <fulldescription>Parameter 78</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J6</scopesync>
+    </parameter>
+    <parameter name="PARAM79">
+        <shortdescription>Param 79</shortdescription>
+        <fulldescription>Parameter 79</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J7</scopesync>
+    </parameter>
+    <parameter name="PARAM80">
+        <shortdescription>Param 80</shortdescription>
+        <fulldescription>Parameter 80</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>J8</scopesync>
+    </parameter>
+    <parameter name="PARAM81">
+        <shortdescription>Param 81</shortdescription>
+        <fulldescription>Parameter 81</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K1</scopesync>
+    </parameter>
+    <parameter name="PARAM82">
+        <shortdescription>Param 82</shortdescription>
+        <fulldescription>Parameter 82</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K2</scopesync>
+    </parameter>
+    <parameter name="PARAM83">
+        <shortdescription>Param 83</shortdescription>
+        <fulldescription>Parameter 83</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K3</scopesync>
+    </parameter>
+    <parameter name="PARAM84">
+        <shortdescription>Param 84</shortdescription>
+        <fulldescription>Parameter 84</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K4</scopesync>
+    </parameter>
+    <parameter name="PARAM85">
+        <shortdescription>Param 85</shortdescription>
+        <fulldescription>Parameter 85</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K5</scopesync>
+    </parameter>
+    <parameter name="PARAM86">
+        <shortdescription>Param 86</shortdescription>
+        <fulldescription>Parameter 86</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K6</scopesync>
+    </parameter>
+    <parameter name="PARAM87">
+        <shortdescription>Param 87</shortdescription>
+        <fulldescription>Parameter 87</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K7</scopesync>
+    </parameter>
+    <parameter name="PARAM88">
+        <shortdescription>Param 88</shortdescription>
+        <fulldescription>Parameter 88</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>K8</scopesync>
+    </parameter>
+    <parameter name="PARAM89">
+        <shortdescription>Param 89</shortdescription>
+        <fulldescription>Parameter 89</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L1</scopesync>
+    </parameter>
+    <parameter name="PARAM90">
+        <shortdescription>Param 90</shortdescription>
+        <fulldescription>Parameter 90</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L2</scopesync>
+    </parameter>
+    <parameter name="PARAM91">
+        <shortdescription>Param 91</shortdescription>
+        <fulldescription>Parameter 91</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L3</scopesync>
+    </parameter>
+    <parameter name="PARAM92">
+        <shortdescription>Param 92</shortdescription>
+        <fulldescription>Parameter 92</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L4</scopesync>
+    </parameter>
+    <parameter name="PARAM93">
+        <shortdescription>Param 93</shortdescription>
+        <fulldescription>Parameter 93</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L5</scopesync>
+    </parameter>
+    <parameter name="PARAM94">
+        <shortdescription>Param 94</shortdescription>
+        <fulldescription>Parameter 94</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L6</scopesync>
+    </parameter>
+    <parameter name="PARAM95">
+        <shortdescription>Param 95</shortdescription>
+        <fulldescription>Parameter 95</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L7</scopesync>
+    </parameter>
+    <parameter name="PARAM96">
+        <shortdescription>Param 96</shortdescription>
+        <fulldescription>Parameter 96</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>L8</scopesync>
+    </parameter>
+    <parameter name="PARAM97">
+        <shortdescription>Param 97</shortdescription>
+        <fulldescription>Parameter 97</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M1</scopesync>
+    </parameter>
+    <parameter name="PARAM98">
+        <shortdescription>Param 98</shortdescription>
+        <fulldescription>Parameter 98</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M2</scopesync>
+    </parameter>
+    <parameter name="PARAM99">
+        <shortdescription>Param 99</shortdescription>
+        <fulldescription>Parameter 99</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M3</scopesync>
+    </parameter>
+    <parameter name="PARAM100">
+        <shortdescription>Param 100</shortdescription>
+        <fulldescription>Parameter 100</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M4</scopesync>
+    </parameter>
+    <parameter name="PARAM101">
+        <shortdescription>Param 101</shortdescription>
+        <fulldescription>Parameter 101</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M5</scopesync>
+    </parameter>
+    <parameter name="PARAM102">
+        <shortdescription>Param 102</shortdescription>
+        <fulldescription>Parameter 102</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M6</scopesync>
+    </parameter>
+    <parameter name="PARAM103">
+        <shortdescription>Param 103</shortdescription>
+        <fulldescription>Parameter 103</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M7</scopesync>
+    </parameter>
+    <parameter name="PARAM104">
+        <shortdescription>Param 104</shortdescription>
+        <fulldescription>Parameter 104</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>M8</scopesync>
+    </parameter>
+    <parameter name="PARAM105">
+        <shortdescription>Param 105</shortdescription>
+        <fulldescription>Parameter 105</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N1</scopesync>
+    </parameter>
+    <parameter name="PARAM106">
+        <shortdescription>Param 106</shortdescription>
+        <fulldescription>Parameter 106</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N2</scopesync>
+    </parameter>
+    <parameter name="PARAM107">
+        <shortdescription>Param 107</shortdescription>
+        <fulldescription>Parameter 107</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N3</scopesync>
+    </parameter>
+    <parameter name="PARAM108">
+        <shortdescription>Param 108</shortdescription>
+        <fulldescription>Parameter 108</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N4</scopesync>
+    </parameter>
+    <parameter name="PARAM109">
+        <shortdescription>Param 109</shortdescription>
+        <fulldescription>Parameter 109</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N5</scopesync>
+    </parameter>
+    <parameter name="PARAM110">
+        <shortdescription>Param 110</shortdescription>
+        <fulldescription>Parameter 110</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N6</scopesync>
+    </parameter>
+    <parameter name="PARAM111">
+        <shortdescription>Param 111</shortdescription>
+        <fulldescription>Parameter 111</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N7</scopesync>
+    </parameter>
+    <parameter name="PARAM112">
+        <shortdescription>Param 112</shortdescription>
+        <fulldescription>Parameter 112</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>N8</scopesync>
+    </parameter>
+    <parameter name="PARAM113">
+        <shortdescription>Param 113</shortdescription>
+        <fulldescription>Parameter 113</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O1</scopesync>
+    </parameter>
+    <parameter name="PARAM114">
+        <shortdescription>Param 114</shortdescription>
+        <fulldescription>Parameter 114</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O2</scopesync>
+    </parameter>
+    <parameter name="PARAM115">
+        <shortdescription>Param 115</shortdescription>
+        <fulldescription>Parameter 115</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O3</scopesync>
+    </parameter>
+    <parameter name="PARAM116">
+        <shortdescription>Param 116</shortdescription>
+        <fulldescription>Parameter 116</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O4</scopesync>
+    </parameter>
+    <parameter name="PARAM117">
+        <shortdescription>Param 117</shortdescription>
+        <fulldescription>Parameter 117</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O5</scopesync>
+    </parameter>
+    <parameter name="PARAM118">
+        <shortdescription>Param 118</shortdescription>
+        <fulldescription>Parameter 118</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O6</scopesync>
+    </parameter>
+    <parameter name="PARAM119">
+        <shortdescription>Param 119</shortdescription>
+        <fulldescription>Parameter 119</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O7</scopesync>
+    </parameter>
+    <parameter name="PARAM120">
+        <shortdescription>Param 120</shortdescription>
+        <fulldescription>Parameter 120</fulldescription>
+        <parametertype name="ON/OFF Toggle"/>
+        <scopesync>O8</scopesync>
+    </parameter>
+	<parameter name="PARAM127">
+        <shortdescription>Param 127</shortdescription>
+        <fulldescription>Encoder Groups</fulldescription>
+        <parametertype name="Encoder Groups"/>
+        <scopesync>P7</scopesync>
+    </parameter>
+    <parameter name="PARAM128">
+        <shortdescription>Param 128</shortdescription>
+        <fulldescription>Group State</fulldescription>
+        <parametertype name="Group State"/>
+        <scopesync>P8</scopesync>
+    </parameter>
+	<parameter name="PARAM129">
+        <shortdescription>Param 129</shortdescription>
+        <fulldescription>CP-Host</fulldescription>
+		<parametertype name="CP-Host"/>
+        <scopelocal>Z5</scopelocal>
+    </parameter>
+    <parameter name="PARAM130">
+        <shortdescription>Param 130</shortdescription>
+        <fulldescription>Open Patch Window</fulldescription>
+		<parametertype name="ON/OFF Toggle"/>
+        <scopelocal>Z6</scopelocal>
+    </parameter>
+	<parameter name="PARAM131">
+        <shortdescription>Param 131</shortdescription>
+        <fulldescription>Open Preset List</fulldescription>
+		<parametertype name="ON/OFF Toggle"/>
+        <scopelocal>Z7</scopelocal>
+    </parameter>
+	<parameter name="PARAM132">
+        <shortdescription>Param 132</shortdescription>
+        <fulldescription>Load New Configuration</fulldescription>
+		<parametertype name="ON/OFF Toggle"/>
+        <scopelocal>Z8</scopelocal>
+	</parameter>
+</device>	

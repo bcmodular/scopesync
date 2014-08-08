@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration name="Sliders Demo">
+  <paramtypes filename="Sliders.paramtypes" />
+  <device filename="Sliders.device" />
+  <mapping filename="Sliders.mapping" />
+  <layout filename="Sliders.layout"></layout>
+</configuration>
