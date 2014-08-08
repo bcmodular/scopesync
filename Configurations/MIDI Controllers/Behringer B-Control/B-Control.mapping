@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mapping>
+    <slider name="S1"><parameter name="PARAM1"/></slider>
+    <slider name="S2"><parameter name="PARAM2"/></slider>
+    <slider name="S3"><parameter name="PARAM3"/></slider>
+    <slider name="S4"><parameter name="PARAM4"/></slider>
+    <slider name="S5"><parameter name="PARAM5"/></slider>
+    <slider name="S6"><parameter name="PARAM6"/></slider>
+    <slider name="S7"><parameter name="PARAM7"/></slider>
+    <slider name="S8"><parameter name="PARAM8"/></slider>
+    <slider name="S9"><parameter name="PARAM9"/></slider>
+    <slider name="S10"><parameter name="PARAM10"/></slider>
+    <slider name="S11"><parameter name="PARAM11"/></slider>
+    <slider name="S12"><parameter name="PARAM12"/></slider>
+    <slider name="S13"><parameter name="PARAM13"/></slider>
+    <slider name="S14"><parameter name="PARAM14"/></slider>
+    <slider name="S15"><parameter name="PARAM15"/></slider>
+    <slider name="S16"><parameter name="PARAM16"/></slider>
+    <slider name="S17"><parameter name="PARAM17"/></slider>
+    <slider name="S18"><parameter name="PARAM18"/></slider>
+    <slider name="S19"><parameter name="PARAM19"/></slider>
+    <slider name="S20"><parameter name="PARAM20"/></slider>
+    <slider name="S21"><parameter name="PARAM21"/></slider>
+    <slider name="S22"><parameter name="PARAM22"/></slider>
+    <slider name="S23"><parameter name="PARAM23"/></slider>
+    <slider name="S24"><parameter name="PARAM24"/></slider>
+    <slider name="S25"><parameter name="PARAM25"/></slider>
+    <slider name="S26"><parameter name="PARAM26"/></slider>
+    <slider name="S27"><parameter name="PARAM27"/></slider>
+    <slider name="S28"><parameter name="PARAM28"/></slider>
+    <slider name="S29"><parameter name="PARAM29"/></slider>
+    <slider name="S30"><parameter name="PARAM30"/></slider>
+    <slider name="S31"><parameter name="PARAM31"/></slider>
+    <slider name="S32"><parameter name="PARAM32"/></slider>
+    <slider name="S33"><parameter name="PARAM33"/></slider>
+    <slider name="S34"><parameter name="PARAM34"/></slider>
+    <slider name="S35"><parameter name="PARAM35"/></slider>
+    <slider name="S36"><parameter name="PARAM36"/></slider>
+    <slider name="S37"><parameter name="PARAM37"/></slider>
+    <slider name="S38"><parameter name="PARAM38"/></slider>
+    <slider name="S39"><parameter name="PARAM39"/></slider>
+    <slider name="S40"><parameter name="PARAM40"/></slider>
+    <slider name="S41"><parameter name="PARAM41"/></slider>
+    <slider name="S42"><parameter name="PARAM42"/></slider>
+    <slider name="S43"><parameter name="PARAM43"/></slider>
+    <slider name="S44"><parameter name="PARAM44"/></slider>
+    <slider name="S45"><parameter name="PARAM45"/></slider>
+    <slider name="S46"><parameter name="PARAM46"/></slider>
+    <slider name="S47"><parameter name="PARAM47"/></slider>
+    <slider name="S48"><parameter name="PARAM48"/></slider>
+    <slider name="S49"><parameter name="PARAM49"/></slider>
+    <slider name="S50"><parameter name="PARAM50"/></slider>
+    <slider name="S51"><parameter name="PARAM51"/></slider>
+    <slider name="S52"><parameter name="PARAM52"/></slider>
+    <slider name="S53"><parameter name="PARAM53"/></slider>
+    <slider name="S54"><parameter name="PARAM54"/></slider>
+    <slider name="S55"><parameter name="PARAM55"/></slider>
+    <slider name="S56"><parameter name="PARAM56"/></slider>
+    <slider name="S57"><parameter name="PARAM57"/></slider>
+    <slider name="S58"><parameter name="PARAM58"/></slider>
+    <slider name="S59"><parameter name="PARAM59"/></slider>
+    <slider name="S60"><parameter name="PARAM60"/></slider>
+    <slider name="S61"><parameter name="PARAM61"/></slider>
+    <slider name="S62"><parameter name="PARAM62"/></slider>
+    <slider name="S63"><parameter name="PARAM63"/></slider>
+    <slider name="S64"><parameter name="PARAM64"/></slider>
+    <slider name="S65"><parameter name="PARAM65"/></slider>
+    <slider name="S66"><parameter name="PARAM66"/></slider>
+    <slider name="S67"><parameter name="PARAM67"/></slider>
+    <slider name="S68"><parameter name="PARAM68"/></slider>
+    <slider name="S69"><parameter name="PARAM69"/></slider>
+    <slider name="S70"><parameter name="PARAM70"/></slider>
+    <slider name="S71"><parameter name="PARAM71"/></slider>
+    <slider name="S72"><parameter name="PARAM72"/></slider>
+    <slider name="S73"><parameter name="PARAM73"/></slider>
+    <slider name="S74"><parameter name="PARAM74"/></slider>
+    <slider name="S75"><parameter name="PARAM75"/></slider>
+    <slider name="S76"><parameter name="PARAM76"/></slider>
+    <slider name="S77"><parameter name="PARAM77"/></slider>
+    <slider name="S78"><parameter name="PARAM78"/></slider>
+    <slider name="S79"><parameter name="PARAM79"/></slider>
+    <slider name="S80"><parameter name="PARAM80"/></slider>
+    <slider name="S81"><parameter name="PARAM81"/></slider>
+    <slider name="S82"><parameter name="PARAM82"/></slider>
+    <slider name="S83"><parameter name="PARAM83"/></slider>
+    <slider name="S84"><parameter name="PARAM84"/></slider>
+    <slider name="S85"><parameter name="PARAM85"/></slider>
+    <slider name="S86"><parameter name="PARAM86"/></slider>
+    <slider name="S87"><parameter name="PARAM87"/></slider>
+    <slider name="S88"><parameter name="PARAM88"/></slider>
+    <slider name="S89"><parameter name="PARAM89"/></slider>
+    <slider name="S90"><parameter name="PARAM90"/></slider>
+    <slider name="S91"><parameter name="PARAM91"/></slider>
+    <slider name="S92"><parameter name="PARAM92"/></slider>
+    <slider name="S93"><parameter name="PARAM93"/></slider>
+    <slider name="S94"><parameter name="PARAM94"/></slider>
+    <slider name="S95"><parameter name="PARAM95"/></slider>
+    <slider name="S96"><parameter name="PARAM96"/></slider>
+    <slider name="S97"><parameter name="PARAM97"/></slider>
+    <slider name="S98"><parameter name="PARAM98"/></slider>
+    <slider name="S99"><parameter name="PARAM99"/></slider>
+    <slider name="S100"><parameter name="PARAM100"/></slider>
+    <slider name="S101"><parameter name="PARAM101"/></slider>
+    <slider name="S102"><parameter name="PARAM102"/></slider>
+    <slider name="S103"><parameter name="PARAM103"/></slider>
+    <slider name="S104"><parameter name="PARAM104"/></slider>
+    <slider name="S105"><parameter name="PARAM105"/></slider>
+    <slider name="S106"><parameter name="PARAM106"/></slider>
+    <slider name="S107"><parameter name="PARAM107"/></slider>
+    <slider name="S108"><parameter name="PARAM108"/></slider>
+    <slider name="S109"><parameter name="PARAM109"/></slider>
+    <slider name="S110"><parameter name="PARAM110"/></slider>
+    <slider name="S111"><parameter name="PARAM111"/></slider>
+    <slider name="S112"><parameter name="PARAM112"/></slider>
+    <slider name="S113"><parameter name="PARAM113"/></slider>
+    <slider name="S114"><parameter name="PARAM114"/></slider>
+    <slider name="S115"><parameter name="PARAM115"/></slider>
+    <slider name="S116"><parameter name="PARAM116"/></slider>
+    <slider name="S117"><parameter name="PARAM117"/></slider>
+    <slider name="S118"><parameter name="PARAM118"/></slider>
+    <slider name="S119"><parameter name="PARAM119"/></slider>
+    <slider name="S120"><parameter name="PARAM120"/></slider>
+    <slider name="S121"><parameter name="PARAM121"/></slider>
+    <slider name="S122"><parameter name="PARAM122"/></slider>
+    <slider name="S123"><parameter name="PARAM123"/></slider>
+    <slider name="S124"><parameter name="PARAM124"/></slider>
+    <slider name="S127"><parameter name="PARAM127"/></slider>
+    <slider name="S128"><parameter name="PARAM128"/></slider>
+    <textbutton name="B1"><parameter name="PARAM65" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B2"><parameter name="PARAM66" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B3"><parameter name="PARAM67" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B4"><parameter name="PARAM68" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B5"><parameter name="PARAM69" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B6"><parameter name="PARAM70" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B7"><parameter name="PARAM71" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B8"><parameter name="PARAM72" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B9"><parameter name="PARAM73" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B10"><parameter name="PARAM74" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B11"><parameter name="PARAM75" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B12"><parameter name="PARAM76" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B13"><parameter name="PARAM77" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B14"><parameter name="PARAM78" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B15"><parameter name="PARAM79" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B16"><parameter name="PARAM80" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B17"><parameter name="PARAM81" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B18"><parameter name="PARAM82" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B19"><parameter name="PARAM83" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B20"><parameter name="PARAM84" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B21"><parameter name="PARAM85" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B22"><parameter name="PARAM86" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B23"><parameter name="PARAM87" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B24"><parameter name="PARAM88" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B25"><parameter name="PARAM89" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B26"><parameter name="PARAM90" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B27"><parameter name="PARAM91" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B28"><parameter name="PARAM92" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B29"><parameter name="PARAM93" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B30"><parameter name="PARAM94" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B31"><parameter name="PARAM95" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B32"><parameter name="PARAM96" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B33"><parameter name="PARAM97" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B34"><parameter name="PARAM98" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B35"><parameter name="PARAM99" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B36"><parameter name="PARAM100" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B37"><parameter name="PARAM101" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B38"><parameter name="PARAM102" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B39"><parameter name="PARAM103" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B40"><parameter name="PARAM104" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B41"><parameter name="PARAM105" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B42"><parameter name="PARAM106" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B43"><parameter name="PARAM107" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B44"><parameter name="PARAM108" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B45"><parameter name="PARAM109" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B46"><parameter name="PARAM110" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B47"><parameter name="PARAM111" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B48"><parameter name="PARAM112" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B49"><parameter name="PARAM113" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B50"><parameter name="PARAM114" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B51"><parameter name="PARAM115" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B52"><parameter name="PARAM116" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B53"><parameter name="PARAM117" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B54"><parameter name="PARAM118" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B55"><parameter name="PARAM119" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B56"><parameter name="PARAM120" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+    <textbutton name="B59"><parameter name="PARAM127" settingdown="GROUP 1"            type="toggle"/></textbutton>
+    <textbutton name="B60"><parameter name="PARAM127" settingdown="GROUP 2"            type="toggle"/></textbutton>
+    <textbutton name="B61"><parameter name="PARAM127" settingdown="GROUP 3"            type="toggle"/></textbutton>
+    <textbutton name="B62"><parameter name="PARAM127" settingdown="GROUP 4"            type="toggle"/></textbutton>
+    <textbutton name="B63"><parameter name="PARAM128" settingdown="ROTARY"             type="toggle"/></textbutton>
+    <textbutton name="B64"><parameter name="PARAM128" settingdown="PUSH"               type="toggle"/></textbutton>	
+    <textbutton name="B65"><parameter name="PARAM129" settingdown="DISCONNECTED"       type="toggle"/></textbutton>
+	<textbutton name="B66"><parameter name="PARAM129" settingdown="CONNECTED"          type="toggle"/></textbutton>
+	<textbutton name="B67"><parameter name="PARAM130" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+	<textbutton name="B68"><parameter name="PARAM131" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
+	<textbutton name="B69"><parameter name="PARAM132" settingdown="ON" settingup="OFF" type="notoggle"/></textbutton>
+</mapping>

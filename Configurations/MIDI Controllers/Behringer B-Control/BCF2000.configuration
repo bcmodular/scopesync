@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration name="Behringer BCF2000">
+  <paramtypes filename="B-Control.paramtypes" />
+  <device filename="B-Control.device" />
+  <mapping filename="B-Control.mapping" />
+  <layout filename="BCF2000.layout"></layout>
+</configuration>
