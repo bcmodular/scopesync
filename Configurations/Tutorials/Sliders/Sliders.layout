@@ -2,6 +2,7 @@
 <layout>
   <lookandfeels>
     <lookandfeel id="default"></lookandfeel>
+    <!--ScopeSync Header lookandfeels-->
     <lookandfeel id="header tab">
       <colours>
         <tabbedcomponent>
@@ -83,6 +84,7 @@
         </label>
       </colours>
     </lookandfeel>
+    <!--Slider lookandfeels-->
     <lookandfeel id="sliders1">
       <colours>
         <slider>
@@ -194,6 +196,11 @@
         <label>
           <textcolourid>ffdfe6eb</textcolourid>
         </label>
+        <slider>
+          <backgroundcolourid>00fdfdfd</backgroundcolourid>
+          <thumbcolourid>00fe8c00</thumbcolourid>
+          <trackcolourid>0016171a</trackcolourid>
+        </slider>
       </colours>
       <images>
         <slider>
@@ -1367,6 +1374,27 @@
           <justification>
             <left />
           </justification>
+        </textbox>
+      </slider>
+      <slider lfid="sliders7">
+        <name>s3</name>
+        <position>
+          <x>7</x>
+          <y>100</y>
+        </position>
+        <size>
+          <width>182</width>
+          <height>15</height>
+        </size>
+        <style>linearbar</style>
+        <velocitybasedmode>true</velocitybasedmode>
+        <range>
+          <min>0</min>
+          <max>100</max>
+          <int>0.0001</int>
+        </range>
+        <textbox>
+          <position>none</position>
         </textbox>
       </slider>
       <label lfid="sliders5">
