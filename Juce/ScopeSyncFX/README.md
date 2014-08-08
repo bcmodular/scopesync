@@ -10,8 +10,10 @@ There are builds in the /Builds directory for Visual Studio Express 2010 and Vis
 There is a dependency on the Juce modules being available. The builds assume that these will be found in ../../../JUCE/modules (relative to the .jucer file), so it's recommended that you clone the JUCE GitHub repository alongside the scopesync repository.
 
 Suggested directory layout:
+```
 <devroot>/github/JUCE/modules
 <devroot>/github/scopesync/Juce
+```
 
 ### Authors and Contributors
 Main authors: @bcsharc, @wellis and @jssbrandt
