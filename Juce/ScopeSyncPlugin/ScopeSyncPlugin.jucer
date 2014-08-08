@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="1.0.0"
+<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="0.1.1"
               bundleIdentifier="com.bcmodular.ScopeSync" includeBinaryInAppConfig="1"
-              buildVST="1" buildVST3="0" buildAU="0" buildRTAS="0" buildAAX="0"
+              buildVST="1" buildVST3="1" buildAU="0" buildRTAS="0" buildAAX="0"
               pluginName="ScopeSync" pluginDesc="ScopeSync" pluginManufacturer="bcmodular"
               pluginManufacturerWebsite="www.yourcompany.com" pluginManufacturerEmail="support@yourcompany.com"
               pluginManufacturerCode="bcmd" pluginCode="scsy" pluginChannelConfigs="{2,2}"
-              pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="1"
+              pluginIsSynth="0" pluginWantsMidiIn="1" pluginProducesMidiOut="1"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
               pluginAUExportPrefix="ScopeSyncAU" pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.0">
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.0"
+              companyName="BC Modular" companyWebsite="http://www.bcmodular.co.uk"
+              companyEmail="support@bcmodular.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
     <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
       <FILE id="Z61VsF" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
@@ -101,7 +103,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2013 targetFolder="Builds/VisualStudio2013" vstFolder="../../../../SDKs/vstsdk2.4"
-            vst3Folder="c:\SDKs\VST3SDK" externalLibraries="" extraDefs=""
+            vst3Folder="../../../../SDKs/VST3SDK" externalLibraries="" extraDefs=""
             extraLinkerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
@@ -129,7 +131,7 @@
       </MODULEPATHS>
     </VS2013>
     <VS2010 targetFolder="Builds/VisualStudio2010" vstFolder="../../../../SDKs/vstsdk2.4"
-            extraDefs="" externalLibraries="" extraLinkerFlags="" vst3Folder="c:\SDKs\VST3SDK">
+            extraDefs="" externalLibraries="" extraLinkerFlags="" vst3Folder="../../../../SDKs/VST3SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ScopeSyncVST-Debug"
