@@ -180,13 +180,6 @@
             <backgroundnumframes>1</backgroundnumframes>
             <backgroundishorizontal>false</backgroundishorizontal>
           </linearhorizontal>
-          <linearvertical>
-            <thumbfilename>Skins/SliderCap1.png</thumbfilename>
-            <thumbborder>2</thumbborder>
-            <backgroundfilename>Skins/Blank.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
         </slider>
         <textbutton>
           <upfilename>Skins/Button_Up.png</upfilename>
@@ -204,15 +197,10 @@
       </colours>
       <images>
         <slider>
-          <rotary>
-            <filename>Skins/SSKnob_Orange.png</filename>
-            <numframes>61</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
           <linearhorizontal>
             <thumbfilename>Skins/SliderCap2.png</thumbfilename>
             <thumbborder>0</thumbborder>
-            <backgroundfilename>Skins/BipolarSlider2.png</backgroundfilename>
+            <backgroundfilename>Skins/BipolarSlider.png</backgroundfilename>
             <backgroundnumframes>61</backgroundnumframes>
             <backgroundishorizontal>false</backgroundishorizontal>
           </linearhorizontal>
