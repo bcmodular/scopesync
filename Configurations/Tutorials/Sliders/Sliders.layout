@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <lookandfeels>
+    <!--default lookandfeel - is used unless otherwise specified at component level.-->
+    <!--When left empty as is the case here reverts to JUCE default lookandfeel.-->
     <lookandfeel id="default"></lookandfeel>
     <!--ScopeSync Header lookandfeels-->
     <lookandfeel id="header tab">
@@ -1362,7 +1364,7 @@
         </range>
         <textbox>
           <position></position>
-          <readonly>false</readonly>
+          <readonly>true</readonly>
           <size>
             <width>56</width>
             <height>15</height>
