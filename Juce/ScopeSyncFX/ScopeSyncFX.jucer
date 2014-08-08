@@ -117,13 +117,13 @@
                        useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2010>
     <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1"
@@ -140,13 +140,13 @@
                        useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
   </EXPORTFORMATS>
