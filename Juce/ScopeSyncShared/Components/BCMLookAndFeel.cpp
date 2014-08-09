@@ -327,8 +327,7 @@ void BCMLookAndFeel::drawRotarySlider
 {
     if (rotaryNumFrames > 0)
     {
-        int frameIndex = (int)((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum())
-                               * (rotaryNumFrames - 1));
+        int frameIndex = (int)(sliderPosProportional * (rotaryNumFrames - 1));
 
         Image indexImage = filmStripIndexImage(rotary, rotaryIsHorizontal, rotaryFrameWidth, rotaryFrameHeight, frameIndex);
 
