@@ -95,12 +95,16 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
 
             if (getEncoderSnap(gui.getScopeSync().getAppProperties(), properties.encoderSnap))
                 rangeInt = 1;
+
+            setRange(rangeMin, rangeMax, rangeInt);
         }
         else
         {
             String uiSuffix = String::empty;
 
             gui.getScopeSync().getParameterUIRanges(paramIdx, rangeMin, rangeMax, rangeInt, uiSuffix);
+
+            setRange(rangeMin, rangeMax, rangeInt);
 
             // Set up a regular slider
             setTextValueSuffix(uiSuffix);
@@ -115,14 +119,13 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
 
             if (gui.getScopeSync().getParameterUISkewFactor(paramIdx, uiSkewFactorType, uiSkewFactor))
             {
-                if (uiSkewFactorType == "frommidpoint")
+                if (uiSkewFactorType == "frommidpoint" && uiSkewFactor >= rangeMin && uiSkewFactor <= rangeMax)
                     setSkewFactorFromMidPoint(uiSkewFactor);
-                else
+                else if (uiSkewFactor > 0.0f)
                     setSkewFactor(uiSkewFactor);
             }
         }
 
-        setRange(rangeMin, rangeMax, rangeInt);
         gui.getScopeSync().mapToParameterUIValue(paramIdx, getValueObject());
     }
     else
