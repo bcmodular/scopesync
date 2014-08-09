@@ -52,7 +52,8 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-UserSettings::UserSettings(ScopeSync& owner) : scopeSync(owner)
+UserSettings::UserSettings (ScopeSync& owner)
+    : scopeSync(owner)
 {
     addAndMakeVisible (encoderSnapLabel = new Label ("Encoder Snap Label",
                                                      TRANS("Encoder Snap To Value")));
@@ -70,8 +71,9 @@ UserSettings::UserSettings(ScopeSync& owner) : scopeSync(owner)
     encoderSnapComboBox->setJustificationType (Justification::centredLeft);
     encoderSnapComboBox->setTextWhenNothingSelected (String::empty);
     encoderSnapComboBox->setTextWhenNoChoicesAvailable (TRANS("(no choices)"));
-    encoderSnapComboBox->addItem (TRANS("Don\'t Snap"), 1);
-    encoderSnapComboBox->addItem (TRANS("Snap"), 2);
+    encoderSnapComboBox->addItem (TRANS("No Override"), 1);
+    encoderSnapComboBox->addItem (TRANS("Don\'t Snap"), 2);
+    encoderSnapComboBox->addItem (TRANS("Snap"), 3);
     encoderSnapComboBox->addListener (this);
 
     addAndMakeVisible (rotaryMovementLabel = new Label ("Rotary Movement Label",
@@ -267,9 +269,10 @@ void UserSettings::loadSettings()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="UserSettings" componentName=""
-                 parentClasses="public Component" constructorParams="PluginProcessor* owner"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="400" initialHeight="175">
+                 parentClasses="public Component" constructorParams="ScopeSync&amp; owner"
+                 variableInitialisers="scopeSync(owner)" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="1" initialWidth="400"
+                 initialHeight="175">
   <BACKGROUND backgroundColour="ff434343"/>
   <LABEL name="Encoder Snap Label" id="cde0d151d51d9d02" memberName="encoderSnapLabel"
          virtualName="" explicitFocusOrder="0" pos="8 24 182 24" tooltip="Choose whether encoders snap to valid parameter values"
@@ -278,8 +281,8 @@ BEGIN_JUCER_METADATA
          fontname="Default font" fontsize="15" bold="0" italic="0" justification="34"/>
   <COMBOBOX name="Encoder Snap ComboBox" id="74a940e37538ca1b" memberName="encoderSnapComboBox"
             virtualName="" explicitFocusOrder="0" pos="199 24 185 24" tooltip="Choose whether encoders snap to valid parameter values"
-            editable="0" layout="33" items="Don't Snap&#10;Snap" textWhenNonSelected=""
-            textWhenNoItems="(no choices)"/>
+            editable="0" layout="33" items="No Override&#10;Don't Snap&#10;Snap"
+            textWhenNonSelected="" textWhenNoItems="(no choices)"/>
   <LABEL name="Rotary Movement Label" id="d595993e92d53d8c" memberName="rotaryMovementLabel"
          virtualName="" explicitFocusOrder="0" pos="8 56 182 24" tooltip="Choose which mouse movement type to be used by rotary encoders "
          textCol="fff0f8ff" edTextCol="ff000000" edBkgCol="0" labelText="Rotary Encoder Movement"
