@@ -15,9 +15,10 @@
         <uisuffix> Hz</uisuffix>
         <scoperangemin>894</scoperangemin>
         <scoperangemax>1789569</scoperangemax>
-        <uirangemin>0.01</uirangemin>
+        <uirangemin>0.001</uirangemin>
         <uirangemax>20</uirangemax>
         <uirangeinterval>0.001</uirangeinterval>
+		<uiskewfactor type="frommidpoint">5</uiskewfactor>
     </parametertype>
 	<parametertype>
         <name>EQ Freq Hz</name>
@@ -27,7 +28,7 @@
         <uirangemin>20</uirangemin>
         <uirangemax>20000</uirangemax>
         <uirangeinterval>0.001</uirangeinterval>
-		<uiskewfactor type="frommidpoint">0.990991</uiskewfactor>
+		<uiskewfactor type="frommidpoint">2000</uiskewfactor>
     </parametertype>
 	<parametertype>
         <name>BC CoarseFine (cents)</name>
@@ -46,9 +47,9 @@
         <scoperangemax>240000</scoperangemax>
         <uirangemin>0.0005</uirangemin>
         <uirangemax>5</uirangemax>
-        <uirangeinterval>0.001</uirangeinterval>
+        <uirangeinterval>0.0001</uirangeinterval>
 		<uiresetvalue>0.5</uiresetvalue>
-        <uiskewfactor type="frommidpoint">1.0001</uiskewfactor>
+        <uiskewfactor type="frommidpoint">0.5</uiskewfactor>
     </parametertype>
 	<parametertype>
         <name>dB(0)</name>
@@ -59,7 +60,7 @@
         <uirangemax>0</uirangemax>
         <uirangeinterval>0.01</uirangeinterval>
 		<uiresetvalue>-6</uiresetvalue>
-		<uiskewfactor type="frommidpoint">8.7138</uiskewfactor>
+		<uiskewfactor type="frommidpoint">-24</uiskewfactor>
     </parametertype>
     <parametertype>
         <name>14bitCC Range</name>

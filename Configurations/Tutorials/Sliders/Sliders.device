@@ -2,7 +2,7 @@
 <device>
     <parameter name="PARAM1">
         <shortdescription>Param 1</shortdescription>
-        <fulldescription>Multimode Osc Wave</fulldescription>
+        <fulldescription>Osc2 Waveform</fulldescription>
 		<parametertype name="MultimodeOsc Wave"/>
         <scopesync>A1</scopesync>
     </parameter>
@@ -14,31 +14,31 @@
     </parameter>
     <parameter name="PARAM3">
         <shortdescription>Param 3</shortdescription>
-        <fulldescription>EQ Freq(Hz)</fulldescription>
+        <fulldescription>Cutoff</fulldescription>
 		<parametertype name="EQ Freq Hz"/>
         <scopesync>A3</scopesync>
     </parameter>
     <parameter name="PARAM4">
         <shortdescription>Param 4</shortdescription>
-        <fulldescription>BC CoarseFine (cents)</fulldescription>
+        <fulldescription>Osc2 Detune</fulldescription>
 		<parametertype name="BC CoarseFine (cents)"/>
         <scopesync>A4</scopesync>
     </parameter>
     <parameter name="PARAM5">
         <shortdescription>Param 5</shortdescription>
-        <fulldescription>LFO Freq(Hz)</fulldescription>
+        <fulldescription>LFO Freq</fulldescription>
 		<parametertype name="LFO Freq Hz"/>
         <scopesync>A5</scopesync>
     </parameter>
     <parameter name="PARAM6">
         <shortdescription>Param 6</shortdescription>
-        <fulldescription>Envelope Attack Time</fulldescription>
+        <fulldescription>Env Decay</fulldescription>
         <parametertype name="Env Time (s)nu"/>
 		<scopesync>A6</scopesync>
     </parameter>
     <parameter name="PARAM7">
         <shortdescription>Param 7</shortdescription>
-        <fulldescription>Level Control dB(0)</fulldescription>
+        <fulldescription>Output Level</fulldescription>
         <parametertype name="dB(0)"/>
 		<scopesync>A7</scopesync>
     </parameter>
