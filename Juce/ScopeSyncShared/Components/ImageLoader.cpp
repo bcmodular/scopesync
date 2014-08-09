@@ -44,21 +44,81 @@ void ImageLoader::loadImageResources()
     ImageResource* imageResource;
             
     imageResource = new ImageResource();
-    imageResource->imageName = "scopeSync_logo_png";
-    imageResource->image     = (const char*)resource_scopeSync_logo_png;
+    imageResource->imageName = "scopeSyncLogo";
+    imageResource->image     = (const char*)resourceScopeSyncLogo;
     imageResource->imageSize = 4151;
     imageResources.add(imageResource);
 
     imageResource = new ImageResource();
-    imageResource->imageName = "loadConfigButton_off_png";
-    imageResource->image     = (const char*)resource_loadConfigButton_off_png;
+    imageResource->imageName = "loadConfigButtonOff";
+    imageResource->image     = (const char*)resourceLoadConfigButtonOff;
     imageResource->imageSize = 2901;
     imageResources.add(imageResource);
 
     imageResource = new ImageResource();
-    imageResource->imageName = "loadConfigButton_on_png";
-    imageResource->image     = (const char*)resource_loadConfigButton_on_png;
+    imageResource->imageName = "loadConfigButtonOn";
+    imageResource->image     = (const char*)resourceLoadConfigButtonOn;
     imageResource->imageSize = 2904;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "patchWindowButtonOff";
+    imageResource->image     = (const char*)resourcePatchWindowButtonOff;
+    imageResource->imageSize = 2902;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "patchWindowButtonOn";
+    imageResource->image     = (const char*)resourcePatchWindowButtonOn;
+    imageResource->imageSize = 2884;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "presetsButtonOff";
+    imageResource->image     = (const char*)resourcePresetsButtonOff;
+    imageResource->imageSize = 2896;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "presetsButtonOn";
+    imageResource->image     = (const char*)resourcePresetsButtonOn;
+    imageResource->imageSize = 2895;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "reloadConfigButtonOff";
+    imageResource->image     = (const char*)resourceReloadConfigButtonOff;
+    imageResource->imageSize = 3107;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "reloadConfigButtonOn";
+    imageResource->image     = (const char*)resourceReloadConfigButtonOn;
+    imageResource->imageSize = 3143;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "settingsButtonOff";
+    imageResource->image     = (const char*)resourceSettingsButtonOff;
+    imageResource->imageSize = 3338;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "settingsButtonOn";
+    imageResource->image     = (const char*)resourceSettingsButtonOn;
+    imageResource->imageSize = 3335;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "snapshotOff";
+    imageResource->image     = (const char*)resourceSnapshotOff;
+    imageResource->imageSize = 770;
+    imageResources.add(imageResource);
+
+    imageResource = new ImageResource();
+    imageResource->imageName = "snapshotOn";
+    imageResource->image     = (const char*)resourceSnapshotOn;
+    imageResource->imageSize = 788;
     imageResources.add(imageResource);
 }
 
@@ -75,11 +135,16 @@ Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, co
         }
     }
 
-    File directory(directoryPath);
-    File imageFile = directory.getChildFile(imageFileName);
-    
-    if (useImageCache)
-        return ImageCache::getFromFile(imageFile);
+    if (directoryPath.isNotEmpty())
+    {
+        File directory(directoryPath);
+        File imageFile = directory.getChildFile(imageFileName);
+
+        if (useImageCache)
+            return ImageCache::getFromFile(imageFile);
+        else
+            return ImageFileFormat::loadFrom(imageFile);
+    }
     else
-        return ImageFileFormat::loadFrom(imageFile);
+        return Image();
 }

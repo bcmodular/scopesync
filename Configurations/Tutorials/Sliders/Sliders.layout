@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout>
   <lookandfeels>
     <!--default lookandfeel - is used unless otherwise specified at component level.-->
@@ -17,66 +17,6 @@
           <taboutlinecolourid>00000000</taboutlinecolourid>
         </tabbar>
       </colours>
-    </lookandfeel>
-    <lookandfeel id="snapshotbutton">
-      <images>
-        <textbutton>
-          <upfilename>Skins/Snapshot_off.png</upfilename>
-          <downfilename>Skins/Snapshot_on.png</downfilename>
-          <mouseoverupfilename>Skins/Snapshot_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/Snapshot_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="settingsbutton">
-      <images>
-        <textbutton>
-          <upfilename>Skins/settings_button_off.png</upfilename>
-          <downfilename>Skins/settings_button_on.png</downfilename>
-          <mouseoverupfilename>Skins/settings_button_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/settings_button_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="load_config_button">
-      <images>
-        <textbutton>
-          <upfilename>Skins/load config button_off.png</upfilename>
-          <downfilename>Skins/load config button_on.png</downfilename>
-          <mouseoverupfilename>Skins/load config button_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/load config button_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="reload_config_button">
-      <images>
-        <textbutton>
-          <upfilename>Skins/reload config button_off.png</upfilename>
-          <downfilename>Skins/reload config button_on.png</downfilename>
-          <mouseoverupfilename>Skins/reload config button_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/reload config button_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="Patch_button">
-      <images>
-        <textbutton>
-          <upfilename>Skins/Patch Window button_off.png</upfilename>
-          <downfilename>Skins/Patch Window button_on.png</downfilename>
-          <mouseoverupfilename>Skins/Patch Window button_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/Patch Window button_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="Presets_button">
-      <images>
-        <textbutton>
-          <upfilename>Skins/Presets button_off.png</upfilename>
-          <downfilename>Skins/Presets button_on.png</downfilename>
-          <mouseoverupfilename>Skins/Presets button_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/Presets button_on.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
     </lookandfeel>
     <lookandfeel id="Config Name">
       <colours>
@@ -362,7 +302,7 @@
           <bold />
         </font>
       </label>
-      <textbutton lfid="reload_config_button">
+      <textbutton lfid="system:reload_config_button">
         <name>reloadconfiguration</name>
         <tooltip>Reload current configuration</tooltip>
         <position>
@@ -398,7 +338,7 @@
           <height>21</height>
         </size>
       </textbutton>
-      <textbutton lfid="snapshotbutton">
+      <textbutton lfid="system:snapshot_button">
         <name>snapshot</name>
         <text></text>
         <tooltip>Send Snapshot of Current Control Values</tooltip>
@@ -411,7 +351,7 @@
           <height>21</height>
         </size>
       </textbutton>
-      <textbutton lfid="settingsbutton">
+      <textbutton lfid="system:settings_button">
         <name>showusersettings</name>
         <text></text>
         <tooltip>Open User Settings panel</tooltip>
@@ -426,7 +366,7 @@
       </textbutton>
       <component>
         <backgroundcolour>00000000</backgroundcolour>
-        <backgroundimage>Skins/ScopeSync_Logo.png</backgroundimage>
+        <backgroundimage>scopeSyncLogo</backgroundimage>
         <position>
           <x>6</x>
           <y>4</y>
@@ -463,7 +403,7 @@
           <idx>2</idx>
           <name>CONNECTED</name>
           <component>
-            <textbutton lfid="Patch_button">
+            <textbutton lfid="system:patch_button">
               <name>B67</name>
               <position>
                 <x>0</x>
@@ -474,7 +414,7 @@
                 <height>21</height>
               </size>
             </textbutton>
-            <textbutton lfid="Presets_button">
+            <textbutton lfid="system:presets_button">
               <name>B68</name>
               <position>
                 <x>32</x>
