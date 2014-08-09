@@ -58,8 +58,6 @@ void TextButtonProperties::initialise()
     height           = 15;
     x                = 0;
     y                = 0;
-    buttonOffColour  = String::empty;
-    buttonOnColour   = String::empty;
     bcmLookAndFeelId = String::empty;
     radioGroupId     = 0;
     tabbedComponents.clear();
@@ -75,8 +73,6 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
     height           = parentTextButtonProperties.height;
     x                = parentTextButtonProperties.x;
     y                = parentTextButtonProperties.y;
-    buttonOffColour  = parentTextButtonProperties.buttonOffColour;
-    buttonOnColour   = parentTextButtonProperties.buttonOnColour;
     radioGroupId     = parentTextButtonProperties.radioGroupId;
     bcmLookAndFeelId = parentTextButtonProperties.bcmLookAndFeelId;
     tabbedComponents = StringArray(parentTextButtonProperties.tabbedComponents);

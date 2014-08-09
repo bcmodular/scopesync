@@ -51,8 +51,6 @@ public:
     int         height;
     int         y;
     int         x;
-    String      buttonOffColour;
-    String      buttonOnColour;
     String      bcmLookAndFeelId;
     int         radioGroupId;
     StringArray tabbedComponents;
