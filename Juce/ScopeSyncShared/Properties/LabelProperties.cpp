@@ -60,7 +60,6 @@ void LabelProperties::initialise()
     y                  = 26;
     fontHeight         = 15.00f;
     fontStyleFlags     = Font::plain;
-    textColour         = String::empty;
     justificationFlags = Justification::centred;
     bcmLookAndFeelId   = String::empty;
 };
@@ -75,7 +74,6 @@ void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
     y                  = parentLabelProperties.y;
     fontHeight         = parentLabelProperties.fontHeight;
     fontStyleFlags     = parentLabelProperties.fontStyleFlags;
-    textColour         = parentLabelProperties.textColour;
     justificationFlags = parentLabelProperties.justificationFlags;
     bcmLookAndFeelId   = parentLabelProperties.bcmLookAndFeelId;
 };
@@ -87,7 +85,6 @@ void LabelProperties::setValuesFromXML(XmlElement& labelXML)
     {
              if (child->hasTagName("name"))          name       = child->getAllSubText().toLowerCase();
         else if (child->hasTagName("text"))          text       = child->getAllSubText();
-        else if (child->hasTagName("textcolour"))    textColour = child->getAllSubText();
         else if (child->hasTagName("position"))      getPositionFromXml(*child, x, y);
         else if (child->hasTagName("size"))          getSizeFromXml(*child, width, height);
         else if (child->hasTagName("font"))          getFontFromXml(*child, fontHeight, fontStyleFlags);

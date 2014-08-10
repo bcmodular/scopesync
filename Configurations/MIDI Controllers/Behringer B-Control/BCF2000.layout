@@ -390,9 +390,8 @@
         <width>67</width>
         <height>15</height>
       </size>
-      <font>
+      <font bold="true">
         <height>12</height>
-        <bold />
       </font>
       <justification>
         <horizontallycentred />
@@ -461,9 +460,8 @@
           <width>160</width>
           <height>17</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
       </label>
       <textbutton lfid="system:reload_config_button">

@@ -63,17 +63,11 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
 
     // Only relevant if label is editable. Not currently supported
     setEditable(false, false, false);
-    //setColour(TextEditor::textColourId, Colours::black);
-    //setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
     setText(labelText, dontSendNotification);
     setTooltip(tooltip);
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));
-
-    if (properties.textColour.isNotEmpty()){
-        setColour(Label::textColourId, Colour::fromString(properties.textColour));
-    }
 
     setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
 

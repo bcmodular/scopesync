@@ -226,9 +226,8 @@
         <width>67</width>
         <height>15</height>
       </size>
-      <font>
+      <font bold="true">
         <height>12</height>
-        <bold />
       </font>
       <justification>
         <horizontallycentred />
@@ -297,9 +296,8 @@
           <width>160</width>
           <height>17</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
       </label>
       <textbutton lfid="system:reload_config_button">
@@ -503,9 +501,8 @@
             <width>180</width>
             <height>20</height>
           </size>
-          <font>
+          <font underlined="true">
             <height>18</height>
-            <underlined />
           </font>
           <justification>
             <left />
@@ -533,9 +530,8 @@
             <width>180</width>
             <height>20</height>
           </size>
-          <font>
+          <font underlined="true">
             <height>18</height>
-            <underlined />
           </font>
           <justification>
             <left />
@@ -564,9 +560,8 @@
             <width>180</width>
             <height>20</height>
           </size>
-          <font>
+          <font underlined="true">
             <height>18</height>
-            <underlined />
           </font>
           <justification>
             <left />
@@ -583,9 +578,8 @@
             <width>180</width>
             <height>20</height>
           </size>
-          <font>
+          <font underlined="true">
             <height>18</height>
-            <underlined />
           </font>
           <justification>
             <left />
@@ -613,9 +607,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -659,9 +652,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -723,9 +715,8 @@
             <width>56</width>
             <height>15</height>
           </size>
-          <font>
+          <font italic="true">
             <height>14</height>
-            <italic />
           </font>
           <justification>
             <left />
@@ -894,9 +885,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -940,9 +930,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -1004,9 +993,8 @@
             <width>56</width>
             <height>15</height>
           </size>
-          <font>
+          <font italic="true">
             <height>14</height>
-            <italic />
           </font>
           <justification>
             <left />
@@ -1175,9 +1163,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -1245,9 +1232,8 @@
           <width>180</width>
           <height>15</height>
         </size>
-        <font>
+        <font bold="true">
           <height>12</height>
-          <bold />
         </font>
         <justification>
           <horizontallycentred />
@@ -1309,9 +1295,8 @@
             <width>56</width>
             <height>15</height>
           </size>
-          <font>
+          <font italic="true">
             <height>14</height>
-            <italic />
           </font>
           <justification>
             <left />

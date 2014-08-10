@@ -50,9 +50,8 @@ public:
     int    height;
     int    y;
     int    x;
-    float  fontHeight;
-    String textColour;
     String bcmLookAndFeelId;
+    float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     

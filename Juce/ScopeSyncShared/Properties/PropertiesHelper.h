@@ -37,13 +37,16 @@ namespace PropertiesHelper
         // Reset style flags, so they can be set below
         styleFlags = Font::plain;
 
-        forEachXmlChildElement(xml, child)
-        {
-                 if (child->hasTagName("height"))     height     = child->getAllSubText().getFloatValue();
-            else if (child->hasTagName("bold"))       styleFlags = (Font::FontStyleFlags)(styleFlags | Font::bold);
-            else if (child->hasTagName("italic"))     styleFlags = (Font::FontStyleFlags)(styleFlags | Font::italic);
-            else if (child->hasTagName("underlined")) styleFlags = (Font::FontStyleFlags)(styleFlags | Font::underlined);
-        }
+        if (xml.getBoolAttribute("bold", false))
+            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::bold);
+
+        if (xml.getBoolAttribute("italic", false))
+            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::italic);
+
+        if (xml.getBoolAttribute("underlined", false))
+            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::underlined);
+
+        height = xml.getChildElementAllSubText("height", String(height)).getFloatValue();
     }
 
     inline void getJustificationFlagsFromXml(const XmlElement& xml, Justification::Flags& flags)
