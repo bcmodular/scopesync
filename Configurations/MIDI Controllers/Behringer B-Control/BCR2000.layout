@@ -364,9 +364,7 @@
       <font bold="true">
         <height>12</height>
       </font>
-      <justification>
-        <horizontallycentred />
-      </justification>
+      <justification horizontallycentred="true" />
     </label>
     <textbutton>
       <name>defaultbutton</name>
@@ -386,9 +384,7 @@
       <editabletext>false</editabletext>
       <nothingselectedtext>-- Select item --</nothingselectedtext>
       <nochoicestext>-- No choices --</nochoicestext>
-      <justification>
-        <horizontallycentred />
-      </justification>
+      <justification horizontallycentred="true" />
       <position>
         <x>0</x>
         <y>0</y>
@@ -1930,9 +1926,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -2167,9 +2161,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -2404,9 +2396,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -2641,9 +2631,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -3068,9 +3056,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -3401,9 +3387,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -3734,9 +3718,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>
@@ -4067,9 +4049,7 @@
                   <font>
                     <height>16</height>
                   </font>
-                  <justification>
-                    <horizontallycentred />
-                  </justification>
+                  <justification horizontallycentred="true" />
                 </label>
               </component>
             </tab>

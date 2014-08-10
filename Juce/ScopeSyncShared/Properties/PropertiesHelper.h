@@ -54,92 +54,81 @@ namespace PropertiesHelper
         // Protection in case of multiple tags
         bool firstFlag = true;
 
-        forEachXmlChildElement(xml, child)
+        if (xml.getBoolAttribute("left", false))
         {
-            if (child->hasTagName("left"))
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::left;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::left);
-                }
+                flags = Justification::left;
+                firstFlag = false;
             }
-            else if (child->hasTagName("right"))
+            else
+                flags = (Justification::Flags)(flags | Justification::left);
+        }
+        
+        if (xml.getBoolAttribute("right", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::right;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::right);
-                }
+                flags = Justification::right;
+                firstFlag = false;
             }
-            else if (child->hasTagName("horizontallycentred"))
+            else
+                flags = (Justification::Flags)(flags | Justification::right);
+        }
+
+        if (xml.getBoolAttribute("horizontallycentred", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::horizontallyCentred;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::horizontallyCentred);
-                }
+                flags = Justification::horizontallyCentred;
+                firstFlag = false;
             }
-            else if (child->hasTagName("top"))
+            else
+                flags = (Justification::Flags)(flags | Justification::horizontallyCentred);
+        }
+
+        if (xml.getBoolAttribute("top", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::top;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::top);
-                }
+                flags = Justification::top;
+                firstFlag = false;
             }
-            else if (child->hasTagName("bottom"))
+            else
+                flags = (Justification::Flags)(flags | Justification::top);
+        }
+        
+        if (xml.getBoolAttribute("bottom", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::bottom;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::bottom);
-                }
+                flags = Justification::bottom;
+                firstFlag = false;
             }
-            else if (child->hasTagName("verticallycentred"))
+            else
+                flags = (Justification::Flags)(flags | Justification::bottom);
+        }
+
+        if (xml.getBoolAttribute("verticallycentred", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::verticallyCentred;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::verticallyCentred);
-                }
+                flags = Justification::verticallyCentred;
+                firstFlag = false;
             }
-            else if (child->hasTagName("horizontallyjustified"))
+            else
+                flags = (Justification::Flags)(flags | Justification::verticallyCentred);
+        }
+        
+        if (xml.getBoolAttribute("horizontallyjustified", false))
+        {
+            if (firstFlag)
             {
-                if (firstFlag)
-                {
-                    flags = Justification::horizontallyJustified;
-                    firstFlag = false;
-                }
-                else
-                {
-                    flags = (Justification::Flags)(flags | Justification::horizontallyJustified);
-                }
+                flags = Justification::horizontallyJustified;
+                firstFlag = false;
             }
+            else
+                flags = (Justification::Flags)(flags | Justification::horizontallyJustified);
         }
     }
 

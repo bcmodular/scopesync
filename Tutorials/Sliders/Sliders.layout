@@ -229,9 +229,7 @@
       <font bold="true">
         <height>12</height>
       </font>
-      <justification>
-        <horizontallycentred />
-      </justification>
+      <justification horizontallycentred="true" />
     </label>
     <textbutton>
       <name>defaultbutton</name>
@@ -251,9 +249,7 @@
       <editabletext>false</editabletext>
       <nothingselectedtext>-- Select item --</nothingselectedtext>
       <nochoicestext>-- No choices --</nochoicestext>
-      <justification>
-        <horizontallycentred />
-      </justification>
+      <justification horizontallycentred="true" />
       <position>
         <x>0</x>
         <y>0</y>
@@ -504,9 +500,7 @@
           <font underlined="true">
             <height>18</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </label>
       </component>
       <component>
@@ -533,9 +527,7 @@
           <font underlined="true">
             <height>18</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </label>
       </component>
       <component>
@@ -563,9 +555,7 @@
           <font underlined="true">
             <height>18</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </label>
         <label lfid="sliders5">
           <name>Header</name>
@@ -581,9 +571,7 @@
           <font underlined="true">
             <height>18</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </label>
       </component>
     </component>
@@ -610,9 +598,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <slider>
         <name>s1</name>
@@ -655,9 +641,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <slider>
         <name>s2</name>
@@ -718,9 +702,7 @@
           <font italic="true">
             <height>14</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+          <justification left="true" />
         </textbox>
       </slider>
       <label>
@@ -888,9 +870,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <slider lfid="sliders2">
         <name>s1</name>
@@ -933,9 +913,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <slider lfid="sliders3">
         <name>s2</name>
@@ -996,9 +974,7 @@
           <font italic="true">
             <height>14</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </textbox>
       </slider>
       <label>
@@ -1166,9 +1142,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <component>
         <backgroundimage>Skins/HSliderBack1.png</backgroundimage>
@@ -1235,9 +1209,7 @@
         <font bold="true">
           <height>12</height>
         </font>
-        <justification>
-          <horizontallycentred />
-        </justification>
+        <justification horizontallycentred="true" />
       </label>
       <slider lfid="sliders7">
         <name>s2</name>
@@ -1298,9 +1270,7 @@
           <font italic="true">
             <height>14</height>
           </font>
-          <justification>
-            <left />
-          </justification>
+        <justification left="true" />
         </textbox>
       </slider>
       <slider lfid="sliders7">
