@@ -115,7 +115,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
         {
             forEachXmlChildElement(*child, subChild)
             {
-                     if (subChild->hasTagName("position"))      getPositionFromXML(*subChild, textBoxPosition);
+                     if (subChild->hasTagName("position"))      getTextBoxPositionFromXML(*subChild, textBoxPosition);
                 else if (subChild->hasTagName("readonly"))      textBoxReadOnly = subChild->getAllSubText().equalsIgnoreCase("true");
                 else if (subChild->hasTagName("size"))          getSizeFromXml(*subChild, textBoxWidth, textBoxHeight);
                 else if (subChild->hasTagName("font"))          getFontFromXml(*subChild, fontHeight, fontStyleFlags);
@@ -150,7 +150,7 @@ void SliderProperties::getRangeFromXml(const XmlElement& xml, double& min, doubl
     }
 }
 
-void SliderProperties::getPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position)
+void SliderProperties::getTextBoxPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position)
 {
          if (xml.getAllSubText().toLowerCase() == "none")  position = Slider::NoTextBox;
     else if (xml.getAllSubText().toLowerCase() == "left")  position = Slider::TextBoxLeft;

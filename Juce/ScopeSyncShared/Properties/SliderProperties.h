@@ -72,7 +72,7 @@ private:
 
     static void getSliderStyleFromXml(const XmlElement& xml, Slider::SliderStyle& sliderStyle);
     static void getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval);
-    static void getPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position);
+    static void getTextBoxPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderProperties);
 };
