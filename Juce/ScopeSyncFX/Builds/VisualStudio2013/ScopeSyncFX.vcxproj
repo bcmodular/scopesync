@@ -141,7 +141,7 @@
       <OutputFile>$(IntDir)\ScopeSync.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;</Command>
+      <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

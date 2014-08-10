@@ -149,7 +149,9 @@
       <OutputFile>$(IntDir)\ScopeSyncVST.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
+      <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;
+xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;
+xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">
@@ -194,7 +196,9 @@
       <OutputFile>$(IntDir)\ScopeSyncVST-x64.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
+      <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;
+xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;
+xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

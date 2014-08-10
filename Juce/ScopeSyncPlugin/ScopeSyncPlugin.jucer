@@ -111,11 +111,11 @@
                        headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSyncVST" headerPath=""
-                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
                        winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVST-x64"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -138,11 +138,11 @@
                        headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSyncVST" headerPath=""
-                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
                        winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVST-x64"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
