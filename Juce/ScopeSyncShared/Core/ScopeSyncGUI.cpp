@@ -186,7 +186,7 @@ void ScopeSyncGUI::loadMapping()
 
     forEachXmlChildElement(*mappingXml, child)
     {
-        String name = child->getStringAttribute(mappingComponentNameId, String::empty).toLowerCase();
+        String name = child->getStringAttribute(mappingComponentNameId, String::empty);
 
         if (name.isEmpty())
             continue;
@@ -195,7 +195,7 @@ void ScopeSyncGUI::loadMapping()
         String parameterName;
 
         if (parameter)
-            parameterName = parameter->getStringAttribute(mappingParamNameId, String::empty).toLowerCase();
+            parameterName = parameter->getStringAttribute(mappingParamNameId, String::empty);
         else
             continue;
 
@@ -208,7 +208,7 @@ void ScopeSyncGUI::loadMapping()
         mappingComponent.setProperty(mappingComponentNameId, name, nullptr);
         mappingComponent.setProperty(mappingMapToId, parameterName, nullptr);
 
-        String type = parameter->getStringAttribute(mappingTypeId, "standard").toLowerCase();
+        String type = parameter->getStringAttribute(mappingTypeId, "standard");
         mappingComponent.setProperty(mappingTypeId, type, nullptr);
 
         if (xmlId == mappingSliderId)
@@ -219,10 +219,10 @@ void ScopeSyncGUI::loadMapping()
             comboBoxMapping.addChild(mappingComponent, -1, nullptr);    
         else if (xmlId == mappingTextButtonId)
         {
-            String displayType = parameter->getStringAttribute(mappingDisplayTypeId, "standard").toLowerCase();
+            String displayType = parameter->getStringAttribute(mappingDisplayTypeId, "standard");
             mappingComponent.setProperty(mappingDisplayTypeId, displayType, nullptr);
 
-            String customDisplay = parameter->getStringAttribute(mappingCustomDisplayId, "custom").toLowerCase();
+            String customDisplay = parameter->getStringAttribute(mappingCustomDisplayId, "custom");
             mappingComponent.setProperty(mappingCustomDisplayId, customDisplay, nullptr);
 
             String settingDown = parameter->getStringAttribute(mappingSettingDownId, "__NO_SETTING__");
@@ -231,8 +231,8 @@ void ScopeSyncGUI::loadMapping()
             String settingUp = parameter->getStringAttribute(mappingSettingUpId, "__NO_SETTING__");
             mappingComponent.setProperty(mappingSettingUpId, settingUp, nullptr);
 
-            String radioGroupString = parameter->getStringAttribute(mappingRadioGroupId, "__no_setting__").toLowerCase();
-            if (radioGroupString != "__no_setting__") mappingComponent.setProperty(mappingRadioGroupId, radioGroupString.hashCode(), nullptr);            
+            String radioGroupString = parameter->getStringAttribute(mappingRadioGroupId, "__NO_SETTING__").toLowerCase();
+            if (radioGroupString.equalsIgnoreCase("__NO_SETTING__")) mappingComponent.setProperty(mappingRadioGroupId, radioGroupString.hashCode(), nullptr);            
             
             textButtonMapping.addChild(mappingComponent, -1, nullptr);
         }
@@ -279,14 +279,14 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
         File configurationFile(scopeSync.getConfigurationFilePath().getValue());
         String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
 
-        String id = lookAndFeelXML.getStringAttribute("id").toLowerCase();
+        String id = lookAndFeelXML.getStringAttribute("id");
         DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
         BCMLookAndFeel* bcmLookAndFeel;
 
         if (lookAndFeelXML.hasAttribute("parentid"))
         {
-            String parentid = lookAndFeelXML.getStringAttribute("parentid").toLowerCase();
+            String parentid = lookAndFeelXML.getStringAttribute("parentid");
             BCMLookAndFeel* parentBCMLookAndFeel = scopeSync.getBCMLookAndFeelById(parentid);
 
             bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, configurationFileDirectory);

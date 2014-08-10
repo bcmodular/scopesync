@@ -86,7 +86,7 @@ void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
         else if (child->hasTagName("backgroundimageplacement")) backgroundImagePlacement = getRectanglePlacementFromString(child->getAllSubText().toLowerCase());
     }
 
-    if (componentXML.hasAttribute("lfid")) bcmLookAndFeelId = componentXML.getStringAttribute("lfid").toLowerCase();
+    if (componentXML.hasAttribute("lfid")) bcmLookAndFeelId = componentXML.getStringAttribute("lfid");
 }
 
 RectanglePlacement ComponentProperties::getRectanglePlacementFromString(String string)

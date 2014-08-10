@@ -93,7 +93,7 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
     // Grab values set in XML
     forEachXmlChildElement(comboBoxXML, child)
     {
-             if (child->hasTagName("name"))                name = child->getAllSubText().toLowerCase();
+             if (child->hasTagName("name"))                name = child->getAllSubText();
         else if (child->hasTagName("tooltip"))             tooltip = child->getAllSubText();
         else if (child->hasTagName("editabletext"))        editableText = child->getAllSubText().equalsIgnoreCase("true");
         else if (child->hasTagName("item"))                items.add(child->getAllSubText());
@@ -105,5 +105,5 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
         else if (child->hasTagName("font"))                getFontFromXml(*child, fontHeight, fontStyleFlags);
     }
 
-    if (comboBoxXML.hasAttribute("lfid")) bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid").toLowerCase();
+    if (comboBoxXML.hasAttribute("lfid")) bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid");
 };

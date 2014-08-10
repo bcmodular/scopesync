@@ -83,7 +83,7 @@ void LabelProperties::setValuesFromXML(XmlElement& labelXML)
     // Grab values set in XML
     forEachXmlChildElement(labelXML, child)
     {
-             if (child->hasTagName("name"))          name       = child->getAllSubText().toLowerCase();
+             if (child->hasTagName("name"))          name       = child->getAllSubText();
         else if (child->hasTagName("text"))          text       = child->getAllSubText();
         else if (child->hasTagName("position"))      getPositionFromXml(*child, x, y);
         else if (child->hasTagName("size"))          getSizeFromXml(*child, width, height);
@@ -91,6 +91,6 @@ void LabelProperties::setValuesFromXML(XmlElement& labelXML)
         else if (child->hasTagName("justification")) getJustificationFlagsFromXml(*child, justificationFlags);
     }
 
-    if (labelXML.hasAttribute("lfid")) bcmLookAndFeelId = labelXML.getStringAttribute("lfid").toLowerCase();
+    if (labelXML.hasAttribute("lfid")) bcmLookAndFeelId = labelXML.getStringAttribute("lfid");
 };
 

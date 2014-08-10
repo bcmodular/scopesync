@@ -45,7 +45,7 @@ BCMLookAndFeel::BCMLookAndFeel(bool cacheImages)
 BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& configDirectory, bool cacheImages)
 {
     configurationFileDirectoryPath = configDirectory;
-    id = lookAndFeelXML.getStringAttribute("id").toLowerCase();
+    id = lookAndFeelXML.getStringAttribute("id");
     initialise(cacheImages);
     setValuesFromXml(lookAndFeelXML);
     applyProperties();
@@ -54,7 +54,7 @@ BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& c
 BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& configDirectory)
 {
     configurationFileDirectoryPath = configDirectory;
-    id = lookAndFeelXML.getStringAttribute("id").toLowerCase();
+    id = lookAndFeelXML.getStringAttribute("id");
     //DBG("BCMLookAndFeel::BCMLookAndFeel - Creating " + id);
 
     copyProperties(parentLookAndFeel);

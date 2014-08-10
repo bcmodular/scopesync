@@ -26,6 +26,7 @@
  */
 
 #include "TextButtonProperties.h"
+#include "PropertiesHelper.h"
 
 TextButtonProperties::TextButtonProperties()
 {
@@ -84,36 +85,16 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     // Grab values set in XML
     forEachXmlChildElement(textButtonXML, child)
     {
-             if (child->hasTagName("name"))            name            = child->getAllSubText().toLowerCase();
-        else if (child->hasTagName("text"))            text            = child->getAllSubText();
-        else if (child->hasTagName("tooltip"))         tooltip         = child->getAllSubText();
-        else if (child->hasTagName("position"))
-        {
-            forEachXmlChildElement(*child, subChild)
-            {
-                     if (subChild->hasTagName("x")) x = subChild->getAllSubText().getIntValue();
-                else if (subChild->hasTagName("y")) y = subChild->getAllSubText().getIntValue();
-            }
-        }
-        else if (child->hasTagName("size"))
-        {
-            forEachXmlChildElement(*child, subChild)
-            {
-                     if (subChild->hasTagName("width"))  width  = subChild->getAllSubText().getIntValue();
-                else if (subChild->hasTagName("height")) height = subChild->getAllSubText().getIntValue();
-            }
-        }
+             if (child->hasTagName("name"))      name            = child->getAllSubText();
+        else if (child->hasTagName("text"))      text            = child->getAllSubText();
+        else if (child->hasTagName("tooltip"))   tooltip         = child->getAllSubText();
+        else if (child->hasTagName("position"))  getPositionFromXml(*child, x, y);  
+        else if (child->hasTagName("size"))      getSizeFromXml(*child, width, height);
         else if (child->hasTagName("choosetab"))
         {
-            String tabbedComponent = String::empty;
-            String tabName         = String::empty;
+            String tabbedComponent = child->getChildElementAllSubText("tabbedcomponent", String::empty);
+            String tabName         = child->getChildElementAllSubText("tabname", String::empty);
             
-            forEachXmlChildElement(*child, subChild)
-            {
-                     if (subChild->hasTagName("tabbedcomponent")) tabbedComponent = subChild->getAllSubText().toLowerCase();
-                else if (subChild->hasTagName("tabname"))         tabName         = subChild->getAllSubText().toLowerCase();
-            }
-
             if (tabbedComponent.isNotEmpty() && tabName.isNotEmpty())
             {
                 tabbedComponents.add(tabbedComponent);
@@ -123,5 +104,5 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     }
 
     if (textButtonXML.hasAttribute("radiogroup")) radioGroupId = textButtonXML.getStringAttribute("radiogroup").hashCode();
-    if (textButtonXML.hasAttribute("lfid"))       bcmLookAndFeelId = textButtonXML.getStringAttribute("lfid").toLowerCase();
+    if (textButtonXML.hasAttribute("lfid"))       bcmLookAndFeelId = textButtonXML.getStringAttribute("lfid");
 };

@@ -74,5 +74,5 @@ void TabProperties::setValuesFromXML(XmlElement& tabXML)
         else if (child->hasTagName("idx"))              idx = child->getAllSubText().getIntValue();
     }
 
-    if (tabXML.hasAttribute("lfid")) bcmLookAndFeelId = tabXML.getStringAttribute("lfid").toLowerCase();
+    if (tabXML.hasAttribute("lfid")) bcmLookAndFeelId = tabXML.getStringAttribute("lfid");
 }

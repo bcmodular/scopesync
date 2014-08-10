@@ -103,7 +103,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     // Grab values set in XML
     forEachXmlChildElement(sliderXML, child)
     {
-             if (child->hasTagName("name"))              name = child->getAllSubText().toLowerCase();
+             if (child->hasTagName("name"))              name = child->getAllSubText();
         else if (child->hasTagName("popupenabled"))      popupEnabled = child->getAllSubText().equalsIgnoreCase("true");
         else if (child->hasTagName("velocitybasedmode")) velocityBasedMode = child->getAllSubText().equalsIgnoreCase("true");
         else if (child->hasTagName("encodersnap"))       encoderSnap = child->getAllSubText().equalsIgnoreCase("true");
@@ -124,20 +124,20 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
         }
     }
 
-    if (sliderXML.hasAttribute("lfid")) bcmLookAndFeelId = sliderXML.getStringAttribute("lfid").toLowerCase();
+    if (sliderXML.hasAttribute("lfid")) bcmLookAndFeelId = sliderXML.getStringAttribute("lfid");
 };
 
 void SliderProperties::getSliderStyleFromXml(const XmlElement& xml, Slider::SliderStyle& sliderStyle)
 {
-         if (xml.getAllSubText().toLowerCase() == "linearhorizontal")             sliderStyle = Slider::LinearHorizontal;
-    else if (xml.getAllSubText().toLowerCase() == "linearvertical")               sliderStyle = Slider::LinearVertical;
-    else if (xml.getAllSubText().toLowerCase() == "linearbar")                    sliderStyle = Slider::LinearBar;
-    else if (xml.getAllSubText().toLowerCase() == "linearbarvertical")            sliderStyle = Slider::LinearBarVertical;
-    else if (xml.getAllSubText().toLowerCase() == "rotary")                       sliderStyle = Slider::Rotary;
-    else if (xml.getAllSubText().toLowerCase() == "rotaryhorizontaldrag")         sliderStyle = Slider::RotaryHorizontalDrag;
-    else if (xml.getAllSubText().toLowerCase() == "rotaryverticaldrag")           sliderStyle = Slider::RotaryVerticalDrag;
-    else if (xml.getAllSubText().toLowerCase() == "rotaryhorizontalverticaldrag") sliderStyle = Slider::RotaryHorizontalVerticalDrag;
-    else if (xml.getAllSubText().toLowerCase() == "incdecbuttons")                sliderStyle = Slider::IncDecButtons;
+         if (xml.getAllSubText().equalsIgnoreCase("linearhorizontal"))             sliderStyle = Slider::LinearHorizontal;
+    else if (xml.getAllSubText().equalsIgnoreCase("linearvertical"))               sliderStyle = Slider::LinearVertical;
+    else if (xml.getAllSubText().equalsIgnoreCase("linearbar"))                    sliderStyle = Slider::LinearBar;
+    else if (xml.getAllSubText().equalsIgnoreCase("linearbarvertical"))            sliderStyle = Slider::LinearBarVertical;
+    else if (xml.getAllSubText().equalsIgnoreCase("rotary"))                       sliderStyle = Slider::Rotary;
+    else if (xml.getAllSubText().equalsIgnoreCase("rotaryhorizontaldrag"))         sliderStyle = Slider::RotaryHorizontalDrag;
+    else if (xml.getAllSubText().equalsIgnoreCase("rotaryverticaldrag"))           sliderStyle = Slider::RotaryVerticalDrag;
+    else if (xml.getAllSubText().equalsIgnoreCase("rotaryhorizontalverticaldrag")) sliderStyle = Slider::RotaryHorizontalVerticalDrag;
+    else if (xml.getAllSubText().equalsIgnoreCase("incdecbuttons"))                sliderStyle = Slider::IncDecButtons;
 }
 
 void SliderProperties::getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval)
@@ -152,9 +152,9 @@ void SliderProperties::getRangeFromXml(const XmlElement& xml, double& min, doubl
 
 void SliderProperties::getTextBoxPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position)
 {
-         if (xml.getAllSubText().toLowerCase() == "none")  position = Slider::NoTextBox;
-    else if (xml.getAllSubText().toLowerCase() == "left")  position = Slider::TextBoxLeft;
-    else if (xml.getAllSubText().toLowerCase() == "right") position = Slider::TextBoxRight;
-    else if (xml.getAllSubText().toLowerCase() == "above") position = Slider::TextBoxAbove;
-    else if (xml.getAllSubText().toLowerCase() == "below") position = Slider::TextBoxBelow;
+         if (xml.getAllSubText().equalsIgnoreCase("none"))  position = Slider::NoTextBox;
+    else if (xml.getAllSubText().equalsIgnoreCase("left"))  position = Slider::TextBoxLeft;
+    else if (xml.getAllSubText().equalsIgnoreCase("right")) position = Slider::TextBoxRight;
+    else if (xml.getAllSubText().equalsIgnoreCase("above")) position = Slider::TextBoxAbove;
+    else if (xml.getAllSubText().equalsIgnoreCase("below")) position = Slider::TextBoxBelow;
 }

@@ -1092,9 +1092,9 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
         {
             int intValue = 0;
 
-            if (child->getAllSubText().toLowerCase() == "min_int")
+            if (child->getAllSubText().equalsIgnoreCase("MIN_INT"))
                 intValue = MIN_SCOPE_INTEGER;
-            else if (child->getAllSubText().toLowerCase() == "max_int")
+            else if (child->getAllSubText().equalsIgnoreCase("MAX_INT"))
                 intValue = MAX_SCOPE_INTEGER;
             else
                 intValue = child->getAllSubText().getIntValue();
@@ -1227,7 +1227,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         ValueTree parameter     = ValueTree(paramId);
         bool scopeLocalParameter = false;
         
-        parameter.setProperty(paramNameId, child->getStringAttribute(paramNameId, "__NO_NAME__").toLowerCase(), nullptr);
+        parameter.setProperty(paramNameId, child->getStringAttribute(paramNameId, "__NO_NAME__"), nullptr);
         
         // In case we don't find a match or no parameter type is supplied in the XML,
         // initialise to the default parameter type

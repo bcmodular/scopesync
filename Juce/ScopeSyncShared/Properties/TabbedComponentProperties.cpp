@@ -80,7 +80,7 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
     // Grab values set in XML
     forEachXmlChildElement(tabbedComponentXML, child)
     {
-             if (child->hasTagName("name"))           name = child->getAllSubText().toLowerCase();
+             if (child->hasTagName("name"))           name = child->getAllSubText();
         else if (child->hasTagName("showdropshadow")) showDropShadow = child->getAllSubText().equalsIgnoreCase("true");
         else if (child->hasTagName("position"))       getPositionFromXml(*child, x, y);
         else if (child->hasTagName("size"))           getSizeFromXml(*child, width, height);
@@ -94,16 +94,16 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
         }
     }
 
-    if (tabbedComponentXML.hasAttribute("lfid")) bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid").toLowerCase();
+    if (tabbedComponentXML.hasAttribute("lfid")) bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid");
 }
 
 void TabbedComponentProperties::getOrientationFromXml(const XmlElement& xml, TabbedButtonBar::Orientation& orientation)
 {
     String orientationString = xml.getAllSubText();
 
-         if (orientationString.toLowerCase() == "bottom") orientation = TabbedButtonBar::TabsAtBottom;
-    else if (orientationString.toLowerCase() == "left")   orientation = TabbedButtonBar::TabsAtLeft;
-    else if (orientationString.toLowerCase() == "right")  orientation = TabbedButtonBar::TabsAtRight;
-    else if (orientationString.toLowerCase() == "top")    orientation = TabbedButtonBar::TabsAtTop;
+         if (orientationString.equalsIgnoreCase("bottom")) orientation = TabbedButtonBar::TabsAtBottom;
+    else if (orientationString.equalsIgnoreCase("left"))   orientation = TabbedButtonBar::TabsAtLeft;
+    else if (orientationString.equalsIgnoreCase("right"))  orientation = TabbedButtonBar::TabsAtRight;
+    else if (orientationString.equalsIgnoreCase("top"))    orientation = TabbedButtonBar::TabsAtTop;
 }
                 
