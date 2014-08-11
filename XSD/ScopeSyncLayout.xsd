@@ -125,6 +125,8 @@
 
     <complexType name="tabbedcomponentcolourstype">
         <all>
+            <element name="outlinecolourid" type="tns:colouridtype" minOccurs="0" maxOccurs="1">
+            </element>
             <element name="backgroundcolourid" type="tns:colouridtype" minOccurs="0"></element>
         </all>
     </complexType>
