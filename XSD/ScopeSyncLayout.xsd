@@ -334,7 +334,7 @@
             <element name="tooltip" type="string" minOccurs="0" maxOccurs="1"></element>
             <element name="position" type="tns:positiontype" minOccurs="0" maxOccurs="1"></element>
             <element name="size" type="tns:sizetype" minOccurs="0" maxOccurs="1"></element>
-            <element name="choosetab" type="tns:choosetabtype" minOccurs="0" maxOccurs="1"></element>
+            <element name="choosetab" type="tns:choosetabtype" minOccurs="0" maxOccurs="unbounded"></element>
         </all>
         <attribute name="lfid" type="string"></attribute>
         <attribute name="radiogroup" type="string"></attribute>
