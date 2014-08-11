@@ -95,14 +95,19 @@ void ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& compon
     ValueTree componentMapping = deviceMapping.getChildWithName(componentTypeId);
 
     if (componentMapping.isValid())
-        mapping = componentMapping.getChildWithProperty(mappingComponentNameId, componentName);
-    else
-        return;
-
-    if (mapping.isValid())
     {
-        String mapTo = mapping.getProperty(mappingMapToId).toString();
-        paramIdx = scopeSync.getParameterIdxByName(mapTo);
+        for (int i = 0; i < componentMapping.getNumChildren(); i++)
+        {
+            String mappedComponentName = componentMapping.getChild(i).getProperty(mappingComponentNameId);
+
+            if (componentName.equalsIgnoreCase(mappedComponentName))
+            {
+                mapping = componentMapping.getChild(i);
+                String mapTo = mapping.getProperty(mappingMapToId).toString();
+                paramIdx = scopeSync.getParameterIdxByName(mapTo);
+                return;
+            }
+        }
     }
 }
 

@@ -1361,6 +1361,7 @@ bool ScopeSync::loadMappingFile(XmlElement& mappingXml)
 
 bool ScopeSync::loadLayoutFile(XmlElement& layoutXml)
 {
+    bool layoutLoaded = false;
     File configurationFile(configurationFilePath.getValue());
     File configurationFileDir = configurationFile.getParentDirectory();
 
@@ -1373,15 +1374,32 @@ bool ScopeSync::loadLayoutFile(XmlElement& layoutXml)
 
     if (loadedLayoutXml != nullptr)
     {
-        layoutXml = *loadedLayoutXml;
+        if (loadedLayoutXml->hasTagName("layout"))
+        {
+            // No XSD validation header
+            layoutXml     = *loadedLayoutXml;
+            layoutLoaded = true;
+        }
+        else
+        {
+            // Look for a layout element at the 2nd level down instead
+            XmlElement* subXml = loadedLayoutXml->getChildByName("layout");
+            
+            if (subXml != nullptr)
+            {
+                layoutXml = *subXml;
+                layoutLoaded = true;
+            }
+        }
     }
-    else
+    
+    if (!layoutLoaded)
     {
         AlertWindow::showMessageBox(AlertWindow::WarningIcon,"Error","Problem reading Configuration's Layout File: " + layoutDocument.getLastParseError());
         return false;
     }
 
-    return true;
+    return layoutLoaded;
 }
 
 const String ScopeSync::systemLookAndFeels =

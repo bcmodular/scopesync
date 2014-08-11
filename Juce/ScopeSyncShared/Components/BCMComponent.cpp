@@ -160,7 +160,7 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
         }
         else
         {
-            AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "No component found for tab: " + String(tabProperties.idx));
+            AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "No component found for tab: " + tabProperties.name);
         }
     }
 }
