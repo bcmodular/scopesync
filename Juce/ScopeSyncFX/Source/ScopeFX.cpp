@@ -115,7 +115,7 @@ void ScopeFX::timerCallback()
 {
     if (windowHandlerDelay == 0)
     {   
-        if (requestWindowShow && !windowShown)
+		if ((requestWindowShow || scopeSync.getSystemError().toString().isNotEmpty()) && !windowShown)
         {
             DBG("ScopeFX::timerCallback - Request to show window");
             showWindow();

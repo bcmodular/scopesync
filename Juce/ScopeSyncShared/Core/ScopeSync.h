@@ -74,7 +74,7 @@ public:
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
     void timerCallback();
-    bool loadConfiguration(bool loadLoader, bool retainState);
+    bool loadConfiguration(bool loadLoader, bool retainState, bool clearSystemErrorMessage);
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
     BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id);
     void clearBCMLookAndFeels();
@@ -124,6 +124,8 @@ public:
     void            storeParameterValues(XmlElement& parameterValues);
     void            restoreParameterValues();
     XmlElement&     getParameterValueStore() { return parameterValueStore; };
+    Value&          getSystemError();
+    void            setSystemError(const String& errorText) { systemError.setValue(errorText); };
      
     /* =========================== Identifiers =============================== */
     static const Identifier paramTypesId;
@@ -196,6 +198,7 @@ private:
     bool loadDeviceParameters(XmlElement& deviceXml);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);
+    void clearSystemError() { systemError.setValue(String::empty); };
     
     /* ===================== Private member variables ========================= */
 #ifndef __DLL_EFFECT__
@@ -238,8 +241,9 @@ private:
     static const StringArray scopeSyncCodes;  // Array of ScopeSync codes for looking up during configuration
     static const StringArray scopeLocalCodes; // Array of ScopeLocal codes for looking up during configuration
     
-    Value         configurationFilePath;     // Full file path for currently loaded configuration
-    Value         configurationName;         // Name of currently loaded configuration
+    Value configurationFilePath; // Full file path for currently loaded configuration
+    Value configurationName;     // Name of currently loaded configuration
+    Value systemError;           // Latest system error text
     
     ApplicationProperties appProperties; // Main application properties
     

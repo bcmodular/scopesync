@@ -132,14 +132,24 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
     }
 }
 
+void ScopeSyncGUI::showSystemError()
+{
+    systemError = new Label("Error", "");
+    systemError->setFont(Font (15.00f, Font::plain));
+    systemError->getTextValue().referTo(scopeSync.getSystemError());
+    systemError->setColour(Label::textColourId, Colours::aliceblue);
+    systemError->setJustificationType(Justification::centredRight);
+    systemError->setEditable(false, false, false);
+    systemError->setBounds(8, 8, 500, 40);
+    addAndMakeVisible(systemError);
+}
+
 void ScopeSyncGUI::createGUI()
 {
     mainComponent = nullptr;
     tabbedComponents.clearQuick();
 
     loadMapping();
-
-    XmlElement* layoutXml = scopeSync.getConfiguration().getChildByName("layout");
     
     scopeSync.clearBCMLookAndFeels();
 
@@ -148,6 +158,18 @@ void ScopeSyncGUI::createGUI()
     ScopedPointer<XmlElement> systemLookAndFeels = scopeSync.getSystemLookAndFeels();
     
     setupLookAndFeels(*systemLookAndFeels, useImageCache);
+
+    XmlElement* layoutXml = scopeSync.getConfiguration().getChildByName("layout");
+    
+    if (layoutXml == nullptr)
+    {
+        scopeSync.setSystemError("No layout found");
+        
+        showSystemError();
+        
+        setSize(600, 50);
+        return;
+    }
 
     // Then override with any layout-specific ones
     XmlElement* child = layoutXml->getChildByName("lookandfeels");
@@ -180,10 +202,15 @@ void ScopeSyncGUI::createGUI()
 
 void ScopeSyncGUI::loadMapping()
 {
+    deviceMapping = ValueTree(mappingId);
+    
     XmlElement* mappingXml = scopeSync.getConfiguration().getChildByName("mapping");
     
-    deviceMapping = ValueTree(mappingId);
-
+    if (mappingXml == nullptr)
+    {
+        return;
+    }
+    
     ValueTree sliderMapping(mappingSliderId);
     ValueTree labelMapping(mappingLabelId);
     ValueTree comboBoxMapping(mappingComboBoxId);

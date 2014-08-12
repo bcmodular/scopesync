@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<parametertypes>
+    <parametertype>
+        <name>0-100%</name>
+        <uisuffix> %</uisuffix>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <uirangemin>0</uirangemin>
+        <uirangemax>100</uirangemax>
+        <uirangeinterval>0.001</uirangeinterval>
+        <uiresetvalue>45</uiresetvalue>
+    </parametertype>
+    <parametertype>
+        <name>Freq (Hz)</name>
+        <uisuffix> Hz</uisuffix>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <uirangemin>0</uirangemin>
+        <uirangemax>24000</uirangemax>
+        <uirangeinterval>0.01</uirangeinterval>
+        <uiskewfactor type="standard">2</uiskewfactor>
+    </parametertype>
+    <parametertype>
+        <name>Env Time (s)</name>
+        <uisuffix></uisuffix>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <uirangemin>0</uirangemin>
+        <uirangemax>2147483647</uirangemax>
+        <uirangeinterval>1</uirangeinterval>
+    </parametertype>
+    <parametertype>
+        <name>MultimodeOsc Wave</name>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <settings>
+            <setting>Sine</setting>
+            <setting>Tri</setting>
+            <setting>Saw Up</setting>
+            <setting>Saw Dn</setting>
+            <setting>Square</setting>
+            <setting>Input</setting>
+        </settings>
+    </parametertype>
+    <parametertype>
+        <name>ON/OFF Toggle</name>
+        <scoperangemin>0</scoperangemin>
+        <scoperangemax>MAX_INT</scoperangemax>
+        <settings>
+            <setting>OFF</setting>
+            <setting>ON</setting>
+        </settings>
+    </parametertype>
+</parametertypes>

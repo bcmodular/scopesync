@@ -66,6 +66,10 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
 
     setText(labelText, dontSendNotification);
     setTooltip(tooltip);
+    
+    if (name.equalsIgnoreCase("SystemError"))
+        getTextValue().referTo(gui.getScopeSync().getSystemError());
+
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));
 

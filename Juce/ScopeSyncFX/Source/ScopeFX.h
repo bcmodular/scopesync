@@ -67,11 +67,11 @@ public:
 private:	
     // Initialise member variables
     void initValues();
-    
+   
     // Show the ScopeSync GUI window
     void showWindow();
 
-    // Handle the Timer callback and trigger callbacks in
+	// Handle the Timer callback and trigger callbacks in
     // ScopeSync and ScopeFXGUI. Handles window resizing and location.
     void timerCallback();
 

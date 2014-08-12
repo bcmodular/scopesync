@@ -133,7 +133,7 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-    loadConfiguration(true, false);
+    loadConfiguration(true, false, true);
     configurationFilePath.addListener(this);
 }
 
@@ -341,7 +341,7 @@ void ScopeSync::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(configurationFilePath))
     {
-        loadConfiguration(false, retainParameterState);
+        loadConfiguration(false, retainParameterState, true);
     }
 }
 
@@ -779,6 +779,11 @@ Value& ScopeSync::getConfigurationFilePath()
     return configurationFilePath;
 };
 
+Value& ScopeSync::getSystemError()
+{
+    return systemError;
+};
+
 void ScopeSync::setConfigurationFilePath(const String& newFilePath, bool retainState)
 { 
     configurationFilePath = newFilePath;
@@ -818,13 +823,17 @@ XmlElement* ScopeSync::getSystemLookAndFeels()
     return lookAndFeelsElement;
 }
 
-bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState)
+bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState, bool clearSystemErrorMessage)
 {
     setConfigurationLoading(true);
     numParameters = 0;
-        
+    
+    if (clearSystemErrorMessage)
+        clearSystemError();
+
     if (!loadSystemParameterTypes())
     {
+        setSystemError("Failed to load system parameter types");
         setConfigurationLoading(false);
         return false;
     }
@@ -844,8 +853,9 @@ bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState)
 
         if (!(configurationFile.existsAsFile()))
         {
-            AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "Configuration file not found");
+            setSystemError("Configuration file not found");
             setConfigurationLoading(false);
+            loadConfiguration(true, false, false);
             return false;
         }
     
@@ -1474,7 +1484,14 @@ const String ScopeSync::systemLookAndFeels =
 "            </textbutton>\n"
 "        </images>\n"
 "    </lookandfeel>\n"
-"</lookandfeels>\n";
+"    <lookandfeel id=\"system:systemerror\">\n"
+"        <colours>\n"
+"            <label>\n"
+"                <textcolourid>fffe9ddb</textcolourid>\n"
+"            </label>\n"
+"        </colours>\n"
+"    </lookandfeel>\n"
+"</lookandfeels>";
 
 const String ScopeSync::systemParameterTypes =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
@@ -1545,7 +1562,8 @@ const String ScopeSync::loaderConfiguration =
 "    </parameter>\n"
 "  </device>\n"
 "  <mapping>\n"
-"    <textbutton name=\"B69\"><parameter name=\"PARAM132\" settingdown=\"ON\" settingup=\"OFF\" type=\"notoggle\"/>\n"
+"    <textbutton name=\"B69\">\n"
+"      <parameter name=\"PARAM132\" settingdown=\"ON\" settingup=\"OFF\" type=\"notoggle\"/>\n"
 "    </textbutton>\n"
 "  </mapping>\n"
 "  <layout>\n"
@@ -1556,14 +1574,14 @@ const String ScopeSync::loaderConfiguration =
 "        <y>0</y>\n"
 "      </position>\n"
 "      <size>\n"
-"        <width>250</width>\n"
+"        <width>600</width>\n"
 "        <height>40</height>\n"
 "      </size>\n"
 "      <textbutton lfid=\"system:load_config_button\" displaycontext=\"host\">\n"
 "        <name>chooseconfiguration</name>\n"
 "        <tooltip>Load New Configuration</tooltip>\n"
 "        <position>\n"
-"          <x>210</x>\n"
+"          <x>170</x>\n"
 "          <y>10</y>\n"
 "        </position>\n"
 "        <size>\n"
@@ -1575,7 +1593,7 @@ const String ScopeSync::loaderConfiguration =
 "        <name>B69</name>\n"
 "        <tooltip>Load New Configuration</tooltip>\n"
 "        <position>\n"
-"          <x>210</x>\n"
+"          <x>170</x>\n"
 "          <y>10</y>\n"
 "        </position>\n"
 "        <size>\n"
@@ -1595,6 +1613,19 @@ const String ScopeSync::loaderConfiguration =
 "          <height>16</height>\n"
 "        </size>\n"
 "      </component>\n"
+"      <label lfid=\"system:systemerror\">\n"
+"        <name>SystemError</name>\n"
+"        <text> </text>\n"
+"        <justification right=\"true\"/>\n"
+"        <position>\n"
+"          <x>200</x>\n"
+"          <y>10</y>\n"
+"        </position>\n"
+"        <size>\n"
+"          <width>400</width>\n"
+"          <height>20</height>\n"
+"        </size>\n"
+"      </label>\n"
 "    </component>\n"
 "  </layout>\n"
-"</configuration>\n";
+"</configuration>";

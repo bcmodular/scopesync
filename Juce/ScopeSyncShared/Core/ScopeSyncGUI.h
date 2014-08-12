@@ -108,10 +108,12 @@ private:
     void setupDefaults(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback();
+    void showSystemError();
 
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;
+    ScopedPointer<Label>        systemError;
     
     ScopeSync&    scopeSync;
     ValueTree     deviceMapping;

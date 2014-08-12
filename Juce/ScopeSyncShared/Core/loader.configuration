@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <device>
+    <parameter name="PARAM132">
+      <shortdescription>Param 132</shortdescription>
+      <fulldescription>Load New Configuration</fulldescription>
+      <parametertype name="ON/OFF Toggle"/>
+      <scopelocal>Z8</scopelocal>
+    </parameter>
+  </device>
+  <mapping>
+    <textbutton name="B69">
+      <parameter name="PARAM132" settingdown="ON" settingup="OFF" type="notoggle"/>
+    </textbutton>
+  </mapping>
+  <layout>
+    <component>
+      <backgroundcolour>ff2b2e30</backgroundcolour>
+      <position>
+        <x>0</x>
+        <y>0</y>
+      </position>
+      <size>
+        <width>600</width>
+        <height>40</height>
+      </size>
+      <textbutton lfid="system:load_config_button" displaycontext="host">
+        <name>chooseconfiguration</name>
+        <tooltip>Load New Configuration</tooltip>
+        <position>
+          <x>170</x>
+          <y>10</y>
+        </position>
+        <size>
+          <width>21</width>
+          <height>21</height>
+        </size>
+      </textbutton>
+      <textbutton lfid="system:load_config_button" displaycontext="scope">
+        <name>B69</name>
+        <tooltip>Load New Configuration</tooltip>
+        <position>
+          <x>170</x>
+          <y>10</y>
+        </position>
+        <size>
+          <width>21</width>
+          <height>21</height>
+        </size>
+      </textbutton>
+      <component>
+        <backgroundcolour>00000000</backgroundcolour>
+        <backgroundimage>scopeSyncLogo</backgroundimage>
+        <position>
+          <x>10</x>
+          <y>12</y>
+        </position>
+        <size>
+          <width>151</width>
+          <height>16</height>
+        </size>
+      </component>
+      <label lfid="system:systemerror">
+        <name>SystemError</name>
+        <text> </text>
+        <justification right="true"/>
+        <position>
+          <x>200</x>
+          <y>10</y>
+        </position>
+        <size>
+          <width>400</width>
+          <height>20</height>
+        </size>
+      </label>
+    </component>
+  </layout>
+</configuration>

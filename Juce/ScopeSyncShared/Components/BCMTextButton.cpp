@@ -228,7 +228,10 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
     );
 }
 
-BCMTextButton::~BCMTextButton() {};
+BCMTextButton::~BCMTextButton()
+{
+    stopTimer();
+};
 
 void BCMTextButton::switchToTabs()
 {
@@ -319,8 +322,6 @@ void BCMTextButton::clicked()
             if (!(scopeSyncGUI.getScopeSync().configurationIsLoading()))
             {
                 scopeSyncGUI.chooseConfiguration();
-                clicksBlocked = true;
-                startTimer(clickBlockDuration);
             }
         }
         else if (getName() == "reloadconfiguration")
@@ -328,7 +329,7 @@ void BCMTextButton::clicked()
             if (!(scopeSyncGUI.getScopeSync().configurationIsLoading()))
             {
                 scopeSyncGUI.getScopeSync().storeParameterValues();    
-                scopeSyncGUI.getScopeSync().loadConfiguration(false, true);
+                scopeSyncGUI.getScopeSync().loadConfiguration(false, true, true);
                 clicksBlocked = true;
                 startTimer(clickBlockDuration);
             }

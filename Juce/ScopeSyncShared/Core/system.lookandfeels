@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lookandfeels>
+    <lookandfeel id="system:default">
+        <colours>
+            <textbutton>
+                <textcolouroffid>00ffffff</textcolouroffid>
+                <textcolouronid>00ff0000</textcolouronid>
+                <buttoncolourid>00ff0000</buttoncolourid>
+            </textbutton>
+        </colours>
+    </lookandfeel>
+    <lookandfeel id="system:snapshot_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>snapshotOff</upfilename>
+                <downfilename>snapshotOn</downfilename>
+                <mouseoverupfilename>snapshotOff</mouseoverupfilename>
+                <mouseoverdownfilename>snapshotOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:settings_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>settingsButtonOff</upfilename>
+                <downfilename>settingsButtonOn</downfilename>
+                <mouseoverupfilename>settingsButtonOff</mouseoverupfilename>
+                <mouseoverdownfilename>settingsButtonOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:load_config_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>loadConfigButtonOff</upfilename>
+                <downfilename>loadConfigButtonOn</downfilename>
+                <mouseoverupfilename>loadConfigButtonOff</mouseoverupfilename>
+                <mouseoverdownfilename>loadConfigButtonOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:reload_config_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>reloadConfigButtonOff</upfilename>
+                <downfilename>reloadConfigButtonOn</downfilename>
+                <mouseoverupfilename>reloadConfigButtonOff</mouseoverupfilename>
+                <mouseoverdownfilename>reloadConfigButtonOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:patch_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>patchWindowButtonOff</upfilename>
+                <downfilename>patchWindowButtonOn</downfilename>
+                <mouseoverupfilename>patchWindowButtonOff</mouseoverupfilename>
+                <mouseoverdownfilename>patchWindowButtonOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:presets_button" parentid="system:default">
+        <images>
+            <textbutton>
+                <upfilename>presetsButtonOff</upfilename>
+                <downfilename>presetsButtonOn</downfilename>
+                <mouseoverupfilename>presetsButtonOff</mouseoverupfilename>
+                <mouseoverdownfilename>presetsButtonOn</mouseoverdownfilename>
+            </textbutton>
+        </images>
+    </lookandfeel>
+    <lookandfeel id="system:systemerror">
+        <colours>
+            <label>
+                <textcolourid>fffe9ddb</textcolourid>
+            </label>
+        </colours>
+    </lookandfeel>
+</lookandfeels>
