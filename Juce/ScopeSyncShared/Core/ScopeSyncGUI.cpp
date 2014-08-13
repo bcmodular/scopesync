@@ -263,8 +263,8 @@ void ScopeSyncGUI::loadMapping()
             String settingUp = parameter->getStringAttribute(mappingSettingUpId, "__NO_SETTING__");
             mappingComponent.setProperty(mappingSettingUpId, settingUp, nullptr);
 
-            String radioGroupString = parameter->getStringAttribute(mappingRadioGroupId, "__NO_SETTING__").toLowerCase();
-            if (radioGroupString.equalsIgnoreCase("__NO_SETTING__")) mappingComponent.setProperty(mappingRadioGroupId, radioGroupString.hashCode(), nullptr);            
+            String radioGroupString = parameter->getStringAttribute(mappingRadioGroupId, "__no_setting__").toLowerCase();
+            if (radioGroupString != "__no_setting__") mappingComponent.setProperty(mappingRadioGroupId, radioGroupString.hashCode(), nullptr);            
             
             textButtonMapping.addChild(mappingComponent, -1, nullptr);
         }
