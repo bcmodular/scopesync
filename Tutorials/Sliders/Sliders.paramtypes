@@ -3,7 +3,7 @@
     <parametertype>
         <name>bipolar%</name>
         <uisuffix> %</uisuffix>
-        <scoperangemin>0</scoperangemin>
+        <scoperangemin>MIN_INT</scoperangemin>
         <scoperangemax>MAX_INT</scoperangemax>
         <uirangemin>-100</uirangemin>
         <uirangemax>100</uirangemax>
