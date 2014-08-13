@@ -8,8 +8,6 @@ ScopeSync is a set of tools providing the following:
 - BC Modular module making this same feature set available to end users building modular patches using Sonic|Core's Modular device
 - Max For Live external object that exposes the ScopeSync communication method, along with a set of example Max For Live patches
 
-Full details (work in progress!) of how to use the ScopeSync tools can be found here: [BCModular Wiki](http://bcmodular.wikispaces.com/ScopeSync)
-
 ### Authors and Contributors
 Main authors: @bcsharc, @wellis and @jssbrandt
 
