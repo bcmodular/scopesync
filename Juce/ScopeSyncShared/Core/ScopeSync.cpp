@@ -74,33 +74,25 @@ Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
 
-const Identifier ScopeSync::paramTypesId                       = "parametertypes";
-const Identifier ScopeSync::paramTypeId                        = "parametertype";
-const Identifier ScopeSync::paramTypeNameId                    = "name";
-const Identifier ScopeSync::paramTypeValueTypeId               = "valuetype";
-const Identifier ScopeSync::paramTypeUISuffixId                = "uisuffix";
-const Identifier ScopeSync::paramTypeUIRangeMinId              = "uirangemin";
-const Identifier ScopeSync::paramTypeUIRangeMaxId              = "uirangemax";
-const Identifier ScopeSync::paramTypeUIRangeIntervalId         = "uirangeinterval";
-const Identifier ScopeSync::paramTypeUIResetValueId            = "uiresetvalue";
-const Identifier ScopeSync::paramTypeUISkewFactorId            = "uiskewfactor";
-const Identifier ScopeSync::paramTypeUISkewFactorTypeId        = "uiskewfactortype";
-//const Identifier ScopeSync::paramTypeUISkewFactorInvertedId    = "uiskewfactorinverted";
-const Identifier ScopeSync::paramTypeHostSkewFactorId          = "hostskewfactor";
-const Identifier ScopeSync::paramTypeHostSkewMidPointId        = "hostskewmidpoint";
-const Identifier ScopeSync::paramTypeHostSkewFactorTypeId      = "hostskewfactortype";
-const Identifier ScopeSync::paramTypeHostSkewFactorInvertedId  = "hostskewfactorinverted";
-const Identifier ScopeSync::paramTypeScopeRangeMinId           = "scoperangemin";
-const Identifier ScopeSync::paramTypeScopeRangeMaxId           = "scoperangemax";
-const Identifier ScopeSync::paramTypeScopeRangeMinFltId        = "scoperangeminflt";
-const Identifier ScopeSync::paramTypeScopeRangeMaxFltId        = "scoperangemaxflt";
-//const Identifier ScopeSync::paramTypeScopeSkewFactorId         = "scopeskewfactor";
-//const Identifier ScopeSync::paramTypeScopeSkewFactorTypeId     = "scopeskewfactortype";
-//const Identifier ScopeSync::paramTypeScopeSkewFactorInvertedId = "scopeskewfactorinverted";
-const Identifier ScopeSync::paramTypeSettingsId                = "settings";
-const Identifier ScopeSync::paramTypeSettingId                 = "setting";
-const Identifier ScopeSync::paramTypeSettingNameId             = "name";
-const Identifier ScopeSync::paramTypeSettingValueId            = "value";
+const Identifier ScopeSync::paramTypesId                = "parametertypes";
+const Identifier ScopeSync::paramTypeId                 = "parametertype";
+const Identifier ScopeSync::paramTypeNameId             = "name";
+const Identifier ScopeSync::paramTypeValueTypeId        = "valuetype";
+const Identifier ScopeSync::paramTypeUISuffixId         = "uisuffix";
+const Identifier ScopeSync::paramTypeUIRangeMinId       = "uirangemin";
+const Identifier ScopeSync::paramTypeUIRangeMaxId       = "uirangemax";
+const Identifier ScopeSync::paramTypeUIRangeIntervalId  = "uirangeinterval";
+const Identifier ScopeSync::paramTypeUIResetValueId     = "uiresetvalue";
+const Identifier ScopeSync::paramTypeUISkewFactorId     = "uiskewfactor";
+const Identifier ScopeSync::paramTypeSkewUIOnlyId       = "skewuionly";
+const Identifier ScopeSync::paramTypeScopeRangeMinId    = "scoperangemin";
+const Identifier ScopeSync::paramTypeScopeRangeMaxId    = "scoperangemax";
+const Identifier ScopeSync::paramTypeScopeRangeMinFltId = "scoperangeminflt";
+const Identifier ScopeSync::paramTypeScopeRangeMaxFltId = "scoperangemaxflt";
+const Identifier ScopeSync::paramTypeSettingsId         = "settings";
+const Identifier ScopeSync::paramTypeSettingId          = "setting";
+const Identifier ScopeSync::paramTypeSettingNameId      = "name";
+const Identifier ScopeSync::paramTypeSettingValueId     = "value";
                                                            
 const Identifier ScopeSync::deviceId          = "device";
 const Identifier ScopeSync::paramId           = "parameter";
@@ -124,7 +116,6 @@ ScopeSync::ScopeSync(PluginProcessor* owner) : parameterValueStore("parameterval
     configurationLoading = true;
     pluginProcessor = owner;
     initialise();
-    //skEWNitTest();
 }
 #else
 ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues"), configurationXml("configuration")
@@ -203,7 +194,7 @@ void ScopeSync::receiveUpdatesFromScopeAudio()
                 float oldHostValue = getParameterHostValue(paramIdx);
                 float newHostValue = convertScopeFltToHostValue(paramIdx, newScopeValue);
                 
-                float unskewedHostValue = skewHostValue(paramIdx, newHostValue, false);
+                float unskewedHostValue = skewHostValue(paramIdx, newHostValue, true);
 
                 if (unskewedHostValue != oldHostValue)
                 {
@@ -388,19 +379,37 @@ float ScopeSync::getParameterHostValue(int index)
 String ScopeSync::getParameterText(int index)
 {
     ValueTree parameter = deviceParameters.getChild(index);
-
+    
     if (parameter.isValid())
     {
-        float value     = deviceParameters.getChild(index).getProperty(paramUIValueId);
-        String uiSuffix = String::empty;
-
+        float     value         = deviceParameters.getChild(index).getProperty(paramUIValueId);
+        String    uiSuffix      = String::empty;
         ValueTree parameterType = parameter.getChildWithName(paramTypeId);
         
-        if (parameterType.isValid() && parameterType.hasProperty(paramTypeUISuffixId))
+        if (parameterType.isValid())
         {
-            uiSuffix = parameterType.getProperty(paramTypeUISuffixId);
-        }
+            int parameterValueType = parameterType.getProperty(paramTypeValueTypeId);
 
+            if (parameterValueType == discrete)
+            {
+                ValueTree paramSettings = parameterType.getChildWithName(paramTypeSettingsId);
+
+                if (paramSettings.isValid())
+                {
+                    int settingIdx = roundDoubleToInt(value);
+                    String settingName = paramSettings.getChild(settingIdx).getProperty(paramTypeSettingNameId);
+                    
+                    if (settingName.isNotEmpty())
+                        return settingName;
+                }
+            }
+
+            if (parameterType.hasProperty(paramTypeUISuffixId))
+            {
+                uiSuffix = parameterType.getProperty(paramTypeUISuffixId);
+            }
+        }
+        
         return String(value) + uiSuffix;
     }
     else
@@ -456,7 +465,7 @@ void ScopeSync::getParameterNameForHost(int index, String& parameterName)
 
 void ScopeSync::setParameterFromHost(int index, float newHostValue)
 {
-    float skewedHostValue = skewHostValue(index, newHostValue, true);
+    float skewedHostValue = skewHostValue(index, newHostValue, false);
     
     float newUIValue = convertHostToUIValue(index, skewedHostValue);
 
@@ -468,7 +477,7 @@ void ScopeSync::setParameterFromHost(int index, float newHostValue)
 #endif // __DLL_EFFECT__
 }
 
-double ScopeSync::skewHostValue(int paramIdx, float hostValue, bool invert)
+float ScopeSync::skewHostValue(int paramIdx, float hostValue, bool invert)
 {
     double skewedValue = hostValue;
 
@@ -478,24 +487,21 @@ double ScopeSync::skewHostValue(int paramIdx, float hostValue, bool invert)
     {
         ValueTree parameterType = parameter.getChildWithName(paramTypeId);
 
-        if (parameterType.isValid() && parameterType.hasProperty(paramTypeHostSkewFactorId))
+        if (parameterType.isValid() && parameterType.hasProperty(paramTypeUISkewFactorId) && !(parameterType.getProperty(paramTypeSkewUIOnlyId)))
         {
-            double skewFactor = parameterType.getProperty(paramTypeHostSkewFactorId);
-            
-            if (parameterType.getProperty(paramTypeHostSkewFactorInvertedId, false))
-                invert = !invert;
-
+            double skewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
+           
             skewValue(skewedValue, skewFactor, 0.0f, 1.0f, invert);
         }
     }
 
-    return skewedValue;
+    return (float)skewedValue;
 }
 
 void ScopeSync::setParameterFromGUI(int index, float newValue)
 {
     float newHostValue = convertUIToHostValue(index, newValue);
-    float unskewedHostValue = skewHostValue(index, newHostValue, false);
+    float unskewedHostValue = skewHostValue(index, newHostValue, true);
     
     setParameterValues(index, unskewedHostValue, newValue);
     
@@ -639,9 +645,9 @@ bool ScopeSync::getParameterUIResetValue(int paramIdx, double& uiResetValue)
     return foundValue;
 }
 
-bool ScopeSync::getParameterUISkewFactor(int paramIdx, String& uiSkewFactorType, double& uiSkewFactor)
+bool ScopeSync::getParameterUISkewFactor(int paramIdx, double& uiSkewFactor)
 {
-    bool foundValue = false;
+    bool      foundValue = false;
     ValueTree parameter = deviceParameters.getChild(paramIdx);
     
     if (parameter.isValid())
@@ -652,8 +658,7 @@ bool ScopeSync::getParameterUISkewFactor(int paramIdx, String& uiSkewFactorType,
         {
             if (parameterType.hasProperty(paramTypeUISkewFactorId))
             {
-                uiSkewFactorType = parameterType.getProperty(paramTypeUISkewFactorTypeId, uiSkewFactorType);
-                uiSkewFactor     = parameterType.getProperty(paramTypeUISkewFactorId);
+                uiSkewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
                 foundValue = true;
             }
         }
@@ -1194,98 +1199,91 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
             float fltValue = child->getAllSubText().getFloatValue();
             parameterType.setProperty(xmlId, fltValue, nullptr);
         }
-        else if
-            (
-                xmlId == paramTypeUISkewFactorId
-             || xmlId == paramTypeHostSkewFactorId
-             //|| xmlId == paramTypeScopeSkewFactorId
-            )
-        {
-            readSkewFactorXml(xmlId, *child, parameterType);
-        }
-        else if (xmlId == paramTypeSettingsId)
-        {
-            // Remove any existing settings, in case we're overriding from the main parameter type
-            parameterType.removeChild(parameterType.getChildWithName(paramTypeSettingsId), nullptr);
+
+    }
+
+    XmlElement* skewFactor = xml.getChildByName(paramTypeUISkewFactorId);
+    
+    if (skewFactor != nullptr)
+    {
+        float uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
+        float uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        readUISkewFactorXml(*skewFactor, parameterType, uiMinValue, uiMaxValue);
+    }
+     
+    XmlElement* paramSettings = xml.getChildByName(paramTypeSettingsId);
+    if (paramSettings != nullptr)
+    {
+        // Remove any existing settings, in case we're overriding from the main parameter type
+        parameterType.removeChild(parameterType.getChildWithName(paramTypeSettingsId), nullptr);
                 
-            ValueTree parameterSettings(paramTypeSettingsId);
+        ValueTree parameterSettings(paramTypeSettingsId);
 
-            int numSettings = 0;
+        int numSettings = 0;
 
-            // Need to find out how many settings we have, so we can calculate the
-            // automatic values below
-            forEachXmlChildElementWithTagName(*child, subChild, paramTypeSettingId)
+        // Need to find out how many settings we have, so we can calculate the
+        // automatic values below
+        forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, paramTypeSettingId)
+        {
+            numSettings++;
+        }
+
+        if (numSettings > 0)
+        {
+            float uiRangeMax = (float)numSettings - 1.0f;
+
+            parameterType.setProperty(paramTypeUIRangeMinId, 0.0f, nullptr);
+            parameterType.setProperty(paramTypeUIRangeMaxId, uiRangeMax, nullptr);
+
+            int settingCounter = 0;
+
+            parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
+
+            forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, paramTypeSettingId)
             {
-                numSettings++;
+                ValueTree parameterSetting(paramTypeSettingId);
+
+                String    settingName = paramSettingXml->getAllSubText();
+                parameterSetting.setProperty(paramTypeSettingNameId, settingName, nullptr);
+
+                float autoSettingValue = (float)scaleDouble(0, numSettings - 1, 0, 1, settingCounter);
+                float settingValue = (float)(paramSettingXml->getDoubleAttribute(paramTypeSettingValueId, autoSettingValue));
+                parameterSetting.setProperty(paramTypeSettingValueId, settingValue, nullptr);
+
+                parameterSettings.addChild(parameterSetting, -1, nullptr);
+                settingCounter++;
             }
 
-            if (numSettings > 0)
-            {
-                float uiRangeMax = (float)numSettings - 1.0f;
+            parameterType.setProperty(ScopeSync::paramTypeUIRangeMinId, 0, nullptr);
+            parameterType.setProperty(ScopeSync::paramTypeUIRangeMaxId, settingCounter - 1, nullptr);
 
-                parameterType.setProperty(paramTypeUIRangeMinId, 0.0f, nullptr);
-                parameterType.setProperty(paramTypeUIRangeMaxId, uiRangeMax, nullptr);
-
-                int settingCounter = 0;
-
-                parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
-
-                forEachXmlChildElementWithTagName(*child, subChild, paramTypeSettingId)
-                {
-                    ValueTree parameterSetting(paramTypeSettingId);
-
-                    String    settingName = subChild->getAllSubText();
-                    parameterSetting.setProperty(paramTypeSettingNameId, settingName, nullptr);
-
-                    float autoSettingValue = (float)scaleDouble(0, numSettings - 1, 0, 1, settingCounter);
-                    float settingValue = (float)(subChild->getDoubleAttribute(paramTypeSettingValueId, autoSettingValue));
-                    parameterSetting.setProperty(paramTypeSettingValueId, settingValue, nullptr);
-
-                    parameterSettings.addChild(parameterSetting, -1, nullptr);
-                    settingCounter++;
-                }
-
-                parameterType.setProperty(ScopeSync::paramTypeUIRangeMinId, 0, nullptr);
-                parameterType.setProperty(ScopeSync::paramTypeUIRangeMaxId, settingCounter - 1, nullptr);
-
-                parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
-                parameterType.addChild(parameterSettings, -1, nullptr);
-            }
-            else
-            {
-                // In this case, i.e. we have an empty "settings" element, set the parameter type
-                // as being "continuous" instead of "discrete"
-                parameterType.setProperty(paramTypeValueTypeId, continuous, nullptr);
-            }
+            parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
+            parameterType.addChild(parameterSettings, -1, nullptr);
+        }
+        else
+        {
+            // In this case, i.e. we have an empty "settings" element, set the parameter type
+            // as being "continuous" instead of "discrete"
+            parameterType.setProperty(paramTypeValueTypeId, continuous, nullptr);
         }
     }
 }
 
-void ScopeSync::readSkewFactorXml(const Identifier& xmlId, const XmlElement& child, ValueTree& parameterType)
+void ScopeSync::readUISkewFactorXml(const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue)
 {
-    String skewFactorType = child.getStringAttribute("type", "standard");
+    String skewFactorType = xml.getStringAttribute("type", "standard");
     double skewFactor = 1.0f;
     
-    if (xmlId == paramTypeUISkewFactorId)
-    {
-        parameterType.setProperty(paramTypeUISkewFactorTypeId, skewFactorType, nullptr);
-        skewFactor = child.getAllSubText().getDoubleValue();
-    }
-    else if (xmlId == paramTypeHostSkewFactorId)
-    {
-        parameterType.setProperty(paramTypeHostSkewFactorTypeId, skewFactorType, nullptr);
-        parameterType.setProperty(paramTypeHostSkewFactorInvertedId, child.getBoolAttribute("invert", false), nullptr);
-        
-        skewFactor = child.getAllSubText().getDoubleValue();
+    String skewFactorText = xml.getAllSubText();
 
-        if (skewFactorType == "frommidpoint")
-        {
-            parameterType.setProperty(paramTypeHostSkewMidPointId, skewFactor, nullptr);
-            skewFactor = log(0.5) / log(skewFactor);
-        }
-    }
+    if (skewFactorText.isNotEmpty())
+        skewFactor = skewFactorText.getDoubleValue();
     
-    parameterType.setProperty(xmlId, skewFactor, nullptr);
+    if (skewFactorType == "frommidpoint")
+        skewFactor = log(0.5) / log((skewFactor - uiMinValue) / (uiMaxValue - uiMinValue));
+    
+    parameterType.setProperty(paramTypeUISkewFactorId, skewFactor, nullptr);
+    parameterType.setProperty(paramTypeSkewUIOnlyId, xml.getBoolAttribute("uionly", false), nullptr);
 }
 
 bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)

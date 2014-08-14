@@ -109,7 +109,7 @@ public:
     void   getParameterDescriptions(int paramIdx, String& shortDesc, String& fullDesc);
     void   getParameterUIRanges(int paramIdx, double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
     bool   getParameterUIResetValue(int paramIdx, double& uiResetValue);
-    bool   getParameterUISkewFactor(int paramIdx, String& uiSkewFactorType, double& uiSkewFactor);
+    bool   getParameterUISkewFactor(int paramIdx, double& uiSkewFactor);
 
     /* =================== Public Configuration Methods ====================== */
     Value&          getConfigurationName();
@@ -142,19 +142,11 @@ public:
     static const Identifier paramTypeUIRangeIntervalId;
     static const Identifier paramTypeUIResetValueId;
     static const Identifier paramTypeUISkewFactorId;
-    static const Identifier paramTypeUISkewFactorTypeId;
-//    static const Identifier paramTypeUISkewFactorInvertedId;
-    static const Identifier paramTypeHostSkewFactorId;
-    static const Identifier paramTypeHostSkewMidPointId;
-    static const Identifier paramTypeHostSkewFactorTypeId;
-    static const Identifier paramTypeHostSkewFactorInvertedId;
+    static const Identifier paramTypeSkewUIOnlyId;
     static const Identifier paramTypeScopeRangeMinId;
     static const Identifier paramTypeScopeRangeMaxId;
     static const Identifier paramTypeScopeRangeMinFltId;
     static const Identifier paramTypeScopeRangeMaxFltId;
-//    static const Identifier paramTypeScopeSkewFactorId;
-//    static const Identifier paramTypeScopeSkewFactorTypeId;
-//    static const Identifier paramTypeScopeSkewFactorInvertedId;
     static const Identifier paramTypeSettingsId;
     static const Identifier paramTypeSettingId;
     static const Identifier paramTypeSettingNameId;
@@ -191,21 +183,21 @@ private:
     void valueChanged(Value& valueThatChanged);
 
     /* ====================== Private Parameter Methods ======================= */
-    void   setParameterValues(int index, float newHostValue, float newUIValue);
-    float  convertUIToHostValue(int paramIdx, float value);
-    float  convertHostToUIValue(int paramIdx, float value);
-    float  convertScopeFltToHostValue(int paramIdx, float value);
-    float  convertScopeIntToHostValue(int paramIdx, int value);
-    float  convertHostToScopeFltValue(int paramIdx, float value);
-    int    convertHostToScopeIntValue(int paramIdx, float value);
-    int    findNearestParameterSetting(const ValueTree& settings, float value);
-    double skewHostValue(int paramIdx, float hostValue, bool invert);
+    void  setParameterValues(int index, float newHostValue, float newUIValue);
+    float convertUIToHostValue(int paramIdx, float value);
+    float convertHostToUIValue(int paramIdx, float value);
+    float convertScopeFltToHostValue(int paramIdx, float value);
+    float convertScopeIntToHostValue(int paramIdx, int value);
+    float convertHostToScopeFltValue(int paramIdx, float value);
+    int   convertHostToScopeIntValue(int paramIdx, float value);
+    int   findNearestParameterSetting(const ValueTree& settings, float value);
+    float skewHostValue(int paramIdx, float hostValue, bool invert);
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml);
     void getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterType);
-    void readSkewFactorXml(const Identifier& xmlId, const XmlElement& child, ValueTree& parameterType);
+    void readUISkewFactorXml(const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue);
     bool loadDeviceParameters(XmlElement& deviceXml);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);

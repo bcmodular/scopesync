@@ -114,15 +114,11 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
             if (gui.getScopeSync().getParameterUIResetValue(paramIdx, uiResetValue))
                 setDoubleClickReturnValue(true, uiResetValue);
 
-            String uiSkewFactorType = String::empty;
             double uiSkewFactor = 0.0f;
 
-            if (gui.getScopeSync().getParameterUISkewFactor(paramIdx, uiSkewFactorType, uiSkewFactor))
+            if (gui.getScopeSync().getParameterUISkewFactor(paramIdx, uiSkewFactor))
             {
-                if (uiSkewFactorType == "frommidpoint" && uiSkewFactor >= rangeMin && uiSkewFactor <= rangeMax)
-                    setSkewFactorFromMidPoint(uiSkewFactor);
-                else if (uiSkewFactor > 0.0f)
-                    setSkewFactor(uiSkewFactor);
+                setSkewFactor(uiSkewFactor);
             }
         }
 

@@ -65,7 +65,7 @@ namespace BCMMath
         
         if (skewFactor != 1.0)
         {
-            if (!invert)
+            if (invert)
             {
                 const double normalisedValue = (valueToSkew - minValue) / (maxValue - minValue);
                 DBG("BCMMath::skewValue - normalisedValue: " + String(normalisedValue));
@@ -81,19 +81,6 @@ namespace BCMMath
             }
         }
     }
-
-//    inline void skEWNitTest()
-//    {
-//        DBG("skEWNitTest");
-//        DBG("===========");
-//        double valueToSkew = 2000.;
-//        skewValue(valueToSkew, 0.2998514913, 20, 20000, false);
-//        skewValue(valueToSkew, 0.2998514913, 20, 20000, true);
-//    
-//        valueToSkew = 600.;
-//        skewValue(valueToSkew, 0.2998514913, -500, 20000, false);
-//        skewValue(valueToSkew, 0.2998514913, -500, 20000, true); 
-//    }
 };
 
 #ifndef __BCMMATH_HEADER_NO_NAMESPACE__
