@@ -87,28 +87,29 @@ public:
     // have different parameter counts.
     int   getNumParametersForHost();
 
-    int   getNumParameters();
-    float getParameterHostValue(int index);
-    int   getParameterScopeIntValue(int index);
-    int   getParameterIdxByName(String& name);
-    int   getParameterIdxFromScopeCode(int scopeCode);
-    void  getParameterNameForHost(int index, String& parameterName);
-    void  setParameterFromHost(int index, float newValue);
-    void  setParameterFromGUI(int index, float newValue);
-    void  handleScopeSyncAsyncUpdate(Array<int>& asyncValues);
-    void  createSnapshot();
-    void  getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
+    int    getNumParameters();
+    float  getParameterHostValue(int index);
+    String getParameterText(int index);
+    int    getParameterScopeIntValue(int index);
+    int    getParameterIdxByName(String& name);
+    int    getParameterIdxFromScopeCode(int scopeCode);
+    void   getParameterNameForHost(int index, String& parameterName);
+    void   setParameterFromHost(int index, float newValue);
+    void   setParameterFromGUI(int index, float newValue);
+    void   handleScopeSyncAsyncUpdate(Array<int>& asyncValues);
+    void   createSnapshot();
+    void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
-    void  setAffectedByUI(int paramIdx, bool isAffected);
-    bool  isAffectedByUI(int paramIdx);
-    int   getScopeSyncId(int paramIdx);
-    int   getScopeLocalId(int paramIdx);
-    void  getParameterSettings(int paramIdx, ValueTree& settings);
-    void  mapToParameterUIValue(int paramIdx, Value& valueToMapTo);
-    void  getParameterDescriptions(int paramIdx, String& shortDesc, String& fullDesc);
-    void  getParameterUIRanges(int paramIdx, double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
-    bool  getParameterUIResetValue(int paramIdx, double& uiResetValue);
-    bool  getParameterUISkewFactor(int paramIdx, String& uiSkewFactorType, double& uiSkewFactor);
+    void   setAffectedByUI(int paramIdx, bool isAffected);
+    bool   isAffectedByUI(int paramIdx);
+    int    getScopeSyncId(int paramIdx);
+    int    getScopeLocalId(int paramIdx);
+    void   getParameterSettings(int paramIdx, ValueTree& settings);
+    void   mapToParameterUIValue(int paramIdx, Value& valueToMapTo);
+    void   getParameterDescriptions(int paramIdx, String& shortDesc, String& fullDesc);
+    void   getParameterUIRanges(int paramIdx, double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
+    bool   getParameterUIResetValue(int paramIdx, double& uiResetValue);
+    bool   getParameterUISkewFactor(int paramIdx, String& uiSkewFactorType, double& uiSkewFactor);
 
     /* =================== Public Configuration Methods ====================== */
     Value&          getConfigurationName();
@@ -132,10 +133,6 @@ public:
     static const Identifier paramTypeId;
     static const Identifier paramTypeNameId;
     static const Identifier paramTypeValueTypeId;
-    static const Identifier paramTypeScopeRangeMinId;
-    static const Identifier paramTypeScopeRangeMaxId;
-    static const Identifier paramTypeScopeRangeMinFltId;
-    static const Identifier paramTypeScopeRangeMaxFltId;
     static const Identifier paramTypeHostRangeMinId;
     static const Identifier paramTypeHostRangeMaxId;
     static const Identifier paramTypeHostRangeIntervalId;
@@ -146,11 +143,23 @@ public:
     static const Identifier paramTypeUIResetValueId;
     static const Identifier paramTypeUISkewFactorId;
     static const Identifier paramTypeUISkewFactorTypeId;
+//    static const Identifier paramTypeUISkewFactorInvertedId;
+    static const Identifier paramTypeHostSkewFactorId;
+    static const Identifier paramTypeHostSkewMidPointId;
+    static const Identifier paramTypeHostSkewFactorTypeId;
+    static const Identifier paramTypeHostSkewFactorInvertedId;
+    static const Identifier paramTypeScopeRangeMinId;
+    static const Identifier paramTypeScopeRangeMaxId;
+    static const Identifier paramTypeScopeRangeMinFltId;
+    static const Identifier paramTypeScopeRangeMaxFltId;
+//    static const Identifier paramTypeScopeSkewFactorId;
+//    static const Identifier paramTypeScopeSkewFactorTypeId;
+//    static const Identifier paramTypeScopeSkewFactorInvertedId;
     static const Identifier paramTypeSettingsId;
     static const Identifier paramTypeSettingId;
     static const Identifier paramTypeSettingNameId;
     static const Identifier paramTypeSettingValueId;
-    
+
     static const Identifier deviceId;
     static const Identifier paramId;
     static const Identifier paramNameId;
@@ -182,19 +191,21 @@ private:
     void valueChanged(Value& valueThatChanged);
 
     /* ====================== Private Parameter Methods ======================= */
-    void  setParameterValues(int index, float newHostValue, float newUIValue);
-    float convertUIToHostValue(int paramIdx, float value);
-    float convertHostToUIValue(int paramIdx, float value);
-    float convertScopeFltToHostValue(int paramIdx, float value);
-    float convertScopeIntToHostValue(int paramIdx, int value);
-    float convertHostToScopeFltValue(int paramIdx, float value);
-    int   convertHostToScopeIntValue(int paramIdx, float value);
-    int   findNearestParameterSetting(const ValueTree& settings, float value);
+    void   setParameterValues(int index, float newHostValue, float newUIValue);
+    float  convertUIToHostValue(int paramIdx, float value);
+    float  convertHostToUIValue(int paramIdx, float value);
+    float  convertScopeFltToHostValue(int paramIdx, float value);
+    float  convertScopeIntToHostValue(int paramIdx, int value);
+    float  convertHostToScopeFltValue(int paramIdx, float value);
+    int    convertHostToScopeIntValue(int paramIdx, float value);
+    int    findNearestParameterSetting(const ValueTree& settings, float value);
+    double skewHostValue(int paramIdx, float hostValue, bool invert);
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml);
     void getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterType);
+    void readSkewFactorXml(const Identifier& xmlId, const XmlElement& child, ValueTree& parameterType);
     bool loadDeviceParameters(XmlElement& deviceXml);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);

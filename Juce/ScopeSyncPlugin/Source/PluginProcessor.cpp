@@ -87,16 +87,8 @@ const String PluginProcessor::getParameterName (int index)
 
 const String PluginProcessor::getParameterText (int index)
 {
-    if (index >= 0 && index < scopeSync->getNumParameters())
-    {
-        DBG("PluginProcessor::getParameterText - " + String(getParameter(index)));
-        return String(getParameter(index));
-    }
-    else
-    {
-        DBG("PluginProcessor::getParameterText Empty");
-        return String::empty;
-    }
+    DBG("PluginProcessor::getParameterText - " + String(scopeSync->getParameterText(index)));
+    return String(scopeSync->getParameterText(index));
 }
 
 const String PluginProcessor::getInputChannelName (int channelIndex) const

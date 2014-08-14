@@ -54,9 +54,46 @@ namespace BCMMath
 
     }
 
-	inline double roundDouble(float num) {
+	inline double roundDouble(float num)
+    {
 		return (num > 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
 	}
+
+    inline void skewValue(double& valueToSkew, double skewFactor, double minValue, double maxValue, bool invert)
+    {
+        DBG("BCMMath::skewValue - valueToSkew: " + String(valueToSkew) + ", skewFactor: " + String(skewFactor) + ", minValue: " + String(minValue) + ", maxValue: " + String(maxValue) + ", invert: " + String(invert));
+        
+        if (skewFactor != 1.0)
+        {
+            if (!invert)
+            {
+                const double normalisedValue = (valueToSkew - minValue) / (maxValue - minValue);
+                DBG("BCMMath::skewValue - normalisedValue: " + String(normalisedValue));
+                valueToSkew = (pow(normalisedValue, skewFactor) * (maxValue - minValue)) + minValue;
+                DBG("BCMMath::skewValue - new valueToSkew: " + String(valueToSkew));
+            }
+            else
+            {
+                const double normalisedValue = (valueToSkew - minValue) / (maxValue - minValue);
+                DBG("BCMMath::skewValue - normalisedValue: " + String(normalisedValue));
+                valueToSkew = (exp(log(normalisedValue) / skewFactor) * (maxValue - minValue)) + minValue;
+                DBG("BCMMath::skewValue - new valueToUnSkew: " + String(valueToSkew));
+            }
+        }
+    }
+
+//    inline void skEWNitTest()
+//    {
+//        DBG("skEWNitTest");
+//        DBG("===========");
+//        double valueToSkew = 2000.;
+//        skewValue(valueToSkew, 0.2998514913, 20, 20000, false);
+//        skewValue(valueToSkew, 0.2998514913, 20, 20000, true);
+//    
+//        valueToSkew = 600.;
+//        skewValue(valueToSkew, 0.2998514913, -500, 20000, false);
+//        skewValue(valueToSkew, 0.2998514913, -500, 20000, true); 
+//    }
 };
 
 #ifndef __BCMMATH_HEADER_NO_NAMESPACE__

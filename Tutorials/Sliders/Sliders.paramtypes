@@ -29,6 +29,7 @@
         <uirangemax>20000</uirangemax>
         <uirangeinterval>0.001</uirangeinterval>
 		<uiskewfactor type="frommidpoint">2000</uiskewfactor>
+	    <hostskewfactor type="frommidpoint">0.0990990991</hostskewfactor>
     </parametertype>
 	<parametertype>
         <name>BC CoarseFine (cents)</name>
