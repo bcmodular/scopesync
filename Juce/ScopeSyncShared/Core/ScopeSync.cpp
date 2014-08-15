@@ -1487,8 +1487,14 @@ bool ScopeSync::loadLayoutFile(XmlElement& layoutXml)
     
     if (!layoutLoaded)
     {
-        AlertWindow::showMessageBox(AlertWindow::WarningIcon,"Error","Problem reading Configuration's Layout File: " + layoutDocument.getLastParseError());
-        return false;
+        setSystemError("Problem reading Configuration's Layout File: " + layoutDocument.getLastParseError());
+        DBG("Problem reading Configuration's Layout File: " + layoutDocument.getLastParseError());
+        ScopedPointer<XmlElement> configElement;
+
+        XmlDocument configurationDocument(loaderConfiguration);
+        configElement = configurationDocument.getDocumentElement();
+
+        layoutXml = *(configElement->getChildByName("layout"));
     }
 
     return layoutLoaded;

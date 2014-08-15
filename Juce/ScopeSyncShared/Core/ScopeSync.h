@@ -119,7 +119,6 @@ public:
     XmlElement*     getSystemLookAndFeels();
     bool            configurationIsLoading();
     void            setConfigurationLoading(bool configurationLoadingFlag);
-    ValueTree&      getDeviceParameters(){ return deviceParameters; };
     PropertiesFile& getAppProperties();
     void            storeParameterValues();
     void            storeParameterValues(XmlElement& parameterValues);
