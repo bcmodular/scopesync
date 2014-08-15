@@ -46,6 +46,7 @@
 class PluginProcessor;
 class ScopeFX;
 #include "../Comms/ScopeSyncAudio.h"
+#include "BCMParameter.h"
 
 #ifdef __DLL_EFFECT__
     #include "../Comms/ScopeSyncAsync.h"
@@ -69,14 +70,14 @@ public:
     /* ========================== Public Actions ============================= */
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
-    void beginParameterChangeGesture(int paramIdx);
-    void endParameterChangeGesture(int paramIdx);
+    void beginParameterChangeGesture(BCMParameter& parameter);
+    void endParameterChangeGesture(BCMParameter& parameter);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
     void timerCallback();
     bool loadConfiguration(bool loadLoader, bool retainState, bool clearSystemErrorMessage);
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
-    BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id);
+    BCMLookAndFeel* getBCMLookAndFeelById(String id);
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
     
@@ -85,32 +86,18 @@ public:
     // the "minHostParameters" value if the real numHostParameters is smaller.
     // This is to prevent issues with switching between configurations that
     // have different parameter counts.
-    int   getNumParametersForHost();
+    int    getNumParametersForHost();
 
-    int    getNumParameters();
-    float  getParameterHostValue(int index);
-    String getParameterText(int index);
-    int    getParameterScopeIntValue(int index);
-    int    getParameterIdxByName(String& name);
-    int    getParameterIdxFromScopeCode(int scopeCode);
-    void   getParameterNameForHost(int index, String& parameterName);
-    void   setParameterFromHost(int index, float newValue);
-    void   setParameterFromGUI(int index, float newValue);
+    BCMParameter* getParameterByName(const String& name);
+    float  getParameterHostValue(int hostIdx);
+    void   setParameterFromHost(int hostIdx, float newValue);
+    void   setParameterFromGUI(BCMParameter& parameter, float newValue);
+    void   getParameterNameForHost(int hostIdx, String& parameterName);
+    void   getParameterText(int hostIdx, String& parameterText);
     void   handleScopeSyncAsyncUpdate(Array<int>& asyncValues);
     void   createSnapshot();
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
-    void   setAffectedByUI(int paramIdx, bool isAffected);
-    bool   isAffectedByUI(int paramIdx);
-    int    getScopeSyncId(int paramIdx);
-    int    getScopeLocalId(int paramIdx);
-    void   getParameterSettings(int paramIdx, ValueTree& settings);
-    void   mapToParameterUIValue(int paramIdx, Value& valueToMapTo);
-    void   getParameterDescriptions(int paramIdx, String& shortDesc, String& fullDesc);
-    void   getParameterUIRanges(int paramIdx, double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
-    bool   getParameterUIResetValue(int paramIdx, double& uiResetValue);
-    bool   getParameterUISkewFactor(int paramIdx, double& uiSkewFactor);
-
     /* =================== Public Configuration Methods ====================== */
     Value&          getConfigurationName();
     Value&          getConfigurationFilePath();
@@ -127,43 +114,7 @@ public:
     Value&          getSystemError();
     void            setSystemError(const String& errorText) { systemError.setValue(errorText); };
      
-    /* =========================== Identifiers =============================== */
-    static const Identifier paramTypesId;
-    static const Identifier paramTypeId;
-    static const Identifier paramTypeNameId;
-    static const Identifier paramTypeValueTypeId;
-    static const Identifier paramTypeHostRangeMinId;
-    static const Identifier paramTypeHostRangeMaxId;
-    static const Identifier paramTypeHostRangeIntervalId;
-    static const Identifier paramTypeUISuffixId;
-    static const Identifier paramTypeUIRangeMinId;
-    static const Identifier paramTypeUIRangeMaxId;
-    static const Identifier paramTypeUIRangeIntervalId;
-    static const Identifier paramTypeUIResetValueId;
-    static const Identifier paramTypeUISkewFactorId;
-    static const Identifier paramTypeSkewUIOnlyId;
-    static const Identifier paramTypeScopeRangeMinId;
-    static const Identifier paramTypeScopeRangeMaxId;
-    static const Identifier paramTypeScopeRangeMinFltId;
-    static const Identifier paramTypeScopeRangeMaxFltId;
-    static const Identifier paramTypeSettingsId;
-    static const Identifier paramTypeSettingId;
-    static const Identifier paramTypeSettingNameId;
-    static const Identifier paramTypeSettingValueId;
-
-    static const Identifier deviceId;
-    static const Identifier paramId;
-    static const Identifier paramNameId;
-    static const Identifier paramShortDescId;
-    static const Identifier paramFullDescId;
-    static const Identifier paramScopeSyncId;
-    static const Identifier paramScopeLocalId;
-    static const Identifier paramHostValueId;
-    static const Identifier paramUIValueId;
-    static const Identifier affectedByUIId;
-    
     /* ============================ Enumerations ============================== */
-    enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     enum AppContext {plugin, scopefx}; // Contexts under which the app may be running
     
     static const bool inPluginContext()  { return (appContext == plugin)  ? true : false; };
@@ -176,22 +127,10 @@ private:
     /* ========================== Private Actions ============================= */
     void receiveUpdatesFromScopeAudio();
     void receiveUpdatesFromScopeAsync();
-    bool scopeAsyncHasUpdates();
-    void sendToScopeSyncAudio(int paramIdx, float newValue);
-    void sendToScopeSyncAsync(int paramIdx, float newValue);
+    void sendToScopeSyncAudio(BCMParameter& parameter);
+    void sendToScopeSyncAsync(BCMParameter& parameter);
     void valueChanged(Value& valueThatChanged);
 
-    /* ====================== Private Parameter Methods ======================= */
-    void  setParameterValues(int index, float newHostValue, float newUIValue);
-    float convertUIToHostValue(int paramIdx, float value);
-    float convertHostToUIValue(int paramIdx, float value);
-    float convertScopeFltToHostValue(int paramIdx, float value);
-    float convertScopeIntToHostValue(int paramIdx, int value);
-    float convertHostToScopeFltValue(int paramIdx, float value);
-    int   convertHostToScopeIntValue(int paramIdx, float value);
-    int   findNearestParameterSetting(const ValueTree& settings, float value);
-    float skewHostValue(int paramIdx, float hostValue, bool invert);
-    
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml);
@@ -213,6 +152,10 @@ private:
     ScopeSyncAudio             scopeSyncAudio;
     XmlElement                 parameterValueStore;
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
+    OwnedArray<BCMParameter>   hostParameters;         // Parameters that the host is interested in
+    OwnedArray<BCMParameter>   scopeLocalParameters;   // Parameters that are only relevant in the Scope DLL
+    Array<int>                 paramIdxByScopeSyncId;  // Index of parameters by their ScopeSyncId
+    Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
 
     CriticalSection flagLock;
    
@@ -232,8 +175,8 @@ private:
     static const int minHostParameters;   // Minimum parameter count to return to host
     static const int MIN_SCOPE_INTEGER;   // Minimum (signed) integer understood by Scope
     static const int MAX_SCOPE_INTEGER;   // Maximum (signed) integer understood by Scope
-    static const int numAsyncParameters;  // Number of Parameters being processed by the Scope Async system
-    static const int numAsyncLocalValues; // Number of Local Values being processed by the Scope Async system
+    static const int numScopeSyncParameters;  // Number of ScopeSync Parameters being processed by the Scope Async system
+    static const int numScopeLocalParameters; // Number of ScopeLocal Parameters being processed by the Scope Async system
 
     static const String systemParameterTypes; // XML configuration for the default parameter types
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels

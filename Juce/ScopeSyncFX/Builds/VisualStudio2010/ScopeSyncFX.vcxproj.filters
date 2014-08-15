@@ -307,6 +307,9 @@
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp">
       <Filter>ScopeSyncFX\Source\ScopeFX</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp">
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClCompile>
@@ -1337,6 +1340,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h">
       <Filter>ScopeSyncFX\Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h">
       <Filter>ScopeSyncFX\Source\Core</Filter>

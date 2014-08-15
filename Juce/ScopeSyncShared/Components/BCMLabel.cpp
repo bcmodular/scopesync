@@ -39,7 +39,6 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
     String tooltip   = text;
     
     mapsToParameter = false;
-    paramIdx        = -1;
     
     if (name.equalsIgnoreCase("configurationfilepath"))
     {
@@ -52,12 +51,12 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
     else
     {
         ValueTree mapping;
-        gui.getUIMapping(ScopeSyncGUI::mappingLabelId, name, mapping, paramIdx);
+        parameter = gui.getUIMapping(ScopeSyncGUI::mappingLabelId, name, mapping);
 
-        if (paramIdx != -1)
+        if (parameter != nullptr)
         {
             mapsToParameter = true;
-            gui.getScopeSync().getParameterDescriptions(paramIdx, labelText, tooltip);
+            parameter->getDescriptions(labelText, tooltip);
         }
     }
 

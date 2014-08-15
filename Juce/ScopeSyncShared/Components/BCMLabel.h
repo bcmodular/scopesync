@@ -33,6 +33,7 @@ class ScopeSyncGUI;
 class LabelProperties;
 
 #include <JuceHeader.h>
+#include "../Core/BCMParameter.h"
 
 class BCMLabel : public Label
 {
@@ -41,8 +42,8 @@ public:
     ~BCMLabel();
     
 private:
-    bool mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    int  paramIdx;        // Identifier for a mapped parameter
+    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter* parameter;       // Pointer to a mapped parameter
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };

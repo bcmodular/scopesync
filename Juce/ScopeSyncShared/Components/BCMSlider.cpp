@@ -63,20 +63,19 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
     String tooltip  = properties.name;
     
     mapsToParameter = false;
-    paramIdx        = -1;
     
     ValueTree mapping;
-    gui.getUIMapping(ScopeSyncGUI::mappingSliderId, name, mapping, paramIdx);
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingSliderId, name, mapping);
 
-    if (paramIdx != -1)
+    if (parameter != nullptr)
     {
         mapsToParameter = true;      
         
         String shortDesc;
-        gui.getScopeSync().getParameterDescriptions(paramIdx, shortDesc, tooltip);
+        parameter->getDescriptions(shortDesc, tooltip);
 
         ValueTree parameterSettings;
-        gui.getScopeSync().getParameterSettings(paramIdx, parameterSettings);
+        parameter->getSettings(parameterSettings);
 
         if (parameterSettings.isValid())
         {
@@ -86,7 +85,7 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)
             {
                 ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(ScopeSync::paramTypeSettingNameId, "__NO_NAME__");
+                String    settingName      = parameterSetting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
 
                 settingsNames.add(settingName);
             }
@@ -102,7 +101,7 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
         {
             String uiSuffix = String::empty;
 
-            gui.getScopeSync().getParameterUIRanges(paramIdx, rangeMin, rangeMax, rangeInt, uiSuffix);
+            parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
 
             setRange(rangeMin, rangeMax, rangeInt);
 
@@ -111,18 +110,18 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
 
             double uiResetValue = 0.0f;
 
-            if (gui.getScopeSync().getParameterUIResetValue(paramIdx, uiResetValue))
+            if (parameter->getUIResetValue(uiResetValue))
                 setDoubleClickReturnValue(true, uiResetValue);
 
             double uiSkewFactor = 0.0f;
 
-            if (gui.getScopeSync().getParameterUISkewFactor(paramIdx, uiSkewFactor))
+            if (parameter->getUISkewFactor(uiSkewFactor))
             {
                 setSkewFactor(uiSkewFactor);
             }
         }
 
-        gui.getScopeSync().mapToParameterUIValue(paramIdx, getValueObject());
+        parameter->mapToUIValue(getValueObject());
     }
     else
     {

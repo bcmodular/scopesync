@@ -46,37 +46,36 @@ BCMComboBox::BCMComboBox(ComboBoxProperties& properties, ScopeSyncGUI& gui, Stri
     
     String tooltip  = properties.tooltip;
     mapsToParameter = false;
-    paramIdx        = -1;
-
+    
     // Will ignore any items provided in the layout for now,
     // as there's no functionality associated with them
 
     mapsToParameter = false;
         
     ValueTree mapping;
-    gui.getUIMapping(ScopeSyncGUI::mappingComboBoxId, name, mapping, paramIdx);
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingComboBoxId, name, mapping);
 
-    if (paramIdx != -1)
+    if (parameter != nullptr)
     {
         mapsToParameter = true;       
         
         ValueTree parameterSettings;
-        gui.getScopeSync().getParameterSettings(paramIdx, parameterSettings);
+        parameter->getSettings(parameterSettings);
 
         if (parameterSettings.isValid())
         {
             clear(juce::dontSendNotification);
             
-            gui.getScopeSync().mapToParameterUIValue(paramIdx, parameterValue);
+            parameter->mapToUIValue(parameterValue);
             parameterValue.addListener(this);
             
             String shortDesc;
-            gui.getScopeSync().getParameterDescriptions(paramIdx, shortDesc, tooltip);
+            parameter->getDescriptions(shortDesc, tooltip);
 
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)
             {
                 ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(ScopeSync::paramTypeSettingNameId, "__NO_NAME__");
+                String    settingName      = parameterSetting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
 
                 addItem(settingName, i + 1);
                 // DBG("BCMComboBox::BCMComboBox - Added parameter value to drop-down: " + settingName);

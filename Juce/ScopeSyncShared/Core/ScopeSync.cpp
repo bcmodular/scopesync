@@ -45,8 +45,8 @@ const int ScopeSync::minHostParameters = 128;
 const int ScopeSync::MIN_SCOPE_INTEGER = INT_MIN;
 const int ScopeSync::MAX_SCOPE_INTEGER = INT_MAX;
 
-const int ScopeSync::numAsyncParameters  = 128;
-const int ScopeSync::numAsyncLocalValues = 16;
+const int ScopeSync::numScopeSyncParameters  = 128;
+const int ScopeSync::numScopeLocalParameters = 16;
 
 const StringArray ScopeSync::scopeSyncCodes = StringArray::fromTokens(
 "A1,A2,A3,A4,A5,A6,A7,A8,\
@@ -73,37 +73,6 @@ const StringArray ScopeSync::scopeLocalCodes = StringArray::fromTokens(
 Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
-
-const Identifier ScopeSync::paramTypesId                = "parametertypes";
-const Identifier ScopeSync::paramTypeId                 = "parametertype";
-const Identifier ScopeSync::paramTypeNameId             = "name";
-const Identifier ScopeSync::paramTypeValueTypeId        = "valuetype";
-const Identifier ScopeSync::paramTypeUISuffixId         = "uisuffix";
-const Identifier ScopeSync::paramTypeUIRangeMinId       = "uirangemin";
-const Identifier ScopeSync::paramTypeUIRangeMaxId       = "uirangemax";
-const Identifier ScopeSync::paramTypeUIRangeIntervalId  = "uirangeinterval";
-const Identifier ScopeSync::paramTypeUIResetValueId     = "uiresetvalue";
-const Identifier ScopeSync::paramTypeUISkewFactorId     = "uiskewfactor";
-const Identifier ScopeSync::paramTypeSkewUIOnlyId       = "skewuionly";
-const Identifier ScopeSync::paramTypeScopeRangeMinId    = "scoperangemin";
-const Identifier ScopeSync::paramTypeScopeRangeMaxId    = "scoperangemax";
-const Identifier ScopeSync::paramTypeScopeRangeMinFltId = "scoperangeminflt";
-const Identifier ScopeSync::paramTypeScopeRangeMaxFltId = "scoperangemaxflt";
-const Identifier ScopeSync::paramTypeSettingsId         = "settings";
-const Identifier ScopeSync::paramTypeSettingId          = "setting";
-const Identifier ScopeSync::paramTypeSettingNameId      = "name";
-const Identifier ScopeSync::paramTypeSettingValueId     = "value";
-                                                           
-const Identifier ScopeSync::deviceId          = "device";
-const Identifier ScopeSync::paramId           = "parameter";
-const Identifier ScopeSync::paramNameId       = "name";
-const Identifier ScopeSync::paramShortDescId  = "shortdescription";
-const Identifier ScopeSync::paramFullDescId   = "fulldescription";
-const Identifier ScopeSync::paramScopeSyncId  = "scopesync";
-const Identifier ScopeSync::paramScopeLocalId = "scopelocal";
-const Identifier ScopeSync::paramHostValueId  = "hostvalue";
-const Identifier ScopeSync::paramUIValueId    = "uivalue";
-const Identifier ScopeSync::affectedByUIId    = "affectedbyui";
 
 ScopeSync::ScopeSync() : parameterValueStore("parametervalues"), configurationXml("configuration")
 {
@@ -133,6 +102,12 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+    for (int i = 0; i < numScopeSyncParameters; i++)
+        paramIdxByScopeSyncId.add(-1);
+
+    for (int i = 0; i < numScopeLocalParameters; i++)
+        paramIdxByScopeLocalId.add(-1);
+
     loadConfiguration(true, false, true);
     configurationFilePath.addListener(this);
 }
@@ -156,22 +131,22 @@ void ScopeSync::snapshot()
 #endif // __DLL_EFFECT__
 }
 
-void ScopeSync::beginParameterChangeGesture(int paramIdx)
+void ScopeSync::beginParameterChangeGesture(BCMParameter& parameter)
 {
 #ifndef __DLL_EFFECT__
     if (pluginProcessor)
-        pluginProcessor->beginParameterChangeGesture(paramIdx); 
+        pluginProcessor->beginParameterChangeGesture(parameter.getHostIdx()); 
 #else
-    setAffectedByUI(paramIdx, true);
+    parameter.setAffectedByUI(true);
 #endif // __DLL_EFFECT__
 }
 
-void ScopeSync::endParameterChangeGesture(int paramIdx)
+void ScopeSync::endParameterChangeGesture(BCMParameter& parameter)
 {
 #ifndef __DLL_EFFECT__
-    pluginProcessor->endParameterChangeGesture(paramIdx); 
+    pluginProcessor->endParameterChangeGesture(parameter.getHostIdx()); 
 #else
-    setAffectedByUI(paramIdx, false);
+    parameter.setAffectedByUI(false);
 #endif // __DLL_EFFECT__
 }
 
@@ -187,26 +162,15 @@ void ScopeSync::receiveUpdatesFromScopeAudio()
             int   scopeSyncCode = audioControlUpdates[i].first;
             float newScopeValue = audioControlUpdates[i].second;
 
-            int paramIdx = getParameterIdxFromScopeCode(scopeSyncCode);
+            int paramIdx = paramIdxByScopeSyncId[scopeSyncCode];
             
-            if (paramIdx != -1)
+            if (paramIdx >= 0)
             {
-                float oldHostValue = getParameterHostValue(paramIdx);
-                float newHostValue = convertScopeFltToHostValue(paramIdx, newScopeValue);
-                
-                float unskewedHostValue = skewHostValue(paramIdx, newHostValue, true);
-
-                if (unskewedHostValue != oldHostValue)
-                {
-                    DBG("ScopeSync::receiveUpdatesFromScope: " + String(scopeSyncCode) + ": newValue: " + String(newHostValue));
-
-                    float newUIValue = convertHostToUIValue(paramIdx, newHostValue);
-
-                    setParameterValues(paramIdx, unskewedHostValue, newUIValue);
+                BCMParameter* parameter = hostParameters[paramIdx];
+                parameter->setScopeFltValue(newScopeValue);
 #ifndef __DLL_EFFECT__
-                    pluginProcessor->updateListeners(paramIdx, unskewedHostValue);
+                pluginProcessor->updateListeners(paramIdx, parameter->getHostValue());
 #endif // __DLL_EFFECT__
-                }
             }
         }    
     }
@@ -227,102 +191,75 @@ void ScopeSync::receiveUpdatesFromScopeAsync()
         int scopeCode     = asyncControlUpdates[i].first;
         int newScopeValue = asyncControlUpdates[i].second;
 
-        int paramIdx = getParameterIdxFromScopeCode(scopeCode);
-
-        if (!(processedParams.contains(paramIdx)))
+        if (!(processedParams.contains(scopeCode)))
         {
-            if (!(isAffectedByUI(paramIdx)))
+            BCMParameter* parameter = nullptr;
+
+            if (scopeCode < numScopeSyncParameters)
             {
-                float oldHostValue = getParameterHostValue(paramIdx);
-                float newHostValue = convertScopeIntToHostValue(paramIdx, newScopeValue);
-
-                DBG("ScopeSync::receiveUpdatesFromScopeAsync: " + String(paramIdx) + ": oldValue: " + String(oldHostValue));
-
-                if (newHostValue != oldHostValue)
-                {
-                    DBG("ScopeSync::receiveUpdatesFromScopeAsync: " + String(paramIdx) + ": newValue: " + String(newHostValue));
-                    float newUIValue = convertHostToUIValue(paramIdx, newHostValue);
-                    setParameterValues(paramIdx, newHostValue, newUIValue);
-                }
+                int paramIdx = paramIdxByScopeSyncId[scopeCode];
+                
+                if (paramIdx >= 0)
+                    parameter = hostParameters[paramIdx];
             }
             else
             {
-                DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update" + String(paramIdx));
+                int paramIdx = paramIdxByScopeLocalId[scopeCode - numScopeSyncParameters];
+                
+                if (paramIdx >= 0)
+                    parameter = scopeLocalParameters[paramIdx];
             }
-
-            processedParams.add(paramIdx);
+            
+            if (parameter != nullptr)
+                parameter->setScopeIntValue(newScopeValue);
+            
+            processedParams.add(scopeCode);
         }
         else
         {
-            DBG("ScopeSync::receiveUpdatesFromScopeAsync: throwing away extra update: " + String(paramIdx));
+            DBG("ScopeSync::receiveUpdatesFromScopeAsync: throwing away extra update: " + String(scopeCode));
         }
     }
     asyncControlUpdates.clear();
 #endif // __DLL_EFFECT__
 } 
 
-void ScopeSync::sendToScopeSyncAudio(int paramIdx, float newValue)
+void ScopeSync::sendToScopeSyncAudio(BCMParameter& parameter)
 {
-    if (paramIdx >= 0 && paramIdx < numParameters) {
+    int scopeCode = parameter.getScopeCode();
 
-        int scopeSyncId = getScopeSyncId(paramIdx);
+    if (scopeCode != -1)
+    {
+        float newScopeValue = parameter.getScopeFltValue();
 
-        if (scopeSyncId != -1)
-        {
-            float newScopeValue  = convertHostToScopeFltValue(paramIdx, newValue);
-
-            DBG("ScopeSync::sendToScopeSyncAudio: " + String(scopeSyncId) + ", orig value: " + String(newValue) + ", scaled value: " + String(newScopeValue));
-            scopeSyncAudio.setControlValue(scopeSyncId, newScopeValue);
-        }
+        DBG("ScopeSync::sendToScopeSyncAudio: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
+        scopeSyncAudio.setControlValue(scopeCode, newScopeValue);
     }
 }
 
-void ScopeSync::sendToScopeSyncAsync(int paramIdx, float newValue)
+void ScopeSync::sendToScopeSyncAsync(BCMParameter& parameter)
 {
 #ifdef __DLL_EFFECT__
-    if (paramIdx >= 0 && paramIdx < numParameters) {
+    // Try to grab the ScopeSyncId for the relevant parameter
+    int scopeCode = parameter.getScopeCode();
 
-        // Try to grab the ScopeSyncId for the relevant parameter
-        int scopeCode = getScopeSyncId(paramIdx);
+    if (scopeCode != -1)
+    {
+        int newScopeValue = parameter.getScopeIntValue();
 
-        if (scopeCode == -1)
-        {
-            // We didn't find a ScopeSyncId, so check to see if there's
-            // a ScopeLocalId instead
-            scopeCode = getScopeLocalId(paramIdx);
-
-            if (scopeCode != -1)
-            {
-                // We found one, so shift the value by the number of
-                // ScopeSyncIds to generate a valid async ScopeCode
-                scopeCode += numAsyncParameters;
-            }
-        }
-
-        if (scopeCode != -1)
-        {
-            int newScopeValue = convertHostToScopeIntValue(paramIdx, newValue);
-
-            DBG("ScopeSync::sendToScopeSyncAsync: " + String(scopeCode) + ", orig value: " + String(newValue) + ", scaled value: " + String(newScopeValue));
-            scopeSyncAsync.setValue(scopeCode, newScopeValue);
-        }
-        else
-        {
-            DBG("ScopeSync::sendToScopeSyncAsync: couldn't find Scope code for parameter: " + String(paramIdx));
-        }
+        DBG("ScopeSync::sendToScopeSyncAsync: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
+        scopeSyncAsync.setValue(scopeCode, newScopeValue);
+    }
+    else
+    {
+        String shortDesc;
+        String longDesc;
+        parameter.getDescriptions(shortDesc, longDesc);
+        DBG("ScopeSync::sendToScopeSyncAsync: couldn't find Scope code for parameter: " + longDesc);
     }
 #else
-(void)paramIdx;
-(void)newValue;
+    (void)parameter;
 #endif // __DLL_EFFECT__
-}
-
-void ScopeSync::timerCallback()
-{
-    if (inPluginContext())
-        receiveUpdatesFromScopeAudio();
-    else
-        receiveUpdatesFromScopeAsync();
 }
 
 bool ScopeSync::guiNeedsReloading()
@@ -336,6 +273,14 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
     const ScopedLock lock(flagLock);
     reloadGUI = reloadGUIFlag;
 };
+
+void ScopeSync::timerCallback()
+{
+    if (inPluginContext())
+        receiveUpdatesFromScopeAudio();
+    else
+        receiveUpdatesFromScopeAsync();
+}
     
 void ScopeSync::valueChanged(Value& valueThatChanged)
 {
@@ -347,169 +292,79 @@ void ScopeSync::valueChanged(Value& valueThatChanged)
 
 int ScopeSync::getNumParametersForHost()
 {
-    int num;
+    int numHostParameters = hostParameters.size();
 
-    if (numParameters < minHostParameters)
-        num = minHostParameters;
-    else
-        num = numParameters;
+    if (numHostParameters < minHostParameters)
+        numHostParameters = minHostParameters;
 
-    DBG("ScopeSync::getNumHostParameters - " + String(num));
-    return num;
+    DBG("ScopeSync::getNumHostParameters - " + String(numHostParameters));
+    return numHostParameters;
 }
 
-int ScopeSync::getNumParameters()
+BCMParameter* ScopeSync::getParameterByName(const String& name)
 {
-    return numParameters;
-}
-
-float ScopeSync::getParameterHostValue(int index)
-{
-    if (index >= 0 && index < numParameters)
+    for (int i = 0; i < hostParameters.size(); i++)
     {
-        float value = deviceParameters.getChild(index).getProperty(paramHostValueId);
-        return value;
+        if (hostParameters[i]->getName().equalsIgnoreCase(name))
+            return hostParameters[i];
     }
-    else
+
+    for (int i = 0; i < scopeLocalParameters.size(); i++)
     {
+        if (scopeLocalParameters[i]->getName().equalsIgnoreCase(name))
+            return scopeLocalParameters[i];
+    }
+
+    return nullptr;
+}
+
+float ScopeSync::getParameterHostValue(int hostIdx)
+{
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
+        return hostParameters[hostIdx]->getHostValue();
+    else
         return 0.0f;
-    }
 }
 
-String ScopeSync::getParameterText(int index)
+void ScopeSync::getParameterNameForHost(int hostIdx, String& parameterName)
 {
-    ValueTree parameter = deviceParameters.getChild(index);
-    
-    if (parameter.isValid())
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
     {
-        float     value         = deviceParameters.getChild(index).getProperty(paramUIValueId);
-        String    uiSuffix      = String::empty;
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-        
-        if (parameterType.isValid())
-        {
-            int parameterValueType = parameterType.getProperty(paramTypeValueTypeId);
-
-            if (parameterValueType == discrete)
-            {
-                ValueTree paramSettings = parameterType.getChildWithName(paramTypeSettingsId);
-
-                if (paramSettings.isValid())
-                {
-                    int settingIdx = roundDoubleToInt(value);
-                    String settingName = paramSettings.getChild(settingIdx).getProperty(paramTypeSettingNameId);
-                    
-                    if (settingName.isNotEmpty())
-                        return settingName;
-                }
-            }
-
-            if (parameterType.hasProperty(paramTypeUISuffixId))
-            {
-                uiSuffix = parameterType.getProperty(paramTypeUISuffixId);
-            }
-        }
-        
-        return String(value) + uiSuffix;
+        String shortDesc;
+        hostParameters[hostIdx]->getDescriptions(shortDesc, parameterName);
     }
-    else
+}
+
+void ScopeSync::getParameterText(int hostIdx, String& parameterText)
+{
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
     {
-        return String::empty;
+        hostParameters[hostIdx]->getUITextValue(parameterText);
     }
 }
 
-int ScopeSync::getParameterScopeIntValue(int index)
+void ScopeSync::setParameterFromHost(int hostIdx, float newHostValue)
 {
-    if (index >= 0 && index < numParameters)
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
     {
-        float  hostValue = deviceParameters.getChild(index).getProperty(paramHostValueId);
-        int    value = convertHostToScopeIntValue(index, hostValue);
-        //DBG("ScopeSync::getParameterScopeIntValue - index: " + String(index) + ", value: " + String(value));
-        return value;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-int ScopeSync::getParameterIdxByName(String& name)
-{
-    // DBG("ScopeSync::getParameterIdxByName: " + name + ", id: " + String(paramIdx));
-    return deviceParameters.indexOf(deviceParameters.getChildWithProperty(paramNameId, name));
-}
-
-int ScopeSync::getParameterIdxFromScopeCode(int scopeCode)
-{
-    ValueTree parameter;
-
-    if (scopeCode < numAsyncParameters)
-        parameter = deviceParameters.getChildWithProperty(paramScopeSyncId, scopeCode);
-    else
-        parameter = deviceParameters.getChildWithProperty(paramScopeLocalId, (scopeCode - numAsyncParameters));
-
-    if (parameter.isValid())
-    {
-        int paramIdx = deviceParameters.indexOf(parameter);
-        return paramIdx;
-    }
-    else
-        return -1;
-}
-
-void ScopeSync::getParameterNameForHost(int index, String& parameterName)
-{
-    if (index >= 0 && index < numParameters)
-        parameterName = deviceParameters.getChild(index).getProperty(paramFullDescId);
-}
-
-void ScopeSync::setParameterFromHost(int index, float newHostValue)
-{
-    float skewedHostValue = skewHostValue(index, newHostValue, false);
-    
-    float newUIValue = convertHostToUIValue(index, skewedHostValue);
-
-    setParameterValues(index, newHostValue, newUIValue);
+        hostParameters[hostIdx]->setHostValue(newHostValue);
 #ifdef __DLL_EFFECT__
-    sendToScopeSyncAsync(index, skewedHostValue);
+        sendToScopeSyncAsync(*(hostParameters[hostIdx]));
 #else
-    sendToScopeSyncAudio(index, skewedHostValue);
+        sendToScopeSyncAudio(*(hostParameters[hostIdx]));
 #endif // __DLL_EFFECT__
-}
-
-float ScopeSync::skewHostValue(int paramIdx, float hostValue, bool invert)
-{
-    double skewedValue = hostValue;
-
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-
-    if (parameter.isValid())
-    {
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-
-        if (parameterType.isValid() && parameterType.hasProperty(paramTypeUISkewFactorId) && !(parameterType.getProperty(paramTypeSkewUIOnlyId)))
-        {
-            double skewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
-           
-            skewValue(skewedValue, skewFactor, 0.0f, 1.0f, invert);
-        }
     }
-
-    return (float)skewedValue;
 }
 
-void ScopeSync::setParameterFromGUI(int index, float newValue)
+void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 {
-    float newHostValue = convertUIToHostValue(index, newValue);
-    float unskewedHostValue = skewHostValue(index, newHostValue, true);
-    
-    setParameterValues(index, unskewedHostValue, newValue);
+    parameter.setUIValue(newValue);
     
 #ifdef __DLL_EFFECT__
-    sendToScopeSyncAsync(index, newHostValue);
+    sendToScopeSyncAsync(parameter);
 #else
-    sendToScopeSyncAudio(index, newHostValue);
-    pluginProcessor->updateListeners(index, unskewedHostValue);
+    sendToScopeSyncAudio(parameter);
+    pluginProcessor->updateListeners(parameter.getHostIdx(), parameter.getHostValue());
 #endif // __DLL_EFFECT__
 }
 
@@ -531,307 +386,6 @@ void ScopeSync::getSnapshot(Array<std::pair<int, int>>& snapshotSubset, int numE
     (void)snapshotSubset;
     (void)numElements;
 #endif // __DLL_EFFECT__
-}
-
-void ScopeSync::setAffectedByUI(int paramIdx, bool isAffected)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-
-    if (parameter.isValid())
-        parameter.setProperty(affectedByUIId, isAffected, nullptr);
-}
-
-bool ScopeSync::isAffectedByUI(int paramIdx)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    bool isAffected = false;
-
-    if (parameter.isValid())
-        isAffected = parameter.getProperty(affectedByUIId, false);
-
-    return isAffected;
-}
-
-int ScopeSync::getScopeSyncId(int paramIdx)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    int scopeSyncId = -1;
-
-    if (parameter.isValid())
-        scopeSyncId = parameter.getProperty(paramScopeSyncId, -1);
-
-    return scopeSyncId;
-}
-
-int ScopeSync::getScopeLocalId(int paramIdx)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    int scopeLocalId = -1;
-
-    if (parameter.isValid())
-        scopeLocalId = parameter.getProperty(paramScopeLocalId, -1);
-
-    return scopeLocalId;
-}
-
-void ScopeSync::getParameterSettings(int paramIdx, ValueTree& settings)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-
-    if (parameter.isValid())
-    {
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-
-        if (parameterType.isValid())
-            settings = parameterType.getChildWithName(paramTypeSettingsId);
-    }
-}
-
-void ScopeSync::mapToParameterUIValue(int paramIdx, Value& valueToMapTo)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-   
-    if (parameter.isValid())
-        valueToMapTo.referTo(parameter.getPropertyAsValue(paramUIValueId, nullptr));
-}
-
-void ScopeSync::getParameterDescriptions(int paramIdx, String& shortDesc, String& fullDesc)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-
-    if (parameter.isValid())
-    {
-        shortDesc = parameter.getProperty(paramShortDescId, shortDesc).toString();
-        fullDesc = parameter.getProperty(paramFullDescId, fullDesc).toString();
-    }
-}
-
-void ScopeSync::getParameterUIRanges(int paramIdx, double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-
-    if (parameter.isValid())
-    {
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-
-        if (parameterType.isValid())
-        {
-            rangeMin = parameterType.getProperty(paramTypeUIRangeMinId, rangeMin);
-            rangeMax = parameterType.getProperty(paramTypeUIRangeMaxId, rangeMax);
-            rangeInt = parameterType.getProperty(paramTypeUIRangeIntervalId, rangeInt);
-            uiSuffix = parameterType.getProperty(paramTypeUISuffixId, uiSuffix);
-        }
-    }
-}
-
-bool ScopeSync::getParameterUIResetValue(int paramIdx, double& uiResetValue)
-{
-    bool foundValue = false;
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    
-    if (parameter.isValid())
-    {
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-
-        if (parameterType.isValid())
-        {
-            if (parameterType.hasProperty(paramTypeUIResetValueId))
-            {
-                uiResetValue = parameterType.getProperty(paramTypeUIResetValueId);
-                foundValue = true;
-            }
-        }
-    }
-    return foundValue;
-}
-
-bool ScopeSync::getParameterUISkewFactor(int paramIdx, double& uiSkewFactor)
-{
-    bool      foundValue = false;
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    
-    if (parameter.isValid())
-    {
-        ValueTree parameterType = parameter.getChildWithName(paramTypeId);
-
-        if (parameterType.isValid())
-        {
-            if (parameterType.hasProperty(paramTypeUISkewFactorId))
-            {
-                uiSkewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
-                foundValue = true;
-            }
-        }
-    }
-    return foundValue;
-}
-
-void ScopeSync::setParameterValues(int index, float newHostValue, float newUIValue)
-{
-    ValueTree deviceParameter = deviceParameters.getChild(index);
-
-    if (deviceParameter.isValid())
-    {
-        deviceParameter.setProperty(paramHostValueId, newHostValue, nullptr);
-        deviceParameter.setProperty(paramUIValueId, newUIValue, nullptr);
-    }
-    //DBG("ScopeSync::setParameterValues - index: " + String(index) + ", newHostValue: " + String(newHostValue) + ", newUIValue: " + String(newUIValue));
-}
-
-float ScopeSync::convertUIToHostValue(int paramIdx, float value)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    float  minUIValue = paramType.getProperty(paramTypeUIRangeMinId);
-    float  maxUIValue = paramType.getProperty(paramTypeUIRangeMaxId);
-
-    float  scaledValue = (float)scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, value);
-
-    return scaledValue;
-}
-
-float ScopeSync::convertHostToUIValue(int paramIdx, float value)
-{
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    float  minUIValue = paramType.getProperty(paramTypeUIRangeMinId);
-    float  maxUIValue = paramType.getProperty(paramTypeUIRangeMaxId);
-
-    float  scaledValue = (float)scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, value);
-
-    return scaledValue;
-}
-
-float ScopeSync::convertScopeFltToHostValue(int paramIdx, float value)
-{
-    float scaledValue   = 0.0f;
-
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    int parameterValueType = paramType.getProperty(paramTypeValueTypeId);
-
-    if (parameterValueType == discrete)
-    {
-        ValueTree paramSettings = paramType.getChildWithName(paramTypeSettingsId);
-        int nearestItem = findNearestParameterSetting(paramSettings, value);
-
-        scaledValue = convertUIToHostValue(paramIdx, (float)nearestItem);
-    }
-    else
-    {
-        float  minScopeValue = paramType.getProperty(paramTypeScopeRangeMinFltId);
-        float  maxScopeValue = paramType.getProperty(paramTypeScopeRangeMaxFltId);
-
-        scaledValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, value);
-    }
-
-    return scaledValue;
-}
-
-float ScopeSync::convertScopeIntToHostValue(int paramIdx, int value)
-{
-    float scaledValue   = 0.0f;
-
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    int minScopeValue = paramType.getProperty(paramTypeScopeRangeMinId);
-    int maxScopeValue = paramType.getProperty(paramTypeScopeRangeMaxId);
-
-    scaledValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, value);
-
-    int parameterValueType = paramType.getProperty(paramTypeValueTypeId);
-
-    if (parameterValueType == discrete)
-    {
-        ValueTree paramSettings = paramType.getChildWithName(paramTypeSettingsId);
-        int nearestItem = findNearestParameterSetting(paramSettings, scaledValue);
-
-        scaledValue = convertUIToHostValue(paramIdx, (float)nearestItem);
-    }
-
-    return scaledValue;
-}
-
-float ScopeSync::convertHostToScopeFltValue(int paramIdx, float value)
-{
-    float scaledValue   = 0.0f;
-
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    int parameterValueType = paramType.getProperty(paramTypeValueTypeId);
-    if (parameterValueType == discrete)
-    {
-        ValueTree paramSettings = paramType.getChildWithName(paramTypeSettingsId);
-        int settingIdx = roundDoubleToInt(convertHostToUIValue(paramIdx, value));
-
-        scaledValue = paramSettings.getChild(settingIdx).getProperty(paramTypeSettingValueId);
-    }
-    else
-    {
-        float  minScopeValue = paramType.getProperty(paramTypeScopeRangeMinFltId);
-        float  maxScopeValue = paramType.getProperty(paramTypeScopeRangeMaxFltId);
-
-        scaledValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, value);
-    }
-
-    return scaledValue;
-}
-
-int ScopeSync::convertHostToScopeIntValue(int paramIdx, float value)
-{
-    int   scaledValue = 0;
-
-    ValueTree parameter = deviceParameters.getChild(paramIdx);
-    ValueTree paramType = parameter.getChildWithName(paramTypeId);
-
-    int parameterValueType = paramType.getProperty(paramTypeValueTypeId);
-    
-    if (parameterValueType == discrete)
-    {
-        ValueTree paramSettings = paramType.getChildWithName(paramTypeSettingsId);
-        int settingIdx = roundDoubleToInt(convertHostToUIValue(paramIdx, value));
-
-        value = paramSettings.getChild(settingIdx).getProperty(paramTypeSettingValueId);
-    }
-    
-    int minScopeValue = paramType.getProperty(paramTypeScopeRangeMinId);
-    int maxScopeValue = paramType.getProperty(paramTypeScopeRangeMaxId);
-    
-    scaledValue = (int)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, value);
-    
-    return scaledValue;
-}
-
-int ScopeSync::findNearestParameterSetting(const ValueTree& settings, float value)
-{
-    int   nearestItem = 0;
-    float smallestGap = 1.0f;
-
-    for (int i = 0; i < settings.getNumChildren(); i++)
-    {
-        float settingValue = settings.getChild(i).getProperty(paramTypeSettingValueId);
-        float gap = abs(value - settingValue);
-
-        if (gap < FLT_EPSILON)
-        {
-            DBG("ScopeSync::findNearestParameterSetting - Found 'exact' match for setting: " + String(settings.getChild(i).getProperty(paramTypeSettingNameId)));
-
-            nearestItem = i;
-            break;
-        }
-        else if (gap < smallestGap)
-        {
-            smallestGap = gap;
-            nearestItem = i;
-        }
-    }
-
-    return nearestItem;
 }
 
 Value& ScopeSync::getConfigurationName()
@@ -1063,23 +617,23 @@ void ScopeSync::restoreParameterValues()
 bool ScopeSync::loadSystemParameterTypes()
 {
     // Create the default parameter type
-    ValueTree defaultParameterType(paramTypeId);
-    defaultParameterType.setProperty(paramTypeNameId,             "default",         nullptr);
-    defaultParameterType.setProperty(paramTypeUISuffixId,         "",                nullptr);
-    defaultParameterType.setProperty(paramTypeScopeRangeMinId,    0,                 nullptr);
-    defaultParameterType.setProperty(paramTypeScopeRangeMaxId,    MAX_SCOPE_INTEGER, nullptr);
-    defaultParameterType.setProperty(paramTypeScopeRangeMinFltId, 0.0f,              nullptr);
-    defaultParameterType.setProperty(paramTypeScopeRangeMaxFltId, 1.0f,              nullptr);
-    defaultParameterType.setProperty(paramTypeUIRangeMinId,       0,                 nullptr);
-    defaultParameterType.setProperty(paramTypeUIRangeMaxId,       100,               nullptr);
-    defaultParameterType.setProperty(paramTypeUIRangeIntervalId,  0.0001,            nullptr);
-    defaultParameterType.setProperty(paramTypeValueTypeId,        continuous,        nullptr);
+    ValueTree defaultParameterType(BCMParameter::paramTypeId);
+    defaultParameterType.setProperty(BCMParameter::paramTypeNameId,             "default",                nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeUISuffixId,         "",                       nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeScopeRangeMinId,    0,                        nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeScopeRangeMaxId,    MAX_SCOPE_INTEGER,        nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeScopeRangeMinFltId, 0.0f,                     nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeScopeRangeMaxFltId, 1.0f,                     nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeUIRangeMinId,       0,                        nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeUIRangeMaxId,       100,                      nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeUIRangeIntervalId,  0.0001,                   nullptr);
+    defaultParameterType.setProperty(BCMParameter::paramTypeValueTypeId,        BCMParameter::continuous, nullptr);
 
     XmlDocument               parameterTypesDocument(systemParameterTypes);
     ScopedPointer<XmlElement> parameterTypesXml = parameterTypesDocument.getDocumentElement();
     
     // Initialise the parameterTypes Tree and add the default entry
-    parameterTypes = ValueTree(paramTypesId);
+    parameterTypes = ValueTree(BCMParameter::paramTypesId);
     parameterTypes.addChild(defaultParameterType, 0, nullptr);
 
     if (parameterTypesXml != nullptr)
@@ -1134,11 +688,11 @@ bool ScopeSync::overrideParameterTypes(XmlElement& parameterTypesXml)
         ValueTree parameterType = parameterTypes.getChild(0).createCopy();
         bool      newParameterType = true;
         
-        String parameterTypeName = child->getStringAttribute(paramTypeNameId);
+        String parameterTypeName = child->getStringAttribute(BCMParameter::paramTypeNameId);
 
         for (int i = 0; i < parameterTypes.getNumChildren(); i++)
         {
-            if (parameterTypes.getChild(i).getProperty(paramTypeNameId) == parameterTypeName)
+            if (parameterTypes.getChild(i).getProperty(BCMParameter::paramTypeNameId) == parameterTypeName)
             {
                 parameterType    = parameterTypes.getChild(i);
                 newParameterType = false;
@@ -1159,11 +713,11 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
     {
         Identifier xmlId = child->getTagName();
 
-        if (xmlId == paramTypeNameId || xmlId == paramTypeUISuffixId)
+        if (xmlId == BCMParameter::paramTypeNameId || xmlId == BCMParameter::paramTypeUISuffixId)
         {
             parameterType.setProperty(xmlId, child->getAllSubText(), nullptr);
         }
-        else if (xmlId == paramTypeScopeRangeMinId || xmlId == paramTypeScopeRangeMaxId)
+        else if (xmlId == BCMParameter::paramTypeScopeRangeMinId || xmlId == BCMParameter::paramTypeScopeRangeMaxId)
         {
             int intValue = 0;
 
@@ -1183,17 +737,17 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
             else
                 fltValue = -((float)intValue / (float)MIN_SCOPE_INTEGER);  
             
-            if (xmlId == paramTypeScopeRangeMinId)
-                parameterType.setProperty(paramTypeScopeRangeMinFltId, fltValue, nullptr);
+            if (xmlId == BCMParameter::paramTypeScopeRangeMinId)
+                parameterType.setProperty(BCMParameter::paramTypeScopeRangeMinFltId, fltValue, nullptr);
             else
-                parameterType.setProperty(paramTypeScopeRangeMaxFltId, fltValue, nullptr);
+                parameterType.setProperty(BCMParameter::paramTypeScopeRangeMaxFltId, fltValue, nullptr);
         }
         else if
             (
-                xmlId == paramTypeUIRangeMinId
-             || xmlId == paramTypeUIRangeMaxId
-             || xmlId == paramTypeUIRangeIntervalId
-             || xmlId == paramTypeUIResetValueId
+                xmlId == BCMParameter::paramTypeUIRangeMinId
+             || xmlId == BCMParameter::paramTypeUIRangeMaxId
+             || xmlId == BCMParameter::paramTypeUIRangeIntervalId
+             || xmlId == BCMParameter::paramTypeUIResetValueId
             )
         {
             float fltValue = child->getAllSubText().getFloatValue();
@@ -1202,28 +756,29 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
 
     }
 
-    XmlElement* skewFactor = xml.getChildByName(paramTypeUISkewFactorId);
+    XmlElement* skewFactor = xml.getChildByName(BCMParameter::paramTypeUISkewFactorId);
     
     if (skewFactor != nullptr)
     {
-        float uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
-        float uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        float uiMinValue = parameterType.getProperty(BCMParameter::paramTypeUIRangeMinId);
+        float uiMaxValue = parameterType.getProperty(BCMParameter::paramTypeUIRangeMaxId);
         readUISkewFactorXml(*skewFactor, parameterType, uiMinValue, uiMaxValue);
     }
      
-    XmlElement* paramSettings = xml.getChildByName(paramTypeSettingsId);
+    XmlElement* paramSettings = xml.getChildByName(BCMParameter::paramTypeSettingsId);
+
     if (paramSettings != nullptr)
     {
         // Remove any existing settings, in case we're overriding from the main parameter type
-        parameterType.removeChild(parameterType.getChildWithName(paramTypeSettingsId), nullptr);
+        parameterType.removeChild(parameterType.getChildWithName(BCMParameter::paramTypeSettingsId), nullptr);
                 
-        ValueTree parameterSettings(paramTypeSettingsId);
+        ValueTree parameterSettings(BCMParameter::paramTypeSettingsId);
 
         int numSettings = 0;
 
         // Need to find out how many settings we have, so we can calculate the
         // automatic values below
-        forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, paramTypeSettingId)
+        forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, BCMParameter::paramTypeSettingId)
         {
             numSettings++;
         }
@@ -1232,39 +787,39 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
         {
             float uiRangeMax = (float)numSettings - 1.0f;
 
-            parameterType.setProperty(paramTypeUIRangeMinId, 0.0f, nullptr);
-            parameterType.setProperty(paramTypeUIRangeMaxId, uiRangeMax, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeUIRangeMinId, 0.0f, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeUIRangeMaxId, uiRangeMax, nullptr);
 
             int settingCounter = 0;
 
-            parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeValueTypeId, BCMParameter::discrete, nullptr);
 
-            forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, paramTypeSettingId)
+            forEachXmlChildElementWithTagName(*paramSettings, paramSettingXml, BCMParameter::paramTypeSettingId)
             {
-                ValueTree parameterSetting(paramTypeSettingId);
+                ValueTree parameterSetting(BCMParameter::paramTypeSettingId);
 
                 String    settingName = paramSettingXml->getAllSubText();
-                parameterSetting.setProperty(paramTypeSettingNameId, settingName, nullptr);
+                parameterSetting.setProperty(BCMParameter::paramTypeSettingNameId, settingName, nullptr);
 
                 float autoSettingValue = (float)scaleDouble(0, numSettings - 1, 0, 1, settingCounter);
-                float settingValue = (float)(paramSettingXml->getDoubleAttribute(paramTypeSettingValueId, autoSettingValue));
-                parameterSetting.setProperty(paramTypeSettingValueId, settingValue, nullptr);
+                float settingValue = (float)(paramSettingXml->getDoubleAttribute(BCMParameter::paramTypeSettingValueId, autoSettingValue));
+                parameterSetting.setProperty(BCMParameter::paramTypeSettingValueId, settingValue, nullptr);
 
                 parameterSettings.addChild(parameterSetting, -1, nullptr);
                 settingCounter++;
             }
 
-            parameterType.setProperty(ScopeSync::paramTypeUIRangeMinId, 0, nullptr);
-            parameterType.setProperty(ScopeSync::paramTypeUIRangeMaxId, settingCounter - 1, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeUIRangeMinId, 0, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeUIRangeMaxId, settingCounter - 1, nullptr);
 
-            parameterType.setProperty(paramTypeValueTypeId, discrete, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeValueTypeId, BCMParameter::discrete, nullptr);
             parameterType.addChild(parameterSettings, -1, nullptr);
         }
         else
         {
             // In this case, i.e. we have an empty "settings" element, set the parameter type
             // as being "continuous" instead of "discrete"
-            parameterType.setProperty(paramTypeValueTypeId, continuous, nullptr);
+            parameterType.setProperty(BCMParameter::paramTypeValueTypeId, BCMParameter::continuous, nullptr);
         }
     }
 }
@@ -1282,8 +837,8 @@ void ScopeSync::readUISkewFactorXml(const XmlElement& xml, ValueTree& parameterT
     if (skewFactorType == "frommidpoint")
         skewFactor = log(0.5) / log((skewFactor - uiMinValue) / (uiMaxValue - uiMinValue));
     
-    parameterType.setProperty(paramTypeUISkewFactorId, skewFactor, nullptr);
-    parameterType.setProperty(paramTypeSkewUIOnlyId, xml.getBoolAttribute("uionly", false), nullptr);
+    parameterType.setProperty(BCMParameter::paramTypeUISkewFactorId, skewFactor, nullptr);
+    parameterType.setProperty(BCMParameter::paramTypeSkewUIOnlyId, xml.getBoolAttribute("uionly", false), nullptr);
 }
 
 bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
@@ -1311,15 +866,15 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         }
     }
 
-    deviceParameters = ValueTree(deviceId);
+    deviceParameters = ValueTree(BCMParameter::deviceId);
     numParameters = 0;
     
     forEachXmlChildElementWithTagName(deviceXml, child, "parameter")
     {
-        ValueTree parameter     = ValueTree(paramId);
+        ValueTree parameter     = ValueTree(BCMParameter::paramId);
         bool scopeLocalParameter = false;
         
-        parameter.setProperty(paramNameId, child->getStringAttribute(paramNameId, "__NO_NAME__"), nullptr);
+        parameter.setProperty(BCMParameter::paramNameId, child->getStringAttribute(BCMParameter::paramNameId, "__NO_NAME__"), nullptr);
         
         // In case we don't find a match or no parameter type is supplied in the XML,
         // initialise to the default parameter type
@@ -1329,11 +884,11 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         {
             Identifier xmlId = subChild->getTagName();
 
-            if (xmlId == paramShortDescId || xmlId == paramFullDescId)
+            if (xmlId == BCMParameter::paramShortDescId || xmlId == BCMParameter::paramFullDescId)
             {
                 parameter.setProperty(xmlId, subChild->getAllSubText(), nullptr);
             }
-            else if (xmlId == paramScopeSyncId)
+            else if (xmlId == BCMParameter::paramScopeSyncId)
             {
                 // Ignore ScopeSync value if we already have a ScopeLocal value
                 if (scopeLocalParameter)
@@ -1346,7 +901,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                         parameter.setProperty(xmlId, scopeSyncCode, nullptr);
                 }
             }
-            else if (xmlId == paramScopeLocalId)
+            else if (xmlId == BCMParameter::paramScopeLocalId)
             {
                 int scopeLocalCode = scopeLocalCodes.indexOf(subChild->getAllSubText());
                 
@@ -1355,7 +910,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                     scopeLocalParameter = true;
                     parameter.setProperty(xmlId, scopeLocalCode, nullptr);
                     // Get rid of any ScopeSync value that may have been set
-                    parameter.removeProperty(paramScopeSyncId, nullptr);
+                    parameter.removeProperty(BCMParameter::paramScopeSyncId, nullptr);
                 }   
                 else
                 {
@@ -1364,13 +919,13 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                     break;
                 }
             }
-            else if (xmlId == paramTypeId)
+            else if (xmlId == BCMParameter::paramTypeId)
             {
-                String parameterTypeName = subChild->getStringAttribute(paramTypeNameId);
+                String parameterTypeName = subChild->getStringAttribute(BCMParameter::paramTypeNameId);
 
                 for (int i = 0; i < parameterTypes.getNumChildren(); i++)
                 {
-                    if (parameterTypes.getChild(i).getProperty(paramTypeNameId) == parameterTypeName)
+                    if (parameterTypes.getChild(i).getProperty(BCMParameter::paramTypeNameId) == parameterTypeName)
                     {
                         parameterType = parameterTypes.getChild(i).createCopy();
                         break;
@@ -1381,33 +936,30 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                 getParameterTypeFromXML(*subChild, parameterType);
             }
         }
-
+        
+        parameter.addChild(parameterType, -1, nullptr);
+        
         if (scopeLocalParameter)
         {
-            // Ignore ScopeLocal parameters if in a plugin context
             if (inPluginContext())
+            {
+                scopeLocalParameters.add(new BCMParameter(-1, parameter));
+            }
+            else
+            {
+                // Ignore ScopeLocal parameters if in a plugin context
                 continue;
+            }   
+        }
+        else
+        {
+            int hostIdx = hostParameters.size();
+            hostParameters.add(new BCMParameter(hostIdx, parameter));
         }
 
         numParameters++;
         
-        parameter.addChild(parameterType, -1, nullptr);
-        deviceParameters.addChild(parameter, -1, nullptr);
-
-        // Set a sensible default value
-        int   paramIdx;
-        float uiInitValue;
-        float hostInitValue;
-
-        if (parameterType.hasProperty(paramTypeUIResetValueId))
-            uiInitValue = parameterType.getProperty(paramTypeUIResetValueId);
-        else
-            uiInitValue = parameterType.getProperty(paramTypeUIRangeMinId);
-
-        paramIdx      = deviceParameters.indexOf(parameter);
-        hostInitValue = convertUIToHostValue(paramIdx, uiInitValue);
-
-        setParameterValues(paramIdx, hostInitValue, uiInitValue);
+        deviceParameters.addChild(parameter, -1, nullptr);      
     }
 
     //DeviceParameterComparator comparator;

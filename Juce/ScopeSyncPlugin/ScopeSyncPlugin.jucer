@@ -49,6 +49,9 @@
             file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
     </GROUP>
     <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
+      <FILE id="rUwpMR" name="BCMParameter.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Core/BCMParameter.cpp"/>
+      <FILE id="GxF2eO" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSyncShared/Core/BCMParameter.h"/>
       <FILE id="wqgBZf" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSyncShared/Core/ScopeSync.cpp"/>
       <FILE id="CZJUPs" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSync.h"/>
       <FILE id="mtS6Lx" name="ScopeSyncGUI.cpp" compile="1" resource="0"

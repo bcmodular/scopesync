@@ -72,11 +72,10 @@ float PluginProcessor::getParameter (int index)
 void PluginProcessor::setParameter(int index, float newValue)
 {
     DBG("PluginProcessor::setParameter - index: " + String(index) + ", newValue: " + String(newValue));
-    if (isPositiveAndBelow(index, scopeSync->getNumParameters()))
-        scopeSync->setParameterFromHost(index, newValue);
+    scopeSync->setParameterFromHost(index, newValue);
 }
 
-const String PluginProcessor::getParameterName (int index)
+const String PluginProcessor::getParameterName(int index)
 {
     String parameterName = String::empty;
     scopeSync->getParameterNameForHost(index, parameterName);
@@ -87,8 +86,11 @@ const String PluginProcessor::getParameterName (int index)
 
 const String PluginProcessor::getParameterText (int index)
 {
-    DBG("PluginProcessor::getParameterText - " + String(scopeSync->getParameterText(index)));
-    return String(scopeSync->getParameterText(index));
+    String parameterText = String::empty;
+    scopeSync->getParameterText(index, parameterText);
+
+    DBG("PluginProcessor::getParameterText - " + parameterText);
+    return parameterText;
 }
 
 const String PluginProcessor::getInputChannelName (int channelIndex) const

@@ -33,6 +33,7 @@ class ScopeSyncGUI;
 class SliderProperties;
 
 #include <JuceHeader.h>
+#include "../Core/BCMParameter.h"
 
 class BCMSlider : public Slider
 {
@@ -43,8 +44,8 @@ public:
     // Indicates whether a BCMSlider has a parameter mapping
     bool hasParameter() { return mapsToParameter; };
     
-    // Returns the identifier for the parameter a BCMSlider is mapped to
-    int  getParamIdx()  { return paramIdx; };
+    // Returns the parameter a BCMSlider is mapped to
+    BCMParameter* getParameter()  { return parameter; };
 
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
@@ -52,8 +53,8 @@ public:
     Justification::Flags justificationFlags;
     
 private:
-    bool mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    int  paramIdx;        // Identifier for a mapped parameter
+    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter* parameter;       // Pointer to a mapped parameter
 
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
     

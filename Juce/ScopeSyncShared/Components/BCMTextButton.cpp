@@ -75,20 +75,19 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
     displayType = currentSetting;
 
     mapsToParameter = false;
-    paramIdx = -1;
-
+    
     ValueTree mapping;
-    scopeSyncGUI.getUIMapping(ScopeSyncGUI::mappingTextButtonId, name, mapping, paramIdx);
+    parameter = scopeSyncGUI.getUIMapping(ScopeSyncGUI::mappingTextButtonId, name, mapping);
 
-    if (paramIdx != -1)
+    if (parameter != nullptr)
     {
         DBG("BCMTextButton::BCMTextButton - mapping found: " + mapping.toXmlString());
         mapsToParameter = true;       
         
         String paramShortDesc;
-        scopeSyncGUI.getScopeSync().getParameterDescriptions(paramIdx, buttonText, tooltip);
-        scopeSyncGUI.getScopeSync().getParameterSettings(paramIdx, settings);
-        scopeSyncGUI.getScopeSync().mapToParameterUIValue(paramIdx, parameterValue);
+        parameter->getDescriptions(buttonText, tooltip);
+        parameter->getSettings(settings);
+        parameter->mapToUIValue(parameterValue);
         
         // Grab the correct mapping type
         String mappingTypeString = mapping.getProperty(ScopeSyncGUI::mappingTypeId);
@@ -131,7 +130,7 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
             }
             else
             {
-                buttonText = settings.getChild(currentSettingIdx).getProperty(ScopeSync::paramTypeSettingNameId, "__NO_NAME__");
+                buttonText = settings.getChild(currentSettingIdx).getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
             }
         
             if (mappingType == toggle || mappingType == noToggle)
@@ -142,7 +141,7 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
                 for (int i = 0; i < settings.getNumChildren(); i++)
                 {
                     ValueTree setting = settings.getChild(i);
-                    String    settingName = setting.getProperty(ScopeSync::paramTypeSettingNameId, "__NO_NAME__");
+                    String    settingName = setting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
 
                     if (settingName == settingDown)
                     {
@@ -350,7 +349,7 @@ void BCMTextButton::clicked()
                 valueToSet = (float)downSettingIdx;
             
             if (valueToSet >= 0)
-                scopeSyncGUI.getScopeSync().setParameterFromGUI(getParamIdx(), valueToSet);
+                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
         }
     }
 }
@@ -361,7 +360,7 @@ void BCMTextButton::valueChanged(Value& value)
 
     if (displayType == currentSetting)
     {
-        String buttonText = settings.getChild(value.getValue()).getProperty(ScopeSync::paramTypeSettingNameId, "__NO_NAME__");
+        String buttonText = settings.getChild(value.getValue()).getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
         setButtonText(buttonText);
     }
 

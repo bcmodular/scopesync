@@ -42,6 +42,7 @@ class BCMTabbedComponent;
 #include "../Components/BCMComponent.h"
 #include "../Components/BCMTabbedComponent.h"
 #include "ScopeSync.h"
+#include "BCMParameter.h"
 #include "../Properties/ComponentProperties.h"
 #include "../Properties/SliderProperties.h"
 #include "../Properties/LabelProperties.h"
@@ -58,10 +59,10 @@ public:
     ~ScopeSyncGUI();
 
     /* ========================== Public Actions ============================= */
-    void showUserSettings();
-    void chooseConfiguration();
-    void getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping, int& paramIdx);
-    void addTabbedComponent(BCMTabbedComponent* tabbedComponent);
+    void          showUserSettings();
+    void          chooseConfiguration();
+    BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
+    void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);
    
     ScopeSync& getScopeSync() const { return scopeSync; };
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);

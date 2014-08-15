@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\UserSettings.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFX.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1059,6 +1060,7 @@
     <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

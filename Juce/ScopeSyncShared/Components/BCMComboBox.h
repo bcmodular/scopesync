@@ -33,6 +33,7 @@ class ScopeSyncGUI;
 class ComboBoxProperties;
 
 #include <JuceHeader.h>
+#include "../Core/BCMParameter.h"
 
 class BCMComboBox : public ComboBox
 {
@@ -45,16 +46,16 @@ public:
     // Indicates whether a BCMComboBox has a parameter mapping
     bool  hasParameter() { return mapsToParameter; };
     
-    // Returns the identifier for the parameter a BCMComboBox is mapped to
-    int   getParamIdx()  { return paramIdx; };
+    // Returns the parameter a BCMComboBox is mapped to
+    BCMParameter* getParameter()  { return parameter; };
 
     float                fontHeight;     // Height of font for BCMComboBox's current value (use PopupMenu LookAndFeel for other fonts)
     Font::FontStyleFlags fontStyleFlags; // Style flags for BCMComboBox's current value
 
 private:
-    Value parameterValue; // Maintains a link to a mapped parameter's UI value
-    bool mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    int  paramIdx;        // Identifier for a mapped parameter
+    Value         parameterValue;  // Maintains a link to a mapped parameter's UI value
+    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter* parameter;       // Pointer to a mapped parameter
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComboBox);
 };

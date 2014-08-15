@@ -27,6 +27,7 @@
  */
 
 #include "ScopeSyncGUI.h"
+#include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
 
@@ -90,7 +91,7 @@ void ScopeSyncGUI::chooseConfiguration()
     }
 }
 
-void ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping, int& paramIdx)
+BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)
 {
     ValueTree componentMapping = deviceMapping.getChildWithName(componentTypeId);
 
@@ -104,11 +105,12 @@ void ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& compon
             {
                 mapping = componentMapping.getChild(i);
                 String mapTo = mapping.getProperty(mappingMapToId).toString();
-                paramIdx = scopeSync.getParameterIdxByName(mapTo);
-                return;
+                return scopeSync.getParameterByName(mapTo);
             }
         }
     }
+    
+    return nullptr;
 }
 
 void ScopeSyncGUI::addTabbedComponent(BCMTabbedComponent* tabbedComponent)

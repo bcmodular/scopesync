@@ -34,6 +34,7 @@ class TextButtonProperties;
 
 #include <JuceHeader.h>
 #include "BCMTabbedComponent.h"
+#include "../Core/BCMParameter.h"
 
 class BCMTextButton : public TextButton,
                       public Value::Listener,
@@ -49,14 +50,14 @@ public:
     // Indicates whether a BCMComboBox has a parameter mapping
     bool  hasParameter() { return mapsToParameter; };
     
-    // Returns the identifier for the parameter a BCMComboBox is mapped to
-    int   getParamIdx()  { return paramIdx; };
+    // Returns parameter a BCMComboBox is mapped to
+    BCMParameter* getParameter()  { return parameter; };
 
 private:
     Value parameterValue; // Maintains a link to a mapped parameter's UI value
 
-    bool mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    int  paramIdx;        // Identifier for a mapped parameter
+    bool           mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter*  parameter;       // Pointer to a mapped parameter
 
     // Timer Callback. Used as part of the click block solution
     void timerCallback();

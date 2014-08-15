@@ -234,7 +234,7 @@ void BCMComponent::sliderValueChanged (Slider* sliderThatWasMoved)
         
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().setParameterFromGUI(bcmSlider->getParamIdx(), value);
+        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmSlider->getParameter()), value);
     }
     return;
 }
@@ -250,7 +250,7 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
         
     if (bcmComboBox && bcmComboBox->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().setParameterFromGUI(bcmComboBox->getParamIdx(), (float)selectedIndex);
+        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
     }
 }
 
@@ -260,7 +260,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().beginParameterChangeGesture(bcmSlider->getParamIdx());
+        scopeSyncGUI.getScopeSync().beginParameterChangeGesture(*(bcmSlider->getParameter()));
     }
 }
 
@@ -270,6 +270,6 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().endParameterChangeGesture(bcmSlider->getParamIdx());
+        scopeSyncGUI.getScopeSync().endParameterChangeGesture(*(bcmSlider->getParameter()));
     }
 }

@@ -95,6 +95,9 @@
         <FILE id="AhwtTw" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
       </GROUP>
       <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
+        <FILE id="hp3XDd" name="BCMParameter.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Core/BCMParameter.cpp"/>
+        <FILE id="OurEJu" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSyncShared/Core/BCMParameter.h"/>
         <FILE id="lxDrpT" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSyncShared/Core/ScopeSync.cpp"/>
         <FILE id="ziX49Q" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSync.h"/>
         <FILE id="ojDawd" name="ScopeSyncGUI.cpp" compile="1" resource="0"
