@@ -121,6 +121,7 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
             }
         }
 
+        DBG("BCMSlider::BCMSlider - " + getName() + " mapping to parameter: " + parameter->getName());
         parameter->mapToUIValue(getValueObject());
     }
     else

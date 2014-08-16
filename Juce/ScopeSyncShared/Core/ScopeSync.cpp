@@ -157,11 +157,20 @@ void ScopeSync::receiveUpdatesFromScopeAudio()
         const ScopedLock cuLock(scopeSyncAudio.controlUpdateLock);
         audioControlUpdates.swapWith(scopeSyncAudio.controlUpdates);
         
+        DBG("ScopeSync::receiveUpdatesFromScopeAudio");
+        DBG("=======================================");
         for (int i = 0; i < audioControlUpdates.size(); i++)
         {
             int   scopeSyncCode = audioControlUpdates[i].first;
             float newScopeValue = audioControlUpdates[i].second;
+            DBG("scopeSyncCode: " + String(scopeSyncCode) + ", newScopeValue: " + String(newScopeValue) + ", paramIdx: " + String(paramIdxByScopeSyncId[scopeSyncCode]));
+        }
 
+        for (int i = 0; i < audioControlUpdates.size(); i++)
+        {
+            int   scopeSyncCode = audioControlUpdates[i].first;
+            float newScopeValue = audioControlUpdates[i].second;
+            
             int paramIdx = paramIdxByScopeSyncId[scopeSyncCode];
             
             if (paramIdx >= 0)
@@ -297,7 +306,7 @@ int ScopeSync::getNumParametersForHost()
     if (numHostParameters < minHostParameters)
         numHostParameters = minHostParameters;
 
-    DBG("ScopeSync::getNumHostParameters - " + String(numHostParameters));
+    //DBG("ScopeSync::getNumHostParameters - " + String(numHostParameters));
     return numHostParameters;
 }
 
@@ -879,7 +888,10 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         // In case we don't find a match or no parameter type is supplied in the XML,
         // initialise to the default parameter type
         ValueTree parameterType = parameterTypes.getChild(0).createCopy();
-            
+        
+        int scopeSyncCode  = -1;
+        int scopeLocalCode = -1;
+
         forEachXmlChildElement(*child, subChild)
         {
             Identifier xmlId = subChild->getTagName();
@@ -895,7 +907,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                     continue;
                 else
                 {
-                    int scopeSyncCode = scopeSyncCodes.indexOf(subChild->getAllSubText());
+                    scopeSyncCode = scopeSyncCodes.indexOf(subChild->getAllSubText());
                 
                     if (scopeSyncCode != -1)
                         parameter.setProperty(xmlId, scopeSyncCode, nullptr);
@@ -903,7 +915,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
             }
             else if (xmlId == BCMParameter::paramScopeLocalId)
             {
-                int scopeLocalCode = scopeLocalCodes.indexOf(subChild->getAllSubText());
+                scopeLocalCode = scopeLocalCodes.indexOf(subChild->getAllSubText());
                 
                 if (scopeLocalCode != -1 && inScopeFXContext())
                 {
@@ -941,9 +953,13 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         
         if (scopeLocalParameter)
         {
-            if (inPluginContext())
+            if (!inPluginContext())
             {
-                scopeLocalParameters.add(new BCMParameter(-1, parameter));
+                int paramIdx = scopeLocalParameters.size();
+                scopeLocalParameters.add(new BCMParameter(paramIdx, parameter));
+                
+                DBG("ScopeSync::loadDeviceParameters - setting Parameter Index - scopeLocalCode: " + String(scopeLocalCode) + ", paramIdx: " + String(paramIdx));
+                paramIdxByScopeSyncId.set(scopeLocalCode, paramIdx);
             }
             else
             {
@@ -953,8 +969,10 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
         }
         else
         {
-            int hostIdx = hostParameters.size();
-            hostParameters.add(new BCMParameter(hostIdx, parameter));
+            int paramIdx = hostParameters.size();
+            hostParameters.add(new BCMParameter(paramIdx, parameter));
+            DBG("ScopeSync::loadDeviceParameters - setting Parameter Index - scopeSyncCode: " + String(scopeSyncCode) + ", paramIdx: " + String(paramIdx));
+            paramIdxByScopeSyncId.set(scopeSyncCode, paramIdx);
         }
 
         numParameters++;

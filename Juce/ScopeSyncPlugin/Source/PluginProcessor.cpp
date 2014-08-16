@@ -57,7 +57,7 @@ int PluginProcessor::getNumParameters()
 {
     int numParameters = scopeSync->getNumParametersForHost();
     
-    DBG("PluginProcessor::getNumParameters - " + String(numParameters));
+    //DBG("PluginProcessor::getNumParameters - " + String(numParameters));
     return numParameters;
 }
 
