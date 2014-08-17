@@ -157,15 +157,6 @@ void ScopeSync::receiveUpdatesFromScopeAudio()
         const ScopedLock cuLock(scopeSyncAudio.controlUpdateLock);
         audioControlUpdates.swapWith(scopeSyncAudio.controlUpdates);
         
-        DBG("ScopeSync::receiveUpdatesFromScopeAudio");
-        DBG("=======================================");
-        for (int i = 0; i < audioControlUpdates.size(); i++)
-        {
-            int   scopeSyncCode = audioControlUpdates[i].first;
-            float newScopeValue = audioControlUpdates[i].second;
-            DBG("scopeSyncCode: " + String(scopeSyncCode) + ", newScopeValue: " + String(newScopeValue) + ", paramIdx: " + String(paramIdxByScopeSyncId[scopeSyncCode]));
-        }
-
         for (int i = 0; i < audioControlUpdates.size(); i++)
         {
             int   scopeSyncCode = audioControlUpdates[i].first;
@@ -455,13 +446,15 @@ bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState, bool clearS
 {
     setConfigurationLoading(true);
     numParameters = 0;
+    hostParameters.clear();
+    scopeLocalParameters.clear();
     
     if (clearSystemErrorMessage)
         clearSystemError();
 
     if (!loadSystemParameterTypes())
     {
-        setSystemError("Failed to load system parameter types");
+        DBG("Failed to load system parameter types");
         setConfigurationLoading(false);
         return false;
     }
@@ -959,7 +952,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
                 scopeLocalParameters.add(new BCMParameter(paramIdx, parameter));
                 
                 DBG("ScopeSync::loadDeviceParameters - setting Parameter Index - scopeLocalCode: " + String(scopeLocalCode) + ", paramIdx: " + String(paramIdx));
-                paramIdxByScopeSyncId.set(scopeLocalCode, paramIdx);
+                paramIdxByScopeLocalId.set(scopeLocalCode, paramIdx);
             }
             else
             {
