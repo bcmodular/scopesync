@@ -31,7 +31,11 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 
-BCMTabbedComponent::BCMTabbedComponent(TabbedComponentProperties& properties, ScopeSyncGUI& gui, TabbedButtonBar::Orientation orientation) : TabbedComponent(orientation)
+BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation) : TabbedComponent(orientation) {}
+
+BCMTabbedComponent::~BCMTabbedComponent() {}
+
+void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties, ScopeSyncGUI& gui)
 {
     TabbedButtonBar& bar           = getTabbedButtonBar();
     NamedValueSet&   barProperties = bar.getProperties();
@@ -45,12 +49,6 @@ BCMTabbedComponent::BCMTabbedComponent(TabbedComponentProperties& properties, Sc
 
     barProperties.set("showdropshadow", properties.showDropShadow);
     
-    setBounds(
-        properties.x,
-        properties.y,
-        properties.width,
-        properties.height
-    );
+    componentBounds = properties.bounds;
+    BCM_SET_BOUNDS
 }
-
-BCMTabbedComponent::~BCMTabbedComponent() {}

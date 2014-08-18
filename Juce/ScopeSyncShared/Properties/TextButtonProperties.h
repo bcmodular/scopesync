@@ -29,6 +29,7 @@
 #define TEXTBUTTONPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class TextButtonProperties
 {
@@ -44,17 +45,14 @@ public:
 
     ~TextButtonProperties();
 
-    String      name;
-    String      text;
-    String      tooltip;
-    int         width;
-    int         height;
-    int         y;
-    int         x;
-    String      bcmLookAndFeelId;
-    int         radioGroupId;
-    StringArray tabbedComponents;
-    StringArray tabNames;
+    String             name;
+    String             text;
+    String             tooltip;
+    BCMComponentBounds bounds;
+    String             bcmLookAndFeelId;
+    int                radioGroupId;
+    StringArray        tabbedComponents;
+    StringArray        tabNames;
     
 private:
     void initialise();

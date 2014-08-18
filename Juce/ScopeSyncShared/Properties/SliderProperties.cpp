@@ -107,7 +107,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     
     XmlElement* boundsXml = sliderXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds.x, bounds.y, bounds.width, bounds.height);
+        getBoundsFromXml(*boundsXml, bounds);
 
     getSliderStyleFromXml(sliderXML.getStringAttribute("style"), style);
     

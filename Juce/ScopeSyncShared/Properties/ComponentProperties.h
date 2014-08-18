@@ -29,6 +29,7 @@
 #define COMPONENTPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class ComponentProperties
 {
@@ -43,10 +44,7 @@ public:
     ComponentProperties(XmlElement& componentXML, ComponentProperties& parentComponentProperties);
     ~ComponentProperties();
 
-    int                x;
-    int                y;
-    int                width;
-    int                height;
+    BCMComponentBounds bounds;
     String             backgroundColour;
     String             backgroundImageFileName;
     RectanglePlacement backgroundImagePlacement;

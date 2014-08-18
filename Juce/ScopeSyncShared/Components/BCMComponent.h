@@ -39,20 +39,23 @@ class BCMTextButton;
 class BCMTabbedComponent;
 
 #include "JuceHeader.h"
+#include "../Components/BCMComponentBounds.h"
 
 class BCMComponent : public Component,
                      public SliderListener,
                      public ComboBoxListener
 {
 public:
-    BCMComponent (XmlElement& componentXML, ScopeSyncGUI& owner, const String& configDirectory);
+    BCMComponent (ScopeSyncGUI& owner, const String& name);
     ~BCMComponent();
 
+    void applyProperties(XmlElement& componentXML, const String& configDirectory);
+
     // Returns width of the BCMComponent
-    int  getWidth()  { return width; };
+    int  getWidth()  { return componentBounds.width; };
     
     // Returns height of the BCMComponent
-    int  getHeight() { return height; };
+    int  getHeight() { return componentBounds.height; };
     
     // Called when the Juce graphics system redraws
     void paint(Graphics& g);
@@ -80,11 +83,8 @@ private:
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
-    int                            width;                     // Width of Component
-    int                            height;                    // Height of Component
-    int                            x;                         // Horizontal position of Component (within parent)
-    int                            y;                         // Vertical position of Component (within parent)
-    
+    BCMComponentBounds             componentBounds;           // Position/Size information
+
     // Directory File Path for the Configuration file. Used for relative path sourcing of Images
     String configurationFileDirectoryPath;
     

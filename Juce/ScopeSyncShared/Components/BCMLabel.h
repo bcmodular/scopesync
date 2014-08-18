@@ -34,16 +34,20 @@ class LabelProperties;
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+#include "../Components/BCMComponentBounds.h"
 
 class BCMLabel : public Label
 {
 public:
-    BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name, String& text);
+    BCMLabel(String& name, String& text);
     ~BCMLabel();
+
+    void applyProperties(LabelProperties& properties, ScopeSyncGUI& gui);
     
 private:
-    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter* parameter;       // Pointer to a mapped parameter
+    bool               mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter*      parameter;       // Pointer to a mapped parameter
+    BCMComponentBounds componentBounds; // Position/Size information
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };

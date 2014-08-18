@@ -53,10 +53,10 @@ ComponentProperties::~ComponentProperties()
 void ComponentProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    x                        = 0;
-    y                        = 0;
-    width                    = 0;
-    height                   = 0;
+    bounds.x                 = 0;
+    bounds.y                 = 0;
+    bounds.width             = 0;
+    bounds.height            = 0;
     backgroundColour         = "00000000";
     backgroundImageFileName  = String::empty;
     backgroundImagePlacement = RectanglePlacement::doNotResize;
@@ -65,10 +65,10 @@ void ComponentProperties::initialise()
 
 void ComponentProperties::copyProperties(ComponentProperties& parentComponentProperties)
 {
-    x                        = parentComponentProperties.x;
-    y                        = parentComponentProperties.y;
-    width                    = parentComponentProperties.width;
-    height                   = parentComponentProperties.height;
+    bounds.x                 = parentComponentProperties.bounds.x;
+    bounds.y                 = parentComponentProperties.bounds.y;
+    bounds.width             = parentComponentProperties.bounds.width;
+    bounds.height            = parentComponentProperties.bounds.height;
     backgroundColour         = parentComponentProperties.backgroundColour;
     backgroundImageFileName  = parentComponentProperties.backgroundImageFileName;
     backgroundImagePlacement = parentComponentProperties.backgroundImagePlacement;
@@ -83,7 +83,7 @@ void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
     
     XmlElement* boundsXml = componentXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, x, y, width, height);
+        getBoundsFromXml(*boundsXml, bounds);
     
     bcmLookAndFeelId = componentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }

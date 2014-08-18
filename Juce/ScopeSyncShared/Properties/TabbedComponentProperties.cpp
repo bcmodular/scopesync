@@ -51,10 +51,10 @@ TabbedComponentProperties::~TabbedComponentProperties()
 
 void TabbedComponentProperties::initialise()
 {
-    width             = 0;
-    height            = 0;
-    x                 = 0;
-    y                 = 0;
+    bounds.width      = 0;
+    bounds.height     = 0;
+    bounds.x          = 0;
+    bounds.y          = 0;
     tabBarDepth       = 0;
     showDropShadow    = true;
     tabBarOrientation = TabbedButtonBar::TabsAtLeft;
@@ -64,10 +64,10 @@ void TabbedComponentProperties::initialise()
 
 void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parentTabbedComponentProperties)
 {
-    width             = parentTabbedComponentProperties.width;
-    height            = parentTabbedComponentProperties.height;
-    x                 = parentTabbedComponentProperties.x;
-    y                 = parentTabbedComponentProperties.y;
+    bounds.width      = parentTabbedComponentProperties.bounds.width;
+    bounds.height     = parentTabbedComponentProperties.bounds.height;
+    bounds.x          = parentTabbedComponentProperties.bounds.x;
+    bounds.y          = parentTabbedComponentProperties.bounds.y;
     tabBarDepth       = parentTabbedComponentProperties.tabBarDepth;
     showDropShadow    = parentTabbedComponentProperties.showDropShadow;
     tabBarOrientation = parentTabbedComponentProperties.tabBarOrientation;
@@ -82,7 +82,7 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
     
     XmlElement* boundsXml = tabbedComponentXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, x, y, width, height);
+        getBoundsFromXml(*boundsXml, bounds);
     
     forEachXmlChildElementWithTagName(tabbedComponentXML, child, "tabbar")
     {

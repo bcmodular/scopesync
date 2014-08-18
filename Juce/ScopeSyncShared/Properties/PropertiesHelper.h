@@ -29,6 +29,7 @@
 #define PROPERTIESHELPER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 namespace PropertiesHelper
 {
@@ -46,7 +47,7 @@ namespace PropertiesHelper
         if (xml.getBoolAttribute("underlined", false))
             styleFlags = (Font::FontStyleFlags)(styleFlags | Font::underlined);
 
-        height = xml.getChildElementAllSubText("height", String(height)).getFloatValue();
+        height = (float)(xml.getDoubleAttribute("height", height));
     }
 
     inline void getJustificationFlagsFromXml(const XmlElement& xml, Justification::Flags& flags)
@@ -132,14 +133,33 @@ namespace PropertiesHelper
         }
     }
 
-    inline void getBoundsFromXml(XmlElement& xml, int& x, int& y, int& width, int& height)
+    inline void getBoundsFromXml(XmlElement& xml, BCMComponentBounds& bounds)
     {
-        x      = xml.getIntAttribute("x",      x);
-        y      = xml.getIntAttribute("y",      y);
-        width  = xml.getIntAttribute("width",  width);
-        height = xml.getIntAttribute("height", height);
+        XmlElement* borderSizeXml = xml.getChildByName("bordersize");
+        
+        if (xml.hasAttribute("relativerectangle"))
+        {
+            bounds.relativeRectangleString = xml.getStringAttribute("relativerectangle");
+            bounds.boundsType              = BCMComponentBounds::relativeRectangle;
+        }
+        else if (borderSizeXml != nullptr)
+        {
+            bounds.borderSize.setTop   (borderSizeXml->getIntAttribute("top",    bounds.borderSize.getTop()));
+            bounds.borderSize.setLeft  (borderSizeXml->getIntAttribute("left",   bounds.borderSize.getLeft()));
+            bounds.borderSize.setBottom(borderSizeXml->getIntAttribute("bottom", bounds.borderSize.getBottom()));
+            bounds.borderSize.setRight (borderSizeXml->getIntAttribute("right",  bounds.borderSize.getRight()));
 
-        DBG("PropertiesHelper::getBoundsFromXml - " + xml.createDocument(""));
+            bounds.boundsType = BCMComponentBounds::inset;
+        }
+        else
+        {
+            bounds.x      = xml.getIntAttribute("x",      bounds.x);
+            bounds.y      = xml.getIntAttribute("y",      bounds.y);
+            bounds.width  = xml.getIntAttribute("width",  bounds.width);
+            bounds.height = xml.getIntAttribute("height", bounds.height);
+
+            bounds.boundsType = BCMComponentBounds::standard;
+        }
     }
 };
 

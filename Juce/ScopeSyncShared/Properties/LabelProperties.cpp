@@ -54,10 +54,10 @@ void LabelProperties::initialise()
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
     name               = "def";
     text               = "def";
-    width              = 66;
-    height             = 20;
-    x                  = 18;
-    y                  = 26;
+    bounds.width       = 66;
+    bounds.height      = 20;
+    bounds.x           = 18;
+    bounds.y           = 26;
     fontHeight         = 15.00f;
     fontStyleFlags     = Font::plain;
     justificationFlags = Justification::centred;
@@ -68,10 +68,10 @@ void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
 {
     name               = parentLabelProperties.name;
     text               = parentLabelProperties.text;
-    width              = parentLabelProperties.width;
-    height             = parentLabelProperties.height;
-    x                  = parentLabelProperties.x;
-    y                  = parentLabelProperties.y;
+    bounds.width       = parentLabelProperties.bounds.width;
+    bounds.height      = parentLabelProperties.bounds.height;
+    bounds.x           = parentLabelProperties.bounds.x;
+    bounds.y           = parentLabelProperties.bounds.y;
     fontHeight         = parentLabelProperties.fontHeight;
     fontStyleFlags     = parentLabelProperties.fontStyleFlags;
     justificationFlags = parentLabelProperties.justificationFlags;
@@ -85,7 +85,7 @@ void LabelProperties::setValuesFromXML(XmlElement& labelXML)
     
     XmlElement* boundsXml = labelXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, x, y, width, height);
+        getBoundsFromXml(*boundsXml, bounds);
     
     XmlElement* fontXml = labelXML.getChildByName("font");
     if (fontXml != nullptr)

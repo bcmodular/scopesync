@@ -55,10 +55,10 @@ void TextButtonProperties::initialise()
     name             = "def";
     text             = "def";
     tooltip          = "def";
-    width            = 15;
-    height           = 15;
-    x                = 0;
-    y                = 0;
+    bounds.width     = 15;
+    bounds.height    = 15;
+    bounds.x         = 0;
+    bounds.y         = 0;
     bcmLookAndFeelId = String::empty;
     radioGroupId     = 0;
     tabbedComponents.clear();
@@ -70,10 +70,10 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
     name             = parentTextButtonProperties.name;
     text             = parentTextButtonProperties.text;
     tooltip          = parentTextButtonProperties.tooltip;
-    width            = parentTextButtonProperties.width;
-    height           = parentTextButtonProperties.height;
-    x                = parentTextButtonProperties.x;
-    y                = parentTextButtonProperties.y;
+    bounds.width     = parentTextButtonProperties.bounds.width;
+    bounds.height    = parentTextButtonProperties.bounds.height;
+    bounds.x         = parentTextButtonProperties.bounds.x;
+    bounds.y         = parentTextButtonProperties.bounds.y;
     radioGroupId     = parentTextButtonProperties.radioGroupId;
     bcmLookAndFeelId = parentTextButtonProperties.bcmLookAndFeelId;
     tabbedComponents = StringArray(parentTextButtonProperties.tabbedComponents);
@@ -88,7 +88,7 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     
     XmlElement* boundsXml = textButtonXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, x, y, width, height);
+        getBoundsFromXml(*boundsXml, bounds);
     
     XmlElement* chooseTabXml = textButtonXML.getChildByName("choosetab");
     if (chooseTabXml != nullptr)

@@ -126,6 +126,19 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };
 
-
+#define BCM_SET_BOUNDS \
+    if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle) \
+        setBounds(componentBounds.relativeRectangleString); \
+    else if (componentBounds.boundsType == BCMComponentBounds::inset) \
+        setBoundsInset(componentBounds.borderSize); \
+    else \
+    { \
+        setBounds( \
+            componentBounds.x, \
+            componentBounds.y, \
+            componentBounds.width, \
+            componentBounds.height \
+        ); \
+    } \
 
 #endif  // SCOPESYNCGUI_H_INCLUDED

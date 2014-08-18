@@ -39,17 +39,16 @@ class SliderProperties;
 class BCMSlider : public Slider
 {
 public:
-    BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& name);
+    BCMSlider(const String& name);
     ~BCMSlider();
+
+    void applyProperties(SliderProperties& properties, ScopeSyncGUI& gui);
 
     // Indicates whether a BCMSlider has a parameter mapping
     bool hasParameter() { return mapsToParameter; };
     
     // Returns the parameter a BCMSlider is mapped to
     BCMParameter* getParameter()  { return parameter; };
-
-    // resized method overridden to apply bounds appropriately
-    //void resized();
 
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
@@ -62,7 +61,7 @@ private:
 
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
-    //BCMComponentBounds bounds; // Position/Size information
+    BCMComponentBounds componentBounds; // Position/Size information
     
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v);

@@ -34,13 +34,16 @@ class ComboBoxProperties;
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+#include "../Components/BCMComponentBounds.h"
 
 class BCMComboBox : public ComboBox
 {
 public:
-    BCMComboBox(ComboBoxProperties& properties, ScopeSyncGUI& gui, String& name);
+    BCMComboBox(String& name);
     ~BCMComboBox();
 
+    void applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& properties);
+    
     void  valueChanged(Value& value);
 
     // Indicates whether a BCMComboBox has a parameter mapping
@@ -53,9 +56,10 @@ public:
     Font::FontStyleFlags fontStyleFlags; // Style flags for BCMComboBox's current value
 
 private:
-    Value         parameterValue;  // Maintains a link to a mapped parameter's UI value
-    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter* parameter;       // Pointer to a mapped parameter
+    Value              parameterValue;  // Maintains a link to a mapped parameter's UI value
+    bool               mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter*      parameter;       // Pointer to a mapped parameter
+    BCMComponentBounds componentBounds; // Position/Size information
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComboBox);
 };

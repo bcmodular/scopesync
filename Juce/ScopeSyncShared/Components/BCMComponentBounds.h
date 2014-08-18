@@ -19,10 +19,14 @@ public:
     int                  height;
     int                  x;
     int                  y;
-    String               relativeRectangle;
+    String               relativeRectangleString;
     BorderSize<int>      borderSize; 
     Justification::Flags justificationFlags;
     bool                 onlyReduceInSize;
+
+    enum BoundsType {standard, relativeRectangle, inset};
+
+    BoundsType boundsType;
 };
 
 #endif  // BCMCOMPONENTBOUNDS_H_INCLUDED

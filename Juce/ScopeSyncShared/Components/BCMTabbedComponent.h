@@ -33,13 +33,16 @@ class ScopeSyncGUI;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
+#include "../Components/BCMComponentBounds.h"
 
 class BCMTabbedComponent : public TabbedComponent
 {
 public:
-    BCMTabbedComponent(TabbedComponentProperties& properties, ScopeSyncGUI& gui, TabbedButtonBar::Orientation orientation);
+    BCMTabbedComponent(TabbedButtonBar::Orientation orientation);
     ~BCMTabbedComponent();
     
+    void applyProperties(TabbedComponentProperties& properties, ScopeSyncGUI& gui);
+
     // Returns the name of a BCMTabbedComponent
     const String& getName() { return name; }
     
@@ -50,8 +53,9 @@ public:
     bool shouldShowDropShadow() { return showDropShadow; }
 
 private:
-    String name;           // Name of BCMTabbedComponent
-    bool   showDropShadow; // Flag as to whether Tabs should display a drop-shadow
+    String name;                        // Name of BCMTabbedComponent
+    bool   showDropShadow;              // Flag as to whether Tabs should display a drop-shadow
+    BCMComponentBounds componentBounds; // Position/Size information
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTabbedComponent);
 };

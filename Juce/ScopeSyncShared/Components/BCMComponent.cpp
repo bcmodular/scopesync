@@ -37,39 +37,40 @@
 #include "../Properties/ComponentProperties.h"
 #include "../Core/ScopeSyncGUI.h"
 
-BCMComponent::BCMComponent(XmlElement& componentXML, ScopeSyncGUI& owner, const String& configDirectory) : scopeSyncGUI(owner)
+BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name) : Component(name), scopeSyncGUI(owner) {}
+
+BCMComponent::~BCMComponent() {}
+
+void BCMComponent::applyProperties(XmlElement& componentXML, const String& configDirectory)
 {
     // Firstly set up properties for this Component
     ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
     
     configurationFileDirectoryPath = configDirectory;
 
-    width  = properties.width;
-    height = properties.height;
-    x      = properties.x;
-    y      = properties.y;
+    backgroundColour = properties.backgroundColour;
 
+    componentBounds = properties.bounds;
+    
     if (properties.backgroundImageFileName.isNotEmpty())
     {
         bool useImageCache = scopeSyncGUI.getScopeSync().getAppProperties().getBoolValue("useimagecache", true);
 
         backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, configurationFileDirectoryPath);
         
-        if (width == 0 || height == 0)
+        if (componentBounds.width == 0 || componentBounds.height == 0)
         {
             if (backgroundImage.isValid())
             {
-                width = backgroundImage.getWidth();
-                height = backgroundImage.getHeight();
+                componentBounds.width  = backgroundImage.getWidth();
+                componentBounds.height = backgroundImage.getHeight();
             }
         }
     }
 
-    backgroundColour = properties.backgroundColour;
-
+    BCM_SET_BOUNDS
+    
     setLookAndFeel(scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
-
-    setBounds(x, y, width, height);
 
     // Then loop through child component elements
     forEachXmlChildElement(componentXML, child)
@@ -83,8 +84,6 @@ BCMComponent::BCMComponent(XmlElement& componentXML, ScopeSyncGUI& owner, const 
     }
 }
 
-BCMComponent::~BCMComponent() {}
-
 void BCMComponent::paint(Graphics& g)
 {
     g.fillAll(Colour::fromString(backgroundColour));
@@ -93,7 +92,7 @@ void BCMComponent::paint(Graphics& g)
     {
         g.setOpacity(1.0f);
     
-        g.drawImageWithin(backgroundImage, 0, 0, width, height, backgroundImagePlacement);
+        g.drawImageWithin(backgroundImage, 0, 0, getWidth(), getHeight(), backgroundImagePlacement);
     }
 }
 
@@ -114,8 +113,12 @@ void BCMComponent::setupSubComponent(XmlElement& subComponentXML)
     if (showInThisContext(subComponentXML))
     {
         BCMComponent* subComponent;
-    
-        addAndMakeVisible(subComponent = new BCMComponent(subComponentXML, scopeSyncGUI, configurationFileDirectoryPath));
+        
+        String name = getName() + ":" + String(subComponents.size());
+
+        addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, name));
+
+        subComponent->applyProperties(subComponentXML, configurationFileDirectoryPath);
         subComponents.add(subComponent);
     }
 }
@@ -128,7 +131,10 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
         BCMTabbedComponent*       tabbedComponent;
 
         // Setup Tabbed Component object
-        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties, scopeSyncGUI, tabbedComponentProperties.tabBarOrientation));
+        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation));
+
+        tabbedComponent->applyProperties(tabbedComponentProperties, scopeSyncGUI);
+
         scopeSyncGUI.addTabbedComponent(tabbedComponent);
         tabbedComponents.add(tabbedComponent);
     
@@ -150,13 +156,19 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
         
         if (componentXML != nullptr && showInThisContext(*componentXML))
         {
+            String name = getName() + ":" + tabProperties.name + ":" + String(tabbedComponent.getNumTabs());
+
+            BCMComponent* subComponent;
+
             tabbedComponent.addTab(
                 tabProperties.name,
                 Colour::fromString(tabProperties.backgroundColour),
-                new BCMComponent(*componentXML, scopeSyncGUI, configurationFileDirectoryPath),
+                subComponent = new BCMComponent(scopeSyncGUI, name),
                 true,
                 tabProperties.idx
             );
+
+            subComponent->applyProperties(*componentXML, configurationFileDirectoryPath);
         }
         else
         {
@@ -173,9 +185,10 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
         BCMSlider*       slider;
 
         // Setup slider object
-        addAndMakeVisible(slider = new BCMSlider(sliderProperties, scopeSyncGUI, sliderProperties.name));
+        addAndMakeVisible(slider = new BCMSlider(sliderProperties.name));
         slider->addListener(this);
 
+        slider->applyProperties(sliderProperties, scopeSyncGUI);
         sliders.add(slider);
     }
 }
@@ -191,8 +204,9 @@ void BCMComponent::setupLabel(XmlElement& labelXML)
         String labelText = labelProperties.text;
 
         // Setup label object
-        addAndMakeVisible(label = new BCMLabel(labelProperties, scopeSyncGUI, labelName, labelText));
+        addAndMakeVisible(label = new BCMLabel(labelName, labelText));
 
+        label->applyProperties(labelProperties, scopeSyncGUI);
         labels.add(label);
     }
 }
@@ -204,8 +218,9 @@ void BCMComponent::setupTextButton(XmlElement& textButtonXML)
         TextButtonProperties textButtonProperties(textButtonXML, *(scopeSyncGUI.defaultTextButtonProperties));
         BCMTextButton* textButton;
     
-        addAndMakeVisible (textButton = new BCMTextButton(textButtonProperties, scopeSyncGUI, textButtonProperties.name));
+        addAndMakeVisible (textButton = new BCMTextButton(scopeSyncGUI, textButtonProperties.name));
 
+        textButton->applyProperties(textButtonProperties);
         textButtons.add(textButton);
     }
 }
@@ -217,9 +232,10 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
         ComboBoxProperties comboBoxProperties(comboBoxXML, *(scopeSyncGUI.defaultComboBoxProperties));
         BCMComboBox* comboBox;
 
-        addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties, scopeSyncGUI, comboBoxProperties.name));
+        addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties.name));
         comboBox->addListener(this);
     
+        comboBox->applyProperties(scopeSyncGUI, comboBoxProperties);
         comboBoxes.add(comboBox);
     }
 }

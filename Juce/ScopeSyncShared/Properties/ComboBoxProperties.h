@@ -29,6 +29,7 @@
 #define COMBOBOXPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class ComboBoxProperties
 {
@@ -44,17 +45,14 @@ public:
 
     ~ComboBoxProperties();
 
-    String      name;
-    bool        editableText;
-    String      nothingSelectedText;
-    String      noChoicesText;
-    StringArray items;
-    String      tooltip;
-    int         width;
-    int         height;
-    int         x;
-    int         y;
-    float       fontHeight;
+    String               name;
+    bool                 editableText;
+    String               nothingSelectedText;
+    String               noChoicesText;
+    StringArray          items;
+    String               tooltip;
+    BCMComponentBounds   bounds;
+    float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     String               bcmLookAndFeelId;

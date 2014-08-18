@@ -29,6 +29,7 @@
 #define LABELPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class LabelProperties
 {
@@ -44,13 +45,10 @@ public:
 
     ~LabelProperties();
 
-    String name;
-    String text;
-    int    width;
-    int    height;
-    int    y;
-    int    x;
-    String bcmLookAndFeelId;
+    String               name;
+    String               text;
+    BCMComponentBounds   bounds;
+    String               bcmLookAndFeelId;
     float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;

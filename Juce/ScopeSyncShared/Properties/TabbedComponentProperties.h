@@ -29,6 +29,7 @@
 #define TABBEDCOMPONENTPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class TabbedComponentProperties
 {
@@ -43,15 +44,12 @@ public:
     TabbedComponentProperties(XmlElement& tabbedComponentXML, TabbedComponentProperties& parentTabbedComponentXML);
     ~TabbedComponentProperties();
 
-    String name;
-    int    width;
-    int    height;
-    int    x;
-    int    y;
-    int    tabBarDepth;
-    String bcmLookAndFeelId;
+    String                       name;
+    BCMComponentBounds           bounds;
+    int                          tabBarDepth;
+    String                       bcmLookAndFeelId;
     TabbedButtonBar::Orientation tabBarOrientation;
-    bool   showDropShadow;
+    bool                         showDropShadow;
 
 private:
     void initialise();

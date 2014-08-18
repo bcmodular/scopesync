@@ -33,25 +33,29 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/LabelProperties.h"
 
-BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name, String& text) : Label(name, text)
+BCMLabel::BCMLabel(String& name, String& text) : Label(name, text) {}
+
+BCMLabel::~BCMLabel() {}
+
+void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
 {
-    String labelText = text;
-    String tooltip   = text;
+    String labelText = getText();
+    String tooltip   = getText();
     
     mapsToParameter = false;
     
-    if (name.equalsIgnoreCase("configurationfilepath"))
+    if (getName().equalsIgnoreCase("configurationfilepath"))
     {
         labelText = gui.getScopeSync().getConfigurationFilePath().getValue();
     }
-    else if (name.equalsIgnoreCase("configurationname"))
+    else if (getName().equalsIgnoreCase("configurationname"))
     {
         labelText = gui.getScopeSync().getConfigurationName().getValue();
     }
     else
     {
         ValueTree mapping;
-        parameter = gui.getUIMapping(ScopeSyncGUI::mappingLabelId, name, mapping);
+        parameter = gui.getUIMapping(ScopeSyncGUI::mappingLabelId, getName(), mapping);
 
         if (parameter != nullptr)
         {
@@ -66,7 +70,7 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
     setText(labelText, dontSendNotification);
     setTooltip(tooltip);
     
-    if (name.equalsIgnoreCase("SystemError"))
+    if (getName().equalsIgnoreCase("SystemError"))
         getTextValue().referTo(gui.getScopeSync().getSystemError());
 
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
@@ -74,12 +78,6 @@ BCMLabel::BCMLabel(LabelProperties& properties, ScopeSyncGUI& gui, String& name,
 
     setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
 
-    setBounds(
-        properties.x,
-        properties.y,
-        properties.width,
-        properties.height
-    );
+    componentBounds = properties.bounds;
+    BCM_SET_BOUNDS
 }
-
-BCMLabel::~BCMLabel() {}

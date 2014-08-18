@@ -44,6 +44,7 @@
             <element name="tabbedcomponent" type="tns:tabbedcomponenttype"></element>
             <element name="combobox" type="tns:comboboxtype"></element>
         </choice>
+        <attribute name="id" type="string"></attribute>
         <attribute name="backgroundcolour" type="tns:colouridtype"></attribute>
         <attribute name="backgroundimage" type="string"></attribute>
         <attribute name="backgroundimageplacement" type="tns:rectangleplacementtype"></attribute>
@@ -187,6 +188,7 @@
             <element name="tab" type="tns:tabtype"></element>
         </choice>
         <attribute name="name" type="string"></attribute>
+        <attribute name="id" type="string"></attribute>
         <attribute name="showdropshadow" type="boolean"></attribute>
         <attribute name="lfid" type="string"></attribute>
         <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
@@ -207,15 +209,21 @@
     </simpleType>
 
     <complexType name="labeltype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="bounds" type="tns:boundstype"></element>
-            <element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
-            <element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
-        </all>
-        <attribute name="name" type="string"></attribute>
+    	<all minOccurs="0" maxOccurs="1">
+    		<element name="bounds" type="tns:boundstype"></element>
+    		<element name="font" type="tns:fonttype" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="justification" type="tns:justificationtype"
+    			minOccurs="0" maxOccurs="1">
+    		</element>
+    	</all>        <attribute name="name" type="string"></attribute>
+        <attribute name="id" type="string"></attribute>
         <attribute name="text" type="string"></attribute>
-        <attribute name="lfid" type="string"></attribute>
-        <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+    	<attribute name="lfid" type="string"></attribute>
+    	<attribute name="displaycontext"
+    		type="tns:displaycontexttype">
+    	</attribute>
     </complexType>
 
     <complexType name="fonttype">
@@ -242,6 +250,7 @@
             <element name="textbox" type="tns:slidertextboxtype" minOccurs="0"></element>
         </all>
         <attribute name="name" type="string"></attribute>
+        <attribute name="id" type="string"></attribute>
         <attribute name="popupenabled" type="boolean"></attribute>
         <attribute name="velocitybasedmode" type="boolean"></attribute>
         <attribute name="encodersnap" type="boolean"></attribute>
@@ -287,6 +296,7 @@
             <element name="choosetab" type="tns:choosetabtype"></element>
         </choice>
         <attribute name="name" type="string"></attribute>
+        <attribute name="id" type="string"></attribute>
         <attribute name="text" type="string"></attribute>
         <attribute name="tooltip" type="string"></attribute>
         <attribute name="lfid" type="string"></attribute>
@@ -319,7 +329,8 @@
             <element name="item" type="string"></element>
         </choice>
         <attribute name="name" type="string"></attribute>
-		<attribute name="tooltip" type="string"></attribute>
+		<attribute name="id" type="string"></attribute>
+        <attribute name="tooltip" type="string"></attribute>
 		<attribute name="editabletext" type="boolean"></attribute>
 		<attribute name="nothingselectedtext" type="string"></attribute>
 		<attribute name="nochoicestext" type="string"></attribute>
@@ -373,18 +384,14 @@
     </simpleType>
 
     <complexType name="boundstype">
-    	<choice minOccurs="0">
-    		<element name="justification"
-    			type="tns:justificationtype">
-    		</element>
+    	<choice minOccurs="0">
     		<element name="bordersize" type="tns:bordersizetype"></element>
     	</choice>
     	<attribute name="x" type="int"></attribute>
     	<attribute name="y" type="int"></attribute>
     	<attribute name="width" type="int"></attribute>
     	<attribute name="height" type="int"></attribute>
-        <attribute name="relativerectangle" type="string"></attribute>
-        <attribute name="onlyreduceinsize" type="boolean"></attribute>
+        <attribute name="relativerectangle" type="string"></attribute>
     </complexType>
 
     <complexType name="bordersizetype">

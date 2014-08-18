@@ -33,7 +33,11 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
 
-BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& name) : Slider(name)
+BCMSlider::BCMSlider(const String& name) : Slider(name) {}
+
+BCMSlider::~BCMSlider() {}
+
+void BCMSlider::applyProperties(SliderProperties& properties, ScopeSyncGUI& gui)
 {
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
@@ -48,15 +52,6 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
                     properties.textBoxWidth,
                     properties.textBoxHeight);
     
-    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
-    
-    setBounds(
-        properties.bounds.x,
-        properties.bounds.y,
-        properties.bounds.width,
-        properties.bounds.height
-    );
-
     double rangeMin = properties.rangeMin;
     double rangeMax = properties.rangeMax;
     double rangeInt = properties.rangeInt;
@@ -65,7 +60,7 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingSliderId, name, mapping);
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingSliderId, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -121,7 +116,7 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
             }
         }
 
-        DBG("BCMSlider::BCMSlider - " + getName() + " mapping to parameter: " + parameter->getName());
+        DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
         parameter->mapToUIValue(getValueObject());
     }
     else
@@ -130,9 +125,12 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
     }
 
     setTooltip(tooltip);
-}
+    
+    componentBounds = properties.bounds;
+    BCM_SET_BOUNDS
 
-BCMSlider::~BCMSlider() {}
+    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+}
 
 String BCMSlider::getTextFromValue(double v)
 {

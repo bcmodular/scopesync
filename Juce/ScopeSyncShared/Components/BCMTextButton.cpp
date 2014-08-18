@@ -36,14 +36,21 @@
 
 const int BCMTextButton::clickBlockDuration = 1000;
 
-BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& owner, String& name) : TextButton(name), scopeSyncGUI(owner)
+BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name) : TextButton(name), scopeSyncGUI(owner) {}
+
+BCMTextButton::~BCMTextButton()
+{
+    stopTimer();
+};
+
+void BCMTextButton::applyProperties(TextButtonProperties& properties)
 {
     clicksBlocked = false;
 
     String tooltip(properties.tooltip);
     String buttonText(properties.text);
 
-    DBG("BCMTextButton::BCMTextButton - setting up button: " + name);
+    DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
     int radioGroupId = properties.radioGroupId;
     
@@ -62,7 +69,7 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
         radioGroupTag += properties.tabbedComponents[i];
         mapsToTabs = true;
             
-        DBG("BCMTextButton::BCMTextButton - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
+        DBG("BCMTextButton::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
     }
         
     if (mapsToTabs)
@@ -77,11 +84,11 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = scopeSyncGUI.getUIMapping(ScopeSyncGUI::mappingTextButtonId, name, mapping);
+    parameter = scopeSyncGUI.getUIMapping(ScopeSyncGUI::mappingTextButtonId, getName(), mapping);
 
     if (parameter != nullptr)
     {
-        DBG("BCMTextButton::BCMTextButton - mapping found: " + mapping.toXmlString());
+        DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         mapsToParameter = true;       
         
         String paramShortDesc;
@@ -91,7 +98,7 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
         
         // Grab the correct mapping type
         String mappingTypeString = mapping.getProperty(ScopeSyncGUI::mappingTypeId);
-        DBG("BCMTextButton::BCMTextButton - mappingTypeString: " + mappingTypeString);
+        DBG("BCMTextButton::applyProperties - mappingTypeString: " + mappingTypeString);
         
              if (mappingTypeString == "toggle")  mappingType = toggle;
         else if (mappingTypeString == "inc")     mappingType = inc;
@@ -108,7 +115,7 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
             if (mapping.hasProperty(ScopeSyncGUI::mappingRadioGroupId))
             {
                 radioGroupId = mapping.getProperty(ScopeSyncGUI::mappingRadioGroupId);
-                DBG("BCMTextButton::BCMTextButton - radioGroupId: " + String(radioGroupId));
+                DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
             }
             
             // Set up the button display type and the initial button text
@@ -146,12 +153,12 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
                     if (settingName == settingDown)
                     {
                         downSettingIdx = i;
-                        DBG("BCMTextButton::BCMTextButton - Found mapped parameter settings - down: " + settingDown);
+                        DBG("BCMTextButton::applyProperties - Found mapped parameter settings - down: " + settingDown);
                     }
                     else if (settingName == settingUp)
                     {
                         upSettingIdx = i;
-                        DBG("BCMTextButton::BCMTextButton - Found mapped parameter settings - up: " + settingUp);
+                        DBG("BCMTextButton::applyProperties - Found mapped parameter settings - up: " + settingUp);
                     }
                 }
 
@@ -213,24 +220,15 @@ BCMTextButton::BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& own
         }
     }
     
-    setLookAndFeel(scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
-
     setTooltip (tooltip);
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
     
-    setBounds(
-        properties.x,
-        properties.y,
-        properties.width,
-        properties.height
-    );
-}
+    componentBounds = properties.bounds;
+    BCM_SET_BOUNDS
 
-BCMTextButton::~BCMTextButton()
-{
-    stopTimer();
-};
+    setLookAndFeel(scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+}
 
 void BCMTextButton::switchToTabs()
 {

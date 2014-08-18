@@ -60,10 +60,10 @@ void ComboBoxProperties::initialise()
     justificationFlags  = Justification::centred;
     nothingSelectedText = "def";
     noChoicesText       = "def";
-    width               = 15;
-    height              = 15;
-    x                   = 0;
-    y                   = 0;
+    bounds.width        = 15;
+    bounds.height       = 15;
+    bounds.x            = 0;
+    bounds.y            = 0;
     bcmLookAndFeelId    = String::empty;
 };
 
@@ -81,10 +81,10 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
         items.add(parentComboBoxProperties.items[i]);
     }
     noChoicesText       = parentComboBoxProperties.noChoicesText;
-    width               = parentComboBoxProperties.width;
-    height              = parentComboBoxProperties.height;
-    x                   = parentComboBoxProperties.x;
-    y                   = parentComboBoxProperties.y;
+    bounds.width        = parentComboBoxProperties.bounds.width;
+    bounds.height       = parentComboBoxProperties.bounds.height;
+    bounds.x            = parentComboBoxProperties.bounds.x;
+    bounds.y            = parentComboBoxProperties.bounds.y;
     bcmLookAndFeelId    = parentComboBoxProperties.bcmLookAndFeelId;
 };
 
@@ -98,7 +98,7 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
     
     XmlElement* boundsXml = comboBoxXML.getChildByName("bounds");
     if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, x, y, width, height);
+        getBoundsFromXml(*boundsXml, bounds);
     
     XmlElement* fontXml = comboBoxXML.getChildByName("font");
     if (fontXml != nullptr)

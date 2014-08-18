@@ -397,7 +397,9 @@ void ScopeSyncGUI::createComponent(XmlElement& componentXML)
     File configurationFile(scopeSync.getConfigurationFilePath().getValue());
     String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
 
-    addAndMakeVisible(mainComponent = new BCMComponent(componentXML, *this, configurationFileDirectory));
+    addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));
+    
+    mainComponent->applyProperties(componentXML, configurationFileDirectory);
     return;
 }
 

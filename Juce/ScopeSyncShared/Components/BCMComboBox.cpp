@@ -34,7 +34,11 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/ComboBoxProperties.h"
 
-BCMComboBox::BCMComboBox(ComboBoxProperties& properties, ScopeSyncGUI& gui, String& name) : ComboBox(name)
+BCMComboBox::BCMComboBox(String& name) : ComboBox(name) {}
+
+BCMComboBox::~BCMComboBox() {}
+
+void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& properties)
 {
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
@@ -53,7 +57,7 @@ BCMComboBox::BCMComboBox(ComboBoxProperties& properties, ScopeSyncGUI& gui, Stri
     mapsToParameter = false;
         
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingComboBoxId, name, mapping);
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingComboBoxId, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -94,15 +98,9 @@ BCMComboBox::BCMComboBox(ComboBoxProperties& properties, ScopeSyncGUI& gui, Stri
 
     setTooltip(tooltip);
     
-    setBounds(
-        properties.x,
-        properties.y,
-        properties.width,
-        properties.height
-    );
+    componentBounds = properties.bounds;
+    BCM_SET_BOUNDS
 }
-
-BCMComboBox::~BCMComboBox() {}
 
 void BCMComboBox::valueChanged(Value& value)
 {

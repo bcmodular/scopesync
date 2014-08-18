@@ -41,8 +41,10 @@ class BCMTextButton : public TextButton,
                       public Timer
 {
 public:
-    BCMTextButton(TextButtonProperties& properties, ScopeSyncGUI& owner, String& name);
+    BCMTextButton(ScopeSyncGUI& owner, String& name);
     ~BCMTextButton();
+
+    void applyProperties(TextButtonProperties& properties);
 
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value);
@@ -56,8 +58,9 @@ public:
 private:
     Value parameterValue; // Maintains a link to a mapped parameter's UI value
 
-    bool           mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter*  parameter;       // Pointer to a mapped parameter
+    bool           mapsToParameter;     // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter*  parameter;           // Pointer to a mapped parameter
+    BCMComponentBounds componentBounds; // Position/Size information
 
     // Timer Callback. Used as part of the click block solution
     void timerCallback();
