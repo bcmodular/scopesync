@@ -59,6 +59,10 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
+      <FILE id="cMQ4C6" name="BCMComponentBounds.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Components/BCMComponentBounds.cpp"/>
+      <FILE id="s3Huix" name="BCMComponentBounds.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Components/BCMComponentBounds.h"/>
       <FILE id="ZZYuvE" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>
       <FILE id="C0JiCD" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSyncShared/Components/ImageLoader.h"/>
       <FILE id="M411jV" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.cpp"/>

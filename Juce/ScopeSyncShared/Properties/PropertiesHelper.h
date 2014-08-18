@@ -132,22 +132,14 @@ namespace PropertiesHelper
         }
     }
 
-    inline void getSizeFromXml(XmlElement& xml, int& width, int& height)
+    inline void getBoundsFromXml(XmlElement& xml, int& x, int& y, int& width, int& height)
     {
-        forEachXmlChildElement(xml, child)
-        {
-                 if (child->hasTagName("width"))  width  = child->getAllSubText().getIntValue();
-            else if (child->hasTagName("height")) height = child->getAllSubText().getIntValue();
-        }
-    }
+        x      = xml.getIntAttribute("x",      x);
+        y      = xml.getIntAttribute("y",      y);
+        width  = xml.getIntAttribute("width",  width);
+        height = xml.getIntAttribute("height", height);
 
-    inline void getPositionFromXml(XmlElement& xml, int& x, int& y)
-    {
-        forEachXmlChildElement(xml, child)
-        {
-                 if (child->hasTagName("x")) x = child->getAllSubText().getIntValue();
-            else if (child->hasTagName("y")) y = child->getAllSubText().getIntValue();
-        }
+        DBG("PropertiesHelper::getBoundsFromXml - " + xml.createDocument(""));
     }
 };
 

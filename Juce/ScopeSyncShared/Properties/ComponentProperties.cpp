@@ -77,31 +77,29 @@ void ComponentProperties::copyProperties(ComponentProperties& parentComponentPro
 
 void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
 {
-    forEachXmlChildElement(componentXML, child)
-    {
-             if (child->hasTagName("size"))                     getSizeFromXml(*child, width, height);
-        else if (child->hasTagName("position"))                 getPositionFromXml(*child, x, y);
-        else if (child->hasTagName("backgroundcolour"))         backgroundColour = child->getAllSubText();
-        else if (child->hasTagName("backgroundimage"))          backgroundImageFileName = child->getAllSubText();
-        else if (child->hasTagName("backgroundimageplacement")) backgroundImagePlacement = getRectanglePlacementFromString(child->getAllSubText().toLowerCase());
-    }
-
-    if (componentXML.hasAttribute("lfid")) bcmLookAndFeelId = componentXML.getStringAttribute("lfid");
+    backgroundColour         = componentXML.getStringAttribute("backgroundcolour", backgroundColour);
+    backgroundImageFileName  = componentXML.getStringAttribute("backgroundimage", backgroundImageFileName);
+    getRectanglePlacementFromString(componentXML.getStringAttribute("backgroundimageplacement"), backgroundImagePlacement);
+    
+    XmlElement* boundsXml = componentXML.getChildByName("bounds");
+    if (boundsXml != nullptr)
+        getBoundsFromXml(*boundsXml, x, y, width, height);
+    
+    bcmLookAndFeelId = componentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }
 
-RectanglePlacement ComponentProperties::getRectanglePlacementFromString(String string)
+void ComponentProperties::getRectanglePlacementFromString(String string, RectanglePlacement& placement)
 {
-         if (string == "xleft")              return RectanglePlacement::xLeft;
-    else if (string == "xright")             return RectanglePlacement::xRight;
-    else if (string == "xmid")               return RectanglePlacement::xMid;
-    else if (string == "ytop")               return RectanglePlacement::yTop;
-    else if (string == "ybottom")            return RectanglePlacement::yBottom;
-    else if (string == "ymid")               return RectanglePlacement::yMid;
-    else if (string == "stretchtofit")       return RectanglePlacement::stretchToFit;
-    else if (string == "filldestination")    return RectanglePlacement::fillDestination;
-    else if (string == "onlyreduceinsize")   return RectanglePlacement::onlyReduceInSize;
-    else if (string == "onlyincreaseinsize") return RectanglePlacement::onlyIncreaseInSize;
-    else if (string == "donotresize")        return RectanglePlacement::doNotResize;
-    else if (string == "centred")            return RectanglePlacement::centred;
-    else                                     return RectanglePlacement::doNotResize;
+         if (string == "xleft")              placement = RectanglePlacement::xLeft;
+    else if (string == "xright")             placement = RectanglePlacement::xRight;
+    else if (string == "xmid")               placement = RectanglePlacement::xMid;
+    else if (string == "ytop")               placement = RectanglePlacement::yTop;
+    else if (string == "ybottom")            placement = RectanglePlacement::yBottom;
+    else if (string == "ymid")               placement = RectanglePlacement::yMid;
+    else if (string == "stretchtofit")       placement = RectanglePlacement::stretchToFit;
+    else if (string == "filldestination")    placement = RectanglePlacement::fillDestination;
+    else if (string == "onlyreduceinsize")   placement = RectanglePlacement::onlyReduceInSize;
+    else if (string == "onlyincreaseinsize") placement = RectanglePlacement::onlyIncreaseInSize;
+    else if (string == "donotresize")        placement = RectanglePlacement::doNotResize;
+    else if (string == "centred")            placement = RectanglePlacement::centred;
 }

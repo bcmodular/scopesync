@@ -82,27 +82,27 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
 
 void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
 {
-    // Grab values set in XML
-    forEachXmlChildElement(textButtonXML, child)
+    name    = textButtonXML.getStringAttribute("name",    name);
+    text    = textButtonXML.getStringAttribute("text",    text);
+    tooltip = textButtonXML.getStringAttribute("tooltip", tooltip);
+    
+    XmlElement* boundsXml = textButtonXML.getChildByName("bounds");
+    if (boundsXml != nullptr)
+        getBoundsFromXml(*boundsXml, x, y, width, height);
+    
+    XmlElement* chooseTabXml = textButtonXML.getChildByName("choosetab");
+    if (chooseTabXml != nullptr)
     {
-             if (child->hasTagName("name"))      name            = child->getAllSubText();
-        else if (child->hasTagName("text"))      text            = child->getAllSubText();
-        else if (child->hasTagName("tooltip"))   tooltip         = child->getAllSubText();
-        else if (child->hasTagName("position"))  getPositionFromXml(*child, x, y);  
-        else if (child->hasTagName("size"))      getSizeFromXml(*child, width, height);
-        else if (child->hasTagName("choosetab"))
-        {
-            String tabbedComponent = child->getChildElementAllSubText("tabbedcomponent", String::empty);
-            String tabName         = child->getChildElementAllSubText("tabname", String::empty);
+        String tabbedComponent = chooseTabXml->getStringAttribute("tabbedcomponent", String::empty);
+        String tabName         = chooseTabXml->getStringAttribute("tabname", String::empty);
             
-            if (tabbedComponent.isNotEmpty() && tabName.isNotEmpty())
-            {
-                tabbedComponents.add(tabbedComponent);
-                tabNames.add(tabName);
-            }
+        if (tabbedComponent.isNotEmpty() && tabName.isNotEmpty())
+        {
+            tabbedComponents.add(tabbedComponent);
+            tabNames.add(tabName);
         }
     }
 
     if (textButtonXML.hasAttribute("radiogroup")) radioGroupId = textButtonXML.getStringAttribute("radiogroup").hashCode();
-    if (textButtonXML.hasAttribute("lfid"))       bcmLookAndFeelId = textButtonXML.getStringAttribute("lfid");
+    bcmLookAndFeelId = textButtonXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };

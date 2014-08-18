@@ -90,20 +90,28 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
 
 void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
 {
-    // Grab values set in XML
-    forEachXmlChildElement(comboBoxXML, child)
-    {
-             if (child->hasTagName("name"))                name = child->getAllSubText();
-        else if (child->hasTagName("tooltip"))             tooltip = child->getAllSubText();
-        else if (child->hasTagName("editabletext"))        editableText = child->getAllSubText().equalsIgnoreCase("true");
-        else if (child->hasTagName("item"))                items.add(child->getAllSubText());
-        else if (child->hasTagName("nothingselectedtext")) nothingSelectedText = child->getAllSubText();
-        else if (child->hasTagName("nochoicestext"))       noChoicesText = child->getAllSubText();
-        else if (child->hasTagName("justification"))       getJustificationFlagsFromXml(*child, justificationFlags);
-        else if (child->hasTagName("position"))            getPositionFromXml(*child, x, y);
-        else if (child->hasTagName("size"))                getSizeFromXml(*child, width, height);
-        else if (child->hasTagName("font"))                getFontFromXml(*child, fontHeight, fontStyleFlags);
-    }
+    name                = comboBoxXML.getStringAttribute("name",                name);
+    tooltip             = comboBoxXML.getStringAttribute("tooltip",             tooltip);
+    nothingSelectedText = comboBoxXML.getStringAttribute("nothingselectedtext", nothingSelectedText);
+    noChoicesText       = comboBoxXML.getStringAttribute("nochoicestext",       noChoicesText);
+    editableText        = comboBoxXML.getBoolAttribute  ("editabletext",        editableText);
+    
+    XmlElement* boundsXml = comboBoxXML.getChildByName("bounds");
+    if (boundsXml != nullptr)
+        getBoundsFromXml(*boundsXml, x, y, width, height);
+    
+    XmlElement* fontXml = comboBoxXML.getChildByName("font");
+    if (fontXml != nullptr)
+        getFontFromXml(*fontXml, fontHeight, fontStyleFlags);
 
-    if (comboBoxXML.hasAttribute("lfid")) bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid");
+    XmlElement* justificationXml = comboBoxXML.getChildByName("justification");
+    if (justificationXml != nullptr)
+        getJustificationFlagsFromXml(*justificationXml, justificationFlags);
+
+    forEachXmlChildElementWithTagName(comboBoxXML, child, "item")
+    {
+        items.add(child->getAllSubText());
+    }   
+
+    bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };

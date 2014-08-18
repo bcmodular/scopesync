@@ -274,6 +274,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.cpp">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp">
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClCompile>
@@ -1295,6 +1298,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\ImageLoader.h">
       <Filter>ScopeSyncFX\Source\Components</Filter>

@@ -51,10 +51,10 @@ BCMSlider::BCMSlider(SliderProperties& properties, ScopeSyncGUI& gui, String& na
     setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
     
     setBounds(
-        properties.x,
-        properties.y,
-        properties.width,
-        properties.height
+        properties.bounds.x,
+        properties.bounds.y,
+        properties.bounds.width,
+        properties.bounds.height
     );
 
     double rangeMin = properties.rangeMin;

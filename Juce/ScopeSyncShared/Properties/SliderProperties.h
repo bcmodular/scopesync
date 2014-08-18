@@ -29,6 +29,7 @@
 #define SLIDERPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMComponentBounds.h"
 
 class SliderProperties
 {
@@ -45,10 +46,7 @@ public:
     ~SliderProperties();
 
     String name;
-    int    width;
-    int    height;
-    int    x;
-    int    y;
+    BCMComponentBounds bounds;
     double rangeMin;
     double rangeMax;
     double rangeInt;
@@ -70,9 +68,9 @@ private:
     void copyProperties(SliderProperties& parentSliderProperties);
     void setValuesFromXML(XmlElement& sliderXML);
 
-    static void getSliderStyleFromXml(const XmlElement& xml, Slider::SliderStyle& sliderStyle);
+    static void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle);
     static void getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval);
-    static void getTextBoxPositionFromXML(const XmlElement& xml, Slider::TextEntryBoxPosition& position);
+    static void getTextBoxPositionFromXML(const String& positionText, Slider::TextEntryBoxPosition& position);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderProperties);
 };

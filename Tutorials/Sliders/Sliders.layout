@@ -1,1450 +1,412 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-
-<layout>
-  <lookandfeels>
-    <!--default lookandfeel - is used unless otherwise specified at component level.-->
-    <!--When left empty as is the case here reverts to JUCE default lookandfeel.-->
-    <lookandfeel id="default"></lookandfeel>
-    <!--ScopeSync Header lookandfeels-->
-    <lookandfeel id="header tab">
-      <colours>
-        <tabbedcomponent>
-          <outlinecolourid>00000000</outlinecolourid>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout file:///C:/development/github/scopesync/XSD/ScopeSyncLayout.xsd ">
+  <layout>
+    <lookandfeels>
+      <!--default lookandfeel - is used unless otherwise specified at component level.-->
+      <!--When left empty as is the case here reverts to JUCE default lookandfeel.-->
+      <lookandfeel id="default"></lookandfeel>
+      <!--ScopeSync Header lookandfeels-->
+      <lookandfeel id="header tab">
+        <colours>
+          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00"></tabbar>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="Config Name">
+        <colours>
+          <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
+        </colours>
+      </lookandfeel>
+      <!--Slider lookandfeels-->
+      <lookandfeel id="sliders1">
+        <colours>
+          <slider backgroundcolourid="2fefeff7" thumbcolourid="ffefeff7" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ff16171a" textboxbackgroundcolourid="dfefeff7" textboxhighlightcolourid="2f16171a" textboxoutlinecolourid="7f222222"></slider>
+          <label textcolourid="ff16171a"></label>
+          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="aa555555"></texteditor>
+          <textbutton textcolouroffid="ffffffff" textcolouronid="ffff4200" buttoncolourid="ff16171a"></textbutton>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders2" parentid="sliders1">
+        <colours>
+          <slider thumbcolourid="ffff1000"></slider>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders3" parentid="sliders1">
+        <colours>
+          <slider thumbcolourid="ff00ff10"></slider>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders4" parentid="sliders1">
+        <colours>
+          <slider thumbcolourid="ff1998FF"></slider>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders5">
+        <colours>
+          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
+          <label textcolourid="bbcad5d9"></label>
+          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="df111111"></texteditor>
+          <textbutton textcolouroffid="ffcad5d9" textcolouronid="ffff4200" buttoncolourid="ff4a5961"></textbutton>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders6" parentid="sliders5">
+        <colours>
+          <label textcolourid="ffdfe6eb"></label>
+        </colours>
+        <images>
+          <slider>
+            <rotary filename="Skins/SSKnob_Orange.png" numframes="61" ishorizontal="false"></rotary>
+            <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbborder="3" backgroundfilename="Skins/Blank.png" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
+          </slider>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="sliders7" parentid="sliders5">
+        <colours>
+          <label textcolourid="ffdfe6eb"></label>
+          <slider backgroundcolourid="00fdfdfd" thumbcolourid="00fe8c00" trackcolourid="0016171a"></slider>
+        </colours>
+        <images>
+          <slider>
+            <linearhorizontal thumbfilename="Skins/SliderCap2.png" thumbborder="0" backgroundfilename="Skins/BipolarSlider.png" backgroundnumframes="61" backgroundishorizontal="false"></linearhorizontal>
+            <linearvertical thumbfilename="Skins/SliderCap3.png" thumbborder="-5" backgroundfilename="Skins/Blank.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+          </slider>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="sliders8" parentid="sliders5">
+        <colours>
+          <slider backgroundcolourid="fffdfdfd" thumbcolourid="fffe8c00" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ff000000" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
+        </colours>
+      </lookandfeel>
+    </lookandfeels>
+    <defaults>
+      <slider name="defaultslider" style="rotaryverticaldrag">
+        <bounds x="30" y="48" width="67" height="82"></bounds>
+        <range min="0" max="100" int="0.0001"></range>
+        <textbox position="above" readonly="false" width="66" height="14">
+          <font height="12"></font>
+        </textbox>
+      </slider>
+      <label name="defaultlabel" text="Untitled">
+        <bounds x="18" y="26" width="67" height="15"></bounds>
+        <font bold="true" height="12"></font>
+        <justification horizontallycentred="true" />
+      </label>
+      <textbutton name="defaultbutton" tooltip="defaultbutton tooltip">
+        <bounds x="499" y="274" width="70" height="20"></bounds>
+      </textbutton>
+      <combobox name="defaultcombobox" tooltip="defaultcombobox tooltip" editabletext="false" nothingselectedtext="-- Select item --" nochoicestext="-- No choices --">
+        <justification horizontallycentred="true" />
+        <bounds x="0" y="0" width="150" height="24"></bounds>
+      </combobox>
+    </defaults>
+    <!--Main Component-->
+    <component backgroundcolour="ff212426">
+      <bounds x="0" y="0" width="936" height="300"></bounds>
+      <!--Header Section-->
+      <component>
+        <bounds x="7" y="7" width="936" height="40"></bounds>
+        <label lfid="Config Name" name="configurationname" text="Current Configuration">
+          <bounds x="170" y="4" width="160" height="17"></bounds>
+          <font bold="true" height="12"></font>
+        </label>
+        <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
+          <bounds x="366" y="2" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
+          <bounds x="340" y="2" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
+          <bounds x="340" y="2" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+          <bounds x="860" y="2" width="32" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:settings_button" name="showusersettings" text="" tooltip="Open User Settings panel">
+          <bounds x="898" y="2" width="32" height="21"></bounds>
+        </textbutton>
+        <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
+          <bounds x="6" y="4" width="151" height="16"></bounds>
+        </component>
+        <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
+        <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
+          <bounds x="803" y="0" width="57" height="32"></bounds>
+          <tabbar orientation="right" depth="0"></tabbar>
+          <tab idx="1" name="DISCONNECTED">
+            <component>
+              <!--No Controls-->
+            </component>
+          </tab>
+          <tab idx="2" name="CONNECTED">
+            <component>
+              <textbutton lfid="system:patch_button" name="B67">
+                <bounds x="0" y="2" width="27" height="21"></bounds>
+              </textbutton>
+              <textbutton lfid="system:presets_button" name="B68">
+                <bounds x="32" y="2" width="19" height="21"></bounds>
+              </textbutton>
+            </component>
+          </tab>
         </tabbedcomponent>
-        <tabbar>
-          <taboutlinecolourid>00000000</taboutlinecolourid>
-          <tabtextcolourid>ffc3cace</tabtextcolourid>
-          <fronttextcolourid>ffff7f00</fronttextcolourid>
-        </tabbar>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="Config Name">
-      <colours>
-        <label>
-          <textcolourid>ffa7aaae</textcolourid>
-          <outlinecolourid>ffa7aaae</outlinecolourid>
-        </label>
-      </colours>
-    </lookandfeel>
-    <!--Slider lookandfeels-->
-    <lookandfeel id="sliders1">
-      <colours>
-        <slider>
-          <backgroundcolourid>2fefeff7</backgroundcolourid>
-          <thumbcolourid>ffefeff7</thumbcolourid>
-          <trackcolourid>ff16171a</trackcolourid>
-          <rotarysliderfillcolourid>ffffde00</rotarysliderfillcolourid>
-          <rotaryslideroutlinecolourid>2f16171a</rotaryslideroutlinecolourid>
-          <textboxtextcolourid>ff16171a</textboxtextcolourid>
-          <textboxbackgroundcolourid>dfefeff7</textboxbackgroundcolourid>
-          <textboxhighlightcolourid>2f16171a</textboxhighlightcolourid>
-          <textboxoutlinecolourid>7f222222</textboxoutlinecolourid>
-        </slider>
-        <label>
-          <textcolourid>ff16171a</textcolourid>
-        </label>
-        <texteditor>
-          <backgroundcolourid>7f000000</backgroundcolourid>
-          <textcolourid>00000000</textcolourid>
-          <focusedoutlinecolourid>aa555555</focusedoutlinecolourid>
-        </texteditor>
-        <textbutton>
-          <textcolouroffid>ffffffff</textcolouroffid>
-          <textcolouronid>ffff4200</textcolouronid>
-          <buttoncolourid>ff16171a</buttoncolourid>
-        </textbutton>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="sliders2" parentid="sliders1">
-      <colours>
-        <slider>
-          <thumbcolourid>ffff1000</thumbcolourid>
-        </slider>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="sliders3" parentid="sliders1">
-      <colours>
-        <slider>
-          <thumbcolourid>ff00ff10</thumbcolourid>
-        </slider>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="sliders4" parentid="sliders1">
-      <colours>
-        <slider>
-          <thumbcolourid>ff1998FF</thumbcolourid>
-        </slider>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="sliders5">
-      <colours>
-        <slider>
-          <backgroundcolourid>00efeff7</backgroundcolourid>
-          <thumbcolourid>ff849199</thumbcolourid>
-          <trackcolourid>ff16171a</trackcolourid>
-          <rotarysliderfillcolourid>ffffde00</rotarysliderfillcolourid>
-          <rotaryslideroutlinecolourid>2f16171a</rotaryslideroutlinecolourid>
-          <textboxtextcolourid>ffcad5d9</textboxtextcolourid>
-          <textboxbackgroundcolourid>df111111</textboxbackgroundcolourid>
-          <textboxhighlightcolourid>ffcad5d9</textboxhighlightcolourid>
-          <textboxoutlinecolourid>ff000000</textboxoutlinecolourid>
-        </slider>
-        <label>
-          <textcolourid>bbcad5d9</textcolourid>
-        </label>
-        <texteditor>
-          <backgroundcolourid>7f000000</backgroundcolourid>
-          <textcolourid>00000000</textcolourid>
-          <focusedoutlinecolourid>df111111</focusedoutlinecolourid>
-        </texteditor>
-        <textbutton>
-          <textcolouroffid>ffcad5d9</textcolouroffid>
-          <textcolouronid>ffff4200</textcolouronid>
-          <buttoncolourid>ff4a5961</buttoncolourid>
-        </textbutton>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="sliders6" parentid="sliders5">
-      <colours>
-        <label>
-          <textcolourid>ffdfe6eb</textcolourid>
-        </label>
-      </colours>
-      <images>
-        <slider>
-          <rotary>
-            <filename>Skins/SSKnob_Orange.png</filename>
-            <numframes>61</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
-          <linearhorizontal>
-            <thumbfilename>Skins/SliderCap1.png</thumbfilename>
-            <thumbborder>3</thumbborder>
-            <backgroundfilename>Skins/Blank.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearhorizontal>
-        </slider>
-        <textbutton>
-          <upfilename>Skins/Button_Up.png</upfilename>
-          <downfilename>Skins/Button_Down.png</downfilename>
-          <mouseoverupfilename>Skins/Button_Up_MO.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/Button_Down_MO.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="sliders7" parentid="sliders5">
-      <colours>
-        <label>
-          <textcolourid>ffdfe6eb</textcolourid>
-        </label>
-        <slider>
-          <backgroundcolourid>00fdfdfd</backgroundcolourid>
-          <thumbcolourid>00fe8c00</thumbcolourid>
-          <trackcolourid>0016171a</trackcolourid>
-        </slider>
-      </colours>
-      <images>
-        <slider>
-          <linearhorizontal>
-            <thumbfilename>Skins/SliderCap2.png</thumbfilename>
-            <thumbborder>0</thumbborder>
-            <backgroundfilename>Skins/BipolarSlider.png</backgroundfilename>
-            <backgroundnumframes>61</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearhorizontal>
-          <linearvertical>
-            <thumbfilename>Skins/SliderCap3.png</thumbfilename>
-            <thumbborder>-5</thumbborder>
-            <backgroundfilename>Skins/Blank.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
-        </slider>
-        <textbutton>
-          <upfilename>Skins/Button_Up.png</upfilename>
-          <downfilename>Skins/Button_Down.png</downfilename>
-          <mouseoverupfilename>Skins/Button_Up_MO.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/Button_Down_MO.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="sliders8" parentid="sliders5">
-      <colours>
-        <slider>
-          <backgroundcolourid>fffdfdfd</backgroundcolourid>
-          <thumbcolourid>fffe8c00</thumbcolourid>
-          <trackcolourid>ff16171a</trackcolourid>
-          <rotarysliderfillcolourid>ffffde00</rotarysliderfillcolourid>
-          <rotaryslideroutlinecolourid>2f16171a</rotaryslideroutlinecolourid>
-          <textboxtextcolourid>ff000000</textboxtextcolourid>
-          <textboxbackgroundcolourid>df111111</textboxbackgroundcolourid>
-          <textboxhighlightcolourid>ffcad5d9</textboxhighlightcolourid>
-          <textboxoutlinecolourid>ff000000</textboxoutlinecolourid>
-        </slider>
-      </colours>
-    </lookandfeel>
-  </lookandfeels>
-  <defaults>
-    <slider>
-      <name>defaultslider</name>
-      <position>
-        <x>30</x>
-        <y>48</y>
-      </position>
-      <size>
-        <width>67</width>
-        <height>82</height>
-      </size>
-      <style>rotaryverticaldrag</style>
-      <range>
-        <min>0</min>
-        <max>100</max>
-        <int>0.0001</int>
-      </range>
-      <textbox>
-        <position>above</position>
-        <readonly>false</readonly>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <font>
-          <height>12</height>
-        </font>
-      </textbox>
-    </slider>
-    <label>
-      <name>defaultlabel</name>
-      <text>Untitled</text>
-      <position>
-        <x>18</x>
-        <y>26</y>
-      </position>
-      <size>
-        <width>67</width>
-        <height>15</height>
-      </size>
-      <font bold="true">
-        <height>12</height>
-      </font>
-      <justification horizontallycentred="true" />
-    </label>
-    <textbutton>
-      <name>defaultbutton</name>
-      <tooltip>defaultbutton tooltip</tooltip>
-      <position>
-        <x>499</x>
-        <y>274</y>
-      </position>
-      <size>
-        <width>70</width>
-        <height>20</height>
-      </size>
-    </textbutton>
-    <combobox>
-      <name>defaultcombobox</name>
-      <tooltip>defaultcombobox tooltip</tooltip>
-      <editabletext>false</editabletext>
-      <nothingselectedtext>-- Select item --</nothingselectedtext>
-      <nochoicestext>-- No choices --</nochoicestext>
-      <justification horizontallycentred="true" />
-      <position>
-        <x>0</x>
-        <y>0</y>
-      </position>
-      <size>
-        <width>150</width>
-        <height>24</height>
-      </size>
-    </combobox>
-  </defaults>
-  <!--Main Component-->
-  <component>
-    <backgroundcolour>ff212426</backgroundcolour>
-    <position>
-      <x>0</x>
-      <y>0</y>
-    </position>
-    <size>
-      <width>936</width>
-      <height>300</height>
-    </size>
-    <!--Header Section-->
-    <component>
-      <position>
-        <x>7</x>
-        <y>7</y>
-      </position>
-      <size>
-        <width>936</width>
-        <height>40</height>
-      </size>
-      <label lfid="Config Name">
-        <name>configurationname</name>
-        <text>Current Configuration</text>
-        <position>
-          <x>170</x>
-          <y>4</y>
-        </position>
-        <size>
-          <width>160</width>
-          <height>17</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-      </label>
-      <textbutton lfid="system:reload_config_button">
-        <name>reloadconfiguration</name>
-        <tooltip>Reload current configuration</tooltip>
-        <position>
-          <x>366</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:load_config_button" displaycontext="host">
-        <name>chooseconfiguration</name>
-        <tooltip>Load New Configuration</tooltip>
-        <position>
-          <x>340</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:load_config_button" displaycontext="scope">
-        <name>B69</name>
-        <tooltip>Load New Configuration</tooltip>
-        <position>
-          <x>340</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:snapshot_button">
-        <name>snapshot</name>
-        <text></text>
-        <tooltip>Send Snapshot of Current Control Values</tooltip>
-        <position>
-          <x>860</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>32</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:settings_button">
-        <name>showusersettings</name>
-        <text></text>
-        <tooltip>Open User Settings panel</tooltip>
-        <position>
-          <x>898</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>32</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <component>
-        <backgroundcolour>00000000</backgroundcolour>
-        <backgroundimage>scopeSyncLogo</backgroundimage>
-        <position>
-          <x>6</x>
-          <y>4</y>
-        </position>
-        <size>
-          <width>151</width>
-          <height>16</height>
-        </size>
+        <component displaycontext="scope" backgroundcolour="00000000">
+          <bounds x="450" y="0" width="20" height="20"></bounds>
+          <!--CP<->Host Disconnected-->
+          <textbutton name="B65">
+            <bounds x="30" y="30" width="5" height="5"></bounds>
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
+          </textbutton>
+          <!--CP<->Host Connected-->
+          <textbutton name="B66">
+            <bounds x="30" y="30" width="5" height="5"></bounds>
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
+          </textbutton>
+        </component>
       </component>
-      <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
-      <tabbedcomponent displaycontext="scope" lfid="header tab">
-        <name>CP-Host Connection</name>
-        <showdropshadow>false</showdropshadow>
-        <position>
-          <x>803</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>57</width>
-          <height>32</height>
-        </size>
-        <tabbar>
-          <orientation>right</orientation>
-          <depth>0</depth>
-        </tabbar>
-        <tab>
-          <idx>1</idx>
-          <name>DISCONNECTED</name>
-          <component>
-            <!--No Controls-->
-          </component>
-        </tab>
-        <tab>
-          <idx>2</idx>
-          <name>CONNECTED</name>
-          <component>
-            <textbutton lfid="system:patch_button">
-              <name>B67</name>
-              <position>
-                <x>0</x>
-                <y>2</y>
-              </position>
-              <size>
-                <width>27</width>
-                <height>21</height>
-              </size>
-            </textbutton>
-            <textbutton lfid="system:presets_button">
-              <name>B68</name>
-              <position>
-                <x>32</x>
-                <y>2</y>
-              </position>
-              <size>
-                <width>19</width>
-                <height>21</height>
-              </size>
-            </textbutton>
-          </component>
-        </tab>
-      </tabbedcomponent>
-      <component displaycontext="scope">
-        <position>
-          <x>450</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>20</width>
-          <height>20</height>
-        </size>
-        <backgroundcolour>00000000</backgroundcolour>
-        <!--CP<->Host Disconnected-->
-        <textbutton>
-          <name>B65</name>
-          <position>
-            <x>30</x>
-            <y>30</y>
-          </position>
-          <size>
-            <width>5</width>
-            <height>5</height>
-          </size>
-          <choosetab>
-            <tabbedcomponent>CP-Host Connection</tabbedcomponent>
-            <tabname>DISCONNECTED</tabname>
-          </choosetab>
-        </textbutton>
-        <!--CP<->Host Connected-->
-        <textbutton>
-          <name>B66</name>
-          <position>
-            <x>30</x>
-            <y>30</y>
-          </position>
-          <size>
-            <width>5</width>
-            <height>5</height>
-          </size>
-          <choosetab>
-            <tabbedcomponent>CP-Host Connection</tabbedcomponent>
-            <tabname>CONNECTED</tabname>
-          </choosetab>
-        </textbutton>
+      <!--Background-->
+      <component>
+        <bounds x="0" y="40" width="936" height="260"></bounds>
+        <component backgroundcolour="ffefeff7">
+          <bounds x="0" y="0" width="312" height="260"></bounds>
+          <label name="Header" text="Without lookandfeel">
+            <bounds x="12" y="8" width="180" height="20"></bounds>
+            <font underlined="true" height="18"></font>
+            <justification left="true" />
+          </label>
+        </component>
+        <component backgroundcolour="ffb5c0c5">
+          <bounds x="312" y="0" width="312" height="260"></bounds>
+          <label name="Header" text="With lookandfeel colours">
+            <bounds x="12" y="8" width="180" height="20"></bounds>
+            <font underlined="true" height="18"></font>
+            <justification left="true" />
+          </label>
+        </component>
+        <component backgroundimage="Skins/background.png" backgroundcolour="ff364147">
+          <bounds x="624" y="0" width="312" height="260"></bounds>
+          <label lfid="sliders5" name="Header" text="With lookandfeel images">
+            <bounds x="12" y="8" width="180" height="20"></bounds>
+            <font underlined="true" height="18"></font>
+            <justification left="true" />
+          </label>
+          <label lfid="sliders5" name="Header" text="With lookandfeel images">
+            <bounds x="12" y="8" width="180" height="20"></bounds>
+            <font underlined="true" height="18"></font>
+            <justification left="true" />
+          </label>
+        </component>
+      </component>
+      <!--Sliders Without LookandFeel-->
+      <component>
+        <bounds x="3" y="75" width="312" height="230" />
+        <label name="s1">
+          <bounds x="5" y="5" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <slider name="s1" style="linearhorizontal">
+          <bounds x="5" y="20" width="180" height="20" />
+          <textbox position="right" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <label name="s2">
+          <bounds x="5" y="45" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <slider name="s2" style="linearhorizontal" popupenabled="true">
+          <bounds x="5" y="60" width="180" height="20" />
+          <textbox position="none"></textbox>
+        </slider>
+        <label name="s3">
+          <bounds x="5" y="85" width="180" height="15"></bounds>
+        </label>
+        <slider name="s3" style="linearbar" velocitybasedmode="true">
+          <bounds x="5" y="100" width="180" height="20" />
+          <textbox readonly="false" width="56" height="15">
+            <font italic="true" height="14"></font>
+            <justification left="true" />
+          </textbox>
+        </slider>
+        <label name="s4">
+          <bounds x="10" y="125" width="90" height="15" />
+        </label>
+        <slider name="s4" style="incdecbuttons">
+          <bounds x="15" y="150" width="80" height="40" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label name="s5">
+          <bounds x="100" y="125" width="90" height="15"></bounds>
+        </label>
+        <slider name="s5" style="rotary">
+          <bounds x="100" y="140" width="90" height="75" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label name="s6">
+          <bounds x="190" y="5" width="60" height="15"></bounds>
+        </label>
+        <slider name="s6" style="linearvertical">
+          <bounds x="195" y="22" width="50" height="180" />
+          <textbox position="below" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <label name="s7">
+          <bounds x="245" y="5" width="60" height="15" />
+        </label>
+        <slider name="s7" style="linearbarvertical" popupenabled="true">
+          <bounds x="262" y="22" width="24" height="180" />
+          <textbox position="none" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+      </component>
+      <!--Sliders With LookandFeel Colours-->
+      <component>
+        <bounds x="315" y="75" width="312" height="230" />
+        <label name="s1">
+          <bounds x="5" y="5" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <slider lfid="sliders2" name="s1" style="linearhorizontal">
+          <bounds x="5" y="20" width="180" height="20" />
+          <textbox position="right" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <label name="s2">
+          <bounds x="5" y="45" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <slider lfid="sliders3" name="s2" style="linearhorizontal" popupenabled="true">
+          <bounds x="5" y="60" width="180" height="20" />
+          <textbox position="none"></textbox>
+        </slider>
+        <label name="s3">
+          <bounds x="5" y="85" width="180" height="15"></bounds>
+        </label>
+        <slider lfid="sliders1" name="s3" style="linearbar" velocitybasedmode="true">
+          <bounds x="5" y="100" width="180" height="20" />
+          <textbox readonly="false" width="56" height="15">
+            <font italic="true" height="14"></font>
+            <justification left="true" />
+          </textbox>
+        </slider>
+        <label name="s4">
+          <bounds x="10" y="125" width="90" height="15" />
+        </label>
+        <slider lfid="sliders1" name="s4" style="incdecbuttons">
+          <bounds x="15" y="150" width="80" height="40" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label name="s5">
+          <bounds x="100" y="125" width="90" height="15"></bounds>
+        </label>
+        <slider lfid="sliders1" name="s5" style="rotary">
+          <bounds x="100" y="140" width="90" height="75" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label name="s6">
+          <bounds x="190" y="5" width="60" height="15"></bounds>
+        </label>
+        <slider lfid="sliders4" name="s6" style="linearvertical">
+          <bounds x="195" y="22" width="50" height="180" />
+          <textbox position="below" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <label name="s7">
+          <bounds x="245" y="5" width="60" height="15" />
+        </label>
+        <slider lfid="sliders1" style="linearbarvertical" name="s7" popupenabled="true">
+          <bounds x="262" y="22" width="24" height="180" />
+          <textbox position="none" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+      </component>
+      <!--Sliders With LookandFeel Images-->
+      <component>
+        <bounds x="627" y="75" width="312" height="230" />
+        <label lfid="sliders5" name="s1">
+          <bounds x="5" y="5" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <component backgroundimage="Skins/HSliderBack1.png" backgroundcolour="00364147">
+          <bounds x="13" y="26" width="115" height="9" />
+        </component>
+        <slider lfid="sliders6" name="s1" style="linearhorizontal">
+          <bounds x="5" y="20" width="183" height="20" />
+          <textbox position="right" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <component backgroundimage="Skins/HSliderBack2.png" backgroundcolour="00364147">
+          <bounds x="7" y="44" width="182" height="37" />
+        </component>
+        <label lfid="sliders5" name="s2">
+          <bounds x="5" y="45" width="180" height="15" />
+          <font bold="true" height="12"></font>
+          <justification horizontallycentred="true" />
+        </label>
+        <slider lfid="sliders7" name="s2" style="linearhorizontal" popupenabled="true">
+          <bounds x="8" y="60" width="180" height="20" />
+          <textbox position="none"></textbox>
+        </slider>
+        <label lfid="sliders5" name="s3">
+          <bounds x="5" y="85" width="180" height="15"></bounds>
+        </label>
+        <slider lfid="sliders8" name="s3" style="linearbar" velocitybasedmode="true">
+          <bounds x="7" y="100" width="182" height="15" />
+          <textbox readonly="true" width="56" height="15">
+            <font italic="true" height="14"></font>
+            <justification left="true" />
+          </textbox>
+        </slider>
+        <slider lfid="sliders7" name="s3" style="linearbar" velocitybasedmode="true">
+          <bounds x="7" y="100" width="182" height="15" />
+          <textbox position="none"></textbox>
+        </slider>
+        <label lfid="sliders5" name="s4">
+          <bounds x="10" y="125" width="90" height="15" />
+        </label>
+        <slider lfid="sliders6" name="s4" style="incdecbuttons">
+          <bounds x="15" y="150" width="80" height="40" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label lfid="sliders5" name="s5">
+          <bounds x="100" y="125" width="90" height="15"></bounds>
+        </label>
+        <slider lfid="sliders6" name="s5" style="rotary">
+          <bounds x="100" y="140" width="90" height="79" />
+          <textbox position="above"></textbox>
+        </slider>
+        <label lfid="sliders5" name="s6">
+          <bounds x="190" y="5" width="60" height="15"></bounds>
+        </label>
+        <component backgroundimage="Skins/VSliderBack.png" backgroundcolour="00364147">
+          <bounds x="195" y="24" width="50" height="151" />
+        </component>
+        <slider lfid="sliders7" name="s6" style="linearvertical">
+          <bounds x="195" y="13" width="50" height="186" />
+          <textbox position="below" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
+        <label lfid="sliders5" name="s7">
+          <bounds x="245" y="5" width="60" height="15" />
+        </label>
+        <slider lfid="sliders8" name="s7" style="linearbarvertical" popupenabled="true">
+          <bounds x="265" y="25" width="18" height="174" />
+          <textbox position="none" readonly="false" width="56" height="14">
+            <font height="12"></font>
+          </textbox>
+        </slider>
       </component>
     </component>
-    <!--Background-->
-    <component>
-      <position>
-        <x>0</x>
-        <y>40</y>
-      </position>
-      <size>
-        <width>936</width>
-        <height>260</height>
-      </size>
-      <component>
-        <backgroundcolour>ffefeff7</backgroundcolour>
-        <position>
-          <x>0</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>312</width>
-          <height>260</height>
-        </size>
-        <label>
-          <name>Header</name>
-          <text>Without lookandfeel</text>
-          <position>
-            <x>12</x>
-            <y>8</y>
-          </position>
-          <size>
-            <width>180</width>
-            <height>20</height>
-          </size>
-          <font underlined="true">
-            <height>18</height>
-          </font>
-        <justification left="true" />
-        </label>
-      </component>
-      <component>
-        <backgroundcolour>ffb5c0c5</backgroundcolour>
-        <position>
-          <x>312</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>312</width>
-          <height>260</height>
-        </size>
-        <label>
-          <name>Header</name>
-          <text>With lookandfeel colours</text>
-          <position>
-            <x>12</x>
-            <y>8</y>
-          </position>
-          <size>
-            <width>180</width>
-            <height>20</height>
-          </size>
-          <font underlined="true">
-            <height>18</height>
-          </font>
-        <justification left="true" />
-        </label>
-      </component>
-      <component>
-        <backgroundimage>Skins/background.png</backgroundimage>
-        <backgroundcolour>ff364147</backgroundcolour>
-        <position>
-          <x>624</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>312</width>
-          <height>260</height>
-        </size>
-        <label lfid="sliders5">
-          <name>Header</name>
-          <text>With lookandfeel images</text>
-          <position>
-            <x>12</x>
-            <y>8</y>
-          </position>
-          <size>
-            <width>180</width>
-            <height>20</height>
-          </size>
-          <font underlined="true">
-            <height>18</height>
-          </font>
-        <justification left="true" />
-        </label>
-        <label lfid="sliders5">
-          <name>Header</name>
-          <text>With lookandfeel images</text>
-          <position>
-            <x>12</x>
-            <y>8</y>
-          </position>
-          <size>
-            <width>180</width>
-            <height>20</height>
-          </size>
-          <font underlined="true">
-            <height>18</height>
-          </font>
-        <justification left="true" />
-        </label>
-      </component>
-    </component>
-    <!--Sliders Without LookandFeel-->
-    <component>
-      <position>
-        <x>3</x>
-        <y>75</y>
-      </position>
-      <size>
-        <width>312</width>
-        <height>230</height>
-      </size>
-      <label>
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <slider>
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>20</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>right</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <label>
-        <name>s2</name>
-        <position>
-          <x>5</x>
-          <y>45</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <slider>
-        <name>s2</name>
-        <position>
-          <x>5</x>
-          <y>60</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s3</name>
-        <position>
-          <x>5</x>
-          <y>85</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider>
-        <name>s3</name>
-        <position>
-          <x>5</x>
-          <y>100</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearbar</style>
-        <velocitybasedmode>true</velocitybasedmode>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>15</height>
-          </size>
-          <font italic="true">
-            <height>14</height>
-          </font>
-          <justification left="true" />
-        </textbox>
-      </slider>
-      <label>
-        <name>s4</name>
-        <position>
-          <x>10</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider>
-        <name>s4</name>
-        <position>
-          <x>15</x>
-          <y>150</y>
-        </position>
-        <size>
-          <width>80</width>
-          <height>40</height>
-        </size>
-        <style>incdecbuttons</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider>
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>140</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>75</height>
-        </size>
-        <style>rotary</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s6</name>
-        <position>
-          <x>190</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider>
-        <name>s6</name>
-        <position>
-          <x>195</x>
-          <y>22</y>
-        </position>
-        <size>
-          <width>50</width>
-          <height>180</height>
-        </size>
-        <style>linearvertical</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>below</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <label>
-        <name>s7</name>
-        <position>
-          <x>245</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider>
-        <name>s7</name>
-        <position>
-          <x>262</x>
-          <y>22</y>
-        </position>
-        <size>
-          <width>24</width>
-          <height>180</height>
-        </size>
-        <style>linearbarvertical</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-    </component>
-    <!--Sliders With LookandFeel Colours-->
-    <component>
-      <position>
-        <x>315</x>
-        <y>75</y>
-      </position>
-      <size>
-        <width>312</width>
-        <height>230</height>
-      </size>
-      <label>
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <slider lfid="sliders2">
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>20</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>right</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <label>
-        <name>s2</name>
-        <position>
-          <x>5</x>
-          <y>45</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <slider lfid="sliders3">
-        <name>s2</name>
-        <position>
-          <x>5</x>
-          <y>60</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s3</name>
-        <position>
-          <x>5</x>
-          <y>85</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders1">
-        <name>s3</name>
-        <position>
-          <x>5</x>
-          <y>100</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearbar</style>
-        <velocitybasedmode>true</velocitybasedmode>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>15</height>
-          </size>
-          <font italic="true">
-            <height>14</height>
-          </font>
-        <justification left="true" />
-        </textbox>
-      </slider>
-      <label>
-        <name>s4</name>
-        <position>
-          <x>10</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders1">
-        <name>s4</name>
-        <position>
-          <x>15</x>
-          <y>150</y>
-        </position>
-        <size>
-          <width>80</width>
-          <height>40</height>
-        </size>
-        <style>incdecbuttons</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders1">
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>140</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>75</height>
-        </size>
-        <style>rotary</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label>
-        <name>s6</name>
-        <position>
-          <x>190</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders4">
-        <name>s6</name>
-        <position>
-          <x>195</x>
-          <y>22</y>
-        </position>
-        <size>
-          <width>50</width>
-          <height>180</height>
-        </size>
-        <style>linearvertical</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>below</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <label>
-        <name>s7</name>
-        <position>
-          <x>245</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders1">
-        <name>s7</name>
-        <position>
-          <x>262</x>
-          <y>22</y>
-        </position>
-        <size>
-          <width>24</width>
-          <height>180</height>
-        </size>
-        <style>linearbarvertical</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-    </component>
-    <!--Sliders With LookandFeel Images-->
-    <component>
-      <position>
-        <x>627</x>
-        <y>75</y>
-      </position>
-      <size>
-        <width>312</width>
-        <height>230</height>
-      </size>
-      <label lfid="sliders5">
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <component>
-        <backgroundimage>Skins/HSliderBack1.png</backgroundimage>
-        <backgroundcolour>00364147</backgroundcolour>
-        <position>
-          <x>13</x>
-          <y>26</y>
-        </position>
-        <size>
-          <width>115</width>
-          <height>9</height>
-        </size>
-      </component>
-      <slider lfid="sliders6">
-        <name>s1</name>
-        <position>
-          <x>5</x>
-          <y>20</y>
-        </position>
-        <size>
-          <width>183</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>right</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <component>
-        <backgroundimage>Skins/HSliderBack2.png</backgroundimage>
-        <backgroundcolour>00364147</backgroundcolour>
-        <position>
-          <x>7</x>
-          <y>44</y>
-        </position>
-        <size>
-          <width>182</width>
-          <height>37</height>
-        </size>
-      </component>
-      <label lfid="sliders5">
-        <name>s2</name>
-        <position>
-          <x>5</x>
-          <y>45</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
-        <justification horizontallycentred="true" />
-      </label>
-      <slider lfid="sliders7">
-        <name>s2</name>
-        <position>
-          <x>8</x>
-          <y>60</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>20</height>
-        </size>
-        <style>linearhorizontal</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-        </textbox>
-      </slider>
-      <label lfid="sliders5">
-        <name>s3</name>
-        <position>
-          <x>5</x>
-          <y>85</y>
-        </position>
-        <size>
-          <width>180</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders8">
-        <name>s3</name>
-        <position>
-          <x>7</x>
-          <y>100</y>
-        </position>
-        <size>
-          <width>182</width>
-          <height>15</height>
-        </size>
-        <style>linearbar</style>
-        <velocitybasedmode>true</velocitybasedmode>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <readonly>true</readonly>
-          <size>
-            <width>56</width>
-            <height>15</height>
-          </size>
-          <font italic="true">
-            <height>14</height>
-          </font>
-        <justification left="true" />
-        </textbox>
-      </slider>
-      <slider lfid="sliders7">
-        <name>s3</name>
-        <position>
-          <x>7</x>
-          <y>100</y>
-        </position>
-        <size>
-          <width>182</width>
-          <height>15</height>
-        </size>
-        <style>linearbar</style>
-        <velocitybasedmode>true</velocitybasedmode>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-        </textbox>
-      </slider>
-      <label lfid="sliders5">
-        <name>s4</name>
-        <position>
-          <x>10</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders6">
-        <name>s4</name>
-        <position>
-          <x>15</x>
-          <y>150</y>
-        </position>
-        <size>
-          <width>80</width>
-          <height>40</height>
-        </size>
-        <style>incdecbuttons</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label lfid="sliders5">
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>125</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders6">
-        <name>s5</name>
-        <position>
-          <x>100</x>
-          <y>140</y>
-        </position>
-        <size>
-          <width>90</width>
-          <height>79</height>
-        </size>
-        <style>rotary</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>above</position>
-        </textbox>
-      </slider>
-      <label lfid="sliders5">
-        <name>s6</name>
-        <position>
-          <x>190</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <component>
-        <backgroundimage>Skins/VSliderBack.png</backgroundimage>
-        <backgroundcolour>00364147</backgroundcolour>
-        <position>
-          <x>195</x>
-          <y>24</y>
-        </position>
-        <size>
-          <width>50</width>
-          <height>151</height>
-        </size>
-      </component>
-      <slider lfid="sliders7">
-        <name>s6</name>
-        <position>
-          <x>195</x>
-          <y>13</y>
-        </position>
-        <size>
-          <width>50</width>
-          <height>186</height>
-        </size>
-        <style>linearvertical</style>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>below</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-      <label lfid="sliders5">
-        <name>s7</name>
-        <position>
-          <x>245</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>60</width>
-          <height>15</height>
-        </size>
-      </label>
-      <slider lfid="sliders8">
-        <name>s7</name>
-        <position>
-          <x>265</x>
-          <y>25</y>
-        </position>
-        <size>
-          <width>18</width>
-          <height>174</height>
-        </size>
-        <style>linearbarvertical</style>
-        <popupenabled>true</popupenabled>
-        <range>
-          <min>0</min>
-          <max>100</max>
-          <int>0.0001</int>
-        </range>
-        <textbox>
-          <position>none</position>
-          <readonly>false</readonly>
-          <size>
-            <width>56</width>
-            <height>14</height>
-          </size>
-          <font>
-            <height>12</height>
-          </font>
-        </textbox>
-      </slider>
-    </component>
-  </component>
-</layout>
+  </layout>
 </tns:ScopeSyncLayout>

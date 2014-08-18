@@ -80,17 +80,21 @@ void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
 
 void LabelProperties::setValuesFromXML(XmlElement& labelXML)
 {
-    // Grab values set in XML
-    forEachXmlChildElement(labelXML, child)
-    {
-             if (child->hasTagName("name"))          name       = child->getAllSubText();
-        else if (child->hasTagName("text"))          text       = child->getAllSubText();
-        else if (child->hasTagName("position"))      getPositionFromXml(*child, x, y);
-        else if (child->hasTagName("size"))          getSizeFromXml(*child, width, height);
-        else if (child->hasTagName("font"))          getFontFromXml(*child, fontHeight, fontStyleFlags);
-        else if (child->hasTagName("justification")) getJustificationFlagsFromXml(*child, justificationFlags);
-    }
+    name = labelXML.getStringAttribute("name", name);
+    text = labelXML.getStringAttribute("text", text);
+    
+    XmlElement* boundsXml = labelXML.getChildByName("bounds");
+    if (boundsXml != nullptr)
+        getBoundsFromXml(*boundsXml, x, y, width, height);
+    
+    XmlElement* fontXml = labelXML.getChildByName("font");
+    if (fontXml != nullptr)
+        getFontFromXml(*fontXml, fontHeight, fontStyleFlags);
 
-    if (labelXML.hasAttribute("lfid")) bcmLookAndFeelId = labelXML.getStringAttribute("lfid");
+    XmlElement* justificationXml = labelXML.getChildByName("justification");
+    if (justificationXml != nullptr)
+        getJustificationFlagsFromXml(*justificationXml, justificationFlags);
+
+    bcmLookAndFeelId = labelXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };
 

@@ -34,6 +34,7 @@ class SliderProperties;
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+#include "BCMComponentBounds.h"
 
 class BCMSlider : public Slider
 {
@@ -47,6 +48,9 @@ public:
     // Returns the parameter a BCMSlider is mapped to
     BCMParameter* getParameter()  { return parameter; };
 
+    // resized method overridden to apply bounds appropriately
+    //void resized();
+
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
@@ -57,6 +61,8 @@ private:
     BCMParameter* parameter;       // Pointer to a mapped parameter
 
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
+
+    //BCMComponentBounds bounds; // Position/Size information
     
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v);

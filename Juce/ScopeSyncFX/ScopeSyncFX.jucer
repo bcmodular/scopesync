@@ -51,6 +51,10 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="z9t8Qt" name="BCMComponentBounds.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMComponentBounds.cpp"/>
+        <FILE id="SpYuYf" name="BCMComponentBounds.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/BCMComponentBounds.h"/>
         <FILE id="mXl8wg" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>
         <FILE id="MOfU5O" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSyncShared/Components/ImageLoader.h"/>
         <FILE id="tgSHCF" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.cpp"/>

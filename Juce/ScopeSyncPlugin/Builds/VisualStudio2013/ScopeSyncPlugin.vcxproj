@@ -212,6 +212,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponent.cpp"/>
@@ -1170,6 +1171,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\ImageLoader.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponent.h"/>

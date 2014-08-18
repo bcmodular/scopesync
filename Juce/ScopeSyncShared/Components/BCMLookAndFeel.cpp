@@ -228,59 +228,46 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
-    forEachXmlChildElement(xml, child)
-    {
-             if (child->hasTagName("filename"))     rotaryFileName     = child->getAllSubText();
-        else if (child->hasTagName("numframes"))    rotaryNumFrames    = child->getAllSubText().getIntValue();
-        else if (child->hasTagName("ishorizontal")) rotaryIsHorizontal = child->getAllSubText().equalsIgnoreCase("true");
-    }
+    rotaryFileName     = xml.getStringAttribute("filename",     rotaryFileName);
+    rotaryNumFrames    = xml.getIntAttribute   ("numframes",    rotaryNumFrames);
+    rotaryIsHorizontal = xml.getBoolAttribute  ("ishorizontal", rotaryIsHorizontal);
 }
 
 void BCMLookAndFeel::getLinearHorizontalSliderImagesFromXml(const XmlElement& xml)
 {
-    forEachXmlChildElement(xml, child)
-    {
-             if (child->hasTagName("thumbfilename"))          linearHorizontalThumbFileName          = child->getAllSubText();
-        else if (child->hasTagName("thumbborder"))            linearHorizontalThumbBorder            = child->getAllSubText().getIntValue();
-        else if (child->hasTagName("backgroundfilename"))     linearHorizontalBackgroundFileName     = child->getAllSubText();
-        else if (child->hasTagName("backgroundnumframes"))    linearHorizontalBackgroundNumFrames    = child->getAllSubText().getIntValue();
-        else if (child->hasTagName("backgroundishorizontal")) linearHorizontalBackgroundIsHorizontal = child->getAllSubText().equalsIgnoreCase("true");
-    }
+    linearHorizontalThumbFileName          = xml.getStringAttribute("thumbfilename",          linearHorizontalThumbFileName);
+    linearHorizontalThumbBorder            = xml.getIntAttribute   ("thumbborder",            linearHorizontalThumbBorder);
+    linearHorizontalBackgroundFileName     = xml.getStringAttribute("backgroundfilename",     linearHorizontalBackgroundFileName);
+    linearHorizontalBackgroundNumFrames    = xml.getIntAttribute   ("backgroundnumframes",    linearHorizontalBackgroundNumFrames);
+    linearHorizontalBackgroundIsHorizontal = xml.getBoolAttribute  ("backgroundishorizontal", linearHorizontalBackgroundIsHorizontal);
 }
 
 void BCMLookAndFeel::getLinearVerticalSliderImagesFromXml(const XmlElement& xml)
 {
-    forEachXmlChildElement(xml, child)
-    {
-             if (child->hasTagName("thumbfilename"))          linearVerticalThumbFileName          = child->getAllSubText();
-        else if (child->hasTagName("thumbborder"))            linearVerticalThumbBorder            = child->getAllSubText().getIntValue();
-        else if (child->hasTagName("backgroundfilename"))     linearVerticalBackgroundFileName     = child->getAllSubText();
-        else if (child->hasTagName("backgroundnumframes"))    linearVerticalBackgroundNumFrames    = child->getAllSubText().getIntValue();
-        else if (child->hasTagName("backgroundishorizontal")) linearVerticalBackgroundIsHorizontal = child->getAllSubText().equalsIgnoreCase("true");
-    }
+    linearVerticalThumbFileName          = xml.getStringAttribute("thumbfilename",          linearVerticalThumbFileName);
+    linearVerticalThumbBorder            = xml.getIntAttribute   ("thumbborder",            linearVerticalThumbBorder);
+    linearVerticalBackgroundFileName     = xml.getStringAttribute("backgroundfilename",     linearVerticalBackgroundFileName);
+    linearVerticalBackgroundNumFrames    = xml.getIntAttribute   ("backgroundnumframes",    linearVerticalBackgroundNumFrames);
+    linearVerticalBackgroundIsHorizontal = xml.getBoolAttribute  ("backgroundishorizontal", linearVerticalBackgroundIsHorizontal);
 }
 
 void BCMLookAndFeel::getTextButtonImagesFromXml(const XmlElement& xml)
 {
-    forEachXmlChildElement(xml, child)
-    {
-             if (child->hasTagName("upfilename"))            textButtonUpFileName       = child->getAllSubText();
-        else if (child->hasTagName("downfilename"))          textButtonDownFileName     = child->getAllSubText();
-        else if (child->hasTagName("mouseoverupfilename"))   textButtonOverUpFileName   = child->getAllSubText();
-        else if (child->hasTagName("mouseoverdownfilename")) textButtonOverDownFileName = child->getAllSubText();
-    }
+    textButtonUpFileName       = xml.getStringAttribute("upfilename",            textButtonUpFileName);
+    textButtonDownFileName     = xml.getStringAttribute("downfilename",          textButtonDownFileName);
+    textButtonOverUpFileName   = xml.getStringAttribute("mouseoverupfilename",   textButtonOverUpFileName);
+    textButtonOverDownFileName = xml.getStringAttribute("mouseoverdownfilename", textButtonOverDownFileName);
 }
     
 void BCMLookAndFeel::getColoursFromXml(const String& colourSet, const XmlElement& xml)
 {
     // DBG("BCMLookAndFeel::getColoursFromXml - xml input = " + xml.createDocument(""));
 
-    forEachXmlChildElement(xml, child)
+    for (int i = 0; i < xml.getNumAttributes(); i++)
     {
-        String colourId    = child->getTagName().toLowerCase();
-        String colourValue = child->getAllSubText();
-        // DBG("BCMLookAndFeel::getColoursFromXml - Colour Set = " + colourSet + ", " + colourId + ", " + colourValue);
-
+        String colourId    = xml.getAttributeName(i).toLowerCase();
+        String colourValue = xml.getAttributeValue(i);
+    
              if (colourSet == "slider" && sliderColours.contains(colourId))
             lookAndFeelColours.set(sliderColours[colourId], colourValue);
         else if (colourSet == "label" && labelColours.contains(colourId))

@@ -77,24 +77,23 @@ void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parent
 
 void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
 {
-    // Grab values set in XML
-    forEachXmlChildElement(tabbedComponentXML, child)
+    name           = tabbedComponentXML.getStringAttribute("name",           name);
+    showDropShadow = tabbedComponentXML.getBoolAttribute  ("showdropshadow", showDropShadow);
+    
+    XmlElement* boundsXml = tabbedComponentXML.getChildByName("bounds");
+    if (boundsXml != nullptr)
+        getBoundsFromXml(*boundsXml, x, y, width, height);
+    
+    forEachXmlChildElementWithTagName(tabbedComponentXML, child, "tabbar")
     {
-             if (child->hasTagName("name"))           name = child->getAllSubText();
-        else if (child->hasTagName("showdropshadow")) showDropShadow = child->getAllSubText().equalsIgnoreCase("true");
-        else if (child->hasTagName("position"))       getPositionFromXml(*child, x, y);
-        else if (child->hasTagName("size"))           getSizeFromXml(*child, width, height);
-        else if (child->hasTagName("tabbar"))
-        {
-            forEachXmlChildElement(*child, subChild)
-            {
-                     if (subChild->hasTagName("orientation")) getOrientationFromXml(*subChild, tabBarOrientation);
-                else if (subChild->hasTagName("depth"))       tabBarDepth = subChild->getAllSubText().getIntValue();
-            }
-        }
+        tabBarDepth = child->getIntAttribute("depth", tabBarDepth);
+
+        XmlElement* orientationXml = child->getChildByName("orientation");
+        if (orientationXml != nullptr)
+            getOrientationFromXml(*orientationXml, tabBarOrientation);
     }
 
-    if (tabbedComponentXML.hasAttribute("lfid")) bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid");
+    bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }
 
 void TabbedComponentProperties::getOrientationFromXml(const XmlElement& xml, TabbedButtonBar::Orientation& orientation)

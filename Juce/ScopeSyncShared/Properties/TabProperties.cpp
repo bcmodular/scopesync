@@ -66,13 +66,9 @@ void TabProperties::copyProperties(TabProperties& parentTabProperties)
 
 void TabProperties::setValuesFromXML(XmlElement& tabXML)
 {
-    // Grab values set in XML
-    forEachXmlChildElement(tabXML, child)
-    {
-             if (child->hasTagName("name"))             name = child->getAllSubText();
-        else if (child->hasTagName("backgroundcolour")) backgroundColour = child->getAllSubText();
-        else if (child->hasTagName("idx"))              idx = child->getAllSubText().getIntValue();
-    }
-
-    if (tabXML.hasAttribute("lfid")) bcmLookAndFeelId = tabXML.getStringAttribute("lfid");
+    name             = tabXML.getStringAttribute("name",             name);
+    backgroundColour = tabXML.getStringAttribute("backgroundcolour", backgroundColour);
+    idx              = tabXML.getIntAttribute   ("idx",              idx);
+    
+    bcmLookAndFeelId = tabXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }

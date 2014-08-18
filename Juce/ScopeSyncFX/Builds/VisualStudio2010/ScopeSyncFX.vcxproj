@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponent.cpp"/>
@@ -1045,6 +1046,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\ImageLoader.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponent.h"/>

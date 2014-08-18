@@ -1,4139 +1,1373 @@
-<?xml version="1.0" encoding="utf-8"?>
-<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-
-<layout>
-  <lookandfeels>
-    <lookandfeel id="default">
-      <colours>
-        <slider>
-          <textboxbackgroundcolourid>ff000000</textboxbackgroundcolourid>
-          <textboxoutlinecolourid>ff121517</textboxoutlinecolourid>
-          <textboxtextcolourid>ffb3bbbd</textboxtextcolourid>
-          <textboxhighlightcolourid>ffa7aaae</textboxhighlightcolourid>
-          <thumbcolourid>00ffffff</thumbcolourid>
-          <backgroundcolourid>ff000000</backgroundcolourid>
-        </slider>
-        <label>
-          <textcolourid>ff323739</textcolourid>
-        </label>
-        <texteditor>
-          <focusedoutlinecolourid>002f353a</focusedoutlinecolourid>
-        </texteditor>
-        <tabbedcomponent>
-          <outlinecolourid>00000000</outlinecolourid>
-        </tabbedcomponent>
-        <tabbar>
-          <tabtextcolourid>ffc3cace</tabtextcolourid>
-          <fronttextcolourid>ffff7f00</fronttextcolourid>
-          <taboutlinecolourid>00000000</taboutlinecolourid>
-        </tabbar>
-        <textbutton>
-          <textcolouroffid>00ffffff</textcolouroffid>
-          <textcolouronid>00ff0000</textcolouronid>
-          <buttoncolourid>ffff0000</buttoncolourid>
-        </textbutton>
-      </colours>
-      <images>
-        <slider>
-          <rotary>
-            <filename>Skins/B-Control/BCR_knob.png</filename>
-            <numframes>45</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
-          <linearhorizontal>
-            <thumbfilename></thumbfilename>
-            <backgroundfilename></backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearhorizontal>
-          <linearvertical>
-            <thumbfilename>Skins/B-Control/slider_cap_BCM.png</thumbfilename>
-            <thumbborder>2</thumbborder>
-            <backgroundfilename>Skins/B-Control/slider_back.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
-        </slider>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="BCMbutton" parentid="default">
-      <colours>
-        <textbutton>
-          <textcolouroffid>00ffffff</textcolouroffid>
-          <textcolouronid>00ff0000</textcolouronid>
-          <buttoncolourid>ffff0000</buttoncolourid>
-        </textbutton>
-      </colours>
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/BC_button_off2.png</upfilename>
-          <downfilename>Skins/B-Control/BC_button_on2.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/BC_button_off2.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/BC_button_on2.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="TabControl">
-      <colours>
-        <slider>
-          <textboxbackgroundcolourid>ff000000</textboxbackgroundcolourid>
-          <textboxoutlinecolourid>00ffffff</textboxoutlinecolourid>
-          <textboxtextcolourid>ff121314</textboxtextcolourid>
-          <textboxhighlightcolourid>ffa7aaae</textboxhighlightcolourid>
-          <thumbcolourid>00ffffff</thumbcolourid>
-          <backgroundcolourid>00000000</backgroundcolourid>
-        </slider>
-        <label>
-          <textcolourid>ff121314</textcolourid>
-        </label>
-        <texteditor>
-          <focusedoutlinecolourid>00123456</focusedoutlinecolourid>
-        </texteditor>
-        <tabbedcomponent>
-          <outlinecolourid>00000000</outlinecolourid>
-        </tabbedcomponent>
-        <tabbar>
-          <tabtextcolourid>ffc3cace</tabtextcolourid>
-          <fronttextcolourid>ffff7f00</fronttextcolourid>
-          <taboutlinecolourid>00000000</taboutlinecolourid>
-        </tabbar>
-        <textbutton>
-          <textcolouroffid>00ffffff</textcolouroffid>
-          <textcolouronid>00ffffff</textcolouronid>
-        </textbutton>
-      </colours>
-      <images>
-        <slider>
-          <rotary>
-            <filename>BCR_encoder.png</filename>
-            <numframes>45</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
-          <linearhorizontal>
-            <thumbfilename></thumbfilename>
-            <backgroundfilename></backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearhorizontal>
-          <linearvertical>
-            <thumbfilename>slider_cap_BCM.png</thumbfilename>
-            <thumbborder>2</thumbborder>
-            <backgroundfilename>slider_back.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
-        </slider>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpA_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonA_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonA_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonA_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonA_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpB_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonB_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonB_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonB_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonB_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpC_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonC_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonC_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonC_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonC_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpD_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonD_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonD_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonD_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonD_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpI_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonI_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonI_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonI_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonI_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpJ_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonJ_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonJ_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonJ_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonJ_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpK_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonK_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonK_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonK_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonK_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="EncGrpL_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonL_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonL_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonL_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonL_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="encoder2" parentid="default">
-      <colours>
-        <slider>
-          <textboxbackgroundcolourid>ff000000</textboxbackgroundcolourid>
-          <textboxoutlinecolourid>ff121517</textboxoutlinecolourid>
-          <textboxtextcolourid>ffb3bbbd</textboxtextcolourid>
-          <textboxhighlightcolourid>ffa7aaae</textboxhighlightcolourid>
-          <thumbcolourid>00ffffff</thumbcolourid>
-          <backgroundcolourid>ff000000</backgroundcolourid>
-        </slider>
-        <label>
-          <textcolourid>ff323739</textcolourid>
-        </label>
-        <texteditor>
-          <focusedoutlinecolourid>002f353a</focusedoutlinecolourid>
-        </texteditor>
-        <tabbedcomponent>
-          <outlinecolourid>00000000</outlinecolourid>
-        </tabbedcomponent>
-        <tabbar>
-          <tabtextcolourid>ffc3cace</tabtextcolourid>
-          <fronttextcolourid>ffff7f00</fronttextcolourid>
-          <taboutlinecolourid>00000000</taboutlinecolourid>
-        </tabbar>
-        <textbutton>
-          <textcolouroffid>00ffffff</textcolouroffid>
-          <textcolouronid>00ff0000</textcolouronid>
-          <buttoncolourid>ffff0000</buttoncolourid>
-        </textbutton>
-      </colours>
-      <images>
-        <slider>
-          <rotary>
-            <filename>Skins/B-Control/BCR_encoder_rotary.png</filename>
-            <numframes>45</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
-          <linearhorizontal>
-            <thumbfilename></thumbfilename>
-            <backgroundfilename></backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearhorizontal>
-          <linearvertical>
-            <thumbfilename>Skins/B-Control/slider_cap_BCM.png</thumbfilename>
-            <thumbborder>2</thumbborder>
-            <backgroundfilename>Skins/B-Control/slider_back.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
-        </slider>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="enc2push">
-      <colours>
-        <textbutton>
-          <textcolouroffid>00ffffff</textcolouroffid>
-          <textcolouronid>00ff0000</textcolouronid>
-          <buttoncolourid>ffff0000</buttoncolourid>
-        </textbutton>
-        <slider>
-          <textboxbackgroundcolourid>00000000</textboxbackgroundcolourid>
-          <textboxoutlinecolourid>00121517</textboxoutlinecolourid>
-          <textboxtextcolourid>00b3bbbd</textboxtextcolourid>
-          <textboxhighlightcolourid>00a7aaae</textboxhighlightcolourid>
-          <thumbcolourid>00ffffff</thumbcolourid>
-          <backgroundcolourid>00000000</backgroundcolourid>
-        </slider>
-      </colours>
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/BCR_encoder_Push_off.png</upfilename>
-          <downfilename>Skins/B-Control/BCR_encoder_Push_on.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/BCR_encoder_Push_off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/BCR_encoder_Push_on.png</mouseoverdownfilename>
-        </textbutton>
-        <slider>
-          <rotary>
-            <filename>Skins/B-Control/BCR_encoder_rotary.png</filename>
-            <numframes>45</numframes>
-            <ishorizontal>false</ishorizontal>
-          </rotary>
-        </slider>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="Push_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonPush_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonPush_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonPush_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonPush_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="Rotary_Button" parentid="default">
-      <images>
-        <textbutton>
-          <upfilename>Skins/B-Control/ButtonRotary_Off.png</upfilename>
-          <downfilename>Skins/B-Control/ButtonRotary_On.png</downfilename>
-          <mouseoverupfilename>Skins/B-Control/ButtonRotary_Off.png</mouseoverupfilename>
-          <mouseoverdownfilename>Skins/B-Control/ButtonRotary_On.png</mouseoverdownfilename>
-        </textbutton>
-      </images>
-    </lookandfeel>
-    <lookandfeel id="Config Name">
-      <colours>
-        <label>
-          <textcolourid>ffa7aaae</textcolourid>
-          <outlinecolourid>ffa7aaae</outlinecolourid>
-        </label>
-      </colours>
-    </lookandfeel>
-    <lookandfeel id="Fader">
-      <colours>
-        <slider>
-          <textboxbackgroundcolourid>ff000000</textboxbackgroundcolourid>
-          <textboxoutlinecolourid>ff121517</textboxoutlinecolourid>
-          <textboxtextcolourid>ffb3bbbd</textboxtextcolourid>
-          <textboxhighlightcolourid>ffa7aaae</textboxhighlightcolourid>
-          <thumbcolourid>00ffffff</thumbcolourid>
-          <backgroundcolourid>00000000</backgroundcolourid>
-        </slider>
-        <label>
-          <textcolourid>ff323739</textcolourid>
-        </label>
-        <texteditor>
-          <focusedoutlinecolourid>002f353a</focusedoutlinecolourid>
-        </texteditor>
-      </colours>
-      <images>
-        <slider>
-          <linearvertical>
-            <thumbfilename>Skins/B-Control/slider_cap_BCM.png</thumbfilename>
-            <thumbborder>2</thumbborder>
-            <backgroundfilename>Skins/B-Control/slider_back.png</backgroundfilename>
-            <backgroundnumframes>1</backgroundnumframes>
-            <backgroundishorizontal>false</backgroundishorizontal>
-          </linearvertical>
-        </slider>
-      </images>
-    </lookandfeel>
-  </lookandfeels>
-  <defaults>
-    <slider>
-      <name>defaultslider</name>
-      <position>
-        <x>30</x>
-        <y>48</y>
-      </position>
-      <size>
-        <width>67</width>
-        <height>82</height>
-      </size>
-      <style>rotaryverticaldrag</style>
-      <range>
-        <min>0</min>
-        <max>100</max>
-        <int>0.0001</int>
-      </range>
-      <textbox>
-        <position>above</position>
-        <readonly>false</readonly>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <font>
-          <height>12</height>
-        </font>
-      </textbox>
-    </slider>
-    <label>
-      <name>defaultlabel</name>
-      <text>Untitled</text>
-      <position>
-        <x>18</x>
-        <y>26</y>
-      </position>
-      <size>
-        <width>67</width>
-        <height>15</height>
-      </size>
-      <font bold="true">
-        <height>12</height>
-      </font>
-      <justification horizontallycentred="true" />
-    </label>
-    <textbutton>
-      <name>defaultbutton</name>
-      <tooltip>defaultbutton tooltip</tooltip>
-      <position>
-        <x>499</x>
-        <y>274</y>
-      </position>
-      <size>
-        <width>70</width>
-        <height>20</height>
-      </size>
-    </textbutton>
-    <combobox>
-      <name>defaultcombobox</name>
-      <tooltip>defaultcombobox tooltip</tooltip>
-      <editabletext>false</editabletext>
-      <nothingselectedtext>-- Select item --</nothingselectedtext>
-      <nochoicestext>-- No choices --</nochoicestext>
-      <justification horizontallycentred="true" />
-      <position>
-        <x>0</x>
-        <y>0</y>
-      </position>
-      <size>
-        <width>150</width>
-        <height>24</height>
-      </size>
-    </combobox>
-  </defaults>
-  <!--Main Component-->
-  <component>
-    <backgroundcolour>ff2d3035</backgroundcolour>
-    <position>
-      <x>0</x>
-      <y>0</y>
-    </position>
-    <size>
-      <width>674</width>
-      <height>732</height>
-    </size>
-    <!--Header Section-->
-    <component>
-      <position>
-        <x>7</x>
-        <y>7</y>
-      </position>
-      <size>
-        <width>674</width>
-        <height>40</height>
-      </size>
-      <label lfid="Config Name">
-        <name>configurationname</name>
-        <text>Current Configuration</text>
-        <position>
-          <x>170</x>
-          <y>4</y>
-        </position>
-        <size>
-          <width>160</width>
-          <height>17</height>
-        </size>
-        <font bold="true">
-          <height>12</height>
-        </font>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout file:///C:/development/github/scopesync/XSD/ScopeSyncLayout.xsd ">
+  <layout>
+    <lookandfeels>
+      <lookandfeel id="default">
+        <colours>
+          <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="ff000000"></slider>
+          <label textcolourid="ff323739"></label>
+          <texteditor focusedoutlinecolourid="002f353a"></texteditor>
+          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00" taboutlinecolourid="00000000"></tabbar>
+          <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
+        </colours>
+        <images>
+          <slider>
+            <rotary filename="Skins/B-Control/BCR_knob.png" numframes="45" ishorizontal="false"></rotary>
+            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="BCMbutton" parentid="default">
+        <colours>
+          <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
+        </colours>
+        <images>
+          <textbutton upfilename="Skins/B-Control/BC_button_off2.png" downfilename="Skins/B-Control/BC_button_on2.png" mouseoverupfilename="Skins/B-Control/BC_button_off2.png" mouseoverdownfilename="Skins/B-Control/BC_button_on2.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="TabControl">
+        <colours>
+          <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="00ffffff" textboxtextcolourid="ff121314" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="00000000"></slider>
+          <label textcolourid="ff121314"></label>
+          <texteditor focusedoutlinecolourid="00123456"></texteditor>
+          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00" taboutlinecolourid="00000000"></tabbar>
+          <textbutton textcolouroffid="00ffffff" textcolouronid="00ffffff"></textbutton>
+        </colours>
+        <images>
+          <slider>
+            <rotary filename="BCR_encoder.png" numframes="45" ishorizontal="false"></rotary>
+            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
+            <linearvertical thumbfilename="slider_cap_BCM.png" thumbborder="2" backgroundfilename="slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpA_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonA_Off.png" downfilename="Skins/B-Control/ButtonA_On.png" mouseoverupfilename="Skins/B-Control/ButtonA_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonA_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpB_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonB_Off.png" downfilename="Skins/B-Control/ButtonB_On.png" mouseoverupfilename="Skins/B-Control/ButtonB_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonB_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpC_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonC_Off.png" downfilename="Skins/B-Control/ButtonC_On.png" mouseoverupfilename="Skins/B-Control/ButtonC_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonC_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpD_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonD_Off.png" downfilename="Skins/B-Control/ButtonD_On.png" mouseoverupfilename="Skins/B-Control/ButtonD_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonD_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpI_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonI_Off.png" downfilename="Skins/B-Control/ButtonI_On.png" mouseoverupfilename="Skins/B-Control/ButtonI_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonI_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpJ_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonJ_Off.png" downfilename="Skins/B-Control/ButtonJ_On.png" mouseoverupfilename="Skins/B-Control/ButtonJ_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonJ_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpK_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonK_Off.png" downfilename="Skins/B-Control/ButtonK_On.png" mouseoverupfilename="Skins/B-Control/ButtonK_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonK_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="EncGrpL_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonL_Off.png" downfilename="Skins/B-Control/ButtonL_On.png" mouseoverupfilename="Skins/B-Control/ButtonL_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonL_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="encoder2" parentid="default">
+        <colours>
+          <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="ff000000"></slider>
+          <label textcolourid="ff323739"></label>
+          <texteditor focusedoutlinecolourid="002f353a"></texteditor>
+          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00" taboutlinecolourid="00000000"></tabbar>
+          <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
+        </colours>
+        <images>
+          <slider>
+            <rotary filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"></rotary>
+            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="enc2push">
+        <colours>
+          <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
+          <slider textboxbackgroundcolourid="00000000" textboxoutlinecolourid="00121517" textboxtextcolourid="00b3bbbd" textboxhighlightcolourid="00a7aaae" thumbcolourid="00ffffff" backgroundcolourid="00000000"></slider>
+        </colours>
+        <images>
+          <textbutton upfilename="Skins/B-Control/BCR_encoder_Push_off.png" downfilename="Skins/B-Control/BCR_encoder_Push_on.png" mouseoverupfilename="Skins/B-Control/BCR_encoder_Push_off.png" mouseoverdownfilename="Skins/B-Control/BCR_encoder_Push_on.png"></textbutton>
+          <slider>
+            <rotary filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"></rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="Push_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonPush_Off.png" downfilename="Skins/B-Control/ButtonPush_On.png" mouseoverupfilename="Skins/B-Control/ButtonPush_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonPush_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="Rotary_Button" parentid="default">
+        <images>
+          <textbutton upfilename="Skins/B-Control/ButtonRotary_Off.png" downfilename="Skins/B-Control/ButtonRotary_On.png" mouseoverupfilename="Skins/B-Control/ButtonRotary_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonRotary_On.png"></textbutton>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="Config Name">
+        <colours>
+          <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="Fader">
+        <colours>
+          <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="00000000"></slider>
+          <label textcolourid="ff323739"></label>
+          <texteditor focusedoutlinecolourid="002f353a"></texteditor>
+        </colours>
+        <images>
+          <slider>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+          </slider>
+        </images>
+      </lookandfeel>
+    </lookandfeels>
+    <defaults>
+      <slider name="defaultslider" style="rotaryverticaldrag">
+        <bounds x="30" y="48" width="67" height="82" />
+        <range min="0" max="100" int="0.0001"></range>
+        <textbox position="above" readonly="false" width="66" height="14">
+          <font height="12"></font>
+        </textbox>
+      </slider>
+      <label name="defaultlabel" text="Untitled">
+        <bounds x="18" y="26" width="67" height="15" />
+        <font bold="true" height="12"></font>
+        <justification horizontallycentred="true" />
       </label>
-      <textbutton lfid="system:reload_config_button">
-        <name>reloadconfiguration</name>
-        <tooltip>Reload current configuration</tooltip>
-        <position>
-          <x>366</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
+      <textbutton name="defaultbutton" tooltip="defaultbutton tooltip">
+        <bounds x="499" y="274" width="70" height="20" />
       </textbutton>
-      <textbutton lfid="system:load_config_button" displaycontext="host">
-        <name>chooseconfiguration</name>
-        <tooltip>Load New Configuration</tooltip>
-        <position>
-          <x>340</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:load_config_button" displaycontext="scope">
-        <name>B69</name>
-        <tooltip>Load New Configuration</tooltip>
-        <position>
-          <x>340</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>21</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:snapshot_button">
-        <name>snapshot</name>
-        <text></text>
-        <tooltip>Send Snapshot of Current Control Values</tooltip>
-        <position>
-          <x>598</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>32</width>
-          <height>21</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="system:settings_button">
-        <name>showusersettings</name>
-        <text></text>
-        <tooltip>Open User Settings panel</tooltip>
-        <position>
-          <x>636</x>
-          <y>2</y>
-        </position>
-        <size>
-          <width>32</width>
-          <height>21</height>
-        </size>
-      </textbutton>
+      <combobox name="defaultcombobox" tooltip="defaultcombobox tooltip" editabletext="false" nothingselectedtext="-- Select item --" nochoicestext="-- No choices --">
+        <justification horizontallycentred="true" />
+        <bounds x="0" y="0" width="150" height="24" />
+      </combobox>
+    </defaults>
+    <!--Main Component-->
+    <component backgroundcolour="ff2d3035">
+      <bounds x="0" y="0" width="674" height="732" />
+      <!--Header Section-->
       <component>
-        <backgroundcolour>00000000</backgroundcolour>
-        <backgroundimage>scopeSyncLogo</backgroundimage>
-        <position>
-          <x>6</x>
-          <y>4</y>
-        </position>
-        <size>
-          <width>151</width>
-          <height>16</height>
-        </size>
+        <bounds x="7" y="7" width="674" height="40" />
+        <label lfid="Config Name" name="configurationname" text="Current Configuration">
+          <bounds x="170" y="4" width="160" height="17" />
+        </label>
+        <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
+          <bounds x="366" y="2" width="21" height="21" />
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
+          <bounds x="340" y="2" width="21" height="21" />
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
+          <bounds x="340" y="2" width="21" height="21" />
+        </textbutton>
+        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+          <bounds x="598" y="2" width="32" height="21" />
+        </textbutton>
+        <textbutton lfid="system:settings_button" name="showusersettings" text="" tooltip="Open User Settings panel">
+          <bounds x="636" y="2" width="32" height="21" />
+        </textbutton>
+        <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
+          <bounds x="6" y="4" width="151" height="16" />
+        </component>
+        <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
+        <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
+          <bounds x="541" y="0" width="57" height="32" />
+          <tabbar orientation="right" depth="0"></tabbar>
+          <tab idx="1" name="DISCONNECTED">
+            <component>
+              <!--No Controls-->
+            </component>
+          </tab>
+          <tab idx="2" name="CONNECTED">
+            <component>
+              <textbutton lfid="system:patch_button" name="B67">
+                <bounds x="0" y="2" width="27" height="21" />
+              </textbutton>
+              <textbutton lfid="system:presets_button" name="B68">
+                <bounds x="32" y="2" width="19" height="21" />
+              </textbutton>
+            </component>
+          </tab>
+        </tabbedcomponent>
+        <component displaycontext="scope" backgroundcolour="00000000">
+          <bounds x="500" y="0" width="20" height="20" />
+          <!--CP<->Host Disconnected-->
+          <textbutton name="B65">
+            <bounds x="30" y="30" width="5" height="5" />
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
+          </textbutton>
+          <!--CP<->Host Connected-->
+          <textbutton name="B66">
+            <bounds x="30" y="30" width="5" height="5" />
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
+          </textbutton>
+        </component>
       </component>
-      <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
-      <tabbedcomponent displaycontext="scope">
-        <name>CP-Host Connection</name>
-        <showdropshadow>false</showdropshadow>
-        <position>
-          <x>541</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>57</width>
-          <height>32</height>
-        </size>
-        <tabbar>
-          <orientation>right</orientation>
-          <depth>0</depth>
-        </tabbar>
-        <tab>
-          <idx>1</idx>
-          <name>DISCONNECTED</name>
+      <!--Background Images-->
+      <component backgroundimage="Skins/B-Control/background.png" backgroundcolour="55000000">
+        <bounds x="0" y="40" width="674" height="692" />
+        <component backgroundcolour="002d3035">
+          <bounds x="29" y="10" width="616" height="632" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="47" y="52" width="580" height="1" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="47" y="145" width="580" height="13" />
+        </component>
+        <component backgroundimage="Skins/B-Control/GRP_M.png">
+          <bounds x="39" y="183" width="532" height="9" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="47" y="214" width="580" height="13" />
+        </component>
+        <component backgroundimage="Skins/B-Control/GRP_N.png">
+          <bounds x="39" y="252" width="532" height="9" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="47" y="283" width="580" height="13" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="43" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="116" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="189" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="262" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="335" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="408" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="481" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="554" y="362" width="1" height="235" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="627" y="362" width="1" height="235" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="48" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="121" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="194" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="267" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="340" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="413" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="486" y="369" width="67" height="221" />
+        </component>
+        <component backgroundimage="Skins/B-Control/slider_surround.png">
+          <bounds x="559" y="369" width="67" height="221" />
+        </component>
+        <component backgroundcolour="9ff7fdff">
+          <bounds x="47" y="625" width="580" height="13" />
+        </component>
+        <component backgroundimage="Skins/B-Control/LCD.png" backgroundcolour="00000000">
+          <bounds x="295" y="25" width="84" height="20" />
+        </component>
+        <component backgroundimage="Skins/B-Control/BCF_logo.png" backgroundcolour="00000000">
+          <bounds x="535" y="30" width="93" height="15" />
+        </component>
+      </component>
+      <!--Group M (Buttons)-->
+      <component backgroundimage="" backgroundcolour="00000000">
+        <bounds x="0" y="206" width="674" height="61" />
+        <slider name="S97" style="linearbar">
+          <bounds x="48" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S98" style="linearbar">
+          <bounds x="121" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S99" style="linearbar">
+          <bounds x="194" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S100" style="linearbar">
+          <bounds x="267" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S101" style="linearbar">
+          <bounds x="340" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S102" style="linearbar">
+          <bounds x="413" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S103" style="linearbar">
+          <bounds x="486" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S104" style="linearbar">
+          <bounds x="559" y="0" width="66" height="14" />
+        </slider>
+        <label name="S97">
+          <bounds x="48" y="48" />
+        </label>
+        <label name="S98">
+          <bounds x="121" y="48" />
+        </label>
+        <label name="S99">
+          <bounds x="194" y="48" />
+        </label>
+        <label name="S100">
+          <bounds x="267" y="48" />
+        </label>
+        <label name="S101">
+          <bounds x="340" y="48" />
+        </label>
+        <label name="S102">
+          <bounds x="413" y="48" />
+        </label>
+        <label name="S103">
+          <bounds x="486" y="48" />
+        </label>
+        <label name="S104">
+          <bounds x="559" y="48" />
+        </label>
+        <textbutton lfid="BCMbutton" name="B33">
+          <bounds x="59" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B34">
+          <bounds x="132" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B35">
+          <bounds x="205" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B36">
+          <bounds x="278" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B37">
+          <bounds x="351" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B38">
+          <bounds x="424" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B39">
+          <bounds x="497" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B40">
+          <bounds x="570" y="14" width="43" height="32" />
+        </textbutton>
+      </component>
+      <!--Group N (Buttons)-->
+      <component backgroundimage="" backgroundcolour="00000000">
+        <bounds x="0" y="275" width="674" height="61" />
+        <slider name="S105" style="linearbar">
+          <bounds x="48" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S106" style="linearbar">
+          <bounds x="121" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S107" style="linearbar">
+          <bounds x="194" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S108" style="linearbar">
+          <bounds x="267" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S109" style="linearbar">
+          <bounds x="340" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S110" style="linearbar">
+          <bounds x="413" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S111" style="linearbar">
+          <bounds x="486" y="0" width="66" height="14" />
+        </slider>
+        <slider name="S112" style="linearbar">
+          <bounds x="559" y="0" width="66" height="14" />
+        </slider>
+        <label name="S105">
+          <bounds x="48" y="48" />
+        </label>
+        <label name="S106">
+          <bounds x="121" y="48" />
+        </label>
+        <label name="S107">
+          <bounds x="194" y="48" />
+        </label>
+        <label name="S108">
+          <bounds x="267" y="48" />
+        </label>
+        <label name="S109">
+          <bounds x="340" y="48" />
+        </label>
+        <label name="S110">
+          <bounds x="413" y="48" />
+        </label>
+        <label name="S111">
+          <bounds x="486" y="48" />
+        </label>
+        <label name="S112">
+          <bounds x="559" y="48" />
+        </label>
+        <textbutton lfid="BCMbutton" name="B41">
+          <bounds x="59" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B42">
+          <bounds x="132" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B43">
+          <bounds x="205" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B44">
+          <bounds x="278" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B45">
+          <bounds x="351" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B46">
+          <bounds x="424" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B47">
+          <bounds x="497" y="14" width="43" height="32" />
+        </textbutton>
+        <textbutton lfid="BCMbutton" name="B48">
+          <bounds x="570" y="14" width="43" height="32" />
+        </textbutton>
+      </component>
+      <!--Group E (Faders)-->
+      <component backgroundcolour="00000000">
+        <bounds x="28" y="360" width="619" height="362" />
+        <component backgroundimage="Skins/B-Control/GRP_E.png">
+          <bounds x="10" y="24" width="532" height="9" />
+        </component>
+        <slider lfid="Fader" name="S33" style="linearvertical">
+          <bounds x="19" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S34" style="linearvertical">
+          <bounds x="92" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S35" style="linearvertical">
+          <bounds x="165" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S36" style="linearvertical">
+          <bounds x="238" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S37" style="linearvertical">
+          <bounds x="311" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S38" style="linearvertical">
+          <bounds x="384" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S39" style="linearvertical">
+          <bounds x="457" y="6" width="67" height="294" />
+        </slider>
+        <slider lfid="Fader" name="S40" style="linearvertical">
+          <bounds x="530" y="6" width="67" height="294" />
+        </slider>
+        <label name="S33">
+          <bounds x="19" y="305" />
+        </label>
+        <label name="S34">
+          <bounds x="92" y="305" />
+        </label>
+        <label name="S35">
+          <bounds x="165" y="305" />
+        </label>
+        <label name="S36">
+          <bounds x="238" y="305" />
+        </label>
+        <label name="S37">
+          <bounds x="311" y="305" />
+        </label>
+        <label name="S38">
+          <bounds x="384" y="305" />
+        </label>
+        <label name="S39">
+          <bounds x="457" y="305" />
+        </label>
+        <label name="S40">
+          <bounds x="530" y="305" />
+        </label>
+      </component>
+      <!--Rotary/Push Tabs-->
+      <tabbedcomponent name="GROUP STATE" showdropshadow="false">
+        <bounds x="27" y="65" width="619" height="132" />
+        <tabbar orientation="right" depth="0"></tabbar>
+        <!--Rotary Tab-->
+        <tab idx="1" name="R">
           <component>
-            <!--No Controls-->
+            <tabbedcomponent name="ENCODER GROUPS" showdropshadow="false">
+              <bounds x="0" y="0" width="619" height="132" />
+              <tabbar orientation="right" depth="0"></tabbar>
+              <!--Group A (Rotaries)-->
+              <tab idx="1" name="GROUP 1">
+                <component backgroundcolour="00000000">
+                  <component backgroundimage="Skins/B-Control/GRP_A.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <textbutton lfid="enc2push" name="B1">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B2">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B3">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B4">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B5">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B6">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B7">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B8">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <slider lfid="encoder2" name="S1">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S2">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S3">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S4">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S5">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S6">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S7">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S8">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S1">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S2">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S3">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S4">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S5">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S6">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S7">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S8">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP A">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group B (Rotaries)-->
+              <tab idx="2" name="GROUP 2">
+                <component backgroundcolour="00000000">
+                  <component backgroundimage="Skins/B-Control/GRP_B.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <textbutton lfid="enc2push" name="B9">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B10">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B11">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B12">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B13">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B14">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B15">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B16">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <slider lfid="encoder2" name="S9">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S10">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S11">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S12">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S13">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S14">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S15">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S16">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S9">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S10">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S11">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S12">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S13">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S14">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S15">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S16">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP B">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group C (Rotaries)-->
+              <tab idx="3" name="GROUP 3">
+                <component backgroundcolour="00000000">
+                  <component backgroundimage="Skins/B-Control/GRP_C.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <textbutton lfid="enc2push" name="B17">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B18">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B19">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B20">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B21">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B22">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B23">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B24">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <slider lfid="encoder2" name="S17">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S18">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S19">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S20">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S21">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S22">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S23">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S24">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S17">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S18">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S19">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S20">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S21">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S22">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S23">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S24">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP C">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group D (Rotaries)-->
+              <tab idx="4" name="GROUP 4">
+                <component backgroundcolour="00000000" lfid="encoder2">
+                  <component backgroundimage="Skins/B-Control/GRP_D.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <textbutton lfid="enc2push" name="B25">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B26">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B27">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B28">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B29">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B30">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B31">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B32">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <slider lfid="encoder2" name="S25">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S26">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S27">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S28">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S29">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S30">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S31">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="encoder2" name="S32">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S25">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S26">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S27">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S28">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S29">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S30">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S31">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S32">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP D">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+            </tabbedcomponent>
+            <!--Rotary Tab Chooser-->
+            <component>
+              <bounds x="0" y="3" width="619" height="23" />
+              <textbutton lfid="EncGrpA_Button" name="B59">
+                <bounds x="180" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 1"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpB_Button" name="B60">
+                <bounds x="200" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 2"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpC_Button" name="B61">
+                <bounds x="220" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 3"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpD_Button" name="B62">
+                <bounds x="240" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 4"></choosetab>
+              </textbutton>
+            </component>
           </component>
         </tab>
-        <tab>
-          <idx>2</idx>
-          <name>CONNECTED</name>
+        <!--Push Tab-->
+        <tab idx="2" name="P">
           <component>
-            <textbutton lfid="system:patch_button">
-              <name>B67</name>
-              <position>
-                <x>0</x>
-                <y>2</y>
-              </position>
-              <size>
-                <width>27</width>
-                <height>21</height>
-              </size>
-            </textbutton>
-            <textbutton lfid="system:presets_button">
-              <name>B68</name>
-              <position>
-                <x>32</x>
-                <y>2</y>
-              </position>
-              <size>
-                <width>19</width>
-                <height>21</height>
-              </size>
-            </textbutton>
+            <tabbedcomponent name="ENCODER GROUPS" showdropshadow="false">
+              <bounds x="0" y="0" width="619" height="132" />
+              <tabbar orientation="right" depth="0"></tabbar>
+              <!--Group I (Push Encoders)-->
+              <tab idx="1" name="GROUP 1">
+                <component backgroundcolour="00000000" lfid="encoder2">
+                  <component backgroundimage="Skins/B-Control/GRP_I.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <slider lfid="enc2push" name="S1">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S2">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S3">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S4">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S5">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S6">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S7">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S8">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S65">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S66">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S67">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S68">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S69">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S70">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S71">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S72">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <slider name="S65" style="linearbar">
+                    <bounds x="19" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S66" style="linearbar">
+                    <bounds x="92" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S67" style="linearbar">
+                    <bounds x="165" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S68" style="linearbar">
+                    <bounds x="238" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S69" style="linearbar">
+                    <bounds x="311" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S70" style="linearbar">
+                    <bounds x="384" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S71" style="linearbar">
+                    <bounds x="457" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S72" style="linearbar">
+                    <bounds x="530" y="33" width="66" height="14" />
+                  </slider>
+                  <textbutton lfid="enc2push" name="B1">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B2">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B3">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B4">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B5">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B6">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B7">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B8">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP I">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group J (Push Encoders)-->
+              <tab idx="2" name="GROUP 2">
+                <component backgroundcolour="00000000" lfid="encoder2">
+                  <component backgroundimage="Skins/B-Control/GRP_J.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <slider lfid="enc2push" name="S9">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S10">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S11">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S12">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S13">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S14">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S15">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S16">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S73">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S74">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S75">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S76">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S77">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S78">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S79">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S80">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <slider name="S73" style="linearbar">
+                    <bounds x="19" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S74" style="linearbar">
+                    <bounds x="92" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S75" style="linearbar">
+                    <bounds x="165" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S76" style="linearbar">
+                    <bounds x="238" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S77" style="linearbar">
+                    <bounds x="311" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S78" style="linearbar">
+                    <bounds x="384" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S79" style="linearbar">
+                    <bounds x="457" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S80" style="linearbar">
+                    <bounds x="530" y="33" width="66" height="14" />
+                  </slider>
+                  <textbutton lfid="enc2push" name="B9">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B10">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B11">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B12">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B13">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B14">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B15">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B16">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP J">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group K (Push Encoders)-->
+              <tab idx="3" name="GROUP 3">
+                <component backgroundcolour="00000000" lfid="encoder2">
+                  <component backgroundimage="Skins/B-Control/GRP_K.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <slider lfid="enc2push" name="S17">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S18">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S19">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S20">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S21">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S22">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S23">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S24">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S81">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S82">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S83">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S84">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S85">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S86">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S87">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S88">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <slider name="S81" style="linearbar">
+                    <bounds x="19" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S82" style="linearbar">
+                    <bounds x="92" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S83" style="linearbar">
+                    <bounds x="165" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S84" style="linearbar">
+                    <bounds x="238" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S85" style="linearbar">
+                    <bounds x="311" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S86" style="linearbar">
+                    <bounds x="384" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S87" style="linearbar">
+                    <bounds x="457" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S88" style="linearbar">
+                    <bounds x="530" y="33" width="66" height="14" />
+                  </slider>
+                  <textbutton lfid="enc2push" name="B17">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B18">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B19">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B20">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B21">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B22">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B23">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B24">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP K">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+              <!--Group L (Push Encoders)-->
+              <tab idx="4" name="GROUP 4">
+                <component backgroundcolour="00000000" lfid="encoder2">
+                  <component backgroundimage="Skins/B-Control/GRP_L.png">
+                    <bounds x="10" y="51" width="532" height="9" />
+                  </component>
+                  <slider lfid="enc2push" name="S25">
+                    <bounds x="19" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S26">
+                    <bounds x="92" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S27">
+                    <bounds x="165" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S28">
+                    <bounds x="238" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S29">
+                    <bounds x="311" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S30">
+                    <bounds x="384" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S31">
+                    <bounds x="457" y="33" />
+                  </slider>
+                  <slider lfid="enc2push" name="S32">
+                    <bounds x="530" y="33" />
+                  </slider>
+                  <label name="S89">
+                    <bounds x="19" y="118" />
+                  </label>
+                  <label name="S90">
+                    <bounds x="92" y="118" />
+                  </label>
+                  <label name="S91">
+                    <bounds x="165" y="118" />
+                  </label>
+                  <label name="S92">
+                    <bounds x="238" y="118" />
+                  </label>
+                  <label name="S93">
+                    <bounds x="311" y="118" />
+                  </label>
+                  <label name="S94">
+                    <bounds x="384" y="118" />
+                  </label>
+                  <label name="S95">
+                    <bounds x="457" y="118" />
+                  </label>
+                  <label name="S96">
+                    <bounds x="530" y="118" />
+                  </label>
+                  <slider name="S89" style="linearbar">
+                    <bounds x="19" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S90" style="linearbar">
+                    <bounds x="92" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S91" style="linearbar">
+                    <bounds x="165" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S92" style="linearbar">
+                    <bounds x="238" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S93" style="linearbar">
+                    <bounds x="311" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S94" style="linearbar">
+                    <bounds x="384" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S95" style="linearbar">
+                    <bounds x="457" y="33" width="66" height="14" />
+                  </slider>
+                  <slider name="S96" style="linearbar">
+                    <bounds x="530" y="33" width="66" height="14" />
+                  </slider>
+                  <textbutton lfid="enc2push" name="B25">
+                    <bounds x="18" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B26">
+                    <bounds x="91" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B27">
+                    <bounds x="164" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B28">
+                    <bounds x="237" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B29">
+                    <bounds x="310" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B30">
+                    <bounds x="383" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B31">
+                    <bounds x="456" y="46" width="69" height="69" />
+                  </textbutton>
+                  <textbutton lfid="enc2push" name="B32">
+                    <bounds x="529" y="46" width="69" height="69" />
+                  </textbutton>
+                  <label lfid="TabControl" name="LCDlabel" text="GROUP L">
+                    <bounds x="267" y="0" width="82" height="17" />
+                    <font height="16"></font>
+                    <justification horizontallycentred="true" />
+                  </label>
+                </component>
+              </tab>
+            </tabbedcomponent>
+            <!--Push Tab Chooser-->
+            <component>
+              <bounds x="0" y="3" width="619" height="23" />
+              <textbutton lfid="EncGrpI_Button" name="B59">
+                <bounds x="180" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 1"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpJ_Button" name="B60">
+                <bounds x="200" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 2"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpK_Button" name="B61">
+                <bounds x="220" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 3"></choosetab>
+              </textbutton>
+              <textbutton lfid="EncGrpL_Button" name="B62">
+                <bounds x="240" y="0" width="16" height="15" />
+                <choosetab tabbedcomponent="ENCODER GROUPS" tabname="GROUP 4"></choosetab>
+              </textbutton>
+            </component>
           </component>
         </tab>
       </tabbedcomponent>
-      <component displaycontext="scope">
-        <position>
-          <x>500</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>20</width>
-          <height>20</height>
-        </size>
-        <backgroundcolour>00000000</backgroundcolour>
-        <!--CP<->Host Disconnected-->
-        <textbutton>
-          <name>B65</name>
-          <position>
-            <x>30</x>
-            <y>30</y>
-          </position>
-          <size>
-            <width>5</width>
-            <height>5</height>
-          </size>
-          <choosetab>
-            <tabbedcomponent>CP-Host Connection</tabbedcomponent>
-            <tabname>DISCONNECTED</tabname>
-          </choosetab>
+      <!--Rotary/Push Tab Buttons-->
+      <component backgroundcolour="00000000">
+        <bounds x="0" y="64" width="200" height="30" />
+        <!--Rotary Button-->
+        <textbutton lfid="Rotary_Button" name="B63">
+          <bounds x="48" y="5" width="72" height="15" />
+          <choosetab tabbedcomponent="GROUP STATE" tabname="R"></choosetab>
         </textbutton>
-        <!--CP<->Host Connected-->
-        <textbutton>
-          <name>B66</name>
-          <position>
-            <x>30</x>
-            <y>30</y>
-          </position>
-          <size>
-            <width>5</width>
-            <height>5</height>
-          </size>
-          <choosetab>
-            <tabbedcomponent>CP-Host Connection</tabbedcomponent>
-            <tabname>CONNECTED</tabname>
-          </choosetab>
+        <!--Push Button-->
+        <textbutton lfid="Push_Button" name="B64">
+          <bounds x="124" y="5" width="72" height="15" />
+          <choosetab tabbedcomponent="GROUP STATE" tabname="P"></choosetab>
         </textbutton>
       </component>
     </component>
-    <!--Background Images-->
-    <component>
-      <backgroundimage>Skins/B-Control/background.png</backgroundimage>
-      <backgroundcolour>55000000</backgroundcolour>
-      <position>
-        <x>0</x>
-        <y>40</y>
-      </position>
-      <size>
-        <width>674</width>
-        <height>692</height>
-      </size>
-      <component>
-        <backgroundcolour>002d3035</backgroundcolour>
-        <position>
-          <x>29</x>
-          <y>10</y>
-        </position>
-        <size>
-          <width>616</width>
-          <height>632</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>47</x>
-          <y>52</y>
-        </position>
-        <size>
-          <width>580</width>
-          <height>1</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>47</x>
-          <y>145</y>
-        </position>
-        <size>
-          <width>580</width>
-          <height>13</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/GRP_M.png</backgroundimage>
-        <position>
-          <x>39</x>
-          <y>183</y>
-        </position>
-        <size>
-          <width>532</width>
-          <height>9</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>47</x>
-          <y>214</y>
-        </position>
-        <size>
-          <width>580</width>
-          <height>13</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/GRP_N.png</backgroundimage>
-        <position>
-          <x>39</x>
-          <y>252</y>
-        </position>
-        <size>
-          <width>532</width>
-          <height>9</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>47</x>
-          <y>283</y>
-        </position>
-        <size>
-          <width>580</width>
-          <height>13</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>43</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>116</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>189</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>262</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>335</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>408</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>481</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>554</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>627</x>
-          <y>362</y>
-        </position>
-        <size>
-          <width>1</width>
-          <height>235</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>48</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>121</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>194</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>267</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>340</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>413</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>486</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundimage>Skins/B-Control/slider_surround.png</backgroundimage>
-        <position>
-          <x>559</x>
-          <y>369</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>221</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>9ff7fdff</backgroundcolour>
-        <position>
-          <x>47</x>
-          <y>625</y>
-        </position>
-        <size>
-          <width>580</width>
-          <height>13</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>00000000</backgroundcolour>
-        <backgroundimage>Skins/B-Control/LCD.png</backgroundimage>
-        <position>
-          <x>295</x>
-          <y>25</y>
-        </position>
-        <size>
-          <width>84</width>
-          <height>20</height>
-        </size>
-      </component>
-      <component>
-        <backgroundcolour>00000000</backgroundcolour>
-        <backgroundimage>Skins/B-Control/BCF_logo.png</backgroundimage>
-        <position>
-          <x>535</x>
-          <y>30</y>
-        </position>
-        <size>
-          <width>93</width>
-          <height>15</height>
-        </size>
-      </component>
-    </component>
-    <!--Group M (Buttons)-->
-    <component>
-      <backgroundcolour>00000000</backgroundcolour>
-      <backgroundimage></backgroundimage>
-      <position>
-        <x>0</x>
-        <y>206</y>
-      </position>
-      <size>
-        <width>674</width>
-        <height>61</height>
-      </size>
-      <slider>
-        <name>S97</name>
-        <position>
-          <x>48</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S98</name>
-        <position>
-          <x>121</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S99</name>
-        <position>
-          <x>194</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S100</name>
-        <position>
-          <x>267</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S101</name>
-        <position>
-          <x>340</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S102</name>
-        <position>
-          <x>413</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S103</name>
-        <position>
-          <x>486</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S104</name>
-        <position>
-          <x>559</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <label>
-        <name>S97</name>
-        <position>
-          <x>48</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S98</name>
-        <position>
-          <x>121</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S99</name>
-        <position>
-          <x>194</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S100</name>
-        <position>
-          <x>267</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S101</name>
-        <position>
-          <x>340</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S102</name>
-        <position>
-          <x>413</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S103</name>
-        <position>
-          <x>486</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S104</name>
-        <position>
-          <x>559</x>
-          <y>48</y>
-        </position>
-      </label>
-      <textbutton lfid="BCMbutton">
-        <name>B33</name>
-        <position>
-          <x>59</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B34</name>
-        <position>
-          <x>132</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B35</name>
-        <position>
-          <x>205</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B36</name>
-        <position>
-          <x>278</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B37</name>
-        <position>
-          <x>351</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B38</name>
-        <position>
-          <x>424</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B39</name>
-        <position>
-          <x>497</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B40</name>
-        <position>
-          <x>570</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-    </component>
-    <!--Group N (Buttons)-->
-    <component>
-      <backgroundcolour>00000000</backgroundcolour>
-      <backgroundimage></backgroundimage>
-      <position>
-        <x>0</x>
-        <y>275</y>
-      </position>
-      <size>
-        <width>674</width>
-        <height>61</height>
-      </size>
-      <slider>
-        <name>S105</name>
-        <position>
-          <x>48</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S106</name>
-        <position>
-          <x>121</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S107</name>
-        <position>
-          <x>194</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S108</name>
-        <position>
-          <x>267</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S109</name>
-        <position>
-          <x>340</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S110</name>
-        <position>
-          <x>413</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S111</name>
-        <position>
-          <x>486</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <slider>
-        <name>S112</name>
-        <position>
-          <x>559</x>
-          <y>0</y>
-        </position>
-        <size>
-          <width>66</width>
-          <height>14</height>
-        </size>
-        <style>linearbar</style>
-      </slider>
-      <label>
-        <name>S105</name>
-        <position>
-          <x>48</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S106</name>
-        <position>
-          <x>121</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S107</name>
-        <position>
-          <x>194</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S108</name>
-        <position>
-          <x>267</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S109</name>
-        <position>
-          <x>340</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S110</name>
-        <position>
-          <x>413</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S111</name>
-        <position>
-          <x>486</x>
-          <y>48</y>
-        </position>
-      </label>
-      <label>
-        <name>S112</name>
-        <position>
-          <x>559</x>
-          <y>48</y>
-        </position>
-      </label>
-      <textbutton lfid="BCMbutton">
-        <name>B41</name>
-        <position>
-          <x>59</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B42</name>
-        <position>
-          <x>132</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B43</name>
-        <position>
-          <x>205</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B44</name>
-        <position>
-          <x>278</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B45</name>
-        <position>
-          <x>351</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B46</name>
-        <position>
-          <x>424</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B47</name>
-        <position>
-          <x>497</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-      <textbutton lfid="BCMbutton">
-        <name>B48</name>
-        <position>
-          <x>570</x>
-          <y>14</y>
-        </position>
-        <size>
-          <width>43</width>
-          <height>32</height>
-        </size>
-      </textbutton>
-    </component>
-    <!--Group E (Faders)-->
-    <component>
-      <backgroundcolour>00000000</backgroundcolour>
-      <position>
-        <x>28</x>
-        <y>360</y>
-      </position>
-      <size>
-        <width>619</width>
-        <height>362</height>
-      </size>
-      <component>
-        <backgroundimage>Skins/B-Control/GRP_E.png</backgroundimage>
-        <position>
-          <x>10</x>
-          <y>24</y>
-        </position>
-        <size>
-          <width>532</width>
-          <height>9</height>
-        </size>
-      </component>
-      <slider lfid="Fader">
-        <name>S33</name>
-        <position>
-          <x>19</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S34</name>
-        <position>
-          <x>92</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S35</name>
-        <position>
-          <x>165</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S36</name>
-        <position>
-          <x>238</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S37</name>
-        <position>
-          <x>311</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S38</name>
-        <position>
-          <x>384</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S39</name>
-        <position>
-          <x>457</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <slider lfid="Fader">
-        <name>S40</name>
-        <position>
-          <x>530</x>
-          <y>6</y>
-        </position>
-        <size>
-          <width>67</width>
-          <height>294</height>
-        </size>
-        <style>linearvertical</style>
-      </slider>
-      <label>
-        <name>S33</name>
-        <position>
-          <x>19</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S34</name>
-        <position>
-          <x>92</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S35</name>
-        <position>
-          <x>165</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S36</name>
-        <position>
-          <x>238</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S37</name>
-        <position>
-          <x>311</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S38</name>
-        <position>
-          <x>384</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S39</name>
-        <position>
-          <x>457</x>
-          <y>305</y>
-        </position>
-      </label>
-      <label>
-        <name>S40</name>
-        <position>
-          <x>530</x>
-          <y>305</y>
-        </position>
-      </label>
-    </component>
-    <!--Rotary/Push Tabs-->
-    <tabbedcomponent>
-      <name>GROUP STATE</name>
-      <showdropshadow>false</showdropshadow>
-      <position>
-        <x>27</x>
-        <y>65</y>
-      </position>
-      <size>
-        <width>619</width>
-        <height>132</height>
-      </size>
-      <tabbar>
-        <orientation>right</orientation>
-        <depth>0</depth>
-      </tabbar>
-      <!--Rotary Tab-->
-      <tab>
-        <idx>1</idx>
-        <name>R</name>
-        <component>
-          <tabbedcomponent>
-            <name>ENCODER GROUPS</name>
-            <showdropshadow>false</showdropshadow>
-            <position>
-              <x>0</x>
-              <y>0</y>
-            </position>
-            <size>
-              <width>619</width>
-              <height>132</height>
-            </size>
-            <tabbar>
-              <orientation>right</orientation>
-              <depth>0</depth>
-            </tabbar>
-            <!--Group A (Rotaries)-->
-            <tab>
-              <idx>1</idx>
-              <name>GROUP 1</name>
-              <component>
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_A.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <textbutton lfid="enc2push">
-                  <name>B1</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B2</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B3</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B4</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B5</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B6</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B7</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B8</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <slider lfid="encoder2">
-                  <name>S1</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S2</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S3</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S4</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S5</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S6</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S7</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S8</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S1</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S2</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S3</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S4</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S5</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S6</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S7</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S8</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP A</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group B (Rotaries)-->
-            <tab>
-              <idx>2</idx>
-              <name>GROUP 2</name>
-              <component>
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_B.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <textbutton lfid="enc2push">
-                  <name>B9</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B10</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B11</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B12</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B13</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B14</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B15</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B16</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <slider lfid="encoder2">
-                  <name>S9</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S10</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S11</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S12</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S13</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S14</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S15</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S16</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S9</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S10</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S11</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S12</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S13</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S14</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S15</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S16</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP B</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group C (Rotaries)-->
-            <tab>
-              <idx>3</idx>
-              <name>GROUP 3</name>
-              <component>
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_C.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <textbutton lfid="enc2push">
-                  <name>B17</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B18</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B19</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B20</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B21</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B22</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B23</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B24</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <slider lfid="encoder2">
-                  <name>S17</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S18</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S19</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S20</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S21</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S22</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S23</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S24</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S17</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S18</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S19</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S20</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S21</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S22</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S23</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S24</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP C</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group D (Rotaries)-->
-            <tab>
-              <idx>4</idx>
-              <name>GROUP 4</name>
-              <component lfid="encoder2">
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_D.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <textbutton lfid="enc2push">
-                  <name>B25</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B26</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B27</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B28</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B29</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B30</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B31</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B32</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <slider lfid="encoder2">
-                  <name>S25</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S26</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S27</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S28</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S29</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S30</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S31</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="encoder2">
-                  <name>S32</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S25</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S26</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S27</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S28</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S29</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S30</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S31</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S32</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP D</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-          </tabbedcomponent>
-          <!--Rotary Tab Chooser-->
-          <component>
-            <position>
-              <x>0</x>
-              <y>3</y>
-            </position>
-            <size>
-              <width>619</width>
-              <height>23</height>
-            </size>
-            <textbutton lfid="EncGrpA_Button">
-              <name>B59</name>
-              <position>
-                <x>180</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 1</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpB_Button">
-              <name>B60</name>
-              <position>
-                <x>200</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 2</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpC_Button">
-              <name>B61</name>
-              <position>
-                <x>220</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 3</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpD_Button">
-              <name>B62</name>
-              <position>
-                <x>240</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 4</tabname>
-              </choosetab>
-            </textbutton>
-          </component>
-        </component>
-      </tab>
-      <!--Push Tab-->
-      <tab>
-        <idx>2</idx>
-        <name>P</name>
-        <component>
-          <tabbedcomponent>
-            <name>ENCODER GROUPS</name>
-            <showdropshadow>false</showdropshadow>
-            <position>
-              <x>0</x>
-              <y>0</y>
-            </position>
-            <size>
-              <width>619</width>
-              <height>132</height>
-            </size>
-            <tabbar>
-              <orientation>right</orientation>
-              <depth>0</depth>
-            </tabbar>
-            <!--Group I (Push Encoders)-->
-            <tab>
-              <idx>1</idx>
-              <name>GROUP 1</name>
-              <component lfid="encoder2">
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_I.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <slider lfid="enc2push">
-                  <name>S1</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S2</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S3</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S4</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S5</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S6</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S7</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S8</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S65</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S66</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S67</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S68</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S69</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S70</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S71</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S72</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <slider>
-                  <name>S65</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S66</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S67</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S68</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S69</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S70</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S71</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S72</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <textbutton lfid="enc2push">
-                  <name>B1</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B2</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B3</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B4</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B5</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B6</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B7</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B8</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP I</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group J (Push Encoders)-->
-            <tab>
-              <idx>2</idx>
-              <name>GROUP 2</name>
-              <component lfid="encoder2">
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_J.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <slider lfid="enc2push">
-                  <name>S9</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S10</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S11</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S12</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S13</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S14</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S15</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S16</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S73</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S74</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S75</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S76</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S77</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S78</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S79</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S80</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <slider>
-                  <name>S73</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S74</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S75</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S76</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S77</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S78</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S79</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S80</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <textbutton lfid="enc2push">
-                  <name>B9</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B10</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B11</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B12</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B13</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B14</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B15</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B16</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP J</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group K (Push Encoders)-->
-            <tab>
-              <idx>3</idx>
-              <name>GROUP 3</name>
-              <component lfid="encoder2">
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_K.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <slider lfid="enc2push">
-                  <name>S17</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S18</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S19</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S20</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S21</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S22</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S23</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S24</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S81</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S82</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S83</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S84</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S85</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S86</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S87</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S88</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <slider>
-                  <name>S81</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S82</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S83</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S84</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S85</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S86</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S87</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S88</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <textbutton lfid="enc2push">
-                  <name>B17</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B18</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B19</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B20</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B21</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B22</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B23</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B24</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP K</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-            <!--Group L (Push Encoders)-->
-            <tab>
-              <idx>4</idx>
-              <name>GROUP 4</name>
-              <component lfid="encoder2">
-                <backgroundcolour>00000000</backgroundcolour>
-                <component>
-                  <backgroundimage>Skins/B-Control/GRP_L.png</backgroundimage>
-                  <position>
-                    <x>10</x>
-                    <y>51</y>
-                  </position>
-                  <size>
-                    <width>532</width>
-                    <height>9</height>
-                  </size>
-                </component>
-                <slider lfid="enc2push">
-                  <name>S25</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S26</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S27</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S28</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S29</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S30</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S31</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <slider lfid="enc2push">
-                  <name>S32</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                </slider>
-                <label>
-                  <name>S89</name>
-                  <position>
-                    <x>19</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S90</name>
-                  <position>
-                    <x>92</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S91</name>
-                  <position>
-                    <x>165</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S92</name>
-                  <position>
-                    <x>238</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S93</name>
-                  <position>
-                    <x>311</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S94</name>
-                  <position>
-                    <x>384</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S95</name>
-                  <position>
-                    <x>457</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <label>
-                  <name>S96</name>
-                  <position>
-                    <x>530</x>
-                    <y>118</y>
-                  </position>
-                </label>
-                <slider>
-                  <name>S89</name>
-                  <position>
-                    <x>19</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S90</name>
-                  <position>
-                    <x>92</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S91</name>
-                  <position>
-                    <x>165</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S92</name>
-                  <position>
-                    <x>238</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S93</name>
-                  <position>
-                    <x>311</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S94</name>
-                  <position>
-                    <x>384</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S95</name>
-                  <position>
-                    <x>457</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <slider>
-                  <name>S96</name>
-                  <position>
-                    <x>530</x>
-                    <y>33</y>
-                  </position>
-                  <size>
-                    <width>66</width>
-                    <height>14</height>
-                  </size>
-                  <style>linearbar</style>
-                </slider>
-                <textbutton lfid="enc2push">
-                  <name>B25</name>
-                  <position>
-                    <x>18</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B26</name>
-                  <position>
-                    <x>91</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B27</name>
-                  <position>
-                    <x>164</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B28</name>
-                  <position>
-                    <x>237</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B29</name>
-                  <position>
-                    <x>310</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B30</name>
-                  <position>
-                    <x>383</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B31</name>
-                  <position>
-                    <x>456</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <textbutton lfid="enc2push">
-                  <name>B32</name>
-                  <position>
-                    <x>529</x>
-                    <y>46</y>
-                  </position>
-                  <size>
-                    <width>69</width>
-                    <height>69</height>
-                  </size>
-                </textbutton>
-                <label lfid="TabControl">
-                  <name>LCDlabel</name>
-                  <text>GROUP L</text>
-                  <position>
-                    <x>267</x>
-                    <y>0</y>
-                  </position>
-                  <size>
-                    <width>82</width>
-                    <height>17</height>
-                  </size>
-                  <font>
-                    <height>16</height>
-                  </font>
-                  <justification horizontallycentred="true" />
-                </label>
-              </component>
-            </tab>
-          </tabbedcomponent>
-          <!--Push Tab Chooser-->
-          <component>
-            <position>
-              <x>0</x>
-              <y>3</y>
-            </position>
-            <size>
-              <width>619</width>
-              <height>23</height>
-            </size>
-            <textbutton lfid="EncGrpI_Button">
-              <name>B59</name>
-              <position>
-                <x>180</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 1</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpJ_Button">
-              <name>B60</name>
-              <position>
-                <x>200</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 2</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpK_Button">
-              <name>B61</name>
-              <position>
-                <x>220</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 3</tabname>
-              </choosetab>
-            </textbutton>
-            <textbutton lfid="EncGrpL_Button">
-              <name>B62</name>
-              <position>
-                <x>240</x>
-                <y>0</y>
-              </position>
-              <size>
-                <width>16</width>
-                <height>15</height>
-              </size>
-              <choosetab>
-                <tabbedcomponent>ENCODER GROUPS</tabbedcomponent>
-                <tabname>GROUP 4</tabname>
-              </choosetab>
-            </textbutton>
-          </component>
-        </component>
-      </tab>
-    </tabbedcomponent>
-    <!--Rotary/Push Tab Buttons-->
-    <component>
-      <position>
-        <x>0</x>
-        <y>64</y>
-      </position>
-      <size>
-        <width>200</width>
-        <height>30</height>
-      </size>
-      <backgroundcolour>00000000</backgroundcolour>
-      <!--Rotary Button-->
-      <textbutton lfid="Rotary_Button">
-        <name>B63</name>
-        <position>
-          <x>48</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>72</width>
-          <height>15</height>
-        </size>
-        <choosetab>
-          <tabbedcomponent>GROUP STATE</tabbedcomponent>
-          <tabname>R</tabname>
-        </choosetab>
-      </textbutton>
-      <!--Push Button-->
-      <textbutton lfid="Push_Button">
-        <name>B64</name>
-        <position>
-          <x>124</x>
-          <y>5</y>
-        </position>
-        <size>
-          <width>72</width>
-          <height>15</height>
-        </size>
-        <choosetab>
-          <tabbedcomponent>GROUP STATE</tabbedcomponent>
-          <tabname>P</tabname>
-        </choosetab>
-      </textbutton>
-    </component>
-  </component>
-</layout>
+  </layout>
 </tns:ScopeSyncLayout>
