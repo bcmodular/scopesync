@@ -102,7 +102,7 @@
       </combobox>
     </defaults>
     <!--Main Component-->
-    <component backgroundcolour="ff212426">
+    <component backgroundcolour="ff212426" lfid="default">
       <bounds x="0" y="0" width="936" height="300"></bounds>
       <!--Header Section-->
       <component>

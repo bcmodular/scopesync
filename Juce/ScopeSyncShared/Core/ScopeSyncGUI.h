@@ -149,4 +149,10 @@ private:
         ); \
     }
 
+#define BCM_SET_LOOK_AND_FEEL \
+    BCMLookAndFeel* bcmLookAndFeel = gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId); \
+    \
+    if (bcmLookAndFeel != nullptr) \
+        setLookAndFeel(bcmLookAndFeel);
+
 #endif  // SCOPESYNCGUI_H_INCLUDED

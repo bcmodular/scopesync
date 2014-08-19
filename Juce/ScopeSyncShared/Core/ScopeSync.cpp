@@ -531,42 +531,16 @@ void ScopeSync::addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel)
 
 BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id)
 {
-    //DBG("ScopeSync::getBCMLookAndFeelById: Looking for LookAndFeel by id: id = " + id);
-
-    // Set LookAndFeel to system:default, in case we don't find one that matches, or a layout default
-    BCMLookAndFeel* bcmLookAndFeel = bcmLookAndFeels[0];
-    
-    bool foundLnF = false;
-
     // Try to find the LookAndFeel with a matching id
-    for (int i = 1; i < bcmLookAndFeels.size(); i++)
+    for (int i = 0; i < bcmLookAndFeels.size(); i++)
     {
         String foundId = bcmLookAndFeels[i]->getId();
         
         if (foundId.equalsIgnoreCase(id))
-        {
-            bcmLookAndFeel = bcmLookAndFeels[i];
-            foundLnF       = true;
-            break;
-        }
+            return bcmLookAndFeels[i];
     }
 
-    if (!foundLnF)
-    {
-        // We didn't find a matching one, so try to find the layout default instead
-        for (int i = 1; i < bcmLookAndFeels.size(); i++)
-        {
-            String foundId = bcmLookAndFeels[i]->getId();
-        
-            if (foundId.equalsIgnoreCase("default"))
-            {
-                bcmLookAndFeel = bcmLookAndFeels[i];
-                break;
-            }
-        }
-    }
-
-    return bcmLookAndFeel;
+    return nullptr;
 }
 
 void ScopeSync::clearBCMLookAndFeels()

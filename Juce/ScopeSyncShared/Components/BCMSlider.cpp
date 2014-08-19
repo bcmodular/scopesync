@@ -130,8 +130,7 @@ void BCMSlider::applyProperties(SliderProperties& properties, ScopeSyncGUI& gui)
     
     componentBounds = properties.bounds;
     BCM_SET_BOUNDS
-
-    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+    BCM_SET_LOOK_AND_FEEL
 }
 
 String BCMSlider::getTextFromValue(double v)

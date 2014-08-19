@@ -72,7 +72,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
 
     BCM_SET_BOUNDS
     
-    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+    BCM_SET_LOOK_AND_FEEL
 
     // Then loop through child component elements
     forEachXmlChildElement(componentXML, child)

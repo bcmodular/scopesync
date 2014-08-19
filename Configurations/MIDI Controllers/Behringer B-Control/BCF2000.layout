@@ -163,7 +163,7 @@
       </combobox>
     </defaults>
     <!--Main Component-->
-    <component backgroundcolour="ff2d3035">
+    <component backgroundcolour="ff2d3035" lfid="default">
       <bounds x="0" y="0" width="674" height="732" />
       <!--Header Section-->
       <component>

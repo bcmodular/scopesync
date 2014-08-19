@@ -82,4 +82,5 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
 
     componentBounds = properties.bounds;
     BCM_SET_BOUNDS
+    BCM_SET_LOOK_AND_FEEL
 }

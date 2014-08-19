@@ -323,7 +323,13 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
             String parentid = lookAndFeelXML.getStringAttribute("parentid");
             BCMLookAndFeel* parentBCMLookAndFeel = scopeSync.getBCMLookAndFeelById(parentid);
 
-            bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, configurationFileDirectory);
+            if (parentBCMLookAndFeel != nullptr)
+            {
+                DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
+                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, configurationFileDirectory);
+            }
+            else
+                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, configurationFileDirectory, useImageCache);
         }
         else
         {
