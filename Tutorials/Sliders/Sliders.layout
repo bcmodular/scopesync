@@ -211,7 +211,7 @@
           </textbox>
         </slider>
         <label name="s2">
-          <bounds><bordersize top="0" bottom="125" left="0" right="123" /></bounds>
+          <bounds><bordersize top="45" bottom="170" left="5" right="127" /></bounds>
           <font bold="true" height="12"></font>
           <justification horizontallycentred="true" />
         </label>
