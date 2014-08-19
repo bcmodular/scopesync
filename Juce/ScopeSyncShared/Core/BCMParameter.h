@@ -60,6 +60,7 @@ public:
     static const Identifier paramTypeScopeRangeMaxId;
     static const Identifier paramTypeScopeRangeMinFltId;
     static const Identifier paramTypeScopeRangeMaxFltId;
+    static const Identifier paramTypeScopeDBRefId;
     static const Identifier paramTypeSettingsId;
     static const Identifier paramTypeSettingId;
     static const Identifier paramTypeSettingNameId;
@@ -80,10 +81,10 @@ private:
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
     // ensure the UI and LinearNormalised values are within the ranges
-    void  putValuesInRange(bool initialise);
-    float skewHostValue(float hostValue, bool invert);
-    float convertLinearNormalisedToUIValue(float linearNormalisedValue);
-
+    void   putValuesInRange(bool initialise);
+    float  skewHostValue(float hostValue, bool invert);
+    double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert);
+    float  convertLinearNormalisedToUIValue(float linearNormalisedValue);
 
     void  setParameterValues(int index, float newHostValue, float newUIValue);
     float convertUIToHostValue(int paramIdx, float value);

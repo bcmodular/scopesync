@@ -26,6 +26,7 @@ const Identifier BCMParameter::paramTypeScopeRangeMinId    = "scoperangemin";
 const Identifier BCMParameter::paramTypeScopeRangeMaxId    = "scoperangemax";
 const Identifier BCMParameter::paramTypeScopeRangeMinFltId = "scoperangeminflt";
 const Identifier BCMParameter::paramTypeScopeRangeMaxFltId = "scoperangemaxflt";
+const Identifier BCMParameter::paramTypeScopeDBRefId       = "scopedbref";
 const Identifier BCMParameter::paramTypeSettingsId         = "settings";
 const Identifier BCMParameter::paramTypeSettingId          = "setting";
 const Identifier BCMParameter::paramTypeSettingNameId      = "name";
@@ -215,7 +216,18 @@ float BCMParameter::getScopeFltValue()
     float     minScopeValue = parameterType.getProperty(paramTypeScopeRangeMinFltId);
     float     maxScopeValue = parameterType.getProperty(paramTypeScopeRangeMaxFltId);
 
-    float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, linearNormalisedValue.getValue());
+    double valueToScale = linearNormalisedValue.getValue();
+
+    if (parameterType.hasProperty(paramTypeScopeDBRefId))
+    {
+        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
+        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
+        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        
+        valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
+    }
+
+    float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale);
     DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(paramNameId).toString() + ": " + String(scopeValue));
     return scopeValue;
 }
@@ -226,8 +238,19 @@ int BCMParameter::getScopeIntValue()
     int minScopeValue       = parameterType.getProperty(paramTypeScopeRangeMinId);
     int maxScopeValue       = parameterType.getProperty(paramTypeScopeRangeMaxId);
 
-    int scopeValue = roundDoubleToInt(scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, linearNormalisedValue.getValue()));
-    DBG("BCMParameter::getScopeIntValue - " + definition.getProperty(paramNameId).toString() + ": " + String(scopeValue));
+    double valueToScale = linearNormalisedValue.getValue();
+
+    if (parameterType.hasProperty(paramTypeScopeDBRefId))
+    {
+        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
+        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
+        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        
+        valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
+    }
+
+    int scopeValue = roundDoubleToInt(scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale));
+
     return scopeValue;
 }
     
@@ -257,6 +280,16 @@ void BCMParameter::setScopeFltValue(float newValue)
     float     maxScopeValue = parameterType.getProperty(paramTypeScopeRangeMaxFltId);
 
     linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+
+    if (parameterType.hasProperty(paramTypeScopeDBRefId))
+    {
+        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
+        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
+        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+            
+        linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+    }
+
     uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
     DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
@@ -270,7 +303,17 @@ void BCMParameter::setScopeIntValue(int newValue)
         int maxScopeValue       = parameterType.getProperty(paramTypeScopeRangeMaxId);
 
         linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
-        uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
+        
+        if (parameterType.hasProperty(paramTypeScopeDBRefId))
+        {
+            double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
+            double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
+            double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+            
+            linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+        }
+
+        uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
         DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
     }
     else
@@ -307,4 +350,29 @@ float BCMParameter::skewHostValue(float hostValue, bool invert)
     }
     
     return (float)skewedValue;
+}
+
+
+double BCMParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert)
+{
+    if (!invert)
+    {
+        double minNormalised = ref * pow(10, (uiMinValue/20));
+
+        if (valueToSkew > minNormalised)
+            return scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, (20 * log10(valueToSkew / ref)));
+        else
+            return minNormalised;
+    }
+    else
+    {
+        valueToSkew = scaleDouble(0.0f, 1.0f, uiMinValue, uiMaxValue, valueToSkew);
+
+        if (valueToSkew > uiMinValue && valueToSkew < uiMaxValue)
+            return ref * pow(10, (valueToSkew / 20));
+        else if (valueToSkew >= 0)
+            return 1;
+        else
+            return 0;
+    }
 }

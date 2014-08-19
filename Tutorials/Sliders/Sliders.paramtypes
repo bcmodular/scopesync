@@ -62,6 +62,7 @@
         <uirangeinterval>0.01</uirangeinterval>
 		<uiresetvalue>-6</uiresetvalue>
 		<uiskewfactor type="frommidpoint">-24</uiskewfactor>
+		<scopedbref>1.0</scopedbref>
     </parametertype>
     <parametertype>
         <name>14bitCC Range</name>

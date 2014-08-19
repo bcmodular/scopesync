@@ -135,7 +135,7 @@ private:
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml);
     void getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterType);
-    void readUISkewFactorXml(const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue);
+    void readUISkewFactorXml   (const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue);
     bool loadDeviceParameters(XmlElement& deviceXml);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);

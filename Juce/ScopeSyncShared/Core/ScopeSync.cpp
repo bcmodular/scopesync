@@ -732,13 +732,22 @@ void ScopeSync::getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterTyp
 
     }
 
-    XmlElement* skewFactor = xml.getChildByName(BCMParameter::paramTypeUISkewFactorId);
+    XmlElement* uiSkewFactor = xml.getChildByName(BCMParameter::paramTypeUISkewFactorId);
     
-    if (skewFactor != nullptr)
+    if (uiSkewFactor != nullptr)
     {
         float uiMinValue = parameterType.getProperty(BCMParameter::paramTypeUIRangeMinId);
         float uiMaxValue = parameterType.getProperty(BCMParameter::paramTypeUIRangeMaxId);
-        readUISkewFactorXml(*skewFactor, parameterType, uiMinValue, uiMaxValue);
+        readUISkewFactorXml(*uiSkewFactor, parameterType, uiMinValue, uiMaxValue);
+    }
+
+    XmlElement* scopeDBRef = xml.getChildByName(BCMParameter::paramTypeScopeDBRefId);
+
+    if (scopeDBRef != nullptr)
+    {
+        double dbRef = scopeDBRef->getAllSubText().getDoubleValue();
+
+        parameterType.setProperty(BCMParameter::paramTypeScopeDBRefId, dbRef, nullptr);
     }
      
     XmlElement* paramSettings = xml.getChildByName(BCMParameter::paramTypeSettingsId);
