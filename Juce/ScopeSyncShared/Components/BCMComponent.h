@@ -79,7 +79,7 @@ private:
     OwnedArray<BCMTextButton>      textButtons;               // BCMTextButtons owned by this Component
     OwnedArray<BCMComponent>       subComponents;             // BCMComponents owned by this Component
     OwnedArray<BCMTabbedComponent> tabbedComponents;          // BCMTabbedComponents owned by this Component
-    ScopeSyncGUI&                  scopeSyncGUI;              // Reference to the main ScopeSyncGUI
+    ScopeSyncGUI&                  gui;                       // Reference to the main ScopeSyncGUI
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image

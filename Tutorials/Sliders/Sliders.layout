@@ -129,6 +129,10 @@
         <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
           <bounds x="6" y="4" width="151" height="16"></bounds>
         </component>
+        <label lfid="system:systemerror" name="SystemError" text="">
+          <justification right="true" />
+        <bounds x="390" y="2" width="410" height="20"></bounds>
+      </label>
         <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
         <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
           <bounds x="803" y="0" width="57" height="32"></bounds>

@@ -77,7 +77,7 @@ private:
     
     ValueTree settings; // Discrete parameter settings
     
-    ScopeSyncGUI& scopeSyncGUI; // Reference to main ScopeSyncGUI
+    ScopeSyncGUI& gui; // Reference to main ScopeSyncGUI
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();

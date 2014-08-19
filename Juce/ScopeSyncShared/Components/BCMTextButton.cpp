@@ -36,7 +36,7 @@
 
 const int BCMTextButton::clickBlockDuration = 1000;
 
-BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name) : TextButton(name), scopeSyncGUI(owner) {}
+BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name) : TextButton(name), gui(owner) {}
 
 BCMTextButton::~BCMTextButton()
 {
@@ -86,7 +86,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = scopeSyncGUI.getUIMapping(ScopeSyncGUI::mappingTextButtonId, getName(), mapping);
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingTextButtonId, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -229,7 +229,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     componentBounds = properties.bounds;
     BCM_SET_BOUNDS
 
-    setLookAndFeel(scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
 }
 
 void BCMTextButton::switchToTabs()
@@ -241,7 +241,7 @@ void BCMTextButton::switchToTabs()
 
         Array<BCMTabbedComponent*> tabbedComponents;
             
-        scopeSyncGUI.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
+        gui.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
         int numTabbedComponents = tabbedComponents.size();
 
         for (int j = 0; j < numTabbedComponents; j++)
@@ -308,27 +308,27 @@ void BCMTextButton::clicked()
         if (getName() == "snapshot")
         {
             // force sync of all controls
-            scopeSyncGUI.getScopeSync().snapshot();
+            gui.getScopeSync().snapshot();
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }
         else if (getName() == "showusersettings")
         {
-            scopeSyncGUI.showUserSettings();
+            gui.showUserSettings();
         }
         else if (getName() == "chooseconfiguration")
         {
-            if (!(scopeSyncGUI.getScopeSync().configurationIsLoading()))
+            if (!(gui.getScopeSync().configurationIsLoading()))
             {
-                scopeSyncGUI.chooseConfiguration();
+                gui.chooseConfiguration();
             }
         }
         else if (getName() == "reloadconfiguration")
         {
-            if (!(scopeSyncGUI.getScopeSync().configurationIsLoading()))
+            if (!(gui.getScopeSync().configurationIsLoading()))
             {
-                scopeSyncGUI.getScopeSync().storeParameterValues();    
-                scopeSyncGUI.getScopeSync().loadConfiguration(false, true, true);
+                gui.getScopeSync().storeParameterValues();    
+                gui.getScopeSync().loadConfiguration(false, true, true);
                 clicksBlocked = true;
                 startTimer(clickBlockDuration);
             }
@@ -349,7 +349,7 @@ void BCMTextButton::clicked()
                 valueToSet = (float)downSettingIdx;
             
             if (valueToSet >= 0)
-                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+                gui.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
         }
     }
 }

@@ -128,7 +128,15 @@ private:
 
 #define BCM_SET_BOUNDS \
     if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle) \
-        setBounds(componentBounds.relativeRectangleString); \
+        try \
+        { \
+            setBounds(componentBounds.relativeRectangleString); \
+        } \
+        catch (Expression::ParseError& error) \
+        { \
+            gui.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component: " + getName() + ", error: " + error.description); \
+            return; \
+        } \
     else if (componentBounds.boundsType == BCMComponentBounds::inset) \
         setBoundsInset(componentBounds.borderSize); \
     else \
@@ -139,6 +147,6 @@ private:
             componentBounds.width, \
             componentBounds.height \
         ); \
-    } \
+    }
 
 #endif  // SCOPESYNCGUI_H_INCLUDED
