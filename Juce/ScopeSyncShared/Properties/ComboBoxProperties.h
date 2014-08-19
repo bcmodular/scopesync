@@ -46,6 +46,7 @@ public:
     ~ComboBoxProperties();
 
     String               name;
+    String               id;
     bool                 editableText;
     String               nothingSelectedText;
     String               noChoicesText;

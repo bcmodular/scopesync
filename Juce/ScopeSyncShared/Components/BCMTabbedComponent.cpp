@@ -37,6 +37,8 @@ BCMTabbedComponent::~BCMTabbedComponent() {}
 
 void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties, ScopeSyncGUI& gui)
 {
+    setComponentID(properties.id);
+    
     TabbedButtonBar& bar           = getTabbedButtonBar();
     NamedValueSet&   barProperties = bar.getProperties();
 

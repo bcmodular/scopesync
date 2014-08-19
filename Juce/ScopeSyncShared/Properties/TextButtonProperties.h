@@ -46,6 +46,7 @@ public:
     ~TextButtonProperties();
 
     String             name;
+    String             id;
     String             text;
     String             tooltip;
     BCMComponentBounds bounds;

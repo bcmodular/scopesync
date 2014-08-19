@@ -53,6 +53,7 @@ void SliderProperties::initialise()
 {
     // Ultimate fall-back defaults, used when creating default SliderProperties
     name               = "def";
+    id                 = "def";
     bounds.width       = 72;
     bounds.height      = 88;
     bounds.x           = 0;
@@ -77,6 +78,7 @@ void SliderProperties::initialise()
 void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
 {
     name               = parentSliderProperties.name;
+    id                 = parentSliderProperties.id;
     bounds.width       = parentSliderProperties.bounds.width;
     bounds.height      = parentSliderProperties.bounds.height;
     bounds.x           = parentSliderProperties.bounds.x;
@@ -101,6 +103,7 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
 void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
 {
     name              = sliderXML.getStringAttribute("name",              name);
+    id                = sliderXML.getStringAttribute("id",      name); // Default to name if no id set
     popupEnabled      = sliderXML.getBoolAttribute  ("popupenabled",      popupEnabled);
     velocityBasedMode = sliderXML.getBoolAttribute  ("velocitybasedmode", velocityBasedMode);
     encoderSnap       = sliderXML.getBoolAttribute  ("encodersnap",       encoderSnap);

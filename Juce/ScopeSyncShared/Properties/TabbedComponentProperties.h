@@ -45,6 +45,7 @@ public:
     ~TabbedComponentProperties();
 
     String                       name;
+    String                       id;
     BCMComponentBounds           bounds;
     int                          tabBarDepth;
     String                       bcmLookAndFeelId;

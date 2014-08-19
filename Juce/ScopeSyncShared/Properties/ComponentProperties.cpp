@@ -53,6 +53,7 @@ ComponentProperties::~ComponentProperties()
 void ComponentProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
+    id                       = "def";
     bounds.x                 = 0;
     bounds.y                 = 0;
     bounds.width             = 0;
@@ -65,6 +66,7 @@ void ComponentProperties::initialise()
 
 void ComponentProperties::copyProperties(ComponentProperties& parentComponentProperties)
 {
+    id                       = parentComponentProperties.id;
     bounds.x                 = parentComponentProperties.bounds.x;
     bounds.y                 = parentComponentProperties.bounds.y;
     bounds.width             = parentComponentProperties.bounds.width;
@@ -77,6 +79,7 @@ void ComponentProperties::copyProperties(ComponentProperties& parentComponentPro
 
 void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
 {
+    id                       = componentXML.getStringAttribute("id", id);
     backgroundColour         = componentXML.getStringAttribute("backgroundcolour", backgroundColour);
     backgroundImageFileName  = componentXML.getStringAttribute("backgroundimage", backgroundImageFileName);
     getRectanglePlacementFromString(componentXML.getStringAttribute("backgroundimageplacement"), backgroundImagePlacement);

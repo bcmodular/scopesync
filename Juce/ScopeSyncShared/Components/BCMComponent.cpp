@@ -46,6 +46,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
     // Firstly set up properties for this Component
     ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
     
+    setComponentID(properties.id);
+    
     configurationFileDirectoryPath = configDirectory;
 
     backgroundColour = properties.backgroundColour;

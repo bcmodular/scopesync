@@ -39,6 +39,8 @@ BCMSlider::~BCMSlider() {}
 
 void BCMSlider::applyProperties(SliderProperties& properties, ScopeSyncGUI& gui)
 {
+    setComponentID(properties.id);
+    
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
     justificationFlags = properties.justificationFlags;

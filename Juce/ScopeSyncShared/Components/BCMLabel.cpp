@@ -39,6 +39,8 @@ BCMLabel::~BCMLabel() {}
 
 void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
 {
+    setComponentID(properties.id);
+    
     String labelText = getText();
     String tooltip   = getText();
     

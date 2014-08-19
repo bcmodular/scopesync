@@ -40,6 +40,8 @@ BCMComboBox::~BCMComboBox() {}
 
 void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& properties)
 {
+    setComponentID(properties.id);
+    
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
     

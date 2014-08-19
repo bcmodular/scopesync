@@ -53,6 +53,7 @@ void LabelProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
     name               = "def";
+    id                 = "def";
     text               = "def";
     bounds.width       = 66;
     bounds.height      = 20;
@@ -67,6 +68,7 @@ void LabelProperties::initialise()
 void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
 {
     name               = parentLabelProperties.name;
+    id                 = parentLabelProperties.id;
     text               = parentLabelProperties.text;
     bounds.width       = parentLabelProperties.bounds.width;
     bounds.height      = parentLabelProperties.bounds.height;
@@ -81,6 +83,7 @@ void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
 void LabelProperties::setValuesFromXML(XmlElement& labelXML)
 {
     name = labelXML.getStringAttribute("name", name);
+    id   = labelXML.getStringAttribute("id",   name); // Default to name if no id set
     text = labelXML.getStringAttribute("text", text);
     
     XmlElement* boundsXml = labelXML.getChildByName("bounds");

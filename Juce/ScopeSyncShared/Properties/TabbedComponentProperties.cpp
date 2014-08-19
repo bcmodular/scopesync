@@ -51,6 +51,7 @@ TabbedComponentProperties::~TabbedComponentProperties()
 
 void TabbedComponentProperties::initialise()
 {
+    id                = "def";
     bounds.width      = 0;
     bounds.height     = 0;
     bounds.x          = 0;
@@ -64,6 +65,7 @@ void TabbedComponentProperties::initialise()
 
 void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parentTabbedComponentProperties)
 {
+    id                = parentTabbedComponentProperties.id;
     bounds.width      = parentTabbedComponentProperties.bounds.width;
     bounds.height     = parentTabbedComponentProperties.bounds.height;
     bounds.x          = parentTabbedComponentProperties.bounds.x;
@@ -78,6 +80,7 @@ void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parent
 void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
 {
     name           = tabbedComponentXML.getStringAttribute("name",           name);
+    id             = tabbedComponentXML.getStringAttribute("id",      name); // Default to name if no id set
     showDropShadow = tabbedComponentXML.getBoolAttribute  ("showdropshadow", showDropShadow);
     
     XmlElement* boundsXml = tabbedComponentXML.getChildByName("bounds");

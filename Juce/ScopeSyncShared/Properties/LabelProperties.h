@@ -46,6 +46,7 @@ public:
     ~LabelProperties();
 
     String               name;
+    String               id;
     String               text;
     BCMComponentBounds   bounds;
     String               bcmLookAndFeelId;

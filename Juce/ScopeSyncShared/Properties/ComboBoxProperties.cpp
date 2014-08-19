@@ -53,6 +53,7 @@ void ComboBoxProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
     name                = "def";
+    id                  = "def";
     tooltip             = "def";
     editableText        = false;
     fontHeight          = 15.00f;
@@ -70,6 +71,7 @@ void ComboBoxProperties::initialise()
 void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProperties)
 {
     name                = parentComboBoxProperties.name;
+    id                  = parentComboBoxProperties.id;
     tooltip             = parentComboBoxProperties.tooltip;
     editableText        = parentComboBoxProperties.editableText;
     fontHeight          = parentComboBoxProperties.fontHeight;
@@ -91,6 +93,7 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
 void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
 {
     name                = comboBoxXML.getStringAttribute("name",                name);
+    id                  = comboBoxXML.getStringAttribute("id",                  name); // Default to name if no id set
     tooltip             = comboBoxXML.getStringAttribute("tooltip",             tooltip);
     nothingSelectedText = comboBoxXML.getStringAttribute("nothingselectedtext", nothingSelectedText);
     noChoicesText       = comboBoxXML.getStringAttribute("nochoicestext",       noChoicesText);

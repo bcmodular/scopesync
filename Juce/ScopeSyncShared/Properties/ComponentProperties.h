@@ -44,6 +44,7 @@ public:
     ComponentProperties(XmlElement& componentXML, ComponentProperties& parentComponentProperties);
     ~ComponentProperties();
 
+    String             id;
     BCMComponentBounds bounds;
     String             backgroundColour;
     String             backgroundImageFileName;

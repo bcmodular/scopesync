@@ -45,6 +45,8 @@ BCMTextButton::~BCMTextButton()
 
 void BCMTextButton::applyProperties(TextButtonProperties& properties)
 {
+    setComponentID(properties.id);
+    
     clicksBlocked = false;
 
     String tooltip(properties.tooltip);

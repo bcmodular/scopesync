@@ -46,6 +46,7 @@ public:
     ~SliderProperties();
 
     String name;
+    String id;
     BCMComponentBounds bounds;
     double rangeMin;
     double rangeMax;

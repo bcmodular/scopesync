@@ -53,6 +53,7 @@ void TextButtonProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
     name             = "def";
+    id               = "def";
     text             = "def";
     tooltip          = "def";
     bounds.width     = 15;
@@ -68,6 +69,7 @@ void TextButtonProperties::initialise()
 void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButtonProperties)
 {
     name             = parentTextButtonProperties.name;
+    id               = parentTextButtonProperties.id;
     text             = parentTextButtonProperties.text;
     tooltip          = parentTextButtonProperties.tooltip;
     bounds.width     = parentTextButtonProperties.bounds.width;
@@ -83,6 +85,7 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
 void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
 {
     name    = textButtonXML.getStringAttribute("name",    name);
+    id      = textButtonXML.getStringAttribute("id",      name); // Default to name if no id set
     text    = textButtonXML.getStringAttribute("text",    text);
     tooltip = textButtonXML.getStringAttribute("tooltip", tooltip);
     
