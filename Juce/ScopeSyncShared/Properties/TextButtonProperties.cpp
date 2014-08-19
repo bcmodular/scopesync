@@ -93,8 +93,7 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     if (boundsXml != nullptr)
         getBoundsFromXml(*boundsXml, bounds);
     
-    XmlElement* chooseTabXml = textButtonXML.getChildByName("choosetab");
-    if (chooseTabXml != nullptr)
+    forEachXmlChildElementWithTagName(textButtonXML, chooseTabXml, "choosetab")
     {
         String tabbedComponent = chooseTabXml->getStringAttribute("tabbedcomponent", String::empty);
         String tabName         = chooseTabXml->getStringAttribute("tabname", String::empty);

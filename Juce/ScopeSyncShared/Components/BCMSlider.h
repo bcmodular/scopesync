@@ -39,10 +39,10 @@ class SliderProperties;
 class BCMSlider : public Slider
 {
 public:
-    BCMSlider(const String& name);
+    BCMSlider(const String& name, ScopeSyncGUI& owner);
     ~BCMSlider();
 
-    void applyProperties(SliderProperties& properties, ScopeSyncGUI& gui);
+    void applyProperties(SliderProperties& properties);
 
     // Indicates whether a BCMSlider has a parameter mapping
     bool hasParameter() { return mapsToParameter; };
@@ -62,9 +62,16 @@ private:
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
     BCMComponentBounds componentBounds; // Position/Size information
+    ScopeSyncGUI& gui;                  // Reference to main ScopeSyncGUI
+
+    bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
+    StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
+    StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v);
+
+    void mouseDown(const MouseEvent& event);
 
     // Interprets input typed into a Slider's Textbox and converts it into a value.
     // Includes support for discrete parameter settings
@@ -75,6 +82,9 @@ private:
     void overridePopupEnabled(PropertiesFile& appProperties, bool popupEnabledFlag);
     void overrideVelocityBasedMode(PropertiesFile& appProperties, bool velocityBasedMode);
     bool getEncoderSnap(PropertiesFile& appProperties, bool encoderSnap);
+
+    // Switch any linked TabbedComponent's tabs as appropriate
+    void switchToTabs();
 
     // Enumerations for User Settings relating to BCMSliders
     enum RotaryMovement

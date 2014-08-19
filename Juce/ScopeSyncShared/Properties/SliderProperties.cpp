@@ -73,6 +73,8 @@ void SliderProperties::initialise()
     popupEnabled       = false;
     velocityBasedMode  = false;
     encoderSnap        = false;
+    tabbedComponents.clear();
+    tabNames.clear();
 };
 
 void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
@@ -98,6 +100,8 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
     popupEnabled       = parentSliderProperties.popupEnabled;
     velocityBasedMode  = parentSliderProperties.velocityBasedMode;
     encoderSnap        = parentSliderProperties.encoderSnap;
+    tabbedComponents   = StringArray(parentSliderProperties.tabbedComponents);
+    tabNames           = StringArray(parentSliderProperties.tabNames);
 };
 
 void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
@@ -111,6 +115,18 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     XmlElement* boundsXml = sliderXML.getChildByName("bounds");
     if (boundsXml != nullptr)
         getBoundsFromXml(*boundsXml, bounds);
+
+    forEachXmlChildElementWithTagName(sliderXML, chooseTabXml, "choosetab")
+    {
+        String tabbedComponent = chooseTabXml->getStringAttribute("tabbedcomponent", String::empty);
+        String tabName         = chooseTabXml->getStringAttribute("tabname", String::empty);
+            
+        if (tabbedComponent.isNotEmpty() && tabName.isNotEmpty())
+        {
+            tabbedComponents.add(tabbedComponent);
+            tabNames.add(tabName);
+        }
+    }
 
     getSliderStyleFromXml(sliderXML.getStringAttribute("style"), style);
     

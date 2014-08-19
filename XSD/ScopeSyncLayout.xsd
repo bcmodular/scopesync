@@ -244,11 +244,13 @@
     </complexType>
 
     <complexType name="slidertype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="bounds" type="tns:boundstype" minOccurs="0"></element>
-            <element name="range" type="tns:sliderrangetype" minOccurs="0"></element>
-            <element name="textbox" type="tns:slidertextboxtype" minOccurs="0"></element>
-        </all>
+        <choice minOccurs="1" maxOccurs="unbounded">
+        	<element name="bounds" type="tns:boundstype"></element>
+        	<element name="range" type="tns:sliderrangetype"></element>
+        	<element name="textbox" type="tns:slidertextboxtype"></element>
+        	<element name="choosetab" type="tns:choosetabtype"></element>
+        </choice>
+        
         <attribute name="name" type="string"></attribute>
         <attribute name="id" type="string"></attribute>
         <attribute name="popupenabled" type="boolean"></attribute>

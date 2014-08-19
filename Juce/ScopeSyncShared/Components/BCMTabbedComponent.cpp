@@ -31,27 +31,48 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 
-BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation) : TabbedComponent(orientation) {}
+BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner) : TabbedComponent(orientation), gui(owner) {}
 
 BCMTabbedComponent::~BCMTabbedComponent() {}
 
-void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties, ScopeSyncGUI& gui)
+void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 {
+    setName(properties.name);
     setComponentID(properties.id);
     
-    TabbedButtonBar& bar           = getTabbedButtonBar();
-    NamedValueSet&   barProperties = bar.getProperties();
+    NamedValueSet& barProperties = getTabbedButtonBar().getProperties();
 
     setTabBarDepth(properties.tabBarDepth);
     
-    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
-    bar.setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
+    mapsToParameter = false;
     
-    setName(properties.name);
+    ValueTree mapping;
+    parameter = gui.getUIMapping(ScopeSyncGUI::mappingTabbedComponentId, getName(), mapping);
+
+    if (parameter != nullptr)
+    {
+        mapsToParameter = true;      
+        
+        DBG("BCMTabbedComponent::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
+        parameter->mapToUIValue(parameterValue);
+    }
 
     barProperties.set("showdropshadow", properties.showDropShadow);
     
     componentBounds = properties.bounds;
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL
+}
+
+void BCMTabbedComponent::valueChanged(Value& value)
+{
+    setCurrentTabIndex(value.getValue(), true);
+}
+
+void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String& newCurrentTabName)
+{
+    (void)newCurrentTabName;
+
+    if (parameter != nullptr)
+        gui.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
 }

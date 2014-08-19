@@ -133,9 +133,9 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
         BCMTabbedComponent*       tabbedComponent;
 
         // Setup Tabbed Component object
-        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation));
+        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation, gui));
 
-        tabbedComponent->applyProperties(tabbedComponentProperties, gui);
+        tabbedComponent->applyProperties(tabbedComponentProperties);
 
         gui.addTabbedComponent(tabbedComponent);
         tabbedComponents.add(tabbedComponent);
@@ -187,10 +187,10 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
         BCMSlider*       slider;
 
         // Setup slider object
-        addAndMakeVisible(slider = new BCMSlider(sliderProperties.name));
+        addAndMakeVisible(slider = new BCMSlider(sliderProperties.name, gui));
         slider->addListener(this);
 
-        slider->applyProperties(sliderProperties, gui);
+        slider->applyProperties(sliderProperties);
         sliders.add(slider);
     }
 }

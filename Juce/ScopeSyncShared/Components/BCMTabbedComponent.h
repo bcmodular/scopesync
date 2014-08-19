@@ -34,14 +34,15 @@ class ScopeSyncGUI;
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponentBounds.h"
+#include "../Core/BCMParameter.h"
 
-class BCMTabbedComponent : public TabbedComponent
+class BCMTabbedComponent : public TabbedComponent, public Value::Listener
 {
 public:
-    BCMTabbedComponent(TabbedButtonBar::Orientation orientation);
+    BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner);
     ~BCMTabbedComponent();
     
-    void applyProperties(TabbedComponentProperties& properties, ScopeSyncGUI& gui);
+    void applyProperties(TabbedComponentProperties& properties);
 
     // Returns the name of a BCMTabbedComponent
     const String& getName() { return name; }
@@ -49,10 +50,21 @@ public:
     // Sets the name of a BCMTabbedComponent
     void setName(const String& newName) { name = newName; }
 
+    // Callback for when the value of a mapped parameter changes
+    void valueChanged(Value& value);
+
+    void currentTabChanged(int newCurrentTabIndex, const String &newCurrentTabName);
+
     // Indicates whether Tabs should show a drop-shadow
     bool shouldShowDropShadow() { return showDropShadow; }
 
 private:
+    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    BCMParameter* parameter;       // Pointer to a mapped parameter
+    Value         parameterValue;  // Maintains a link to a mapped parameter's UI value
+
+    ScopeSyncGUI& gui; // Reference to main ScopeSyncGUI
+
     String name;                        // Name of BCMTabbedComponent
     bool   showDropShadow;              // Flag as to whether Tabs should display a drop-shadow
     BCMComponentBounds componentBounds; // Position/Size information

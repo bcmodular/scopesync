@@ -33,11 +33,11 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
 
-BCMSlider::BCMSlider(const String& name) : Slider(name) {}
+BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner) : Slider(name), gui(owner) {}
 
 BCMSlider::~BCMSlider() {}
 
-void BCMSlider::applyProperties(SliderProperties& properties, ScopeSyncGUI& gui)
+void BCMSlider::applyProperties(SliderProperties& properties)
 {
     setComponentID(properties.id);
     
@@ -59,6 +59,22 @@ void BCMSlider::applyProperties(SliderProperties& properties, ScopeSyncGUI& gui)
     double rangeInt = properties.rangeInt;
     String tooltip  = properties.name;
     
+    // Set up any mapping to TabbedComponent Tabs
+    mapsToTabs = false;
+    
+    for (int i = 0; i < properties.tabbedComponents.size(); i++)
+    {
+        String tabbedComponentName = properties.tabbedComponents[i];
+        String tabName = properties.tabNames[i];
+
+        tabbedComponentNames.add(tabbedComponentName);
+        tabNames.add(tabName);
+
+        mapsToTabs = true;
+            
+        DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
+    }
+
     mapsToParameter = false;
     
     ValueTree mapping;
@@ -162,6 +178,35 @@ double BCMSlider::getValueFromText(const String& text)
     else
     {
         return Slider::getValueFromText(text);
+    }
+}
+
+void BCMSlider::mouseDown(const MouseEvent& event)
+{
+    switchToTabs();
+    Slider::mouseDown(event);
+}
+
+void BCMSlider::switchToTabs()
+{
+    for (int i = 0; i < tabbedComponentNames.size(); i++)
+    {
+        String tabbedComponentName = tabbedComponentNames[i];
+        String tabName             = tabNames[i];
+
+        Array<BCMTabbedComponent*> tabbedComponents;
+            
+        gui.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
+        int numTabbedComponents = tabbedComponents.size();
+
+        for (int j = 0; j < numTabbedComponents; j++)
+        {
+            StringArray tabNames = tabbedComponents[j]->getTabNames();
+            int tabIndex = tabNames.indexOf(tabName, true);
+
+            DBG("BCMSlider::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
+                tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);
+        }
     }
 }
 

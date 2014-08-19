@@ -45,24 +45,26 @@ public:
 
     ~SliderProperties();
 
-    String name;
-    String id;
+    String      name;
+    String      id;
     BCMComponentBounds bounds;
-    double rangeMin;
-    double rangeMax;
-    double rangeInt;
+    double      rangeMin;
+    double      rangeMax;
+    double      rangeInt;
     Slider::SliderStyle          style;
     Slider::TextEntryBoxPosition textBoxPosition;
-    bool   textBoxReadOnly;
-    int    textBoxWidth;
-    int    textBoxHeight;
-    float  fontHeight;
+    bool        textBoxReadOnly;
+    int         textBoxWidth;
+    int         textBoxHeight;
+    float       fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
-    String bcmLookAndFeelId;
-    bool popupEnabled;
-    bool velocityBasedMode;
-    bool encoderSnap;
+    String      bcmLookAndFeelId;
+    bool        popupEnabled;
+    bool        velocityBasedMode;
+    bool        encoderSnap;
+    StringArray tabbedComponents;
+    StringArray tabNames;
 
 private:
     void initialise();

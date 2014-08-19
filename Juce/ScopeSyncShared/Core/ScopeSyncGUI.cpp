@@ -33,21 +33,22 @@
 
 const int ScopeSyncGUI::timerFrequency = 100;
 
-const Identifier ScopeSyncGUI::mappingId              = "mapping";
-const Identifier ScopeSyncGUI::mappingParamId         = "parameter";
-const Identifier ScopeSyncGUI::mappingParamNameId     = "name";
-const Identifier ScopeSyncGUI::mappingMapToId         = "mapto";
-const Identifier ScopeSyncGUI::mappingTypeId          = "type";
-const Identifier ScopeSyncGUI::mappingDisplayTypeId   = "displaytype";
-const Identifier ScopeSyncGUI::mappingCustomDisplayId = "customdisplay";
-const Identifier ScopeSyncGUI::mappingSettingDownId   = "settingdown";
-const Identifier ScopeSyncGUI::mappingSettingUpId     = "settingup";
-const Identifier ScopeSyncGUI::mappingComponentNameId = "name";
-const Identifier ScopeSyncGUI::mappingSliderId        = "slider";
-const Identifier ScopeSyncGUI::mappingLabelId         = "label";
-const Identifier ScopeSyncGUI::mappingComboBoxId      = "combobox";
-const Identifier ScopeSyncGUI::mappingTextButtonId    = "textbutton";
-const Identifier ScopeSyncGUI::mappingRadioGroupId    = "radiogroup";
+const Identifier ScopeSyncGUI::mappingId                = "mapping";
+const Identifier ScopeSyncGUI::mappingParamId           = "parameter";
+const Identifier ScopeSyncGUI::mappingParamNameId       = "name";
+const Identifier ScopeSyncGUI::mappingMapToId           = "mapto";
+const Identifier ScopeSyncGUI::mappingTypeId            = "type";
+const Identifier ScopeSyncGUI::mappingDisplayTypeId     = "displaytype";
+const Identifier ScopeSyncGUI::mappingCustomDisplayId   = "customdisplay";
+const Identifier ScopeSyncGUI::mappingSettingDownId     = "settingdown";
+const Identifier ScopeSyncGUI::mappingSettingUpId       = "settingup";
+const Identifier ScopeSyncGUI::mappingComponentNameId   = "name";
+const Identifier ScopeSyncGUI::mappingSliderId          = "slider";
+const Identifier ScopeSyncGUI::mappingLabelId           = "label";
+const Identifier ScopeSyncGUI::mappingComboBoxId        = "combobox";
+const Identifier ScopeSyncGUI::mappingTextButtonId      = "textbutton";
+const Identifier ScopeSyncGUI::mappingTabbedComponentId = "tabbedcomponent";
+const Identifier ScopeSyncGUI::mappingRadioGroupId      = "radiogroup";
 
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
@@ -217,6 +218,7 @@ void ScopeSyncGUI::loadMapping()
     ValueTree labelMapping(mappingLabelId);
     ValueTree comboBoxMapping(mappingComboBoxId);
     ValueTree textButtonMapping(mappingTextButtonId);
+    ValueTree tabbedComponentMapping(mappingTabbedComponentId);
 
     forEachXmlChildElement(*mappingXml, child)
     {
@@ -251,6 +253,8 @@ void ScopeSyncGUI::loadMapping()
             labelMapping.addChild(mappingComponent, -1, nullptr);
         else if (xmlId == mappingComboBoxId)
             comboBoxMapping.addChild(mappingComponent, -1, nullptr);    
+        else if (xmlId == mappingTabbedComponentId)
+            tabbedComponentMapping.addChild(mappingComponent, -1, nullptr);    
         else if (xmlId == mappingTextButtonId)
         {
             String displayType = parameter->getStringAttribute(mappingDisplayTypeId, "standard");
@@ -289,6 +293,7 @@ void ScopeSyncGUI::loadMapping()
     deviceMapping.addChild(labelMapping, -1, nullptr);
     deviceMapping.addChild(comboBoxMapping, -1, nullptr);
     deviceMapping.addChild(textButtonMapping, -1, nullptr);
+    deviceMapping.addChild(tabbedComponentMapping, -1, nullptr);
     
     DBG("ScopeSyncGUI::loadMapping - Full mapping: " + deviceMapping.toXmlString());
 }

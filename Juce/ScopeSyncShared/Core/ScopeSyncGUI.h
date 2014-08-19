@@ -82,6 +82,7 @@ public:
     static const Identifier mappingLabelId;
     static const Identifier mappingComboBoxId;
     static const Identifier mappingTextButtonId;
+    static const Identifier mappingTabbedComponentId;
     static const Identifier mappingRadioGroupId;
 
     /* ====================== Public member variables ========================= */
