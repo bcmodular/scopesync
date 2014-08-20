@@ -83,10 +83,7 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
         items.add(parentComboBoxProperties.items[i]);
     }
     noChoicesText       = parentComboBoxProperties.noChoicesText;
-    bounds.width        = parentComboBoxProperties.bounds.width;
-    bounds.height       = parentComboBoxProperties.bounds.height;
-    bounds.x            = parentComboBoxProperties.bounds.x;
-    bounds.y            = parentComboBoxProperties.bounds.y;
+    bounds              = parentComboBoxProperties.bounds;
     bcmLookAndFeelId    = parentComboBoxProperties.bcmLookAndFeelId;
 };
 

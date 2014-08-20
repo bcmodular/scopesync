@@ -72,10 +72,7 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
     id               = parentTextButtonProperties.id;
     text             = parentTextButtonProperties.text;
     tooltip          = parentTextButtonProperties.tooltip;
-    bounds.width     = parentTextButtonProperties.bounds.width;
-    bounds.height    = parentTextButtonProperties.bounds.height;
-    bounds.x         = parentTextButtonProperties.bounds.x;
-    bounds.y         = parentTextButtonProperties.bounds.y;
+    bounds           = parentTextButtonProperties.bounds;
     radioGroupId     = parentTextButtonProperties.radioGroupId;
     bcmLookAndFeelId = parentTextButtonProperties.bcmLookAndFeelId;
     tabbedComponents = StringArray(parentTextButtonProperties.tabbedComponents);

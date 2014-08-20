@@ -59,8 +59,13 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
-      <FILE id="cMQ4C6" name="BCMComponentBounds.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Components/BCMComponentBounds.cpp"/>
+      <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
+      <FILE id="AbJaYe" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
+      <FILE id="gLWoeo" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>
+      <FILE id="rz7kvW" name="BCMImage.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMImage.h"/>
+      <FILE id="L0KUmc" name="BCMRectangle.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Components/BCMRectangle.cpp"/>
+      <FILE id="jCPoJJ" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMRectangle.h"/>
       <FILE id="s3Huix" name="BCMComponentBounds.h" compile="0" resource="0"
             file="../ScopeSyncShared/Components/BCMComponentBounds.h"/>
       <FILE id="ZZYuvE" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>

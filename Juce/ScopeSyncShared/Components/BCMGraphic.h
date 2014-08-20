@@ -1,6 +1,5 @@
 /**
- * Data structure for storing information about position and size
- * of a component
+ * Base class for graphics to be drawn onto a Component
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -25,25 +24,26 @@
  *  Jessica Brandt
  */
 
-#ifndef BCMCOMPONENTBOUNDS_H_INCLUDED
-#define BCMCOMPONENTBOUNDS_H_INCLUDED
-#include <JuceHeader.h>
+#ifndef BCMGRAPHIC_H_INCLUDED
+#define BCMGRAPHIC_H_INCLUDED
 
-class BCMComponentBounds
+#include <JuceHeader.h>
+#include "BCMComponentBounds.h"
+
+class BCMGraphic
 {
 public:
-    int                  width;
-    int                  height;
-    int                  x;
-    int                  y;
-    String               relativeRectangleString;
-    BorderSize<int>      borderSize; 
-    Justification::Flags justificationFlags;
-    bool                 onlyReduceInSize;
+    BCMGraphic(XmlElement& xml);
+    ~BCMGraphic();
 
-    enum BoundsType {standard, relativeRectangle, inset};
+    BCMComponentBounds bounds;
 
-    BoundsType boundsType;
+private:
+    virtual void dummy() {};
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMGraphic);
+
 };
 
-#endif  // BCMCOMPONENTBOUNDS_H_INCLUDED
+
+
+#endif  // BCMGRAPHIC_H_INCLUDED

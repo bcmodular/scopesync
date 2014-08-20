@@ -34,6 +34,8 @@
 #include "../Components/BCMComboBox.h"
 #include "../Components/BCMTextButton.h"
 #include "../Components/BCMTabbedComponent.h"
+#include "../Components/BCMRectangle.h"
+#include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
 #include "../Core/ScopeSyncGUI.h"
 
@@ -83,6 +85,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
         else if (child->hasTagName("textbutton"))      setupTextButton(*child);
         else if (child->hasTagName("tabbedcomponent")) setupTabbedComponent(*child);
         else if (child->hasTagName("combobox"))        setupComboBox(*child);
+        else if (child->hasTagName("rectangle"))       graphics.add(new BCMRectangle(*child));
+        else if (child->hasTagName("image"))           graphics.add(new BCMImage(*child));
     }
 }
 
@@ -93,8 +97,85 @@ void BCMComponent::paint(Graphics& g)
     if (backgroundImage.isValid())
     {
         g.setOpacity(1.0f);
-    
         g.drawImageWithin(backgroundImage, 0, 0, getWidth(), getHeight(), backgroundImagePlacement);
+    }
+
+    for (int i = 0; i < graphics.size(); i++)
+    {
+        BCMRectangle* rectangle = dynamic_cast<BCMRectangle*>(graphics[i]);
+    
+        if (rectangle)
+        {
+            drawBCMRectangle(g, *rectangle);
+            continue;
+        }
+
+        BCMImage* image = dynamic_cast<BCMImage*>(graphics[i]);
+
+        if (image)
+        {
+            drawBCMImage(g, *image);
+            continue;
+        }
+    }
+}
+
+void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
+{
+    if (rectangle.cornerSize >= 1.0f)
+    {
+        // We're drawing a rounded rectangle
+        g.setColour(Colour::fromString(rectangle.fillColour));
+        g.fillRoundedRectangle((float)rectangle.bounds.x, (float)rectangle.bounds.y, (float)rectangle.bounds.width, (float)rectangle.bounds.height, rectangle.cornerSize);
+
+        if (rectangle.outlineThickness > 0.0f)
+        {
+            g.setColour(Colour::fromString(rectangle.outlineColour));
+            g.drawRoundedRectangle((float)rectangle.bounds.x, (float)rectangle.bounds.y, (float)rectangle.bounds.width, (float)rectangle.bounds.height, 
+                                    rectangle.cornerSize, rectangle.outlineThickness);
+        }
+    }
+    else
+    {
+        // We're drawing a regular rectangle
+        g.setColour(Colour::fromString(rectangle.fillColour));
+        g.fillRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height);
+
+        if (rectangle.outlineThickness > 0.0f)
+        {
+            g.setColour(Colour::fromString(rectangle.outlineColour));
+            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundDoubleToInt(rectangle.outlineThickness));
+        }
+    }
+}
+
+void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
+{
+    bool useImageCache = gui.getScopeSync().getAppProperties().getBoolValue("useimagecache", true);
+
+    Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, configurationFileDirectoryPath);
+
+    if (loadedImage.isValid())
+    {
+        if (image.opacity < 1.0f)
+            g.setColour(Colours::black.withAlpha(image.opacity));
+        else
+            g.setColour(Colours::black);
+    
+        if (image.stretchMode == BCMImage::stretchedToFit)
+        {
+            g.drawImage(loadedImage, image.bounds.x, image.bounds.y, image.bounds.width, image.bounds.height,
+                        0, 0, loadedImage.getWidth(), loadedImage.getHeight());
+        }
+        else
+        {
+            RectanglePlacement::Flags placement = RectanglePlacement::centred;
+
+            if (image.stretchMode == BCMImage::maintainAspectOnlyReduce)
+                placement = (RectanglePlacement::Flags)(placement | RectanglePlacement::onlyReduceInSize);
+
+            g.drawImageWithin(loadedImage, image.bounds.x, image.bounds.y, image.bounds.width, image.bounds.height, placement, false);
+        }
     }
 }
 

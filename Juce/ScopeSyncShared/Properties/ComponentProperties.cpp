@@ -67,10 +67,7 @@ void ComponentProperties::initialise()
 void ComponentProperties::copyProperties(ComponentProperties& parentComponentProperties)
 {
     id                       = parentComponentProperties.id;
-    bounds.x                 = parentComponentProperties.bounds.x;
-    bounds.y                 = parentComponentProperties.bounds.y;
-    bounds.width             = parentComponentProperties.bounds.width;
-    bounds.height            = parentComponentProperties.bounds.height;
+    bounds                   = parentComponentProperties.bounds;
     backgroundColour         = parentComponentProperties.backgroundColour;
     backgroundImageFileName  = parentComponentProperties.backgroundImageFileName;
     backgroundImagePlacement = parentComponentProperties.backgroundImagePlacement;

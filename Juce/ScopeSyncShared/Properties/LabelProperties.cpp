@@ -70,10 +70,7 @@ void LabelProperties::copyProperties(LabelProperties& parentLabelProperties)
     name               = parentLabelProperties.name;
     id                 = parentLabelProperties.id;
     text               = parentLabelProperties.text;
-    bounds.width       = parentLabelProperties.bounds.width;
-    bounds.height      = parentLabelProperties.bounds.height;
-    bounds.x           = parentLabelProperties.bounds.x;
-    bounds.y           = parentLabelProperties.bounds.y;
+    bounds             = parentLabelProperties.bounds;
     fontHeight         = parentLabelProperties.fontHeight;
     fontStyleFlags     = parentLabelProperties.fontStyleFlags;
     justificationFlags = parentLabelProperties.justificationFlags;

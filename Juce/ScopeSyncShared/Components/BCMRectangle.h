@@ -1,6 +1,5 @@
 /**
- * Data structure for storing information about position and size
- * of a component
+ * A simple Rectangle class, for drawing onto a Component
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -25,25 +24,26 @@
  *  Jessica Brandt
  */
 
-#ifndef BCMCOMPONENTBOUNDS_H_INCLUDED
-#define BCMCOMPONENTBOUNDS_H_INCLUDED
+#ifndef BCMRECTANGLE_H_INCLUDED
+#define BCMRECTANGLE_H_INCLUDED
 #include <JuceHeader.h>
+#include "BCMGraphic.h"
 
-class BCMComponentBounds
+class BCMRectangle : public BCMGraphic
 {
 public:
-    int                  width;
-    int                  height;
-    int                  x;
-    int                  y;
-    String               relativeRectangleString;
-    BorderSize<int>      borderSize; 
-    Justification::Flags justificationFlags;
-    bool                 onlyReduceInSize;
+    BCMRectangle(XmlElement& xml);
+    ~BCMRectangle();
 
-    enum BoundsType {standard, relativeRectangle, inset};
+    float  cornerSize;
+    String fillColour;
+    float  outlineThickness;
+    String outlineColour;
 
-    BoundsType boundsType;
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMRectangle);
 };
 
-#endif  // BCMCOMPONENTBOUNDS_H_INCLUDED
+
+
+#endif  // BCMRECTANGLE_H_INCLUDED

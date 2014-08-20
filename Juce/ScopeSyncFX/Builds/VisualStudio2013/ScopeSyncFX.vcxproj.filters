@@ -274,7 +274,13 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.cpp">
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp">
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp">
@@ -1298,6 +1304,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.h">
+      <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h">
       <Filter>ScopeSyncFX\Source\Components</Filter>

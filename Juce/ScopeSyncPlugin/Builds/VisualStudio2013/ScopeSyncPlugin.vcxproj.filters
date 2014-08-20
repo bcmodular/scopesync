@@ -301,7 +301,13 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.cpp">
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp">
+      <Filter>ScopeSyncPlugin\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp">
+      <Filter>ScopeSyncPlugin\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp">
@@ -1415,6 +1421,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h">
+      <Filter>ScopeSyncPlugin\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h">
+      <Filter>ScopeSyncPlugin\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.h">
+      <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h">
       <Filter>ScopeSyncPlugin\Components</Filter>

@@ -37,6 +37,9 @@ class BCMComboBox;
 class BCMLabel;
 class BCMTextButton;
 class BCMTabbedComponent;
+class BCMGraphic;
+class BCMRectangle;
+class BCMImage;
 
 #include "JuceHeader.h"
 #include "../Components/BCMComponentBounds.h"
@@ -79,6 +82,7 @@ private:
     OwnedArray<BCMTextButton>      textButtons;               // BCMTextButtons owned by this Component
     OwnedArray<BCMComponent>       subComponents;             // BCMComponents owned by this Component
     OwnedArray<BCMTabbedComponent> tabbedComponents;          // BCMTabbedComponents owned by this Component
+    OwnedArray<BCMGraphic>         graphics;                  // BCMGraphics owned by this Component
     ScopeSyncGUI&                  gui;                       // Reference to the main ScopeSyncGUI
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
@@ -111,6 +115,12 @@ private:
     
     // Add a BCMTab to a BCMTabbedComponent
     void setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent);
+
+    // Draw a BCMRectangle on the canvas
+    void drawBCMRectangle(Graphics& g, BCMRectangle& rectangle);
+    
+    // Draw a BCMImage on the canvas
+    void drawBCMImage(Graphics& g, BCMImage& image);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComponent);
 };

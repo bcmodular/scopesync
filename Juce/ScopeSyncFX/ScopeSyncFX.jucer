@@ -51,8 +51,13 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
-        <FILE id="z9t8Qt" name="BCMComponentBounds.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Components/BCMComponentBounds.cpp"/>
+        <FILE id="WqAQsV" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
+        <FILE id="RFLS26" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
+        <FILE id="uTOHLc" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>
+        <FILE id="lNXRPK" name="BCMImage.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMImage.h"/>
+        <FILE id="cwLHW7" name="BCMRectangle.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMRectangle.cpp"/>
+        <FILE id="fQKnDZ" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMRectangle.h"/>
         <FILE id="SpYuYf" name="BCMComponentBounds.h" compile="0" resource="0"
               file="../ScopeSyncShared/Components/BCMComponentBounds.h"/>
         <FILE id="mXl8wg" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>
