@@ -45,6 +45,7 @@ public:
         targetBounds.borderSize              = borderSize;
         targetBounds.justificationFlags      = justificationFlags;
         targetBounds.onlyReduceInSize        = onlyReduceInSize;
+        targetBounds.boundsType              = boundsType;
     }
 
     int                  width;

@@ -15,11 +15,14 @@
   </mapping>
   <layout>
     <component backgroundcolour="ff2b2e30">
-      <bounds x="0" y="0" width="600" height="40"></bounds>
-      <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
-        <bounds x="170" y="10" width="21" height="21"></bounds>
-      </textbutton>
-      <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
+      <bounds x="0" y="0" width="700" height="40"></bounds>
+      <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
+          <bounds x="196" y="10" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
+          <bounds x="170" y="10" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
         <bounds x="170" y="10" width="21" height="21"></bounds>
       </textbutton>
       <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
@@ -27,7 +30,7 @@
       </component>
       <label lfid="system:systemerror" name="SystemError" text="">
         <justification right="true" />
-        <bounds x="200" y="10" width="400" height="20"></bounds>
+        <bounds x="226" y="10" width="474" height="20"></bounds>
       </label>
     </component>
   </layout>
