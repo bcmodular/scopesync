@@ -140,9 +140,10 @@
     </complexType>
 
     <complexType name="sliderrotaryimagestype">
-        <attribute name="filename" type="string"></attribute>
+    	<attribute name="filename" type="string"></attribute>
+        <attribute name="mouseoverfilename" type="string"></attribute>
         <attribute name="numframes" type="int"></attribute>
-        <attribute name="ishorizontal" type="boolean"></attribute>
+    	<attribute name="ishorizontal" type="boolean"></attribute>
     </complexType>
 
     <complexType name="sliderlinearimagestype">
@@ -438,7 +439,7 @@
 
         <attribute name="filename" type="tns:filenametype" use="required"></attribute>
         <attribute name="stretchmode" type="tns:stretchmodetype"></attribute>
-    	<attribute name="opacity" type="float">
+    	<attribute name="opacity">
     	   <simpleType>
                 <restriction base="float">
                     <minInclusive value="0.0"></minInclusive>
