@@ -126,25 +126,35 @@ private:
     
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     String rotaryFileName;
+    String rotaryMouseOverFileName;
     Image  rotary;
+    Image  rotaryMouseOver;
     int    rotaryNumFrames;
     int    rotaryFrameHeight;
     int	   rotaryFrameWidth;
     bool   rotaryIsHorizontal;
     String linearVerticalThumbFileName;
     Image  linearVerticalThumb;
+    String linearVerticalThumbMouseOverFileName;
+    Image  linearVerticalThumbMouseOver;
     int	   linearVerticalThumbBorder;
     String linearVerticalBackgroundFileName;
     Image  linearVerticalBackground;
+    String linearVerticalBackgroundMouseOverFileName;
+    Image  linearVerticalBackgroundMouseOver;
     int    linearVerticalBackgroundNumFrames;
     int    linearVerticalBackgroundFrameHeight;
     int	   linearVerticalBackgroundFrameWidth;
     bool   linearVerticalBackgroundIsHorizontal;
     String linearHorizontalThumbFileName;
     Image  linearHorizontalThumb;
+    String linearHorizontalThumbMouseOverFileName;
+    Image  linearHorizontalThumbMouseOver;
     int	   linearHorizontalThumbBorder;
     String linearHorizontalBackgroundFileName;
     Image  linearHorizontalBackground;
+    String linearHorizontalBackgroundMouseOverFileName;
+    Image  linearHorizontalBackgroundMouseOver;
     int    linearHorizontalBackgroundNumFrames;
     int    linearHorizontalBackgroundFrameHeight;
     int	   linearHorizontalBackgroundFrameWidth;

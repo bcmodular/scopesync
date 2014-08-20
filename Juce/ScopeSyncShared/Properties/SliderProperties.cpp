@@ -81,7 +81,10 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
 {
     name               = parentSliderProperties.name;
     id                 = parentSliderProperties.id;
-    bounds             = parentSliderProperties.bounds;
+    bounds.x           = parentSliderProperties.bounds.x;
+    bounds.y           = parentSliderProperties.bounds.y;
+    bounds.width       = parentSliderProperties.bounds.width;
+    bounds.height      = parentSliderProperties.bounds.height;
     rangeMin           = parentSliderProperties.rangeMin;
     rangeMax           = parentSliderProperties.rangeMax;
     rangeInt           = parentSliderProperties.rangeInt;

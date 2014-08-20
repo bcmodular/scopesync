@@ -54,7 +54,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
 
     backgroundColour = properties.backgroundColour;
 
-    componentBounds = properties.bounds;
+    properties.bounds.copyValues(componentBounds);
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
@@ -111,7 +111,7 @@ void BCMComponent::paint(Graphics& g)
         }
 
         BCMImage* image = dynamic_cast<BCMImage*>(graphics[i]);
-
+        
         if (image)
         {
             drawBCMImage(g, *image);

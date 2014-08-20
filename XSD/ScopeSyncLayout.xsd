@@ -147,11 +147,14 @@
     </complexType>
 
     <complexType name="sliderlinearimagestype">
-        <attribute name="thumbfilename" type="string"></attribute>
-        <attribute name="thumbborder" type="int"></attribute>
-        <attribute name="backgroundfilename" type="string"></attribute>
+    	<attribute name="thumbfilename" type="string"></attribute>
+    	<attribute name="thumbmouseoverfilename" type="string"></attribute>
+    	<attribute name="thumbborder" type="int"></attribute>
+    	<attribute name="backgroundfilename" type="string"></attribute>
+        <attribute name="backgroundmouseoverfilename" type="string"></attribute>
         <attribute name="backgroundnumframes" type="int"></attribute>
-        <attribute name="backgroundishorizontal" type="boolean"></attribute>
+    	<attribute name="backgroundishorizontal" type="boolean"></attribute>
+
     </complexType>
 
     <complexType name="textbuttonimagestype">

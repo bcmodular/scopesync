@@ -66,7 +66,10 @@ void TabbedComponentProperties::initialise()
 void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parentTabbedComponentProperties)
 {
     id                = parentTabbedComponentProperties.id;
-    bounds            = parentTabbedComponentProperties.bounds;
+    bounds.x          = parentTabbedComponentProperties.bounds.x;
+    bounds.y          = parentTabbedComponentProperties.bounds.y;
+    bounds.width      = parentTabbedComponentProperties.bounds.width;
+    bounds.height     = parentTabbedComponentProperties.bounds.height;
     tabBarDepth       = parentTabbedComponentProperties.tabBarDepth;
     showDropShadow    = parentTabbedComponentProperties.showDropShadow;
     tabBarOrientation = parentTabbedComponentProperties.tabBarOrientation;

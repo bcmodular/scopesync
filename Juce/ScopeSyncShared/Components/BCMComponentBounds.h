@@ -32,6 +32,21 @@
 class BCMComponentBounds
 {
 public:
+    BCMComponentBounds()  {};
+    ~BCMComponentBounds() {};
+
+    void copyValues(BCMComponentBounds& targetBounds)
+    {
+        targetBounds.width                   = width;
+        targetBounds.height                  = height;
+        targetBounds.x                       = x;
+        targetBounds.y                       = y;
+        targetBounds.relativeRectangleString = relativeRectangleString;
+        targetBounds.borderSize              = borderSize;
+        targetBounds.justificationFlags      = justificationFlags;
+        targetBounds.onlyReduceInSize        = onlyReduceInSize;
+    }
+
     int                  width;
     int                  height;
     int                  x;
@@ -44,6 +59,9 @@ public:
     enum BoundsType {standard, relativeRectangle, inset};
 
     BoundsType boundsType;
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComponentBounds);
 };
 
 #endif  // BCMCOMPONENTBOUNDS_H_INCLUDED

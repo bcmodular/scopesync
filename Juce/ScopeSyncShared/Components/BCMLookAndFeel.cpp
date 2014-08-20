@@ -118,6 +118,7 @@ void BCMLookAndFeel::initialise(bool cacheImages)
     useLinearVerticalSliderImage           = false;
     useLinearHorizontalSliderImage         = false;
     rotaryFileName                         = String::empty;
+    rotaryMouseOverFileName                = String::empty;
     rotaryNumFrames                        = 0;
     rotaryFrameWidth                       = 0;
     rotaryFrameHeight                      = 0;
@@ -154,6 +155,7 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
     useLinearVerticalSliderImage           = parentLookAndFeel.useLinearVerticalSliderImage;
     useLinearHorizontalSliderImage         = parentLookAndFeel.useLinearHorizontalSliderImage;
     rotaryFileName                         = parentLookAndFeel.rotaryFileName;
+    rotaryMouseOverFileName                = parentLookAndFeel.rotaryMouseOverFileName;
     rotaryNumFrames                        = parentLookAndFeel.rotaryNumFrames;
     rotaryFrameWidth                       = parentLookAndFeel.rotaryFrameWidth;
     rotaryFrameHeight                      = parentLookAndFeel.rotaryFrameHeight;
@@ -228,27 +230,32 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
-    rotaryFileName     = xml.getStringAttribute("filename",     rotaryFileName);
-    rotaryNumFrames    = xml.getIntAttribute   ("numframes",    rotaryNumFrames);
-    rotaryIsHorizontal = xml.getBoolAttribute  ("ishorizontal", rotaryIsHorizontal);
+    rotaryFileName          = xml.getStringAttribute("filename",          rotaryFileName);
+    rotaryMouseOverFileName = xml.getStringAttribute("mouseoverfilename", rotaryMouseOverFileName);
+    rotaryNumFrames         = xml.getIntAttribute   ("numframes",         rotaryNumFrames);
+    rotaryIsHorizontal      = xml.getBoolAttribute  ("ishorizontal",      rotaryIsHorizontal);
 }
 
 void BCMLookAndFeel::getLinearHorizontalSliderImagesFromXml(const XmlElement& xml)
 {
-    linearHorizontalThumbFileName          = xml.getStringAttribute("thumbfilename",          linearHorizontalThumbFileName);
-    linearHorizontalThumbBorder            = xml.getIntAttribute   ("thumbborder",            linearHorizontalThumbBorder);
-    linearHorizontalBackgroundFileName     = xml.getStringAttribute("backgroundfilename",     linearHorizontalBackgroundFileName);
-    linearHorizontalBackgroundNumFrames    = xml.getIntAttribute   ("backgroundnumframes",    linearHorizontalBackgroundNumFrames);
-    linearHorizontalBackgroundIsHorizontal = xml.getBoolAttribute  ("backgroundishorizontal", linearHorizontalBackgroundIsHorizontal);
+    linearHorizontalThumbFileName               = xml.getStringAttribute("thumbfilename",               linearHorizontalThumbFileName);
+    linearHorizontalThumbMouseOverFileName      = xml.getStringAttribute("thumbmouseoverfilename",      linearHorizontalThumbMouseOverFileName);
+    linearHorizontalThumbBorder                 = xml.getIntAttribute   ("thumbborder",                 linearHorizontalThumbBorder);
+    linearHorizontalBackgroundFileName          = xml.getStringAttribute("backgroundfilename",          linearHorizontalBackgroundFileName);
+    linearHorizontalBackgroundMouseOverFileName = xml.getStringAttribute("backgroundmouseoverfilename", linearHorizontalBackgroundMouseOverFileName);
+    linearHorizontalBackgroundNumFrames         = xml.getIntAttribute   ("backgroundnumframes",         linearHorizontalBackgroundNumFrames);
+    linearHorizontalBackgroundIsHorizontal      = xml.getBoolAttribute  ("backgroundishorizontal",      linearHorizontalBackgroundIsHorizontal);
 }
 
 void BCMLookAndFeel::getLinearVerticalSliderImagesFromXml(const XmlElement& xml)
 {
-    linearVerticalThumbFileName          = xml.getStringAttribute("thumbfilename",          linearVerticalThumbFileName);
-    linearVerticalThumbBorder            = xml.getIntAttribute   ("thumbborder",            linearVerticalThumbBorder);
-    linearVerticalBackgroundFileName     = xml.getStringAttribute("backgroundfilename",     linearVerticalBackgroundFileName);
-    linearVerticalBackgroundNumFrames    = xml.getIntAttribute   ("backgroundnumframes",    linearVerticalBackgroundNumFrames);
-    linearVerticalBackgroundIsHorizontal = xml.getBoolAttribute  ("backgroundishorizontal", linearVerticalBackgroundIsHorizontal);
+    linearVerticalThumbFileName               = xml.getStringAttribute("thumbfilename",               linearVerticalThumbFileName);
+    linearVerticalThumbMouseOverFileName      = xml.getStringAttribute("thumbmouseoverfilename",      linearVerticalThumbMouseOverFileName);
+    linearVerticalThumbBorder                 = xml.getIntAttribute   ("thumbborder",                 linearVerticalThumbBorder);
+    linearVerticalBackgroundFileName          = xml.getStringAttribute("backgroundfilename",          linearVerticalBackgroundFileName);
+    linearVerticalBackgroundMouseOverFileName = xml.getStringAttribute("backgroundmouseoverfilename", linearVerticalBackgroundMouseOverFileName);
+    linearVerticalBackgroundNumFrames         = xml.getIntAttribute   ("backgroundnumframes",         linearVerticalBackgroundNumFrames);
+    linearVerticalBackgroundIsHorizontal      = xml.getBoolAttribute  ("backgroundishorizontal",      linearVerticalBackgroundIsHorizontal);
 }
 
 void BCMLookAndFeel::getTextButtonImagesFromXml(const XmlElement& xml)
@@ -312,11 +319,18 @@ void BCMLookAndFeel::drawRotarySlider
     Slider&   slider
 )
 {
+    Image image;
+
+    if (slider.isMouseOverOrDragging())
+        image = rotaryMouseOver;
+    else
+        image = rotary;
+
     if (rotaryNumFrames > 0)
     {
         int frameIndex = (int)(sliderPosProportional * (rotaryNumFrames - 1));
 
-        Image indexImage = filmStripIndexImage(rotary, rotaryIsHorizontal, rotaryFrameWidth, rotaryFrameHeight, frameIndex);
+        Image indexImage = filmStripIndexImage(image, rotaryIsHorizontal, rotaryFrameWidth, rotaryFrameHeight, frameIndex);
 
         g.drawImageWithin(indexImage, x, y, width, height, RectanglePlacement::doNotResize);
     }
@@ -344,14 +358,29 @@ void BCMLookAndFeel::drawLinearSliderThumb
     if (useLinearVerticalSliderImage && (sliderStyle == Slider::LinearVertical))
     {
         g.setOpacity(1.0f);
-        g.drawImageAt(linearVerticalThumb,
+
+        Image image;
+
+        if (slider.isMouseOverOrDragging())
+            image = linearVerticalThumbMouseOver;
+        else
+            image = linearVerticalThumb;
+
+        g.drawImageAt(image,
                       (int)(x + (width / 2.0f) - (linearVerticalThumb.getWidth() / 2.0f)),
                       (int)(sliderPos - (linearVerticalThumb.getHeight() / 2.0f)));
     }
     else if (useLinearHorizontalSliderImage && (sliderStyle == Slider::LinearHorizontal))
     {
+        Image image;
+
+        if (slider.isMouseOverOrDragging())
+            image = linearHorizontalThumbMouseOver;
+        else
+            image = linearHorizontalThumb;
+
         g.setOpacity(1.0f);
-        g.drawImageAt(linearHorizontalThumb,
+        g.drawImageAt(image,
                       (int)(sliderPos - (linearHorizontalThumb.getWidth() / 2.0f)),
                       (int)(y + (height / 2.0f) - (linearHorizontalThumb.getHeight() / 2.0f)));
     }
@@ -389,7 +418,13 @@ void BCMLookAndFeel::drawLinearSliderBackground
     {
         int frameIndex = (int)((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearVerticalBackgroundNumFrames - 1));
 
-        Image indexImage = filmStripIndexImage(linearVerticalBackground, linearVerticalBackgroundIsHorizontal, linearVerticalBackgroundFrameWidth, linearVerticalBackgroundFrameHeight, frameIndex);
+        Image indexImage;
+        
+        if (slider.isMouseOverOrDragging())
+            indexImage = filmStripIndexImage(linearVerticalBackgroundMouseOver, linearVerticalBackgroundIsHorizontal, linearVerticalBackgroundFrameWidth, linearVerticalBackgroundFrameHeight, frameIndex);
+        else
+            indexImage = filmStripIndexImage(linearVerticalBackground, linearVerticalBackgroundIsHorizontal, linearVerticalBackgroundFrameWidth, linearVerticalBackgroundFrameHeight, frameIndex);
+
         g.setOpacity(1.0f);
         g.drawImageAt(indexImage, (int)(x + (width / 2.0f) - (indexImage.getWidth() / 2.0f)), y);
     }
@@ -397,7 +432,12 @@ void BCMLookAndFeel::drawLinearSliderBackground
     {
         int frameIndex = (int)((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearHorizontalBackgroundNumFrames - 1));
 
-        Image indexImage = filmStripIndexImage(linearHorizontalBackground, linearHorizontalBackgroundIsHorizontal, linearHorizontalBackgroundFrameWidth, linearHorizontalBackgroundFrameHeight, frameIndex);
+        Image indexImage;
+        
+        if (slider.isMouseOverOrDragging())
+            indexImage = filmStripIndexImage(linearHorizontalBackgroundMouseOver, linearHorizontalBackgroundIsHorizontal, linearHorizontalBackgroundFrameWidth, linearHorizontalBackgroundFrameHeight, frameIndex);
+        else
+            indexImage = filmStripIndexImage(linearHorizontalBackground, linearHorizontalBackgroundIsHorizontal, linearHorizontalBackgroundFrameWidth, linearHorizontalBackgroundFrameHeight, frameIndex);
 
         g.setOpacity(1.0f);
         g.drawImageAt(indexImage, x, (int)(y + (height / 2.0f) - (indexImage.getHeight() / 2.0f)));
@@ -488,10 +528,16 @@ void BCMLookAndFeel::setRotarySliderImage()
 {
     if (rotaryFileName.isNotEmpty())
     {
-        rotary = ImageLoader::getInstance()->loadImage(rotaryFileName, useImageCache, configurationFileDirectoryPath);
+        rotary          = ImageLoader::getInstance()->loadImage(rotaryFileName, useImageCache, configurationFileDirectoryPath);
+        
+        if (rotaryMouseOverFileName.isNotEmpty())
+            rotaryMouseOver = ImageLoader::getInstance()->loadImage(rotaryMouseOverFileName, useImageCache, configurationFileDirectoryPath);
 
         if (rotary.isValid())
         {
+            if (!(rotaryMouseOver.isValid()))
+                rotaryMouseOver = rotary;
+
             if (rotaryIsHorizontal)
             {
                 rotaryFrameHeight = rotary.getHeight();
@@ -512,68 +558,102 @@ void BCMLookAndFeel::setRotarySliderImage()
 
 void BCMLookAndFeel::setLinearSliderImages()
 {
-    useLinearVerticalSliderImage = true;
-    useLinearHorizontalSliderImage = true;
-
+    useLinearVerticalSliderImage   = false;
+    
     // Set up Image and values for Vertical Slider Thumbs
     if (linearVerticalThumbFileName.isNotEmpty())
         linearVerticalThumb = ImageLoader::getInstance()->loadImage(linearVerticalThumbFileName, useImageCache, configurationFileDirectoryPath);
-    else
-        useLinearVerticalSliderImage = false;
+    
+    if (linearVerticalThumb.isValid())
+        useLinearVerticalSliderImage = true;
+
+    if (useLinearVerticalSliderImage)
+    {
+        if (linearVerticalThumbMouseOverFileName.isNotEmpty())
+            linearVerticalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalThumbMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+
+        if (!(linearVerticalThumbMouseOver.isValid()))
+            linearVerticalThumbMouseOver = linearVerticalThumb;
+
+        // Set up Image and values for Vertical Slider Backgrounds
+        if (linearVerticalBackgroundFileName.isNotEmpty())
+        {
+            linearVerticalBackground = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
+
+            if (linearVerticalBackgroundMouseOverFileName.isNotEmpty())
+                linearVerticalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+
+            if (linearVerticalBackground.isValid())
+            {
+                if (!(linearVerticalBackgroundMouseOver.isValid()))
+                    linearVerticalBackgroundMouseOver = linearVerticalBackground;
+
+                if (linearVerticalBackgroundIsHorizontal)
+                {
+                    linearVerticalBackgroundFrameHeight = linearVerticalBackground.getHeight();
+                    linearVerticalBackgroundFrameWidth = linearVerticalBackground.getWidth() / linearVerticalBackgroundNumFrames;
+                }
+                else
+                {
+                    linearVerticalBackgroundFrameHeight = linearVerticalBackground.getHeight() / linearVerticalBackgroundNumFrames;
+                    linearVerticalBackgroundFrameWidth = linearVerticalBackground.getWidth();
+                }
+            }
+            else
+                linearVerticalBackgroundNumFrames = 0;
+        }
+        else
+            linearVerticalBackgroundNumFrames = 0;
+
+    }
+
+    useLinearHorizontalSliderImage = false;
 
     // Set up Image and values for Horizontal Slider Thumbs
     if (linearHorizontalThumbFileName.isNotEmpty())
         linearHorizontalThumb = ImageLoader::getInstance()->loadImage(linearHorizontalThumbFileName, useImageCache, configurationFileDirectoryPath);
-    else
-        useLinearHorizontalSliderImage = false;
     
-    // Set up Image and values for Vertical Slider Backgrounds
-    if (linearVerticalBackgroundFileName.isNotEmpty())
+    if (linearHorizontalThumb.isValid())
+        useLinearHorizontalSliderImage = true;
+    
+    if (useLinearHorizontalSliderImage)
     {
-        linearVerticalBackground = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
+        if (linearHorizontalThumbMouseOverFileName.isNotEmpty())
+            linearHorizontalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalThumbMouseOverFileName, useImageCache, configurationFileDirectoryPath);
 
-        if (linearVerticalBackground.isValid())
+        if (!(linearHorizontalThumbMouseOver.isValid()))
+            linearHorizontalThumbMouseOver = linearHorizontalThumb;
+
+        // Set up Image and values for Horizontal Slider Backgrounds
+        if (linearHorizontalBackgroundFileName.isNotEmpty())
         {
-            if (linearVerticalBackgroundIsHorizontal)
+            linearHorizontalBackground = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
+
+            if (linearHorizontalBackgroundMouseOverFileName.isNotEmpty())
+                linearHorizontalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+
+            if (linearHorizontalBackground.isValid())
             {
-                linearVerticalBackgroundFrameHeight = linearVerticalBackground.getHeight();
-                linearVerticalBackgroundFrameWidth = linearVerticalBackground.getWidth() / linearVerticalBackgroundNumFrames;
+                if (!(linearHorizontalBackgroundMouseOver.isValid()))
+                    linearHorizontalBackgroundMouseOver = linearHorizontalBackground;
+
+                if (linearHorizontalBackgroundIsHorizontal)
+                {
+                    linearHorizontalBackgroundFrameHeight = linearHorizontalBackground.getHeight();
+                    linearHorizontalBackgroundFrameWidth  = linearHorizontalBackground.getWidth() / linearHorizontalBackgroundNumFrames;
+                }
+                else
+                {
+                    linearHorizontalBackgroundFrameHeight = linearHorizontalBackground.getHeight() / linearHorizontalBackgroundNumFrames;
+                    linearHorizontalBackgroundFrameWidth  = linearHorizontalBackground.getWidth();
+                }
             }
             else
-            {
-                linearVerticalBackgroundFrameHeight = linearVerticalBackground.getHeight() / linearVerticalBackgroundNumFrames;
-                linearVerticalBackgroundFrameWidth = linearVerticalBackground.getWidth();
-            }
-        }
-        else
-            linearVerticalBackgroundNumFrames = 0;
-    }
-    else
-        linearVerticalBackgroundNumFrames = 0;
-    
-    // Set up Image and values for Horizontal Slider Backgrounds
-    if (linearHorizontalBackgroundFileName.isNotEmpty())
-    {
-        linearHorizontalBackground = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
-
-        if (linearHorizontalBackground.isValid())
-        {
-            if (linearHorizontalBackgroundIsHorizontal)
-            {
-                linearHorizontalBackgroundFrameHeight = linearHorizontalBackground.getHeight();
-                linearHorizontalBackgroundFrameWidth  = linearHorizontalBackground.getWidth() / linearHorizontalBackgroundNumFrames;
-            }
-            else
-            {
-                linearHorizontalBackgroundFrameHeight = linearHorizontalBackground.getHeight() / linearHorizontalBackgroundNumFrames;
-                linearHorizontalBackgroundFrameWidth  = linearHorizontalBackground.getWidth();
-            }
+                linearHorizontalBackgroundNumFrames = 0;
         }
         else
             linearHorizontalBackgroundNumFrames = 0;
     }
-    else
-        linearHorizontalBackgroundNumFrames = 0;
 };
 
 void BCMLookAndFeel::setTextButtonImages()

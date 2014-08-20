@@ -98,7 +98,7 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
     
     setTooltip(tooltip);
     
-    componentBounds = properties.bounds;
+    properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL
 }

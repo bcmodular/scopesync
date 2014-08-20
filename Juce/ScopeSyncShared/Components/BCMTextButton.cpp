@@ -226,7 +226,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
     
-    componentBounds = properties.bounds;
+    properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL
 }

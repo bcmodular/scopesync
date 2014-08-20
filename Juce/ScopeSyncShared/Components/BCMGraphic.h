@@ -34,14 +34,13 @@ class BCMGraphic
 {
 public:
     BCMGraphic(XmlElement& xml);
-    ~BCMGraphic();
+    virtual ~BCMGraphic();
 
     BCMComponentBounds bounds;
 
 private:
     virtual void dummy() {};
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMGraphic);
-
 };
 
 
