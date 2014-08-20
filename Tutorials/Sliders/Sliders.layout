@@ -106,36 +106,36 @@
       <bounds x="0" y="0" width="936" height="300"></bounds>
       <!--Header Section-->
       <component>
-        <bounds x="3" y="7" width="936" height="40"></bounds>
+        <bounds x="0" y="1" width="936" height="40"></bounds>
         <label lfid="Config Name" name="configurationname" text="Current Configuration">
-          <bounds x="170" y="4" width="160" height="17"></bounds>
+          <bounds x="177" y="11" width="160" height="17"></bounds>
           <font bold="true" height="12"></font>
         </label>
         <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
-          <bounds x="366" y="2" width="21" height="21"></bounds>
+          <bounds x="373" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
-          <bounds x="340" y="2" width="21" height="21"></bounds>
+          <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
-          <bounds x="340" y="2" width="21" height="21"></bounds>
+          <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
+        <label lfid="system:systemerror" name="SystemError" text="">
+          <justification right="true" />
+          <bounds x="397" y="9" width="300" height="20"></bounds>
+        </label>
         <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
-          <bounds relativerectangle="right - 32, 2, parent.width - 0, top + 21"></bounds>
+          <bounds relativerectangle="right - 32, 9, parent.width - 0, top + 21"></bounds>
         </textbutton>
         <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
           <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 6, top + 21"></bounds>
         </textbutton>
         <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
-          <bounds x="6" y="4" width="151" height="16"></bounds>
+          <bounds x="13" y="11" width="151" height="16"></bounds>
         </component>
-        <label lfid="system:systemerror" name="SystemError" text="">
-          <justification right="true" />
-          <bounds x="390" y="2" width="410" height="20"></bounds>
-        </label>
         <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
         <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
-          <bounds relativerectangle="right - 57, 0, parent.width - 71, top + 32"></bounds>
+          <bounds relativerectangle="right - 57, 7, parent.width - 71, top + 32"></bounds>
           <tabbar orientation="right" depth="0"></tabbar>
           <tab idx="1" name="DISCONNECTED">
             <component>
@@ -154,15 +154,15 @@
           </tab>
         </tabbedcomponent>
         <component displaycontext="scope" backgroundcolour="00000000">
-          <bounds x="450" y="0" width="20" height="20"></bounds>
+          <bounds relativerectangle="right - 2, 0, parent.width - 132, top + 2"></bounds>
           <!--CP<->Host Disconnected-->
           <textbutton name="B65">
-            <bounds x="30" y="30" width="5" height="5"></bounds>
+            <bounds x="3" y="3" width="1" height="1"></bounds>
             <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
           </textbutton>
           <!--CP<->Host Connected-->
           <textbutton name="B66">
-            <bounds x="30" y="30" width="5" height="5"></bounds>
+            <bounds x="3" y="3" width="1" height="1"></bounds>
             <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
           </textbutton>
         </component>
