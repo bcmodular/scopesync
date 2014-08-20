@@ -106,7 +106,7 @@
       <bounds x="0" y="0" width="936" height="300"></bounds>
       <!--Header Section-->
       <component>
-        <bounds x="7" y="7" width="936" height="40"></bounds>
+        <bounds x="3" y="7" width="936" height="40"></bounds>
         <label lfid="Config Name" name="configurationname" text="Current Configuration">
           <bounds x="170" y="4" width="160" height="17"></bounds>
           <font bold="true" height="12"></font>
@@ -120,22 +120,22 @@
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
           <bounds x="340" y="2" width="21" height="21"></bounds>
         </textbutton>
-        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
-          <bounds x="860" y="2" width="32" height="21"></bounds>
+        <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+          <bounds relativerectangle="right - 32, 2, parent.width - 0, top + 21"></bounds>
         </textbutton>
-        <textbutton lfid="system:settings_button" name="showusersettings" text="" tooltip="Open User Settings panel">
-          <bounds x="898" y="2" width="32" height="21"></bounds>
+        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+          <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 6, top + 21"></bounds>
         </textbutton>
         <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
           <bounds x="6" y="4" width="151" height="16"></bounds>
         </component>
         <label lfid="system:systemerror" name="SystemError" text="">
           <justification right="true" />
-        <bounds x="390" y="2" width="410" height="20"></bounds>
-      </label>
+          <bounds x="390" y="2" width="410" height="20"></bounds>
+        </label>
         <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
         <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
-          <bounds x="803" y="0" width="57" height="32"></bounds>
+          <bounds relativerectangle="right - 57, 0, parent.width - 71, top + 32"></bounds>
           <tabbar orientation="right" depth="0"></tabbar>
           <tab idx="1" name="DISCONNECTED">
             <component>
@@ -215,7 +215,9 @@
           </textbox>
         </slider>
         <label name="s2">
-          <bounds><bordersize top="45" bottom="170" left="5" right="127" /></bounds>
+          <bounds>
+            <bordersize top="45" bottom="170" left="5" right="127" />
+          </bounds>
           <font bold="true" height="12"></font>
           <justification horizontallycentred="true" />
         </label>
