@@ -169,10 +169,6 @@
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
           <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
-        <label lfid="system:systemerror" name="SystemError" text="">
-          <justification right="true" />
-          <bounds x="397" y="9" width="300" height="20"></bounds>
-        </label>
         <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
           <bounds relativerectangle="right - 32, 9, parent.width - 0, top + 21"></bounds>
         </textbutton>
