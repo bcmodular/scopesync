@@ -388,14 +388,14 @@ void ScopeSync::getSnapshot(Array<std::pair<int, int>>& snapshotSubset, int numE
 #endif // __DLL_EFFECT__
 }
 
-Value& ScopeSync::getConfigurationName()
+String ScopeSync::getConfigurationName()
 {
-    return configurationName;
+    return configurationName.getValue();
 };
 
-Value& ScopeSync::getConfigurationFilePath()
+String ScopeSync::getConfigurationFilePath()
 {
-    return configurationFilePath;
+    return configurationFilePath.getValue();
 };
 
 Value& ScopeSync::getSystemError()
@@ -461,7 +461,7 @@ bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState, bool clearS
     
     ScopedPointer<XmlElement> configElement;
 
-    if (loadLoader)
+    if (loadLoader || configurationFilePath.getValue().toString().isEmpty())
     {
         XmlDocument configurationDocument(loaderConfiguration);
         configElement = configurationDocument.getDocumentElement();

@@ -48,11 +48,11 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
     
     if (getName().equalsIgnoreCase("configurationfilepath"))
     {
-        labelText = gui.getScopeSync().getConfigurationFilePath().getValue();
+        labelText = gui.getScopeSync().getConfigurationFilePath();
     }
     else if (getName().equalsIgnoreCase("configurationname"))
     {
-        labelText = gui.getScopeSync().getConfigurationName().getValue();
+        labelText = gui.getScopeSync().getConfigurationName();
     }
     else
     {

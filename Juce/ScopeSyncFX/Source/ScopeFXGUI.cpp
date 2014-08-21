@@ -74,7 +74,7 @@ void ScopeFXGUI::timerCallback()
         firstTimeShow = false;
     }
 
-    String newWindowName = scopeFX->getScopeSync().getConfigurationName().getValue();
+    String newWindowName = scopeFX->getScopeSync().getConfigurationName();
 
     if (windowName != newWindowName)
     {

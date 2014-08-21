@@ -99,8 +99,8 @@ public:
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
     /* =================== Public Configuration Methods ====================== */
-    Value&          getConfigurationName();
-    Value&          getConfigurationFilePath();
+    String          getConfigurationName();
+    String          getConfigurationFilePath();
     void            setConfigurationFilePath(const String& newFilePath, bool retainState);
     XmlElement&     getConfiguration() { return configurationXml; };
     XmlElement*     getSystemLookAndFeels();

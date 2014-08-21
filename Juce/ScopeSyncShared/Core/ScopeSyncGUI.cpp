@@ -78,7 +78,7 @@ void ScopeSyncGUI::showUserSettings()
 
 void ScopeSyncGUI::chooseConfiguration()
 {
-    File configurationFile(scopeSync.getConfigurationFilePath().getValue());
+    File configurationFile(scopeSync.getConfigurationFilePath());
     File configurationFileDirectory = configurationFile.getParentDirectory();
 
     FileChooser fileChooser ("Please select the configuration file you want to load...",
@@ -315,9 +315,9 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
-        File configurationFile(scopeSync.getConfigurationFilePath().getValue());
+        File configurationFile(scopeSync.getConfigurationFilePath());
         String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
-
+        
         String id = lookAndFeelXML.getStringAttribute("id");
         DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
@@ -405,7 +405,7 @@ void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
 
 void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
-    File configurationFile(scopeSync.getConfigurationFilePath().getValue());
+    File configurationFile(scopeSync.getConfigurationFilePath());
     String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
 
     addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));

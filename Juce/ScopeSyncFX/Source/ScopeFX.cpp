@@ -140,7 +140,11 @@ void ScopeFX::timerCallback()
         windowHandlerDelay--;
     }
 
-    if (newConfigurationFile.isNotEmpty() && !(newConfigurationFile.equalsIgnoreCase(scopeSync.getConfigurationFilePath().getValue())))
+    if (newConfigurationFile.equalsIgnoreCase("No Config Loaded") && scopeSync.getConfigurationFilePath().isNotEmpty())
+    {
+        scopeSync.setConfigurationFilePath(String::empty, false);
+    }
+    else if (!(newConfigurationFile.equalsIgnoreCase("No Config Loaded")) && !(newConfigurationFile.equalsIgnoreCase(scopeSync.getConfigurationFilePath())))
     {
         scopeSync.setConfigurationFilePath(newConfigurationFile, false);
     }
