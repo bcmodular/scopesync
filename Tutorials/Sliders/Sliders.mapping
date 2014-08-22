@@ -192,5 +192,5 @@
 	<textbutton name="B66"><parameter name="PARAM129" settingdown="CONNECTED"          type="toggle"/></textbutton>
 	<textbutton name="B67"><parameter name="PARAM130" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
 	<textbutton name="B68"><parameter name="PARAM131" settingdown="ON" settingup="OFF" type="toggle"/></textbutton>
-	<textbutton name="B69"><parameter name="PARAM132" settingdown="ON" settingup="OFF" type="notoggle"/></textbutton>
+	<textbutton name="B69"><parameter name="PARAM132" settingdown="ON"                 type="notoggle"/></textbutton>
 </mapping>

@@ -10,7 +10,7 @@
   </device>
   <mapping>
     <textbutton name="B69">
-      <parameter name="PARAM132" settingdown="ON" settingup="OFF" type="notoggle" />
+      <parameter name="PARAM132" settingdown="ON" type="notoggle" />
     </textbutton>
   </mapping>
   <layout>

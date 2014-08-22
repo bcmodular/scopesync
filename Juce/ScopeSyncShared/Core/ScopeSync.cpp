@@ -1158,7 +1158,7 @@ const String ScopeSync::loaderConfiguration =
 "  </device>\n"
 "  <mapping>\n"
 "    <textbutton name=\"B69\">\n"
-"      <parameter name=\"PARAM132\" settingdown=\"ON\" settingup=\"OFF\" type=\"notoggle\" />\n"
+"      <parameter name=\"PARAM132\" settingdown=\"ON\" type=\"notoggle\" />\n"
 "    </textbutton>\n"
 "  </mapping>\n"
 "  <layout>\n"
