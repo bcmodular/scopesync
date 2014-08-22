@@ -51,11 +51,8 @@ public:
 private:
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
 
-    int width;
-    int height;
-
     static const int timerInterval;
-    void paint(Graphics& /* g */) {};
+    void paint(Graphics& g);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginGUI)
 };

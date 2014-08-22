@@ -38,8 +38,8 @@ PluginGUI::PluginGUI (PluginProcessor* owner)
 {
     scopeSyncGUI = new ScopeSyncGUI(*(owner->getScopeSync()));
     
-    width  = jmin(scopeSyncGUI->getWidth(), 10);
-    height = jmin(scopeSyncGUI->getHeight(), 10);
+    int width  = jmax(scopeSyncGUI->getWidth(), 100);
+    int height = jmax(scopeSyncGUI->getHeight(), 100);
     
     DBG("PluginGUI::PluginGUI - Creating scopeSyncGUI, width=" + String(width) + ", height=" + String(height));
     
@@ -59,24 +59,29 @@ void PluginGUI::timerCallback()
     // In case the mainComponent of the scopeSyncGUI has been changed
     // such that the size has changed, then change our plugin size
     bool sizeChanged = false;
+    int newWidth  = jmax(scopeSyncGUI->getWidth(), 100);
+    int newHeight = jmax(scopeSyncGUI->getHeight(), 100);
 
-    if (width != scopeSyncGUI->getWidth())
+    if (getWidth() != newWidth)
     {
-        width = scopeSyncGUI->getWidth();
         sizeChanged = true;
     }
 
-    if (height != scopeSyncGUI->getHeight())
+    if (getHeight() != newHeight)
     {
-        height = scopeSyncGUI->getHeight();
         sizeChanged = true;
     }
 
     if (sizeChanged)
     {
-        DBG("PluginGUI::timerCallback - GUI size changed");
-        setSize(width, height);
+        DBG("PluginGUI::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
+        setSize(newWidth, newHeight);
     }
+}
+
+void PluginGUI::paint(Graphics& g)
+{
+    g.fillAll(Colour::fromString("FF2D3035"));
 }
 
 #endif  // __DLLEFFECT__

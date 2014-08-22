@@ -133,10 +133,10 @@ private:
 
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
-    bool overrideParameterTypes(XmlElement& parameterTypesXml);
+    bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
     void getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterType);
     void readUISkewFactorXml   (const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue);
-    bool loadDeviceParameters(XmlElement& deviceXml);
+    bool loadDeviceParameters(XmlElement& deviceXml, bool loadLoader);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);
     void clearSystemError() { systemError.setValue(String::empty); };

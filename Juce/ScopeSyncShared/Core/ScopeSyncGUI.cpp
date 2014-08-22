@@ -315,8 +315,15 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
-        File configurationFile(scopeSync.getConfigurationFilePath());
-        String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
+        File configurationFile;
+
+        if (File::isAbsolutePath(scopeSync.getConfigurationFilePath()))
+            configurationFile = File(scopeSync.getConfigurationFilePath());
+
+        String configurationFileDirectory = String::empty;
+
+        if (configurationFile.existsAsFile())
+            configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
         
         String id = lookAndFeelXML.getStringAttribute("id");
         DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
@@ -405,9 +412,16 @@ void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
 
 void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
-    File configurationFile(scopeSync.getConfigurationFilePath());
-    String configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
+    File configurationFile;
 
+    if (File::isAbsolutePath(scopeSync.getConfigurationFilePath()))
+        configurationFile = File(scopeSync.getConfigurationFilePath());
+
+    String configurationFileDirectory = String::empty;
+
+    if (configurationFile.existsAsFile())
+        configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
+        
     addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));
     
     mainComponent->applyProperties(componentXML, configurationFileDirectory);

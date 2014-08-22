@@ -216,7 +216,7 @@ void PluginProcessor::getStateInformation (MemoryBlock& destData)
     root.addChildElement(parameterValues);
     
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
-    configurationFilePathXml->addTextElement(scopeSync->getConfigurationFilePath().getValue());
+    configurationFilePathXml->addTextElement(scopeSync->getConfigurationFilePath());
 
     copyXmlToBinary(root, destData);
 

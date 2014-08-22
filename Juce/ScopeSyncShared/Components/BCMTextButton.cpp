@@ -304,30 +304,39 @@ void BCMTextButton::clicked()
     }
     else
     {
-        if (getName() == "snapshot")
+        if (getName().equalsIgnoreCase("snapshot"))
         {
             // force sync of all controls
             gui.getScopeSync().snapshot();
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }
-        else if (getName() == "showusersettings")
+        else if (getName().equalsIgnoreCase("showusersettings"))
         {
             gui.showUserSettings();
         }
-        else if (getName() == "chooseconfiguration")
+        else if (getName().equalsIgnoreCase("chooseconfiguration"))
         {
             if (!(gui.getScopeSync().configurationIsLoading()))
             {
                 gui.chooseConfiguration();
             }
         }
-        else if (getName() == "reloadconfiguration")
+        else if (getName().equalsIgnoreCase("reloadconfiguration"))
         {
             if (!(gui.getScopeSync().configurationIsLoading()))
             {
                 gui.getScopeSync().storeParameterValues();    
                 gui.getScopeSync().loadConfiguration(false, true, true);
+                clicksBlocked = true;
+                startTimer(clickBlockDuration);
+            }
+        }
+        else if (getName().equalsIgnoreCase("unloadconfiguration"))
+        {
+            if (!(gui.getScopeSync().configurationIsLoading()))
+            {
+                gui.getScopeSync().setConfigurationFilePath(String::empty, false);
                 clicksBlocked = true;
                 startTimer(clickBlockDuration);
             }

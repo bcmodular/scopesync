@@ -459,35 +459,34 @@ bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState, bool clearS
         return false;
     }
     
-    ScopedPointer<XmlElement> configElement;
+    File configurationFile;
 
-    if (loadLoader || configurationFilePath.getValue().toString().isEmpty())
+    if (File::isAbsolutePath(getConfigurationFilePath()))
+        configurationFile = File(getConfigurationFilePath());
+    else
+        loadLoader;
+
+    ScopedPointer<XmlElement> configElement;
+    
+    if (loadLoader || !(configurationFile.existsAsFile()))
     {
         XmlDocument configurationDocument(loaderConfiguration);
         configElement = configurationDocument.getDocumentElement();
+        loadLoader = true;
     }
     else
     {
-        File configurationFile(configurationFilePath.getValue());
-
         DBG("ScopeSync::loadConfiguration - Trying to load: " + configurationFile.getFullPathName());
 
-        if (!(configurationFile.existsAsFile()))
-        {
-            setSystemError("Configuration file not found");
-            setConfigurationLoading(false);
-            loadConfiguration(true, false, false);
-            return false;
-        }
-    
         XmlDocument configurationDocument(configurationFile);
         configElement = configurationDocument.getDocumentElement();
         
         if (configElement == nullptr)
         {
             AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "Configuration XML Parsing error: " + configurationDocument.getLastParseError());
-            setConfigurationLoading(false);
-            return false;
+            XmlDocument configurationDocument(loaderConfiguration);
+            configElement = configurationDocument.getDocumentElement();
+            loadLoader = true;
         }
     }
     
@@ -496,18 +495,18 @@ bool ScopeSync::loadConfiguration(bool loadLoader, bool retainState, bool clearS
 
     XmlElement* paramTypesXml = configurationXml.getChildByName("paramtypes");
     if (paramTypesXml)
-        overrideParameterTypes(*paramTypesXml);
+        overrideParameterTypes(*paramTypesXml, loadLoader);
     
     XmlElement* deviceXml = configurationXml.getChildByName("device");
     if (deviceXml)
-        loadDeviceParameters(*deviceXml);
+        loadDeviceParameters(*deviceXml, loadLoader);
     
     XmlElement* mappingXml = configurationXml.getChildByName("mapping");
-    if (mappingXml && mappingXml->hasAttribute("filename"))
+    if (!loadLoader && mappingXml && mappingXml->hasAttribute("filename"))
         loadMappingFile(*mappingXml);
     
     XmlElement* layoutXml = configurationXml.getChildByName("layout");
-    if (layoutXml && layoutXml->hasAttribute("filename"))
+    if (!loadLoader && layoutXml && layoutXml->hasAttribute("filename"))
         loadLayoutFile(*layoutXml);
     
 #ifndef __DLL_EFFECT__
@@ -633,14 +632,12 @@ bool ScopeSync::loadSystemParameterTypes()
     return true;
 }
 
-bool ScopeSync::overrideParameterTypes(XmlElement& parameterTypesXml)
+bool ScopeSync::overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader)
 {
-    if (parameterTypesXml.hasAttribute("filename"))
+    if (!loadLoader && parameterTypesXml.hasAttribute("filename"))
     {
-        File configurationFile(configurationFilePath.getValue());
-        File configurationFileDir = configurationFile.getParentDirectory();
-
-        File parameterTypesFile = configurationFileDir.getChildFile(parameterTypesXml.getStringAttribute("filename"));
+        File configurationFile(getConfigurationFilePath());
+        File parameterTypesFile = configurationFile.getSiblingFile(parameterTypesXml.getStringAttribute("filename"));
         
         DBG("ScopeSync::overrideParameterTypes - Trying to load: " + parameterTypesFile.getFullPathName());
 
@@ -826,14 +823,12 @@ void ScopeSync::readUISkewFactorXml(const XmlElement& xml, ValueTree& parameterT
     parameterType.setProperty(BCMParameter::paramTypeSkewUIOnlyId, xml.getBoolAttribute("uionly", false), nullptr);
 }
 
-bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
+bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml, bool loadLoader)
 {
-    if (deviceXml.hasAttribute("filename"))
+    if (!loadLoader && deviceXml.hasAttribute("filename"))
     {
         File configurationFile(configurationFilePath.getValue());
-        File configurationFileDir = configurationFile.getParentDirectory();
-
-        File deviceFile = configurationFileDir.getChildFile(deviceXml.getStringAttribute("filename"));
+        File deviceFile = configurationFile.getSiblingFile(deviceXml.getStringAttribute("filename"));
         
         DBG("ScopeSync::loadDeviceParameters - Trying to load: " + deviceFile.getFullPathName());
 
@@ -975,9 +970,7 @@ bool ScopeSync::loadDeviceParameters(XmlElement& deviceXml)
 bool ScopeSync::loadMappingFile(XmlElement& mappingXml)
 {
     File configurationFile(configurationFilePath.getValue());
-    File configurationFileDir = configurationFile.getParentDirectory();
-
-    File mappingFile = configurationFileDir.getChildFile(mappingXml.getStringAttribute("filename"));
+    File mappingFile = configurationFile.getSiblingFile(mappingXml.getStringAttribute("filename"));
         
     DBG("ScopeSync::loadMappingFile - Trying to load: " + mappingFile.getFullPathName());
 
@@ -1001,9 +994,7 @@ bool ScopeSync::loadLayoutFile(XmlElement& layoutXml)
 {
     bool layoutLoaded = false;
     File configurationFile(configurationFilePath.getValue());
-    File configurationFileDir = configurationFile.getParentDirectory();
-
-    File layoutFile = configurationFileDir.getChildFile(layoutXml.getStringAttribute("filename"));
+    File layoutFile = configurationFile.getSiblingFile(layoutXml.getStringAttribute("filename"));
         
     DBG("ScopeSync::loadLayoutFile - Trying to load: " + layoutFile.getFullPathName());
 

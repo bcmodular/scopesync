@@ -138,13 +138,17 @@ Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, co
     if (directoryPath.isNotEmpty())
     {
         File directory(directoryPath);
-        File imageFile = directory.getChildFile(imageFileName);
 
-        if (useImageCache)
-            return ImageCache::getFromFile(imageFile);
-        else
-            return ImageFileFormat::loadFrom(imageFile);
+        if (directory.exists())
+        {
+            File imageFile = directory.getChildFile(imageFileName);
+
+            if (useImageCache)
+                return ImageCache::getFromFile(imageFile);
+            else
+                return ImageFileFormat::loadFrom(imageFile);
+        }
     }
-    else
-        return Image();
+
+    return Image();
 }
