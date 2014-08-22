@@ -85,9 +85,11 @@ private:
     // For incrementing and decrementing MappingTypes, update the "next" values to be set
     void setNextValues();
     
+    void mouseUp(const MouseEvent& event);
+    
     // Callback for when a BCMTextButton is clicked
     void clicked();
-
+    
     // Types of Mapping
     enum MappingType
     {

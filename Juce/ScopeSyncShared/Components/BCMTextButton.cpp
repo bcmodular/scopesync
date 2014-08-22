@@ -108,7 +108,14 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         else if (mappingTypeString == "incwrap") mappingType = incWrap;
         else if (mappingTypeString == "decwrap") mappingType = decWrap;
         else                                     mappingType = noToggle;
-        
+
+        // For mapped buttons, we want them to send their
+        // "down" value parameter changes on mouse down
+        // except for toggle buttons, where it doesn't
+        // make as much sense
+        if (mappingType != toggle)
+            setTriggeredOnMouseDown(true);
+                
         if (settings.isValid())
         {
             int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
@@ -294,6 +301,21 @@ void BCMTextButton::timerCallback()
     clicksBlocked = false;
 }
 
+void BCMTextButton::mouseUp(const MouseEvent& event)
+{
+    (void)event;
+
+    if (hasParameter() && mappingType == noToggle)
+    {
+        float valueToSet = (float)upSettingIdx;
+            
+        if (valueToSet >= 0)
+            gui.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+    }
+
+    TextButton::mouseUp(event);
+}
+
 void BCMTextButton::clicked()
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
@@ -364,7 +386,7 @@ void BCMTextButton::clicked()
 
 void BCMTextButton::valueChanged(Value& value)
 {
-    DBG("BCMTextButton::valueChanged - New value: " + value.toString());
+    // DBG("BCMTextButton::valueChanged - New value: " + value.toString());
 
     if (displayType == currentSetting)
     {
