@@ -85,7 +85,7 @@ public:
 
     void updateListeners(int index, float newHostValue);
     
-    ScopeSync* getScopeSync() const { return scopeSync; }
+    ScopeSync& getScopeSync() const { return *scopeSync; }
     
 private:
     ScopedPointer<ScopeSync> scopeSync;

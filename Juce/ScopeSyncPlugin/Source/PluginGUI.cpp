@@ -36,7 +36,7 @@ const int PluginGUI::timerInterval = 200;
 PluginGUI::PluginGUI (PluginProcessor* owner)
     : AudioProcessorEditor(owner)
 {
-    scopeSyncGUI = new ScopeSyncGUI(*(owner->getScopeSync()));
+    scopeSyncGUI = new ScopeSyncGUI(owner->getScopeSync());
     
     int width  = jmax(scopeSyncGUI->getWidth(), 100);
     int height = jmax(scopeSyncGUI->getHeight(), 100);

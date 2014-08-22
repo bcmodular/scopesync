@@ -29,9 +29,9 @@
 #define SCOPEFXGUI_H_INCLUDED
 
 class ScopeFX;
-#include "../../ScopeSyncShared/Core/ScopeSyncGUI.h"
 
 #include <JuceHeader.h>
+#include "../../ScopeSyncShared/Core/ScopeSyncGUI.h"
 
 class ScopeFXGUI : public Component
 {
@@ -45,17 +45,16 @@ public:
     void timerCallback();
     
 private:
-    ScopeFX*     scopeFX;
-    ScopeSyncGUI scopeSyncGUI;
+    ScopeFX*                    scopeFX;
+    ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
+
     void userTriedToCloseWindow();
     void moved();
     
     String windowName;
-    int    width;
-    int    height;
     bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
     
-    void paint(Graphics& /* g */) {};
+    void paint(Graphics& g);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFXGUI)
 };

@@ -30,12 +30,14 @@
 #include "ScopeFXGUI.h"
 #include "ScopeFX.h"
 
-ScopeFXGUI::ScopeFXGUI(ScopeFX* owner) : scopeSyncGUI(owner->getScopeSync())
+ScopeFXGUI::ScopeFXGUI(ScopeFX* owner)
 {
     scopeFX = owner;
+    scopeSyncGUI = new ScopeSyncGUI(scopeFX->getScopeSync());
     
-    width         = scopeSyncGUI.getWidth();
-    height        = scopeSyncGUI.getHeight();
+    int width  = jmax(scopeSyncGUI->getWidth(), 100);
+    int height = jmax(scopeSyncGUI->getHeight(), 100);
+
     firstTimeShow = true;
     
     DBG("ScopeFXGUI::ScopeFXGUI - Creating scopeSyncGUI, width=" + String(width) + ", height=" + String(height));
@@ -54,23 +56,23 @@ void ScopeFXGUI::timerCallback()
     // In case the mainComponent of the scopeSyncGUI has been changed
     // such that the size has changed, then change our plugin size
     bool sizeChanged = false;
+    int newWidth  = jmax(scopeSyncGUI->getWidth(), 100);
+    int newHeight = jmax(scopeSyncGUI->getHeight(), 100);
 
-    if (width != scopeSyncGUI.getWidth())
+    if (getWidth() != newWidth)
     {
-        width = scopeSyncGUI.getWidth();
         sizeChanged = true;
     }
 
-    if (height != scopeSyncGUI.getHeight())
+    if (getHeight() != newHeight)
     {
-        height = scopeSyncGUI.getHeight();
         sizeChanged = true;
     }
 
     if (sizeChanged || firstTimeShow)
     {
-        DBG("ScopeFXGUI::timerCallback - GUI size changed, new size: width=" + String(width) + ", height=" + String(height));
-        setSize(width, height);
+        DBG("ScopeFXGUI::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
+        setSize(newWidth, newHeight);
         firstTimeShow = false;
     }
 
@@ -91,6 +93,11 @@ void ScopeFXGUI::userTriedToCloseWindow()
 void ScopeFXGUI::moved()
 {
     scopeFX->positionChanged(getScreenPosition().getX(), getScreenPosition().getY());
+}
+
+void ScopeFXGUI::paint(Graphics& g)
+{
+    g.fillAll(Colour::fromString("FF2D3035"));
 }
 
 #endif  // __DLLEFFECT__
