@@ -57,15 +57,20 @@ public:
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
 
-    static const int numParameters;
-    static const int numLocalValues;
 
 private:
+    static const int numParameters;
+    static const int numLocalValues;
+    static const int maxDeadTimeCounter;
+
     Array<int, CriticalSection> currentValues;
+    Array<int, CriticalSection> deadTimeCounters;
     
     Array<std::pair<int,int>, CriticalSection> asyncUpdates;     // Updates received from the async input
     Array<std::pair<int,int>, CriticalSection> scopeSyncUpdates; // Updates coming from within the ScopeSync code, most likely GUI for now
     Array<std::pair<int,int>, CriticalSection> snapshot;         // Snapshot messages queued up to be sent
+
+    void decDeadTimeCounter(int index);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncAsync);
 };

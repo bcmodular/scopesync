@@ -28,13 +28,17 @@
 #include "ScopeSyncAsync.h"
 #include "../Core/ScopeSync.h"
 
-const int ScopeSyncAsync::numParameters  = 128;
-const int ScopeSyncAsync::numLocalValues = 16;
+const int ScopeSyncAsync::numParameters      = 128;
+const int ScopeSyncAsync::numLocalValues     = 16;
+const int ScopeSyncAsync::maxDeadTimeCounter = 4;
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
     for (int i = 0; i < numParameters + numLocalValues; i++)
+    {
         currentValues.add(0);
+        deadTimeCounters.add(0);
+    }
 }
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
@@ -59,6 +63,7 @@ void ScopeSyncAsync::handleUpdate(Array<int>& asyncValues, bool initialise)
         
         int newScopeSyncValue = scopeSyncUpdates[i].second;
         asyncValues.set(scopeCode, newScopeSyncValue);
+        deadTimeCounters.set(scopeCode, maxDeadTimeCounter);
 
         DBG("ScopeSyncAsync::handleUpdate - Received parameter update from ScopeSync - scopeCode:" + String(scopeCode) + ", value: " + String(newScopeSyncValue));
             
@@ -68,10 +73,13 @@ void ScopeSyncAsync::handleUpdate(Array<int>& asyncValues, bool initialise)
 
     for (int i = 0; i < numParameters + numLocalValues; i++)
     {
-        if (receivedFromScopeSync.contains(i))
+        if (receivedFromScopeSync.contains(i) || deadTimeCounters[i] > 0)
         {
-            // We've just processed an update from ScopeSync for this value,
-            // so we're going to ignore any async updates for now.
+            // We've just (or recently) processed an update from ScopeSync for this
+            // value, so we're going to ignore any async updates for now.
+            currentValues.set(i, asyncValues[i]);
+            decDeadTimeCounter(i);
+            DBG("ScopeSyncAsync::handleUpdate - Ignoring Async update for (" + String(i) + "), new dead time counter: " + String(deadTimeCounters[i]));
             continue;
         }
 
@@ -124,4 +132,10 @@ void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 {
     std::pair<int,int> ctrlMessage = std::make_pair(scopeCode, newValue);
     scopeSyncUpdates.add(ctrlMessage);
+}
+
+void ScopeSyncAsync::decDeadTimeCounter(int index)
+{
+    if (deadTimeCounters[index] > 0)
+        deadTimeCounters.set(index, deadTimeCounters[index] - 1);
 }
