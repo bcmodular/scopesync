@@ -9,6 +9,8 @@ ScopeSync is a framework for building devices for the Sonic|Core Scope system.
 - Java external for Max/MSP exposing ScopeSync features in Max and Ableton Live
 - Free and Open Source
 
+See http://www.scopesync.co.uk for more details.
+
 ### Authors and Contributors
 Main authors: <a title="@bcsharc" href="https://github.com/bcsharc" target="_blank">@bcsharc</a>, <a title="@wellis" href="https://github.com/wellis" target="_blank">@wellis</a> and <a title="@jssbrandt" href="https://github.com/jssbrandt" target="_blank">@jssbrandt</a>
 
