@@ -78,8 +78,6 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));
 
-    setLookAndFeel(gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId));
-
     properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL

@@ -46,6 +46,28 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition)
     definition = parameterDefinition;
     affectedByUI = false;
     putValuesInRange(true);
+    setNumDecimalPlaces();
+}
+
+void BCMParameter::setNumDecimalPlaces()
+{
+    ValueTree parameterType = definition.getChildWithName(paramTypeId);
+    float     uiInterval    = parameterType.getProperty(paramTypeUIRangeIntervalId);
+    
+    // figure out the number of DPs needed to display all values at this
+    // interval setting.
+    numDecimalPlaces = 7;
+
+    if (uiInterval != 0)
+    {
+        int v = std::abs (roundToInt(uiInterval * 10000000));
+
+        while ((v % 10) == 0)
+        {
+            --numDecimalPlaces;
+            v /= 10;
+        }
+    }
 }
 
 void BCMParameter::putValuesInRange(bool initialise)
@@ -198,7 +220,7 @@ void BCMParameter::getUITextValue(String& textValue)
         if (parameterType.hasProperty(paramTypeUISuffixId))
             uiSuffix = parameterType.getProperty(paramTypeUISuffixId);
         
-        textValue = uiValue.toString() + uiSuffix;
+        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + uiSuffix;
     }
     //DBG("BCMParameter::getUITextValue - " + definition.getProperty(paramNameId).toString() + ": " + textValue);
 }

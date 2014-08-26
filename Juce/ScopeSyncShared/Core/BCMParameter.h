@@ -82,6 +82,7 @@ private:
     // Either on initialisation, or after ranges have changed, this method will
     // ensure the UI and LinearNormalised values are within the ranges
     void   putValuesInRange(bool initialise);
+    void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert);
     double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert);
     float  convertLinearNormalisedToUIValue(float linearNormalisedValue);
@@ -101,6 +102,7 @@ private:
     Value     linearNormalisedValue;
     bool      affectedByUI;
     int       hostIdx;
+    int       numDecimalPlaces;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED
