@@ -216,7 +216,7 @@ void PluginProcessor::getStateInformation (MemoryBlock& destData)
     root.addChildElement(parameterValues);
     
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
-    configurationFilePathXml->addTextElement(scopeSync->getConfigurationFilePath());
+    configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
     copyXmlToBinary(root, destData);
 
@@ -243,7 +243,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             String configurationFilePath = root->getChildByName("configurationfilepath")->getAllSubText();
 
-            scopeSync->setConfigurationFilePath(configurationFilePath, true);
+            scopeSync->changeConfiguration(configurationFilePath, false);
         }
     }
     else
@@ -254,8 +254,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
 
 void PluginProcessor::timerCallback()
 {
-    if (scopeSync)
-        scopeSync->timerCallback();
+    scopeSync->receiveUpdates();
 }
 
 void PluginProcessor::updateListeners(int index, float newValue)

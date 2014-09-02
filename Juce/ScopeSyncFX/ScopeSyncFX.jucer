@@ -5,6 +5,15 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
+      <GROUP id="{1C3EA794-EC12-4EA5-9D0F-FEA0D9C9E341}" name="Resources">
+        <FILE id="XIYKXQ" name="ImageResources.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Resources/ImageResources.cpp"/>
+        <FILE id="VpVHvT" name="ImageResources.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Resources/ImageResources.h"/>
+        <FILE id="OCgZRg" name="FontResources.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Resources/FontResources.cpp"/>
+        <FILE id="y2NF7z" name="FontResources.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/FontResources.h"/>
+      </GROUP>
       <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
         <FILE id="UUomSl" name="ScopeSyncAsync.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.cpp"/>
@@ -51,6 +60,10 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="QfrH7r" name="ConfigurationManager.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/ConfigurationManager.cpp"/>
+        <FILE id="qbGxrL" name="ConfigurationManager.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/ConfigurationManager.h"/>
         <FILE id="WqAQsV" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
         <FILE id="RFLS26" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
         <FILE id="uTOHLc" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>
@@ -104,6 +117,10 @@
         <FILE id="AhwtTw" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
       </GROUP>
       <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
+        <FILE id="XeCZbU" name="Global.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Global.h"/>
+        <FILE id="GPbyBn" name="Configuration.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Core/Configuration.cpp"/>
+        <FILE id="MhgcOt" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Configuration.h"/>
         <FILE id="hp3XDd" name="BCMParameter.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Core/BCMParameter.cpp"/>
         <FILE id="OurEJu" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSyncShared/Core/BCMParameter.h"/>

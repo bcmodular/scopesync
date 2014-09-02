@@ -39,10 +39,9 @@ public:
     ScopeFXGUI (ScopeFX* owner);
     ~ScopeFXGUI();
 
-    // Timer callback, called from the ScopeFX object, not an internal
-    // timer. Handles resizing the window if the contents have changed
-    // in size.
-    void timerCallback();
+    // Handles resizing the window if the contents have changed in size
+    // and updating the window title
+    void refreshWindow();
     
 private:
     ScopeFX*                    scopeFX;

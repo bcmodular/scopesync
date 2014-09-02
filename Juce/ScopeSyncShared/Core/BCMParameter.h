@@ -28,8 +28,9 @@ public:
     void    getSettings(ValueTree& settings);
     void    getDescriptions(String& shortDesc, String& fullDesc);
     void    getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
-    bool    getUIResetValue(double& uiResetValue);
-    bool    getUISkewFactor(double& uiSkewFactor);
+    void    getScopeRanges(int& min, int& max);
+    double  getUIResetValue();
+    double  getUISkewFactor();
 
     void  getUITextValue(String& textValue);
     float getHostValue();
@@ -41,39 +42,6 @@ public:
     void setScopeIntValue(int newValue);
     void setUIValue(float newValue);
 
-    /* =========================== Identifiers =============================== */
-    static const Identifier paramTypesId;
-    static const Identifier paramTypeId;
-    static const Identifier paramTypeNameId;
-    static const Identifier paramTypeValueTypeId;
-    static const Identifier paramTypeHostRangeMinId;
-    static const Identifier paramTypeHostRangeMaxId;
-    static const Identifier paramTypeHostRangeIntervalId;
-    static const Identifier paramTypeUISuffixId;
-    static const Identifier paramTypeUIRangeMinId;
-    static const Identifier paramTypeUIRangeMaxId;
-    static const Identifier paramTypeUIRangeIntervalId;
-    static const Identifier paramTypeUIResetValueId;
-    static const Identifier paramTypeUISkewFactorId;
-    static const Identifier paramTypeSkewUIOnlyId;
-    static const Identifier paramTypeScopeRangeMinId;
-    static const Identifier paramTypeScopeRangeMaxId;
-    static const Identifier paramTypeScopeRangeMinFltId;
-    static const Identifier paramTypeScopeRangeMaxFltId;
-    static const Identifier paramTypeScopeDBRefId;
-    static const Identifier paramTypeSettingsId;
-    static const Identifier paramTypeSettingId;
-    static const Identifier paramTypeSettingNameId;
-    static const Identifier paramTypeSettingValueId;
-
-    static const Identifier deviceId;
-    static const Identifier paramId;
-    static const Identifier paramNameId;
-    static const Identifier paramShortDescId;
-    static const Identifier paramFullDescId;
-    static const Identifier paramScopeSyncId;
-    static const Identifier paramScopeLocalId;
-    
     /* ============================ Enumerations ============================== */
     enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     

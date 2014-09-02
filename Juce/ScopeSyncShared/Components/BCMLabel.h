@@ -39,15 +39,31 @@ class LabelProperties;
 class BCMLabel : public Label
 {
 public:
-    BCMLabel(String& name, String& text);
+    BCMLabel(String& name, String& text, ScopeSyncGUI& owner);
     ~BCMLabel();
 
-    void applyProperties(LabelProperties& properties, ScopeSyncGUI& gui);
-    
+    void applyProperties(LabelProperties& properties);
+    void handleValueChanged(Value& valueThatChanged);
+
 private:
     bool               mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
     BCMParameter*      parameter;       // Pointer to a mapped parameter
     BCMComponentBounds componentBounds; // Position/Size information
+
+    ScopeSyncGUI&      gui;
+
+    class BCMLabelValueListener : public Value::Listener
+    {
+    public:
+        BCMLabelValueListener(BCMLabel& label) : parent(label) {};
+        ~BCMLabelValueListener() {};
+
+        BCMLabel& parent;
+        void valueChanged (Value& v)  { parent.handleValueChanged(v); }
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabelValueListener)
+    };
+
+    BCMLabelValueListener valueListener;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };

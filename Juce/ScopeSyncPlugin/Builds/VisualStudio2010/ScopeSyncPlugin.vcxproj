@@ -195,6 +195,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.cpp"/>
@@ -202,6 +204,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
@@ -1153,6 +1156,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h"/>
@@ -1163,6 +1168,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>

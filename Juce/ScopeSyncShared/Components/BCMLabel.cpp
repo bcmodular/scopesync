@@ -32,15 +32,23 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/LabelProperties.h"
+#include "../Core/Global.h"
 
-BCMLabel::BCMLabel(String& name, String& text) : Label(name, text) {}
+BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner) : Label(name, text), gui(owner), valueListener(*this) {}
 
-BCMLabel::~BCMLabel() {}
+BCMLabel::~BCMLabel()
+{
+    if (getName().equalsIgnoreCase("SystemError"))
+    {
+        gui.getScopeSync().getSystemError().removeListener(&valueListener);
+        gui.getScopeSync().getSystemErrorDetails().removeListener(&valueListener);
+    }
+}
 
-void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
+void BCMLabel::applyProperties(LabelProperties& properties) 
 {
     setComponentID(properties.id);
-    
+        
     String labelText = getText();
     String tooltip   = getText();
     
@@ -48,7 +56,7 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
     
     if (getName().equalsIgnoreCase("configurationfilepath"))
     {
-        labelText = gui.getScopeSync().getConfigurationFilePath();
+        labelText = gui.getScopeSync().getConfigurationFile().getFullPathName();
     }
     else if (getName().equalsIgnoreCase("configurationname"))
     {
@@ -57,7 +65,7 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
     else
     {
         ValueTree mapping;
-        parameter = gui.getUIMapping(ScopeSyncGUI::mappingLabelId, getName(), mapping);
+        parameter = gui.getUIMapping(Ids::labels, getName(), mapping);
 
         if (parameter != nullptr)
         {
@@ -73,12 +81,34 @@ void BCMLabel::applyProperties(LabelProperties& properties, ScopeSyncGUI& gui)
     setTooltip(tooltip);
     
     if (getName().equalsIgnoreCase("SystemError"))
-        getTextValue().referTo(gui.getScopeSync().getSystemError());
-
+    {
+        gui.getScopeSync().getSystemError().addListener(&valueListener);
+        gui.getScopeSync().getSystemErrorDetails().addListener(&valueListener);
+    }
+    
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));
 
     properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL
+}
+
+void BCMLabel::handleValueChanged(Value& valueThatChanged)
+{
+    if (valueThatChanged.refersToSameSourceAs(gui.getScopeSync().getSystemError()))
+    {
+        String text = valueThatChanged.getValue().toString();
+
+        if (text.isNotEmpty())
+             text += " (hover over text for details)";
+
+        setText(text, dontSendNotification);
+    }
+
+    if (valueThatChanged.refersToSameSourceAs(gui.getScopeSync().getSystemErrorDetails()))
+    {
+        String tooltip = valueThatChanged.getValue().toString();
+        setTooltip(tooltip);   
+    }
 }

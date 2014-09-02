@@ -66,24 +66,6 @@ public:
    
     ScopeSync& getScopeSync() const { return scopeSync; };
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
- 
-    /* =========================== Identifiers =============================== */
-    static const Identifier mappingId;
-    static const Identifier mappingParamId;
-    static const Identifier mappingParamNameId;
-    static const Identifier mappingMapToId;
-    static const Identifier mappingTypeId;
-    static const Identifier mappingDisplayTypeId;
-    static const Identifier mappingCustomDisplayId;
-    static const Identifier mappingSettingDownId;
-    static const Identifier mappingSettingUpId;
-    static const Identifier mappingComponentNameId;
-    static const Identifier mappingSliderId;
-    static const Identifier mappingLabelId;
-    static const Identifier mappingComboBoxId;
-    static const Identifier mappingTextButtonId;
-    static const Identifier mappingTabbedComponentId;
-    static const Identifier mappingRadioGroupId;
 
     /* ====================== Public member variables ========================= */
     ScopedPointer<ComponentProperties>       defaultComponentProperties;
@@ -103,8 +85,7 @@ public:
     
 private:
     /* =================== Private Configuration Methods =======================*/
-    void createGUI();
-    void loadMapping();
+    void createGUI(bool forceReload);
     void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache);
     void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
     void setupDefaults(XmlElement& defaultsXML);
@@ -135,7 +116,7 @@ private:
         } \
         catch (Expression::ParseError& error) \
         { \
-            gui.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component: " + getName() + ", error: " + error.description); \
+            gui.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + getName() + ", error: " + error.description); \
             return; \
         } \
     else if (componentBounds.boundsType == BCMComponentBounds::inset) \

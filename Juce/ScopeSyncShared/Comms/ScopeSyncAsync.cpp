@@ -27,14 +27,13 @@
 
 #include "ScopeSyncAsync.h"
 #include "../Core/ScopeSync.h"
+#include "../Core/Global.h"
 
-const int ScopeSyncAsync::numParameters      = 128;
-const int ScopeSyncAsync::numLocalValues     = 16;
-const int ScopeSyncAsync::maxDeadTimeCounter = 4;
+const int ScopeSyncAsync::maxDeadTimeCounter      = 4;
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
-    for (int i = 0; i < numParameters + numLocalValues; i++)
+    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
         currentValues.add(0);
         deadTimeCounters.add(0);
@@ -71,7 +70,7 @@ void ScopeSyncAsync::handleUpdate(Array<int>& asyncValues, bool initialise)
         scopeSyncUpdates.remove(i);
     }
 
-    for (int i = 0; i < numParameters + numLocalValues; i++)
+    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
         if (receivedFromScopeSync.contains(i) || deadTimeCounters[i] > 0)
         {
@@ -102,7 +101,7 @@ void ScopeSyncAsync::createSnapshot()
 {
     if (snapshot.size() == 0)
     {
-        for (int i = 0; i < numParameters; i++)
+        for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
         {
             int data = currentValues[i]; 
             int dest = (i + 1 + (2 * (i / 16))) * 8388608;

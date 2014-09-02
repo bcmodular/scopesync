@@ -13,6 +13,15 @@
               companyName="BC Modular" companyWebsite="http://www.bcmodular.co.uk"
               companyEmail="support@bcmodular.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
+    <GROUP id="{AE86523D-8D18-E33E-CDD7-4C90A830DF7F}" name="Resources">
+      <FILE id="g37Smh" name="FontResources.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Resources/FontResources.cpp"/>
+      <FILE id="pIVC9p" name="FontResources.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/FontResources.h"/>
+      <FILE id="JPSEsV" name="ImageResources.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Resources/ImageResources.cpp"/>
+      <FILE id="YepYNK" name="ImageResources.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Resources/ImageResources.h"/>
+    </GROUP>
     <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
       <FILE id="Z61VsF" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
       <FILE id="zhLooZ" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
@@ -49,6 +58,10 @@
             file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
     </GROUP>
     <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
+      <FILE id="kRNf5S" name="Global.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Global.h"/>
+      <FILE id="OxwDU3" name="Configuration.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Core/Configuration.cpp"/>
+      <FILE id="AN9b10" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Configuration.h"/>
       <FILE id="rUwpMR" name="BCMParameter.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Core/BCMParameter.cpp"/>
       <FILE id="GxF2eO" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSyncShared/Core/BCMParameter.h"/>
@@ -120,6 +133,9 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ScopeSyncVST-Debug"
+                       headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncVST-Debug-x64"
                        headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSyncVST" headerPath=""

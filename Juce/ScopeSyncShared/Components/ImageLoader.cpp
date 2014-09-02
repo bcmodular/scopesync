@@ -26,6 +26,7 @@
  */
 
 #include "ImageLoader.h"
+#include "../Resources/ImageResources.h"
 
 juce_ImplementSingleton (ImageLoader)
 
@@ -41,84 +42,51 @@ ImageLoader::~ImageLoader()
 
 void ImageLoader::loadImageResources()
 {
-    ImageResource* imageResource;
-            
-    imageResource = new ImageResource();
-    imageResource->imageName = "scopeSyncLogo";
-    imageResource->image     = (const char*)resourceScopeSyncLogo;
-    imageResource->imageSize = 4151;
-    imageResources.add(imageResource);
+    // ScopeSync Logo
+    addImageResource("scopeSyncLogo", ImageResources::scopesync_logo_png, ImageResources::scopesync_logo_pngSize);
+    
+    // Load Config buttons
+    addImageResource("loadConfigButtonOff",  ImageResources::load_config_button_off_png,  ImageResources::load_config_button_off_pngSize);
+    addImageResource("loadConfigButtonOn",   ImageResources::load_config_button_on_png,   ImageResources::load_config_button_on_pngSize);
+    addImageResource("loadConfigButtonOver", ImageResources::load_config_button_over_png, ImageResources::load_config_button_over_pngSize);
+    
+    // Patch Window buttons
+    addImageResource("patchWindowButtonOff",  ImageResources::patch_window_button_off_png,  ImageResources::patch_window_button_off_pngSize);
+    addImageResource("patchWindowButtonOn",   ImageResources::patch_window_button_on_png,   ImageResources::patch_window_button_on_pngSize);
+    addImageResource("patchWindowButtonOver", ImageResources::patch_window_button_over_png, ImageResources::patch_window_button_over_pngSize);
+    
+    // Presets buttons
+    addImageResource("presetsButtonOff",  ImageResources::presets_button_off_png,  ImageResources::presets_button_off_pngSize);
+    addImageResource("presetsButtonOn",   ImageResources::presets_button_on_png,   ImageResources::presets_button_on_pngSize);
+    addImageResource("presetsButtonOver", ImageResources::presets_button_over_png, ImageResources::presets_button_over_pngSize);
+    
+    // Reload Layout buttons
+    addImageResource("reloadLayoutButtonOff",  ImageResources::reload_layout_button_off_png,  ImageResources::reload_layout_button_off_pngSize);
+    addImageResource("reloadLayoutButtonOn",   ImageResources::reload_layout_button_on_png,   ImageResources::reload_layout_button_on_pngSize);
+    addImageResource("reloadLayoutButtonOver", ImageResources::reload_layout_button_over_png, ImageResources::reload_layout_button_over_pngSize);
+    
+    // Remove Configuration buttons
+    addImageResource("removeConfigButtonOff",  ImageResources::remove_config_button_off_png,  ImageResources::remove_config_button_off_pngSize);
+    addImageResource("removeConfigButtonOn",   ImageResources::remove_config_button_on_png,   ImageResources::remove_config_button_on_pngSize);
+    addImageResource("removeConfigButtonOver", ImageResources::remove_config_button_over_png, ImageResources::remove_config_button_over_pngSize);
+    
+    // Settings buttons
+    addImageResource("settingsButtonOff",  ImageResources::settings_button_off_png,  ImageResources::settings_button_off_pngSize);
+    addImageResource("settingsButtonOn",   ImageResources::settings_button_on_png,   ImageResources::settings_button_on_pngSize);
+    addImageResource("settingsButtonOver", ImageResources::settings_button_over_png, ImageResources::settings_button_over_pngSize);
+    
+    // Snapshot buttons
+    addImageResource("snapshotOff",  ImageResources::snapshot_button_off_png,  ImageResources::snapshot_button_off_pngSize);
+    addImageResource("snapshotOn",   ImageResources::snapshot_button_on_png,   ImageResources::snapshot_button_on_pngSize);
+    addImageResource("snapshotOver", ImageResources::snapshot_button_over_png, ImageResources::snapshot_button_over_pngSize);
+}
 
-    imageResource = new ImageResource();
-    imageResource->imageName = "loadConfigButtonOff";
-    imageResource->image     = (const char*)resourceLoadConfigButtonOff;
-    imageResource->imageSize = 2901;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "loadConfigButtonOn";
-    imageResource->image     = (const char*)resourceLoadConfigButtonOn;
-    imageResource->imageSize = 2904;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "patchWindowButtonOff";
-    imageResource->image     = (const char*)resourcePatchWindowButtonOff;
-    imageResource->imageSize = 2902;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "patchWindowButtonOn";
-    imageResource->image     = (const char*)resourcePatchWindowButtonOn;
-    imageResource->imageSize = 2884;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "presetsButtonOff";
-    imageResource->image     = (const char*)resourcePresetsButtonOff;
-    imageResource->imageSize = 2896;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "presetsButtonOn";
-    imageResource->image     = (const char*)resourcePresetsButtonOn;
-    imageResource->imageSize = 2895;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "reloadConfigButtonOff";
-    imageResource->image     = (const char*)resourceReloadConfigButtonOff;
-    imageResource->imageSize = 3107;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "reloadConfigButtonOn";
-    imageResource->image     = (const char*)resourceReloadConfigButtonOn;
-    imageResource->imageSize = 3143;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "settingsButtonOff";
-    imageResource->image     = (const char*)resourceSettingsButtonOff;
-    imageResource->imageSize = 3338;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "settingsButtonOn";
-    imageResource->image     = (const char*)resourceSettingsButtonOn;
-    imageResource->imageSize = 3335;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "snapshotOff";
-    imageResource->image     = (const char*)resourceSnapshotOff;
-    imageResource->imageSize = 770;
-    imageResources.add(imageResource);
-
-    imageResource = new ImageResource();
-    imageResource->imageName = "snapshotOn";
-    imageResource->image     = (const char*)resourceSnapshotOn;
-    imageResource->imageSize = 788;
+void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)
+{
+    ImageResource* imageResource = new ImageResource();
+    imageResource->imageName = imageName;
+    imageResource->image     = image;
+    imageResource->imageSize = imageSize;
     imageResources.add(imageResource);
 }
 

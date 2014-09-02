@@ -38,6 +38,7 @@
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
 #include "../Core/ScopeSyncGUI.h"
+#include "../Core/Global.h"
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name) : Component(name), gui(owner) {}
 
@@ -183,9 +184,9 @@ bool BCMComponent::showInThisContext(XmlElement& xml)
 {
     String displayContext = xml.getStringAttribute("displaycontext");
     
-    if (displayContext.equalsIgnoreCase("scope") && ScopeSync::inPluginContext())
+    if (displayContext.equalsIgnoreCase("scope") && ScopeSyncApplication::inPluginContext())
         return false;
-    else if (displayContext.equalsIgnoreCase("host") && ScopeSync::inScopeFXContext())
+    else if (displayContext.equalsIgnoreCase("host") && ScopeSyncApplication::inScopeFXContext())
         return false;
     else
         return true;
@@ -287,9 +288,9 @@ void BCMComponent::setupLabel(XmlElement& labelXML)
         String labelText = labelProperties.text;
 
         // Setup label object
-        addAndMakeVisible(label = new BCMLabel(labelName, labelText));
+        addAndMakeVisible(label = new BCMLabel(labelName, labelText, gui));
 
-        label->applyProperties(labelProperties, gui);
+        label->applyProperties(labelProperties);
         labels.add(label);
     }
 }

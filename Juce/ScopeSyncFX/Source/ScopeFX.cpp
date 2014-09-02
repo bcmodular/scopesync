@@ -69,7 +69,7 @@ using namespace ScopeFXParameterDefinitions;
 
 Array<ScopeFX*> ScopeFX::moduleInstances;
 
-ScopeFX::ScopeFX() : Effect (&effectDescription)
+ScopeFX::ScopeFX() : Effect(&effectDescription), scopeSync(this)
 {
     initValues();
 
@@ -113,6 +113,9 @@ void ScopeFX::initValues()
 
 void ScopeFX::timerCallback()
 {
+    if (scopeFXGUI)
+        scopeFXGUI->refreshWindow();
+
     if (windowHandlerDelay == 0)
     {   
 		if ((requestWindowShow || scopeSync.getSystemError().toString().isNotEmpty()) && !windowShown)
@@ -139,17 +142,10 @@ void ScopeFX::timerCallback()
         DBG("ScopeFX::timerCallback - Ignoring values: " + String(windowHandlerDelay))
         windowHandlerDelay--;
     }
-
-    if (!(newConfigurationFile.equalsIgnoreCase(scopeSync.getConfigurationFilePath())))
+    
+    if (!(scopeSync.processConfigurationChange()))
     {
-        scopeSync.setConfigurationFilePath(newConfigurationFile, false);
-    }
-    else
-    {
-        scopeSync.timerCallback();
-
-        if (scopeFXGUI)
-            scopeFXGUI->timerCallback();
+        scopeSync.receiveUpdates();
     }
 }
 
@@ -225,7 +221,13 @@ int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
     else
         requestWindowShow = true;
 
-    newConfigurationFile = asyncIn[INPAD_CONFIGFILE]->str;
+    String newConfigurationFileName = asyncIn[INPAD_CONFIGFILE]->str;
+
+    if (!(newConfigurationFileName.equalsIgnoreCase(configurationFileName)))
+    {
+        scopeSync.changeConfiguration(newConfigurationFileName, true);
+        configurationFileName = newConfigurationFileName;
+    }
 
     positionX = asyncIn[INPAD_X]->itg;
     positionY = asyncIn[INPAD_Y]->itg;

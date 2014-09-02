@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <!--Main Component-->
+  <component backgroundcolour="ff2d3035" lfid="system:default">
+    <bounds x="0" y="0" width="674" height="100" />
+    <!--Header Section-->
+    <component>
+      <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
+      <label lfid="system:configname" name="configurationname" text="Current Configuration">
+        <bounds x="177" y="11" width="160" height="17"></bounds>
+        <font bold="true" height="12"></font>
+      </label>
+      <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
+        <bounds x="347" y="9" width="21" height="21"></bounds>
+      </textbutton>
+      <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
+        <bounds x="347" y="9" width="21" height="21"></bounds>
+      </textbutton>
+      <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+        <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>
+      </textbutton>
+      <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+        <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
+      </textbutton>
+      <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
+        <bounds x="13" y="11" width="151" height="16"></bounds>
+      </component>
+      <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
+      <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
+        <bounds relativerectangle="right - 58, 7, parent.width - 70, top + 32"></bounds>
+        <tabbar orientation="right" depth="0"></tabbar>
+        <tab idx="1" name="DISCONNECTED">
+          <component>
+            <!--No Controls-->
+          </component>
+        </tab>
+        <tab idx="2" name="CONNECTED">
+          <component>
+            <textbutton lfid="system:patch_button" name="B67">
+              <bounds x="0" y="2" width="27" height="21"></bounds>
+            </textbutton>
+            <textbutton lfid="system:presets_button" name="B68">
+              <bounds x="33" y="2" width="19" height="21"></bounds>
+            </textbutton>
+          </component>
+        </tab>
+      </tabbedcomponent>
+      <component displaycontext="scope" backgroundcolour="00000000">
+        <bounds relativerectangle="right - 2, 0, parent.width - 132, top + 2"></bounds>
+        <!--CP<->Host Disconnected-->
+        <textbutton name="B65">
+          <bounds x="3" y="3" width="1" height="1"></bounds>
+          <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
+        </textbutton>
+        <!--CP<->Host Connected-->
+        <textbutton name="B66">
+          <bounds x="3" y="3" width="1" height="1"></bounds>
+          <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
+        </textbutton>
+      </component>
+    </component>
+    <!--Background-->
+    <component backgroundcolour="55000000" backgroundimage="Skins/B-Control/background.png">
+      <bounds relativerectangle="right - parent.width, 41, parent.width, parent.height" />
+      <label lfid="system:systemerror" name="SystemError" text="">
+        <justification horizontallycentred="true" />
+        <bounds relativerectangle="7, parent.height-35, parent.width-7, parent.height-15"></bounds>
+      </label>
+    </component>
+  </component>
+</layout>
+  

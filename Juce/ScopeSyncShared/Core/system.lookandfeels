@@ -2,42 +2,57 @@
 <lookandfeels>
   <lookandfeel id="system:default">
     <colours>
-      <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="00ff0000"></textbutton>
+      <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="ff000000"></slider>
+      <label textcolourid="ff323739"></label>
+      <texteditor focusedoutlinecolourid="002f353a"></texteditor>
+      <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
+      <tabbar tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00" taboutlinecolourid="00000000"></tabbar>
+      <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
     </colours>
-  </lookandfeel>
-  <lookandfeel id="system:snapshot_button" parentid="system:default">
-    <images>
-      <textbutton upfilename="snapshotOff" downfilename="snapshotOn" mouseoverupfilename="snapshotOff" mouseoverdownfilename="snapshotOn"></textbutton>
-    </images>
-  </lookandfeel>
-  <lookandfeel id="system:settings_button" parentid="system:default">
-    <images>
-      <textbutton upfilename="settingsButtonOff" downfilename="settingsButtonOn" mouseoverupfilename="settingsButtonOff" mouseoverdownfilename="settingsButtonOn"></textbutton>
-    </images>
   </lookandfeel>
   <lookandfeel id="system:load_config_button" parentid="system:default">
     <images>
-      <textbutton upfilename="loadConfigButtonOff" downfilename="loadConfigButtonOn" mouseoverupfilename="loadConfigButtonOff" mouseoverdownfilename="loadConfigButtonOn"></textbutton>
+      <textbutton upfilename="loadConfigButtonOff" downfilename="loadConfigButtonOn" mouseoverupfilename="loadConfigButtonOver" mouseoverdownfilename="loadConfigButtonOn"></textbutton>
     </images>
   </lookandfeel>
-  <lookandfeel id="system:reload_config_button" parentid="system:default">
+  <lookandfeel id="system:reload_layout_button" parentid="system:default">
     <images>
-      <textbutton upfilename="reloadConfigButtonOff" downfilename="reloadConfigButtonOn" mouseoverupfilename="reloadConfigButtonOff" mouseoverdownfilename="reloadConfigButtonOn"></textbutton>
+      <textbutton upfilename="reloadLayoutButtonOff" downfilename="reloadLayoutButtonOn" mouseoverupfilename="reloadLayoutButtonOver" mouseoverdownfilename="reloadLayoutButtonOn"></textbutton>
+    </images>
+  </lookandfeel>
+  <lookandfeel id="system:remove_config_button" parentid="system:default">
+    <images>
+      <textbutton upfilename="removeConfigButtonOff" downfilename="removeConfigButtonOn" mouseoverupfilename="removeConfigButtonOver" mouseoverdownfilename="removeConfigButtonOn"></textbutton>
     </images>
   </lookandfeel>
   <lookandfeel id="system:patch_button" parentid="system:default">
     <images>
-      <textbutton upfilename="patchWindowButtonOff" downfilename="patchWindowButtonOn" mouseoverupfilename="patchWindowButtonOff" mouseoverdownfilename="patchWindowButtonOn"></textbutton>
+      <textbutton upfilename="patchWindowButtonOff" downfilename="patchWindowButtonOn" mouseoverupfilename="patchWindowButtonOver" mouseoverdownfilename="patchWindowButtonOn"></textbutton>
     </images>
   </lookandfeel>
   <lookandfeel id="system:presets_button" parentid="system:default">
     <images>
-      <textbutton upfilename="presetsButtonOff" downfilename="presetsButtonOn" mouseoverupfilename="presetsButtonOff" mouseoverdownfilename="presetsButtonOn"></textbutton>
+      <textbutton upfilename="presetsButtonOff" downfilename="presetsButtonOn" mouseoverupfilename="presetsButtonOver" mouseoverdownfilename="presetsButtonOn"></textbutton>
+    </images>
+  </lookandfeel>
+  <lookandfeel id="system:settings_button" parentid="system:default">
+    <images>
+      <textbutton upfilename="settingsButtonOff" downfilename="settingsButtonOn" mouseoverupfilename="settingsButtonOver" mouseoverdownfilename="settingsButtonOn"></textbutton>
+    </images>
+  </lookandfeel>
+  <lookandfeel id="system:snapshot_button" parentid="system:default">
+    <images>
+      <textbutton upfilename="snapshotOff" downfilename="snapshotOn" mouseoverupfilename="snapshotOver" mouseoverdownfilename="snapshotOn"></textbutton>
     </images>
   </lookandfeel>
   <lookandfeel id="system:systemerror">
     <colours>
-      <label textcolourid="fffe9ddb"></label>
+      <label textcolourid="ffa7aaae" outlinecolourid="00a7aaae"></label>
+    </colours>
+  </lookandfeel>
+  <lookandfeel id="system:configname">
+    <colours>
+      <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
     </colours>
   </lookandfeel>
 </lookandfeels>

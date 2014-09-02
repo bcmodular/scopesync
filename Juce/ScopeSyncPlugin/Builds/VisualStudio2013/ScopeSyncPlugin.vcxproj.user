@@ -10,4 +10,8 @@
     <LocalDebuggerCommandArguments>./default.filtergraph</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (x64)|x64'">
+    <LocalDebuggerCommand>C:\Program Files\PreSonus\Studio One 2\Studio One.exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

@@ -56,11 +56,8 @@ public:
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
-
-
+    
 private:
-    static const int numParameters;
-    static const int numLocalValues;
     static const int maxDeadTimeCounter;
 
     Array<int, CriticalSection> currentValues;

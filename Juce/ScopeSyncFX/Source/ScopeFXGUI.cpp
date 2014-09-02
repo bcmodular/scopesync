@@ -51,7 +51,7 @@ ScopeFXGUI::~ScopeFXGUI()
     scopeFX = nullptr;
 }
 
-void ScopeFXGUI::timerCallback()
+void ScopeFXGUI::refreshWindow()
 {
     // In case the mainComponent of the scopeSyncGUI has been changed
     // such that the size has changed, then change our plugin size

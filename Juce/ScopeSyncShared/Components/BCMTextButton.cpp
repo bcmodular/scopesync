@@ -33,6 +33,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TextButtonProperties.h"
+#include "../Core/Global.h"
 
 const int BCMTextButton::clickBlockDuration = 1000;
 
@@ -86,7 +87,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingTextButtonId, getName(), mapping);
+    parameter = gui.getUIMapping(Ids::textButtons, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -99,16 +100,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         parameter->mapToUIValue(parameterValue);
         
         // Grab the correct mapping type
-        String mappingTypeString = mapping.getProperty(ScopeSyncGUI::mappingTypeId);
-        DBG("BCMTextButton::applyProperties - mappingTypeString: " + mappingTypeString);
+        mappingType = (MappingType)(int(mapping.getProperty(Ids::type)));
+        DBG("BCMTextButton::applyProperties - mappingType: " + String(mappingType));
         
-             if (mappingTypeString == "toggle")  mappingType = toggle;
-        else if (mappingTypeString == "inc")     mappingType = inc;
-        else if (mappingTypeString == "dec")     mappingType = dec;
-        else if (mappingTypeString == "incwrap") mappingType = incWrap;
-        else if (mappingTypeString == "decwrap") mappingType = decWrap;
-        else                                     mappingType = noToggle;
-
         // For mapped buttons, we want them to send their
         // "down" value parameter changes on mouse down
         // except for toggle buttons, where it doesn't
@@ -121,43 +115,31 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
             int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
             int maxSettingIdx       = settings.getNumChildren() - 1;
 
-            if (mapping.hasProperty(ScopeSyncGUI::mappingRadioGroupId))
+            if (mapping.getProperty(Ids::radioGroup).isInt())
             {
-                radioGroupId = mapping.getProperty(ScopeSyncGUI::mappingRadioGroupId);
+                radioGroupId = mapping.getProperty(Ids::radioGroup);
                 DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
             }
-            
+                
             // Set up the button display type and the initial button text
-            String mappingDisplayTypeString = mapping.getProperty(ScopeSyncGUI::mappingDisplayTypeId);
+            displayType = (DisplayType)(int(mapping.getProperty(Ids::displayType)));
             
-            if (mappingDisplayTypeString == "parametername")
-            {
-                displayType = parameterName;
-            }
-            else if (mappingDisplayTypeString == "downsetting")
-            {
-                displayType = downSetting;
-                buttonText  = mapping.getProperty(ScopeSyncGUI::mappingSettingDownId);
-            }
-            else if (mappingDisplayTypeString == "custom")
-            {
-                displayType = custom;
-                buttonText  = mapping.getProperty(ScopeSyncGUI::mappingCustomDisplayId);
-            }
+            if (displayType == downSetting)
+                buttonText  = mapping.getProperty(Ids::settingDown);
+            else if (displayType == custom)
+                buttonText  = mapping.getProperty(Ids::customDisplay);
             else
-            {
-                buttonText = settings.getChild(currentSettingIdx).getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
-            }
-        
+                buttonText = settings.getChild(currentSettingIdx).getProperty(Ids::name, "__NO_NAME__");
+            
             if (mappingType == toggle || mappingType == noToggle)
             {
-                String settingDown = mapping.getProperty(ScopeSyncGUI::mappingSettingDownId);
-                String settingUp   = mapping.getProperty(ScopeSyncGUI::mappingSettingUpId);
+                String settingDown = mapping.getProperty(Ids::settingDown);
+                String settingUp   = mapping.getProperty(Ids::settingUp);
 
                 for (int i = 0; i < settings.getNumChildren(); i++)
                 {
                     ValueTree setting = settings.getChild(i);
-                    String    settingName = setting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
+                    String    settingName = setting.getProperty(Ids::name, "__NO_NAME__");
 
                     if (settingName == settingDown)
                     {
@@ -215,7 +197,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
                         downSettingIdx = currentSettingIdx - 1;  
                 }
 
-                String settingDown = mapping.getProperty(ScopeSyncGUI::mappingSettingDownId);
+                String settingDown = mapping.getProperty(Ids::settingDown);
                 
             }
 
@@ -339,29 +321,13 @@ void BCMTextButton::clicked()
         }
         else if (getName().equalsIgnoreCase("chooseconfiguration"))
         {
-            if (!(gui.getScopeSync().configurationIsLoading()))
-            {
-                gui.chooseConfiguration();
-            }
+            gui.chooseConfiguration();
         }
-        else if (getName().equalsIgnoreCase("reloadconfiguration"))
+        else if (getName().equalsIgnoreCase("reloadlayout"))
         {
-            if (!(gui.getScopeSync().configurationIsLoading()))
-            {
-                gui.getScopeSync().storeParameterValues();    
-                gui.getScopeSync().loadConfiguration(false, true, true);
-                clicksBlocked = true;
-                startTimer(clickBlockDuration);
-            }
-        }
-        else if (getName().equalsIgnoreCase("unloadconfiguration"))
-        {
-            if (!(gui.getScopeSync().configurationIsLoading()))
-            {
-                gui.getScopeSync().setConfigurationFilePath(String::empty, false);
-                clicksBlocked = true;
-                startTimer(clickBlockDuration);
-            }
+            gui.getScopeSync().reloadLayout();
+            clicksBlocked = true;
+            startTimer(clickBlockDuration);
         }
 
         if (hasParameter())
@@ -390,7 +356,7 @@ void BCMTextButton::valueChanged(Value& value)
 
     if (displayType == currentSetting)
     {
-        String buttonText = settings.getChild(value.getValue()).getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
+        String buttonText = settings.getChild(value.getValue()).getProperty(Ids::setting, "__NO_NAME__");
         setButtonText(buttonText);
     }
 

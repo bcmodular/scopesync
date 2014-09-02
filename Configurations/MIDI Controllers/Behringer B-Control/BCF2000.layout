@@ -2,15 +2,7 @@
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
   <layout>
     <lookandfeels>
-      <lookandfeel id="default">
-        <colours>
-          <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="ff000000"></slider>
-          <label textcolourid="ff323739"></label>
-          <texteditor focusedoutlinecolourid="002f353a"></texteditor>
-          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
-          <tabbar tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00" taboutlinecolourid="00000000"></tabbar>
-          <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
-        </colours>
+      <lookandfeel id="default" parentid="system:default">
         <images>
           <slider>
             <rotary filename="Skins/B-Control/BCR_knob.png" numframes="45" ishorizontal="false"></rotary>
@@ -123,11 +115,6 @@
           <textbutton upfilename="Skins/B-Control/ButtonRotary_Off.png" downfilename="Skins/B-Control/ButtonRotary_On.png" mouseoverupfilename="Skins/B-Control/ButtonRotary_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonRotary_On.png"></textbutton>
         </images>
       </lookandfeel>
-      <lookandfeel id="Config Name">
-        <colours>
-          <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
-        </colours>
-      </lookandfeel>
       <lookandfeel id="Fader">
         <colours>
           <slider textboxbackgroundcolourid="ff000000" textboxoutlinecolourid="ff121517" textboxtextcolourid="ffb3bbbd" textboxhighlightcolourid="ffa7aaae" thumbcolourid="00ffffff" backgroundcolourid="00000000"></slider>
@@ -167,12 +154,12 @@
       <bounds x="0" y="0" width="674" height="732" />
       <!--Header Section-->
       <component>
-        <bounds x="0" y="1" width="674" height="40"></bounds>
-        <label lfid="Config Name" name="configurationname" text="Current Configuration">
+        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
+        <label lfid="system:configname" name="configurationname" text="Current Configuration">
           <bounds x="177" y="11" width="160" height="17"></bounds>
           <font bold="true" height="12"></font>
         </label>
-        <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
+        <textbutton lfid="system:reload_layout_button" name="reloadlayout" tooltip="Reload Current Layout">
           <bounds x="373" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
@@ -181,22 +168,18 @@
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
           <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
-        <label lfid="system:systemerror" name="SystemError" text="">
-          <justification right="true" />
-          <bounds x="397" y="9" width="300" height="20"></bounds>
-        </label>
         <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
-          <bounds relativerectangle="right - 32, 9, parent.width - 0, top + 21"></bounds>
+          <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>
         </textbutton>
         <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
-          <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 6, top + 21"></bounds>
+          <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
         </textbutton>
         <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
           <bounds x="13" y="11" width="151" height="16"></bounds>
         </component>
         <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
-        <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
-          <bounds relativerectangle="right - 57, 7, parent.width - 71, top + 32"></bounds>
+        <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
+          <bounds relativerectangle="right - 58, 7, parent.width - 70, top + 32"></bounds>
           <tabbar orientation="right" depth="0"></tabbar>
           <tab idx="1" name="DISCONNECTED">
             <component>
@@ -209,7 +192,7 @@
                 <bounds x="0" y="2" width="27" height="21"></bounds>
               </textbutton>
               <textbutton lfid="system:presets_button" name="B68">
-                <bounds x="32" y="2" width="19" height="21"></bounds>
+                <bounds x="33" y="2" width="19" height="21"></bounds>
               </textbutton>
             </component>
           </tab>
@@ -228,9 +211,9 @@
           </textbutton>
         </component>
       </component>
-      <!--Background Images-->
-      <component backgroundimage="Skins/B-Control/background.png" backgroundcolour="55000000">
-        <bounds x="0" y="40" width="674" height="692" />
+      <!--Background-->
+      <component backgroundcolour="55000000" backgroundimage="Skins/B-Control/background.png">
+        <bounds relativerectangle="right - parent.width, 41, parent.width, parent.height" />
         <component backgroundcolour="002d3035">
           <bounds x="29" y="10" width="616" height="632" />
         </component>
@@ -312,6 +295,10 @@
         <component backgroundimage="Skins/B-Control/BCF_logo.png" backgroundcolour="00000000">
           <bounds x="535" y="30" width="93" height="15" />
         </component>
+        <label lfid="system:systemerror" name="SystemError" text="">
+          <justification horizontallycentred="true" />
+          <bounds relativerectangle="7, parent.height-35, parent.width-7, parent.height-15"></bounds>
+        </label>
       </component>
       <!--Group M (Buttons)-->
       <component backgroundimage="" backgroundcolour="00000000">

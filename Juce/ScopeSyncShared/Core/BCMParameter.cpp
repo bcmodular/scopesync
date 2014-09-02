@@ -10,35 +10,7 @@
 
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
-
-const Identifier BCMParameter::paramTypesId                = "parametertypes";
-const Identifier BCMParameter::paramTypeId                 = "parametertype";
-const Identifier BCMParameter::paramTypeNameId             = "name";
-const Identifier BCMParameter::paramTypeValueTypeId        = "valuetype";
-const Identifier BCMParameter::paramTypeUISuffixId         = "uisuffix";
-const Identifier BCMParameter::paramTypeUIRangeMinId       = "uirangemin";
-const Identifier BCMParameter::paramTypeUIRangeMaxId       = "uirangemax";
-const Identifier BCMParameter::paramTypeUIRangeIntervalId  = "uirangeinterval";
-const Identifier BCMParameter::paramTypeUIResetValueId     = "uiresetvalue";
-const Identifier BCMParameter::paramTypeUISkewFactorId     = "uiskewfactor";
-const Identifier BCMParameter::paramTypeSkewUIOnlyId       = "skewuionly";
-const Identifier BCMParameter::paramTypeScopeRangeMinId    = "scoperangemin";
-const Identifier BCMParameter::paramTypeScopeRangeMaxId    = "scoperangemax";
-const Identifier BCMParameter::paramTypeScopeRangeMinFltId = "scoperangeminflt";
-const Identifier BCMParameter::paramTypeScopeRangeMaxFltId = "scoperangemaxflt";
-const Identifier BCMParameter::paramTypeScopeDBRefId       = "scopedbref";
-const Identifier BCMParameter::paramTypeSettingsId         = "settings";
-const Identifier BCMParameter::paramTypeSettingId          = "setting";
-const Identifier BCMParameter::paramTypeSettingNameId      = "name";
-const Identifier BCMParameter::paramTypeSettingValueId     = "value";
-                                
-const Identifier BCMParameter::deviceId          = "device";
-const Identifier BCMParameter::paramId           = "parameter";
-const Identifier BCMParameter::paramNameId       = "name";
-const Identifier BCMParameter::paramShortDescId  = "shortdescription";
-const Identifier BCMParameter::paramFullDescId   = "fulldescription";
-const Identifier BCMParameter::paramScopeSyncId  = "scopesync";
-const Identifier BCMParameter::paramScopeLocalId = "scopelocal";
+#include "Global.h"
 
 BCMParameter::BCMParameter(int index, ValueTree parameterDefinition)
 {
@@ -51,8 +23,7 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition)
 
 void BCMParameter::setNumDecimalPlaces()
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    float     uiInterval    = parameterType.getProperty(paramTypeUIRangeIntervalId);
+    float uiInterval = definition.getProperty(Ids::uiRangeInterval);
     
     // figure out the number of DPs needed to display all values at this
     // interval setting.
@@ -72,16 +43,12 @@ void BCMParameter::setNumDecimalPlaces()
 
 void BCMParameter::putValuesInRange(bool initialise)
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    float     uiMinValue    = parameterType.getProperty(paramTypeUIRangeMinId);
-    float     uiMaxValue    = parameterType.getProperty(paramTypeUIRangeMaxId);
+    float uiMinValue = definition.getProperty(Ids::uiRangeMin);
+    float uiMaxValue = definition.getProperty(Ids::uiRangeMax);
     
     if (initialise)
     {
-        if (parameterType.hasProperty(paramTypeUIResetValueId))
-            uiValue = parameterType.getProperty(paramTypeUIResetValueId);
-        else
-            uiValue = parameterType.getProperty(paramTypeUIRangeMinId);
+        uiValue = definition.getProperty(Ids::uiResetValue);
     }
     else
     {
@@ -111,16 +78,16 @@ bool BCMParameter::isAffectedByUI()
 
 String BCMParameter::getName()
 {
-    return definition.getProperty(paramNameId, String::empty).toString();
+    return definition.getProperty(Ids::name).toString();
 }
 
 int BCMParameter::getScopeCode()
 {
-    int scopeCode = definition.getProperty(paramScopeSyncId, -1);
+    int scopeCode = definition.getProperty(Ids::scopeSync);
 
     if (scopeCode == -1)
     {
-        scopeCode = definition.getProperty(paramScopeLocalId, -1);
+        scopeCode = definition.getProperty(Ids::scopeLocal);
 
         if (scopeCode != -1)
         {
@@ -135,79 +102,45 @@ int BCMParameter::getScopeCode()
 
 void BCMParameter::getSettings(ValueTree& settings)
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    
-    if (parameterType.isValid())
-        settings = parameterType.getChildWithName(paramTypeSettingsId);
+    settings = definition.getChildWithName(Ids::settings);
 }
 
 void BCMParameter::getDescriptions(String& shortDesc, String& fullDesc)
 {
-    shortDesc = definition.getProperty(paramShortDescId, shortDesc).toString();
-    fullDesc  = definition.getProperty(paramFullDescId, fullDesc).toString();
+    shortDesc = definition.getProperty(Ids::shortDescription).toString();
+    fullDesc  = definition.getProperty(Ids::fullDescription).toString();
 }
 
 void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix)
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-
-    if (parameterType.isValid())
-    {
-        rangeMin = parameterType.getProperty(paramTypeUIRangeMinId, rangeMin);
-        rangeMax = parameterType.getProperty(paramTypeUIRangeMaxId, rangeMax);
-        rangeInt = parameterType.getProperty(paramTypeUIRangeIntervalId, rangeInt);
-        uiSuffix = parameterType.getProperty(paramTypeUISuffixId, uiSuffix);
-    }
+    rangeMin = definition.getProperty(Ids::uiRangeMin);
+    rangeMax = definition.getProperty(Ids::uiRangeMax);
+    rangeInt = definition.getProperty(Ids::uiRangeInterval);
+    uiSuffix = definition.getProperty(Ids::uiSuffix);
 }
 
-bool BCMParameter::getUIResetValue(double& uiResetValue)
+double BCMParameter::getUIResetValue()
 {
-    bool      foundValue    = false;
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-
-    if (parameterType.isValid())
-    {
-        if (parameterType.hasProperty(paramTypeUIResetValueId))
-        {
-            uiResetValue = parameterType.getProperty(paramTypeUIResetValueId);
-            foundValue = true;
-        }
-    }
-
-    return foundValue;
+    return definition.getProperty(Ids::uiResetValue);
 }
 
-bool BCMParameter::getUISkewFactor(double& uiSkewFactor)
+double BCMParameter::getUISkewFactor()
 {
-    bool      foundValue    = false;
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-
-    if (parameterType.isValid())
-    {
-        if (parameterType.hasProperty(paramTypeUISkewFactorId))
-        {
-            uiSkewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
-            foundValue = true;
-        }
-    }
-    
-    return foundValue;
+    return definition.getProperty(Ids::uiSkewFactor);
 }
 
 void BCMParameter::getUITextValue(String& textValue)
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-        
-    int parameterValueType = parameterType.getProperty(paramTypeValueTypeId);
+    int parameterValueType = definition.getProperty(Ids::valueType);
 
     if (parameterValueType == discrete)
     {
-        ValueTree paramSettings = parameterType.getChildWithName(paramTypeSettingsId);
+        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
 
         if (paramSettings.isValid())
         {
             int settingIdx = roundDoubleToInt(uiValue.getValue());
-            String settingName = paramSettings.getChild(settingIdx).getProperty(paramTypeSettingNameId);
+            String settingName = paramSettings.getChild(settingIdx).getProperty(Ids::name);
                     
             if (settingName.isNotEmpty())
                 textValue = settingName;
@@ -215,12 +148,7 @@ void BCMParameter::getUITextValue(String& textValue)
     }
     else
     {
-        String uiSuffix = String::empty;
-
-        if (parameterType.hasProperty(paramTypeUISuffixId))
-            uiSuffix = parameterType.getProperty(paramTypeUISuffixId);
-        
-        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + uiSuffix;
+        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + definition.getProperty(Ids::uiSuffix);
     }
     //DBG("BCMParameter::getUITextValue - " + definition.getProperty(paramNameId).toString() + ": " + textValue);
 }
@@ -228,46 +156,55 @@ void BCMParameter::getUITextValue(String& textValue)
 float BCMParameter::getHostValue()
 {
     float hostValue = skewHostValue(linearNormalisedValue.getValue(), true);
-    DBG("BCMParameter::getHostValue - " + definition.getProperty(paramNameId).toString() + ": " + String(hostValue));
+    DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
     return hostValue;
 }
 
 float BCMParameter::getScopeFltValue()
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    float     minScopeValue = parameterType.getProperty(paramTypeScopeRangeMinFltId);
-    float     maxScopeValue = parameterType.getProperty(paramTypeScopeRangeMaxFltId);
+    float minScopeValue = definition.getProperty(Ids::scopeRangeMinFlt);
+    float maxScopeValue = definition.getProperty(Ids::scopeRangeMaxFlt);
 
     double valueToScale = linearNormalisedValue.getValue();
 
-    if (parameterType.hasProperty(paramTypeScopeDBRefId))
+    double ref        = definition.getProperty(Ids::scopeDBRef);
+        
+    if (ref != 0.0f)
     {
-        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
-        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
-        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
         
         valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
     }
 
     float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale);
-    DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(paramNameId).toString() + ": " + String(scopeValue));
+    DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
     return scopeValue;
+}
+
+void BCMParameter::getScopeRanges(int& min, int& max)
+{
+    min = definition.getProperty(Ids::scopeRangeMin).toString().getHexValue32();
+    DBG("BCMParameter::getScopeRanges - max as string: " + definition.getProperty(Ids::scopeRangeMax).toString() + ", as int: " + String(definition.getProperty(Ids::scopeRangeMax).toString().getHexValue32()));
+    max = definition.getProperty(Ids::scopeRangeMax).toString().getHexValue32();
 }
 
 int BCMParameter::getScopeIntValue()
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    int minScopeValue       = parameterType.getProperty(paramTypeScopeRangeMinId);
-    int maxScopeValue       = parameterType.getProperty(paramTypeScopeRangeMaxId);
+    int minScopeValue;
+    int maxScopeValue;
+
+    getScopeRanges(minScopeValue, maxScopeValue);
 
     double valueToScale = linearNormalisedValue.getValue();
 
-    if (parameterType.hasProperty(paramTypeScopeDBRefId))
-    {
-        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
-        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
-        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+    double ref        = definition.getProperty(Ids::scopeDBRef);
         
+    if (ref != 0.0f)
+    {
+        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
+
         valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
     }
 
@@ -292,55 +229,56 @@ void BCMParameter::setHostValue(float newValue)
 {
     linearNormalisedValue = skewHostValue(newValue, false);
     uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
-    DBG("BCMParameter::setHostValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+    DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setScopeFltValue(float newValue)
 {
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-    float     minScopeValue = parameterType.getProperty(paramTypeScopeRangeMinFltId);
-    float     maxScopeValue = parameterType.getProperty(paramTypeScopeRangeMaxFltId);
+    float minScopeValue = definition.getProperty(Ids::scopeRangeMinFlt);
+    float maxScopeValue = definition.getProperty(Ids::scopeRangeMaxFlt);
 
     linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
 
-    if (parameterType.hasProperty(paramTypeScopeDBRefId))
+    double ref        = definition.getProperty(Ids::scopeDBRef);
+        
+    if (ref != 0.0f)
     {
-        double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
-        double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
-        double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
             
         linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
     }
 
     uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
-    DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+    DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setScopeIntValue(int newValue)
 {
     if (!affectedByUI)
     {
-        ValueTree parameterType = definition.getChildWithName(paramTypeId);
-        int minScopeValue       = parameterType.getProperty(paramTypeScopeRangeMinId);
-        int maxScopeValue       = parameterType.getProperty(paramTypeScopeRangeMaxId);
+        int minScopeValue;
+        int maxScopeValue;
 
+        getScopeRanges(minScopeValue, maxScopeValue);
         linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+
+        double ref        = definition.getProperty(Ids::scopeDBRef);
         
-        if (parameterType.hasProperty(paramTypeScopeDBRefId))
+        if (ref != 0.0f)
         {
-            double ref        = parameterType.getProperty(paramTypeScopeDBRefId);
-            double uiMinValue = parameterType.getProperty(paramTypeUIRangeMinId);
-            double uiMaxValue = parameterType.getProperty(paramTypeUIRangeMaxId);
+            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
             
             linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
         }
 
         uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
-        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
     }
     else
     {
-        DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update: " + definition.getProperty(paramNameId).toString());
+        DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update: " + definition.getProperty(Ids::name).toString());
     }
 }
 
@@ -356,18 +294,16 @@ void BCMParameter::setUIValue(float newValue)
     getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
     
     linearNormalisedValue = (float)scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
-    DBG("BCMParameter::setUIValue - " + definition.getProperty(paramNameId).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 float BCMParameter::skewHostValue(float hostValue, bool invert)
 {
     double skewedValue = hostValue;
+    double skewFactor = definition.getProperty(Ids::uiSkewFactor);
 
-    ValueTree parameterType = definition.getChildWithName(paramTypeId);
-
-    if (parameterType.hasProperty(paramTypeUISkewFactorId) && !(parameterType.getProperty(paramTypeSkewUIOnlyId)))
+    if ((skewFactor != 1.0f) && !(definition.getProperty(Ids::skewUIOnly)))
     {
-        double skewFactor = parameterType.getProperty(paramTypeUISkewFactorId);
         skewValue(skewedValue, skewFactor, 0.0f, 1.0f, invert);
     }
     

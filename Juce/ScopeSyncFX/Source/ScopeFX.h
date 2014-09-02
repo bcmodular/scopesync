@@ -62,8 +62,8 @@ public:
     // Update current window location values
     void positionChanged(int newPosX, int newPosY);
     
-    ScopeSync& getScopeSync() { return scopeSync; }
-
+    ScopeSync&    getScopeSync() { return scopeSync; }
+    
 private:	
     // Initialise member variables
     void initValues();
@@ -88,9 +88,9 @@ private:
     static const int numLocalValues;
 
     // Async values that are handled directly by ScopeFX
-    int positionX;               // Horizontal location of window
-	int positionY;               // Vertical location of window
-	String newConfigurationFile; // Path of configuration file
+    int    positionX;             // Horizontal location of window
+	int    positionY;             // Vertical location of window
+	String configurationFileName; // Path of configuration file
 
     bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown

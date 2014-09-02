@@ -33,6 +33,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/ComboBoxProperties.h"
+#include "../Core/Global.h"
 
 BCMComboBox::BCMComboBox(String& name) : ComboBox(name) {}
 
@@ -59,7 +60,7 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
     mapsToParameter = false;
         
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingComboBoxId, getName(), mapping);
+    parameter = gui.getUIMapping(Ids::comboBoxes, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -81,7 +82,7 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)
             {
                 ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
+                String    settingName      = parameterSetting.getProperty(Ids::setting, "__NO_NAME__");
 
                 addItem(settingName, i + 1);
                 // DBG("BCMComboBox::BCMComboBox - Added parameter value to drop-down: " + settingName);

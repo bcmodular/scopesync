@@ -30,29 +30,13 @@
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
+#include "Global.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 
-const Identifier ScopeSyncGUI::mappingId                = "mapping";
-const Identifier ScopeSyncGUI::mappingParamId           = "parameter";
-const Identifier ScopeSyncGUI::mappingParamNameId       = "name";
-const Identifier ScopeSyncGUI::mappingMapToId           = "mapto";
-const Identifier ScopeSyncGUI::mappingTypeId            = "type";
-const Identifier ScopeSyncGUI::mappingDisplayTypeId     = "displaytype";
-const Identifier ScopeSyncGUI::mappingCustomDisplayId   = "customdisplay";
-const Identifier ScopeSyncGUI::mappingSettingDownId     = "settingdown";
-const Identifier ScopeSyncGUI::mappingSettingUpId       = "settingup";
-const Identifier ScopeSyncGUI::mappingComponentNameId   = "name";
-const Identifier ScopeSyncGUI::mappingSliderId          = "slider";
-const Identifier ScopeSyncGUI::mappingLabelId           = "label";
-const Identifier ScopeSyncGUI::mappingComboBoxId        = "combobox";
-const Identifier ScopeSyncGUI::mappingTextButtonId      = "textbutton";
-const Identifier ScopeSyncGUI::mappingTabbedComponentId = "tabbedcomponent";
-const Identifier ScopeSyncGUI::mappingRadioGroupId      = "radiogroup";
-
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
-    createGUI();
+    createGUI(false);
     scopeSync.setGUIReload(false);
     startTimer(timerFrequency);
 }
@@ -78,18 +62,17 @@ void ScopeSyncGUI::showUserSettings()
 
 void ScopeSyncGUI::chooseConfiguration()
 {
-    File configurationFile(scopeSync.getConfigurationFilePath());
-    File configurationFileDirectory = configurationFile.getParentDirectory();
-
-    FileChooser fileChooser ("Please select the configuration file you want to load...",
-                             configurationFileDirectory,
-                             "*.configuration");
-
+    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
+    
+    FileChooser fileChooser("Please select the configuration file you want to load...",
+                            configurationFileDirectory,
+                            "*.configuration");
+    
     if (fileChooser.browseForFileToOpen())
     {
-        File configurationFile (fileChooser.getResult());
-        scopeSync.setConfigurationFilePath(configurationFile.getFullPathName(), false);
+        scopeSync.changeConfiguration(fileChooser.getResult().getFullPathName(), false);
     }
+        
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)
@@ -100,12 +83,12 @@ BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const Strin
     {
         for (int i = 0; i < componentMapping.getNumChildren(); i++)
         {
-            String mappedComponentName = componentMapping.getChild(i).getProperty(mappingComponentNameId);
+            String mappedComponentName = componentMapping.getChild(i).getProperty(Ids::name);
 
             if (componentName.equalsIgnoreCase(mappedComponentName))
             {
                 mapping = componentMapping.getChild(i);
-                String mapTo = mapping.getProperty(mappingMapToId).toString();
+                String mapTo = mapping.getProperty(Ids::mapTo).toString();
                 return scopeSync.getParameterByName(mapTo);
             }
         }
@@ -135,24 +118,12 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
     }
 }
 
-void ScopeSyncGUI::showSystemError()
-{
-    systemError = new Label("Error", "");
-    systemError->setFont(Font (15.00f, Font::plain));
-    systemError->getTextValue().referTo(scopeSync.getSystemError());
-    systemError->setColour(Label::textColourId, Colours::aliceblue);
-    systemError->setJustificationType(Justification::centredRight);
-    systemError->setEditable(false, false, false);
-    systemError->setBounds(8, 8, 500, 40);
-    addAndMakeVisible(systemError);
-}
-
-void ScopeSyncGUI::createGUI()
+void ScopeSyncGUI::createGUI(bool forceReload)
 {
     mainComponent = nullptr;
     tabbedComponents.clearQuick();
 
-    loadMapping();
+    deviceMapping = scopeSync.getMapping();
     
     scopeSync.clearBCMLookAndFeels();
 
@@ -162,25 +133,19 @@ void ScopeSyncGUI::createGUI()
     
     setupLookAndFeels(*systemLookAndFeels, useImageCache);
 
-    XmlElement* layoutXml = scopeSync.getConfiguration().getChildByName("layout");
-    
-    if (layoutXml == nullptr)
-    {
-        scopeSync.setSystemError("No layout found");
-        
-        showSystemError();
-        
-        setSize(600, 50);
-        return;
-    }
+    String errorText;
+    String errorDetails;
 
+    XmlElement& layoutXml = scopeSync.getLayout(errorText, errorDetails, forceReload);
+    scopeSync.setSystemError(errorText, errorDetails);
+    
     // Then override with any layout-specific ones
-    XmlElement* child = layoutXml->getChildByName("lookandfeels");
+    XmlElement* child = layoutXml.getChildByName("lookandfeels");
 
     if (child)
         setupLookAndFeels(*child, useImageCache);
 
-    child = layoutXml->getChildByName("defaults");
+    child = layoutXml.getChildByName("defaults");
 
     if (child)
         setupDefaults(*child);
@@ -190,7 +155,7 @@ void ScopeSyncGUI::createGUI()
         setupDefaults(defaults);
     }
 
-    child = layoutXml->getChildByName("component");
+    child = layoutXml.getChildByName("component");
 
     if (child)
         createComponent(*child);
@@ -201,101 +166,6 @@ void ScopeSyncGUI::createGUI()
     }
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
-}
-
-void ScopeSyncGUI::loadMapping()
-{
-    deviceMapping = ValueTree(mappingId);
-    
-    XmlElement* mappingXml = scopeSync.getConfiguration().getChildByName("mapping");
-    
-    if (mappingXml == nullptr)
-    {
-        return;
-    }
-    
-    ValueTree sliderMapping(mappingSliderId);
-    ValueTree labelMapping(mappingLabelId);
-    ValueTree comboBoxMapping(mappingComboBoxId);
-    ValueTree textButtonMapping(mappingTextButtonId);
-    ValueTree tabbedComponentMapping(mappingTabbedComponentId);
-
-    forEachXmlChildElement(*mappingXml, child)
-    {
-        String name = child->getStringAttribute(mappingComponentNameId, String::empty);
-
-        if (name.isEmpty())
-            continue;
-
-        XmlElement* parameter = child->getChildByName(mappingParamId);
-        String parameterName;
-
-        if (parameter)
-            parameterName = parameter->getStringAttribute(mappingParamNameId, String::empty);
-        else
-            continue;
-
-        if (parameterName.isEmpty())
-            continue;
-
-        Identifier xmlId = child->getTagName();
-        
-        ValueTree mappingComponent(xmlId);
-        mappingComponent.setProperty(mappingComponentNameId, name, nullptr);
-        mappingComponent.setProperty(mappingMapToId, parameterName, nullptr);
-
-        String type = parameter->getStringAttribute(mappingTypeId, "standard");
-        mappingComponent.setProperty(mappingTypeId, type, nullptr);
-
-        if (xmlId == mappingSliderId)
-            sliderMapping.addChild(mappingComponent, -1, nullptr);
-        else if (xmlId == mappingLabelId)
-            labelMapping.addChild(mappingComponent, -1, nullptr);
-        else if (xmlId == mappingComboBoxId)
-            comboBoxMapping.addChild(mappingComponent, -1, nullptr);    
-        else if (xmlId == mappingTabbedComponentId)
-            tabbedComponentMapping.addChild(mappingComponent, -1, nullptr);    
-        else if (xmlId == mappingTextButtonId)
-        {
-            String displayType = parameter->getStringAttribute(mappingDisplayTypeId, "standard");
-            mappingComponent.setProperty(mappingDisplayTypeId, displayType, nullptr);
-
-            String customDisplay = parameter->getStringAttribute(mappingCustomDisplayId, "custom");
-            mappingComponent.setProperty(mappingCustomDisplayId, customDisplay, nullptr);
-
-            String settingDown = parameter->getStringAttribute(mappingSettingDownId, "__NO_SETTING__");
-            mappingComponent.setProperty(mappingSettingDownId, settingDown, nullptr);
-
-            String settingUp = parameter->getStringAttribute(mappingSettingUpId, "__NO_SETTING__");
-            mappingComponent.setProperty(mappingSettingUpId, settingUp, nullptr);
-
-            String radioGroupString = parameter->getStringAttribute(mappingRadioGroupId, "__no_setting__").toLowerCase();
-            if (radioGroupString != "__no_setting__") mappingComponent.setProperty(mappingRadioGroupId, radioGroupString.hashCode(), nullptr);            
-            
-            textButtonMapping.addChild(mappingComponent, -1, nullptr);
-        }
-
-        if (xmlId != mappingLabelId)
-        {
-            // For components other than Labels, automatically map a Label
-            // with the same component name
-            ValueTree mappingLabel = ValueTree(mappingLabelId);
-
-            mappingLabel.setProperty(mappingComponentNameId, name, nullptr);
-            mappingLabel.setProperty(mappingMapToId, parameterName, nullptr);
-            mappingLabel.setProperty(mappingTypeId, "standard", nullptr);
-
-            labelMapping.addChild(mappingLabel, -1, nullptr);
-        }
-    }
-
-    deviceMapping.addChild(sliderMapping, -1, nullptr);
-    deviceMapping.addChild(labelMapping, -1, nullptr);
-    deviceMapping.addChild(comboBoxMapping, -1, nullptr);
-    deviceMapping.addChild(textButtonMapping, -1, nullptr);
-    deviceMapping.addChild(tabbedComponentMapping, -1, nullptr);
-    
-    DBG("ScopeSyncGUI::loadMapping - Full mapping: " + deviceMapping.toXmlString());
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)
@@ -315,15 +185,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
-        File configurationFile;
-
-        if (File::isAbsolutePath(scopeSync.getConfigurationFilePath()))
-            configurationFile = File(scopeSync.getConfigurationFilePath());
-
-        String configurationFileDirectory = String::empty;
-
-        if (configurationFile.existsAsFile())
-            configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
+        String configurationFileDirectory = scopeSync.getConfigurationDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
         DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
@@ -412,15 +274,7 @@ void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
 
 void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
-    File configurationFile;
-
-    if (File::isAbsolutePath(scopeSync.getConfigurationFilePath()))
-        configurationFile = File(scopeSync.getConfigurationFilePath());
-
-    String configurationFileDirectory = String::empty;
-
-    if (configurationFile.existsAsFile())
-        configurationFileDirectory = configurationFile.getParentDirectory().getFullPathName();
+    const String& configurationFileDirectory = scopeSync.getConfigurationDirectory();
         
     addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));
     
@@ -432,7 +286,7 @@ void ScopeSyncGUI::timerCallback()
 {
     if (scopeSync.guiNeedsReloading())
     {
-        createGUI();
+        createGUI(true);
         scopeSync.setGUIReload(false);
     }
 }

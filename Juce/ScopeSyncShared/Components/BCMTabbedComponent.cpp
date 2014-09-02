@@ -30,6 +30,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
+#include "../Core/Global.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner) : TabbedComponent(orientation), gui(owner) {}
 
@@ -47,7 +48,7 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingTabbedComponentId, getName(), mapping);
+    parameter = gui.getUIMapping(Ids::tabbedComponents, getName(), mapping);
 
     if (parameter != nullptr)
     {

@@ -32,6 +32,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
+#include "../Core/Global.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner) : Slider(name), gui(owner) {}
 
@@ -78,7 +79,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     mapsToParameter = false;
     
     ValueTree mapping;
-    parameter = gui.getUIMapping(ScopeSyncGUI::mappingSliderId, getName(), mapping);
+    parameter = gui.getUIMapping(Ids::sliders, getName(), mapping);
 
     if (parameter != nullptr)
     {
@@ -86,6 +87,9 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         
         String shortDesc;
         parameter->getDescriptions(shortDesc, tooltip);
+
+        String uiSuffix = String::empty;
+        parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
 
         ValueTree parameterSettings;
         parameter->getSettings(parameterSettings);
@@ -98,42 +102,21 @@ void BCMSlider::applyProperties(SliderProperties& properties)
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)
             {
                 ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(BCMParameter::paramTypeSettingNameId, "__NO_NAME__");
+                String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
 
                 settingsNames.add(settingName);
             }
-            rangeMin = 0;
-            rangeMax = parameterSettings.getNumChildren() - 1;
-
+            
             if (getEncoderSnap(gui.getScopeSync().getAppProperties(), properties.encoderSnap))
                 rangeInt = 1;
-
-            setRange(rangeMin, rangeMax, rangeInt);
-        }
-        else
-        {
-            String uiSuffix = String::empty;
-
-            parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
-
-            setRange(rangeMin, rangeMax, rangeInt);
-
-            // Set up a regular slider
-            setTextValueSuffix(uiSuffix);
-
-            double uiResetValue = 0.0f;
-
-            if (parameter->getUIResetValue(uiResetValue))
-                setDoubleClickReturnValue(true, uiResetValue);
-
-            double uiSkewFactor = 0.0f;
-
-            if (parameter->getUISkewFactor(uiSkewFactor))
-            {
-                setSkewFactor(uiSkewFactor);
-            }
         }
 
+        setRange(rangeMin, rangeMax, rangeInt);
+        setTextValueSuffix(uiSuffix);
+
+        setDoubleClickReturnValue(true, parameter->getUIResetValue());
+        setSkewFactor(parameter->getUISkewFactor());
+        
         DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
         parameter->mapToUIValue(getValueObject());
     }

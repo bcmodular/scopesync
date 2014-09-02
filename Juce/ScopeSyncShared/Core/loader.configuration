@@ -1,37 +1,39 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <device>
-    <parameter name="PARAM132">
-      <shortdescription>Param 132</shortdescription>
-      <fulldescription>Load New Configuration</fulldescription>
-      <parametertype name="ON/OFF Toggle" />
-      <scopelocal>Z8</scopelocal>
-    </parameter>
-  </device>
-  <mapping>
-    <textbutton name="B69">
-      <parameter name="PARAM132" settingdown="ON" type="notoggle" />
-    </textbutton>
+<?xml version="1.0" encoding="utf-8"?>
+<configuration name="No configuration loaded...">
+    <hostParameters />
+    <scopeParameters>
+      <parameter name="PARAM129" shortDescription="Param 129" fullDescription="CP-Host" scopeSync="-1"  scopeLocal="12" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+        <settings>
+          <setting name="DISCONNECTED" value="0"/>
+          <setting name="CONNECTED" value="1"/>
+        </settings>
+      </parameter>
+      <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1"  scopeLocal="13" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+        <settings>
+          <setting name="OFF" value="0"/>
+          <setting name="ON" value="1"/>
+        </settings>
+      </parameter>
+      <parameter name="PARAM131" shortDescription="Param 131" fullDescription="Open Preset List"  scopeSync="-1"  scopeLocal="14" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+        <settings>
+          <setting name="OFF" value="0"/>
+          <setting name="ON" value="1"/>
+        </settings>
+      </parameter>
+      <parameter name="PARAM132" shortDescription="Param 132" fullDescription="Load New Configuration"  scopeSync="-1"  scopeLocal="15" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+          <settings>
+            <setting name="OFF" value="0"/>
+            <setting name="ON" value="1"/>
+          </settings>
+        </parameter>
+    </scopeParameters>
+    <mapping>
+        <textButtons>
+            <textButton name="B65" mapTo="PARAM129" settingDown="DISCONNECTED"       type="1" radioGroup="" />
+            <textButton name="B66" mapTo="PARAM129" settingDown="CONNECTED"          type="1" radioGroup="" />
+            <textButton name="B67" mapTo="PARAM130" settingDown="ON" settingUp="OFF" type="1" radioGroup="" />
+            <textButton name="B68" mapTo="PARAM131" settingDown="ON" settingUp="OFF" type="1" radioGroup="" />
+            <textButton name="B69" mapTo="PARAM132" settingDown="ON" type="0" radioGroup="" />
+        </textButtons>
   </mapping>
-  <layout>
-    <component backgroundcolour="ff2b2e30">
-      <bounds x="0" y="0" width="700" height="40"></bounds>
-      <textbutton lfid="system:reload_config_button" name="reloadconfiguration" tooltip="Reload current configuration">
-          <bounds x="196" y="10" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load New Configuration">
-          <bounds x="170" y="10" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:load_config_button" displaycontext="scope" name="B69" tooltip="Load New Configuration">
-        <bounds x="170" y="10" width="21" height="21"></bounds>
-      </textbutton>
-      <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
-        <bounds x="10" y="12" width="151" height="16"></bounds>
-      </component>
-      <label lfid="system:systemerror" name="SystemError" text="">
-        <justification right="true" />
-        <bounds x="226" y="10" width="474" height="20"></bounds>
-      </label>
-    </component>
-  </layout>
 </configuration>

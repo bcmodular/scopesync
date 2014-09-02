@@ -13,10 +13,6 @@
  * builds for each, relying on a __DLL_EFFECT__ pre-processor
  * directive to identify the scopefx context.
  *
- * The wrapper objects (PluginProcessor and ScopeFX respectively)
- * control ScopeSync's timer callbacks, which is why it does not
- * inherit from Timer itself.
- *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
  * This file is part of ScopeSync.
@@ -45,6 +41,8 @@
 
 class PluginProcessor;
 class ScopeFX;
+class Configuration;
+
 #include "../Comms/ScopeSyncAudio.h"
 #include "BCMParameter.h"
 
@@ -54,8 +52,9 @@ class ScopeFX;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
+#include "Configuration.h"
 
-class ScopeSync : public Value::Listener
+class ScopeSync
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -74,8 +73,9 @@ public:
     void endParameterChangeGesture(BCMParameter& parameter);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
-    void timerCallback();
-    bool loadConfiguration(bool loadLoader, bool retainState, bool clearSystemErrorMessage);
+    void receiveUpdates();
+    void reloadLayout();
+    void unloadConfiguration();
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
     BCMLookAndFeel* getBCMLookAndFeelById(String id);
     void clearBCMLookAndFeels();
@@ -99,38 +99,38 @@ public:
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
     /* =================== Public Configuration Methods ====================== */
-    String          getConfigurationName();
-    String          getConfigurationFilePath();
-    void            setConfigurationFilePath(const String& newFilePath, bool retainState);
-    XmlElement&     getConfiguration() { return configurationXml; };
+    ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
+    String          getConfigurationName() { return configuration->getDocumentTitle(); };
+    const File&     getConfigurationFile() { return configuration->getFile(); };
+    const File&     getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); };
+    String          getConfigurationDirectory() { return configuration->getDirectory(); };
+    bool            hasConfigurationUpdate(String& fileName);
+    void            changeConfiguration(const String& fileName, bool asyncLoad);
+    bool            processConfigurationChange();
+    ValueTree       getMapping() { return configuration->getMapping(); };
+    XmlElement&     getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*     getSystemLookAndFeels();
-    bool            configurationIsLoading();
-    void            setConfigurationLoading(bool configurationLoadingFlag);
     PropertiesFile& getAppProperties();
     void            storeParameterValues();
     void            storeParameterValues(XmlElement& parameterValues);
     void            restoreParameterValues();
     XmlElement&     getParameterValueStore() { return parameterValueStore; };
     Value&          getSystemError();
-    void            setSystemError(const String& errorText) { systemError.setValue(errorText); };
+    Value&          getSystemErrorDetails();
+    void            setSystemError(const String& errorText, const String& errorDetailsText);
      
-    /* ============================ Enumerations ============================== */
-    enum AppContext {plugin, scopefx}; // Contexts under which the app may be running
-    
-    static const bool inPluginContext()  { return (appContext == plugin)  ? true : false; };
-    static const bool inScopeFXContext() { return (appContext == scopefx) ? true : false; };
-
 private:
     /* ========================== Initialisation ============================== */
     void initialise();
+    void resetScopeCodeIndexes();
     
     /* ========================== Private Actions ============================= */
     void receiveUpdatesFromScopeAudio();
     void receiveUpdatesFromScopeAsync();
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
-    void valueChanged(Value& valueThatChanged);
-
+    void applyConfiguration();
+    
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
@@ -139,7 +139,6 @@ private:
     bool loadDeviceParameters(XmlElement& deviceXml, bool loadLoader);
     bool loadMappingFile(XmlElement& mappingXml);
     bool loadLayoutFile(XmlElement& layoutXml);
-    void clearSystemError() { systemError.setValue(String::empty); };
     
     /* ===================== Private member variables ========================= */
 #ifndef __DLL_EFFECT__
@@ -159,36 +158,28 @@ private:
 
     CriticalSection flagLock;
    
-    bool configurationLoading;      // Configuration load is disabled while in the process of loading
     bool reloadGUI;                 // Flag to indicate whether the GUI needs to be reloaded
     bool retainParameterState;      // Flag to indicate whether parameter values should be restored after loading configuration
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
-    
-    Array<std::pair<int,float>, CriticalSection> audioControlUpdates;   // Updates received from the ScopeSync audio input
-    Array<std::pair<int,int>, CriticalSection>   asyncControlUpdates;   // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    ValueTree                                    deviceParameters;      // ValueTree containing the definition of all Device Parameters
-    ValueTree                                    parameterTypes;        // ValueTree containing the definition of all Parameter Types
-    XmlElement                                   configurationXml;      // Configuration XML loaded from definition file(s)
 
-    int numParameters;
+    bool configurationLoading;
     
-    static const int minHostParameters;   // Minimum parameter count to return to host
-    static const int MIN_SCOPE_INTEGER;   // Minimum (signed) integer understood by Scope
-    static const int MAX_SCOPE_INTEGER;   // Maximum (signed) integer understood by Scope
-    static const int numScopeSyncParameters;  // Number of ScopeSync Parameters being processed by the Scope Async system
-    static const int numScopeLocalParameters; // Number of ScopeLocal Parameters being processed by the Scope Async system
-
+    Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
+    Array<std::pair<int,int>, CriticalSection>   asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
+    Array<String, CriticalSection>               configurationChanges;
+    ScopedPointer<Configuration>                 configuration;
+    
+    static const int minHostParameters;       // Minimum parameter count to return to host
+    
     static const String systemParameterTypes; // XML configuration for the default parameter types
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
     static const String loaderConfiguration;  // XML configuration for the loader
     
-    static const AppContext  appContext;      // Context under which the app is currently running
     static const StringArray scopeSyncCodes;  // Array of ScopeSync codes for looking up during configuration
     static const StringArray scopeLocalCodes; // Array of ScopeLocal codes for looking up during configuration
     
-    Value configurationFilePath; // Full file path for currently loaded configuration
-    Value configurationName;     // Name of currently loaded configuration
-    Value systemError;           // Latest system error text
+    Value systemError;        // Latest system error text
+    Value systemErrorDetails; // Latest system error details text
     
     ApplicationProperties appProperties; // Main application properties
     
