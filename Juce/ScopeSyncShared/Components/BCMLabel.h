@@ -63,7 +63,7 @@ private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabelValueListener)
     };
 
-    BCMLabelValueListener valueListener;
+    ScopedPointer<BCMLabelValueListener> valueListener;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };

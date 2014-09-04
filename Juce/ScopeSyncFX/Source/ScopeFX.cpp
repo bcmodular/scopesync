@@ -69,9 +69,11 @@ using namespace ScopeFXParameterDefinitions;
 
 Array<ScopeFX*> ScopeFX::moduleInstances;
 
-ScopeFX::ScopeFX() : Effect(&effectDescription), scopeSync(this)
+ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
     initValues();
+
+    scopeSync = new ScopeSync(this);
 
     if (moduleInstances.size() == 0)
     {
@@ -92,14 +94,13 @@ ScopeFX::~ScopeFX()
     stopTimer();
     
     scopeFXGUI = nullptr;
+    scopeSync->unload();
 
     moduleInstances.removeAllInstancesOf(this);
     DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(moduleInstances.size()));
-
+    
     if (moduleInstances.size() == 0)
-    {
         shutdownJuce_GUI();
-    }
 }
    
 void ScopeFX::initValues()
@@ -118,7 +119,7 @@ void ScopeFX::timerCallback()
 
     if (windowHandlerDelay == 0)
     {   
-		if ((requestWindowShow || scopeSync.getSystemError().toString().isNotEmpty()) && !windowShown)
+		if ((requestWindowShow || scopeSync->getSystemError().toString().isNotEmpty()) && !windowShown)
         {
             DBG("ScopeFX::timerCallback - Request to show window");
             showWindow();
@@ -143,9 +144,9 @@ void ScopeFX::timerCallback()
         windowHandlerDelay--;
     }
     
-    if (!(scopeSync.processConfigurationChange()))
+    if (!(scopeSync->processConfigurationChange()))
     {
-        scopeSync.receiveUpdates();
+        scopeSync->receiveUpdates();
     }
 }
 
@@ -211,7 +212,7 @@ int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
         for (int i = numParameters; i < numParameters + numLocalValues; i++)
             asyncValues.add(0);
 
-    scopeSync.handleScopeSyncAsyncUpdate(asyncValues);
+    scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
     for (int i = 0; i < numParameters + numLocalValues; i++)
         asyncOut[i].itg = asyncValues[i];
@@ -225,7 +226,7 @@ int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
 
     if (!(newConfigurationFileName.equalsIgnoreCase(configurationFileName)))
     {
-        scopeSync.changeConfiguration(newConfigurationFileName, true);
+        scopeSync->changeConfiguration(newConfigurationFileName, true);
         configurationFileName = newConfigurationFileName;
     }
 
@@ -252,7 +253,7 @@ int ScopeFX::syncBlock(PadData ** /*asyncIn*/, PadData * /*syncIn*/,
     {
         Array<std::pair<int,int>> snapshotSubset;
         
-        scopeSync.getSnapshot(snapshotSubset, cnt);
+        scopeSync->getSnapshot(snapshotSubset, cnt);
     
         for (int i = 0; i < cnt; i++, outData++, outDest++)
         {

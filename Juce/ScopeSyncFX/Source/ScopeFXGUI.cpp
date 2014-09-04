@@ -76,7 +76,7 @@ void ScopeFXGUI::refreshWindow()
         firstTimeShow = false;
     }
 
-    String newWindowName = scopeFX->getScopeSync().getConfigurationName();
+    String newWindowName = scopeFX->getScopeSync().getConfigurationName(true);
 
     if (windowName != newWindowName)
     {

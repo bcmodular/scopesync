@@ -158,9 +158,12 @@ bool Configuration::replaceConfiguration(const String& newFileName)
 
 Result Configuration::saveDocument (const File& /* file */)
 {
-    // Need to actually save the document here :)
-    // Probably want to use File::replaceWithData()
-    return Result::ok();
+    ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
+
+    if (outputXml->writeToFile(getFile(), String::empty, "UTF-8", 120))
+        return Result::ok();
+    else
+        return Result::fail("Failed to save configuration file");
 }
 
 static File lastDocumentOpened;

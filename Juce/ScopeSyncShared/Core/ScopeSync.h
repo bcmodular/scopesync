@@ -65,6 +65,7 @@ public:
     ScopeSync(ScopeFX* owner);
 #endif // __DLL_EFFECT__
     ~ScopeSync();
+    void unload();
 
     /* ========================== Public Actions ============================= */
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
@@ -99,8 +100,11 @@ public:
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
     /* =================== Public Configuration Methods ====================== */
+    void            applyConfiguration();
+    void            saveConfiguration();
+    bool            configurationHasUnsavedChanges();
     ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
-    String          getConfigurationName() { return configuration->getDocumentTitle(); };
+    String          getConfigurationName(bool showUnsavedIndicator);
     const File&     getConfigurationFile() { return configuration->getFile(); };
     const File&     getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); };
     String          getConfigurationDirectory() { return configuration->getDirectory(); };
@@ -129,7 +133,6 @@ private:
     void receiveUpdatesFromScopeAsync();
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
-    void applyConfiguration();
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();

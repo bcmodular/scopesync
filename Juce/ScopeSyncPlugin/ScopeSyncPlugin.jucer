@@ -23,6 +23,7 @@
             file="../ScopeSyncShared/Resources/ImageResources.h"/>
     </GROUP>
     <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
+      <FILE id="HfxhCA" name="BCMMisc.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.h"/>
       <FILE id="Z61VsF" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
       <FILE id="zhLooZ" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
     </GROUP>
@@ -72,6 +73,10 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
+      <FILE id="J3ywST" name="ConfigurationManager.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Components/ConfigurationManager.cpp"/>
+      <FILE id="fLlqQi" name="ConfigurationManager.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Components/ConfigurationManager.h"/>
       <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
       <FILE id="AbJaYe" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
       <FILE id="gLWoeo" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>

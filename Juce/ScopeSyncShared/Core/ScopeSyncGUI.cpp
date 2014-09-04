@@ -30,6 +30,7 @@
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
+#include "../Components/ConfigurationManager.h"
 #include "Global.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
@@ -52,6 +53,20 @@ void ScopeSyncGUI::showUserSettings()
     launchOptions.content.setOwned(new UserSettings(scopeSync));
     launchOptions.componentToCentreAround      = mainComponent;
     launchOptions.dialogTitle                  = "User Settings";
+    launchOptions.dialogBackgroundColour       = Colours::darkgrey;
+    launchOptions.escapeKeyTriggersCloseButton = true;
+    launchOptions.useNativeTitleBar            = false;
+    launchOptions.resizable                    = false;
+
+    launchOptions.launchAsync();
+}
+
+void ScopeSyncGUI::showConfigurationManager()
+{
+    DialogWindow::LaunchOptions launchOptions;
+    launchOptions.content.setOwned(new ConfigurationManager(scopeSync));
+    launchOptions.componentToCentreAround      = mainComponent;
+    launchOptions.dialogTitle                  = "Configuration Manager";
     launchOptions.dialogBackgroundColour       = Colours::darkgrey;
     launchOptions.escapeKeyTriggersCloseButton = true;
     launchOptions.useNativeTitleBar            = false;

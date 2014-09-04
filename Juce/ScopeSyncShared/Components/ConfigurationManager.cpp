@@ -25,34 +25,54 @@
  */
 
 #include "ConfigurationManager.h"
+#include "../Core/Global.h"
+#include "../Utils/BCMMisc.h"
 
-ConfigurationManager::ConfigurationManager(ScopeSync& owner) : scopeSync(owner), loadButton ("Load"), saveButton ("Save")
+ConfigurationManager::ConfigurationManager(ScopeSync& owner) : scopeSync(owner), saveButton ("Save")
 {
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
 
+    saveButton.addListener(this);
+    addAndMakeVisible(saveButton);
+
     setSize (450, 250);
 }
 
-ConfigurationManager::~ConfigurationManager() {}
+ConfigurationManager::~ConfigurationManager()
+{
+    scopeSync.applyConfiguration();
+}
 
 void ConfigurationManager::rebuildProperties()
 {
-    Array<PropertyComponent*> properties;
+    PropertyListBuilder props;
+    createPropertyEditors(props);
+
+    propertyPanel.addProperties(props.components);
+}
+
+void ConfigurationManager::createPropertyEditors(PropertyListBuilder& props)
+{
     ValueTree configurationRoot = scopeSync.getConfigurationRoot();
-    
-    //properties.add(new TextPropertyComponent())
+    props.add(new TextPropertyComponent(configurationRoot.getPropertyAsValue(Ids::name, nullptr), "Name", 256, false));
 }
 
 void ConfigurationManager::resized()
 {
     Rectangle<int> r (getLocalBounds());
-    propertyPanel.setBounds (r.removeFromTop (getHeight() - 28).reduced (4, 2));
-    loadButton.setBounds (r.removeFromLeft (getWidth() / 2).reduced (10, 4));
-    saveButton.setBounds (r.reduced (10, 3));
+    propertyPanel.setBounds(r.removeFromTop (getHeight() - 28).reduced (4, 2));
+    saveButton.setBounds(r.reduced (10, 3));
 }
 
 void ConfigurationManager::paint(Graphics& g)
 {
     g.fillAll (Colour (0xff434343));
 }
+
+void ConfigurationManager::buttonClicked(Button* /*buttonThatWasClicked*/)
+{
+    scopeSync.saveConfiguration();
+}
+
+

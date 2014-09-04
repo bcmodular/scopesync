@@ -89,7 +89,6 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
-    ImageLoader::deleteInstance();
 }
 
 void ScopeSync::initialise()
@@ -98,6 +97,12 @@ void ScopeSync::initialise()
 
     configuration = new Configuration();
     applyConfiguration();
+}
+
+void ScopeSync::unload()
+{
+    configuration->saveIfNeededAndUserAgrees(false);
+    ImageLoader::deleteInstance();
 }
 
 void ScopeSync::resetScopeCodeIndexes()
@@ -518,6 +523,21 @@ void ScopeSync::applyConfiguration()
     setGUIReload(true);
 }
 
+void ScopeSync::saveConfiguration()
+{
+    configuration->save(true, true);
+}
+
+String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
+{
+    String name = configuration->getDocumentTitle();
+
+    if (showUnsavedIndicator && configuration->hasChangedSinceSaved())
+        name += " *";
+
+    return name;
+}
+    
 void ScopeSync::addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel) { bcmLookAndFeels.add(bcmLookAndFeel); }
 
 BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id)

@@ -60,6 +60,7 @@ public:
 
     /* ========================== Public Actions ============================= */
     void          showUserSettings();
+    void          showConfigurationManager();
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
     void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);

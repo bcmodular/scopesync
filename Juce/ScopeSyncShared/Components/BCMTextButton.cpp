@@ -319,6 +319,10 @@ void BCMTextButton::clicked()
         {
             gui.showUserSettings();
         }
+        else if (getName().equalsIgnoreCase("showconfigurationmanager"))
+        {
+            gui.showConfigurationManager();
+        }
         else if (getName().equalsIgnoreCase("chooseconfiguration"))
         {
             gui.chooseConfiguration();

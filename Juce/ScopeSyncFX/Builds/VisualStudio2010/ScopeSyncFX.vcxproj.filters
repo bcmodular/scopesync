@@ -1380,6 +1380,9 @@
     <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h">
       <Filter>ScopeSyncFX\Source\ScopeFX</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h">
+      <Filter>ScopeSyncFX\Source\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h">
       <Filter>ScopeSyncFX\Source\Utils</Filter>
     </ClInclude>

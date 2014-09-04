@@ -46,6 +46,7 @@ PluginProcessor::PluginProcessor()
 PluginProcessor::~PluginProcessor()
 {
     stopTimer();
+    scopeSync->unload();
 }
 
 const String PluginProcessor::getName() const

@@ -62,7 +62,7 @@ public:
     // Update current window location values
     void positionChanged(int newPosX, int newPosY);
     
-    ScopeSync&    getScopeSync() { return scopeSync; }
+    ScopeSync& getScopeSync() { return *scopeSync; }
     
 private:	
     // Initialise member variables
@@ -75,7 +75,7 @@ private:
     // ScopeSync and ScopeFXGUI. Handles window resizing and location.
     void timerCallback();
 
-    ScopeSync scopeSync;	
+    ScopedPointer<ScopeSync> scopeSync;	
     
     static Array<ScopeFX*> moduleInstances; // Tracks instances of the DLL, so Juce can be shutdown when no more remain
 

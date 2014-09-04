@@ -1072,6 +1072,7 @@
     <ClInclude Include="..\..\Source\ScopeFX.h"/>
     <ClInclude Include="..\..\Source\ScopeFXGUI.h"/>
     <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h"/>

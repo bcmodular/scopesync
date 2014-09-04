@@ -34,14 +34,17 @@
 #include "../Properties/LabelProperties.h"
 #include "../Core/Global.h"
 
-BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner) : Label(name, text), gui(owner), valueListener(*this) {}
+BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner) : Label(name, text), gui(owner)
+{
+    valueListener = new BCMLabelValueListener(*this);
+}
 
 BCMLabel::~BCMLabel()
 {
     if (getName().equalsIgnoreCase("SystemError"))
     {
-        gui.getScopeSync().getSystemError().removeListener(&valueListener);
-        gui.getScopeSync().getSystemErrorDetails().removeListener(&valueListener);
+        gui.getScopeSync().getSystemError().removeListener(valueListener);
+        gui.getScopeSync().getSystemErrorDetails().removeListener(valueListener);    
     }
 }
 
@@ -60,7 +63,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     }
     else if (getName().equalsIgnoreCase("configurationname"))
     {
-        labelText = gui.getScopeSync().getConfigurationName();
+        labelText = gui.getScopeSync().getConfigurationName(true);
     }
     else
     {
@@ -82,8 +85,8 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     
     if (getName().equalsIgnoreCase("SystemError"))
     {
-        gui.getScopeSync().getSystemError().addListener(&valueListener);
-        gui.getScopeSync().getSystemErrorDetails().addListener(&valueListener);
+        gui.getScopeSync().getSystemError().addListener(valueListener);
+        gui.getScopeSync().getSystemErrorDetails().addListener(valueListener);
     }
     
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
