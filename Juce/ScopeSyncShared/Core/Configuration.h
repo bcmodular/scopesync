@@ -41,9 +41,10 @@ public:
     File   getLastDocumentOpened() override;
     void   setLastDocumentOpened(const File& file) override;
     
-    const File&   getLastFailedFile() { return lastFailedFile; };
-    const String& getLastError()        { return lastError; };
-    const String& getLastErrorDetails() { return lastErrorDetails; };
+    void          setLastFailedFile(const File& file) { lastFailedFile = file; };
+    const File&   getLastFailedFile()                 { return lastFailedFile; };
+    const String& getLastError()                      { return lastError; };
+    const String& getLastErrorDetails()               { return lastErrorDetails; };
     SaveResult    saveIfNeededAndUserAgrees(bool offerCancelOption);
 
     // Overridden methods for ValueTree::Listener

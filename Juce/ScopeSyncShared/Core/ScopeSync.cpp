@@ -528,6 +528,25 @@ void ScopeSync::saveConfiguration()
     configuration->save(true, true);
 }
 
+void ScopeSync::saveConfigurationAs(const String& fileName)
+{
+    if (File::isAbsolutePath(fileName))
+    {
+        configuration->setLastFailedFile(configuration->getFile());
+        configuration->setFile(File(fileName));
+        saveConfiguration();
+
+        if (ScopeSyncApplication::inScopeFXContext())
+            AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon, "Reminder!", "Don't forget to open your new Configuration File now it's been saved, so it can be stored in your Scope device");
+    }
+}
+
+void ScopeSync::reloadSavedConfiguration()
+{
+    configuration->loadFrom(configuration->getFile(), true);
+    applyConfiguration();
+}
+
 String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
 {
     String name = configuration->getDocumentTitle();

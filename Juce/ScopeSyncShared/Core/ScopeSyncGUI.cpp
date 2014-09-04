@@ -86,8 +86,7 @@ void ScopeSyncGUI::chooseConfiguration()
     if (fileChooser.browseForFileToOpen())
     {
         scopeSync.changeConfiguration(fileChooser.getResult().getFullPathName(), false);
-    }
-        
+    }    
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)

@@ -102,6 +102,8 @@ public:
     /* =================== Public Configuration Methods ====================== */
     void            applyConfiguration();
     void            saveConfiguration();
+    void            saveConfigurationAs(const String& fileName);
+    void            reloadSavedConfiguration();
     bool            configurationHasUnsavedChanges();
     ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
     String          getConfigurationName(bool showUnsavedIndicator);

@@ -38,14 +38,18 @@ public:
     ~ConfigurationManager();
 
 private:
+    Label         fileNameLabel;
     PropertyPanel propertyPanel;
     ScopeSync&    scopeSync;
-    TextButton    saveButton;
+    TextButton    saveAndCloseButton;
+    TextButton    saveAsButton;
+    TextButton    discardChangesButton;
 
     void rebuildProperties();
     void createPropertyEditors(PropertyListBuilder& propertyPanel);
     void resized();
     void buttonClicked(Button* buttonThatWasClicked);
+    void closeWindow();
     void paint(Graphics& g);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
