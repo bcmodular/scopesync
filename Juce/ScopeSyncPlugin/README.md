@@ -23,7 +23,7 @@ Suggested directory layout:
 Juce's "audio plugin host" (found in JUCE/extras) is pretty good for debugging VSTs during the build cycle. If you do use it, remember to build it with ASIO support* if you want to test communications with Scope. This will require the ASIO libraries to be available to the build. A recommended location for these is:
 <devroot>/SDKs/ASIOSDK2.3
 
-* ASIO support is added using the following steps in the Introjucer:
+\* ASIO support is added using the following steps in the Introjucer:
 - In the Config Tab, select "juce_audio_devices" under "Modules" and switch JUCE_ASIO to "Enabled"
 - Add ../../../../../../SDKs/ASIOSDK2.3/common to the Header search paths for each of the relevant Debug/Release configurations
 
