@@ -49,30 +49,34 @@ ScopeSyncGUI::~ScopeSyncGUI()
 
 void ScopeSyncGUI::showUserSettings()
 {
-    DialogWindow::LaunchOptions launchOptions;
-    launchOptions.content.setOwned(new UserSettings(scopeSync));
-    launchOptions.componentToCentreAround      = mainComponent;
-    launchOptions.dialogTitle                  = "User Settings";
-    launchOptions.dialogBackgroundColour       = Colours::darkgrey;
-    launchOptions.escapeKeyTriggersCloseButton = true;
-    launchOptions.useNativeTitleBar            = false;
-    launchOptions.resizable                    = false;
+    if (userSettings == nullptr)
+    {
+        userSettings = new UserSettings(*this);
+        userSettings->setName("User Settings");
+        userSettings->setOpaque(true);
+        userSettings->setVisible(true);
+        userSettings->setBounds(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY(), userSettings->getWidth(), userSettings->getHeight());
+        userSettings->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
+        userSettings->setAlwaysOnTop(true);
+    }
 
-    launchOptions.launchAsync();
+    userSettings->toFront(true);
 }
 
 void ScopeSyncGUI::showConfigurationManager()
 {
-    DialogWindow::LaunchOptions launchOptions;
-    launchOptions.content.setOwned(new ConfigurationManager(scopeSync));
-    launchOptions.componentToCentreAround      = mainComponent;
-    launchOptions.dialogTitle                  = "Configuration Manager";
-    launchOptions.dialogBackgroundColour       = Colours::darkgrey;
-    launchOptions.escapeKeyTriggersCloseButton = true;
-    launchOptions.useNativeTitleBar            = false;
-    launchOptions.resizable                    = false;
+    if (configurationManager == nullptr)
+    {
+        configurationManager = new ConfigurationManager(*this);
+        configurationManager->setName("Configuration Manager");
+        configurationManager->setOpaque(true);
+        configurationManager->setVisible(true);
+        configurationManager->setBounds(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY(), configurationManager->getWidth(), configurationManager->getHeight());
+        configurationManager->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
+        configurationManager->setAlwaysOnTop(true);
+    }
 
-    launchOptions.launchAsync();
+    configurationManager->toFront(true);
 }
 
 void ScopeSyncGUI::chooseConfiguration()
@@ -134,7 +138,9 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
 
 void ScopeSyncGUI::createGUI(bool forceReload)
 {
-    mainComponent = nullptr;
+    userSettings         = nullptr;
+    configurationManager = nullptr;
+    mainComponent        = nullptr;
     tabbedComponents.clearQuick();
 
     deviceMapping = scopeSync.getMapping();

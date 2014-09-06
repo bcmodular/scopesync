@@ -36,11 +36,15 @@
 
 class BCMComponent;
 class BCMTabbedComponent;
+class UserSettings;
+class ConfigurationManager;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponent.h"
 #include "../Components/BCMTabbedComponent.h"
+#include "../Components/UserSettings.h"
+#include "../Components/ConfigurationManager.h"
 #include "ScopeSync.h"
 #include "BCMParameter.h"
 #include "../Properties/ComponentProperties.h"
@@ -60,7 +64,9 @@ public:
 
     /* ========================== Public Actions ============================= */
     void          showUserSettings();
+    void          hideUserSettings() { userSettings = nullptr; };
     void          showConfigurationManager();
+    void          hideConfigurationManager() { configurationManager = nullptr; };
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
     void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);
@@ -95,9 +101,11 @@ private:
     void showSystemError();
 
     /* ===================== Private member variables ========================= */
-    ScopedPointer<BCMComponent> mainComponent;
-    Array<BCMTabbedComponent*>  tabbedComponents;
-    ScopedPointer<Label>        systemError;
+    ScopedPointer<BCMComponent>         mainComponent;
+    ScopedPointer<UserSettings>         userSettings;
+    ScopedPointer<ConfigurationManager> configurationManager;
+    Array<BCMTabbedComponent*>          tabbedComponents;
+    ScopedPointer<Label>                systemError;
     
     ScopeSync&    scopeSync;
     ValueTree     deviceMapping;

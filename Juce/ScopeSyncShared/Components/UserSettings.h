@@ -22,7 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-#include "../Core/ScopeSync.h"
+#include "../Core/ScopeSyncGUI.h"
 //[/Headers]
 
 
@@ -60,12 +60,13 @@ class UserSettings  : public Component,
 {
 public:
     //==============================================================================
-    UserSettings (ScopeSync& owner);
+    UserSettings (ScopeSyncGUI& owner);
     ~UserSettings();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void loadSettings();
+    void userTriedToCloseWindow();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -76,7 +77,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ScopeSync& scopeSync;
+    ScopeSyncGUI& scopeSyncGUI;
     //[/UserVariables]
 
     //==============================================================================

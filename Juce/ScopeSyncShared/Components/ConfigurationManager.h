@@ -27,20 +27,20 @@
 #ifndef CONFIGURATIONMANAGER_H_INCLUDED
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
-#include "../Core/ScopeSync.h"
+#include "../Core/ScopeSyncGUI.h"
 class PropertyListBuilder;
 
 class ConfigurationManager : public Component,
                              private ButtonListener
 {
 public:
-    ConfigurationManager(ScopeSync& owner);
+    ConfigurationManager(ScopeSyncGUI& owner);
     ~ConfigurationManager();
 
 private:
     Label         fileNameLabel;
     PropertyPanel propertyPanel;
-    ScopeSync&    scopeSync;
+    ScopeSyncGUI& scopeSyncGUI;
     TextButton    saveAndCloseButton;
     TextButton    saveAsButton;
     TextButton    discardChangesButton;
@@ -49,8 +49,8 @@ private:
     void createPropertyEditors(PropertyListBuilder& propertyPanel);
     void resized();
     void buttonClicked(Button* buttonThatWasClicked);
-    void closeWindow();
     void paint(Graphics& g);
+    void userTriedToCloseWindow();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };

@@ -52,8 +52,8 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-UserSettings::UserSettings (ScopeSync& owner)
-    : scopeSync(owner)
+UserSettings::UserSettings (ScopeSyncGUI& owner)
+    : scopeSyncGUI(owner)
 {
     addAndMakeVisible (encoderSnapLabel = new Label ("Encoder Snap Label",
                                                      TRANS("Encoder Snap To Value")));
@@ -169,6 +169,7 @@ UserSettings::~UserSettings()
 
 
     //[Destructor]. You can add your own custom destruction code here..
+    //closeWindow();
     //[/Destructor]
 }
 
@@ -178,7 +179,7 @@ void UserSettings::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff434343));
+   g.fillAll (Colour (0xff434343));
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -206,37 +207,33 @@ void UserSettings::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     if (comboBoxThatHasChanged == encoderSnapComboBox)
     {
         //[UserComboBoxCode_encoderSnapComboBox] -- add your combo box handling code here..
-        PropertiesFile& properties = scopeSync.getAppProperties();
+        PropertiesFile& properties = scopeSyncGUI.getScopeSync().getAppProperties();
         properties.setValue("encodersnap", comboBoxThatHasChanged->getSelectedId());
         properties.saveIfNeeded();
-        scopeSync.setGUIReload(true);
         //[/UserComboBoxCode_encoderSnapComboBox]
     }
     else if (comboBoxThatHasChanged == rotaryMovementComboBox)
     {
         //[UserComboBoxCode_rotaryMovementComboBox] -- add your combo box handling code here..
-        PropertiesFile& properties = scopeSync.getAppProperties();
+        PropertiesFile& properties = scopeSyncGUI.getScopeSync().getAppProperties();
         properties.setValue("rotarymovement", comboBoxThatHasChanged->getSelectedId());
         properties.saveIfNeeded();
-        scopeSync.setGUIReload(true);
         //[/UserComboBoxCode_rotaryMovementComboBox]
     }
     else if (comboBoxThatHasChanged == popupEnabledComboBox)
     {
         //[UserComboBoxCode_popupEnabledComboBox] -- add your combo box handling code here..
-        PropertiesFile& properties = scopeSync.getAppProperties();
+        PropertiesFile& properties = scopeSyncGUI.getScopeSync().getAppProperties();
         properties.setValue("popupenabled", comboBoxThatHasChanged->getSelectedId());
         properties.saveIfNeeded();
-        scopeSync.setGUIReload(true);
         //[/UserComboBoxCode_popupEnabledComboBox]
     }
     else if (comboBoxThatHasChanged == encoderVelocityModeComboBox)
     {
         //[UserComboBoxCode_encoderVelocityModeComboBox] -- add your combo box handling code here..
-        PropertiesFile& properties = scopeSync.getAppProperties();
+        PropertiesFile& properties = scopeSyncGUI.getScopeSync().getAppProperties();
         properties.setValue("velocitybasedmode", comboBoxThatHasChanged->getSelectedId());
         properties.saveIfNeeded();
-        scopeSync.setGUIReload(true);
         //[/UserComboBoxCode_encoderVelocityModeComboBox]
     }
 
@@ -249,12 +246,18 @@ void UserSettings::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void UserSettings::loadSettings()
 {
-    PropertiesFile& properties = scopeSync.getAppProperties();
+    PropertiesFile& properties = scopeSyncGUI.getScopeSync().getAppProperties();
 
     encoderSnapComboBox->setSelectedId(properties.getIntValue("encodersnap", 1));
     rotaryMovementComboBox->setSelectedId(properties.getIntValue("rotarymovement", 1));
     popupEnabledComboBox->setSelectedId(properties.getIntValue("popupenabled", 1));
     encoderVelocityModeComboBox->setSelectedId(properties.getIntValue("velocitybasedmode", 1));
+}
+
+void UserSettings::userTriedToCloseWindow()
+{
+    scopeSyncGUI.getScopeSync().setGUIReload(true);
+    scopeSyncGUI.hideUserSettings();
 }
 //[/MiscUserCode]
 

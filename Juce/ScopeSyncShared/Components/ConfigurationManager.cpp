@@ -28,13 +28,13 @@
 #include "../Core/Global.h"
 #include "../Utils/BCMMisc.h"
 
-ConfigurationManager::ConfigurationManager(ScopeSync& owner) : scopeSync(owner), saveAndCloseButton("Save Configuration and Close"), saveAsButton("Save Configuration As..."), discardChangesButton("Discard All Unsaved Changes")
+ConfigurationManager::ConfigurationManager(ScopeSyncGUI& owner) : scopeSyncGUI(owner), saveAndCloseButton("Save Configuration and Close"), saveAsButton("Save Configuration As..."), discardChangesButton("Discard All Unsaved Changes")
 {
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
 
-    fileNameLabel.setText("File path: " + scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
-    fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
+    fileNameLabel.setText("File path: " + scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
+    fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
     fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
@@ -53,7 +53,7 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner) : scopeSync(owner),
 
 ConfigurationManager::~ConfigurationManager()
 {
-    scopeSync.applyConfiguration();
+    scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
 void ConfigurationManager::rebuildProperties()
@@ -66,7 +66,7 @@ void ConfigurationManager::rebuildProperties()
 
 void ConfigurationManager::createPropertyEditors(PropertyListBuilder& props)
 {
-    ValueTree configurationRoot = scopeSync.getConfigurationRoot();
+    ValueTree configurationRoot = scopeSyncGUI.getScopeSync().getConfigurationRoot();
     props.add(new TextPropertyComponent(configurationRoot.getPropertyAsValue(Ids::name, nullptr), "Name", 256, false));
 }
 
@@ -85,16 +85,21 @@ void ConfigurationManager::paint(Graphics& g)
     g.fillAll (Colour (0xff434343));
 }
 
+void ConfigurationManager::userTriedToCloseWindow()
+{
+    scopeSyncGUI.hideConfigurationManager();
+}
+
 void ConfigurationManager::buttonClicked(Button* buttonThatWasClicked)
 {
     if (&saveAndCloseButton == buttonThatWasClicked)
     {
-        scopeSync.saveConfiguration();
-        closeWindow();
+        scopeSyncGUI.getScopeSync().saveConfiguration();
+        scopeSyncGUI.hideConfigurationManager();
     }
     else if (&saveAsButton == buttonThatWasClicked)
     {
-        File configurationFileDirectory = scopeSync.getConfigurationDirectory();
+        File configurationFileDirectory = scopeSyncGUI.getScopeSync().getConfigurationDirectory();
     
         FileChooser fileChooser("Save Configuration File As...",
                                 configurationFileDirectory,
@@ -102,22 +107,14 @@ void ConfigurationManager::buttonClicked(Button* buttonThatWasClicked)
     
         if (fileChooser.browseForFileToSave(true))
         {
-            scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
-            fileNameLabel.setText(scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
-            fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
+            scopeSyncGUI.getScopeSync().saveConfigurationAs(fileChooser.getResult().getFullPathName());
+            fileNameLabel.setText(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
+            fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
         }
     }
     else if (&discardChangesButton == buttonThatWasClicked)
     {
-        scopeSync.reloadSavedConfiguration();
-        closeWindow();
+        scopeSyncGUI.getScopeSync().reloadSavedConfiguration();
+        scopeSyncGUI.hideConfigurationManager();
     }
-}
-
-void ConfigurationManager::closeWindow()
-{
-    DialogWindow* dw = findParentComponentOfClass<DialogWindow>();
-        
-    if (dw != nullptr)
-        dw->exitModalState(0);
 }
