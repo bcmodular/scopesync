@@ -79,15 +79,21 @@ void BCMLabel::applyProperties(LabelProperties& properties)
 
     // Only relevant if label is editable. Not currently supported
     setEditable(false, false, false);
-
-    setText(labelText, dontSendNotification);
-    setTooltip(tooltip);
     
     if (getName().equalsIgnoreCase("SystemError"))
     {
+        labelText = gui.getScopeSync().getSystemError().getValue();
+
+        if (labelText.isNotEmpty())
+             labelText += " (hover over text for details)";
+
+        tooltip   = gui.getScopeSync().getSystemErrorDetails().getValue();
         gui.getScopeSync().getSystemError().addListener(valueListener);
         gui.getScopeSync().getSystemErrorDetails().addListener(valueListener);
     }
+    
+    setText(labelText, dontSendNotification);
+    setTooltip(tooltip);
     
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));

@@ -150,7 +150,9 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     String errorDetails;
 
     XmlElement& layoutXml = scopeSync.getLayout(errorText, errorDetails, forceReload);
-    scopeSync.setSystemError(errorText, errorDetails);
+
+    if (errorText.isNotEmpty())
+        scopeSync.setSystemError(errorText, errorDetails);
     
     // Then override with any layout-specific ones
     XmlElement* child = layoutXml.getChildByName("lookandfeels");
