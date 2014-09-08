@@ -45,12 +45,15 @@ PluginProcessor::PluginProcessor()
 {
     scopeSync = new ScopeSync(this);
     startTimer(timerInterval);
+    moduleInstances.add(this);
 }
 
 PluginProcessor::~PluginProcessor()
 {
     stopTimer();
     scopeSync->unload();
+
+    moduleInstances.removeAllInstancesOf(this);
 
     if (moduleInstances.size() == 0)
     {
@@ -214,6 +217,15 @@ AudioProcessorEditor* PluginProcessor::createEditor()
 {
     pluginGUI = new PluginGUI(this);
     return pluginGUI;
+}
+
+
+void PluginProcessor::reloadAllGUIs()
+{
+    for (int i = 0; i < moduleInstances.size(); i++)
+    {
+        moduleInstances[i]->getScopeSync().setGUIReload(true);
+    }
 }
 
 void PluginProcessor::getStateInformation (MemoryBlock& destData)

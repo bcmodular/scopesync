@@ -49,12 +49,12 @@ ScopeSyncGUI::~ScopeSyncGUI()
 
 void ScopeSyncGUI::hideUserSettings()
 {
-    ScopeSyncApplication::hideUserSettings();
+    UserSettings::getInstance()->hide();
 }
 
 void ScopeSyncGUI::showUserSettings()
 {
-    ScopeSyncApplication::showUserSettings(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
+    UserSettings::getInstance()->show(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
 }
 
 void ScopeSyncGUI::showConfigurationManager()

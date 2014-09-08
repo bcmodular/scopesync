@@ -30,8 +30,6 @@
  *  Jessica Brandt
  */
 
-#ifdef __DLL_EFFECT__
-
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
 #include "../../ScopeSyncShared/Components/ImageLoader.h"
@@ -195,6 +193,14 @@ void ScopeFX::hideWindow()
     windowHandlerDelay = windowHandlerDelayMax;
 }
 
+void ScopeFX::reloadAllGUIs()
+{
+    for (int i = 0; i < moduleInstances.size(); i++)
+    {
+        moduleInstances[i]->getScopeSync().setGUIReload(true);
+    }
+}
+
 int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
                    PadData *asyncOut, PadData * /*syncOut*/)
 {
@@ -309,5 +315,3 @@ extern "C"
    *lpcbBytesReturned = 0;
    return ERROR_NOT_SUPPORTED;
 }
-
-#endif  // __DLLEFFECT__

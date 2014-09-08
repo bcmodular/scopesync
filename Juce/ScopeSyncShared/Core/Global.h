@@ -103,24 +103,6 @@ namespace ScopeSyncApplication
 
     inline const bool inPluginContext()  { return (appContext == plugin)  ? true : false; };
     inline const bool inScopeFXContext() { return (appContext == scopefx) ? true : false; };
-
-    inline void showUserSettings(int posX, int posY)
-    {
-        UserSettings* userSettings = UserSettings::getInstance();
-        userSettings->setOpaque(true);
-        userSettings->setVisible(true);
-        
-        userSettings->setBounds(posX, posY, 400, 200);
-        
-        userSettings->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
-        userSettings->setAlwaysOnTop(true);
-        userSettings->toFront(true);
-    }
-    
-    inline void hideUserSettings()
-    {
-        UserSettings::getInstance()->removeFromDesktop();
-    }
 }
 
 #endif // GLOBAL_H_INCLUDED

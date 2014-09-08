@@ -44,6 +44,8 @@ public:
     void paint (Graphics& g);
     void resized();
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
+    void show(int posX, int posY);
+    void hide();
 
     PropertiesFile* getAppProperties();
 

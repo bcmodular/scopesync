@@ -26,6 +26,11 @@
 
 #include "UserSettings.h"
 #include "../Core/Global.h"
+#ifndef __DLL_EFFECT__
+    #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
+#else
+    #include "../../ScopeSyncFX/Source/ScopeFX.h"
+#endif // __DLL_EFFECT__
 
 juce_ImplementSingleton(UserSettings)
 
@@ -161,10 +166,33 @@ void UserSettings::loadSettings()
 
 void UserSettings::userTriedToCloseWindow()
 {
-    ScopeSyncApplication::hideUserSettings();
+#ifndef __DLL_EFFECT__
+    PluginProcessor::reloadAllGUIs();
+#else
+    ScopeFX::reloadAllGUIs();
+#endif // __DLL_EFFECT__
+    
+    removeFromDesktop();
 }
 
 PropertiesFile* UserSettings::getAppProperties()
 {
     return properties;
+}
+
+void UserSettings::show(int posX, int posY)
+{
+    setOpaque(true);
+    setVisible(true);
+    
+    setBounds(posX, posY, 400, 200);
+    
+    addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
+    setAlwaysOnTop(true);
+    toFront(true);
+}
+    
+void UserSettings::hide()
+{
+    removeFromDesktop();
 }

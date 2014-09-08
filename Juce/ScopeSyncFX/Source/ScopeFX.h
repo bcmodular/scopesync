@@ -63,7 +63,9 @@ public:
     void positionChanged(int newPosX, int newPosY);
     
     ScopeSync& getScopeSync() { return *scopeSync; }
-    
+
+    static void reloadAllGUIs();
+
 private:	
     // Initialise member variables
     void initValues();
