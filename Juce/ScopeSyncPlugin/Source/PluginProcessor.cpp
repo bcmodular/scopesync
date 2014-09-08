@@ -34,8 +34,12 @@
 #include "../../ScopeSyncShared/Utils/BCMMath.h"
 #include "../../ScopeSyncShared/Utils/BCMXml.h"
 #include "PluginGUI.h"
+#include "../../ScopeSyncShared/Components/ImageLoader.h"
+#include "../../ScopeSyncShared/Components/UserSettings.h"
 
 const int PluginProcessor::timerInterval   = 20;
+
+Array<PluginProcessor*> PluginProcessor::moduleInstances;
 
 PluginProcessor::PluginProcessor()
 {
@@ -47,6 +51,12 @@ PluginProcessor::~PluginProcessor()
 {
     stopTimer();
     scopeSync->unload();
+
+    if (moduleInstances.size() == 0)
+    {
+        ImageLoader::deleteInstance();
+        UserSettings::deleteInstance();
+    }
 }
 
 const String PluginProcessor::getName() const

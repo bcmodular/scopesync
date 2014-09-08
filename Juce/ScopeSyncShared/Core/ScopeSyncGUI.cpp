@@ -47,20 +47,14 @@ ScopeSyncGUI::~ScopeSyncGUI()
     stopTimer();
 }
 
+void ScopeSyncGUI::hideUserSettings()
+{
+    ScopeSyncApplication::hideUserSettings();
+}
+
 void ScopeSyncGUI::showUserSettings()
 {
-    if (userSettings == nullptr)
-    {
-        userSettings = new UserSettings(*this);
-        userSettings->setName("User Settings");
-        userSettings->setOpaque(true);
-        userSettings->setVisible(true);
-        userSettings->setBounds(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY(), userSettings->getWidth(), userSettings->getHeight());
-        userSettings->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
-        userSettings->setAlwaysOnTop(true);
-    }
-
-    userSettings->toFront(true);
+    ScopeSyncApplication::showUserSettings(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
 }
 
 void ScopeSyncGUI::showConfigurationManager()
@@ -138,7 +132,6 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
 
 void ScopeSyncGUI::createGUI(bool forceReload)
 {
-    userSettings         = nullptr;
     configurationManager = nullptr;
     mainComponent        = nullptr;
     tabbedComponents.clearQuick();
@@ -148,7 +141,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     scopeSync.clearBCMLookAndFeels();
 
     // Firstly add the system LookAndFeels
-    bool useImageCache = scopeSync.getAppProperties().getBoolValue("useimagecache", true);
+    bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
     ScopedPointer<XmlElement> systemLookAndFeels = scopeSync.getSystemLookAndFeels();
     
     setupLookAndFeels(*systemLookAndFeels, useImageCache);

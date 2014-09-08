@@ -34,6 +34,7 @@
 
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
+#include "../../ScopeSyncShared/Components/ImageLoader.h"
 
 const int ScopeFX::initPositionX           = 100;
 const int ScopeFX::initPositionY           = 100;
@@ -100,7 +101,11 @@ ScopeFX::~ScopeFX()
     DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(moduleInstances.size()));
     
     if (moduleInstances.size() == 0)
+    {
+        ImageLoader::deleteInstance();
+        UserSettings::deleteInstance();
         shutdownJuce_GUI();
+    }
 }
    
 void ScopeFX::initValues()

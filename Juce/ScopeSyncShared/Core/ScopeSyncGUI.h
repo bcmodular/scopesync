@@ -63,8 +63,8 @@ public:
     ~ScopeSyncGUI();
 
     /* ========================== Public Actions ============================= */
+    void          hideUserSettings();
     void          showUserSettings();
-    void          hideUserSettings() { userSettings = nullptr; };
     void          showConfigurationManager();
     void          hideConfigurationManager() { configurationManager = nullptr; };
     void          chooseConfiguration();
@@ -102,7 +102,6 @@ private:
 
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent>         mainComponent;
-    ScopedPointer<UserSettings>         userSettings;
     ScopedPointer<ConfigurationManager> configurationManager;
     Array<BCMTabbedComponent*>          tabbedComponents;
     ScopedPointer<Label>                systemError;

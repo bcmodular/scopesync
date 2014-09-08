@@ -102,7 +102,6 @@ void ScopeSync::initialise()
 void ScopeSync::unload()
 {
     configuration->saveIfNeededAndUserAgrees(false);
-    ImageLoader::deleteInstance();
 }
 
 void ScopeSync::resetScopeCodeIndexes()
@@ -400,20 +399,6 @@ void ScopeSync::setSystemError(const String& errorText, const String& errorDetai
 {
     systemError        = errorText;
     systemErrorDetails = errorDetailsText;
-}
-
-PropertiesFile& ScopeSync::getAppProperties()
-{
-    PropertiesFile::Options options;
-    options.applicationName     = ProjectInfo::projectName;
-    options.folderName          = ProjectInfo::projectName;
-    options.filenameSuffix      = "settings";
-    options.osxLibrarySubFolder = "Application Support";
-    appProperties.setStorageParameters(options);
-
-    PropertiesFile* properties = appProperties.getUserSettings();
-
-    return *properties;
 }
     
 XmlElement* ScopeSync::getSystemLookAndFeels()

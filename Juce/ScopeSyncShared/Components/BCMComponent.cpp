@@ -38,6 +38,7 @@
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
 #include "../Core/ScopeSyncGUI.h"
+#include "../Components/UserSettings.h"
 #include "../Core/Global.h"
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name) : Component(name), gui(owner) {}
@@ -59,7 +60,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
-        bool useImageCache = gui.getScopeSync().getAppProperties().getBoolValue("useimagecache", true);
+        bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
 
         backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, configurationFileDirectoryPath);
         
@@ -152,7 +153,7 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
 
 void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
 {
-    bool useImageCache = gui.getScopeSync().getAppProperties().getBoolValue("useimagecache", true);
+    bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
 
     Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, configurationFileDirectoryPath);
 

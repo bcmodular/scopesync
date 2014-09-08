@@ -91,6 +91,8 @@ private:
     ScopedPointer<ScopeSync> scopeSync;
     PluginGUI*               pluginGUI;
 
+    static Array<PluginProcessor*> moduleInstances; // Tracks instances of the processor, so we can kill singletons
+
     void readStateInformation(XmlElement& data);
     void timerCallback();
 

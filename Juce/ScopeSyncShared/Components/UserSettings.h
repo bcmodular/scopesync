@@ -1,35 +1,5 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.0
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-#ifndef __JUCE_HEADER_93740D9F37075DA8__
-#define __JUCE_HEADER_93740D9F37075DA8__
-
-//[Headers]     -- You can add your own extra header files here --
-#include "JuceHeader.h"
-#include "../Core/ScopeSyncGUI.h"
-//[/Headers]
-
-
-
 //==============================================================================
 /**
-                                                                    //[Comments]
  * User Settings popup handler.
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
@@ -53,49 +23,50 @@
  *  Simon Russell
  *  Will Ellis
  *  Jessica Brandt
-                                                                    //[/Comments]
 */
+
+#ifndef USERSETTINGS_H_INCLUDED
+#define USERSETTINGS_H_INCLUDED
+
+#include "JuceHeader.h"
+#include "../Core/ScopeSyncGUI.h"
+
 class UserSettings  : public Component,
                       public ComboBoxListener
 {
 public:
-    //==============================================================================
-    UserSettings (ScopeSyncGUI& owner);
+    UserSettings ();
     ~UserSettings();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
     void loadSettings();
     void userTriedToCloseWindow();
-    //[/UserMethods]
-
+   
     void paint (Graphics& g);
     void resized();
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
 
+    PropertiesFile* getAppProperties();
 
+    juce_DeclareSingleton (UserSettings, false)
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-    ScopeSyncGUI& scopeSyncGUI;
-    //[/UserVariables]
+    void      setupGUIElements();
+    Label*    setupLabel(const String& labelName, const String& labelText, const String& tooltip);
+    ComboBox* setupComboBox(const String& comboBoxName, const String& tooltip);
 
-    //==============================================================================
-    ScopedPointer<Label> encoderSnapLabel;
+    ApplicationProperties appProperties;
+    PropertiesFile*       properties;
+
+    ScopedPointer<Label>    encoderSnapLabel;
     ScopedPointer<ComboBox> encoderSnapComboBox;
-    ScopedPointer<Label> rotaryMovementLabel;
+    ScopedPointer<Label>    rotaryMovementLabel;
     ScopedPointer<ComboBox> rotaryMovementComboBox;
-    ScopedPointer<Label> popupEnabledLabel;
+    ScopedPointer<Label>    popupEnabledLabel;
     ScopedPointer<ComboBox> popupEnabledComboBox;
-    ScopedPointer<Label> encoderVelocityModeLabel;
+    ScopedPointer<Label>    encoderVelocityModeLabel;
     ScopedPointer<ComboBox> encoderVelocityModeComboBox;
 
-
-    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_93740D9F37075DA8__
+#endif   // USERSETTINGS_H_INCLUDED

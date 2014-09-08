@@ -46,9 +46,9 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     fontStyleFlags     = properties.fontStyleFlags;
     justificationFlags = properties.justificationFlags;
     
-    overrideSliderStyle(gui.getScopeSync().getAppProperties(), properties.style);
-    overridePopupEnabled(gui.getScopeSync().getAppProperties(), properties.popupEnabled);
-    overrideVelocityBasedMode(gui.getScopeSync().getAppProperties(), properties.velocityBasedMode);
+    overrideSliderStyle(properties.style);
+    overridePopupEnabled(properties.popupEnabled);
+    overrideVelocityBasedMode(properties.velocityBasedMode);
 
     setTextBoxStyle(properties.textBoxPosition,
                     properties.textBoxReadOnly,
@@ -107,7 +107,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
                 settingsNames.add(settingName);
             }
             
-            if (getEncoderSnap(gui.getScopeSync().getAppProperties(), properties.encoderSnap))
+            if (getEncoderSnap(properties.encoderSnap))
                 rangeInt = 1;
         }
 
@@ -193,9 +193,9 @@ void BCMSlider::switchToTabs()
     }
 }
 
-void BCMSlider::overrideSliderStyle(PropertiesFile& appProperties, Slider::SliderStyle style)
+void BCMSlider::overrideSliderStyle(Slider::SliderStyle style)
 {
-    RotaryMovement rotaryMovementUserSetting = RotaryMovement(appProperties.getIntValue("rotarymovement", 1));
+    RotaryMovement rotaryMovementUserSetting = RotaryMovement(UserSettings::getInstance()->getAppProperties()->getIntValue("rotarymovement", 1));
 
     if (rotaryMovementUserSetting != noOverride_RM &&
         (  style == Rotary 
@@ -214,9 +214,9 @@ void BCMSlider::overrideSliderStyle(PropertiesFile& appProperties, Slider::Slide
     }
 }
 
-void BCMSlider::overridePopupEnabled(PropertiesFile& appProperties, bool popupEnabledFlag)
+void BCMSlider::overridePopupEnabled(bool popupEnabledFlag)
 {
-    PopupEnabled popupEnabledUserSetting = PopupEnabled(appProperties.getIntValue("popupenabled", 1));
+    PopupEnabled popupEnabledUserSetting = PopupEnabled(UserSettings::getInstance()->getAppProperties()->getIntValue("popupenabled", 1));
 
     if (popupEnabledUserSetting != noOverride_PE)
         popupEnabledFlag = (popupEnabledUserSetting == popupEnabled);
@@ -224,9 +224,9 @@ void BCMSlider::overridePopupEnabled(PropertiesFile& appProperties, bool popupEn
     setPopupDisplayEnabled(popupEnabledFlag, 0);
 }
 
-void BCMSlider::overrideVelocityBasedMode(PropertiesFile& appProperties, bool velocityBasedMode)
+void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)
 {
-    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(appProperties.getIntValue("velocitybasedmode", 1));
+    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(UserSettings::getInstance()->getAppProperties()->getIntValue("velocitybasedmode", 1));
 
     if (velocityBasedModeUserSetting != noOverride_VBM)
         velocityBasedMode = (velocityBasedModeUserSetting == velocityBasedModeOn);
@@ -234,9 +234,9 @@ void BCMSlider::overrideVelocityBasedMode(PropertiesFile& appProperties, bool ve
     setVelocityBasedMode(velocityBasedMode);
 }
 
-bool BCMSlider::getEncoderSnap(PropertiesFile& appProperties, bool encoderSnap)
+bool BCMSlider::getEncoderSnap(bool encoderSnap)
 {
-    EncoderSnap encoderSnapUserSetting = EncoderSnap(appProperties.getIntValue("encodersnap", 1));
+    EncoderSnap encoderSnapUserSetting = EncoderSnap(UserSettings::getInstance()->getAppProperties()->getIntValue("encodersnap", 1));
     
     if (encoderSnapUserSetting != noOverride_ES)
         encoderSnap = (encoderSnapUserSetting == snap);

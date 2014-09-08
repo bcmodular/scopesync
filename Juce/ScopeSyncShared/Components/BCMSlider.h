@@ -78,10 +78,10 @@ private:
     double getValueFromText(const String& text);
 
     // Utility methods for applying User Settings that override aspects of Slider handling
-    void overrideSliderStyle(PropertiesFile& appProperties, Slider::SliderStyle style);
-    void overridePopupEnabled(PropertiesFile& appProperties, bool popupEnabledFlag);
-    void overrideVelocityBasedMode(PropertiesFile& appProperties, bool velocityBasedMode);
-    bool getEncoderSnap(PropertiesFile& appProperties, bool encoderSnap);
+    void overrideSliderStyle(Slider::SliderStyle style);
+    void overridePopupEnabled(bool popupEnabledFlag);
+    void overrideVelocityBasedMode(bool velocityBasedMode);
+    bool getEncoderSnap(bool encoderSnap);
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();

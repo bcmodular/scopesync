@@ -116,7 +116,6 @@ public:
     ValueTree       getMapping() { return configuration->getMapping(); };
     XmlElement&     getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*     getSystemLookAndFeels();
-    PropertiesFile& getAppProperties();
     void            storeParameterValues();
     void            storeParameterValues(XmlElement& parameterValues);
     void            restoreParameterValues();
@@ -185,8 +184,6 @@ private:
     
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text
-    
-    ApplicationProperties appProperties; // Main application properties
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSync)
