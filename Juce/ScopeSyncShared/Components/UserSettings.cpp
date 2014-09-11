@@ -26,6 +26,7 @@
 
 #include "UserSettings.h"
 #include "../Core/Global.h"
+#include "../Core/ScopeSyncApplication.h"
 #ifndef __DLL_EFFECT__
     #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
 #else
@@ -166,12 +167,7 @@ void UserSettings::loadSettings()
 
 void UserSettings::userTriedToCloseWindow()
 {
-#ifndef __DLL_EFFECT__
-    PluginProcessor::reloadAllGUIs();
-#else
-    ScopeFX::reloadAllGUIs();
-#endif // __DLL_EFFECT__
-    
+    ScopeSyncApplication::reloadAllGUIs(); 
     removeFromDesktop();
 }
 

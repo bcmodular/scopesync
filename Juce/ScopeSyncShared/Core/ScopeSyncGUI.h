@@ -44,7 +44,7 @@ class ConfigurationManager;
 #include "../Components/BCMComponent.h"
 #include "../Components/BCMTabbedComponent.h"
 #include "../Components/UserSettings.h"
-#include "../Components/ConfigurationManager.h"
+#include "../Configuration/ConfigurationManager.h"
 #include "ScopeSync.h"
 #include "BCMParameter.h"
 #include "../Properties/ComponentProperties.h"
@@ -55,7 +55,8 @@ class ConfigurationManager;
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Properties/TabProperties.h"
 
-class ScopeSyncGUI : public Component, public Timer                
+class ScopeSyncGUI : public Component,
+                     public Timer               
 {
 public:
     /* ========================== Initialisation ============================= */

@@ -52,7 +52,7 @@ class Configuration;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
-#include "Configuration.h"
+#include "../Configuration/Configuration.h"
 
 class ScopeSync
 {
@@ -81,7 +81,9 @@ public:
     BCMLookAndFeel* getBCMLookAndFeelById(String id);
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
-    
+
+    ApplicationCommandManager& getCommandManager();
+
     /* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
     // the "minHostParameters" value if the real numHostParameters is smaller.
@@ -125,9 +127,11 @@ public:
     void            setSystemError(const String& errorText, const String& errorDetailsText);
      
 private:
+
     /* ========================== Initialisation ============================== */
     void initialise();
     void resetScopeCodeIndexes();
+    void initCommandManager();
     
     /* ========================== Private Actions ============================= */
     void receiveUpdatesFromScopeAudio();
@@ -159,6 +163,7 @@ private:
     OwnedArray<BCMParameter>   scopeLocalParameters;   // Parameters that are only relevant in the Scope DLL
     Array<int>                 paramIdxByScopeSyncId;  // Index of parameters by their ScopeSyncId
     Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
+    ScopedPointer<ApplicationCommandManager> commandManager;
 
     CriticalSection flagLock;
    

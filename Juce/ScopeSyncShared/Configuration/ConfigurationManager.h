@@ -31,7 +31,7 @@
 class PropertyListBuilder;
 
 class ConfigurationManager : public Component,
-                             private ButtonListener
+                             public ApplicationCommandTarget
 {
 public:
     ConfigurationManager(ScopeSyncGUI& owner);
@@ -45,13 +45,22 @@ private:
     TextButton    saveAsButton;
     TextButton    discardChangesButton;
 
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+    
     void rebuildProperties();
     void createPropertyEditors(PropertyListBuilder& propertyPanel);
     void resized();
-    void buttonClicked(Button* buttonThatWasClicked);
     void paint(Graphics& g);
     void userTriedToCloseWindow();
 
+    void saveAndClose();
+    void saveAs();
+    void discardChanges();
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };
 

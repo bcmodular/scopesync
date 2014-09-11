@@ -85,24 +85,19 @@ namespace Ids
     #undef DECLARE_ID
 }
 
-#include "../Components/UserSettings.h"
-
-namespace ScopeSyncApplication
+namespace CommandIDs
 {
-    static const int numScopeSyncParameters  = 128;
-    static const int numScopeLocalParameters = 16;
+    enum
+    {
+        saveAndCloseConfig       = 0x200300,
+        saveConfigAs             = 0x200310,
+        discardConfigChanges     = 0x200320
+    };
+}
 
-    /* ============================ Enumerations ============================== */
-    enum AppContext {plugin, scopefx}; // Contexts under which the app may be running
-    
-#ifndef __DLL_EFFECT__
-    const AppContext appContext = plugin;
-#else
-    const AppContext appContext = scopefx;
-#endif // __DLL_EFFECT__
-
-    inline const bool inPluginContext()  { return (appContext == plugin)  ? true : false; };
-    inline const bool inScopeFXContext() { return (appContext == scopefx) ? true : false; };
+namespace CommandCategories
+{
+    static const char* const configmgr = "Configuration Manager";
 }
 
 #endif // GLOBAL_H_INCLUDED

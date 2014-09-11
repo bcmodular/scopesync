@@ -13,6 +13,15 @@
               companyName="BC Modular" companyWebsite="http://www.bcmodular.co.uk"
               companyEmail="support@bcmodular.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
+    <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
+      <FILE id="L8VFLV" name="Configuration.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/Configuration.cpp"/>
+      <FILE id="nuI5Qc" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/Configuration.h"/>
+      <FILE id="TZllix" name="ConfigurationManager.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationManager.cpp"/>
+      <FILE id="aRxFD4" name="ConfigurationManager.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationManager.h"/>
+    </GROUP>
     <GROUP id="{AE86523D-8D18-E33E-CDD7-4C90A830DF7F}" name="Resources">
       <FILE id="g37Smh" name="FontResources.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Resources/FontResources.cpp"/>
@@ -59,10 +68,11 @@
             file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
     </GROUP>
     <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
+      <FILE id="aS753Z" name="ScopeSyncApplication.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Core/ScopeSyncApplication.cpp"/>
+      <FILE id="t4s7pd" name="ScopeSyncApplication.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Core/ScopeSyncApplication.h"/>
       <FILE id="kRNf5S" name="Global.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Global.h"/>
-      <FILE id="OxwDU3" name="Configuration.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Core/Configuration.cpp"/>
-      <FILE id="AN9b10" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Core/Configuration.h"/>
       <FILE id="rUwpMR" name="BCMParameter.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Core/BCMParameter.cpp"/>
       <FILE id="GxF2eO" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSyncShared/Core/BCMParameter.h"/>
@@ -73,10 +83,6 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
-      <FILE id="J3ywST" name="ConfigurationManager.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Components/ConfigurationManager.cpp"/>
-      <FILE id="fLlqQi" name="ConfigurationManager.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Components/ConfigurationManager.h"/>
       <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
       <FILE id="AbJaYe" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
       <FILE id="gLWoeo" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>

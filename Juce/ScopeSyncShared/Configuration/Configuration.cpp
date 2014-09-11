@@ -25,7 +25,8 @@
  */
 
 #include "Configuration.h"
-#include "Global.h"
+#include "../Core/ScopeSyncApplication.h"
+#include "../Core/Global.h"
 
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,

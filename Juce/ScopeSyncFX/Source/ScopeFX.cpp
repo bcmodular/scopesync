@@ -33,6 +33,7 @@
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
 #include "../../ScopeSyncShared/Components/ImageLoader.h"
+#include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
 const int ScopeFX::initPositionX           = 100;
 const int ScopeFX::initPositionY           = 100;
@@ -66,15 +67,13 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 
 using namespace ScopeFXParameterDefinitions;
 
-Array<ScopeFX*> ScopeFX::moduleInstances;
-
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
     initValues();
 
     scopeSync = new ScopeSync(this);
 
-    if (moduleInstances.size() == 0)
+    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
     {
 #ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
@@ -82,7 +81,8 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
         initialiseJuce_GUI();
     }
 
-    moduleInstances.add(this);
+    ScopeSyncApplication::registerScopeSyncInstance(scopeSync);
+    
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(moduleInstances.size()));
 
     startTimer(timerFrequency);
@@ -95,13 +95,15 @@ ScopeFX::~ScopeFX()
     scopeFXGUI = nullptr;
     scopeSync->unload();
 
-    moduleInstances.removeAllInstancesOf(this);
+    ScopeSyncApplication::removeScopeSyncInstance(scopeSync);
+    
     DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(moduleInstances.size()));
     
-    if (moduleInstances.size() == 0)
+    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
     {
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
+        ScopeSyncApplication::deleteInstance();
         shutdownJuce_GUI();
     }
 }
@@ -191,14 +193,6 @@ void ScopeFX::hideWindow()
     scopeFXGUI = nullptr;
     windowShown = false;
     windowHandlerDelay = windowHandlerDelayMax;
-}
-
-void ScopeFX::reloadAllGUIs()
-{
-    for (int i = 0; i < moduleInstances.size(); i++)
-    {
-        moduleInstances[i]->getScopeSync().setGUIReload(true);
-    }
 }
 
 int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,

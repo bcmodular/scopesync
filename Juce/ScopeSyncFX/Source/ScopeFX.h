@@ -64,8 +64,6 @@ public:
     
     ScopeSync& getScopeSync() { return *scopeSync; }
 
-    static void reloadAllGUIs();
-
 private:	
     // Initialise member variables
     void initValues();
@@ -79,8 +77,6 @@ private:
 
     ScopedPointer<ScopeSync> scopeSync;	
     
-    static Array<ScopeFX*> moduleInstances; // Tracks instances of the DLL, so Juce can be shutdown when no more remain
-
     static const int initPositionX;
 	static const int initPositionY;
 

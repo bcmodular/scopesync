@@ -28,6 +28,7 @@
 #include "ScopeSyncAsync.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/Global.h"
+#include "../Core/ScopeSyncApplication.h"
 
 const int ScopeSyncAsync::maxDeadTimeCounter      = 4;
 

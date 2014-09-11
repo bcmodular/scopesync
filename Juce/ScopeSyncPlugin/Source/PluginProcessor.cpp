@@ -36,16 +36,15 @@
 #include "PluginGUI.h"
 #include "../../ScopeSyncShared/Components/ImageLoader.h"
 #include "../../ScopeSyncShared/Components/UserSettings.h"
+#include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
 const int PluginProcessor::timerInterval   = 20;
-
-Array<PluginProcessor*> PluginProcessor::moduleInstances;
 
 PluginProcessor::PluginProcessor()
 {
     scopeSync = new ScopeSync(this);
     startTimer(timerInterval);
-    moduleInstances.add(this);
+    ScopeSyncApplication::registerScopeSyncInstance(scopeSync);
 }
 
 PluginProcessor::~PluginProcessor()
@@ -53,12 +52,13 @@ PluginProcessor::~PluginProcessor()
     stopTimer();
     scopeSync->unload();
 
-    moduleInstances.removeAllInstancesOf(this);
+    ScopeSyncApplication::removeScopeSyncInstance(scopeSync);
 
-    if (moduleInstances.size() == 0)
+    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
     {
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
+        ScopeSyncApplication::deleteInstance();
     }
 }
 
@@ -216,16 +216,8 @@ bool PluginProcessor::hasEditor() const { return true; }
 AudioProcessorEditor* PluginProcessor::createEditor()
 {
     pluginGUI = new PluginGUI(this);
+    pluginGUI->setVisible(true);
     return pluginGUI;
-}
-
-
-void PluginProcessor::reloadAllGUIs()
-{
-    for (int i = 0; i < moduleInstances.size(); i++)
-    {
-        moduleInstances[i]->getScopeSync().setGUIReload(true);
-    }
 }
 
 void PluginProcessor::getStateInformation (MemoryBlock& destData)

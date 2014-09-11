@@ -31,6 +31,7 @@
 #include "../Utils/BCMMath.h"
 #include "../Utils/BCMXml.h"
 #include "../Components/ImageLoader.h"
+#include "ScopeSyncApplication.h"
 #include "Global.h"
 #include <utility>
 
@@ -93,10 +94,22 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+    initCommandManager();
+
     resetScopeCodeIndexes();
 
     configuration = new Configuration();
     applyConfiguration();
+}
+
+void ScopeSync::initCommandManager()
+{
+    commandManager = new ApplicationCommandManager();
+}
+
+ApplicationCommandManager& ScopeSync::getCommandManager()
+{
+    return *commandManager;
 }
 
 void ScopeSync::unload()

@@ -5,6 +5,9 @@
     <Filter Include="ScopeSyncPlugin">
       <UniqueIdentifier>{8948AE92-7D00-F19D-249D-935E801772F7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScopeSyncPlugin\Configuration">
+      <UniqueIdentifier>{9B80E441-F201-6DDA-1D9C-A0D99F46A42D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ScopeSyncPlugin\Resources">
       <UniqueIdentifier>{B909888A-0C30-4FEB-B12E-984D822A5862}</UniqueIdentifier>
     </Filter>
@@ -274,6 +277,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp">
       <Filter>ScopeSyncPlugin\Resources</Filter>
     </ClCompile>
@@ -301,7 +310,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp">
       <Filter>ScopeSyncPlugin\Properties</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\Configuration.cpp">
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp">
@@ -312,9 +321,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp">
       <Filter>ScopeSyncPlugin\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\ConfigurationManager.cpp">
-      <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
@@ -1398,6 +1404,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h">
       <Filter>ScopeSyncPlugin\Resources</Filter>
     </ClInclude>
@@ -1437,10 +1449,10 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h">
       <Filter>ScopeSyncPlugin\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h">
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Configuration.h">
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h">
@@ -1451,9 +1463,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\ConfigurationManager.h">
-      <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h">
       <Filter>ScopeSyncPlugin\Components</Filter>

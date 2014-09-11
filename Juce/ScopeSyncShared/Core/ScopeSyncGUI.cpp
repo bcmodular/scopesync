@@ -30,8 +30,9 @@
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
-#include "../Components/ConfigurationManager.h"
+#include "../Configuration/ConfigurationManager.h"
 #include "Global.h"
+#include "ScopeSyncApplication.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 

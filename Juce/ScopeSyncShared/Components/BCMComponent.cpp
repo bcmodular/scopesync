@@ -39,6 +39,7 @@
 #include "../Properties/ComponentProperties.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Components/UserSettings.h"
+#include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name) : Component(name), gui(owner) {}

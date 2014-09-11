@@ -39,7 +39,7 @@ public:
     // Load image, either direct from file, via Image Cache, or from resources
     Image loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath);
 
-    juce_DeclareSingleton (ImageLoader, false)
+    juce_DeclareSingleton(ImageLoader, false)
 
 private:
     // Initialise image resources
@@ -54,7 +54,7 @@ private:
 
     OwnedArray<ImageResource> imageResources;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ImageLoader)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageLoader)
 };
 
 #endif  // IMAGELOADER_H_INCLUDED
