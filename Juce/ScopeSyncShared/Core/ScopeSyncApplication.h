@@ -1,6 +1,6 @@
 /**
- * Main ScopeSync Application Singleton class. Handles global/static
- * aspects, such as Application Commands etc.
+ * ScopeSync Application namespace. Home for global/static
+ * functions etc.
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -29,43 +29,23 @@
 #define SCOPESYNCAPPLICATION_H_INCLUDED
 
 #include <JuceHeader.h>
-class ScopeSync;
 
-class ScopeSyncApplication
+namespace ScopeSyncApplication
 {
-public:
-    ScopeSyncApplication();
-    ~ScopeSyncApplication();
-
-    static ScopeSyncApplication& ScopeSyncApplication::getApp();
-    
-    static const int numScopeSyncParameters = 128;
-    static const int numScopeLocalParameters = 16;
+    const int numScopeSyncParameters  = 128;
+    const int numScopeLocalParameters = 16;
 
     /* ============================ Enumerations ============================== */
     enum AppContext { plugin, scopefx }; // Contexts under which the app may be running
 
 #ifndef __DLL_EFFECT__
-    static const AppContext appContext = plugin;
+    const AppContext appContext = plugin;
 #else
-    static const AppContext appContext = scopefx;
+    const AppContext appContext = scopefx;
 #endif // __DLL_EFFECT__
 
-    static const bool inPluginContext()  { return (appContext == plugin) ? true : false; };
-    static const bool inScopeFXContext() { return (appContext == scopefx) ? true : false; };
-
-    static void registerScopeSyncInstance(ScopeSync* scopeSync) { scopeSyncInstances.add(scopeSync); };
-    static void removeScopeSyncInstance(ScopeSync* scopeSync) { scopeSyncInstances.removeAllInstancesOf(scopeSync); };
-    static int  getNumScopeSyncInstances() { return scopeSyncInstances.size(); };
-    static void reloadAllGUIs();
-    
-    juce_DeclareSingleton(ScopeSyncApplication, false)
-
-private:
-    
-    static Array<ScopeSync*> scopeSyncInstances; // Tracks instances of the DLL, so Juce can be shutdown when no more remain
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncApplication)
+    const bool inPluginContext();
+    const bool inScopeFXContext();
 };
 
 #endif  // SCOPESYNCAPPLICATION_H_INCLUDED

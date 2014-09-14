@@ -167,7 +167,7 @@ void UserSettings::loadSettings()
 
 void UserSettings::userTriedToCloseWindow()
 {
-    ScopeSyncApplication::reloadAllGUIs(); 
+    ScopeSync::reloadAllGUIs(); 
     removeFromDesktop();
 }
 

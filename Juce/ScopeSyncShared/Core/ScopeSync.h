@@ -68,6 +68,8 @@ public:
     void unload();
 
     /* ========================== Public Actions ============================= */
+    static int  getNumScopeSyncInstances();
+    static void reloadAllGUIs();
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
     void beginParameterChangeGesture(BCMParameter& parameter);
@@ -164,6 +166,7 @@ private:
     Array<int>                 paramIdxByScopeSyncId;  // Index of parameters by their ScopeSyncId
     Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
     ScopedPointer<ApplicationCommandManager> commandManager;
+    static Array<ScopeSync*> scopeSyncInstances;       // Tracks instances of this object, so Juce can be shutdown when no more remain
 
     CriticalSection flagLock;
    

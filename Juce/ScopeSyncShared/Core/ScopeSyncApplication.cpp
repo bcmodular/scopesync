@@ -1,6 +1,6 @@
 /**
- * Main ScopeSync Application Singleton class. Handles global/static
- * aspects, such as Application Commands etc.
+ * ScopeSync Application namespace. Home for global/static
+ * functions etc.
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -26,28 +26,13 @@
  */
 
 #include "ScopeSyncApplication.h"
-#include "Global.h"
-#include "ScopeSync.h"
 
-juce_ImplementSingleton (ScopeSyncApplication)
+const bool ScopeSyncApplication::inPluginContext() 
+{ 
+    return (appContext == plugin) ? true : false;
+};
 
-Array<ScopeSync*> ScopeSyncApplication::scopeSyncInstances;
-
-ScopeSyncApplication::ScopeSyncApplication() {}
-
-ScopeSyncApplication::~ScopeSyncApplication() {}
-
-void ScopeSyncApplication::reloadAllGUIs()
-{
-    for (int i = 0; i < scopeSyncInstances.size(); i++)
-    {
-        scopeSyncInstances[i]->setGUIReload(true);
-    }
-}
-
-ScopeSyncApplication& ScopeSyncApplication::getApp()
-{
-    ScopeSyncApplication* const app = ScopeSyncApplication::getInstance();
-    jassert (app != nullptr);
-    return *app;
-}
+const bool ScopeSyncApplication::inScopeFXContext() 
+{ 
+    return (appContext == scopefx) ? true : false; 
+};

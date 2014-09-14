@@ -44,21 +44,18 @@ PluginProcessor::PluginProcessor()
 {
     scopeSync = new ScopeSync(this);
     startTimer(timerInterval);
-    ScopeSyncApplication::registerScopeSyncInstance(scopeSync);
 }
 
 PluginProcessor::~PluginProcessor()
 {
     stopTimer();
     scopeSync->unload();
+    scopeSync = nullptr;
 
-    ScopeSyncApplication::removeScopeSyncInstance(scopeSync);
-
-    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
+    if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
-        ScopeSyncApplication::deleteInstance();
     }
 }
 

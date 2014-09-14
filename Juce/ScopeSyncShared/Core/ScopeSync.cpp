@@ -69,6 +69,8 @@ Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
 
+Array<ScopeSync*> ScopeSync::scopeSyncInstances;
+
 ScopeSync::ScopeSync() : parameterValueStore("parametervalues")
 {
     initialise();
@@ -77,12 +79,14 @@ ScopeSync::ScopeSync() : parameterValueStore("parametervalues")
 #ifndef __DLL_EFFECT__
 ScopeSync::ScopeSync(PluginProcessor* owner) : parameterValueStore("parametervalues")
 {
+    scopeSyncInstances.add(this);
     pluginProcessor = owner;
     initialise();
 }
 #else
 ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 {
+    scopeSyncInstances.add(this);
     scopeFX = owner;
     initialise();
 }
@@ -90,6 +94,7 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
+    scopeSyncInstances.removeAllInstancesOf(this);
 }
 
 void ScopeSync::initialise()
@@ -115,6 +120,19 @@ ApplicationCommandManager& ScopeSync::getCommandManager()
 void ScopeSync::unload()
 {
     configuration->saveIfNeededAndUserAgrees(false);
+}
+
+int ScopeSync::getNumScopeSyncInstances() 
+{ 
+    return scopeSyncInstances.size(); 
+};
+    
+void ScopeSync::reloadAllGUIs()
+{
+    for (int i = 0; i < scopeSyncInstances.size(); i++)
+    {
+        scopeSyncInstances[i]->setGUIReload(true);
+    }
 }
 
 void ScopeSync::resetScopeCodeIndexes()

@@ -70,10 +70,8 @@ using namespace ScopeFXParameterDefinitions;
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
     initValues();
-
-    scopeSync = new ScopeSync(this);
-
-    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
+    
+    if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
 #ifdef _WIN32
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
@@ -81,9 +79,9 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
         initialiseJuce_GUI();
     }
 
-    ScopeSyncApplication::registerScopeSyncInstance(scopeSync);
-    
-    DBG("ScopeFX::ScopeFX - Number of module instances: " + String(moduleInstances.size()));
+    scopeSync = new ScopeSync(this);
+
+    DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
     startTimer(timerFrequency);
 }
@@ -94,16 +92,14 @@ ScopeFX::~ScopeFX()
     
     scopeFXGUI = nullptr;
     scopeSync->unload();
+    scopeSync = nullptr;
 
-    ScopeSyncApplication::removeScopeSyncInstance(scopeSync);
+    DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
     
-    DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(moduleInstances.size()));
-    
-    if (ScopeSyncApplication::getNumScopeSyncInstances() == 0)
+    if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
-        ScopeSyncApplication::deleteInstance();
         shutdownJuce_GUI();
     }
 }
