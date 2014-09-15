@@ -6,6 +6,14 @@
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
+        <FILE id="GtmIQC" name="ConfigurationManagerMain.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.cpp"/>
+        <FILE id="ISqmPF" name="ConfigurationManagerMain.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.h"/>
+        <FILE id="tVtGi1" name="ConfigurationMenuBarModel.cpp" compile="1"
+              resource="0" file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.cpp"/>
+        <FILE id="La2l1R" name="ConfigurationMenuBarModel.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.h"/>
         <FILE id="P7Pr3t" name="Configuration.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Configuration/Configuration.cpp"/>
         <FILE id="fGZTYI" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/Configuration.h"/>

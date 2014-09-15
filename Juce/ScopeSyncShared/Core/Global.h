@@ -89,9 +89,11 @@ namespace CommandIDs
 {
     enum
     {
-        saveAndCloseConfig       = 0x200300,
-        saveConfigAs             = 0x200310,
-        discardConfigChanges     = 0x200320
+        saveConfig               = 0x200300,
+        saveAndCloseConfig       = 0x200310,
+        saveConfigAs             = 0x200320,
+        discardConfigChanges     = 0x200330,
+        closeConfig              = 0x200340
     };
 }
 

@@ -28,39 +28,34 @@
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Core/ScopeSyncGUI.h"
+class ConfigurationMenuBarModel;
 class PropertyListBuilder;
+class ConfigurationManagerMain;
 
-class ConfigurationManager : public Component,
-                             public ApplicationCommandTarget
+class ConfigurationManager : public DocumentWindow
 {
 public:
     ConfigurationManager(ScopeSyncGUI& owner);
     ~ConfigurationManager();
 
-private:
-    Label         fileNameLabel;
-    PropertyPanel propertyPanel;
-    ScopeSyncGUI& scopeSyncGUI;
-    TextButton    saveAndCloseButton;
-    TextButton    saveAsButton;
-    TextButton    discardChangesButton;
+    ApplicationCommandManager& getCommandManager() { return commandManager; };
+    StringArray getMenuNames();
+    void createMenu(PopupMenu& menu, const String& menuName);
+    void createFileMenu(PopupMenu& menu);
 
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
-    
-    void rebuildProperties();
-    void createPropertyEditors(PropertyListBuilder& propertyPanel);
-    void resized();
-    void paint(Graphics& g);
-    void userTriedToCloseWindow();
-
+    void save();
     void saveAndClose();
     void saveAs();
     void discardChanges();
+
+private:
+    ScopeSyncGUI&                            scopeSyncGUI;
+    ApplicationCommandManager&               commandManager;
+    ScopedPointer<ConfigurationMenuBarModel> menuModel;
+    ConfigurationManagerMain*                configurationManagerMain;
     
+    void closeButtonPressed() override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };
 

@@ -137,6 +137,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
@@ -1042,6 +1044,8 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h"/>

@@ -30,13 +30,11 @@
  using namespace juce;
 #endif
 
-#if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
     const char* const  projectName    = "ScopeSyncPlugin";
     const char* const  versionString  = "0.1.1";
     const int          versionNumber  = 0x101;
 }
-#endif
 
 #endif   // __APPHEADERFILE_AORKSY__

@@ -14,6 +14,14 @@
               companyEmail="support@bcmodular.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
     <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
+      <FILE id="XvY8mq" name="ConfigurationManagerMain.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.cpp"/>
+      <FILE id="DEM3Zy" name="ConfigurationManagerMain.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.h"/>
+      <FILE id="aHIIib" name="ConfigurationMenuBarModel.cpp" compile="1"
+            resource="0" file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.cpp"/>
+      <FILE id="wtRLdz" name="ConfigurationMenuBarModel.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.h"/>
       <FILE id="L8VFLV" name="Configuration.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/Configuration.cpp"/>
       <FILE id="nuI5Qc" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/Configuration.h"/>

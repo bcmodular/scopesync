@@ -28,118 +28,62 @@
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Utils/BCMMisc.h"
+#include "../Core/ScopeSync.h"
+#include "ConfigurationMenuBarModel.h"
+#include "ConfigurationManagerMain.h"
 
-ConfigurationManager::ConfigurationManager(ScopeSyncGUI& owner) : scopeSyncGUI(owner), saveAndCloseButton("Save Configuration and Close"), saveAsButton("Save Configuration As..."), discardChangesButton("Discard All Unsaved Changes")
+ConfigurationManager::ConfigurationManager(ScopeSyncGUI& owner) : DocumentWindow("Configuration Manager", Colour::greyLevel(0.6f), DocumentWindow::allButtons, true),
+                                                                  scopeSyncGUI(owner),
+                                                                  commandManager(owner.getScopeSync().getCommandManager())
 {
-    ApplicationCommandManager& commandManager = owner.getScopeSync().getCommandManager();
-    commandManager.registerAllCommandsForTarget(this);
+    setUsingNativeTitleBar (true);
     
-    rebuildProperties();
-    addAndMakeVisible(propertyPanel);
+    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSyncGUI), true);
+    
+    menuModel = new ConfigurationMenuBarModel(*this);
+    setMenuBar(menuModel);
 
-    fileNameLabel.setText("File path: " + scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
-    fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
-    fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
-    fileNameLabel.setMinimumHorizontalScale(1.0f);
-    addAndMakeVisible(fileNameLabel);
+    addKeyListener (commandManager.getKeyMappings());
 
-    //saveAndCloseButton.addListener(this);
-    saveAndCloseButton.setCommandToTrigger(&commandManager, CommandIDs::saveAndCloseConfig, true);
-    addAndMakeVisible(saveAndCloseButton);
+    centreWithSize(getWidth(), getHeight());
+    setVisible(true);
+    setResizable(true, false);
 
-    //saveAsButton.addListener(this);
-    saveAsButton.setCommandToTrigger(&commandManager, CommandIDs::saveConfigAs, true);
-    addAndMakeVisible(saveAsButton);
+    setWantsKeyboardFocus (false);
 
-    //discardChangesButton.addListener(this);
-    discardChangesButton.setCommandToTrigger(&commandManager, CommandIDs::discardConfigChanges, true);
-    addAndMakeVisible(discardChangesButton);
-
-    setSize (600, 400);
+    setResizeLimits(600, 500, 32000, 32000);
 }
 
 ConfigurationManager::~ConfigurationManager()
 {
+    removeKeyListener(commandManager.getKeyMappings());
+    setMenuBar(nullptr);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
-void ConfigurationManager::getAllCommands (Array <CommandID>& commands)
+StringArray ConfigurationManager::getMenuNames()
 {
-    const CommandID ids[] = { CommandIDs::saveAndCloseConfig,
-                              CommandIDs::saveConfigAs,
-                              CommandIDs::discardConfigChanges
-                            };
-
-    commands.addArray (ids, numElementsInArray (ids));
+    const char* const names[] = { "File", nullptr };
+    return StringArray (names);
 }
 
-void ConfigurationManager::getCommandInfo (CommandID commandID, ApplicationCommandInfo& result)
+void ConfigurationManager::createMenu (PopupMenu& menu, const String& menuName)
 {
-    switch (commandID)
-    {
-    case CommandIDs::saveAndCloseConfig:
-        result.setInfo ("Save and Close Configuration", "Save Configuration and closes the Configuration Manager popup", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::altModifier | ModifierKeys::shiftModifier, 0));
-        break;
-    case CommandIDs::saveConfigAs:
-        result.setInfo ("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::altModifier, 0));
-        break;
-    case CommandIDs::discardConfigChanges:
-        result.setInfo ("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('d', ModifierKeys::commandModifier | ModifierKeys::altModifier, 0));
-        break;
-    }
+    if (menuName == "File") createFileMenu(menu);
+    else                    jassertfalse; // names have changed?
 }
 
-bool ConfigurationManager::perform(const InvocationInfo& info)
+void ConfigurationManager::createFileMenu (PopupMenu& menu)
 {
-    switch (info.commandID)
-    {
-        case CommandIDs::saveAndCloseConfig:   saveAndClose(); break;
-        case CommandIDs::saveConfigAs:         saveAs(); break;
-        case CommandIDs::discardConfigChanges: discardChanges(); break;
-        default:                        return false;
-    }
-
-    return true;
+    menu.addCommandItem(&commandManager, CommandIDs::saveConfig);
+    menu.addCommandItem(&commandManager, CommandIDs::saveAndCloseConfig);
+    menu.addCommandItem(&commandManager, CommandIDs::saveConfigAs);
+    menu.addCommandItem(&commandManager, CommandIDs::discardConfigChanges);   
+    menu.addSeparator();
+    menu.addCommandItem(&commandManager, CommandIDs::closeConfig);   
 }
 
-ApplicationCommandTarget* ConfigurationManager::getNextCommandTarget()
-{
-    return nullptr;
-}
-
-void ConfigurationManager::rebuildProperties()
-{
-    PropertyListBuilder props;
-    createPropertyEditors(props);
-
-    propertyPanel.addProperties(props.components);
-}
-
-void ConfigurationManager::createPropertyEditors(PropertyListBuilder& props)
-{
-    ValueTree configurationRoot = scopeSyncGUI.getScopeSync().getConfigurationRoot();
-    props.add(new TextPropertyComponent(configurationRoot.getPropertyAsValue(Ids::name, nullptr), "Name", 256, false));
-}
-
-void ConfigurationManager::resized()
-{
-    Rectangle<int> r (getLocalBounds());
-    fileNameLabel.setBounds(r.removeFromTop(30).reduced (4, 2));
-    propertyPanel.setBounds(r.removeFromTop(getHeight() - 70).reduced (4, 2));
-    saveAndCloseButton.setBounds(r.removeFromLeft(getWidth()/3).reduced(1, 3));
-    saveAsButton.setBounds(r.removeFromLeft(getWidth()/3).removeFromRight(getWidth()/2).reduced (1, 3));
-    discardChangesButton.setBounds(r.reduced (1, 3));
-}
-
-void ConfigurationManager::paint(Graphics& g)
-{
-    g.fillAll (Colour (0xff434343));
-}
-
-void ConfigurationManager::userTriedToCloseWindow()
+void ConfigurationManager::closeButtonPressed()
 {
     scopeSyncGUI.hideConfigurationManager();
 }
@@ -147,8 +91,13 @@ void ConfigurationManager::userTriedToCloseWindow()
 
 void ConfigurationManager::saveAndClose()
 {
-    scopeSyncGUI.getScopeSync().saveConfiguration();
+    save();
     scopeSyncGUI.hideConfigurationManager();
+}
+
+void ConfigurationManager::save()
+{
+    scopeSyncGUI.getScopeSync().saveConfiguration();
 }
 
 void ConfigurationManager::saveAs()
@@ -162,8 +111,7 @@ void ConfigurationManager::saveAs()
     if (fileChooser.browseForFileToSave(true))
     {
         scopeSyncGUI.getScopeSync().saveConfigurationAs(fileChooser.getResult().getFullPathName());
-        fileNameLabel.setText(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
-        fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
+        configurationManagerMain->updateConfigurationFileName();
     }
 }
 

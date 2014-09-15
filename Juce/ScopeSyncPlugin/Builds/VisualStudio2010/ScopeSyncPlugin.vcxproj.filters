@@ -277,6 +277,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
@@ -1404,6 +1410,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
