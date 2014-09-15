@@ -37,7 +37,6 @@
 class BCMComponent;
 class BCMTabbedComponent;
 class UserSettings;
-class ConfigurationManager;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
@@ -66,8 +65,6 @@ public:
     /* ========================== Public Actions ============================= */
     void          hideUserSettings();
     void          showUserSettings();
-    void          showConfigurationManager();
-    void          hideConfigurationManager() { configurationManager = nullptr; };
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
     void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);
@@ -102,10 +99,9 @@ private:
     void showSystemError();
 
     /* ===================== Private member variables ========================= */
-    ScopedPointer<BCMComponent>         mainComponent;
-    ScopedPointer<ConfigurationManager> configurationManager;
-    Array<BCMTabbedComponent*>          tabbedComponents;
-    ScopedPointer<Label>                systemError;
+    ScopedPointer<BCMComponent> mainComponent;
+    Array<BCMTabbedComponent*>  tabbedComponents;
+    ScopedPointer<Label>        systemError;
     
     ScopeSync&    scopeSync;
     ValueTree     deviceMapping;

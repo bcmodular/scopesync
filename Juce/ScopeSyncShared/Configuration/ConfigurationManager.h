@@ -27,7 +27,7 @@
 #ifndef CONFIGURATIONMANAGER_H_INCLUDED
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
-#include "../Core/ScopeSyncGUI.h"
+#include "../Core/ScopeSync.h"
 class ConfigurationMenuBarModel;
 class PropertyListBuilder;
 class ConfigurationManagerMain;
@@ -35,7 +35,7 @@ class ConfigurationManagerMain;
 class ConfigurationManager : public DocumentWindow
 {
 public:
-    ConfigurationManager(ScopeSyncGUI& owner);
+    ConfigurationManager(ScopeSync& owner, int posX, int posY);
     ~ConfigurationManager();
 
     ApplicationCommandManager& getCommandManager() { return commandManager; };
@@ -49,7 +49,7 @@ public:
     void discardChanges();
 
 private:
-    ScopeSyncGUI&                            scopeSyncGUI;
+    ScopeSync&                               scopeSync;
     ApplicationCommandManager&               commandManager;
     ScopedPointer<ConfigurationMenuBarModel> menuModel;
     ConfigurationManagerMain*                configurationManagerMain;

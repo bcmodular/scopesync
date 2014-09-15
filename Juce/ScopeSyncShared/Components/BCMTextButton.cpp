@@ -321,15 +321,15 @@ void BCMTextButton::clicked()
         }
         else if (getName().equalsIgnoreCase("showconfigurationmanager"))
         {
-            gui.showConfigurationManager();
+            gui.getScopeSync().showConfigurationManager(gui.getScreenPosition().getX(), gui.getScreenPosition().getY());
         }
         else if (getName().equalsIgnoreCase("chooseconfiguration"))
         {
             gui.chooseConfiguration();
         }
-        else if (getName().equalsIgnoreCase("reloadlayout"))
+        else if (getName().equalsIgnoreCase("reloadconfiguration"))
         {
-            gui.getScopeSync().reloadLayout();
+            gui.getScopeSync().applyConfiguration();
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }

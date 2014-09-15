@@ -16,21 +16,21 @@
 #include "../Core/ScopeSync.h"
 
 ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
-                                                   ScopeSyncGUI& gui) :   configurationManager(owner),
-                                                                          scopeSyncGUI(gui),
-                                                                          saveButton("Save Configuration"),
-                                                                          saveAndCloseButton("Save Configuration and Close"),
-                                                                          saveAsButton("Save Configuration As..."),
-                                                                          discardChangesButton("Discard All Unsaved Changes"),
-                                                                          commandManager(gui.getScopeSync().getCommandManager())
+                                                   ScopeSync& ss) : configurationManager(owner),
+                                                                    scopeSync(ss),
+                                                                    saveButton("Save Configuration"),
+                                                                    saveAndCloseButton("Save Configuration and Close"),
+                                                                    saveAsButton("Save Configuration As..."),
+                                                                    discardChangesButton("Discard All Unsaved Changes"),
+                                                                    commandManager(scopeSync.getCommandManager())
 {
     commandManager.registerAllCommandsForTarget(this);
     
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
 
-    fileNameLabel.setText("File path: " + scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
-    fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
+    fileNameLabel.setText("File path: " + scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
+    fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
     fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
@@ -55,8 +55,8 @@ ConfigurationManagerMain::~ConfigurationManagerMain() {}
 
 void ConfigurationManagerMain::updateConfigurationFileName()
 {
-    fileNameLabel.setText(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName(), dontSendNotification);
-    fileNameLabel.setTooltip(scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName());
+    fileNameLabel.setText(scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
+    fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
 }
 
 void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
@@ -106,7 +106,7 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
         case CommandIDs::saveAndCloseConfig:   configurationManager.saveAndClose(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
         case CommandIDs::discardConfigChanges: configurationManager.discardChanges(); break;
-        case CommandIDs::closeConfig:          scopeSyncGUI.hideConfigurationManager(); break;
+        case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
         default:                        return false;
     }
 
@@ -128,7 +128,7 @@ void ConfigurationManagerMain::rebuildProperties()
 
 void ConfigurationManagerMain::createPropertyEditors(PropertyListBuilder& props)
 {
-    ValueTree configurationRoot = scopeSyncGUI.getScopeSync().getConfigurationRoot();
+    ValueTree configurationRoot = scopeSync.getConfigurationRoot();
     props.add(new TextPropertyComponent(configurationRoot.getPropertyAsValue(Ids::name, nullptr), "Name", 256, false));
 }
 

@@ -32,20 +32,24 @@
 #include "ConfigurationMenuBarModel.h"
 #include "ConfigurationManagerMain.h"
 
-ConfigurationManager::ConfigurationManager(ScopeSyncGUI& owner) : DocumentWindow("Configuration Manager", Colour::greyLevel(0.6f), DocumentWindow::allButtons, true),
-                                                                  scopeSyncGUI(owner),
-                                                                  commandManager(owner.getScopeSync().getCommandManager())
+ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
+    : DocumentWindow("Configuration Manager",
+                     Colour::greyLevel(0.6f),
+                     DocumentWindow::allButtons,
+                     true),
+      scopeSync(owner),
+      commandManager(scopeSync.getCommandManager())
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSyncGUI), true);
+    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSync), true);
     
     menuModel = new ConfigurationMenuBarModel(*this);
     setMenuBar(menuModel);
 
     addKeyListener (commandManager.getKeyMappings());
 
-    centreWithSize(getWidth(), getHeight());
+    setBounds(posX, posY, getWidth(), getHeight());
     setVisible(true);
     setResizable(true, false);
 
@@ -58,7 +62,6 @@ ConfigurationManager::~ConfigurationManager()
 {
     removeKeyListener(commandManager.getKeyMappings());
     setMenuBar(nullptr);
-    scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
 StringArray ConfigurationManager::getMenuNames()
@@ -85,24 +88,25 @@ void ConfigurationManager::createFileMenu (PopupMenu& menu)
 
 void ConfigurationManager::closeButtonPressed()
 {
-    scopeSyncGUI.hideConfigurationManager();
+    scopeSync.applyConfiguration();
+    scopeSync.hideConfigurationManager();
 }
 
 
 void ConfigurationManager::saveAndClose()
 {
     save();
-    scopeSyncGUI.hideConfigurationManager();
+    scopeSync.hideConfigurationManager();
 }
 
 void ConfigurationManager::save()
 {
-    scopeSyncGUI.getScopeSync().saveConfiguration();
+    scopeSync.saveConfiguration();
 }
 
 void ConfigurationManager::saveAs()
 {
-    File configurationFileDirectory = scopeSyncGUI.getScopeSync().getConfigurationDirectory();
+    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
     
     FileChooser fileChooser("Save Configuration File As...",
                             configurationFileDirectory,
@@ -110,13 +114,13 @@ void ConfigurationManager::saveAs()
     
     if (fileChooser.browseForFileToSave(true))
     {
-        scopeSyncGUI.getScopeSync().saveConfigurationAs(fileChooser.getResult().getFullPathName());
+        scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
         configurationManagerMain->updateConfigurationFileName();
     }
 }
 
 void ConfigurationManager::discardChanges()
 {
-    scopeSyncGUI.getScopeSync().reloadSavedConfiguration();
-    scopeSyncGUI.hideConfigurationManager();
+    scopeSync.reloadSavedConfiguration();
+    scopeSync.hideConfigurationManager();
 }

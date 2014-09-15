@@ -21,7 +21,7 @@ class ConfigurationManagerMain : public Component,
                                  public ApplicationCommandTarget
 {
 public:
-    ConfigurationManagerMain(ConfigurationManager& owner, ScopeSyncGUI& gui);
+    ConfigurationManagerMain(ConfigurationManager& owner, ScopeSync& ss);
     ~ConfigurationManagerMain();
 
     void updateConfigurationFileName();
@@ -33,7 +33,7 @@ private:
     TextButton                 saveAndCloseButton;
     TextButton                 saveAsButton;
     TextButton                 discardChangesButton;
-    ScopeSyncGUI&              scopeSyncGUI;
+    ScopeSync&                 scopeSync;
     ApplicationCommandManager& commandManager;
     ConfigurationManager&      configurationManager;
     

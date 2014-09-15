@@ -34,6 +34,7 @@
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 #include <utility>
+#include "../Configuration/ConfigurationManager.h"
 
 #ifndef __DLL_EFFECT__
     #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
@@ -110,6 +111,19 @@ void ScopeSync::initialise()
 void ScopeSync::initCommandManager()
 {
     commandManager = new ApplicationCommandManager();
+}
+
+void ScopeSync::showConfigurationManager(int posX, int posY)
+{
+    if (configurationManager == nullptr)
+        configurationManager = new ConfigurationManager(*this, posX, posY);
+    
+    configurationManager->toFront(true);
+}
+
+void ScopeSync::hideConfigurationManager()
+{
+	configurationManager = nullptr;
 }
 
 ApplicationCommandManager& ScopeSync::getCommandManager()
@@ -656,10 +670,10 @@ const String ScopeSync::systemLookAndFeels =
 "name=\"loadConfigButtonOver\" mouseoverdownfilename=\"loadConfigButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
-"  <lookandfeel id=\"system:reload_layout_button\" parentid=\"system:default\">\n"
+"  <lookandfeel id=\"system:reload_button\" parentid=\"system:default\">\n"
 "    <images>\n"
-"      <textbutton upfilename=\"reloadLayoutButtonOff\" downfilename=\"reloadLayoutButtonOn\" mouseoverup"
-"filename=\"reloadLayoutButtonOver\" mouseoverdownfilename=\"reloadLayoutButtonOn\"></textbutton>\n"
+"      <textbutton upfilename=\"reloadButtonOff\" downfilename=\"reloadButtonOn\" mouseoverupfilename=\"re"
+"loadButtonOver\" mouseoverdownfilename=\"reloadButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:remove_config_button\" parentid=\"system:default\">\n"

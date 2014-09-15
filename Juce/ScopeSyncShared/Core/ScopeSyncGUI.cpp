@@ -30,8 +30,6 @@
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
-#include "../Configuration/ConfigurationManager.h"
-#include "../Configuration/ConfigurationManagerMain.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 
@@ -57,23 +55,6 @@ void ScopeSyncGUI::hideUserSettings()
 void ScopeSyncGUI::showUserSettings()
 {
     UserSettings::getInstance()->show(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
-}
-
-void ScopeSyncGUI::showConfigurationManager()
-{
-    if (configurationManager == nullptr)
-    {
-        configurationManager = new ConfigurationManager(*this);
-        //configurationManager->setName("Configuration Manager");
-        //configurationManager->setContentOwned(new ConfigurationManagerMain(*configurationManager, *this), true);
-        //configurationManager->setOpaque(true);
-        //configurationManager->setVisible(true);
-        //configurationManager->setBounds(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY(), configurationManager->getWidth(), configurationManager->getHeight());
-        //configurationManager->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
-        //configurationManager->setAlwaysOnTop(true);
-    }
-
-    configurationManager->toFront(true);
 }
 
 void ScopeSyncGUI::chooseConfiguration()
@@ -135,8 +116,7 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
 
 void ScopeSyncGUI::createGUI(bool forceReload)
 {
-    configurationManager = nullptr;
-    mainComponent        = nullptr;
+    mainComponent = nullptr;
     tabbedComponents.clearQuick();
 
     deviceMapping = scopeSync.getMapping();

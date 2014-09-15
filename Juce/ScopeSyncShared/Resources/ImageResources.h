@@ -32,23 +32,23 @@ namespace ImageResources
     extern const char*  presets_button_over_png;
     const int           presets_button_over_pngSize = 2896;
 
-    extern const char*  reload_layout_button_off_png;
-    const int           reload_layout_button_off_pngSize = 3583;
+    extern const char*  reload_button_off_png;
+    const int           reload_button_off_pngSize = 3583;
 
-    extern const char*  reload_layout_button_on_png;
-    const int           reload_layout_button_on_pngSize = 3223;
+    extern const char*  reload_button_on_png;
+    const int           reload_button_on_pngSize = 3223;
 
-    extern const char*  reload_layout_button_over_png;
-    const int           reload_layout_button_over_pngSize = 3207;
+    extern const char*  reload_button_over_png;
+    const int           reload_button_over_pngSize = 3207;
 
-    extern const char*  remove_config_button_off_png;
-    const int           remove_config_button_off_pngSize = 3902;
+    extern const char*  remove_button_off_png;
+    const int           remove_button_off_pngSize = 3902;
 
-    extern const char*  remove_config_button_on_png;
-    const int           remove_config_button_on_pngSize = 3363;
+    extern const char*  remove_button_on_png;
+    const int           remove_button_on_pngSize = 3363;
 
-    extern const char*  remove_config_button_over_png;
-    const int           remove_config_button_over_pngSize = 3301;
+    extern const char*  remove_button_over_png;
+    const int           remove_button_over_pngSize = 3301;
 
     extern const char*  scopesync_logo_png;
     const int           scopesync_logo_pngSize = 4151;

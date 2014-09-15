@@ -15,9 +15,9 @@
       <textbutton upfilename="loadConfigButtonOff" downfilename="loadConfigButtonOn" mouseoverupfilename="loadConfigButtonOver" mouseoverdownfilename="loadConfigButtonOn"></textbutton>
     </images>
   </lookandfeel>
-  <lookandfeel id="system:reload_layout_button" parentid="system:default">
+  <lookandfeel id="system:reload_button" parentid="system:default">
     <images>
-      <textbutton upfilename="reloadLayoutButtonOff" downfilename="reloadLayoutButtonOn" mouseoverupfilename="reloadLayoutButtonOver" mouseoverdownfilename="reloadLayoutButtonOn"></textbutton>
+      <textbutton upfilename="reloadButtonOff" downfilename="reloadButtonOn" mouseoverupfilename="reloadButtonOver" mouseoverdownfilename="reloadButtonOn"></textbutton>
     </images>
   </lookandfeel>
   <lookandfeel id="system:remove_config_button" parentid="system:default">

@@ -60,15 +60,15 @@ void ImageLoader::loadImageResources()
     addImageResource("presetsButtonOn",   ImageResources::presets_button_on_png,   ImageResources::presets_button_on_pngSize);
     addImageResource("presetsButtonOver", ImageResources::presets_button_over_png, ImageResources::presets_button_over_pngSize);
     
-    // Reload Layout buttons
-    addImageResource("reloadLayoutButtonOff",  ImageResources::reload_layout_button_off_png,  ImageResources::reload_layout_button_off_pngSize);
-    addImageResource("reloadLayoutButtonOn",   ImageResources::reload_layout_button_on_png,   ImageResources::reload_layout_button_on_pngSize);
-    addImageResource("reloadLayoutButtonOver", ImageResources::reload_layout_button_over_png, ImageResources::reload_layout_button_over_pngSize);
+    // Reload buttons
+    addImageResource("reloadButtonOff",  ImageResources::reload_button_off_png,  ImageResources::reload_button_off_pngSize);
+    addImageResource("reloadButtonOn",   ImageResources::reload_button_on_png,   ImageResources::reload_button_on_pngSize);
+    addImageResource("reloadButtonOver", ImageResources::reload_button_over_png, ImageResources::reload_button_over_pngSize);
     
-    // Remove Configuration buttons
-    addImageResource("removeConfigButtonOff",  ImageResources::remove_config_button_off_png,  ImageResources::remove_config_button_off_pngSize);
-    addImageResource("removeConfigButtonOn",   ImageResources::remove_config_button_on_png,   ImageResources::remove_config_button_on_pngSize);
-    addImageResource("removeConfigButtonOver", ImageResources::remove_config_button_over_png, ImageResources::remove_config_button_over_pngSize);
+    // Remove buttons
+    addImageResource("removeButtonOff",  ImageResources::remove_button_off_png,  ImageResources::remove_button_off_pngSize);
+    addImageResource("removeButtonOn",   ImageResources::remove_button_on_png,   ImageResources::remove_button_on_pngSize);
+    addImageResource("removeButtonOver", ImageResources::remove_button_over_png, ImageResources::remove_button_over_pngSize);
     
     // Settings buttons
     addImageResource("settingsButtonOff",  ImageResources::settings_button_off_png,  ImageResources::settings_button_off_pngSize);
