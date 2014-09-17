@@ -15,27 +15,38 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "ConfigurationManager.h"
 
+class ConfigurationTree;
 class PropertyListBuilder;
 
 class ConfigurationManagerMain : public Component,
-                                 public ApplicationCommandTarget
+                                 public ApplicationCommandTarget,
+                                 private Timer
 {
 public:
     ConfigurationManagerMain(ConfigurationManager& owner, ScopeSync& ss);
     ~ConfigurationManagerMain();
 
     void updateConfigurationFileName();
-
+    void paint(Graphics& g) override;
+    void paintOverChildren (Graphics&) override;
+    void resized() override;
+    void childBoundsChanged(Component* child) override;
+    
 private:
     Label                      fileNameLabel;
-    PropertyPanel              propertyPanel;
     TextButton                 saveButton;
     TextButton                 saveAndCloseButton;
     TextButton                 saveAsButton;
     TextButton                 discardChangesButton;
+    ScopedPointer<ConfigurationTree> treeView;
+    Viewport                   panelView;
+    ScopedPointer<ResizableEdgeComponent> resizerBar;
+    ComponentBoundsConstrainer treeSizeConstrainer;
+    
     ScopeSync&                 scopeSync;
     ApplicationCommandManager& commandManager;
     ConfigurationManager&      configurationManager;
+    UndoManager                undoManager;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -43,11 +54,8 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
 
-    void rebuildProperties();
-    void createPropertyEditors(PropertyListBuilder& propertyPanel);
-    void resized();
-    void paint(Graphics& g);
-    
+    void timerCallback() override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };
 

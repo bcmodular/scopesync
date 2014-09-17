@@ -28,7 +28,7 @@
  */
 
 #include "BCMComponent.h"
-#include "ImageLoader.h"
+#include "../Resources/ImageLoader.h"
 #include "../Components/BCMLabel.h"
 #include "../Components/BCMSlider.h"
 #include "../Components/BCMComboBox.h"

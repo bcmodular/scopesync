@@ -33,7 +33,7 @@
 #include "../Properties/PropertiesHelper.h"
 #include "../Utils/BCMMath.h"
 #include "../Core/ScopeSyncGUI.h"
-#include "ImageLoader.h"
+#include "../Resources/ImageLoader.h"
 
 BCMLookAndFeel::BCMLookAndFeel(bool cacheImages)
 {

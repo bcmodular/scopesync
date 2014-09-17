@@ -30,7 +30,7 @@
 
 #include "../Utils/BCMMath.h"
 #include "../Utils/BCMXml.h"
-#include "../Components/ImageLoader.h"
+#include "../Resources/ImageLoader.h"
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 #include <utility>
@@ -116,7 +116,10 @@ void ScopeSync::initCommandManager()
 void ScopeSync::showConfigurationManager(int posX, int posY)
 {
     if (configurationManager == nullptr)
+    {
         configurationManager = new ConfigurationManager(*this, posX, posY);
+        configurationManager->setAlwaysOnTop(true);
+    }
     
     configurationManager->toFront(true);
 }

@@ -14,6 +14,7 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Utils/BCMMisc.h"
 #include "../Core/ScopeSync.h"
+#include "ConfigurationTree.h"
 
 ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                    ScopeSync& ss) : configurationManager(owner),
@@ -22,13 +23,12 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                                     saveAndCloseButton("Save Configuration and Close"),
                                                                     saveAsButton("Save Configuration As..."),
                                                                     discardChangesButton("Discard All Unsaved Changes"),
+                                                                    //treeView("Configuration Tree View"),
+                                                                    panelView("Configuration Editor View"),
                                                                     commandManager(scopeSync.getCommandManager())
 {
     commandManager.registerAllCommandsForTarget(this);
     
-    rebuildProperties();
-    addAndMakeVisible(propertyPanel);
-
     fileNameLabel.setText("File path: " + scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
     fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
     fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
@@ -47,8 +47,22 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     discardChangesButton.setCommandToTrigger(&commandManager, CommandIDs::discardConfigChanges, true);
     addAndMakeVisible(discardChangesButton);
 
+    treeSizeConstrainer.setMinimumWidth (200);
+    treeSizeConstrainer.setMaximumWidth (500);
+
+    treeView = new ConfigurationTree(scopeSync.getConfigurationRoot(), undoManager);
+    treeView->setBounds(0, 0, 240, 500);
+
+    addAndMakeVisible(treeView);
+    addAndMakeVisible(panelView);
+
+    addAndMakeVisible (resizerBar = new ResizableEdgeComponent(treeView, &treeSizeConstrainer,
+                                                               ResizableEdgeComponent::rightEdge));
+    resizerBar->setAlwaysOnTop (true);
+
     setSize (600, 500);
     
+    startTimer(500);
 }
 
 ConfigurationManagerMain::~ConfigurationManagerMain() {}
@@ -118,36 +132,49 @@ ApplicationCommandTarget* ConfigurationManagerMain::getNextCommandTarget()
     return nullptr;
 }
 
-void ConfigurationManagerMain::rebuildProperties()
+void ConfigurationManagerMain::childBoundsChanged(Component* child)
 {
-    PropertyListBuilder props;
-    createPropertyEditors(props);
-
-    propertyPanel.addProperties(props.components);
-}
-
-void ConfigurationManagerMain::createPropertyEditors(PropertyListBuilder& props)
-{
-    ValueTree configurationRoot = scopeSync.getConfigurationRoot();
-    props.add(new TextPropertyComponent(configurationRoot.getPropertyAsValue(Ids::name, nullptr), "Name", 256, false));
+    if (child == treeView)
+        resized();
 }
 
 void ConfigurationManagerMain::resized()
 {
-    Rectangle<int> parentBounds(getLocalBounds());
-    Rectangle<int> toolbar(parentBounds.removeFromTop(30).reduced(1, 1));
+    Rectangle<int> localBounds(getLocalBounds());
+    Rectangle<int> toolbar(localBounds.removeFromTop(30).reduced(1, 1));
     
     saveButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/4).reduced(1, 1));
     saveAndCloseButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/3).reduced(1, 1));
     saveAsButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/2).reduced(1, 1));
     discardChangesButton.setBounds(toolbar.reduced(1, 3));
     
-    fileNameLabel.setBounds(parentBounds.removeFromTop(30).reduced(4, 2));
-    propertyPanel.setBounds(parentBounds.reduced(4, 2));
+    fileNameLabel.setBounds(localBounds.removeFromTop(30).reduced(4, 2));
     
+    treeView->setBounds(localBounds.removeFromLeft(treeView->getWidth()));
+    resizerBar->setBounds(localBounds.withWidth(4));
+    panelView.setBounds(localBounds);
 }
 
 void ConfigurationManagerMain::paint(Graphics& g)
 {
     g.fillAll (Colour (0xff434343));
+}
+
+void ConfigurationManagerMain::paintOverChildren(Graphics& g)
+{
+    const int shadowSize = 15;
+    const int x = resizerBar->getX();
+
+    ColourGradient cg (Colours::black.withAlpha (0.25f), (float) x, 0,
+                        Colours::transparentBlack,        (float) (x - shadowSize), 0, false);
+    cg.addColour (0.4, Colours::black.withAlpha (0.07f));
+    cg.addColour (0.6, Colours::black.withAlpha (0.02f));
+
+    g.setGradientFill (cg);
+    g.fillRect (x - shadowSize, resizerBar->getY(), shadowSize, resizerBar->getHeight());
+}
+
+void ConfigurationManagerMain::timerCallback()
+{
+    undoManager.beginNewTransaction();
 }

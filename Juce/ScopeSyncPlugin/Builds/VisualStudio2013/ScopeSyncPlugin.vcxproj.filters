@@ -289,6 +289,30 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp">
+      <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp">
+      <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp">
       <Filter>ScopeSyncPlugin\Resources</Filter>
     </ClCompile>
@@ -335,9 +359,6 @@
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.cpp">
@@ -1422,6 +1443,33 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\RenameTreeItemCallback.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h">
+      <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h">
+      <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h">
       <Filter>ScopeSyncPlugin\Resources</Filter>
     </ClInclude>
@@ -1486,9 +1534,6 @@
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\ImageLoader.h">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.h">

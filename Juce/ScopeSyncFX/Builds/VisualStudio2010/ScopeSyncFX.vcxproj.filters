@@ -250,6 +250,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
@@ -261,6 +267,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp">
+      <Filter>ScopeSyncFX\Source\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp">
+      <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
@@ -305,9 +329,6 @@
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp">
-      <Filter>ScopeSyncFX\Source\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\ImageLoader.cpp">
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.cpp">
@@ -1299,6 +1320,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
@@ -1310,6 +1337,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\RenameTreeItemCallback.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h">
+      <Filter>ScopeSyncFX\Source\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h">
+      <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
@@ -1360,9 +1408,6 @@
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h">
-      <Filter>ScopeSyncFX\Source\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\ImageLoader.h">
       <Filter>ScopeSyncFX\Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.h">

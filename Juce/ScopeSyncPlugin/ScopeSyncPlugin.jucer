@@ -29,8 +29,38 @@
             file="../ScopeSyncShared/Configuration/ConfigurationManager.cpp"/>
       <FILE id="aRxFD4" name="ConfigurationManager.h" compile="0" resource="0"
             file="../ScopeSyncShared/Configuration/ConfigurationManager.h"/>
+      <FILE id="oipRtQ" name="ConfigurationTree.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationTree.cpp"/>
+      <FILE id="qhX2j2" name="ConfigurationTree.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationTree.h"/>
+      <FILE id="L0FMMi" name="ConfigurationTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationTreeItem.cpp"/>
+      <FILE id="AKG3Tn" name="ConfigurationTreeItem.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ConfigurationTreeItem.h"/>
+      <FILE id="gOgvKV" name="MappingTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/MappingTreeItem.cpp"/>
+      <FILE id="hEdSF6" name="MappingTreeItem.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/MappingTreeItem.h"/>
+      <FILE id="zHFCiQ" name="ParameterPanel.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ParameterPanel.cpp"/>
+      <FILE id="YNXbi4" name="ParameterPanel.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ParameterPanel.h"/>
+      <FILE id="QP0Yga" name="ParameterTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ParameterTreeItem.cpp"/>
+      <FILE id="f0SJtt" name="ParameterTreeItem.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ParameterTreeItem.h"/>
+      <FILE id="cQr52O" name="RenameTreeItemCallback.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/RenameTreeItemCallback.h"/>
+      <FILE id="Lgzby1" name="TreeItemComponent.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/TreeItemComponent.cpp"/>
+      <FILE id="G28YZo" name="TreeItemComponent.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/TreeItemComponent.h"/>
     </GROUP>
     <GROUP id="{AE86523D-8D18-E33E-CDD7-4C90A830DF7F}" name="Resources">
+      <FILE id="VqhlGS" name="Icons.cpp" compile="1" resource="0" file="../ScopeSyncShared/Resources/Icons.cpp"/>
+      <FILE id="gLEagO" name="Icons.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/Icons.h"/>
+      <FILE id="XrA8W6" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Resources/ImageLoader.cpp"/>
+      <FILE id="jDTYUu" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/ImageLoader.h"/>
       <FILE id="g37Smh" name="FontResources.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Resources/FontResources.cpp"/>
       <FILE id="pIVC9p" name="FontResources.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/FontResources.h"/>
@@ -100,8 +130,6 @@
       <FILE id="jCPoJJ" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMRectangle.h"/>
       <FILE id="s3Huix" name="BCMComponentBounds.h" compile="0" resource="0"
             file="../ScopeSyncShared/Components/BCMComponentBounds.h"/>
-      <FILE id="ZZYuvE" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/ImageLoader.cpp"/>
-      <FILE id="C0JiCD" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSyncShared/Components/ImageLoader.h"/>
       <FILE id="M411jV" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.cpp"/>
       <FILE id="DBA3Eh" name="BCMComboBox.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMComboBox.h"/>
       <FILE id="GMoHg2" name="BCMComponent.cpp" compile="1" resource="0"

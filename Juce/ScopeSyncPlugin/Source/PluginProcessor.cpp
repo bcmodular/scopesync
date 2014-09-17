@@ -34,7 +34,7 @@
 #include "../../ScopeSyncShared/Utils/BCMMath.h"
 #include "../../ScopeSyncShared/Utils/BCMXml.h"
 #include "PluginGUI.h"
-#include "../../ScopeSyncShared/Components/ImageLoader.h"
+#include "../../ScopeSyncShared/Resources/ImageLoader.h"
 #include "../../ScopeSyncShared/Components/UserSettings.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 

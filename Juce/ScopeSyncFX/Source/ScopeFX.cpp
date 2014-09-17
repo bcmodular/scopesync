@@ -32,7 +32,7 @@
 
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
-#include "../../ScopeSyncShared/Components/ImageLoader.h"
+#include "../../ScopeSyncShared/Resources/ImageLoader.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
 const int ScopeFX::initPositionX           = 100;
