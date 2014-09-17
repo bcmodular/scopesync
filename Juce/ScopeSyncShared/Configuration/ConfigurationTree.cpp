@@ -17,7 +17,7 @@ ConfigurationTree::ConfigurationTree(ValueTree configRoot, UndoManager& um) : co
 {
     addAndMakeVisible(tree);
 
-    tree.setDefaultOpenness(true);
+    tree.setDefaultOpenness(false);
     tree.setMultiSelectEnabled(true);
     tree.setRootItem(rootItem = new ConfigurationTreeItem(configurationRoot, undoManager));
     tree.setColour(TreeView::backgroundColourId, Colours::darkgrey);
@@ -29,7 +29,7 @@ ConfigurationTree::~ConfigurationTree()
     tree.setRootItem(nullptr);
 }
 
-void ConfigurationTree::paint (Graphics& g)
+void ConfigurationTree::paint(Graphics& g)
 {
     g.fillAll(Colour(0xff434343));
 }
@@ -38,8 +38,8 @@ void ConfigurationTree::resized()
 {
     Rectangle<int> r(getLocalBounds().reduced(8));
 
-    r.removeFromBottom (4);
-    tree.setBounds (r);
+    r.removeFromBottom(4);
+    tree.setBounds(r);
 }
 
 void ConfigurationTree::deleteSelectedItems()

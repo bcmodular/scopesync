@@ -35,6 +35,7 @@
 #include "../../ScopeSyncShared/Utils/BCMXml.h"
 #include "PluginGUI.h"
 #include "../../ScopeSyncShared/Resources/ImageLoader.h"
+#include "../../ScopeSyncShared/Resources/Icons.h"
 #include "../../ScopeSyncShared/Components/UserSettings.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
@@ -54,6 +55,7 @@ PluginProcessor::~PluginProcessor()
 
     if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
+        Icons::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
     }

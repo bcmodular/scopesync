@@ -23,10 +23,15 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                                     saveAndCloseButton("Save Configuration and Close"),
                                                                     saveAsButton("Save Configuration As..."),
                                                                     discardChangesButton("Discard All Unsaved Changes"),
-                                                                    //treeView("Configuration Tree View"),
                                                                     panelView("Configuration Editor View"),
                                                                     commandManager(scopeSync.getCommandManager())
 {
+    lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
+    lookAndFeel.setColour(TreeView::linesColourId,                  Colours::white);
+    lookAndFeel.setColour(TreeView::dragAndDropIndicatorColourId,   Colours::red);
+    lookAndFeel.setColour(TreeView::selectedItemBackgroundColourId, Colours::slategrey);
+    setLookAndFeel(&lookAndFeel);
+
     commandManager.registerAllCommandsForTarget(this);
     
     fileNameLabel.setText("File path: " + scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);

@@ -9,21 +9,28 @@
 */
 
 #include "ConfigurationTreeItem.h"
+#include "ConfigurationTree.h"
+#include "TreeItemComponent.h"
 
 ConfigurationTreeItem::ConfigurationTreeItem(const ValueTree& v, UndoManager& um)
-        : tree(v), undoManager(um)
+    : tree(v), undoManager(um), textX(0)
 {
     tree.addListener(this);
 }
 
+String ConfigurationTreeItem::getDisplayName() const 
+{
+    String displayName = tree["name"].toString();
+
+    if (displayName.isEmpty())
+        displayName = tree.getType().toString();
+
+    return displayName;
+}
+
 String ConfigurationTreeItem::getUniqueName() const
 {
-    String uniqueName = tree["name"].toString();
-
-    if (uniqueName.isEmpty())
-        uniqueName = tree.getType().toString();
-
-    return uniqueName;
+    return getDisplayName();
 }
 
 bool ConfigurationTreeItem::mightContainSubItems()
@@ -31,19 +38,52 @@ bool ConfigurationTreeItem::mightContainSubItems()
     return tree.getNumChildren() > 0;
 }
 
-void ConfigurationTreeItem::paintItem(Graphics& g, int width, int height)
+Font ConfigurationTreeItem::getFont() const
 {
-    g.setColour (Colours::antiquewhite);
-    g.setFont (15.0f);
+    return Font (getItemHeight() * 0.7f);
+}
 
-    String displayText = tree["name"].toString();
+float ConfigurationTreeItem::getIconSize() const
+{
+    return jmin (getItemHeight() - 4.0f, 18.0f);
+}
 
-    if (displayText.isEmpty())
-        displayText = tree.getType().toString();
+Icon ConfigurationTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->config, Colours::beige);
+}
 
-    g.drawText (displayText,
-                4, 0, width - 4, height,
-                Justification::centredLeft, true);
+void ConfigurationTreeItem::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver)
+{
+    TreeViewItem::paintOpenCloseButton(g, area, backgroundColour, isMouseOver);
+}
+
+Colour ConfigurationTreeItem::getBackgroundColour() const
+{
+    Colour background(Colours::darkgrey);
+
+    if (isSelected())
+        background = background.overlaidWith (getOwnerView()->findColour(TreeView::selectedItemBackgroundColourId));
+     
+    return background;
+}
+
+Colour ConfigurationTreeItem::getContrastingColour(float contrast) const
+{
+    return getBackgroundColour().contrasting(contrast);
+}
+
+Colour ConfigurationTreeItem::getContrastingColour(Colour target, float minContrast) const
+{
+    return getBackgroundColour().contrasting(target, minContrast);
+}
+
+void ConfigurationTreeItem::paintContent(Graphics& g, const Rectangle<int>& area)
+{
+    g.setFont(getFont());
+    g.setColour(getContrastingColour(0.8f));
+
+    g.drawFittedText(getDisplayName(), area, Justification::centredLeft, 1, 0.8f);
 }
 
 void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
@@ -57,6 +97,11 @@ void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
 var ConfigurationTreeItem::getDragSourceDescription()
 {
     return "Drag Demo";
+}
+
+Component* ConfigurationTreeItem::createItemComponent()
+{
+    return new TreeItemComponent(*this);
 }
 
 bool ConfigurationTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
@@ -76,7 +121,7 @@ void ConfigurationTreeItem::moveItems(TreeView& treeView, const Array<ValueTree>
 {
     if (items.size() > 0)
     {
-        ScopedPointer<XmlElement> oldOpenness (treeView.getOpennessState (false));
+        ScopedPointer<XmlElement> oldOpenness(treeView.getOpennessState (false));
 
         for (int i = items.size(); --i >= 0;)
         {
@@ -85,7 +130,7 @@ void ConfigurationTreeItem::moveItems(TreeView& treeView, const Array<ValueTree>
             if (v.getParent().isValid() && newParent != v && ! newParent.isAChildOf (v))
             {
                 v.getParent().removeChild (v, &undoManager);
-                newParent.addChild (v, insertIndex, &undoManager);
+                newParent.addChild(v, insertIndex, &undoManager);
             }
         }
 

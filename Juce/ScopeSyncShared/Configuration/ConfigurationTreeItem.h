@@ -22,15 +22,30 @@ public:
 
     String getUniqueName() const override;
     bool mightContainSubItems() override;
-    void paintItem (Graphics& g, int width, int height) override;
+    Font getFont() const;
+    Icon getIcon() const;
+    float getIconSize() const;
+    bool isIconCrossedOut() const { return false; }
+    void paintContent (Graphics& g, const Rectangle<int>& area);
+    void paintOpenCloseButton (Graphics&, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver) override;
+    Component* createItemComponent() override;
     void itemOpennessChanged (bool isNowOpen) override;
     var getDragSourceDescription() override;
     bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
     void itemDropped (const DragAndDropTarget::SourceDetails&, int insertIndex) override;
     
+    String getDisplayName() const;
+
     static void moveItems (TreeView& treeView, const Array<ValueTree>& items,
                            ValueTree newParent, int insertIndex, UndoManager& undoManager);
     static Array<ValueTree> getSelectedTreeViewItems (TreeView& treeView);
+    
+    int textX;
+
+protected:
+    Colour getBackgroundColour() const;
+    Colour getContrastingColour (float contrast) const;
+    Colour getContrastingColour (Colour targetColour, float minContrast) const;
 
 private:
     ValueTree    tree;

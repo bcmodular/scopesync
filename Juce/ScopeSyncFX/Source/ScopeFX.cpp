@@ -33,6 +33,7 @@
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
 #include "../../ScopeSyncShared/Resources/ImageLoader.h"
+#include "../../ScopeSyncShared/Resources/Icons.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
 const int ScopeFX::initPositionX           = 100;
@@ -100,6 +101,7 @@ ScopeFX::~ScopeFX()
     {
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
+        Icons::deleteInstance();
         shutdownJuce_GUI();
     }
 }

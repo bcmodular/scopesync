@@ -26,7 +26,12 @@ public:
     void resized() override;
 
     void deleteSelectedItems();
-    
+
+    enum ColourIds
+    {
+        mainBackgroundColourId = 0x2340000,
+    };    
+
 private:
     TreeView       tree;
     ValueTree      configurationRoot;

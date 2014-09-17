@@ -33,6 +33,7 @@ public:
     void childBoundsChanged(Component* child) override;
     
 private:
+    LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
     TextButton                 saveButton;
     TextButton                 saveAndCloseButton;
