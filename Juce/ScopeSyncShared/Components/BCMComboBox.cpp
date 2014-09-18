@@ -82,7 +82,7 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)
             {
                 ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(Ids::setting, "__NO_NAME__");
+                String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
 
                 addItem(settingName, i + 1);
                 // DBG("BCMComboBox::BCMComboBox - Added parameter value to drop-down: " + settingName);
