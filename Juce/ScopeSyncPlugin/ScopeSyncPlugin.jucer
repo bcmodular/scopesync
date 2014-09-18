@@ -78,6 +78,7 @@
             file="../ScopeSyncShared/Resources/ImageResources.h"/>
     </GROUP>
     <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
+      <FILE id="BXtaZn" name="BCMMisc.cpp" compile="1" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.cpp"/>
       <FILE id="HfxhCA" name="BCMMisc.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.h"/>
       <FILE id="Z61VsF" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
       <FILE id="zhLooZ" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>

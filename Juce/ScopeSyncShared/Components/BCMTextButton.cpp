@@ -360,7 +360,7 @@ void BCMTextButton::valueChanged(Value& value)
 
     if (displayType == currentSetting)
     {
-        String buttonText = settings.getChild(value.getValue()).getProperty(Ids::setting, "__NO_NAME__");
+        String buttonText = settings.getChild(value.getValue()).getProperty(Ids::name, "__NO_NAME__");
         setButtonText(buttonText);
     }
 

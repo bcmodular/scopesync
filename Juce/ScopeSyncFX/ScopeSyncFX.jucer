@@ -162,6 +162,7 @@
               resource="0" file="Source/ScopeFXParameterDefinitions.h"/>
       </GROUP>
       <GROUP id="{8E6A20B8-4642-DDA1-74BA-8CB8F8AF0F06}" name="Utils">
+        <FILE id="jYSbUJ" name="BCMMisc.cpp" compile="1" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.cpp"/>
         <FILE id="lyFrAQ" name="BCMMisc.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.h"/>
         <FILE id="SbJFxo" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
         <FILE id="AhwtTw" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>

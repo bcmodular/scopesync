@@ -83,6 +83,8 @@ private:
     void        loadLoaderConfiguration();
     void        loadLoaderLayout();
     XmlElement& loadLayoutXml(String& errorText, String& errorDetails);
+
+    void        setMissingDefaultValues();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };

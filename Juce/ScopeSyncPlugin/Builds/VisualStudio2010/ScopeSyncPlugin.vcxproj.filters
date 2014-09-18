@@ -325,6 +325,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp">
       <Filter>ScopeSyncPlugin\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp">
+      <Filter>ScopeSyncPlugin\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp">
       <Filter>ScopeSyncPlugin\Properties</Filter>
     </ClCompile>

@@ -82,6 +82,8 @@ namespace Ids
     DECLARE_ID(tabbedComponent);
     DECLARE_ID(radioGroup);
 
+    DECLARE_ID(ID);
+
     #undef DECLARE_ID
 }
 

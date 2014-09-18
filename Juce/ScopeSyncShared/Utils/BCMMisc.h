@@ -29,6 +29,8 @@
 
 #include <JuceHeader.h>
 
+String createAlphaNumericUID();
+
 //==============================================================================
 class PropertyListBuilder
 {

@@ -367,6 +367,9 @@
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp">
       <Filter>ScopeSyncFX\Source\ScopeFX</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp">
+      <Filter>ScopeSyncFX\Source\Utils</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp">
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClCompile>

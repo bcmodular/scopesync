@@ -211,6 +211,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.cpp"/>

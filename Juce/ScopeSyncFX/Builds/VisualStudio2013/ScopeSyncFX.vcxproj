@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\UserSettings.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFX.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>

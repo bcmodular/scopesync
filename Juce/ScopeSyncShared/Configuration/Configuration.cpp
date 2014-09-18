@@ -27,6 +27,7 @@
 #include "Configuration.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
+#include "../Utils/BCMMisc.h"
 
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,
@@ -49,6 +50,12 @@ Configuration::~Configuration()
 {
     configurationRoot.removeListener(this);
 };
+
+void Configuration::setMissingDefaultValues()
+{
+    if (!(configurationRoot.hasProperty(Ids::ID)))
+        configurationRoot.setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
+}
 
 const char* Configuration::configurationFileExtension = ".configuration";
 
@@ -95,6 +102,8 @@ Result Configuration::loadDocument(const File& file)
         return Result::fail("The document contains errors and couldn't be parsed");
 
     configurationRoot = newTree;
+    setMissingDefaultValues();
+
     layoutLoaded = false;
 
     setChangedFlag(false);
