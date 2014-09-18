@@ -265,9 +265,11 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
@@ -1237,10 +1239,12 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\RenameTreeItemCallback.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h"/>

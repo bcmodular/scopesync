@@ -250,6 +250,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
@@ -1320,6 +1326,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>

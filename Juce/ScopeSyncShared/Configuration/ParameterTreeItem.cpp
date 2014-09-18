@@ -1,11 +1,27 @@
-/*
-  ==============================================================================
 
-    TreeItemBase.cpp
-    Created: 15 Sep 2014 5:36:24pm
-    Author:  giles
-
-  ==============================================================================
-*/
 
 #include "ParameterTreeItem.h"
+#include "../Resources/Icons.h"
+#include "../Core/Global.h"
+
+ParameterTreeItem::ParameterTreeItem(const ValueTree& v, UndoManager& um) : ConfigurationTreeItem(v, um)
+{
+
+}
+
+var ParameterTreeItem::getDragSourceDescription()
+{
+    return "Parameter";
+}
+
+bool ParameterTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
+{
+    return false;
+}
+
+String ParameterTreeItem::getDisplayName() const 
+{
+    String displayName = tree[Ids::name].toString() + " (" + tree[Ids::fullDescription].toString() + ")";
+
+    return displayName;
+}

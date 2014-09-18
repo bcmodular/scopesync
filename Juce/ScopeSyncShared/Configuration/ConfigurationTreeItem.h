@@ -1,12 +1,4 @@
-/*
-  ==============================================================================
 
-    ConfigurationTreeItem.h
-    Created: 16 Sep 2014 9:38:20am
-    Author:  giles
-
-  ==============================================================================
-*/
 
 #ifndef CONFIGURATIONTREEITEM_H_INCLUDED
 #define CONFIGURATIONTREEITEM_H_INCLUDED
@@ -14,7 +6,7 @@
 #include <JuceHeader.h>
 #include "../Resources/Icons.h"
 
-class ConfigurationTreeItem  : public TreeViewItem,
+class ConfigurationTreeItem  : public  TreeViewItem,
                                private ValueTree::Listener
 {
 public:
@@ -23,18 +15,18 @@ public:
     String getUniqueName() const override;
     bool mightContainSubItems() override;
     Font getFont() const;
-    Icon getIcon() const;
+    virtual Icon getIcon() const;
     float getIconSize() const;
     bool isIconCrossedOut() const { return false; }
     void paintContent (Graphics& g, const Rectangle<int>& area);
     void paintOpenCloseButton (Graphics&, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver) override;
     Component* createItemComponent() override;
     void itemOpennessChanged (bool isNowOpen) override;
-    var getDragSourceDescription() override;
-    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+    virtual var getDragSourceDescription() override;
+    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
     void itemDropped (const DragAndDropTarget::SourceDetails&, int insertIndex) override;
     
-    String getDisplayName() const;
+    virtual String getDisplayName() const;
 
     static void moveItems (TreeView& treeView, const Array<ValueTree>& items,
                            ValueTree newParent, int insertIndex, UndoManager& undoManager);
@@ -43,12 +35,12 @@ public:
     int textX;
 
 protected:
-    Colour getBackgroundColour() const;
-    Colour getContrastingColour (float contrast) const;
-    Colour getContrastingColour (Colour targetColour, float minContrast) const;
-
+    Colour    getBackgroundColour() const;
+    Colour    getContrastingColour (float contrast) const;
+    Colour    getContrastingColour (Colour targetColour, float minContrast) const;
+    ValueTree tree;
+    
 private:
-    ValueTree    tree;
     UndoManager& undoManager;
 
     void refreshSubItems();

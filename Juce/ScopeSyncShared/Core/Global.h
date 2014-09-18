@@ -89,6 +89,9 @@ namespace CommandIDs
 {
     enum
     {
+        undo                     = 0x200100,
+        redo                     = 0x200110,
+        
         saveConfig               = 0x200300,
         saveAndCloseConfig       = 0x200310,
         saveConfigAs             = 0x200320,
@@ -99,6 +102,7 @@ namespace CommandIDs
 
 namespace CommandCategories
 {
+    static const char* const general   = "General";
     static const char* const configmgr = "Configuration Manager";
 }
 

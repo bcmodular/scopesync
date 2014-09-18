@@ -84,7 +84,9 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::saveAndCloseConfig,
                               CommandIDs::saveConfigAs,
                               CommandIDs::discardConfigChanges,
-                              CommandIDs::closeConfig
+                              CommandIDs::closeConfig,
+                              CommandIDs::undo,
+                              CommandIDs::redo
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -94,25 +96,33 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
 {
     switch (commandID)
     {
+    case CommandIDs::undo:
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::redo:
+        result.setInfo ("Redo", "Redo latest change", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
     case CommandIDs::saveConfig:
         result.setInfo ("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('s', ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveAndCloseConfig:
         result.setInfo ("Save and Close Configuration", "Save Configuration and closes the Configuration Manager popup", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::altModifier , 0));
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::altModifier , 0));
         break;
     case CommandIDs::saveConfigAs:
         result.setInfo ("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     case CommandIDs::discardConfigChanges:
         result.setInfo ("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('d', ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::closeConfig:
         result.setInfo ("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress ('q', ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
         break;
     }
 }
@@ -121,12 +131,14 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
+        case CommandIDs::undo:                 undoManager.undo(); break;
+        case CommandIDs::redo:                 undoManager.redo(); break;
         case CommandIDs::saveConfig:           configurationManager.save(); break;
         case CommandIDs::saveAndCloseConfig:   configurationManager.saveAndClose(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
         case CommandIDs::discardConfigChanges: configurationManager.discardChanges(); break;
         case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
-        default:                        return false;
+        default:                               return false;
     }
 
     return true;

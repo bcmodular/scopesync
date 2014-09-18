@@ -1,16 +1,11 @@
-/*
-  ==============================================================================
 
-    ConfigurationTreeItem.cpp
-    Created: 16 Sep 2014 9:38:20am
-    Author:  giles
-
-  ==============================================================================
-*/
 
 #include "ConfigurationTreeItem.h"
 #include "ConfigurationTree.h"
 #include "TreeItemComponent.h"
+#include "HostParameterTreeItem.h"
+#include "ScopeParameterTreeItem.h"
+#include "../Core/Global.h"
 
 ConfigurationTreeItem::ConfigurationTreeItem(const ValueTree& v, UndoManager& um)
     : tree(v), undoManager(um), textX(0)
@@ -50,7 +45,17 @@ float ConfigurationTreeItem::getIconSize() const
 
 Icon ConfigurationTreeItem::getIcon() const
 {
-    return Icon(Icons::getInstance()->config, Colours::beige);
+    if (tree.hasType(Ids::configuration))
+        return Icon(Icons::getInstance()->config, Colours::lightgreen);
+    else if (tree.hasType(Ids::hostParameters))
+        return Icon(Icons::getInstance()->hostparameters, Colours::aliceblue);
+    else if (tree.hasType(Ids::scopeParameters))
+        return Icon(Icons::getInstance()->scopeparameters, Colours::azure);
+    else if (tree.hasType(Ids::mapping))
+        return Icon(Icons::getInstance()->mapping, Colours::bisque);
+    else
+        return Icon(Icons::getInstance()->config, Colours::beige);
+    
 }
 
 void ConfigurationTreeItem::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver)
@@ -96,7 +101,7 @@ void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
 
 var ConfigurationTreeItem::getDragSourceDescription()
 {
-    return "Drag Demo";
+    return "Configuration Root Item";
 }
 
 Component* ConfigurationTreeItem::createItemComponent()
@@ -106,7 +111,10 @@ Component* ConfigurationTreeItem::createItemComponent()
 
 bool ConfigurationTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {
-    return dragSourceDetails.description == "Drag Demo";
+    if (dragSourceDetails.description.toString() == "Parameter" && (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters)))
+        return true;
+    else
+        return false;
 }
 
 void ConfigurationTreeItem::itemDropped(const DragAndDropTarget::SourceDetails&, int insertIndex)
@@ -157,7 +165,18 @@ void ConfigurationTreeItem::refreshSubItems()
     clearSubItems();
 
     for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem (new ConfigurationTreeItem (tree.getChild (i), undoManager));
+    {
+        if (tree.hasType(Ids::hostParameters))
+        {
+            addSubItem (new HostParameterTreeItem(tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::scopeParameters))
+        {
+            addSubItem (new ScopeParameterTreeItem(tree.getChild(i), undoManager));
+        }
+        else
+            addSubItem (new ConfigurationTreeItem(tree.getChild(i), undoManager));
+    }
 }
 
 void ConfigurationTreeItem::valueTreePropertyChanged (ValueTree&, const Identifier&)

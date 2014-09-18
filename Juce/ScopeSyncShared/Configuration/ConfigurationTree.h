@@ -1,12 +1,4 @@
-/*
-  ==============================================================================
 
-    ConfigurationTree.h
-    Created: 16 Sep 2014 11:51:11am
-    Author:  giles
-
-  ==============================================================================
-*/
 
 #ifndef CONFIGURATIONTREE_H_INCLUDED
 #define CONFIGURATIONTREE_H_INCLUDED

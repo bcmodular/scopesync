@@ -1,12 +1,4 @@
-/*
-  ==============================================================================
 
-    ConfigurationTree.cpp
-    Created: 16 Sep 2014 11:51:11am
-    Author:  giles
-
-  ==============================================================================
-*/
 
 #include "ConfigurationTree.h"
 #include "Configuration.h"

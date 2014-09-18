@@ -42,6 +42,7 @@ public:
     StringArray getMenuNames();
     void createMenu(PopupMenu& menu, const String& menuName);
     void createFileMenu(PopupMenu& menu);
+    void createEditMenu(PopupMenu& menu);
 
     void save();
     void saveAndClose();

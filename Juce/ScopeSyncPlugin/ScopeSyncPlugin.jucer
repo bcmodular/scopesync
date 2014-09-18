@@ -37,6 +37,10 @@
             file="../ScopeSyncShared/Configuration/ConfigurationTreeItem.cpp"/>
       <FILE id="AKG3Tn" name="ConfigurationTreeItem.h" compile="0" resource="0"
             file="../ScopeSyncShared/Configuration/ConfigurationTreeItem.h"/>
+      <FILE id="bPn9gy" name="HostParameterTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/HostParameterTreeItem.cpp"/>
+      <FILE id="d1oKbd" name="HostParameterTreeItem.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/HostParameterTreeItem.h"/>
       <FILE id="gOgvKV" name="MappingTreeItem.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/MappingTreeItem.cpp"/>
       <FILE id="hEdSF6" name="MappingTreeItem.h" compile="0" resource="0"
@@ -51,6 +55,10 @@
             file="../ScopeSyncShared/Configuration/ParameterTreeItem.h"/>
       <FILE id="cQr52O" name="RenameTreeItemCallback.h" compile="0" resource="0"
             file="../ScopeSyncShared/Configuration/RenameTreeItemCallback.h"/>
+      <FILE id="YImccY" name="ScopeParameterTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/ScopeParameterTreeItem.cpp"/>
+      <FILE id="ci33qD" name="ScopeParameterTreeItem.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Configuration/ScopeParameterTreeItem.h"/>
       <FILE id="Lgzby1" name="TreeItemComponent.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/TreeItemComponent.cpp"/>
       <FILE id="G28YZo" name="TreeItemComponent.h" compile="0" resource="0"

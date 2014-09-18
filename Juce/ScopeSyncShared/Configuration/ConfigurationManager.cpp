@@ -66,17 +66,18 @@ ConfigurationManager::~ConfigurationManager()
 
 StringArray ConfigurationManager::getMenuNames()
 {
-    const char* const names[] = { "File", nullptr };
+    const char* const names[] = { "File", "Edit", nullptr };
     return StringArray (names);
 }
 
-void ConfigurationManager::createMenu (PopupMenu& menu, const String& menuName)
+void ConfigurationManager::createMenu(PopupMenu& menu, const String& menuName)
 {
-    if (menuName == "File") createFileMenu(menu);
+         if (menuName == "File") createFileMenu(menu);
+    else if (menuName == "Edit") createEditMenu(menu);
     else                    jassertfalse; // names have changed?
 }
 
-void ConfigurationManager::createFileMenu (PopupMenu& menu)
+void ConfigurationManager::createFileMenu(PopupMenu& menu)
 {
     menu.addCommandItem(&commandManager, CommandIDs::saveConfig);
     menu.addCommandItem(&commandManager, CommandIDs::saveAndCloseConfig);
@@ -84,6 +85,12 @@ void ConfigurationManager::createFileMenu (PopupMenu& menu)
     menu.addCommandItem(&commandManager, CommandIDs::discardConfigChanges);   
     menu.addSeparator();
     menu.addCommandItem(&commandManager, CommandIDs::closeConfig);   
+}
+
+void ConfigurationManager::createEditMenu(PopupMenu& menu)
+{
+    menu.addCommandItem(&commandManager, CommandIDs::undo);
+    menu.addCommandItem(&commandManager, CommandIDs::redo);  
 }
 
 void ConfigurationManager::closeButtonPressed()
