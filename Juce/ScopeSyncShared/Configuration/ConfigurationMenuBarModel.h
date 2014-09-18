@@ -24,6 +24,9 @@ public:
     void        menuItemSelected (int menuItemID, int topLevelMenuIndex);
 
     ConfigurationManager& configurationManager;
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationMenuBarModel);
 };
 
 

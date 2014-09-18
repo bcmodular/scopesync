@@ -48,6 +48,7 @@ public:
     void saveAndClose();
     void saveAs();
     void discardChanges();
+    void unload();
 
 private:
     ScopeSync&                               scopeSync;
@@ -56,6 +57,7 @@ private:
     ConfigurationManagerMain*                configurationManagerMain;
     
     void closeButtonPressed() override;
+    void restoreWindowPosition(int posX, int posY);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };

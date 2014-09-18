@@ -112,6 +112,7 @@ public:
     void            saveConfigurationAs(const String& fileName);
     void            reloadSavedConfiguration();
     bool            configurationHasUnsavedChanges();
+    Configuration&  getConfiguration() { return *configuration; };
     ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
     String          getConfigurationName(bool showUnsavedIndicator);
     const File&     getConfigurationFile() { return configuration->getFile(); };

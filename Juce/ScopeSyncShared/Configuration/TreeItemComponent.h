@@ -24,6 +24,10 @@ public:
     void resized() override;
 
     ConfigurationTreeItem& item;
+
+private:    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TreeItemComponent);
+
 };
 
 

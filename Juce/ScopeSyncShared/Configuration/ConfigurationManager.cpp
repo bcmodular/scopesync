@@ -47,9 +47,10 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
     menuModel = new ConfigurationMenuBarModel(*this);
     setMenuBar(menuModel);
 
-    addKeyListener (commandManager.getKeyMappings());
+    addKeyListener(commandManager.getKeyMappings());
 
-    setBounds(posX, posY, getWidth(), getHeight());
+    restoreWindowPosition(posX, posY);
+    
     setVisible(true);
     setResizable(true, false);
 
@@ -58,11 +59,7 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
     setResizeLimits(600, 500, 32000, 32000);
 }
 
-ConfigurationManager::~ConfigurationManager()
-{
-    removeKeyListener(commandManager.getKeyMappings());
-    setMenuBar(nullptr);
-}
+ConfigurationManager::~ConfigurationManager() {}
 
 StringArray ConfigurationManager::getMenuNames()
 {
@@ -95,6 +92,7 @@ void ConfigurationManager::createEditMenu(PopupMenu& menu)
 
 void ConfigurationManager::closeButtonPressed()
 {
+    unload();
     scopeSync.applyConfiguration();
     scopeSync.hideConfigurationManager();
 }
@@ -109,6 +107,17 @@ void ConfigurationManager::saveAndClose()
 void ConfigurationManager::save()
 {
     scopeSync.saveConfiguration();
+}
+
+void ConfigurationManager::unload()
+{
+    if (configurationManagerMain != nullptr)
+        configurationManagerMain->unload();
+
+    scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
+    
+    removeKeyListener(commandManager.getKeyMappings());
+    setMenuBar(nullptr);
 }
 
 void ConfigurationManager::saveAs()
@@ -130,4 +139,16 @@ void ConfigurationManager::discardChanges()
 {
     scopeSync.reloadSavedConfiguration();
     scopeSync.hideConfigurationManager();
+}
+
+void ConfigurationManager::restoreWindowPosition(int posX, int posY)
+{
+    String windowState;
+
+    windowState = scopeSync.getConfiguration().getConfigurationProperties().getValue("lastConfigMgrPos");
+
+    if (windowState.isEmpty())
+        setBounds(posX, posY, getWidth(), getHeight());
+    else
+        restoreWindowStateFromString(windowState);
 }

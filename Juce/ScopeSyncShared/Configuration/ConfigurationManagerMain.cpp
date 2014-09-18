@@ -53,10 +53,13 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     addAndMakeVisible(discardChangesButton);
 
     treeSizeConstrainer.setMinimumWidth (200);
-    treeSizeConstrainer.setMaximumWidth (500);
+    treeSizeConstrainer.setMaximumWidth (700);
 
-    treeView = new ConfigurationTree(scopeSync.getConfigurationRoot(), undoManager);
-    treeView->setBounds(0, 0, 240, 500);
+    treeView = new ConfigurationTree(scopeSync.getConfiguration(), undoManager);
+
+    int lastTreeWidth = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigTreeWidth", 300);
+
+    treeView->setBounds(0, 0, lastTreeWidth, getHeight());
 
     addAndMakeVisible(treeView);
     addAndMakeVisible(panelView);
@@ -65,12 +68,23 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                                ResizableEdgeComponent::rightEdge));
     resizerBar->setAlwaysOnTop (true);
 
-    setSize (600, 500);
+    int lastConfigMgrWidth  = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigMgrWidth", 600);
+    int lastConfigMgrHeight = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigMgrHeight", 500);
+    setSize(lastConfigMgrWidth, lastConfigMgrHeight);
     
     startTimer(500);
 }
 
 ConfigurationManagerMain::~ConfigurationManagerMain() {}
+
+void ConfigurationManagerMain::unload()
+{
+    stopTimer();
+    saveTreeViewState();
+    scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrWidth", getWidth());
+    scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrHeight", getHeight());
+    scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigTreeWidth", treeView->getWidth());
+}
 
 void ConfigurationManagerMain::updateConfigurationFileName()
 {
@@ -153,6 +167,11 @@ void ConfigurationManagerMain::childBoundsChanged(Component* child)
 {
     if (child == treeView)
         resized();
+}
+
+void ConfigurationManagerMain::saveTreeViewState()
+{
+    treeView->saveTreeViewState();
 }
 
 void ConfigurationManagerMain::resized()

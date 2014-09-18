@@ -60,6 +60,8 @@ public:
     ValueTree    getMapping();
     XmlElement&  getLayout(String& errorText, String& errorDetails, bool forceReload);
 
+    PropertiesFile& getConfigurationProperties();
+    
     String getDirectory();
     void   unloadConfiguration();
     bool   replaceConfiguration(const String& newFileName);
@@ -69,6 +71,8 @@ private:
     ValueTree  loaderConfigurationRoot;
     XmlElement layoutXml;       // Layout XML loaded from definition file(s)
     XmlElement loaderLayoutXml; // Default Layout XML
+
+    ScopedPointer<PropertiesFile> properties;
 
     File       lastFailedFile;
     String     lastError;
@@ -80,6 +84,7 @@ private:
     static const String loaderConfiguration;
     static const String loaderLayout;
 
+    void        setupConfigurationProperties();
     void        loadLoaderConfiguration();
     void        loadLoaderLayout();
     XmlElement& loadLayoutXml(String& errorText, String& errorDetails);

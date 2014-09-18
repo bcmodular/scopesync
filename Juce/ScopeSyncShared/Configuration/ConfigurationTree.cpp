@@ -4,14 +4,21 @@
 #include "Configuration.h"
 #include "ConfigurationTreeItem.h"
 
-ConfigurationTree::ConfigurationTree(ValueTree configRoot, UndoManager& um) : configurationRoot(configRoot),
-                                                                              undoManager(um)
+ConfigurationTree::ConfigurationTree(Configuration& config, UndoManager& um)
+    : configuration(config),
+      undoManager(um)
 {
     addAndMakeVisible(tree);
 
-    tree.setDefaultOpenness(false);
+    tree.setDefaultOpenness(true);
     tree.setMultiSelectEnabled(true);
-    tree.setRootItem(rootItem = new ConfigurationTreeItem(configurationRoot, undoManager));
+    tree.setRootItem(rootItem = new ConfigurationTreeItem(config.getConfigurationRoot(), undoManager));
+
+    const ScopedPointer<XmlElement> treeOpenness(config.getConfigurationProperties().getXmlValue("openness"));
+    
+    if (treeOpenness != nullptr)
+        tree.restoreOpennessState (*treeOpenness, true);
+
     tree.setColour(TreeView::backgroundColourId, Colours::darkgrey);
     tree.getViewport()->setScrollBarsShown(true, true, true, true);
 }
@@ -45,4 +52,12 @@ void ConfigurationTree::deleteSelectedItems()
         if (v.getParent().isValid())
             v.getParent().removeChild (v, &undoManager);
     }
+}
+
+void ConfigurationTree::saveTreeViewState()
+{
+    const ScopedPointer<XmlElement> opennessState(tree.getOpennessState(true));
+
+    if (opennessState != nullptr)
+        configuration.getConfigurationProperties().setValue("openness", opennessState);
 }

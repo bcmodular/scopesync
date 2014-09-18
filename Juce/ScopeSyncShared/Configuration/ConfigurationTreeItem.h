@@ -32,6 +32,21 @@ public:
                            ValueTree newParent, int insertIndex, UndoManager& undoManager);
     static Array<ValueTree> getSelectedTreeViewItems (TreeView& treeView);
     
+    struct WholeTreeOpennessRestorer   : public OpennessRestorer
+    {
+        WholeTreeOpennessRestorer (TreeViewItem& item)  : OpennessRestorer (getTopLevelItem (item))
+        {}
+
+    private:
+        static TreeViewItem& getTopLevelItem (TreeViewItem& item)
+        {
+            if (TreeViewItem* const p = item.getParentItem())
+                return getTopLevelItem (*p);
+
+            return item;
+        }
+    };
+
     int textX;
 
 protected:

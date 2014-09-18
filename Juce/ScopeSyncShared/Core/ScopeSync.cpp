@@ -136,6 +136,11 @@ ApplicationCommandManager& ScopeSync::getCommandManager()
 
 void ScopeSync::unload()
 {
+    if (configurationManager != nullptr)
+    {
+        configurationManager->unload();
+    }
+
     configuration->saveIfNeededAndUserAgrees(false);
 }
 

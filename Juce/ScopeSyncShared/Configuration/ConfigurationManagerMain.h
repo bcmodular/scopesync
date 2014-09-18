@@ -18,8 +18,8 @@
 class ConfigurationTree;
 class PropertyListBuilder;
 
-class ConfigurationManagerMain : public Component,
-                                 public ApplicationCommandTarget,
+class ConfigurationManagerMain : public  Component,
+                                 public  ApplicationCommandTarget,
                                  private Timer
 {
 public:
@@ -31,7 +31,9 @@ public:
     void paintOverChildren (Graphics&) override;
     void resized() override;
     void childBoundsChanged(Component* child) override;
-    
+    void saveTreeViewState();
+    void unload();
+
 private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;

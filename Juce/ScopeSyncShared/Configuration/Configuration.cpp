@@ -81,6 +81,27 @@ String Configuration::getDocumentTitle()
     return configurationRoot.getProperty(Ids::name, String::empty);
 }
 
+void Configuration::setupConfigurationProperties()
+{
+    const String filename ("Configuration_" + String(configurationRoot[Ids::ID]));
+
+    PropertiesFile::Options options;
+    options.applicationName     = filename;
+    options.folderName          = ProjectInfo::projectName;
+    options.filenameSuffix      = "settings";
+    options.osxLibrarySubFolder = "Application Support";
+    
+    properties = new PropertiesFile(options);
+}
+
+PropertiesFile& Configuration::getConfigurationProperties ()
+{
+    if (properties == nullptr)
+        setupConfigurationProperties();
+
+    return *properties;
+}
+
 String Configuration::getDirectory()
 {
     if (getFile() != File::nonexistent)
@@ -102,12 +123,14 @@ Result Configuration::loadDocument(const File& file)
         return Result::fail("The document contains errors and couldn't be parsed");
 
     configurationRoot = newTree;
-    setMissingDefaultValues();
-
+    
     layoutLoaded = false;
 
     setChangedFlag(false);
     
+    setMissingDefaultValues();
+
+    DBG("Needs Saving: " + String(hasChangedSinceSaved()));
     return Result::ok();
 }
 

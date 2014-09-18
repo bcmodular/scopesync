@@ -162,6 +162,8 @@ Array<ValueTree> ConfigurationTreeItem::getSelectedTreeViewItems (TreeView& tree
 
 void ConfigurationTreeItem::refreshSubItems()
 {
+    WholeTreeOpennessRestorer wtor(*this);
+    
     clearSubItems();
 
     for (int i = 0; i < tree.getNumChildren(); ++i)

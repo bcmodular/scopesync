@@ -11,11 +11,12 @@ class ConfigurationTree : public  Component,
                           public  DragAndDropContainer
 {
 public:
-    ConfigurationTree(ValueTree configRoot, UndoManager& um);
+    ConfigurationTree(Configuration& config, UndoManager& um);
     ~ConfigurationTree();
 
     void paint (Graphics& g) override;
     void resized() override;
+    void saveTreeViewState();
 
     void deleteSelectedItems();
 
@@ -26,9 +27,9 @@ public:
 
 private:
     TreeView       tree;
-    ValueTree      configurationRoot;
     ScopedPointer<ConfigurationTreeItem> rootItem;
-    UndoManager& undoManager;
+    UndoManager&   undoManager;
+    Configuration& configuration;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationTree);
 };
