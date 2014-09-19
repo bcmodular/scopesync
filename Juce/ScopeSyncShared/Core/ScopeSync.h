@@ -71,6 +71,8 @@ public:
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
     static void reloadAllGUIs();
+    static const String& getScopeSyncCode(int scopeSync);
+    static const String& getScopeLocalCode(int scopeLocal);
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
     void beginParameterChangeGesture(BCMParameter& parameter);

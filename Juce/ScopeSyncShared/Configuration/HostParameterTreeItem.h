@@ -10,7 +10,8 @@ class HostParameterTreeItem  : public ParameterTreeItem
 public:
     HostParameterTreeItem(const ValueTree& v, UndoManager& um);
 
-    Icon getIcon() const;
+    Icon getIcon() const override;
+    String getDisplayName() const override;
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HostParameterTreeItem);

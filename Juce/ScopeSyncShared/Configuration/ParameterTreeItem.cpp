@@ -21,7 +21,8 @@ bool ParameterTreeItem::isInterestedInDragSource(const DragAndDropTarget::Source
 
 String ParameterTreeItem::getDisplayName() const 
 {
-    String displayName = tree[Ids::name].toString() + " (" + tree[Ids::fullDescription].toString() + ")";
-
+    String displayName = tree[Ids::name].toString();
+    displayName += " (" + tree[Ids::fullDescription].toString() + ")";
+    
     return displayName;
 }

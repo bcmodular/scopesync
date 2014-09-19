@@ -70,6 +70,16 @@ Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
 
+const String& ScopeSync::getScopeSyncCode(int scopeSync)
+{
+    return scopeSyncCodes[scopeSync];
+}
+
+const String& ScopeSync::getScopeLocalCode(int scopeLocal)
+{
+    return scopeLocalCodes[scopeLocal];
+}
+
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
 ScopeSync::ScopeSync() : parameterValueStore("parametervalues")

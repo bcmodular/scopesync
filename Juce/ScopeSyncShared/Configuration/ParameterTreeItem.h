@@ -14,9 +14,9 @@ public:
     var  getDragSourceDescription() override;
     bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
     
-    virtual Icon getIcon() const { return Icon(); };
+    virtual Icon getIcon() const override { return Icon(); };
 
-    String getDisplayName() const;
+    virtual String getDisplayName() const override;
 
 private:    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterTreeItem);
