@@ -52,7 +52,8 @@ void PropertyListBuilder::clear()
 /* =========================================================================
  * ParameterPanel
  */
-ParameterPanel::ParameterPanel(ValueTree& parameter) : valueTree(parameter)
+ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, ParameterType paramType)
+    : valueTree(parameter), undoManager(um), parameterType(paramType)
 {
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
@@ -70,21 +71,58 @@ void ParameterPanel::rebuildProperties()
 
     createScopeProperties(props);
     propertyPanel.addSection("Scope Properties", props.components, true);
+    
+    createUIProperties(props);
+    propertyPanel.addSection("UI Properties", props.components, true);
 }
 
 void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
 {
     props.clear();
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, nullptr),             "Name", 256, false),              "Mapping name for parameter");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, nullptr), "Short Description", 256, false), "Short Description of parameter");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, nullptr),  "Full Description", 256, false),  "Full Description of parameter");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),             "Name", 256, false),              "Mapping name for parameter");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, &undoManager), "Short Description", 256, false), "Short Description of parameter");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, &undoManager),  "Full Description", 256, false),  "Full Description of parameter");
+
+    if (parameterType == hostParameter)
+    {
+        StringArray scopeSyncCodes = ScopeSync::getScopeSyncCodes();
+        Array<var>  scopeSyncValues;
+
+        for (int i = 0; i < scopeSyncCodes.size(); i++)
+            scopeSyncValues.add(i);
+
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeSync, &undoManager), "ScopeSync Code", scopeSyncCodes, scopeSyncValues), "ScopeSync Code");
+    }
+    else if (parameterType == scopeLocal)
+    {
+        StringArray scopeLocalCodes = ScopeSync::getScopeLocalCodes();
+        Array<var>  scopeLocalValues;
+
+        for (int i = 0; i < scopeLocalCodes.size(); i++)
+            scopeLocalValues.add(i);
+
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeLocal, &undoManager), "ScopeLocal Code", scopeLocalCodes, scopeLocalValues), "ScopeLocal Code");
+    }
 }
 
 void ParameterPanel::createScopeProperties(PropertyListBuilder& props)
 {
     props.clear();
-    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMin, nullptr), "Min Scope Value", 30), "Minimum Scope Integer Value");
-    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMax, nullptr), "Max Scope Value", 30), "Maximum Scope Integer Value");
+    props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
+    props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters");
+    props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
+}
+
+void ParameterPanel::createUIProperties(PropertyListBuilder& props)
+{
+    props.clear();
+    props.add(new TextPropertyComponent   (valueTree.getPropertyAsValue(Ids::uiSuffix,        &undoManager), "UI Suffix", 32, false),  "Text to display after value in the User Interface, e.g. Hz, %");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMin,      &undoManager), "Min UI Value"),          "Minimum User Interface Value (Float)");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMax,      &undoManager), "Max UI Value"),          "Maximum User Interface Value (Float)");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),        "Step between consecutive User Interface values");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required");
 }
 
 void ParameterPanel::resized()
@@ -99,25 +137,27 @@ void ParameterPanel::paint(Graphics& g)
     g.fillAll (Colours::lightgrey);
 }
 
-class IntRangeProperty::LabelComp  : public Label
+/* =========================================================================
+ * NumericProperty
+ */
+class NumericProperty::LabelComp  : public Label
 {
 public:
-    LabelComp (IntRangeProperty& irp, const int charLimit)
+    LabelComp (NumericProperty& np)
         : Label (String::empty, String::empty),
-          owner (irp),
-          maxChars (charLimit)
+          owner (np)
     {
         setEditable(true, true, false);
 
-        setColour(backgroundColourId, owner.findColour (IntRangeProperty::backgroundColourId));
-        setColour(outlineColourId,    owner.findColour (IntRangeProperty::outlineColourId));
-        setColour(textColourId,       owner.findColour (IntRangeProperty::textColourId));
+        setColour(backgroundColourId, owner.findColour (NumericProperty::backgroundColourId));
+        setColour(outlineColourId,    owner.findColour (NumericProperty::outlineColourId));
+        setColour(textColourId,       owner.findColour (NumericProperty::textColourId));
     }
 
     TextEditor* createEditorComponent() override
     {
         TextEditor* const ed = Label::createEditorComponent();
-        ed->setInputRestrictions (maxChars);
+        ed->setInputRestrictions(32);
 
         return ed;
     }
@@ -128,19 +168,51 @@ public:
     }
 
 private:
-    IntRangeProperty& owner;
+    NumericProperty& owner;
     int maxChars;
 };
 
+NumericProperty::NumericProperty(const Value&  valueToControl,
+                                 const String& propertyName)
+    : PropertyComponent(propertyName)
+{
+    addAndMakeVisible(textEditor = new LabelComp(*this));
+    textEditor->getTextValue().referTo(valueToControl);
+}
+
+NumericProperty::~NumericProperty() {}
+
+void NumericProperty::setText(const String& newText)
+{
+    textEditor->setText(newText, sendNotificationSync);
+}
+
+String NumericProperty::getText() const
+{
+    return textEditor->getText();
+}
+
+void NumericProperty::refresh()
+{
+    textEditor->setText(getText(), dontSendNotification);
+}
+
+void NumericProperty::textWasEdited()
+{
+    setText(textEditor->getText());
+}
+
+/* =========================================================================
+ * IntRangeProperty
+ */
 IntRangeProperty::IntRangeProperty (const Value&  valueToControl,
                                     const String& propertyName,
-                                    int           maxNumChars,
                                     const int     minInt,
                                     const int     maxInt)
-    : PropertyComponent(propertyName), minValue(minInt), maxValue(maxInt)
+    : NumericProperty(valueToControl, propertyName),
+      minValue(minInt), 
+      maxValue(maxInt)
 {
-    addAndMakeVisible(textEditor = new LabelComp(*this, maxNumChars));
-    textEditor->getTextValue().referTo(valueToControl);
 }
 
 IntRangeProperty::~IntRangeProperty() {}
@@ -149,20 +221,31 @@ void IntRangeProperty::setText(const String& newText)
 {
     const int newInt = jlimit<int>(minValue, maxValue, newText.getIntValue());
 
-    textEditor->setText(String(newInt), sendNotificationSync);
+    NumericProperty::setText(String(newInt));
 }
 
-String IntRangeProperty::getText() const
+/* =========================================================================
+ * FltRangeProperty
+ */
+FltProperty::FltProperty (const Value&  valueToControl,
+                          const String& propertyName,
+                          const bool    allowBlank)
+    : NumericProperty(valueToControl, propertyName),
+      allowedToBeBlank(allowBlank)
 {
-    return textEditor->getText();
 }
 
-void IntRangeProperty::refresh()
-{
-    textEditor->setText(getText(), dontSendNotification);
-}
+FltProperty::~FltProperty() {}
 
-void IntRangeProperty::textWasEdited()
+void FltProperty::setText(const String& newText)
 {
-    setText(textEditor->getText());
+    if (newText.isNotEmpty() || (newText.isEmpty() && !allowedToBeBlank))
+    {
+        const float newFlt = newText.getFloatValue();
+        NumericProperty::setText(String(newFlt));
+    }
+    else
+    {
+        NumericProperty::setText(String::empty);
+    }
 }

@@ -126,6 +126,8 @@ void ConfigurationManager::closeButtonPressed()
 void ConfigurationManager::saveAndClose()
 {
     save();
+    unload();
+    scopeSync.applyConfiguration();
     scopeSync.hideConfigurationManager();
 }
 
@@ -163,6 +165,7 @@ void ConfigurationManager::saveAs()
 void ConfigurationManager::discardChanges()
 {
     scopeSync.reloadSavedConfiguration();
+    unload();
     scopeSync.hideConfigurationManager();
 }
 

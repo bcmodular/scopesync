@@ -56,6 +56,7 @@ namespace Ids
     DECLARE_ID(uiRangeInterval);
     DECLARE_ID(uiResetValue);
     DECLARE_ID(uiSkewFactor);
+    DECLARE_ID(uiSkewMidpoint);
     DECLARE_ID(skewUIOnly);
     DECLARE_ID(valueType);
     DECLARE_ID(settings);

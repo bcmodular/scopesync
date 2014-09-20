@@ -54,35 +54,38 @@ private:
 class ParameterPanel : public Component
 {
 public:
-    ParameterPanel(ValueTree& parameter);
+    enum ParameterType {hostParameter, scopeLocal};
+
+    ParameterPanel(ValueTree& parameter, UndoManager& um, ParameterType paramType);
     ~ParameterPanel();
 
 private:
     ValueTree     valueTree;
     PropertyPanel propertyPanel;
+    UndoManager&  undoManager;
+
+    ParameterType parameterType;
 
     void rebuildProperties();
     void createDescriptionProperties(PropertyListBuilder& propertyPanel);
     void createScopeProperties(PropertyListBuilder& propertyPanel);
+    void createUIProperties(PropertyListBuilder& propertyPanel);
     void resized();
     void paint(Graphics& g);
 };
 
 /* =========================================================================
- * IntRangeProperty: TextPropertyComponent for Integer values
+ * NumericProperty: TextPropertyComponent for numeric values
  */
-class IntRangeProperty : public PropertyComponent
+class NumericProperty : public PropertyComponent
 {
 public:
-    IntRangeProperty(const Value&  valueToControl,
-                     const String& propertyName,
-                     int           maxNumChars,
-                     const int     minInt = INT_MIN,
-                     const int     maxInt = INT_MAX);
-    ~IntRangeProperty();
+    NumericProperty(const Value&  valueToControl,
+                    const String& propertyName);
+    ~NumericProperty();
 
-    void   setText (const String& newText);
-    String getText() const;
+    virtual void setText (const String& newText);
+    String       getText() const;
 
     enum ColourIds
     {
@@ -95,14 +98,51 @@ public:
 
 private:
     ScopedPointer<Label> textEditor;
-    int minValue, maxValue;
-
+    
     class LabelComp;
     friend class LabelComp;
 
     void textWasEdited();
 
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NumericProperty)
+};
+
+/* =========================================================================
+ * IntRangeProperty: TextPropertyComponent for Integer values (with range)
+ */
+class IntRangeProperty : public NumericProperty
+{
+public:
+    IntRangeProperty(const Value&  valueToControl,
+                     const String& propertyName,
+                     const int     minInt = INT_MIN,
+                     const int     maxInt = INT_MAX);
+    ~IntRangeProperty();
+
+    void setText (const String& newText);
+    
+private:
+    int minValue, maxValue;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IntRangeProperty)
+};
+
+/* =========================================================================
+ * FltProperty: TextPropertyComponent for Float values
+ */
+class FltProperty : public NumericProperty
+{
+public:
+    FltProperty(const Value&  valueToControl,
+                const String& propertyName,
+                const bool    allowBlank = false);
+    ~FltProperty();
+
+    void setText (const String& newText);
+    
+private:
+    bool allowedToBeBlank;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FltProperty)
 };
 
 #endif  // PARAMETERPANEL_H_INCLUDED

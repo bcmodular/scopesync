@@ -91,13 +91,13 @@ protected:
     Colour    getContrastingColour (Colour targetColour, float minContrast) const;
     ValueTree tree;
     ConfigurationManagerMain& configurationManagerMain;
-
+    UndoManager& undoManager;
+    
 private:
     class        ItemSelectionTimer;
     friend class ItemSelectionTimer;
     ScopedPointer<Timer> delayedSelectionTimer;
 
-    UndoManager& undoManager;
     
     virtual void refreshSubItems();
     void valueTreePropertyChanged (ValueTree&, const Identifier&) override;

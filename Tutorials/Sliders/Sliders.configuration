@@ -4,7 +4,7 @@
   <hostParameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Osc2 Waveform" scopeSync="0" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="0">
       <settings>
         <setting name="Sine" value="0"/>
         <setting name="Tri" value="0.2"/>
@@ -16,7 +16,7 @@
     </parameter>
     <parameter name="PARAM2" shortDescription="Param 2" fullDescription="Mod Depth" scopeSync="1" scopeLocal="-1" scopeRangeMin="-2147483648"
                scopeRangeMax="2147483647" scopeRangeMinFlt="-1" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="0.001" uiSuffix=" %"/>
+               skewUIOnly="false" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="0" uiSuffix=" %" uiSkewMidpoint=""/>
     <parameter name="PARAM3" shortDescription="Param 3" fullDescription="Cutoff" scopeSync="2" scopeLocal="-1" scopeRangeMin="1789569" scopeRangeMax="1789569705"
                scopeRangeMinFlt="0.000833333" scopeRangeMaxFlt="0.833333" scopeDBRef="0" valueType="0" uiResetValue="20" uiSkewFactor="0.2998514913"
                skewUIOnly="false" uiRangeMin="20" uiRangeMax="20000" uiRangeInterval="0.001" uiSuffix=" Hz"/>
@@ -30,7 +30,7 @@
                scopeRangeMinFlt="1.11759e-008" scopeRangeMaxFlt="0.000111759" scopeDBRef="0" valueType="0" uiResetValue="0.5" uiSkewFactor="0.3009123148"
                skewUIOnly="false" uiRangeMin="0.0005" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix=" s"/>
     <parameter name="PARAM7" shortDescription="Param 7" fullDescription="Output Level" scopeSync="6" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
-               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="1.0" valueType="0" uiResetValue="-6" uiSkewFactor="5.034695882" skewUIOnly="false"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="1.0" valueType="0" uiResetValue="-6" uiSkewFactor="5.034695882" skewUIOnly="0"
                uiRangeMin="-186.6" uiRangeMax="0" uiRangeInterval="0.01" uiSuffix=" dB"/>
   </hostParameters>
   <scopeParameters>

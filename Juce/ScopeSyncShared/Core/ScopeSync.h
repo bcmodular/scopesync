@@ -73,6 +73,8 @@ public:
     static void reloadAllGUIs();
     static const String& getScopeSyncCode(int scopeSync);
     static const String& getScopeLocalCode(int scopeLocal);
+    static const StringArray& getScopeSyncCodes()  { return scopeSyncCodes; };
+    static const StringArray& getScopeLocalCodes() { return scopeLocalCodes; };
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
     void beginParameterChangeGesture(BCMParameter& parameter);

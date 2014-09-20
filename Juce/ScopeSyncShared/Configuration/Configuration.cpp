@@ -257,6 +257,18 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
         float newValue = (float)scaleDouble(INT_MIN + 1, INT_MAX, -1.0f, 1.0f, treeWhosePropertyHasChanged.getProperty(property));
         treeWhosePropertyHasChanged.setProperty(Ids::scopeRangeMaxFlt, newValue, nullptr);
     }
+    else if (property == Ids::uiRangeMin || property == Ids::uiRangeMax || property == Ids::uiSkewMidpoint)
+    {
+        float minimum    = treeWhosePropertyHasChanged.getProperty(Ids::uiRangeMin);
+        float maximum    = treeWhosePropertyHasChanged.getProperty(Ids::uiRangeMax);
+        float midpoint   = treeWhosePropertyHasChanged.getProperty(Ids::uiSkewMidpoint);
+        float skewFactor = 1.0f;
+
+        if (maximum > minimum && midpoint > minimum && midpoint < maximum)
+            skewFactor = (float)(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
+
+        treeWhosePropertyHasChanged.setProperty(Ids::uiSkewFactor, skewFactor, nullptr);
+    }
 
     changed();
 }

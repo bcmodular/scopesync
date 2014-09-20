@@ -327,7 +327,7 @@ String HostParameterTreeItem::getDisplayName() const
 
 void HostParameterTreeItem::changePanel()
 {
-    configurationManagerMain.changePanel(new ParameterPanel(tree));
+    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::hostParameter));
 }
 
 /* =========================================================================
@@ -352,7 +352,7 @@ String ScopeParameterTreeItem::getDisplayName() const
 
 void ScopeParameterTreeItem::changePanel()
 {
-    configurationManagerMain.changePanel(new ParameterPanel(tree));
+    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::scopeLocal));
 }
 
 /* =========================================================================
