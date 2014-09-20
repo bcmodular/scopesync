@@ -35,13 +35,18 @@
  */
 void PropertyListBuilder::add(PropertyComponent* propertyComp)
 {
-    components.add (propertyComp);
+    components.add(propertyComp);
 }
 
 void PropertyListBuilder::add(PropertyComponent* propertyComp, const String& tooltip)
 {
     propertyComp->setTooltip (tooltip);
-    add (propertyComp);
+    add(propertyComp);
+}
+
+void PropertyListBuilder::clear()
+{
+    components.clear();
 }
 
 /* =========================================================================
@@ -60,24 +65,26 @@ ParameterPanel::~ParameterPanel() {}
 void ParameterPanel::rebuildProperties()
 {
     PropertyListBuilder props;
-    createPropertyEditors(props);
-
+    createDescriptionProperties(props);
     propertyPanel.addProperties(props.components);
+
+    createScopeProperties(props);
+    propertyPanel.addSection("Scope Properties", props.components, true);
 }
 
-void ParameterPanel::createPropertyEditors(PropertyListBuilder& props)
+void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
 {
+    props.clear();
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, nullptr),             "Name", 256, false),              "Mapping name for parameter");
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, nullptr), "Short Description", 256, false), "Short Description of parameter");
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, nullptr),  "Full Description", 256, false),  "Full Description of parameter");
+}
 
-    int scopeMin = 0x80000000;
-    int scopeMax = 0x7FFFFFFF;
-    double scopeMinDbl = scopeMin;
-    double scopeMaxDbl = scopeMax;
-
-    //props.add(new SliderPropertyComponent(valueTree.getPropertyAsValue(Ids::scopeRangeMin, nullptr), "Min Scope Value", scopeMinDbl, scopeMaxDbl, 1.0));
-    //props.add(new SliderPropertyComponent(valueTree.getPropertyAsValue(Ids::scopeRangeMax, nullptr), "Max Scope Value", scopeMinDbl, scopeMaxDbl, 1.0));
+void ParameterPanel::createScopeProperties(PropertyListBuilder& props)
+{
+    props.clear();
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMin, nullptr), "Min Scope Value", 30), "Minimum Scope Integer Value");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMax, nullptr), "Max Scope Value", 30), "Maximum Scope Integer Value");
 }
 
 void ParameterPanel::resized()
@@ -89,5 +96,73 @@ void ParameterPanel::resized()
 
 void ParameterPanel::paint(Graphics& g)
 {
-    g.fillAll (Colour (0xff434343));
+    g.fillAll (Colours::lightgrey);
+}
+
+class IntRangeProperty::LabelComp  : public Label
+{
+public:
+    LabelComp (IntRangeProperty& irp, const int charLimit)
+        : Label (String::empty, String::empty),
+          owner (irp),
+          maxChars (charLimit)
+    {
+        setEditable(true, true, false);
+
+        setColour(backgroundColourId, owner.findColour (IntRangeProperty::backgroundColourId));
+        setColour(outlineColourId,    owner.findColour (IntRangeProperty::outlineColourId));
+        setColour(textColourId,       owner.findColour (IntRangeProperty::textColourId));
+    }
+
+    TextEditor* createEditorComponent() override
+    {
+        TextEditor* const ed = Label::createEditorComponent();
+        ed->setInputRestrictions (maxChars);
+
+        return ed;
+    }
+
+    void textWasEdited() override
+    {
+        owner.textWasEdited();
+    }
+
+private:
+    IntRangeProperty& owner;
+    int maxChars;
+};
+
+IntRangeProperty::IntRangeProperty (const Value&  valueToControl,
+                                    const String& propertyName,
+                                    int           maxNumChars,
+                                    const int     minInt,
+                                    const int     maxInt)
+    : PropertyComponent(propertyName), minValue(minInt), maxValue(maxInt)
+{
+    addAndMakeVisible(textEditor = new LabelComp(*this, maxNumChars));
+    textEditor->getTextValue().referTo(valueToControl);
+}
+
+IntRangeProperty::~IntRangeProperty() {}
+
+void IntRangeProperty::setText(const String& newText)
+{
+    const int newInt = jlimit<int>(minValue, maxValue, newText.getIntValue());
+
+    textEditor->setText(String(newInt), sendNotificationSync);
+}
+
+String IntRangeProperty::getText() const
+{
+    return textEditor->getText();
+}
+
+void IntRangeProperty::refresh()
+{
+    textEditor->setText(getText(), dontSendNotification);
+}
+
+void IntRangeProperty::textWasEdited()
+{
+    setText(textEditor->getText());
 }

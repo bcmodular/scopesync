@@ -42,7 +42,7 @@ public:
     ConfigurationTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
 
     String       getUniqueName() const override;
-    bool         mightContainSubItems() override;
+    virtual bool mightContainSubItems() override;
     Font         getFont() const;
     virtual Icon getIcon() const;
     float        getIconSize() const;
@@ -99,7 +99,7 @@ private:
 
     UndoManager& undoManager;
     
-    void refreshSubItems();
+    virtual void refreshSubItems();
     void valueTreePropertyChanged (ValueTree&, const Identifier&) override;
 
     void valueTreeChildAdded (ValueTree& parentTree, ValueTree&) override    { treeChildrenChanged(parentTree); }
@@ -116,18 +116,20 @@ private:
 /* =========================================================================
  * ParameterTreeItem: Base class for Parameter-based TreeViewItems
  */
-class ParameterTreeItem  : public ConfigurationTreeItem
+class ParameterTreeItem : public ConfigurationTreeItem
 {
 public:
     ParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
 
+    bool mightContainSubItems() override { return false; };
     var  getDragSourceDescription() override;
     bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
     
     virtual Icon getIcon() const override { return Icon(); };
     virtual String getDisplayName() const override;
 
-private:    
+private:
+    void refreshSubItems() override;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterTreeItem);
 };
 

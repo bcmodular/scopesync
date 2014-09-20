@@ -303,6 +303,8 @@ String ParameterTreeItem::getDisplayName() const
     return displayName;
 }
 
+void ParameterTreeItem::refreshSubItems() {}
+
 /* =========================================================================
  * HostParameterTreeItem
  */

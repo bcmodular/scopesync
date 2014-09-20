@@ -184,9 +184,8 @@ float BCMParameter::getScopeFltValue()
 
 void BCMParameter::getScopeRanges(int& min, int& max)
 {
-    min = definition.getProperty(Ids::scopeRangeMin).toString().getHexValue32();
-    DBG("BCMParameter::getScopeRanges - max as string: " + definition.getProperty(Ids::scopeRangeMax).toString() + ", as int: " + String(definition.getProperty(Ids::scopeRangeMax).toString().getHexValue32()));
-    max = definition.getProperty(Ids::scopeRangeMax).toString().getHexValue32();
+    min = definition.getProperty(Ids::scopeRangeMin);
+    max = definition.getProperty(Ids::scopeRangeMax);
 }
 
 int BCMParameter::getScopeIntValue()

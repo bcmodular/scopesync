@@ -40,8 +40,9 @@ public:
 
     void add(PropertyComponent* propertyComp);
     void add(PropertyComponent* propertyComp, const String& tooltip);
+    void clear();
 
-    Array <PropertyComponent*> components;
+    Array<PropertyComponent*> components;
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyListBuilder)
@@ -61,11 +62,47 @@ private:
     PropertyPanel propertyPanel;
 
     void rebuildProperties();
-    void createPropertyEditors(PropertyListBuilder& propertyPanel);
+    void createDescriptionProperties(PropertyListBuilder& propertyPanel);
+    void createScopeProperties(PropertyListBuilder& propertyPanel);
     void resized();
     void paint(Graphics& g);
 };
 
+/* =========================================================================
+ * IntRangeProperty: TextPropertyComponent for Integer values
+ */
+class IntRangeProperty : public PropertyComponent
+{
+public:
+    IntRangeProperty(const Value&  valueToControl,
+                     const String& propertyName,
+                     int           maxNumChars,
+                     const int     minInt = INT_MIN,
+                     const int     maxInt = INT_MAX);
+    ~IntRangeProperty();
 
+    void   setText (const String& newText);
+    String getText() const;
+
+    enum ColourIds
+    {
+        backgroundColourId = 0x100e401,
+        textColourId       = 0x100e402,
+        outlineColourId    = 0x100e403,
+    };
+
+    void refresh();
+
+private:
+    ScopedPointer<Label> textEditor;
+    int minValue, maxValue;
+
+    class LabelComp;
+    friend class LabelComp;
+
+    void textWasEdited();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IntRangeProperty)
+};
 
 #endif  // PARAMETERPANEL_H_INCLUDED

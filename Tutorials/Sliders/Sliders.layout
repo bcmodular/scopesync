@@ -121,6 +121,9 @@
         <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
           <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
         </textbutton>
+        <textbutton lfid="system:snapshot_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+          <bounds relativerectangle="right - 32, showusersettings.top, parent.width - 200, top + 21"></bounds>
+        </textbutton>
         <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
           <bounds x="13" y="11" width="151" height="16"></bounds>
         </component>

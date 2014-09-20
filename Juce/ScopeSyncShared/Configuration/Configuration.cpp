@@ -28,6 +28,7 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 #include "../Utils/BCMMisc.h"
+#include "../Utils/BCMMath.h"
 
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,
@@ -244,7 +245,21 @@ FileBasedDocument::SaveResult Configuration::saveIfNeededAndUserAgrees(bool offe
     return userCancelledSave;
 }
 
-void Configuration::valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) { changed(); }
+void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChanged, const Identifier& property)
+{
+    if (property == Ids::scopeRangeMin)
+    {
+        float newValue = (float)scaleDouble(INT_MIN + 1, INT_MAX, -1.0f, 1.0f, treeWhosePropertyHasChanged.getProperty(property));
+        treeWhosePropertyHasChanged.setProperty(Ids::scopeRangeMinFlt, newValue, nullptr);
+    }
+    else if (property == Ids::scopeRangeMax)
+    {
+        float newValue = (float)scaleDouble(INT_MIN + 1, INT_MAX, -1.0f, 1.0f, treeWhosePropertyHasChanged.getProperty(property));
+        treeWhosePropertyHasChanged.setProperty(Ids::scopeRangeMaxFlt, newValue, nullptr);
+    }
+
+    changed();
+}
 void Configuration::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */)                { changed(); }
 void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */)            { changed(); }
 void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */)                      { changed(); }
