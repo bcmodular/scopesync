@@ -1,5 +1,7 @@
 /**
- * UI Component for managing the current Configuration
+ * UI Component for managing the current Configuration. The
+ * ConfigurationManager class is also the container window that
+ * acts as the parent for the sub-components
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -28,10 +30,30 @@
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Core/ScopeSync.h"
-class ConfigurationMenuBarModel;
 class PropertyListBuilder;
 class ConfigurationManagerMain;
 
+/* =========================================================================
+ * ConfigurationMenuBarModel: Sets up the menu bar for the Config Mgr
+ */
+class ConfigurationMenuBarModel  : public MenuBarModel
+{
+public:
+    ConfigurationMenuBarModel(ConfigurationManager& owner);
+
+    StringArray getMenuBarNames();
+    PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName);
+    void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) {};
+
+    ConfigurationManager& configurationManager;
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationMenuBarModel);
+};
+
+/* =========================================================================
+ * ConfigurationManager: Parent window and controller for the Config Mgr
+ */
 class ConfigurationManager : public DocumentWindow
 {
 public:
@@ -61,7 +83,6 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };
-
 
 
 #endif  // CONFIGURATIONMANAGER_H_INCLUDED

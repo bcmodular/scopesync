@@ -1,14 +1,44 @@
-
+/**
+ * Various TreeViewItem classes that support the Configuration
+ * Manager TreeView.
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #include "ConfigurationTreeItem.h"
 #include "ConfigurationTree.h"
-#include "TreeItemComponent.h"
-#include "HostParameterTreeItem.h"
-#include "ScopeParameterTreeItem.h"
+#include "ConfigurationManagerMain.h"
+#include "ConfigurationPanel.h"
 #include "../Core/Global.h"
 
-ConfigurationTreeItem::ConfigurationTreeItem(const ValueTree& v, UndoManager& um)
-    : tree(v), undoManager(um), textX(0)
+/* =========================================================================
+ * ConfigurationTreeItem
+ */
+ConfigurationTreeItem::ConfigurationTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : configurationManagerMain(cmm),
+      tree(v),
+      undoManager(um),
+      textX(0)
 {
     tree.addListener(this);
 }
@@ -170,14 +200,14 @@ void ConfigurationTreeItem::refreshSubItems()
     {
         if (tree.hasType(Ids::hostParameters))
         {
-            addSubItem (new HostParameterTreeItem(tree.getChild(i), undoManager));
+            addSubItem (new HostParameterTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
         }
         else if (tree.hasType(Ids::scopeParameters))
         {
-            addSubItem (new ScopeParameterTreeItem(tree.getChild(i), undoManager));
+            addSubItem (new ScopeParameterTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
         }
         else
-            addSubItem (new ConfigurationTreeItem(tree.getChild(i), undoManager));
+            addSubItem (new ConfigurationTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
     }
 }
 
@@ -194,4 +224,157 @@ void ConfigurationTreeItem::treeChildrenChanged (const ValueTree& parentTree)
         treeHasChanged();
         setOpen (true);
     }
+}
+
+void ConfigurationTreeItem::itemClicked(const MouseEvent& /* e */)
+{
+    if (isSelected())
+    {
+        itemSelectionChanged(true);
+    }
+}
+
+class ConfigurationTreeItem::ItemSelectionTimer : public Timer
+{
+public:
+    ItemSelectionTimer(ConfigurationTreeItem& cti) : owner (cti) {}
+
+    void timerCallback() override { owner.invokeChangePanel(); }
+
+private:
+    ConfigurationTreeItem& owner;
+    JUCE_DECLARE_NON_COPYABLE (ItemSelectionTimer)
+};
+
+void ConfigurationTreeItem::itemSelectionChanged(bool isNowSelected)
+{
+    if (isNowSelected)
+    {
+        delayedSelectionTimer = new ItemSelectionTimer(*this);
+        delayedSelectionTimer->startTimer(getMillisecsAllowedForDragGesture());
+    }
+    else
+    {
+        cancelDelayedSelectionTimer();
+    }
+}
+
+void ConfigurationTreeItem::invokeChangePanel()
+{
+    cancelDelayedSelectionTimer();
+    changePanel();
+}
+
+void ConfigurationTreeItem::itemDoubleClicked(const MouseEvent&)
+{
+    invokeChangePanel();
+}
+
+void ConfigurationTreeItem::cancelDelayedSelectionTimer()
+{
+    delayedSelectionTimer = nullptr;
+}
+
+void ConfigurationTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(nullptr);
+}
+
+/* =========================================================================
+ * ParameterTreeItem
+ */
+ParameterTreeItem::ParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationTreeItem(cmm, v, um) {}
+
+var ParameterTreeItem::getDragSourceDescription()
+{
+    return "Parameter";
+}
+
+bool ParameterTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
+{
+    return false;
+}
+
+String ParameterTreeItem::getDisplayName() const 
+{
+    String displayName = tree[Ids::name].toString();
+    displayName += " (" + tree[Ids::fullDescription].toString() + ")";
+    
+    return displayName;
+}
+
+/* =========================================================================
+ * HostParameterTreeItem
+ */
+HostParameterTreeItem::HostParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterTreeItem(cmm, v, um) {}
+
+Icon HostParameterTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->hostparameter, Colours::grey);
+}
+
+String HostParameterTreeItem::getDisplayName() const 
+{
+    String displayName = ParameterTreeItem::getDisplayName();
+    
+    if (int(tree[Ids::scopeSync]) != -1)
+        displayName += " - " + ScopeSync::getScopeSyncCode(int(tree[Ids::scopeSync]));
+
+    return displayName;
+}
+
+void HostParameterTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new ParameterPanel(tree));
+}
+
+/* =========================================================================
+ * ScopeParameterTreeItem
+ */
+ScopeParameterTreeItem::ScopeParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterTreeItem(cmm, v, um) {}
+
+Icon ScopeParameterTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->scopeparameter, Colours::grey);
+}
+
+String ScopeParameterTreeItem::getDisplayName() const 
+{
+    String displayName = ParameterTreeItem::getDisplayName();
+    
+    if (int(tree[Ids::scopeLocal]) != -1)
+        displayName += " - " + ScopeSync::getScopeLocalCode(int(tree[Ids::scopeLocal]));
+
+    return displayName;
+}
+
+void ScopeParameterTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new ParameterPanel(tree));
+}
+
+/* =========================================================================
+ * TreeItemComponent
+ */
+TreeItemComponent::TreeItemComponent(ConfigurationTreeItem& i) : item (i)
+{
+    setInterceptsMouseClicks (false, true);
+}
+
+void TreeItemComponent::paint (Graphics& g)
+{
+    g.setColour(Colours::black);
+    paintIcon(g);
+    item.paintContent(g, Rectangle<int>(item.textX, 0, getWidth() - item.textX, getHeight()));
+}
+
+void TreeItemComponent::paintIcon (Graphics& g)
+{
+    item.getIcon().draw(g, Rectangle<float> (4.0f, 2.0f, item.getIconSize(), getHeight() - 4.0f),
+                            item.isIconCrossedOut());
+}
+
+void TreeItemComponent::resized()
+{
+    item.textX = (int)item.getIconSize() + 8;
 }

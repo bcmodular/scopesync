@@ -1,12 +1,29 @@
-/*
-  ==============================================================================
-
-    ConfigurationManagerMain.cpp
-    Created: 14 Sep 2014 9:24:07am
-    Author:  giles
-
-  ==============================================================================
-*/
+/**
+ * Main display component for the Configuration Manager. Contains
+ * the TreeView and edit Panels
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #include "ConfigurationManagerMain.h"
 
@@ -23,7 +40,6 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                                     saveAndCloseButton("Save Configuration and Close"),
                                                                     saveAsButton("Save Configuration As..."),
                                                                     discardChangesButton("Discard All Unsaved Changes"),
-                                                                    panelView("Configuration Editor View"),
                                                                     commandManager(scopeSync.getCommandManager())
 {
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
@@ -55,15 +71,11 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     treeSizeConstrainer.setMinimumWidth (200);
     treeSizeConstrainer.setMaximumWidth (700);
 
-    treeView = new ConfigurationTree(scopeSync.getConfiguration(), undoManager);
-
+    treeView = new ConfigurationTree(*this, scopeSync.getConfiguration(), undoManager);
     int lastTreeWidth = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigTreeWidth", 300);
-
     treeView->setBounds(0, 0, lastTreeWidth, getHeight());
-
     addAndMakeVisible(treeView);
-    addAndMakeVisible(panelView);
-
+    
     addAndMakeVisible (resizerBar = new ResizableEdgeComponent(treeView, &treeSizeConstrainer,
                                                                ResizableEdgeComponent::rightEdge));
     resizerBar->setAlwaysOnTop (true);
@@ -76,6 +88,13 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
 }
 
 ConfigurationManagerMain::~ConfigurationManagerMain() {}
+
+void ConfigurationManagerMain::changePanel(Component* newComponent)
+{
+    panel = newComponent;
+    addAndMakeVisible(panel);
+    resized();
+}
 
 void ConfigurationManagerMain::unload()
 {
@@ -188,7 +207,9 @@ void ConfigurationManagerMain::resized()
     
     treeView->setBounds(localBounds.removeFromLeft(treeView->getWidth()));
     resizerBar->setBounds(localBounds.withWidth(4));
-    panelView.setBounds(localBounds);
+    
+    if (panel != nullptr)
+        panel->setBounds(localBounds);
 }
 
 void ConfigurationManagerMain::paint(Graphics& g)

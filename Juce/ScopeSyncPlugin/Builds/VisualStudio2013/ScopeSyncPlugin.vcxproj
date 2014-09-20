@@ -260,17 +260,11 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
@@ -1235,18 +1229,11 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\RenameTreeItemCallback.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>

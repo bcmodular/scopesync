@@ -250,12 +250,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
@@ -265,25 +259,13 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.cpp">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.cpp">
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp">
@@ -1329,12 +1311,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\HostParameterTreeItem.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ScopeParameterTreeItem.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
@@ -1344,28 +1320,13 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationMenuBarModel.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\MappingTreeItem.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterPanel.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ParameterTreeItem.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\RenameTreeItemCallback.h">
-      <Filter>ScopeSyncFX\Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\TreeItemComponent.h">
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h">

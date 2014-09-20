@@ -31,39 +31,4 @@
 
 String createAlphaNumericUID();
 
-//==============================================================================
-class PropertyListBuilder
-{
-public:
-    PropertyListBuilder() {}
-
-    void add (PropertyComponent* propertyComp)
-    {
-        components.add (propertyComp);
-    }
-
-    void add (PropertyComponent* propertyComp, const String& tooltip)
-    {
-        propertyComp->setTooltip (tooltip);
-        add (propertyComp);
-    }
-
-    void addSearchPathProperty (const Value& value, const String& name, const String& mainHelpText)
-    {
-        add (new TextPropertyComponent (value, name, 16384, true),
-             mainHelpText + " Use semi-colons or new-lines to separate multiple paths.");
-    }
-
-    void setPreferredHeight (int height)
-    {
-        for (int j = components.size(); --j >= 0;)
-            components.getUnchecked(j)->setPreferredHeight (height);
-    }
-
-    Array <PropertyComponent*> components;
-
-private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyListBuilder)
-};
-
 #endif  // BCMMISC_H_INCLUDED

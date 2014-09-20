@@ -6,14 +6,6 @@
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
-        <FILE id="pctCkH" name="HostParameterTreeItem.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/HostParameterTreeItem.cpp"/>
-        <FILE id="uigPGc" name="HostParameterTreeItem.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/HostParameterTreeItem.h"/>
-        <FILE id="hF4arp" name="ScopeParameterTreeItem.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/ScopeParameterTreeItem.cpp"/>
-        <FILE id="eTMrLs" name="ScopeParameterTreeItem.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/ScopeParameterTreeItem.h"/>
         <FILE id="foO3FS" name="ConfigurationTree.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Configuration/ConfigurationTree.cpp"/>
         <FILE id="PdeFFm" name="ConfigurationTree.h" compile="0" resource="0"
@@ -26,10 +18,6 @@
               file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.cpp"/>
         <FILE id="ISqmPF" name="ConfigurationManagerMain.h" compile="0" resource="0"
               file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.h"/>
-        <FILE id="tVtGi1" name="ConfigurationMenuBarModel.cpp" compile="1"
-              resource="0" file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.cpp"/>
-        <FILE id="La2l1R" name="ConfigurationMenuBarModel.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/ConfigurationMenuBarModel.h"/>
         <FILE id="P7Pr3t" name="Configuration.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Configuration/Configuration.cpp"/>
         <FILE id="fGZTYI" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/Configuration.h"/>
@@ -37,24 +25,10 @@
               file="../ScopeSyncShared/Configuration/ConfigurationManager.cpp"/>
         <FILE id="Bah75Y" name="ConfigurationManager.h" compile="0" resource="0"
               file="../ScopeSyncShared/Configuration/ConfigurationManager.h"/>
-        <FILE id="PGxhwY" name="MappingTreeItem.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/MappingTreeItem.cpp"/>
-        <FILE id="KrhTuS" name="MappingTreeItem.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/MappingTreeItem.h"/>
-        <FILE id="rk8L5p" name="ParameterPanel.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/ParameterPanel.cpp"/>
-        <FILE id="ZeJsay" name="ParameterPanel.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/ParameterPanel.h"/>
-        <FILE id="RYzok9" name="ParameterTreeItem.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/ParameterTreeItem.cpp"/>
-        <FILE id="oHCV1A" name="ParameterTreeItem.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/ParameterTreeItem.h"/>
-        <FILE id="i9UJMe" name="RenameTreeItemCallback.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/RenameTreeItemCallback.h"/>
-        <FILE id="LifbRG" name="TreeItemComponent.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Configuration/TreeItemComponent.cpp"/>
-        <FILE id="t729c2" name="TreeItemComponent.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Configuration/TreeItemComponent.h"/>
+        <FILE id="rk8L5p" name="ConfigurationPanel.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationPanel.cpp"/>
+        <FILE id="ZeJsay" name="ConfigurationPanel.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationPanel.h"/>
       </GROUP>
       <GROUP id="{1C3EA794-EC12-4EA5-9D0F-FEA0D9C9E341}" name="Resources">
         <FILE id="wXrtPF" name="Icons.cpp" compile="1" resource="0" file="../ScopeSyncShared/Resources/Icons.cpp"/>

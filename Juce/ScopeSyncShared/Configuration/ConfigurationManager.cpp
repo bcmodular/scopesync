@@ -29,9 +29,31 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Utils/BCMMisc.h"
 #include "../Core/ScopeSync.h"
-#include "ConfigurationMenuBarModel.h"
 #include "ConfigurationManagerMain.h"
 
+/* =========================================================================
+ * ConfigurationMenuBarModel
+ */
+ConfigurationMenuBarModel::ConfigurationMenuBarModel(ConfigurationManager& owner) : configurationManager(owner)
+{
+    setApplicationCommandManagerToWatch(&(configurationManager.getCommandManager()));
+}
+
+StringArray ConfigurationMenuBarModel::getMenuBarNames()
+{
+    return configurationManager.getMenuNames();
+}
+
+PopupMenu ConfigurationMenuBarModel::getMenuForIndex (int /*topLevelMenuIndex*/, const String& menuName)
+{
+    PopupMenu menu;
+    configurationManager.createMenu(menu, menuName);
+    return menu;
+}
+
+/* =========================================================================
+ * ConfigurationManager
+ */
 ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
     : DocumentWindow("Configuration Manager",
                      Colour::greyLevel(0.6f),
@@ -59,7 +81,10 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
     setResizeLimits(600, 500, 32000, 32000);
 }
 
-ConfigurationManager::~ConfigurationManager() {}
+ConfigurationManager::~ConfigurationManager()
+{
+    setMenuBar(nullptr);
+}
 
 StringArray ConfigurationManager::getMenuNames()
 {
