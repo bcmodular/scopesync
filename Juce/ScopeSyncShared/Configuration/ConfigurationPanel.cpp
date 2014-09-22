@@ -57,6 +57,9 @@ ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, ParameterT
 {
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
+
+    ValueTree settings = valueTree.getChildWithName(Ids::settings);
+    addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager));
        
     setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
@@ -128,8 +131,10 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props)
 void ParameterPanel::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
+    
+    settingsTable->setBounds(localBounds.removeFromBottom(localBounds.getHeight() / 3).reduced(4, 2));
 
-    propertyPanel.setBounds(getLocalBounds().reduced(4, 2));
+    propertyPanel.setBounds(localBounds.reduced(4, 2));
 }
 
 void ParameterPanel::paint(Graphics& g)
@@ -248,4 +253,89 @@ void FltProperty::setText(const String& newText)
     {
         NumericProperty::setText(String::empty);
     }
+}
+
+/* =========================================================================
+ * SettingsTable
+ */
+class SettingsTable::LabelComp : public Label
+{
+public:
+    LabelComp(Value& valueToEdit)
+        : Label(String::empty, String::empty),
+          value(valueToEdit)
+    {
+        setText(value.getValue().toString(), dontSendNotification);
+        setEditable(true, true, false);  
+    }
+
+    TextEditor* createEditorComponent() override
+    {
+        TextEditor* const ed = Label::createEditorComponent();
+        ed->setInputRestrictions(32);
+        ed->getTextValue().referTo(value);
+
+        return ed;
+    }
+
+    void textWasEdited() override
+    {
+    }
+
+private:
+    Value value;
+    int maxChars;
+};
+
+SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
+    : tree(valueTree), undoManager(um)
+{
+    addAndMakeVisible (listBox = new TableListBox (String::empty, this));
+    listBox->getHeader().addColumn("Name", 1, 150);
+    listBox->getHeader().addColumn("Scope Value", 2, 150);
+    listBox->getHeader().setStretchToFitActive(true);
+    listBox->updateContent();
+
+    tree.addListener(this);
+}
+
+SettingsTable::~SettingsTable()
+{
+    tree.removeListener(this);
+}
+
+void SettingsTable::resized()
+{
+    listBox->setBounds(getLocalBounds());
+}
+    
+int SettingsTable::getNumRows()
+{
+    return tree.getNumChildren();
+}
+
+Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate)
+{
+    Identifier propertyName = tree.getChild(rowNumber).getPropertyName(columnId - 1);
+    Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyName, &undoManager));
+    DBG("SettingsTable::refreshComponentForCell - Value component created: " + valueToEdit.getValue().toString());
+    return new LabelComp(valueToEdit);
+}
+
+void SettingsTable::sortOrderChanged(int newSortColumnId, bool isForwards)
+{
+}
+
+void SettingsTable::selectedRowsChanged(int lastRowSelected)
+{
+}
+
+void SettingsTable::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
+{
+    if (rowIsSelected)
+        g.fillAll (findColour (TextEditor::highlightColourId));
+}
+
+void SettingsTable::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+{
 }

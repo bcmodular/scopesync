@@ -2,25 +2,25 @@
 <configuration name="No configuration loaded...">
     <hostParameters />
     <scopeParameters>
-      <parameter name="PARAM129" shortDescription="Param 129" fullDescription="CP-Host" scopeSync="-1"  scopeLocal="12" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+      <parameter name="PARAM129" shortDescription="Param 129" fullDescription="CP-Host" scopeSync="-1"  scopeLocal="12" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
         <settings>
           <setting name="DISCONNECTED" value="0"/>
           <setting name="CONNECTED" value="1"/>
         </settings>
       </parameter>
-      <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1"  scopeLocal="13" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+      <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1"  scopeLocal="13" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
         <settings>
           <setting name="OFF" value="0"/>
           <setting name="ON" value="1"/>
         </settings>
       </parameter>
-      <parameter name="PARAM131" shortDescription="Param 131" fullDescription="Open Preset List"  scopeSync="-1"  scopeLocal="14" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+      <parameter name="PARAM131" shortDescription="Param 131" fullDescription="Open Preset List"  scopeSync="-1"  scopeLocal="14" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
         <settings>
           <setting name="OFF" value="0"/>
           <setting name="ON" value="1"/>
         </settings>
       </parameter>
-      <parameter name="PARAM132" shortDescription="Param 132" fullDescription="Load New Configuration"  scopeSync="-1"  scopeLocal="15" scopeRangeMin="0" scopeRangeMax="0x7FFFFFFF" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
+      <parameter name="PARAM132" shortDescription="Param 132" fullDescription="Load New Configuration"  scopeSync="-1"  scopeLocal="15" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1"   uiRangeInterval="1"      uiSuffix="">
           <settings>
             <setting name="OFF" value="0"/>
             <setting name="ON" value="1"/>

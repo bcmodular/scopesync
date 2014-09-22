@@ -69,9 +69,9 @@ private:
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
-    String getTextFromValue(double v);
+    String getTextFromValue(double v) override;
 
-    void mouseDown(const MouseEvent& event);
+    void mouseDown(const MouseEvent& event) override;
 
     // Interprets input typed into a Slider's Textbox and converts it into a value.
     // Includes support for discrete parameter settings

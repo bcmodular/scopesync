@@ -43,19 +43,29 @@ void BCMParameter::setNumDecimalPlaces()
 
 void BCMParameter::putValuesInRange(bool initialise)
 {
+    DBG("BCMParameter::putValuesInRange - " + String(getName()));
     float uiMinValue = definition.getProperty(Ids::uiRangeMin);
     float uiMaxValue = definition.getProperty(Ids::uiRangeMax);
     
+    DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
+    
     if (initialise)
     {
-        uiValue = definition.getProperty(Ids::uiResetValue);
+        DBG("BCMParameter::putValuesInRange - Initialise to: " + String(definition.getProperty(Ids::uiResetValue)));
+        uiValue.setValue(definition.getProperty(Ids::uiResetValue));
     }
     else
     {
         if (float(uiValue.getValue()) < uiMinValue)
-            uiValue = uiMinValue;
+        {
+            DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
+            uiValue.setValue(uiMinValue);
+        }
         else if (float(uiValue.getValue()) > uiMaxValue)
-            uiValue = uiMaxValue;
+        {
+            DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
+            uiValue.setValue(uiMaxValue);
+        }
     }
 
     linearNormalisedValue = (float)scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, uiValue.getValue());
@@ -63,6 +73,7 @@ void BCMParameter::putValuesInRange(bool initialise)
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo)
 {
+    DBG("BCMParameter::mapToUIValue - current uiValue: " + uiValue.getValue().toString());
     valueToMapTo.referTo(uiValue);
 }
 
@@ -212,7 +223,7 @@ int BCMParameter::getScopeIntValue()
     return scopeValue;
 }
     
-float BCMParameter::convertLinearNormalisedToUIValue(float linearNormalisedValue)
+double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedValue)
 {
     double minUIValue;
     double maxUIValue;
@@ -221,7 +232,7 @@ float BCMParameter::convertLinearNormalisedToUIValue(float linearNormalisedValue
     
     getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
     
-    return (float)scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, linearNormalisedValue);
+    return scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, linearNormalisedValue);
 }
 
 void BCMParameter::setHostValue(float newValue)
@@ -248,7 +259,7 @@ void BCMParameter::setScopeFltValue(float newValue)
         linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
     }
 
-    uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
+    uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
     DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
@@ -272,7 +283,7 @@ void BCMParameter::setScopeIntValue(int newValue)
             linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
         }
 
-        uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
+        uiValue.setValue(convertLinearNormalisedToUIValue(linearNormalisedValue.getValue()));
         DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
     }
     else

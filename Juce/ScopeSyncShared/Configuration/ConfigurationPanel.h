@@ -31,6 +31,46 @@
 #include <JuceHeader.h>
 
 /* =========================================================================
+ * SettingsTable: TableListBox for managing Parameter Settings
+ */
+class SettingsTable : public  Component,
+                      private TableListBoxModel,
+                      private ValueTree::Listener
+{
+public:
+    SettingsTable(const ValueTree& vt, UndoManager& um);
+    ~SettingsTable();
+
+    void resized() override;
+    
+    int getNumRows();
+    void paintRowBackground (Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
+    void paintCell (Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
+    Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
+    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    void selectedRowsChanged(int lastRowSelected) override;
+
+    // Overridden methods for ValueTree::Listener
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { listBox->updateContent(); };
+    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { listBox->updateContent(); };
+    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { listBox->updateContent(); };
+    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { listBox->updateContent(); };
+    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { listBox->updateContent(); };
+
+private:
+    ScopedPointer<TableListBox> listBox;
+    ValueTree tree;
+    UndoManager& undoManager;
+    
+    class LabelComp;
+    friend class LabelComp;
+
+    void textWasEdited();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsTable)
+};
+
+/* =========================================================================
  * PropertyListBuilder: Utility class to help set up Property Lists
  */
 class PropertyListBuilder
@@ -63,6 +103,7 @@ private:
     ValueTree     valueTree;
     PropertyPanel propertyPanel;
     UndoManager&  undoManager;
+    ScopedPointer<SettingsTable> settingsTable;
 
     ParameterType parameterType;
 
@@ -144,5 +185,6 @@ private:
     bool allowedToBeBlank;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FltProperty)
 };
+
 
 #endif  // PARAMETERPANEL_H_INCLUDED
