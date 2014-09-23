@@ -41,25 +41,27 @@ public:
     SettingsTable(const ValueTree& vt, UndoManager& um);
     ~SettingsTable();
 
-    void resized() override;
+    void       resized() override;
     
-    int getNumRows();
-    void paintRowBackground (Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
-    void paintCell (Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
+    int        getNumRows();
+    void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
+    void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
-    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
-    void selectedRowsChanged(int lastRowSelected) override;
+    void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    void       selectedRowsChanged(int lastRowSelected) override;
+    void       backgroundClicked(const MouseEvent&) override;
 
     // Overridden methods for ValueTree::Listener
-    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { listBox->updateContent(); };
-    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { listBox->updateContent(); };
-    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { listBox->updateContent(); };
-    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { listBox->updateContent(); };
-    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { listBox->updateContent(); };
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
+    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
+    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { table.updateContent(); };
+    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { table.updateContent(); };
+    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
 
 private:
-    ScopedPointer<TableListBox> listBox;
-    ValueTree tree;
+    TableListBox table;
+    Font         font;
+    ValueTree    tree;
     UndoManager& undoManager;
     
     class LabelComp;

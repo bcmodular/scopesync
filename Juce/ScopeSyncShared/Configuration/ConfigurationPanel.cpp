@@ -31,6 +31,130 @@
 #include "../Core/ScopeSync.h"
 
 /* =========================================================================
+ * SettingsTable
+ */
+class SettingsTable::LabelComp : public Component
+{
+public:
+    LabelComp(Value& valueToEdit)
+        : label(String::empty, String::empty),
+          value(valueToEdit)
+    {
+        addAndMakeVisible(label);
+        label.getTextValue().referTo(value);
+        label.setEditable(true, true, false);  
+    }
+
+    void resized() override
+    {
+        label.setBoundsInset(BorderSize<int> (2));
+    }
+
+    void setLabelValue(Value& valueToReferTo)
+    {
+        label.getTextValue().referTo(valueToReferTo);
+    }
+
+private:
+    Label label;
+    Value value;
+    int maxChars;
+};
+
+SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
+    : tree(valueTree), undoManager(um), font(14.0f)
+{
+    addAndMakeVisible (table);
+    
+    table.setModel(this);
+    
+    table.setColour (ListBox::outlineColourId, Colours::grey);
+    table.setOutlineThickness (1);
+    
+    table.getHeader().addColumn(String::empty, 1, 30,  30, 30,  TableHeaderComponent::defaultFlags);
+    table.getHeader().addColumn("Name",        2, 150, 50, 400, TableHeaderComponent::defaultFlags);
+    table.getHeader().addColumn("Scope Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags);
+    
+    table.getHeader().setStretchToFitActive(true);
+    table.setMultipleSelectionEnabled (true);
+    
+    //table.updateContent();
+
+    tree.addListener(this);
+}
+
+SettingsTable::~SettingsTable()
+{
+    tree.removeListener(this);
+}
+
+void SettingsTable::resized()
+{
+    table.setBoundsInset(BorderSize<int> (8));
+}
+    
+int SettingsTable::getNumRows()
+{
+    return tree.getNumChildren();
+}
+
+Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate)
+{
+    if (columnId > 1)
+    {
+        Identifier propertyName = tree.getChild(rowNumber).getPropertyName(columnId - 2);
+        Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyName, &undoManager));
+        DBG("SettingsTable::refreshComponentForCell - Value component created: " + valueToEdit.getValue().toString());
+
+        LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
+
+        if (labelComp == nullptr)
+            labelComp = new LabelComp(valueToEdit);
+        else
+            labelComp->setLabelValue(valueToEdit);
+    
+        return labelComp;
+    }
+    else
+        return nullptr;
+}
+
+void SettingsTable::sortOrderChanged(int newSortColumnId, bool isForwards)
+{
+}
+
+void SettingsTable::selectedRowsChanged(int lastRowSelected)
+{
+}
+
+void SettingsTable::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
+{
+    if (rowIsSelected)
+        g.fillAll (findColour (TextEditor::highlightColourId));
+}
+
+void SettingsTable::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+{
+    g.setColour(Colours::black);
+    g.setFont(font);
+
+    if (columnId == 1)
+    {
+        const String text(rowNumber + 1);
+
+        g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
+    }
+
+    g.setColour(Colours::black.withAlpha(0.2f));
+    g.fillRect(width - 1, 0, 1, height);
+}
+
+void SettingsTable::backgroundClicked(const MouseEvent&)
+{
+    table.deselectAllRows();
+}
+
+/* =========================================================================
  * PropertyListBuilder
  */
 void PropertyListBuilder::add(PropertyComponent* propertyComp)
@@ -253,89 +377,4 @@ void FltProperty::setText(const String& newText)
     {
         NumericProperty::setText(String::empty);
     }
-}
-
-/* =========================================================================
- * SettingsTable
- */
-class SettingsTable::LabelComp : public Label
-{
-public:
-    LabelComp(Value& valueToEdit)
-        : Label(String::empty, String::empty),
-          value(valueToEdit)
-    {
-        setText(value.getValue().toString(), dontSendNotification);
-        setEditable(true, true, false);  
-    }
-
-    TextEditor* createEditorComponent() override
-    {
-        TextEditor* const ed = Label::createEditorComponent();
-        ed->setInputRestrictions(32);
-        ed->getTextValue().referTo(value);
-
-        return ed;
-    }
-
-    void textWasEdited() override
-    {
-    }
-
-private:
-    Value value;
-    int maxChars;
-};
-
-SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
-    : tree(valueTree), undoManager(um)
-{
-    addAndMakeVisible (listBox = new TableListBox (String::empty, this));
-    listBox->getHeader().addColumn("Name", 1, 150);
-    listBox->getHeader().addColumn("Scope Value", 2, 150);
-    listBox->getHeader().setStretchToFitActive(true);
-    listBox->updateContent();
-
-    tree.addListener(this);
-}
-
-SettingsTable::~SettingsTable()
-{
-    tree.removeListener(this);
-}
-
-void SettingsTable::resized()
-{
-    listBox->setBounds(getLocalBounds());
-}
-    
-int SettingsTable::getNumRows()
-{
-    return tree.getNumChildren();
-}
-
-Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate)
-{
-    Identifier propertyName = tree.getChild(rowNumber).getPropertyName(columnId - 1);
-    Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyName, &undoManager));
-    DBG("SettingsTable::refreshComponentForCell - Value component created: " + valueToEdit.getValue().toString());
-    return new LabelComp(valueToEdit);
-}
-
-void SettingsTable::sortOrderChanged(int newSortColumnId, bool isForwards)
-{
-}
-
-void SettingsTable::selectedRowsChanged(int lastRowSelected)
-{
-}
-
-void SettingsTable::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
-{
-    if (rowIsSelected)
-        g.fillAll (findColour (TextEditor::highlightColourId));
-}
-
-void SettingsTable::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
-{
 }
