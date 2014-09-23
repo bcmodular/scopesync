@@ -170,6 +170,14 @@ void BCMSlider::mouseDown(const MouseEvent& event)
     Slider::mouseDown(event);
 }
 
+double BCMSlider::valueToProportionOfLength(double value)
+{
+    const double n = (value - getMinimum()) / (getMaximum() - getMinimum());
+    const double skew = getSkewFactor();
+
+    return (skew == 1.0 || n < FLT_EPSILON) ? n : pow (n, skew);
+}
+
 void BCMSlider::switchToTabs()
 {
     for (int i = 0; i < tabbedComponentNames.size(); i++)

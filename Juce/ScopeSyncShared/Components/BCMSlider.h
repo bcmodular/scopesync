@@ -72,6 +72,7 @@ private:
     String getTextFromValue(double v) override;
 
     void mouseDown(const MouseEvent& event) override;
+    double valueToProportionOfLength(double value) override;
 
     // Interprets input typed into a Slider's Textbox and converts it into a value.
     // Includes support for discrete parameter settings
