@@ -50,8 +50,26 @@ namespace BCMMath
 
             return targetOffset + targetMin;
         }
+    }
 
+    inline double scopeIntToDouble(int scopeInt)
+    {
+        if (scopeInt > 0)
+            return scopeInt / (double)0x7FFFFFFF;
+        else if (scopeInt < 0)
+            return scopeInt / (double)0x80000000;
+        else
+            return 0.0;
+    }
 
+    inline int doubleToScopeInt(double doubleToConvert)
+    {
+        if (doubleToConvert > 0.0)
+            return roundDoubleToInt(doubleToConvert * 0x7FFFFFFF);
+        else if (doubleToConvert < 0.0)
+            return roundDoubleToInt(doubleToConvert * 0x80000000);
+        else
+            return 0;
     }
 
 	inline double roundDouble(float num)

@@ -68,7 +68,7 @@ void BCMParameter::putValuesInRange(bool initialise)
         }
     }
 
-    linearNormalisedValue = (float)scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, uiValue.getValue());
+    linearNormalisedValue = scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, uiValue.getValue());
 }
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo)
@@ -247,7 +247,7 @@ void BCMParameter::setScopeFltValue(float newValue)
     float minScopeValue = definition.getProperty(Ids::scopeRangeMinFlt);
     float maxScopeValue = definition.getProperty(Ids::scopeRangeMaxFlt);
 
-    linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+    linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
 
     double ref        = definition.getProperty(Ids::scopeDBRef);
         
@@ -271,7 +271,7 @@ void BCMParameter::setScopeIntValue(int newValue)
         int maxScopeValue;
 
         getScopeRanges(minScopeValue, maxScopeValue);
-        linearNormalisedValue = (float)scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+        linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
 
         double ref        = definition.getProperty(Ids::scopeDBRef);
         
@@ -303,7 +303,7 @@ void BCMParameter::setUIValue(float newValue)
     
     getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
     
-    linearNormalisedValue = (float)scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
+    linearNormalisedValue = scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
     DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 

@@ -201,7 +201,7 @@ void ConfigurationManagerMain::resized()
     saveButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/4).reduced(1, 1));
     saveAndCloseButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/3).reduced(1, 1));
     saveAsButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()/2).reduced(1, 1));
-    discardChangesButton.setBounds(toolbar.reduced(1, 3));
+    discardChangesButton.setBounds(toolbar.reduced(1, 1));
     
     fileNameLabel.setBounds(localBounds.removeFromTop(30).reduced(4, 2));
     

@@ -68,12 +68,12 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
     
     table.setModel(this);
     
-    table.setColour (ListBox::outlineColourId, Colours::grey);
+    table.setColour(ListBox::outlineColourId, Colours::grey);
     table.setOutlineThickness (1);
     
-    table.getHeader().addColumn(String::empty, 1, 30,  30, 30,  TableHeaderComponent::defaultFlags);
-    table.getHeader().addColumn("Name",        2, 150, 50, 400, TableHeaderComponent::defaultFlags);
-    table.getHeader().addColumn("Scope Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags);
+    table.getHeader().addColumn(String::empty,     1, 30,  30, 30,  TableHeaderComponent::notResizableOrSortable);
+    table.getHeader().addColumn("Name",            2, 150, 50, 400, TableHeaderComponent::defaultFlags);
+    table.getHeader().addColumn("Scope Int Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags);
     
     table.getHeader().setStretchToFitActive(true);
     table.setMultipleSelectionEnabled (true);
@@ -98,42 +98,53 @@ int SettingsTable::getNumRows()
     return tree.getNumChildren();
 }
 
-Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate)
+Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, bool /* isRowSelected */, Component* existingComponentToUpdate)
 {
-    if (columnId > 1)
+    Identifier propertyId;
+
+    if (columnId == 2)
     {
-        Identifier propertyName = tree.getChild(rowNumber).getPropertyName(columnId - 2);
-        Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyName, &undoManager));
-        DBG("SettingsTable::refreshComponentForCell - Value component created: " + valueToEdit.getValue().toString());
-
-        LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
-
-        if (labelComp == nullptr)
-            labelComp = new LabelComp(valueToEdit);
-        else
-            labelComp->setLabelValue(valueToEdit);
-    
-        return labelComp;
+        propertyId = Ids::name;
+    }
+    else if (columnId == 3)
+    {
+        propertyId = Ids::intValue;
     }
     else
+    {
         return nullptr;
+    }
+    
+    Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyId, &undoManager));
+    
+    LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
+
+    if (labelComp == nullptr)
+        labelComp = new LabelComp(valueToEdit);
+    else
+        labelComp->setLabelValue(valueToEdit);
+    
+    return labelComp;
 }
 
 void SettingsTable::sortOrderChanged(int newSortColumnId, bool isForwards)
 {
+    (void)newSortColumnId;
+    (void)isForwards;
 }
 
 void SettingsTable::selectedRowsChanged(int lastRowSelected)
 {
+    (void)lastRowSelected;
 }
 
-void SettingsTable::paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected)
+void SettingsTable::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
 {
     if (rowIsSelected)
         g.fillAll (findColour (TextEditor::highlightColourId));
 }
 
-void SettingsTable::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+void SettingsTable::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool /* rowIsSelected */)
 {
     g.setColour(Colours::black);
     g.setFont(font);
@@ -272,44 +283,57 @@ void ParameterPanel::paint(Graphics& g)
 class NumericProperty::LabelComp  : public Label
 {
 public:
-    LabelComp (NumericProperty& np)
+    LabelComp (NumericProperty& np, const String& validInputString)
         : Label (String::empty, String::empty),
-          owner (np)
+          owner(np), validInput(validInputString)
     {
         setEditable(true, true, false);
 
-        setColour(backgroundColourId, owner.findColour (NumericProperty::backgroundColourId));
-        setColour(outlineColourId,    owner.findColour (NumericProperty::outlineColourId));
-        setColour(textColourId,       owner.findColour (NumericProperty::textColourId));
+        setColour(backgroundColourId, owner.findColour(NumericProperty::backgroundColourId));
+        setColour(outlineColourId,    owner.findColour(NumericProperty::outlineColourId));
+        setColour(textColourId,       owner.findColour(NumericProperty::textColourId));
     }
 
     TextEditor* createEditorComponent() override
     {
         TextEditor* const ed = Label::createEditorComponent();
-        ed->setInputRestrictions(32);
+        ed->setInputRestrictions(32, validInput);
 
         return ed;
     }
 
-    void textWasEdited() override
+    void setError(const String& errorText)
     {
-        owner.textWasEdited();
+        setColour(backgroundColourId, Colours::lightpink);
+        setTooltip(errorText);
+    }
+
+    void clearError()
+    {
+        setColour(backgroundColourId, owner.findColour(NumericProperty::backgroundColourId));
+        setTooltip(String::empty);
     }
 
 private:
     NumericProperty& owner;
     int maxChars;
+    String validInput;
 };
 
 NumericProperty::NumericProperty(const Value&  valueToControl,
-                                 const String& propertyName)
+                                 const String& propertyName,
+                                 const String& validInputString)
     : PropertyComponent(propertyName)
 {
-    addAndMakeVisible(textEditor = new LabelComp(*this));
+    addAndMakeVisible(textEditor = new LabelComp(*this, validInputString));
     textEditor->getTextValue().referTo(valueToControl);
+    textEditor->addListener(this);
 }
 
-NumericProperty::~NumericProperty() {}
+NumericProperty::~NumericProperty()
+{
+    textEditor->removeListener(this);
+}
 
 void NumericProperty::setText(const String& newText)
 {
@@ -326,7 +350,7 @@ void NumericProperty::refresh()
     textEditor->setText(getText(), dontSendNotification);
 }
 
-void NumericProperty::textWasEdited()
+void NumericProperty::labelTextChanged(Label* /* labelThatHasChanged */)
 {
     setText(textEditor->getText());
 }
@@ -338,7 +362,7 @@ IntRangeProperty::IntRangeProperty (const Value&  valueToControl,
                                     const String& propertyName,
                                     const int     minInt,
                                     const int     maxInt)
-    : NumericProperty(valueToControl, propertyName),
+    : NumericProperty(valueToControl, propertyName, "-0123456789"),
       minValue(minInt), 
       maxValue(maxInt)
 {
@@ -346,11 +370,26 @@ IntRangeProperty::IntRangeProperty (const Value&  valueToControl,
 
 IntRangeProperty::~IntRangeProperty() {}
 
-void IntRangeProperty::setText(const String& newText)
+void IntRangeProperty::labelTextChanged(Label* labelThatHasChanged)
 {
-    const int newInt = jlimit<int>(minValue, maxValue, newText.getIntValue());
+    String errorText;
+    String newText = String(labelThatHasChanged->getText().getIntValue());
 
-    NumericProperty::setText(String(newInt));
+    const int newInt = newText.getIntValue();
+    
+    if (newText.isEmpty())
+        errorText = "Must provide a valid integer";
+    else if (newInt < minValue)
+        errorText = "Value less than minimum";
+    else if (newInt > maxValue)
+        errorText = "Value greater than maximum";
+
+    if (errorText.isNotEmpty())
+        textEditor->setError(errorText);
+    else
+        textEditor->clearError();
+
+    NumericProperty::setText(newText);
 }
 
 /* =========================================================================
@@ -359,22 +398,26 @@ void IntRangeProperty::setText(const String& newText)
 FltProperty::FltProperty (const Value&  valueToControl,
                           const String& propertyName,
                           const bool    allowBlank)
-    : NumericProperty(valueToControl, propertyName),
+    : NumericProperty(valueToControl, propertyName, "-0123456789."),
       allowedToBeBlank(allowBlank)
 {
 }
 
 FltProperty::~FltProperty() {}
 
-void FltProperty::setText(const String& newText)
+void FltProperty::labelTextChanged(Label* labelThatHasChanged)
 {
-    if (newText.isNotEmpty() || (newText.isEmpty() && !allowedToBeBlank))
-    {
-        const float newFlt = newText.getFloatValue();
-        NumericProperty::setText(String(newFlt));
-    }
+    String newText = String(labelThatHasChanged->getText().getDoubleValue());
+    
+    String errorText;
+    
+    if ((newText.isEmpty() && !allowedToBeBlank))
+        errorText = "Must provide a valid floating point value";
+    
+    if (errorText.isNotEmpty())
+        textEditor->setError(errorText);
     else
-    {
-        NumericProperty::setText(String::empty);
-    }
+        textEditor->clearError();
+
+    NumericProperty::setText(newText);
 }

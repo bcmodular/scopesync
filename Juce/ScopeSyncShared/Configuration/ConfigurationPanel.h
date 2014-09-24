@@ -29,6 +29,7 @@
 #define PARAMETERPANEL_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Core/Global.h"
 
 /* =========================================================================
  * SettingsTable: TableListBox for managing Parameter Settings
@@ -117,14 +118,52 @@ private:
     void paint(Graphics& g);
 };
 
+//==============================================================================
+// A comparator used to sort our data when the user clicks a column header
+class SettingsSorter
+{
+public:
+    SettingsSorter (const int columnIdToSort, bool forwards)
+        : columnId(columnIdToSort),
+          direction (forwards ? 1 : -1)
+    {
+    }
+
+    int compareElements(ValueTree& first, ValueTree& second) const
+    {
+        int result = 0;
+
+        if (columnId == 2)
+        {
+            String firstString  = first.getProperty(Ids::name, String::empty);
+            String secondString = second.getProperty(Ids::name, String::empty);
+            result = firstString.compareNatural(secondString);
+        }
+        else if (columnId == 3)
+        {
+            int firstInt  = first.getProperty(Ids::intValue);
+            int secondInt = second.getProperty(Ids::intValue);
+            result = (firstInt < secondInt) ? -1 : ((secondInt < firstInt) ? 1 : 0);
+        }
+        
+        return direction * result;
+    }
+
+private:
+    int columnId;
+    int direction;
+};
+
 /* =========================================================================
  * NumericProperty: TextPropertyComponent for numeric values
  */
-class NumericProperty : public PropertyComponent
+class NumericProperty : public PropertyComponent,
+                        public Label::Listener
 {
 public:
     NumericProperty(const Value&  valueToControl,
-                    const String& propertyName);
+                    const String& propertyName,
+                    const String& validInputString);
     ~NumericProperty();
 
     virtual void setText (const String& newText);
@@ -138,15 +177,17 @@ public:
     };
 
     void refresh();
+    void labelTextChanged(Label* labelThatHasChanged) override;
 
-private:
-    ScopedPointer<Label> textEditor;
-    
+protected:
     class LabelComp;
     friend class LabelComp;
 
-    void textWasEdited();
+    ScopedPointer<LabelComp> textEditor;
 
+private:
+    void textWasEdited();
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NumericProperty)
 };
 
@@ -162,7 +203,7 @@ public:
                      const int     maxInt = INT_MAX);
     ~IntRangeProperty();
 
-    void setText (const String& newText);
+    void labelTextChanged(Label* labelThatHasChanged) override;
     
 private:
     int minValue, maxValue;
@@ -181,7 +222,7 @@ public:
                 const bool    allowBlank = false);
     ~FltProperty();
 
-    void setText (const String& newText);
+    void labelTextChanged(Label* labelThatHasChanged) override;
     
 private:
     bool allowedToBeBlank;

@@ -62,6 +62,7 @@ namespace Ids
     DECLARE_ID(settings);
     DECLARE_ID(setting);
     DECLARE_ID(value);
+    DECLARE_ID(intValue);
     DECLARE_ID(layout);
 
     DECLARE_ID(parameterName);
