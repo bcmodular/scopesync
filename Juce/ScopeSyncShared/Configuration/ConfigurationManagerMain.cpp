@@ -48,7 +48,7 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     lookAndFeel.setColour(TreeView::selectedItemBackgroundColourId, Colours::slategrey);
     setLookAndFeel(&lookAndFeel);
 
-    commandManager.registerAllCommandsForTarget(this);
+    commandManager->registerAllCommandsForTarget(this);
     
     fileNameLabel.setText("File path: " + scopeSync.getConfigurationFile().getFullPathName(), dontSendNotification);
     fileNameLabel.setTooltip(scopeSync.getConfigurationFile().getFullPathName());
@@ -56,16 +56,16 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
 
-    saveButton.setCommandToTrigger(&commandManager, CommandIDs::saveConfig, true);
+    saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
     addAndMakeVisible(saveButton);
 
-    saveAndCloseButton.setCommandToTrigger(&commandManager, CommandIDs::saveAndCloseConfig, true);
+    saveAndCloseButton.setCommandToTrigger(commandManager, CommandIDs::saveAndCloseConfig, true);
     addAndMakeVisible(saveAndCloseButton);
 
-    saveAsButton.setCommandToTrigger(&commandManager, CommandIDs::saveConfigAs, true);
+    saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
     addAndMakeVisible(saveAsButton);
 
-    discardChangesButton.setCommandToTrigger(&commandManager, CommandIDs::discardConfigChanges, true);
+    discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
     addAndMakeVisible(discardChangesButton);
 
     treeSizeConstrainer.setMinimumWidth (200);

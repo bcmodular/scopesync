@@ -91,7 +91,7 @@ public:
 
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
-    ApplicationCommandManager& getCommandManager();
+    ApplicationCommandManager* getCommandManager();
 
     /* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns

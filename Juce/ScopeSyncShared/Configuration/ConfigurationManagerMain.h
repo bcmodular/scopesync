@@ -52,6 +52,8 @@ public:
     void unload();
     void changePanel(Component* newComponent);
 
+    ApplicationCommandManager* getCommandManager() { return commandManager; };
+
 private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
@@ -65,7 +67,7 @@ private:
     ComponentBoundsConstrainer treeSizeConstrainer;
     
     ScopeSync&                 scopeSync;
-    ApplicationCommandManager& commandManager;
+    ApplicationCommandManager* commandManager;
     ConfigurationManager&      configurationManager;
     UndoManager                undoManager;
     

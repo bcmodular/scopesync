@@ -29,6 +29,7 @@
 #define PARAMETERPANEL_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "ConfigurationManagerMain.h"
 #include "../Core/Global.h"
 
 /* =========================================================================
@@ -36,10 +37,12 @@
  */
 class SettingsTable : public  Component,
                       private TableListBoxModel,
-                      private ValueTree::Listener
+                      private ValueTree::Listener,
+                      public  ApplicationCommandTarget
 {
 public:
-    SettingsTable(const ValueTree& vt, UndoManager& um);
+    SettingsTable(const ValueTree& vt, UndoManager& um, ConfigurationManagerMain& cmm,
+                  ValueTree& parameter);
     ~SettingsTable();
 
     void       resized() override;
@@ -51,6 +54,7 @@ public:
     void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void       selectedRowsChanged(int lastRowSelected) override;
     void       backgroundClicked(const MouseEvent&) override;
+    void       deleteKeyPressed(int) override;
 
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
@@ -64,11 +68,32 @@ private:
     Font         font;
     ValueTree    tree;
     UndoManager& undoManager;
-    
+    ConfigurationManagerMain& configurationManagerMain;
+    Label        numSettingsTextLabel;
+    Label        numSettingsToAddLabel;
+    TextButton   addSettingsButton;
+    TextButton   removeSettingsButton;
+    TextButton   autoFillValuesButton;
+    TextButton   moveUpButton;
+    TextButton   moveDownButton;
+
+    Value        numSettingsToAdd;
+    ValueTree    parameter;
+
     class LabelComp;
     friend class LabelComp;
 
     void textWasEdited();
+    void addSettings();
+    void removeSettings();
+    void autoFill();
+    void moveSettings(bool moveUp);
+
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsTable)
 };
@@ -94,12 +119,14 @@ private:
 /* =========================================================================
  * ParameterPanel: Edit Panel for Parameters
  */
-class ParameterPanel : public Component
+class ParameterPanel : public Component,
+                       public Value::Listener
 {
 public:
     enum ParameterType {hostParameter, scopeLocal};
 
-    ParameterPanel(ValueTree& parameter, UndoManager& um, ParameterType paramType);
+    ParameterPanel(ValueTree& parameter, UndoManager& um,
+                   ParameterType paramType, ConfigurationManagerMain& cmm);
     ~ParameterPanel();
 
 private:
@@ -107,6 +134,8 @@ private:
     PropertyPanel propertyPanel;
     UndoManager&  undoManager;
     ScopedPointer<SettingsTable> settingsTable;
+    ConfigurationManagerMain& configurationManagerMain;
+    Value         valueType;
 
     ParameterType parameterType;
 
@@ -114,8 +143,11 @@ private:
     void createDescriptionProperties(PropertyListBuilder& propertyPanel);
     void createScopeProperties(PropertyListBuilder& propertyPanel);
     void createUIProperties(PropertyListBuilder& propertyPanel);
-    void resized();
-    void paint(Graphics& g);
+    
+    void resized() override;
+    void paint(Graphics& g) override;
+
+    void valueChanged(Value& valueThatChanged) override;
 };
 
 //==============================================================================
@@ -129,7 +161,7 @@ public:
     {
     }
 
-    int compareElements(ValueTree& first, ValueTree& second) const
+    int compareElements(const ValueTree& first, const ValueTree& second) const
     {
         int result = 0;
 

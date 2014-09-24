@@ -61,10 +61,20 @@ private:
     int maxChars;
 };
 
-SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
-    : tree(valueTree), undoManager(um), font(14.0f)
+SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ConfigurationManagerMain& cmm,
+                             ValueTree& param)
+    : tree(valueTree), undoManager(um), font(14.0f), configurationManagerMain(cmm),
+      numSettingsTextLabel(String::empty, "Num to add:"),
+      addSettingsButton("Add"),
+      removeSettingsButton("Remove"),
+      autoFillValuesButton("Auto-fill"),
+      moveUpButton("Move Up"),
+      moveDownButton("Move Down"),
+      parameter(param)
 {
-    addAndMakeVisible (table);
+    configurationManagerMain.getCommandManager()->registerAllCommandsForTarget(this);
+
+    addAndMakeVisible(table);
     
     table.setModel(this);
     
@@ -72,15 +82,36 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um)
     table.setOutlineThickness (1);
     
     table.getHeader().addColumn(String::empty,     1, 30,  30, 30,  TableHeaderComponent::notResizableOrSortable);
-    table.getHeader().addColumn("Name",            2, 150, 50, 400, TableHeaderComponent::defaultFlags);
-    table.getHeader().addColumn("Scope Int Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags);
+    table.getHeader().addColumn("Name",            2, 150, 50, 400, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Scope Int Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     
     table.getHeader().setStretchToFitActive(true);
     table.setMultipleSelectionEnabled (true);
     
-    //table.updateContent();
-
     tree.addListener(this);
+
+    addAndMakeVisible(numSettingsTextLabel);
+
+    addAndMakeVisible(numSettingsToAddLabel);
+    numSettingsToAddLabel.setEditable(true);
+    numSettingsToAddLabel.getTextValue().referTo(numSettingsToAdd);
+    
+    numSettingsToAdd = 1;
+
+    addAndMakeVisible(addSettingsButton);
+    addSettingsButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::addSettings, true);
+    
+    addAndMakeVisible(removeSettingsButton);
+    removeSettingsButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::removeSettings, true);
+    
+    addAndMakeVisible(autoFillValuesButton);
+    autoFillValuesButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::autoFill, true);
+
+    addAndMakeVisible(moveUpButton);
+    moveUpButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::moveUp, true);
+
+    addAndMakeVisible(moveDownButton);
+    moveDownButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::moveDown, true);
 }
 
 SettingsTable::~SettingsTable()
@@ -90,7 +121,20 @@ SettingsTable::~SettingsTable()
 
 void SettingsTable::resized()
 {
-    table.setBoundsInset(BorderSize<int> (8));
+    Rectangle<int> localBounds(getLocalBounds());
+    Rectangle<int> buttonBar(localBounds.removeFromBottom(30).reduced(4, 4));
+
+    numSettingsTextLabel.setBounds(buttonBar.removeFromLeft(100));
+    numSettingsToAddLabel.setBounds(buttonBar.removeFromLeft(35));
+    addSettingsButton.setBounds(buttonBar.removeFromLeft(70));
+    removeSettingsButton.setBounds(buttonBar.removeFromLeft(70));
+    buttonBar.removeFromLeft(10);
+    autoFillValuesButton.setBounds(buttonBar.removeFromLeft(70));
+    buttonBar.removeFromLeft(10);
+    moveUpButton.setBounds(buttonBar.removeFromLeft(70));
+    moveDownButton.setBounds(buttonBar.removeFromLeft(70));
+
+    table.setBounds(localBounds.reduced(4, 4));
 }
     
 int SettingsTable::getNumRows()
@@ -129,8 +173,8 @@ Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, b
 
 void SettingsTable::sortOrderChanged(int newSortColumnId, bool isForwards)
 {
-    (void)newSortColumnId;
-    (void)isForwards;
+    SettingsSorter sorter(newSortColumnId, isForwards);
+    tree.sort(sorter, &undoManager, true);
 }
 
 void SettingsTable::selectedRowsChanged(int lastRowSelected)
@@ -165,6 +209,172 @@ void SettingsTable::backgroundClicked(const MouseEvent&)
     table.deselectAllRows();
 }
 
+void SettingsTable::deleteKeyPressed(int)
+{
+    removeSettings();
+}
+
+void SettingsTable::getAllCommands(Array <CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::addSettings,
+                              CommandIDs::removeSettings,
+                              CommandIDs::autoFill,
+                              CommandIDs::moveUp,
+                              CommandIDs::moveDown
+                            };
+
+    commands.addArray(ids, numElementsInArray (ids));
+}
+
+void SettingsTable::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::addSettings:
+        result.setInfo("Add", "Add new Settings", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::removeSettings:
+        result.setInfo ("Remove", "Remove selected Settings", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress(KeyPress::deleteKey));
+        break;
+    case CommandIDs::autoFill:
+        result.setInfo ("Auto-fill", "Automatically fill all Setting values (evenly spread from min to max)", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::moveUp:
+        result.setInfo ("Move Up", "Move all selected Settings up one position", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress(KeyPress::upKey, ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::moveDown:
+        result.setInfo ("Move Down", "Move all selected Settings down one position", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress(KeyPress::downKey, ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool SettingsTable::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::addSettings:          addSettings(); break;
+        case CommandIDs::removeSettings:       removeSettings(); break;
+        case CommandIDs::autoFill:             autoFill(); break;
+        case CommandIDs::moveUp:               moveSettings(true); break;
+        case CommandIDs::moveDown:             moveSettings(false); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+void SettingsTable::addSettings()
+{
+    for (int i = 0; i < int(numSettingsToAdd.getValue()); i++)
+    {
+        ValueTree newSetting(Ids::setting);
+        String newSettingName;
+
+        int settingNum = 1;
+
+        for(;;)
+        {
+            newSettingName = "New Setting " + String(settingNum);
+
+            if (tree.getChildWithProperty(Ids::name, newSettingName).isValid())
+            {
+                settingNum++;
+                continue;
+            }
+            else
+                break;
+        }
+
+        newSetting.setProperty(Ids::name, newSettingName, &undoManager);
+        newSetting.setProperty(Ids::intValue, 0, &undoManager);
+
+        tree.addChild(newSetting, -1, &undoManager);
+    }
+}
+
+void SettingsTable::removeSettings()
+{
+    SparseSet<int> selectedRows(table.getSelectedRows());
+    Array<int> settingsToRemove;
+    
+    for (int i = 0; i < selectedRows.size(); i++)
+    {
+        settingsToRemove.add(selectedRows[i]);
+    }
+
+    DefaultElementComparator<int> sorter;
+    settingsToRemove.sort(sorter);
+    
+    for (int i = settingsToRemove.size() - 1; i > -1; i--)
+    {
+        tree.removeChild(settingsToRemove[i], &undoManager);
+    }
+}
+void SettingsTable::autoFill()
+{
+    int    numSettings = tree.getNumChildren();
+    double scopeRangeMin = parameter.getProperty(Ids::scopeRangeMin);
+    double scopeRangeMax = parameter.getProperty(Ids::scopeRangeMax);
+
+    for (int i = 0; i < numSettings; i++)
+    {
+        int newValue = roundDoubleToInt((i * ((scopeRangeMax - scopeRangeMin) / (numSettings - 1))) + scopeRangeMin);
+
+        tree.getChild(i).setProperty(Ids::intValue, newValue, &undoManager);
+    }
+}
+
+void SettingsTable::moveSettings(bool moveUp)
+{
+    SparseSet<int> selectedRows(table.getSelectedRows());
+    Array<int> settingsToMove;
+    
+    for (int i = 0; i < selectedRows.size(); i++)
+    {
+        settingsToMove.add(selectedRows[i]);
+    }
+
+    DefaultElementComparator<int> sorter;
+    settingsToMove.sort(sorter);
+    
+    if (moveUp)
+    {
+        for (int i = 0; i < settingsToMove.size(); i++)
+        {
+            int currentIndex = settingsToMove[i];
+            int newIndex     = jmax(settingsToMove[i] - 1, 0);
+
+            table.deselectRow(currentIndex);
+
+            tree.moveChild(currentIndex, newIndex, &undoManager);
+            table.selectRow(newIndex, false, false);
+        }
+    }
+    else
+    {
+        for (int i = settingsToMove.size() - 1; i > -1; i--)
+        {
+            int currentIndex = settingsToMove[i];
+            int newIndex     = jmin(settingsToMove[i] + 1, tree.getNumChildren());
+            
+            table.deselectRow(currentIndex);
+
+            tree.moveChild(currentIndex, newIndex, &undoManager);
+            table.selectRow(newIndex, false, false);
+        }
+    }  
+}
+
+ApplicationCommandTarget* SettingsTable::getNextCommandTarget()
+{
+    return &configurationManagerMain;
+}
+
 /* =========================================================================
  * PropertyListBuilder
  */
@@ -187,14 +397,21 @@ void PropertyListBuilder::clear()
 /* =========================================================================
  * ParameterPanel
  */
-ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, ParameterType paramType)
-    : valueTree(parameter), undoManager(um), parameterType(paramType)
+ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
+                               ParameterType paramType, ConfigurationManagerMain& cmm)
+    : valueTree(parameter), undoManager(um), parameterType(paramType), configurationManagerMain(cmm)
 {
     rebuildProperties();
     addAndMakeVisible(propertyPanel);
 
-    ValueTree settings = valueTree.getChildWithName(Ids::settings);
-    addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager));
+    valueType = valueTree.getPropertyAsValue(Ids::valueType, &undoManager);
+    valueType.addListener(this);
+
+    if (int(valueType.getValue()) == 1)
+    {
+        ValueTree settings = valueTree.getChildWithName(Ids::settings);
+        addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
+    }
        
     setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
@@ -248,7 +465,7 @@ void ParameterPanel::createScopeProperties(PropertyListBuilder& props)
     props.clear();
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters)");
     props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
 }
 
@@ -260,14 +477,16 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props)
     props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMax,      &undoManager), "Max UI Value"),          "Maximum User Interface Value (Float)");
     props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),        "Step between consecutive User Interface values");
     props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required");
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required)");
+    props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String::empty), "Use a set of discrete parameter values relating to specific control settings");
 }
 
 void ParameterPanel::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     
-    settingsTable->setBounds(localBounds.removeFromBottom(localBounds.getHeight() / 3).reduced(4, 2));
+    if (settingsTable != nullptr)
+        settingsTable->setBounds(localBounds.removeFromBottom(localBounds.getHeight() / 3).reduced(4, 2));
 
     propertyPanel.setBounds(localBounds.reduced(4, 2));
 }
@@ -275,6 +494,20 @@ void ParameterPanel::resized()
 void ParameterPanel::paint(Graphics& g)
 {
     g.fillAll (Colours::lightgrey);
+}
+
+void ParameterPanel::valueChanged(Value& valueThatChanged)
+{
+    if (int(valueThatChanged.getValue()) == 0)
+    {
+        settingsTable = nullptr;
+    }
+    else
+    {
+        ValueTree settings = valueTree.getChildWithName(Ids::settings);
+        addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
+        resized();
+    }
 }
 
 /* =========================================================================

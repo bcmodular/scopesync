@@ -151,6 +151,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
             configurationRoot = loaderConfigurationRoot;
             setFile(File());
             lastFailedFile = File();
+            setChangedFlag(false);
             return true;
         }
     }
@@ -376,8 +377,8 @@ const String Configuration::loaderConfiguration =
 "lt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" uiRangeMin="
 "\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
 "        <settings>\n"
-"          <setting name=\"DISCONNECTED\" value=\"0\"/>\n"
-"          <setting name=\"CONNECTED\" value=\"1\"/>\n"
+"          <setting name=\"DISCONNECTED\" value=\"0\" intValue=\"0\"/>\n"
+"          <setting name=\"CONNECTED\" value=\"1\" intValue=\"2147483647\"/>\n"
 "        </settings>\n"
 "      </parameter>\n"
 "      <parameter name=\"PARAM130\" shortDescription=\"Param 130\" fullDescription=\"Open Patch Window\" sc"
@@ -385,8 +386,8 @@ const String Configuration::loaderConfiguration =
 "eRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" u"
 "iRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
 "        <settings>\n"
-"          <setting name=\"OFF\" value=\"0\"/>\n"
-"          <setting name=\"ON\" value=\"1\"/>\n"
+"          <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"          <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
 "        </settings>\n"
 "      </parameter>\n"
 "      <parameter name=\"PARAM131\" shortDescription=\"Param 131\" fullDescription=\"Open Preset List\"  sc"
@@ -394,8 +395,8 @@ const String Configuration::loaderConfiguration =
 "eRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" u"
 "iRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
 "        <settings>\n"
-"          <setting name=\"OFF\" value=\"0\"/>\n"
-"          <setting name=\"ON\" value=\"1\"/>\n"
+"          <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"          <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
 "        </settings>\n"
 "      </parameter>\n"
 "      <parameter name=\"PARAM132\" shortDescription=\"Param 132\" fullDescription=\"Load New Configuratio"
@@ -403,8 +404,8 @@ const String Configuration::loaderConfiguration =
 "\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"fa"
 "lse\" uiRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
 "          <settings>\n"
-"            <setting name=\"OFF\" value=\"0\"/>\n"
-"            <setting name=\"ON\" value=\"1\"/>\n"
+"            <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"            <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
 "          </settings>\n"
 "        </parameter>\n"
 "    </scopeParameters>\n"

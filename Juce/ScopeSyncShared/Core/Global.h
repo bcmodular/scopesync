@@ -100,7 +100,13 @@ namespace CommandIDs
         saveAndCloseConfig       = 0x200310,
         saveConfigAs             = 0x200320,
         discardConfigChanges     = 0x200330,
-        closeConfig              = 0x200340
+        closeConfig              = 0x200340,
+
+        addSettings              = 0x200400,
+        removeSettings           = 0x200410,
+        autoFill                 = 0x200420,
+        moveUp                   = 0x200430,
+        moveDown                 = 0x200440
     };
 }
 

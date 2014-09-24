@@ -63,7 +63,6 @@ public:
     PropertiesFile& getConfigurationProperties();
     
     String getDirectory();
-    void   unloadConfiguration();
     bool   replaceConfiguration(const String& newFileName);
     
 private:

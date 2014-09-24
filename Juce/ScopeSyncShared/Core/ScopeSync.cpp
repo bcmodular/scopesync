@@ -139,9 +139,9 @@ void ScopeSync::hideConfigurationManager()
 	configurationManager = nullptr;
 }
 
-ApplicationCommandManager& ScopeSync::getCommandManager()
+ApplicationCommandManager* ScopeSync::getCommandManager()
 {
-    return *commandManager;
+    return commandManager;
 }
 
 void ScopeSync::unload()

@@ -60,7 +60,7 @@ public:
     ConfigurationManager(ScopeSync& owner, int posX, int posY);
     ~ConfigurationManager();
 
-    ApplicationCommandManager& getCommandManager() { return commandManager; };
+    ApplicationCommandManager* getCommandManager() { return commandManager; };
     StringArray getMenuNames();
     void createMenu(PopupMenu& menu, const String& menuName);
     void createFileMenu(PopupMenu& menu);
@@ -74,7 +74,7 @@ public:
 
 private:
     ScopeSync&                               scopeSync;
-    ApplicationCommandManager&               commandManager;
+    ApplicationCommandManager*               commandManager;
     ScopedPointer<ConfigurationMenuBarModel> menuModel;
     ConfigurationManagerMain*                configurationManagerMain;
     

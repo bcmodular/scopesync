@@ -36,7 +36,7 @@
  */
 ConfigurationMenuBarModel::ConfigurationMenuBarModel(ConfigurationManager& owner) : configurationManager(owner)
 {
-    setApplicationCommandManagerToWatch(&(configurationManager.getCommandManager()));
+    setApplicationCommandManagerToWatch(configurationManager.getCommandManager());
 }
 
 StringArray ConfigurationMenuBarModel::getMenuBarNames()
@@ -69,7 +69,7 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner, int posX, int posY)
     menuModel = new ConfigurationMenuBarModel(*this);
     setMenuBar(menuModel);
 
-    addKeyListener(commandManager.getKeyMappings());
+    addKeyListener(commandManager->getKeyMappings());
 
     restoreWindowPosition(posX, posY);
     
@@ -101,18 +101,18 @@ void ConfigurationManager::createMenu(PopupMenu& menu, const String& menuName)
 
 void ConfigurationManager::createFileMenu(PopupMenu& menu)
 {
-    menu.addCommandItem(&commandManager, CommandIDs::saveConfig);
-    menu.addCommandItem(&commandManager, CommandIDs::saveAndCloseConfig);
-    menu.addCommandItem(&commandManager, CommandIDs::saveConfigAs);
-    menu.addCommandItem(&commandManager, CommandIDs::discardConfigChanges);   
+    menu.addCommandItem(commandManager, CommandIDs::saveConfig);
+    menu.addCommandItem(commandManager, CommandIDs::saveAndCloseConfig);
+    menu.addCommandItem(commandManager, CommandIDs::saveConfigAs);
+    menu.addCommandItem(commandManager, CommandIDs::discardConfigChanges);   
     menu.addSeparator();
-    menu.addCommandItem(&commandManager, CommandIDs::closeConfig);   
+    menu.addCommandItem(commandManager, CommandIDs::closeConfig);   
 }
 
 void ConfigurationManager::createEditMenu(PopupMenu& menu)
 {
-    menu.addCommandItem(&commandManager, CommandIDs::undo);
-    menu.addCommandItem(&commandManager, CommandIDs::redo);  
+    menu.addCommandItem(commandManager, CommandIDs::undo);
+    menu.addCommandItem(commandManager, CommandIDs::redo);  
 }
 
 void ConfigurationManager::closeButtonPressed()
@@ -143,7 +143,7 @@ void ConfigurationManager::unload()
 
     scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
     
-    removeKeyListener(commandManager.getKeyMappings());
+    removeKeyListener(commandManager->getKeyMappings());
     setMenuBar(nullptr);
 }
 
