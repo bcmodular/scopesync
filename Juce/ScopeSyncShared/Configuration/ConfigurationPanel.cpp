@@ -409,7 +409,7 @@ ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um,
 
     if (int(valueType.getValue()) == 1)
     {
-        ValueTree settings = valueTree.getChildWithName(Ids::settings);
+        ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
         addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
     }
        
@@ -504,7 +504,7 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     }
     else
     {
-        ValueTree settings = valueTree.getChildWithName(Ids::settings);
+        ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
         addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
         resized();
     }
