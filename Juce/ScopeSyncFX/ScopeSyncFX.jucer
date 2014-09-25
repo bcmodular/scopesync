@@ -6,6 +6,9 @@
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
+        <FILE id="f0NPPT" name="SettingsTable.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Configuration/SettingsTable.cpp"/>
+        <FILE id="o1Zy0w" name="SettingsTable.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/SettingsTable.h"/>
         <FILE id="foO3FS" name="ConfigurationTree.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Configuration/ConfigurationTree.cpp"/>
         <FILE id="PdeFFm" name="ConfigurationTree.h" compile="0" resource="0"

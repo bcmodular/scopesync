@@ -145,6 +145,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
@@ -1056,6 +1057,7 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>

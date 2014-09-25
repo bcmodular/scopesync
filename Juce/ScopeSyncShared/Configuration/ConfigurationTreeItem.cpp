@@ -277,7 +277,10 @@ void ConfigurationTreeItem::cancelDelayedSelectionTimer()
 
 void ConfigurationTreeItem::changePanel()
 {
-    configurationManagerMain.changePanel(nullptr);
+    if (tree.hasType(Ids::configuration))
+        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain));
+    else
+        configurationManagerMain.changePanel(nullptr);
 }
 
 /* =========================================================================

@@ -259,6 +259,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
@@ -1228,6 +1229,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>

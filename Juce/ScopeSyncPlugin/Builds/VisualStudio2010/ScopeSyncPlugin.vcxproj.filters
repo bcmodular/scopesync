@@ -277,6 +277,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
@@ -1422,6 +1425,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
