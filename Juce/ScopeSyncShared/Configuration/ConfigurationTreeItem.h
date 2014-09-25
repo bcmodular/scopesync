@@ -40,6 +40,7 @@ class ConfigurationTreeItem  : public  TreeViewItem,
 {
 public:
     ConfigurationTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+    ~ConfigurationTreeItem();
 
     String       getUniqueName() const override;
     virtual bool mightContainSubItems() override;
@@ -58,6 +59,12 @@ public:
     void         itemSelectionChanged(bool isNowSelected) override;
     void         itemDoubleClicked(const MouseEvent&) override;
     virtual void changePanel();
+    virtual void deleteItem() {};
+
+    virtual void showPopupMenu() {};
+    virtual void showMultiSelectionPopupMenu() {}
+    virtual void launchPopupMenu(PopupMenu&);
+    virtual void handlePopupMenuResult(int);
 
     virtual int  getMillisecsAllowedForDragGesture() { return 120; };
     void         cancelDelayedSelectionTimer();
@@ -92,13 +99,18 @@ protected:
     ValueTree tree;
     ConfigurationManagerMain& configurationManagerMain;
     UndoManager& undoManager;
-    
+
+    static void treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item);
+    static void treeViewMenuItemChosen(int resultCode, WeakReference<ConfigurationTreeItem> item);
+
 private:
     class        ItemSelectionTimer;
     friend class ItemSelectionTimer;
     ScopedPointer<Timer> delayedSelectionTimer;
 
-    
+    WeakReference<ConfigurationTreeItem>::Master masterReference;
+    friend class WeakReference<ConfigurationTreeItem>;
+
     virtual void refreshSubItems();
     void valueTreePropertyChanged (ValueTree&, const Identifier&) override;
 
@@ -110,6 +122,8 @@ private:
     void treeChildrenChanged (const ValueTree& parentTree);
     void invokeChangePanel();
 
+    void deleteAllSelectedItems();
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConfigurationTreeItem)
 };
 
@@ -128,8 +142,14 @@ public:
     virtual Icon getIcon() const override { return Icon(); };
     virtual String getDisplayName() const override;
 
+    void deleteItem() override;
+
 private:
     void refreshSubItems() override;
+    void showMultiSelectionPopupMenu() override;
+
+    void showPopupMenu() override;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterTreeItem);
 };
 
@@ -163,6 +183,118 @@ public:
 
 private:    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeParameterTreeItem);
+};
+
+/* =========================================================================
+ * MappingTreeItem: Base class for Mapping-based TreeViewItems
+ */
+class MappingTreeItem : public ConfigurationTreeItem
+{
+public:
+    MappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    bool mightContainSubItems() override { return false; };
+    virtual var getDragSourceDescription() override;
+    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+
+    void deleteItem();
+    
+    virtual Icon getIcon() const override { return Icon(); };
+    virtual String getDisplayName() const override;
+
+private:
+    void refreshSubItems() override;
+    void showMultiSelectionPopupMenu() override;
+    
+    void showPopupMenu() override;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingTreeItem);
+};
+
+/* =========================================================================
+ * SliderMappingTreeItem: TreeViewItem for Slider Mappings
+ */
+class SliderMappingTreeItem : public MappingTreeItem
+{
+public:
+    SliderMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    var  getDragSourceDescription() override;
+    Icon getIcon() const override;
+    void changePanel() override;
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderMappingTreeItem);
+};
+
+/* =========================================================================
+ * LabelMappingTreeItem: TreeViewItem for Label Mappings
+ */
+class LabelMappingTreeItem : public MappingTreeItem
+{
+public:
+    LabelMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    var  getDragSourceDescription() override;
+    Icon getIcon() const override;
+    void changePanel() override;
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelMappingTreeItem);
+};
+
+/* =========================================================================
+ * ComboBoxMappingTreeItem: TreeViewItem for ComboBox Mappings
+ */
+class ComboBoxMappingTreeItem : public MappingTreeItem
+{
+public:
+    ComboBoxMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    var  getDragSourceDescription() override;
+    Icon getIcon() const override;
+    void changePanel() override;
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxMappingTreeItem);
+};
+
+/* =========================================================================
+ * TabbedComponentMappingTreeItem: TreeViewItem for TabbedComponent Mappings
+ */
+class TabbedComponentMappingTreeItem : public MappingTreeItem
+{
+public:
+    TabbedComponentMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    var  getDragSourceDescription() override;
+    Icon getIcon() const override;
+    void changePanel() override;
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentMappingTreeItem);
+};
+
+/* =========================================================================
+ * TextButtonMappingTreeItem: TreeViewItem for TextButton Mappings
+ */
+class TextButtonMappingTreeItem : public MappingTreeItem
+{
+public:
+    TextButtonMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um);
+
+    var  getDragSourceDescription() override;
+    Icon getIcon() const override;
+    void changePanel() override;
+
+private:
+    String getDisplayName() const override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonMappingTreeItem);
 };
 
 /* =========================================================================

@@ -119,7 +119,8 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::discardConfigChanges,
                               CommandIDs::closeConfig,
                               CommandIDs::undo,
-                              CommandIDs::redo
+                              CommandIDs::redo,
+                              CommandIDs::deleteSelectedItems
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -136,6 +137,11 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
     case CommandIDs::redo:
         result.setInfo ("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::deleteSelectedItems:
+        result.setInfo ("Delete", "Delete selected items", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
         break;
     case CommandIDs::saveConfig:
         result.setInfo ("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
@@ -166,6 +172,7 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
     {
         case CommandIDs::undo:                 undoManager.undo(); break;
         case CommandIDs::redo:                 undoManager.redo(); break;
+        case CommandIDs::deleteSelectedItems:  deleteSelectedTreeItems(); break;
         case CommandIDs::saveConfig:           configurationManager.save(); break;
         case CommandIDs::saveAndCloseConfig:   configurationManager.saveAndClose(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
@@ -234,4 +241,9 @@ void ConfigurationManagerMain::paintOverChildren(Graphics& g)
 void ConfigurationManagerMain::timerCallback()
 {
     undoManager.beginNewTransaction();
+}
+
+void ConfigurationManagerMain::deleteSelectedTreeItems()
+{
+    treeView->deleteSelectedItems();
 }

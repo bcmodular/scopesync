@@ -61,6 +61,7 @@ public:
     ~ConfigurationManager();
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
+    Configuration& getConfiguration() { return scopeSync.getConfiguration(); };
     StringArray getMenuNames();
     void createMenu(PopupMenu& menu, const String& menuName);
     void createFileMenu(PopupMenu& menu);

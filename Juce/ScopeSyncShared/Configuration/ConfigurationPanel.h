@@ -65,9 +65,9 @@ protected:
     PropertyPanel propertyPanel;
     UndoManager&  undoManager;
     ConfigurationManagerMain& configurationManagerMain;
+    virtual void rebuildProperties() = 0;
     
 private:
-    virtual void rebuildProperties() = 0;
     
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
@@ -84,8 +84,12 @@ public:
     ConfigurationPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
     ~ConfigurationPanel();
 
-private:
+protected:
     void rebuildProperties() override;
+
+private:
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationPanel)
 };
 
 /* =========================================================================
@@ -115,6 +119,47 @@ private:
     void resized() override;
     
     void valueChanged(Value& valueThatChanged) override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterPanel)
+};
+
+/* =========================================================================
+ * MappingPanel: Edit Panel for Mappings
+ */
+class MappingPanel : public BasePanel
+{
+public:
+    MappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm, const String& compType);
+    ~MappingPanel();
+
+protected:
+    void rebuildProperties() override;
+
+private:
+    String componentType;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingPanel)
+};
+
+/* =========================================================================
+ * TextButtonMappingPanel: Edit Panel for TextButton Mappings
+ */
+class TextButtonMappingPanel : public MappingPanel,
+                               public Value::Listener
+{
+public:
+    TextButtonMappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    ~TextButtonMappingPanel();
+
+private:
+    Value parameterName;
+    Value mappingType;
+
+    void rebuildProperties() override;
+
+    void valueChanged(Value& valueThatChanged) override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonMappingPanel)
 };
 
 /* =========================================================================

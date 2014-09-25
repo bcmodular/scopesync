@@ -43,6 +43,11 @@ ConfigurationTreeItem::ConfigurationTreeItem(ConfigurationManagerMain& cmm, cons
     tree.addListener(this);
 }
 
+ConfigurationTreeItem::~ConfigurationTreeItem()
+{
+    masterReference.clear();
+}
+
 String ConfigurationTreeItem::getDisplayName() const 
 {
     String displayName = tree["name"].toString();
@@ -83,6 +88,16 @@ Icon ConfigurationTreeItem::getIcon() const
         return Icon(Icons::getInstance()->scopeparameters, Colours::azure);
     else if (tree.hasType(Ids::mapping))
         return Icon(Icons::getInstance()->mapping, Colours::bisque);
+    else if (tree.hasType(Ids::sliders))
+        return Icon(Icons::getInstance()->sliders, Colours::bisque);
+    else if (tree.hasType(Ids::textButtons))
+        return Icon(Icons::getInstance()->textbuttons, Colours::bisque);
+    else if (tree.hasType(Ids::labels))
+        return Icon(Icons::getInstance()->labels, Colours::bisque);
+    else if (tree.hasType(Ids::tabbedComponents))
+        return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque);
+    else if (tree.hasType(Ids::comboBoxes))
+        return Icon(Icons::getInstance()->comboboxes, Colours::bisque);
     else
         return Icon(Icons::getInstance()->config, Colours::beige);
     
@@ -141,7 +156,14 @@ Component* ConfigurationTreeItem::createItemComponent()
 
 bool ConfigurationTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {
-    if (dragSourceDetails.description.toString() == "Parameter" && (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters)))
+    if (
+           (dragSourceDetails.description.toString() == "Parameter"              && (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters)))
+        || (dragSourceDetails.description.toString() == "SliderMapping"          && tree.hasType(Ids::sliders))
+        || (dragSourceDetails.description.toString() == "LabelMapping"           && tree.hasType(Ids::labels))
+        || (dragSourceDetails.description.toString() == "TextButtonMapping"      && tree.hasType(Ids::textButtons))
+        || (dragSourceDetails.description.toString() == "TabbedComponentMapping" && tree.hasType(Ids::tabbedComponents))
+        || (dragSourceDetails.description.toString() == "ComboBoxMapping"        && tree.hasType(Ids::comboBoxes))
+       )
         return true;
     else
         return false;
@@ -206,6 +228,26 @@ void ConfigurationTreeItem::refreshSubItems()
         {
             addSubItem (new ScopeParameterTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
         }
+        else if (tree.hasType(Ids::sliders))
+        {
+            addSubItem (new SliderMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::labels))
+        {
+            addSubItem (new LabelMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::comboBoxes))
+        {
+            addSubItem (new ComboBoxMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::tabbedComponents))
+        {
+            addSubItem (new TabbedComponentMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::textButtons))
+        {
+            addSubItem (new TextButtonMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
         else
             addSubItem (new ConfigurationTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
     }
@@ -226,12 +268,31 @@ void ConfigurationTreeItem::treeChildrenChanged (const ValueTree& parentTree)
     }
 }
 
-void ConfigurationTreeItem::itemClicked(const MouseEvent& /* e */)
+void ConfigurationTreeItem::itemClicked(const MouseEvent& e)
 {
-    if (isSelected())
+    if (e.mods.isPopupMenu())
+    {
+        if (getOwnerView()->getNumSelectedItems() > 1)
+            showMultiSelectionPopupMenu();
+        else
+            showPopupMenu();
+    }
+    else if (isSelected())
     {
         itemSelectionChanged(true);
     }
+}
+
+void ConfigurationTreeItem::treeViewMenuItemChosen(int resultCode, WeakReference<ConfigurationTreeItem> item)
+{
+    if (item != nullptr)
+        item->handlePopupMenuResult(resultCode);
+}
+
+void ConfigurationTreeItem::handlePopupMenuResult (int resultCode)
+{
+    if (resultCode == 1)
+        deleteItem();
 }
 
 class ConfigurationTreeItem::ItemSelectionTimer : public Timer
@@ -270,6 +331,39 @@ void ConfigurationTreeItem::itemDoubleClicked(const MouseEvent&)
     invokeChangePanel();
 }
 
+
+void ConfigurationTreeItem::deleteAllSelectedItems()
+{
+    TreeView* treeView = getOwnerView();
+    StringArray identifiers;
+
+    for (int i = 0; i < treeView->getNumSelectedItems(); i++)
+    {
+        identifiers.add(treeView->getSelectedItem(i)->getItemIdentifierString());
+        DBG("ConfigurationTreeItem::deleteAllSelectedItems - added item to delete: " + identifiers[i]);
+    }
+
+    for (int i = 0; i < identifiers.size(); i++)
+    {
+        dynamic_cast<ConfigurationTreeItem*>(treeView->findItemFromIdentifierString(identifiers[i]))->deleteItem();
+    }
+}
+
+void ConfigurationTreeItem::treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item)
+{
+    switch (resultCode)
+    {
+        case 1:     item->deleteAllSelectedItems(); break;
+        default:    break;
+    }
+}
+
+void ConfigurationTreeItem::launchPopupMenu(PopupMenu& m)
+{
+    m.showMenuAsync (PopupMenu::Options(),
+                     ModalCallbackFunction::create(treeViewMenuItemChosen, WeakReference<ConfigurationTreeItem>(this)));
+}
+
 void ConfigurationTreeItem::cancelDelayedSelectionTimer()
 {
     delayedSelectionTimer = nullptr;
@@ -306,7 +400,29 @@ String ParameterTreeItem::getDisplayName() const
     return displayName;
 }
 
+void ParameterTreeItem::showMultiSelectionPopupMenu()
+{
+    PopupMenu m;
+    m.addItem (1, "Delete");
+
+    m.showMenuAsync (PopupMenu::Options(),
+                     ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
+}
+
+void ParameterTreeItem::showPopupMenu()
+{
+    PopupMenu menu;
+    menu.addItem (1, "Remove this parameter");
+    launchPopupMenu(menu);
+}
+
+
 void ParameterTreeItem::refreshSubItems() {}
+
+void ParameterTreeItem::deleteItem()
+{
+    tree.getParent().removeChild(tree, &undoManager);
+}
 
 /* =========================================================================
  * HostParameterTreeItem
@@ -356,6 +472,173 @@ String ScopeParameterTreeItem::getDisplayName() const
 void ScopeParameterTreeItem::changePanel()
 {
     configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::scopeLocal, configurationManagerMain));
+}
+
+/* =========================================================================
+ * MappingTreeItem
+ */
+MappingTreeItem::MappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationTreeItem(cmm, v, um) {}
+
+var MappingTreeItem::getDragSourceDescription()
+{
+    return "Mapping";
+}
+
+bool MappingTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
+{
+    return false;
+}
+
+String MappingTreeItem::getDisplayName() const 
+{
+    String displayName = tree[Ids::name].toString();
+    displayName += " => " + tree[Ids::mapTo].toString();
+    
+    return displayName;
+}
+
+void MappingTreeItem::showMultiSelectionPopupMenu()
+{
+    PopupMenu m;
+    m.addItem (1, "Delete");
+
+    m.showMenuAsync (PopupMenu::Options(),
+                     ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
+}
+
+void MappingTreeItem::showPopupMenu()
+{
+    PopupMenu menu;
+    menu.addItem (1, "Remove this mapping");
+    launchPopupMenu(menu);
+}
+
+void MappingTreeItem::refreshSubItems() {}
+
+void MappingTreeItem::deleteItem()
+{
+    tree.getParent().removeChild(tree, &undoManager);
+}
+
+/* =========================================================================
+ * SliderMappingTreeItem
+ */
+SliderMappingTreeItem::SliderMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingTreeItem(cmm, v, um) {}
+
+var SliderMappingTreeItem::getDragSourceDescription()
+{
+    return "SliderMapping";
+}
+
+Icon SliderMappingTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->slider, Colours::grey);
+}
+
+void SliderMappingTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Slider"));
+}
+
+/* =========================================================================
+ * LabelMappingTreeItem
+ */
+LabelMappingTreeItem::LabelMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingTreeItem(cmm, v, um) {}
+
+var LabelMappingTreeItem::getDragSourceDescription()
+{
+    return "LabelMapping";
+}
+
+Icon LabelMappingTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->label, Colours::grey);
+}
+
+void LabelMappingTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Label"));
+}
+
+/* =========================================================================
+ * ComboBoxMappingTreeItem
+ */
+ComboBoxMappingTreeItem::ComboBoxMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingTreeItem(cmm, v, um) {}
+
+var ComboBoxMappingTreeItem::getDragSourceDescription()
+{
+    return "ComboBoxMapping";
+}
+
+Icon ComboBoxMappingTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->combobox, Colours::grey);
+}
+
+void ComboBoxMappingTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "ComboBox"));
+}
+
+/* =========================================================================
+ * TabbedComponentMappingTreeItem
+ */
+TabbedComponentMappingTreeItem::TabbedComponentMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingTreeItem(cmm, v, um) {}
+
+var TabbedComponentMappingTreeItem::getDragSourceDescription()
+{
+    return "TabbedComponentMapping";
+}
+
+Icon TabbedComponentMappingTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey);
+}
+
+void TabbedComponentMappingTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "TabbedComponent"));
+}
+
+/* =========================================================================
+ * TextButtonMappingTreeItem
+ */
+TextButtonMappingTreeItem::TextButtonMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingTreeItem(cmm, v, um) {}
+
+var TextButtonMappingTreeItem::getDragSourceDescription()
+{
+    return "TextButtonMapping";
+}
+
+Icon TextButtonMappingTreeItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->textbutton, Colours::grey);
+}
+
+String TextButtonMappingTreeItem::getDisplayName() const
+{
+    String displayName = tree[Ids::name].toString();
+
+    String settings = tree[Ids::settingDown].toString();
+
+    if (tree.hasProperty(Ids::settingUp))
+    {
+        settings += "/" + tree[Ids::settingUp].toString();
+    }
+
+    displayName += " => " + tree[Ids::mapTo].toString() + " (" + settings + ")";
+    
+    return displayName;
+}
+
+void TextButtonMappingTreeItem::changePanel()
+{
+    configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManagerMain));
 }
 
 /* =========================================================================

@@ -64,12 +64,22 @@ public:
     
     String getDirectory();
     bool   replaceConfiguration(const String& newFileName);
+
+    StringArray& getComponentNames(const String& componentType);
+    void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
+    void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
     
 private:
     ValueTree  configurationRoot;
     ValueTree  loaderConfigurationRoot;
     XmlElement layoutXml;       // Layout XML loaded from definition file(s)
     XmlElement loaderLayoutXml; // Default Layout XML
+
+    StringArray sliderNames;
+    StringArray labelNames;
+    StringArray comboBoxNames;
+    StringArray tabbedComponentNames;
+    StringArray textButtonNames;
 
     ScopedPointer<PropertiesFile> properties;
 
@@ -87,9 +97,13 @@ private:
     void        loadLoaderConfiguration();
     void        loadLoaderLayout();
     XmlElement& loadLayoutXml(String& errorText, String& errorDetails);
-
-    void        setMissingDefaultValues();
     
+    void        setMissingDefaultValues();
+
+    void        setupComponentNameArrays();
+    void        tidyUpComponentArray(StringArray& arrayToTidy);
+    void        getComponentNames(XmlElement& xml);
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };
 

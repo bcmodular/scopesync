@@ -69,14 +69,17 @@ void ConfigurationTree::resized()
 
 void ConfigurationTree::deleteSelectedItems()
 {
-    Array<ValueTree> selectedItems(ConfigurationTreeItem::getSelectedTreeViewItems(tree));
+    StringArray identifiers;
 
-    for (int i = selectedItems.size(); --i >= 0;)
+    for (int i = 0; i < tree.getNumSelectedItems(); i++)
     {
-        ValueTree& v = selectedItems.getReference(i);
+        identifiers.add(tree.getSelectedItem(i)->getItemIdentifierString());
+        DBG("ConfigurationTree::deleteSelectedItems - added item to delete: " + identifiers[i]);
+    }
 
-        if (v.getParent().isValid())
-            v.getParent().removeChild (v, &undoManager);
+    for (int i = 0; i < identifiers.size(); i++)
+    {
+        dynamic_cast<ConfigurationTreeItem*>(tree.findItemFromIdentifierString(identifiers[i]))->deleteItem();
     }
 }
 

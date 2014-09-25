@@ -95,6 +95,7 @@ namespace CommandIDs
     {
         undo                     = 0x200100,
         redo                     = 0x200110,
+        deleteSelectedItems      = 0x200120,
         
         saveConfig               = 0x200300,
         saveAndCloseConfig       = 0x200310,

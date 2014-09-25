@@ -53,6 +53,7 @@ public:
     void changePanel(Component* newComponent);
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
+    Configuration&             getConfiguration()  { return configurationManager.getConfiguration(); };
 
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -78,6 +79,7 @@ private:
     ApplicationCommandTarget* getNextCommandTarget();
 
     void timerCallback() override;
+    void deleteSelectedTreeItems();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };

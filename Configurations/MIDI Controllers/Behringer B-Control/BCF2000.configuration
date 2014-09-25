@@ -1077,5 +1077,7 @@
       <label name="B55" mapTo="PARAM119"/>
       <label name="B56" mapTo="PARAM120"/>
     </labels>
+    <comboBoxes/>
+    <tabbedComponents/>
   </mapping>
 </configuration>

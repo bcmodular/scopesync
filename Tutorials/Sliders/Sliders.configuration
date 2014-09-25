@@ -69,22 +69,22 @@
   </scopeParameters>
   <mapping>
     <sliders>
-      <slider name="S1" mapTo="PARAM1"/>
-      <slider name="S2" mapTo="PARAM2"/>
-      <slider name="S3" mapTo="PARAM3"/>
-      <slider name="S4" mapTo="PARAM4"/>
-      <slider name="S5" mapTo="PARAM5"/>
-      <slider name="S6" mapTo="PARAM6"/>
-      <slider name="S7" mapTo="PARAM7"/>
+      <slider name="s1" mapTo="PARAM1"/>
+      <slider name="s2" mapTo="PARAM2"/>
+      <slider name="s3" mapTo="PARAM3"/>
+      <slider name="s4" mapTo="PARAM4"/>
+      <slider name="s5" mapTo="PARAM5"/>
+      <slider name="s6" mapTo="PARAM6"/>
+      <slider name="s7" mapTo="PARAM7"/>
     </sliders>
     <labels>
-      <label name="S1" mapTo="PARAM1"/>
-      <label name="S2" mapTo="PARAM2"/>
-      <label name="S3" mapTo="PARAM3"/>
-      <label name="S4" mapTo="PARAM4"/>
-      <label name="S5" mapTo="PARAM5"/>
-      <label name="S6" mapTo="PARAM6"/>
-      <label name="S7" mapTo="PARAM7"/>
+      <label name="s1" mapTo="PARAM1"/>
+      <label name="s2" mapTo="PARAM2"/>
+      <label name="s3" mapTo="PARAM3"/>
+      <label name="s4" mapTo="PARAM4"/>
+      <label name="s5" mapTo="PARAM5"/>
+      <label name="s6" mapTo="PARAM6"/>
+      <label name="s7" mapTo="PARAM7"/>
     </labels>
     <textButtons>
       <textButton name="B65" mapTo="PARAM129" settingDown="DISCONNECTED" type="1" radioGroup=""/>
@@ -93,5 +93,7 @@
       <textButton name="B68" mapTo="PARAM131" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B69" mapTo="PARAM132" settingDown="ON" type="0" radioGroup=""/>
     </textButtons>
+    <comboBoxes/>
+    <tabbedComponents/>
   </mapping>
 </configuration>

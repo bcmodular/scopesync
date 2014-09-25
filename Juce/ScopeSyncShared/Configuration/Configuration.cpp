@@ -56,6 +56,16 @@ void Configuration::setMissingDefaultValues()
 {
     if (!(configurationRoot.hasProperty(Ids::ID)))
         configurationRoot.setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
+
+    configurationRoot.getOrCreateChildWithName(Ids::hostParameters, nullptr);
+    configurationRoot.getOrCreateChildWithName(Ids::scopeParameters, nullptr);
+
+    ValueTree mapping(configurationRoot.getOrCreateChildWithName(Ids::mapping, nullptr));
+    mapping.getOrCreateChildWithName(Ids::sliders, nullptr);
+    mapping.getOrCreateChildWithName(Ids::textButtons, nullptr);
+    mapping.getOrCreateChildWithName(Ids::labels, nullptr);
+    mapping.getOrCreateChildWithName(Ids::comboBoxes, nullptr);
+    mapping.getOrCreateChildWithName(Ids::tabbedComponents, nullptr);
 }
 
 const char* Configuration::configurationFileExtension = ".configuration";
@@ -364,65 +374,190 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
         layoutXml = loaderLayoutXml;
     }
 
+    setupComponentNameArrays();
+
     return layoutXml;
 }
 
+StringArray& Configuration::getComponentNames(const String& componentType)
+{
+    String e1, e2;
+
+    if (!layoutLoaded)
+        loadLayoutXml(e1, e2);
+
+         if (componentType == "Slider")
+        return sliderNames;
+    else if (componentType == "Label")
+        return labelNames;
+    else if (componentType == "ComboBox")
+        return comboBoxNames;
+    else if (componentType == "TextButton")
+        return textButtonNames;
+    else
+        return tabbedComponentNames;
+}
+
+void Configuration::setupComponentNameArrays()
+{
+    sliderNames.clear();
+    labelNames.clear();
+    textButtonNames.clear();
+    tabbedComponentNames.clear();
+    comboBoxNames.clear();
+
+    getComponentNames(layoutXml);
+    
+    tidyUpComponentArray(sliderNames);
+    tidyUpComponentArray(labelNames);
+    tidyUpComponentArray(textButtonNames);
+    tidyUpComponentArray(tabbedComponentNames);
+    tidyUpComponentArray(comboBoxNames);
+}
+
+void Configuration::tidyUpComponentArray(StringArray& arrayToTidy)
+{
+    arrayToTidy.removeEmptyStrings();
+    arrayToTidy.removeDuplicates(true);
+    arrayToTidy.sortNatural();
+}
+    
+void Configuration::getComponentNames(XmlElement& xml)
+{
+    forEachXmlChildElement(xml, child)
+    {
+             if (child->hasTagName("slider"))
+            sliderNames.add(child->getStringAttribute(Ids::name, String::empty));
+        else if (child->hasTagName("label"))
+            labelNames.add(child->getStringAttribute(Ids::name, String::empty));
+        else if (child->hasTagName("textbutton"))
+            textButtonNames.add(child->getStringAttribute(Ids::name, String::empty));
+        else if (child->hasTagName("tabbedcomponent"))
+        {
+            tabbedComponentNames.add(child->getStringAttribute(Ids::name, String::empty));
+            getComponentNames(*child);
+        }
+        else if (child->hasTagName("combobox"))
+            comboBoxNames.add(child->getStringAttribute(Ids::name, String::empty));
+        else
+            getComponentNames(*child);
+    }
+}
+
+void Configuration::setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly)
+{
+    ValueTree hostParameters = getHostParameters();
+    
+    for (int i = 0; i < hostParameters.getNumChildren(); i++)
+    {
+        ValueTree parameter(hostParameters.getChild(i));
+        
+        if (!discreteOnly || int(parameter[Ids::valueType]) == 1)
+        {
+            parameterDescriptions.add(parameter[Ids::name].toString() + " (" + parameter[Ids::fullDescription].toString() + ")");
+            parameterNames.add(hostParameters.getChild(i)[Ids::name]);
+        }
+    }
+    
+    ValueTree scopeParameters = getScopeParameters();
+    
+    for (int i = 0; i < scopeParameters.getNumChildren(); i++)
+    {
+        ValueTree parameter(scopeParameters.getChild(i));
+        
+        if (!discreteOnly || int(parameter[Ids::valueType]) == 1)
+        {
+            parameterDescriptions.add(parameter[Ids::name].toString() + " (" + parameter[Ids::fullDescription].toString() + ")");
+            parameterNames.add(scopeParameters.getChild(i)[Ids::name]);
+        }
+    }
+}
+
+void Configuration::setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues)
+{
+    ValueTree parameter(getHostParameters().getChildWithProperty(Ids::name, parameterName));
+
+    if (!(parameter.isValid()))
+        parameter = getScopeParameters().getChildWithProperty(Ids::name, parameterName);
+
+    if (parameter.isValid())
+    {
+        ValueTree settings(parameter.getChildWithName(Ids::settings));
+        if (settings.isValid())
+        {
+            for (int i = 0; i < settings.getNumChildren(); i++)
+            {
+                String settingName = settings.getChild(i).getProperty(Ids::name);
+                settingNames.add(settingName);
+                settingValues.add(settingName);
+            }
+        }
+    }
+}
+
 const String Configuration::loaderConfiguration =
-"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-"<configuration name=\"No configuration loaded...\">\n"
-"    <hostParameters />\n"
-"    <scopeParameters>\n"
-"      <parameter name=\"PARAM129\" shortDescription=\"Param 129\" fullDescription=\"CP-Host\" scopeSync=\"-"
-"1\"  scopeLocal=\"12\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxF"
-"lt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" uiRangeMin="
-"\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
-"        <settings>\n"
-"          <setting name=\"DISCONNECTED\" value=\"0\" intValue=\"0\"/>\n"
-"          <setting name=\"CONNECTED\" value=\"1\" intValue=\"2147483647\"/>\n"
-"        </settings>\n"
-"      </parameter>\n"
-"      <parameter name=\"PARAM130\" shortDescription=\"Param 130\" fullDescription=\"Open Patch Window\" sc"
-"opeSync=\"-1\"  scopeLocal=\"13\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scop"
-"eRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" u"
-"iRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
-"        <settings>\n"
-"          <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"          <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"        </settings>\n"
-"      </parameter>\n"
-"      <parameter name=\"PARAM131\" shortDescription=\"Param 131\" fullDescription=\"Open Preset List\"  sc"
-"opeSync=\"-1\"  scopeLocal=\"14\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scop"
-"eRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\" u"
-"iRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
-"        <settings>\n"
-"          <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"          <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"        </settings>\n"
-"      </parameter>\n"
-"      <parameter name=\"PARAM132\" shortDescription=\"Param 132\" fullDescription=\"Load New Configuratio"
-"n\"  scopeSync=\"-1\"  scopeLocal=\"15\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0"
-"\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\" skewUIOnly=\"fa"
-"lse\" uiRangeMin=\"0\" uiRangeMax=\"1\"   uiRangeInterval=\"1\"      uiSuffix=\"\">\n"
-"          <settings>\n"
-"            <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"            <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"          </settings>\n"
-"        </parameter>\n"
-"    </scopeParameters>\n"
-"    <mapping>\n"
-"        <textButtons>\n"
-"            <textButton name=\"B65\" mapTo=\"PARAM129\" settingDown=\"DISCONNECTED\"       type=\"1\" radioG"
-"roup=\"\" />\n"
-"            <textButton name=\"B66\" mapTo=\"PARAM129\" settingDown=\"CONNECTED\"          type=\"1\" radioG"
-"roup=\"\" />\n"
-"            <textButton name=\"B67\" mapTo=\"PARAM130\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" radioG"
-"roup=\"\" />\n"
-"            <textButton name=\"B68\" mapTo=\"PARAM131\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" radioG"
-"roup=\"\" />\n"
-"            <textButton name=\"B69\" mapTo=\"PARAM132\" settingDown=\"ON\" type=\"0\" radioGroup=\"\" />\n"
-"        </textButtons>\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"\n"
+"<configuration name=\"No configuration loaded...\" ID=\"NqZmNe\">\n"
+"  <hostParameters/>\n"
+"  <scopeParameters>\n"
+"    <parameter name=\"PARAM129\" shortDescription=\"Param 129\" fullDescription=\"CP-Host\" scopeSync=\"-1\""
+" scopeLocal=\"12\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\"\n"
+"               scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\""
+"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\"\n"
+"               uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
+"      <settings>\n"
+"        <setting name=\"DISCONNECTED\" value=\"0\" intValue=\"0\"/>\n"
+"        <setting name=\"CONNECTED\" value=\"1\" intValue=\"2147483647\"/>\n"
+"      </settings>\n"
+"    </parameter>\n"
+"    <parameter name=\"PARAM130\" shortDescription=\"Param 130\" fullDescription=\"Open Patch Window\" scop"
+"eSync=\"-1\" scopeLocal=\"13\" scopeRangeMin=\"0\"\n"
+"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
+"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
+"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
+"      <settings>\n"
+"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
+"      </settings>\n"
+"    </parameter>\n"
+"    <parameter name=\"PARAM131\" shortDescription=\"Param 131\" fullDescription=\"Open Preset List\" scope"
+"Sync=\"-1\" scopeLocal=\"14\" scopeRangeMin=\"0\"\n"
+"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
+"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
+"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
+"      <settings>\n"
+"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
+"      </settings>\n"
+"    </parameter>\n"
+"    <parameter name=\"PARAM132\" shortDescription=\"Param 132\" fullDescription=\"Load New Configuration\""
+" scopeSync=\"-1\" scopeLocal=\"15\" scopeRangeMin=\"0\"\n"
+"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
+"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
+"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
+"      <settings>\n"
+"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
+"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
+"      </settings>\n"
+"    </parameter>\n"
+"  </scopeParameters>\n"
+"  <mapping>\n"
+"    <textButtons>\n"
+"      <textButton name=\"B65\" mapTo=\"PARAM129\" settingDown=\"DISCONNECTED\" type=\"1\" radioGroup=\"\"/>\n"
+"      <textButton name=\"B66\" mapTo=\"PARAM129\" settingDown=\"CONNECTED\" type=\"1\" radioGroup=\"\"/>\n"
+"      <textButton name=\"B67\" mapTo=\"PARAM130\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" radioGroup=\""
+"\"/>\n"
+"      <textButton name=\"B68\" mapTo=\"PARAM131\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" radioGroup=\""
+"\"/>\n"
+"      <textButton name=\"B69\" mapTo=\"PARAM132\" settingDown=\"ON\" type=\"0\" radioGroup=\"\"/>\n"
+"    </textButtons>\n"
+"    <sliders/>\n"
+"    <labels/>\n"
+"    <comboBoxes/>\n"
+"    <tabbedComponents/>\n"
 "  </mapping>\n"
-"</configuration>";
+"</configuration>\n";
 
 const String Configuration::loaderLayout =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"

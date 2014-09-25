@@ -117,7 +117,10 @@ ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um,
     }
 }
 
-ParameterPanel::~ParameterPanel() {}
+ParameterPanel::~ParameterPanel()
+{
+    valueType.removeListener(this);
+}
 
 void ParameterPanel::rebuildProperties()
 {
@@ -204,6 +207,104 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
         addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
         resized();
     }
+}
+
+/* =========================================================================
+ * MappingPanel
+ */
+MappingPanel::MappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm, const String& compType)
+    : BasePanel(parameter, um, cmm), componentType(compType)
+{
+    rebuildProperties();
+}
+
+MappingPanel::~MappingPanel() {}
+
+void MappingPanel::rebuildProperties()
+{
+    PropertyListBuilder props;
+
+    props.clear();
+
+    // Set up Component Names
+    StringArray componentNames = configurationManagerMain.getConfiguration().getComponentNames(componentType);
+    Array<var>  componentValues;
+
+    for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
+
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentType + " Name", componentNames, componentValues), "Choose the "+ componentType + " to map from");
+
+    // Set up Parameter Names
+    StringArray parameterNames;
+    Array<var>  parameterValues;
+
+    bool discreteOnly(componentType == "TextButton" ? true : false);
+
+    configurationManagerMain.getConfiguration().setupParameterLists(parameterNames, parameterValues, discreteOnly);
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager), "Parameter", parameterNames, parameterValues), "Choose the Parameter to map to");
+
+    propertyPanel.addProperties(props.components);
+}
+
+
+/* =========================================================================
+ * TextButtonMappingPanel
+ */
+TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
+    : MappingPanel(parameter, um, cmm, "TextButton"),
+      parameterName(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager)),
+      mappingType(valueTree.getPropertyAsValue(Ids::type, &undoManager))
+{
+    parameterName.addListener(this);
+    mappingType.addListener(this);
+
+    rebuildProperties();
+}
+
+TextButtonMappingPanel::~TextButtonMappingPanel()
+{
+    parameterName.removeListener(this);
+    mappingType.removeListener(this);
+}
+
+void TextButtonMappingPanel::rebuildProperties()
+{
+    PropertyListBuilder props;
+
+    props.clear();
+
+    // Mapping Type
+    const StringArray mappingTypes  = StringArray::fromTokens("No Toggle,Toggle,Increment,Decrement,Increment (Wrap-around),Decrement (Wrap-around)",",","");
+    Array<var>        mappingValues;
+
+    for (int i = 0; i < mappingTypes.size(); i++) mappingValues.add(i);
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::type, &undoManager), "Mapping Type", mappingTypes, mappingValues), "Mapping type to apply to this TextButton mapping");
+    
+    // Set up Setting Names
+    StringArray settingNames;
+    Array<var>  settingValues;
+    
+    if (parameterName.toString().isNotEmpty())
+    {
+        configurationManagerMain.getConfiguration().setupSettingLists(parameterName.toString(), settingNames, settingValues);
+    }
+    
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingDown, &undoManager), "Down Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the down position");
+    
+    if (int(mappingType.getValue()) < 2)
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingUp, &undoManager), "Up Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the up position");
+
+    // Radio Group
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::radioGroup, &undoManager), "Radio Group", 32, false), "Text identifier to match TextButtons within a radio group. Leave blank if no radio group needed.");
+
+    propertyPanel.addProperties(props.components);
+}
+
+void TextButtonMappingPanel::valueChanged(Value& /* valueThatChanged */)
+{
+    propertyPanel.clear();
+    MappingPanel::rebuildProperties();
+    rebuildProperties();
 }
 
 /* =========================================================================
