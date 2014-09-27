@@ -60,11 +60,16 @@ public:
     void         itemDoubleClicked(const MouseEvent&) override;
     virtual void changePanel();
     virtual void deleteItem() {};
+    virtual void insertItemBefore() {};
+    virtual void insertItemAfter() {};
 
-    virtual void showPopupMenu() {};
+    virtual void showPopupMenu();
     virtual void showMultiSelectionPopupMenu() {}
     virtual void launchPopupMenu(PopupMenu&);
     virtual void handlePopupMenuResult(int);
+
+    void         storeSelectionMove(int delta);
+    void         storeSelectionMove();
 
     virtual int  getMillisecsAllowedForDragGesture() { return 120; };
     void         cancelDelayedSelectionTimer();
@@ -123,6 +128,7 @@ private:
     void invokeChangePanel();
 
     void deleteAllSelectedItems();
+    void addNewSubItem();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConfigurationTreeItem)
 };
@@ -143,6 +149,9 @@ public:
     virtual String getDisplayName() const override;
 
     void deleteItem() override;
+    void insertItemBefore() override;
+    void insertItemAfter() override;
+    void insertParameterAt(int index);
 
 private:
     void refreshSubItems() override;
@@ -197,7 +206,9 @@ public:
     virtual var getDragSourceDescription() override;
     virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
 
-    void deleteItem();
+    void deleteItem() override;
+    void insertItemBefore() override;
+    void insertItemAfter() override;
     
     virtual Icon getIcon() const override { return Icon(); };
     virtual String getDisplayName() const override;

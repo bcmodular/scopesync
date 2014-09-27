@@ -90,3 +90,26 @@ void ConfigurationTree::saveTreeViewState()
     if (opennessState != nullptr)
         configuration.getConfigurationProperties().setValue("openness", opennessState);
 }
+
+void ConfigurationTree::storeSelectedItemMove(String itemId, int delta)
+{
+    lastSelectedItem      = itemId;
+    moveSelectedItemDelta = delta;
+}
+
+void ConfigurationTree::moveToSelectedItemDelta()
+{
+    if (lastSelectedItem.isNotEmpty())
+    {
+        TreeViewItem* itemToMoveTo = tree.findItemFromIdentifierString(lastSelectedItem);
+            
+        if (itemToMoveTo != nullptr)
+        {
+            itemToMoveTo->setSelected(true, true);
+            tree.moveSelectedRow(moveSelectedItemDelta);
+        }
+
+        lastSelectedItem      = String::empty;
+        moveSelectedItemDelta = 0;
+    }
+}

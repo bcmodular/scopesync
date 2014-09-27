@@ -102,7 +102,6 @@ void ConfigurationManager::createMenu(PopupMenu& menu, const String& menuName)
 void ConfigurationManager::createFileMenu(PopupMenu& menu)
 {
     menu.addCommandItem(commandManager, CommandIDs::saveConfig);
-    menu.addCommandItem(commandManager, CommandIDs::saveAndCloseConfig);
     menu.addCommandItem(commandManager, CommandIDs::saveConfigAs);
     menu.addCommandItem(commandManager, CommandIDs::discardConfigChanges);   
     menu.addSeparator();
@@ -117,15 +116,6 @@ void ConfigurationManager::createEditMenu(PopupMenu& menu)
 
 void ConfigurationManager::closeButtonPressed()
 {
-    unload();
-    scopeSync.applyConfiguration();
-    scopeSync.hideConfigurationManager();
-}
-
-
-void ConfigurationManager::saveAndClose()
-{
-    save();
     unload();
     scopeSync.applyConfiguration();
     scopeSync.hideConfigurationManager();
@@ -165,8 +155,8 @@ void ConfigurationManager::saveAs()
 void ConfigurationManager::discardChanges()
 {
     scopeSync.reloadSavedConfiguration();
-    unload();
-    scopeSync.hideConfigurationManager();
+    clearContentComponent();
+    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSync), true);
 }
 
 void ConfigurationManager::restoreWindowPosition(int posX, int posY)

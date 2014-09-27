@@ -59,7 +59,6 @@ private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
     TextButton                 saveButton;
-    TextButton                 saveAndCloseButton;
     TextButton                 saveAsButton;
     TextButton                 discardChangesButton;
     ScopedPointer<ConfigurationTree> treeView;

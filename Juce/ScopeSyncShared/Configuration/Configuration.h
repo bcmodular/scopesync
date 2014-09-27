@@ -63,11 +63,16 @@ public:
     PropertiesFile& getConfigurationProperties();
     
     String getDirectory();
-    bool   replaceConfiguration(const String& newFileName);
+
+    bool replaceConfiguration(const String& newFileName);
+
+    enum ParameterTarget { host, scopeLocal };
+    void addNewParameter(ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
 
     StringArray& getComponentNames(const String& componentType);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
+
     
 private:
     ValueTree  configurationRoot;
@@ -103,6 +108,9 @@ private:
     void        setupComponentNameArrays();
     void        tidyUpComponentArray(StringArray& arrayToTidy);
     void        getComponentNames(XmlElement& xml);
+
+    static ValueTree getDefaultParameter();
+    bool             parameterNameExists(const String& parameterName);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };

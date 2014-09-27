@@ -149,6 +149,7 @@ void ScopeSync::unload()
     if (configurationManager != nullptr)
     {
         configurationManager->unload();
+        configurationManager = nullptr;
     }
 
     configuration->saveIfNeededAndUserAgrees(false);
@@ -545,8 +546,12 @@ void ScopeSync::applyConfiguration()
     for (int i = 0; i < hostParameterTree.getNumChildren(); i++)
     {
         hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i)));
-        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeCode: " + String(hostParameters[i]->getScopeCode()));
-        paramIdxByScopeSyncId.set(hostParameters[i]->getScopeCode(), i);
+        
+        int scopeCode = hostParameters[i]->getScopeCode();
+        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeCode: " + String(scopeCode));
+        
+        if (scopeCode > -1 && scopeCode < scopeSyncCodes.size())
+            paramIdxByScopeSyncId.set(hostParameters[i]->getScopeCode(), i);
     }
     
     // Then do the same for each of the Scope Local Parameters
@@ -555,8 +560,12 @@ void ScopeSync::applyConfiguration()
     for (int i = 0; i < scopeLocalParameterTree.getNumChildren(); i++)
     {
         scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i)));
-        DBG("ScopeSync::applyConfiguration - Added scope parameter: " + scopeLocalParameters[i]->getName() + ", ScopeCode: " + String(scopeLocalParameters[i]->getScopeCode()));
-        paramIdxByScopeLocalId.set(scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters, i);
+        
+        int scopeCode = scopeLocalParameters[i]->getScopeCode();
+        DBG("ScopeSync::applyConfiguration - Added scope parameter: " + scopeLocalParameters[i]->getName() + ", ScopeCode: " + String(scopeCode));
+        
+        if (scopeCode > -1 && scopeCode < scopeLocalCodes.size())
+            paramIdxByScopeLocalId.set(scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters, i);
     }
 
 #ifndef __DLL_EFFECT__

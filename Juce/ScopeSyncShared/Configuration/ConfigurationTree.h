@@ -45,6 +45,9 @@ public:
 
     void deleteSelectedItems();
 
+    void storeSelectedItemMove(String itemId, int delta);
+    void moveToSelectedItemDelta();
+
     enum ColourIds
     {
         mainBackgroundColourId = 0x2340000,
@@ -56,6 +59,9 @@ private:
     UndoManager&   undoManager;
     Configuration& configuration;
     ConfigurationManagerMain& configurationManagerMain;
+
+    String lastSelectedItem;
+    int    moveSelectedItemDelta;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationTree);
 };

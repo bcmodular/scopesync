@@ -139,7 +139,10 @@ void ConfigurationTreeItem::paintContent(Graphics& g, const Rectangle<int>& area
 void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
 {
     if (isNowOpen && getNumSubItems() == 0)
+    {
+        clearSubItems();
         refreshSubItems();
+    }
     else
         clearSubItems();
 }
@@ -262,12 +265,14 @@ void ConfigurationTreeItem::treeChildrenChanged (const ValueTree& parentTree)
 {
     if (parentTree == tree)
     {
+        setOpen(true);
         refreshSubItems();
-        treeHasChanged();
-        setOpen (true);
+        
+        ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
+        configTree->moveToSelectedItemDelta();
     }
 }
-
+        
 void ConfigurationTreeItem::itemClicked(const MouseEvent& e)
 {
     if (e.mods.isPopupMenu())
@@ -293,6 +298,111 @@ void ConfigurationTreeItem::handlePopupMenuResult (int resultCode)
 {
     if (resultCode == 1)
         deleteItem();
+    else if (resultCode == 2)
+        addNewSubItem();
+    else if (resultCode == 3)
+        insertItemBefore();
+    else if (resultCode == 4)
+        insertItemAfter();
+}
+
+void ConfigurationTreeItem::launchPopupMenu(PopupMenu& m)
+{
+    m.showMenuAsync (PopupMenu::Options(),
+                     ModalCallbackFunction::create(treeViewMenuItemChosen, WeakReference<ConfigurationTreeItem>(this)));
+}
+
+void ConfigurationTreeItem::showPopupMenu()
+{
+    PopupMenu menu;
+    String addSubItemText = String::empty;
+
+    if (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters))
+    {
+        addSubItemText = "Add new parameter";
+    }
+    else if (tree.hasType(Ids::sliders) || tree.hasType(Ids::textButtons) || tree.hasType(Ids::labels) || tree.hasType(Ids::tabbedComponents) || tree.hasType(Ids::comboBoxes))
+    {
+        addSubItemText = "Add new mapping";
+    }
+    
+    if (addSubItemText.isNotEmpty())
+    {
+        menu.addItem(2, addSubItemText);
+        launchPopupMenu(menu);
+    }
+}
+
+void ConfigurationTreeItem::addNewSubItem()
+{
+    if (tree.hasType(Ids::hostParameters))
+    {
+        storeSelectionMove(1);
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::host, &undoManager);
+    }
+    else if (tree.hasType(Ids::scopeParameters))
+    {
+        storeSelectionMove(1);
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::scopeLocal, &undoManager);
+    }
+    else if (tree.hasType(Ids::sliders))
+    {
+        storeSelectionMove(1);
+        ValueTree newMapping(Ids::slider);
+        tree.addChild(newMapping, 0, &undoManager);
+    }
+    else if (tree.hasType(Ids::textButtons))
+    {
+        storeSelectionMove(1);
+        ValueTree newMapping(Ids::textButton);
+        tree.addChild(newMapping, 0, &undoManager);
+    }
+    else if (tree.hasType(Ids::labels))
+    {
+        storeSelectionMove(1);
+        ValueTree newMapping(Ids::label);
+        tree.addChild(newMapping, 0, &undoManager);
+    }
+    else if (tree.hasType(Ids::tabbedComponents))
+    {
+        storeSelectionMove(1);
+        ValueTree newMapping(Ids::tabbedComponent);
+        tree.addChild(newMapping, 0, &undoManager);
+    }
+    else if (tree.hasType(Ids::comboBoxes))
+    {
+        storeSelectionMove(1);
+        ValueTree newMapping(Ids::comboBox);
+        tree.addChild(newMapping, 0, &undoManager);
+    }
+}
+
+void ConfigurationTreeItem::deleteAllSelectedItems()
+{
+    TreeView* treeView = getOwnerView();
+    StringArray identifiers;
+
+    for (int i = 0; i < treeView->getNumSelectedItems(); i++)
+    {
+        identifiers.add(treeView->getSelectedItem(i)->getItemIdentifierString());
+        DBG("ConfigurationTreeItem::deleteAllSelectedItems - added item to delete: " + identifiers[i]);
+    }
+
+    for (int i = 0; i < identifiers.size(); i++)
+    {
+        dynamic_cast<ConfigurationTreeItem*>(treeView->findItemFromIdentifierString(identifiers[i]))->deleteItem();
+    }
+}
+
+void ConfigurationTreeItem::treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item)
+{
+    switch (resultCode)
+    {
+        case 1:     item->deleteAllSelectedItems(); break;
+        default:    break;
+    }
 }
 
 class ConfigurationTreeItem::ItemSelectionTimer : public Timer
@@ -331,39 +441,6 @@ void ConfigurationTreeItem::itemDoubleClicked(const MouseEvent&)
     invokeChangePanel();
 }
 
-
-void ConfigurationTreeItem::deleteAllSelectedItems()
-{
-    TreeView* treeView = getOwnerView();
-    StringArray identifiers;
-
-    for (int i = 0; i < treeView->getNumSelectedItems(); i++)
-    {
-        identifiers.add(treeView->getSelectedItem(i)->getItemIdentifierString());
-        DBG("ConfigurationTreeItem::deleteAllSelectedItems - added item to delete: " + identifiers[i]);
-    }
-
-    for (int i = 0; i < identifiers.size(); i++)
-    {
-        dynamic_cast<ConfigurationTreeItem*>(treeView->findItemFromIdentifierString(identifiers[i]))->deleteItem();
-    }
-}
-
-void ConfigurationTreeItem::treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item)
-{
-    switch (resultCode)
-    {
-        case 1:     item->deleteAllSelectedItems(); break;
-        default:    break;
-    }
-}
-
-void ConfigurationTreeItem::launchPopupMenu(PopupMenu& m)
-{
-    m.showMenuAsync (PopupMenu::Options(),
-                     ModalCallbackFunction::create(treeViewMenuItemChosen, WeakReference<ConfigurationTreeItem>(this)));
-}
-
 void ConfigurationTreeItem::cancelDelayedSelectionTimer()
 {
     delayedSelectionTimer = nullptr;
@@ -375,6 +452,33 @@ void ConfigurationTreeItem::changePanel()
         configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain));
     else
         configurationManagerMain.changePanel(nullptr);
+}
+
+void ConfigurationTreeItem::storeSelectionMove(int delta)
+{
+    String lastSelectedItem = getItemIdentifierString();
+       
+    ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
+
+    configTree->storeSelectedItemMove(lastSelectedItem, delta);
+}
+
+void ConfigurationTreeItem::storeSelectionMove()
+{
+    TreeViewItem* nearbyItem = getParentItem()->getSubItem(getIndexInParent() + 1);
+
+    if (nearbyItem == nullptr)
+    {
+        nearbyItem = getParentItem()->getSubItem(getIndexInParent() - 1);
+    }
+
+    if (nearbyItem != nullptr)
+    {
+        String lastSelectedItem = nearbyItem->getItemIdentifierString();
+        ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
+
+        configTree->storeSelectedItemMove(lastSelectedItem, 0);
+    }
 }
 
 /* =========================================================================
@@ -403,25 +507,55 @@ String ParameterTreeItem::getDisplayName() const
 void ParameterTreeItem::showMultiSelectionPopupMenu()
 {
     PopupMenu m;
-    m.addItem (1, "Delete");
-
+    m.addItem(1, "Delete");
+    
     m.showMenuAsync (PopupMenu::Options(),
                      ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
 }
 
 void ParameterTreeItem::showPopupMenu()
 {
-    PopupMenu menu;
-    menu.addItem (1, "Remove this parameter");
-    launchPopupMenu(menu);
+    PopupMenu m;
+    m.addItem(3, "Insert new parameter before");
+    m.addItem(4, "Insert new parameter after");
+    m.addSeparator();
+    m.addItem(1, "Remove this parameter");
+    
+    launchPopupMenu(m);
 }
-
 
 void ParameterTreeItem::refreshSubItems() {}
 
 void ParameterTreeItem::deleteItem()
 {
+    storeSelectionMove();
     tree.getParent().removeChild(tree, &undoManager);
+}
+
+void ParameterTreeItem::insertItemBefore()
+{
+    storeSelectionMove(-1);
+    insertParameterAt(tree.getParent().indexOf(tree));
+}
+
+void ParameterTreeItem::insertItemAfter()
+{
+    storeSelectionMove(1);
+    insertParameterAt(tree.getParent().indexOf(tree) + 1);
+}
+
+void ParameterTreeItem::insertParameterAt(int index)
+{
+    if (tree.getParent().hasType(Ids::hostParameters))
+    {
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, index, Configuration::host, &undoManager);
+    }
+    else if (tree.getParent().hasType(Ids::scopeParameters))
+    {
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, index, Configuration::scopeLocal, &undoManager);
+    }        
 }
 
 /* =========================================================================
@@ -500,24 +634,41 @@ String MappingTreeItem::getDisplayName() const
 void MappingTreeItem::showMultiSelectionPopupMenu()
 {
     PopupMenu m;
-    m.addItem (1, "Delete");
-
+    m.addItem(1, "Delete");
     m.showMenuAsync (PopupMenu::Options(),
                      ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
 }
 
 void MappingTreeItem::showPopupMenu()
 {
-    PopupMenu menu;
-    menu.addItem (1, "Remove this mapping");
-    launchPopupMenu(menu);
+    PopupMenu m;
+    m.addItem(3, "Insert new mapping before");
+    m.addItem(4, "Insert new mapping after");
+    m.addSeparator();
+    m.addItem (1, "Remove this mapping");
+    launchPopupMenu(m);
 }
 
 void MappingTreeItem::refreshSubItems() {}
 
 void MappingTreeItem::deleteItem()
 {
+    storeSelectionMove();
     tree.getParent().removeChild(tree, &undoManager);
+}
+
+void MappingTreeItem::insertItemBefore()
+{
+    storeSelectionMove(-1);
+    ValueTree newMapping(tree.getType());
+    tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree), &undoManager);
+}
+
+void MappingTreeItem::insertItemAfter()
+{
+    storeSelectionMove(1);
+    ValueTree newMapping(tree.getType());
+    tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 /* =========================================================================

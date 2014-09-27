@@ -201,6 +201,86 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     return true;
 }
 
+void Configuration::addNewParameter(ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
+{
+    ValueTree newParameter;
+
+    if (paramValues.isValid())
+        newParameter = paramValues.createCopy();
+    else
+        newParameter = getDefaultParameter().createCopy();
+
+    String parameterNameBase = newParameter.getProperty(Ids::name);
+    String newParameterName;
+    int settingNum = 1;
+    
+    for (;;)
+    {
+        newParameterName = parameterNameBase + String(settingNum);
+        
+        if (parameterNameExists(newParameterName))
+        {
+            settingNum++;
+            continue;
+        }
+        else
+        {
+            String newShortDescription = newParameter.getProperty(Ids::shortDescription).toString() + " " + String(settingNum);
+            String newFullDescription  = newParameter.getProperty(Ids::fullDescription).toString()  + " " + String(settingNum);
+            
+            newParameter.setProperty(Ids::name,             newParameterName, um);
+            newParameter.setProperty(Ids::shortDescription, newShortDescription, um);
+            newParameter.setProperty(Ids::fullDescription,  newShortDescription, um);
+            break;
+        }
+    }
+
+    if (parameterTarget == host)
+    {
+        getHostParameters().addChild(newParameter, targetIndex, um);
+    }
+    else
+    {
+        getScopeParameters().addChild(newParameter, targetIndex, um);
+    }
+}
+
+ValueTree Configuration::getDefaultParameter()
+{
+    ValueTree defaultParameter(Ids::parameter);
+    defaultParameter.setProperty(Ids::name,             "PARAM",       nullptr);
+    defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
+    defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
+    defaultParameter.setProperty(Ids::scopeSync,        -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeLocal,       -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMin,    0,             nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMinFlt, 0,             nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMaxFlt, 1,             nullptr);
+    defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
+    defaultParameter.setProperty(Ids::valueType,        0,             nullptr);
+    defaultParameter.setProperty(Ids::uiResetValue,     0,             nullptr);
+    defaultParameter.setProperty(Ids::uiSkewFactor,     1,             nullptr);
+    defaultParameter.setProperty(Ids::skewUIOnly,       false,         nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMin,       0,             nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMax,       100,           nullptr);
+    defaultParameter.setProperty(Ids::uiRangeInterval,  0.0001,        nullptr);
+    defaultParameter.setProperty(Ids::uiSuffix,         String::empty, nullptr);
+    
+    return defaultParameter;
+}
+
+bool Configuration::parameterNameExists(const String& parameterName)
+{
+    if (getHostParameters().getChildWithProperty(Ids::name, parameterName).isValid())
+        return true;
+
+    if (getScopeParameters().getChildWithProperty(Ids::name, parameterName).isValid())
+        return true;
+
+    return false;
+}
+
 Result Configuration::saveDocument (const File& /* file */)
 {
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
@@ -295,18 +375,12 @@ void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChang
 
 ValueTree Configuration::getHostParameters()
 {
-    if (configurationRoot.getChildWithName(Ids::hostParameters).isValid())
-        return configurationRoot.getChildWithName(Ids::hostParameters);
-    else
-        return loaderConfigurationRoot.getChildWithName(Ids::hostParameters);
+    return configurationRoot.getChildWithName(Ids::hostParameters);
 }
 
 ValueTree Configuration::getScopeParameters()
 {
-    if (configurationRoot.getChildWithName(Ids::scopeParameters).isValid())
-        return configurationRoot.getChildWithName(Ids::scopeParameters);
-    else
-        return loaderConfigurationRoot.getChildWithName(Ids::scopeParameters);
+    return configurationRoot.getChildWithName(Ids::scopeParameters);
 }
 
 ValueTree Configuration::getMapping()
