@@ -103,6 +103,8 @@ namespace CommandIDs
         discardConfigChanges     = 0x200330,
         closeConfig              = 0x200340,
         focusOnPanel             = 0x200350,
+        copyParameter            = 0x200360,
+        pasteParameter           = 0x200365,
 
         addSettings              = 0x200400,
         removeSettings           = 0x200410,

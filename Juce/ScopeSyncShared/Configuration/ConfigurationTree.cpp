@@ -85,6 +85,40 @@ void ConfigurationTree::deleteSelectedItems()
     }
 }
 
+void ConfigurationTree::copyParameter()
+{
+    if (tree.getNumSelectedItems() == 1)
+    {
+        ParameterTreeItem* parameterItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(0));
+        if (parameterItem != nullptr)
+        {
+            parameterItem->copyParameter();
+        }
+    }
+}
+
+void ConfigurationTree::pasteParameter()
+{
+    if (tree.getNumSelectedItems() == 1)
+    {
+        ParameterTreeItem* parameterItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(0));
+        if (parameterItem != nullptr)
+        {
+            parameterItem->pasteParameter();
+        }
+    }
+}
+
+void ConfigurationTree::changePanel()
+{
+    ConfigurationTreeItem* treeItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(tree.getNumSelectedItems() - 1));
+    if (treeItem != nullptr)
+    {
+        treeItem->changePanel();
+    }
+
+}
+
 void ConfigurationTree::saveTreeViewState()
 {
     const ScopedPointer<XmlElement> opennessState(tree.getOpennessState(true));

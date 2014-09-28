@@ -513,11 +513,30 @@ void ParameterTreeItem::showMultiSelectionPopupMenu()
                      ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
 }
 
+void ParameterTreeItem::handlePopupMenuResult (int resultCode)
+{
+    if (resultCode == 1)
+        deleteItem();
+    else if (resultCode == 2)
+        addNewSubItem();
+    else if (resultCode == 3)
+        insertItemBefore();
+    else if (resultCode == 4)
+        insertItemAfter();
+    else if (resultCode == 5)
+        copyParameter();
+    else if (resultCode == 6)
+        pasteParameter();
+}
+
 void ParameterTreeItem::showPopupMenu()
 {
     PopupMenu m;
     m.addItem(3, "Insert new parameter before");
     m.addItem(4, "Insert new parameter after");
+    m.addSeparator();
+    m.addItem(5, "Copy parameter definition");
+    m.addItem(6, "Paste parameter definition");
     m.addSeparator();
     m.addItem(1, "Remove this parameter");
     
@@ -556,6 +575,17 @@ void ParameterTreeItem::insertParameterAt(int index)
         ValueTree tmp;
         configurationManagerMain.getConfiguration().addNewParameter(tmp, index, Configuration::scopeLocal, &undoManager);
     }        
+}
+
+void ParameterTreeItem::copyParameter()
+{
+    Configuration::copyParameterDefinition(tree);
+}
+
+void ParameterTreeItem::pasteParameter()
+{
+    Configuration::pasteParameterDefinition(tree, &undoManager);
+    changePanel();
 }
 
 /* =========================================================================

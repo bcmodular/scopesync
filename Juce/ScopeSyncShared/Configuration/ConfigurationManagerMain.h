@@ -85,6 +85,10 @@ private:
     void timerCallback() override;
     void deleteSelectedTreeItems();
     void switchFocusToPanel();
+    void copyParameter();
+    void pasteParameter();
+    void undo();
+    void redo();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };

@@ -73,7 +73,7 @@ public:
 
     virtual int  getMillisecsAllowedForDragGesture() { return 120; };
     void         cancelDelayedSelectionTimer();
-
+    
     virtual String getDisplayName() const;
 
     static void moveItems (TreeView& treeView, const Array<ValueTree>& items,
@@ -107,7 +107,9 @@ protected:
 
     static void treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item);
     static void treeViewMenuItemChosen(int resultCode, WeakReference<ConfigurationTreeItem> item);
-
+    
+    void        addNewSubItem();
+    
 private:
     class        ItemSelectionTimer;
     friend class ItemSelectionTimer;
@@ -128,7 +130,6 @@ private:
     void invokeChangePanel();
 
     void deleteAllSelectedItems();
-    void addNewSubItem();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConfigurationTreeItem)
 };
@@ -152,6 +153,11 @@ public:
     void insertItemBefore() override;
     void insertItemAfter() override;
     void insertParameterAt(int index);
+
+    void copyParameter();
+    void pasteParameter();
+
+    void handlePopupMenuResult(int i) override;
 
 private:
     void refreshSubItems() override;

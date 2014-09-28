@@ -44,6 +44,9 @@ public:
     void saveTreeViewState();
 
     void deleteSelectedItems();
+    void copyParameter();
+    void pasteParameter();
+    void changePanel();
 
     void storeSelectedItemMove(String itemId, int delta);
     void moveToSelectedItemDelta();
