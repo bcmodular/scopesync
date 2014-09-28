@@ -80,6 +80,11 @@ void ImageLoader::loadImageResources()
     addImageResource("snapshotOn",   ImageResources::snapshot_button_on_png,   ImageResources::snapshot_button_on_pngSize);
     addImageResource("snapshotOver", ImageResources::snapshot_button_over_png, ImageResources::snapshot_button_over_pngSize);
 
+	// Show Config Manager buttons
+    addImageResource("showconfigurationmanagerOff",  ImageResources::config_manager_button_off_png,  ImageResources::config_manager_button_off_pngSize);
+    addImageResource("showconfigurationmanagerOn",   ImageResources::config_manager_button_on_png,   ImageResources::config_manager_button_on_pngSize);
+    addImageResource("showconfigurationmanagerOver", ImageResources::config_manager_button_over_png, ImageResources::config_manager_button_over_pngSize);
+
     // Save buttons
     addImageResource("saveOff",  ImageResources::save_button_off_png,  ImageResources::save_button_off_pngSize);
     addImageResource("saveOn",   ImageResources::save_button_on_png,   ImageResources::save_button_on_pngSize);
@@ -95,10 +100,38 @@ void ImageLoader::loadImageResources()
     addImageResource("closeOn",   ImageResources::close_button_on_png,   ImageResources::close_button_on_pngSize);
     addImageResource("closeOver", ImageResources::close_button_over_png, ImageResources::close_button_over_pngSize);
 	
-	// Config Manager buttons
-    addImageResource("showconfigurationmanagerOff",  ImageResources::config_manager_button_off_png,  ImageResources::config_manager_button_off_pngSize);
-    addImageResource("showconfigurationmanagerOn",   ImageResources::config_manager_button_on_png,   ImageResources::config_manager_button_on_pngSize);
-    addImageResource("showconfigurationmanagerOver", ImageResources::config_manager_button_over_png, ImageResources::config_manager_button_over_pngSize);
+    // Confirm buttons
+    addImageResource("confirmOff",  ImageResources::confirm_button_off_png,  ImageResources::confirm_button_off_pngSize);
+    addImageResource("confirmOn",   ImageResources::confirm_button_on_png,   ImageResources::confirm_button_on_pngSize);
+    addImageResource("confirmOver", ImageResources::confirm_button_over_png, ImageResources::confirm_button_over_pngSize);
+	
+    // Copy buttons
+    addImageResource("copyOff",  ImageResources::copy_button_off_png,  ImageResources::copy_button_off_pngSize);
+    addImageResource("copyOn",   ImageResources::copy_button_on_png,   ImageResources::copy_button_on_pngSize);
+    addImageResource("copyOver", ImageResources::copy_button_over_png, ImageResources::copy_button_over_pngSize);
+	
+    // Divider
+    addImageResource("divider",  ImageResources::divider_png,  ImageResources::divider_pngSize);
+    
+    // New configuration buttons
+    addImageResource("newConfigOff",  ImageResources::newconfig_button_off_png,  ImageResources::newconfig_button_off_pngSize);
+    addImageResource("newConfigOn",   ImageResources::newconfig_button_on_png,   ImageResources::newconfig_button_on_pngSize);
+    addImageResource("newConfigOver", ImageResources::newconfig_button_over_png, ImageResources::newconfig_button_over_pngSize);
+	
+    // Paste buttons
+    addImageResource("pasteOff",  ImageResources::paste_button_off_png,  ImageResources::paste_button_off_pngSize);
+    addImageResource("pasteOn",   ImageResources::paste_button_on_png,   ImageResources::paste_button_on_pngSize);
+    addImageResource("pasteOver", ImageResources::paste_button_over_png, ImageResources::paste_button_over_pngSize);
+	
+    // Redo buttons
+    addImageResource("redoOff",  ImageResources::redo_button_off_png,  ImageResources::redo_button_off_pngSize);
+    addImageResource("redoOn",   ImageResources::redo_button_on_png,   ImageResources::redo_button_on_pngSize);
+    addImageResource("redoOver", ImageResources::redo_button_over_png, ImageResources::redo_button_over_pngSize);
+	
+    // Undo buttons
+    addImageResource("undoOff",  ImageResources::undo_button_off_png,  ImageResources::undo_button_off_pngSize);
+    addImageResource("undoOn",   ImageResources::undo_button_on_png,   ImageResources::undo_button_on_pngSize);
+    addImageResource("undoOver", ImageResources::undo_button_over_png, ImageResources::undo_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)

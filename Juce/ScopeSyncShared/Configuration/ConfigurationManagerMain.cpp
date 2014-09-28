@@ -39,7 +39,10 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                                     scopeSync(ss),
                                                                     saveButton("Save"),
                                                                     saveAsButton("Save As..."),
+                                                                    applyChangesButton("Apply Changes"),
                                                                     discardChangesButton("Discard All Unsaved Changes"),
+                                                                    undoButton("Undo"),
+                                                                    redoButton("Redo"),
                                                                     commandManager(scopeSync.getCommandManager())
 {
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
@@ -64,9 +67,21 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
     addAndMakeVisible(saveAsButton);
 
+    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
+    applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyConfigChanges, true);
+    addAndMakeVisible(applyChangesButton);
+
     setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
     discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
     addAndMakeVisible(discardChangesButton);
+
+    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+    undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
+    addAndMakeVisible(undoButton);
+
+    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+    redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
+    addAndMakeVisible(redoButton);
 
     treeSizeConstrainer.setMinimumWidth (200);
     treeSizeConstrainer.setMaximumWidth (700);
@@ -123,11 +138,13 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
 {
     const CommandID ids[] = { CommandIDs::saveConfig,
                               CommandIDs::saveConfigAs,
+                              CommandIDs::applyConfigChanges,
                               CommandIDs::discardConfigChanges,
                               CommandIDs::closeConfig,
                               CommandIDs::undo,
                               CommandIDs::redo,
-                              CommandIDs::deleteSelectedItems
+                              CommandIDs::deleteSelectedItems,
+                              CommandIDs::focusOnPanel
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -158,6 +175,10 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.setInfo ("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
+    case CommandIDs::applyConfigChanges:
+        result.setInfo ("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
+        break;
     case CommandIDs::discardConfigChanges:
         result.setInfo ("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
@@ -165,6 +186,10 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
     case CommandIDs::closeConfig:
         result.setInfo ("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::focusOnPanel:
+        result.setInfo ("Focus on panel", "Switches keyboard focus to edit panel", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::F2Key, ModifierKeys::noModifiers, 0));
         break;
     }
 }
@@ -178,8 +203,10 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
         case CommandIDs::deleteSelectedItems:  deleteSelectedTreeItems(); break;
         case CommandIDs::saveConfig:           configurationManager.save(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
+        case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
         case CommandIDs::discardConfigChanges: configurationManager.discardChanges(); break;
         case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
+        case CommandIDs::focusOnPanel:         switchFocusToPanel(); break;
         default:                               return false;
     }
 
@@ -210,8 +237,12 @@ void ConfigurationManagerMain::resized()
     
     saveButton.setBounds(toolbar.removeFromLeft(40));
     saveAsButton.setBounds(toolbar.removeFromLeft(40));
-    toolbar.removeFromLeft(4);
+    toolbar.removeFromLeft(16);
+    applyChangesButton.setBounds(toolbar.removeFromLeft(40));
     discardChangesButton.setBounds(toolbar.removeFromLeft(40));
+    toolbar.removeFromLeft(16);
+    undoButton.setBounds(toolbar.removeFromLeft(40));
+    redoButton.setBounds(toolbar.removeFromLeft(40));
     
     fileNameLabel.setBounds(localBounds.removeFromBottom(40).reduced(8, 8));
     
@@ -229,6 +260,9 @@ void ConfigurationManagerMain::paint(Graphics& g)
     g.setColour(Colours::darkgrey);
     g.fillRect(0, 0, getWidth(), 40);
     g.fillRect(0, 0, getWidth(), getHeight() - 40);
+
+    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 94, 8);
+    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 188, 8);
 }
 
 void ConfigurationManagerMain::paintOverChildren(Graphics& g)
@@ -254,4 +288,9 @@ void ConfigurationManagerMain::timerCallback()
 void ConfigurationManagerMain::deleteSelectedTreeItems()
 {
     treeView->deleteSelectedItems();
+}
+
+void ConfigurationManagerMain::switchFocusToPanel()
+{
+    panel->grabKeyboardFocus();
 }

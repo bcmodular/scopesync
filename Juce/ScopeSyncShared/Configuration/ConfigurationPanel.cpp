@@ -58,7 +58,8 @@ BasePanel::BasePanel(ValueTree& parameter, UndoManager& um, ConfigurationManager
     : valueTree(parameter), undoManager(um), configurationManagerMain(cmm)
 {
     addAndMakeVisible(propertyPanel);
-    propertyPanel.grabKeyboardFocus();
+    setWantsKeyboardFocus(true);
+    propertyPanel.setWantsKeyboardFocus(true);
     setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
 
@@ -87,6 +88,11 @@ void BasePanel::paint(Graphics& g)
     localBounds.removeFromRight(8);
     localBounds.removeFromTop(8);
     g.fillRect(localBounds);
+}
+
+void BasePanel::focusGained(FocusChangeType /* cause */)
+{
+    propertyPanel.grabKeyboardFocus();
 }
 
 /* =========================================================================

@@ -99,8 +99,10 @@ namespace CommandIDs
         
         saveConfig               = 0x200300,
         saveConfigAs             = 0x200320,
+        applyConfigChanges       = 0x200325,
         discardConfigChanges     = 0x200330,
         closeConfig              = 0x200340,
+        focusOnPanel             = 0x200350,
 
         addSettings              = 0x200400,
         removeSettings           = 0x200410,

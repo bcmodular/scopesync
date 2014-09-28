@@ -72,6 +72,8 @@ private:
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
 
+    void focusGained(FocusChangeType cause) override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasePanel)
 };
 

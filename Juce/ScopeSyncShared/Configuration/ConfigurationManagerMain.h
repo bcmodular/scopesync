@@ -60,7 +60,10 @@ private:
     Label                      fileNameLabel;
     ImageButton                saveButton;
     ImageButton                saveAsButton;
+    ImageButton                applyChangesButton;
     ImageButton                discardChangesButton;
+    ImageButton                undoButton;
+    ImageButton                redoButton;
     ScopedPointer<ConfigurationTree> treeView;
     ScopedPointer<Component>   panel;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
@@ -81,6 +84,7 @@ private:
 
     void timerCallback() override;
     void deleteSelectedTreeItems();
+    void switchFocusToPanel();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };

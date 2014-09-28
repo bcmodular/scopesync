@@ -103,6 +103,8 @@ void ConfigurationManager::createFileMenu(PopupMenu& menu)
 {
     menu.addCommandItem(commandManager, CommandIDs::saveConfig);
     menu.addCommandItem(commandManager, CommandIDs::saveConfigAs);
+    menu.addSeparator();
+    menu.addCommandItem(commandManager, CommandIDs::applyConfigChanges);   
     menu.addCommandItem(commandManager, CommandIDs::discardConfigChanges);   
     menu.addSeparator();
     menu.addCommandItem(commandManager, CommandIDs::closeConfig);   
