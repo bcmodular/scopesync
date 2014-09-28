@@ -32,6 +32,7 @@
 #include "../Utils/BCMMisc.h"
 #include "../Core/ScopeSync.h"
 #include "ConfigurationTree.h"
+#include "../Resources/ImageLoader.h"
 
 ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
                                                    ScopeSync& ss) : configurationManager(owner),
@@ -55,12 +56,15 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
 
+    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
     saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
     addAndMakeVisible(saveButton);
 
+    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
     saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
     addAndMakeVisible(saveAsButton);
 
+    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
     discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
     addAndMakeVisible(discardChangesButton);
 
@@ -81,6 +85,14 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
     setSize(lastConfigMgrWidth, lastConfigMgrHeight);
     
     startTimer(500);
+}
+
+void ConfigurationManagerMain::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+{
+    button.setImages(true, true, true,
+                     ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
+                     ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
+                     ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
 }
 
 ConfigurationManagerMain::~ConfigurationManagerMain() {}
@@ -193,13 +205,15 @@ void ConfigurationManagerMain::saveTreeViewState()
 void ConfigurationManagerMain::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
-    Rectangle<int> toolbar(localBounds.removeFromTop(30).reduced(1, 1));
     
-    saveButton.setBounds(toolbar.removeFromLeft(100).reduced(1, 1));
-    saveAsButton.setBounds(toolbar.removeFromLeft(100).reduced(1, 1));
-    discardChangesButton.setBounds(toolbar.removeFromLeft(100).reduced(1, 1));
+    Rectangle<int> toolbar(localBounds.removeFromTop(40).reduced(8, 8));
     
-    fileNameLabel.setBounds(localBounds.removeFromTop(30).reduced(4, 2));
+    saveButton.setBounds(toolbar.removeFromLeft(40));
+    saveAsButton.setBounds(toolbar.removeFromLeft(40));
+    toolbar.removeFromLeft(4);
+    discardChangesButton.setBounds(toolbar.removeFromLeft(40));
+    
+    fileNameLabel.setBounds(localBounds.removeFromBottom(40).reduced(8, 8));
     
     treeView->setBounds(localBounds.removeFromLeft(treeView->getWidth()));
     resizerBar->setBounds(localBounds.withWidth(4));
@@ -211,20 +225,25 @@ void ConfigurationManagerMain::resized()
 void ConfigurationManagerMain::paint(Graphics& g)
 {
     g.fillAll (Colour (0xff434343));
+
+    g.setColour(Colours::darkgrey);
+    g.fillRect(0, 0, getWidth(), 40);
+    g.fillRect(0, 0, getWidth(), getHeight() - 40);
 }
 
 void ConfigurationManagerMain::paintOverChildren(Graphics& g)
 {
     const int shadowSize = 15;
-    const int x = resizerBar->getX();
+    
+    const int resizerX = resizerBar->getX();
 
-    ColourGradient cg (Colours::black.withAlpha (0.25f), (float) x, 0,
-                        Colours::transparentBlack,        (float) (x - shadowSize), 0, false);
-    cg.addColour (0.4, Colours::black.withAlpha (0.07f));
-    cg.addColour (0.6, Colours::black.withAlpha (0.02f));
+    ColourGradient resizerCG (Colours::black.withAlpha (0.25f), (float) resizerX, 0,
+                              Colours::transparentBlack,        (float) (resizerX - shadowSize), 0, false);
+    resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
+    resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
-    g.setGradientFill (cg);
-    g.fillRect (x - shadowSize, resizerBar->getY(), shadowSize, resizerBar->getHeight());
+    g.setGradientFill(resizerCG);
+    g.fillRect (resizerX - shadowSize, resizerBar->getY(), shadowSize, resizerBar->getHeight());
 }
 
 void ConfigurationManagerMain::timerCallback()

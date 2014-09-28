@@ -58,7 +58,7 @@ BasePanel::BasePanel(ValueTree& parameter, UndoManager& um, ConfigurationManager
     : valueTree(parameter), undoManager(um), configurationManagerMain(cmm)
 {
     addAndMakeVisible(propertyPanel);
-   
+    propertyPanel.grabKeyboardFocus();
     setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
 
@@ -68,13 +68,37 @@ void BasePanel::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     
-    propertyPanel.setBounds(localBounds.reduced(4, 2));
+    localBounds.removeFromLeft(4);
+    localBounds.removeFromRight(8);
+    localBounds.removeFromTop(8);
+
+    propertyPanel.setBounds(localBounds);
 }
 
 void BasePanel::paint(Graphics& g)
 {
-    g.fillAll (Colours::lightgrey);
+    g.fillAll (Colour(0xff434343));
+
+    g.setColour(Colours::lightgrey);
+
+    Rectangle<int> localBounds(getLocalBounds());
+    
+    localBounds.removeFromLeft(4);
+    localBounds.removeFromRight(8);
+    localBounds.removeFromTop(8);
+    g.fillRect(localBounds);
 }
+
+/* =========================================================================
+ * EmptyPanel
+ */
+EmptyPanel::EmptyPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
+    : BasePanel(parameter, um, cmm)
+{
+    propertyPanel.setVisible(false);
+}
+
+EmptyPanel::~EmptyPanel() {}
 
 /* =========================================================================
  * ConfigurationPanel
@@ -112,8 +136,7 @@ ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um,
 
     if (int(valueType.getValue()) == 1)
     {
-        ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
-        addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
+        createSettingsTable();
     }
 }
 
@@ -185,14 +208,46 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props)
     props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String::empty), "Use a set of discrete parameter values relating to specific control settings");
 }
 
+void ParameterPanel::childBoundsChanged(Component* child)
+{
+    if (child == settingsTable)
+        resized();
+}
+
+void ParameterPanel::paintOverChildren(Graphics& g)
+{
+    if (settingsTable != nullptr)
+    {
+        const int shadowSize = 15;
+    
+        const int resizerY = resizerBar->getY();
+
+        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), 0, (float) resizerY, 
+                                  Colours::transparentBlack,        0, (float) (resizerY + shadowSize), false);
+        resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
+        resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
+
+        g.setGradientFill(resizerCG);
+        g.fillRect(resizerBar->getX(), resizerY, resizerBar->getWidth(), shadowSize);
+    }
+}
+
+
 void ParameterPanel::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     
-    if (settingsTable != nullptr)
-        settingsTable->setBounds(localBounds.removeFromBottom(localBounds.getHeight() / 3).reduced(4, 2));
+    localBounds.removeFromLeft(4);
+    localBounds.removeFromRight(8);
+    localBounds.removeFromTop(8);
 
-    propertyPanel.setBounds(localBounds.reduced(4, 2));
+    if (settingsTable != nullptr)
+    {
+        settingsTable->setBounds(localBounds.removeFromBottom(settingsTable->getHeight()));
+        resizerBar->setBounds(localBounds.removeFromBottom(4));
+    }
+
+    propertyPanel.setBounds(localBounds);
 }
 
 void ParameterPanel::valueChanged(Value& valueThatChanged)
@@ -200,13 +255,30 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     if (int(valueThatChanged.getValue()) == 0)
     {
         settingsTable = nullptr;
+        resized();
     }
     else
     {
-        ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
-        addAndMakeVisible(settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree));
+        createSettingsTable();
         resized();
     }
+}
+
+void ParameterPanel::createSettingsTable()
+{
+    settingsTableConstrainer.setMinimumHeight(200);
+    settingsTableConstrainer.setMaximumHeight(700);
+
+    ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
+    settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree);
+
+    int lastSettingsTableHeight = configurationManagerMain.getConfiguration().getConfigurationProperties().getIntValue("lastSettingsTableHeight", 250);
+    settingsTable->setBounds(0, 0, getWidth(), lastSettingsTableHeight);
+    addAndMakeVisible(settingsTable);
+
+    addAndMakeVisible(resizerBar = new ResizableEdgeComponent(settingsTable, &settingsTableConstrainer,
+                                                                ResizableEdgeComponent::topEdge));
+    resizerBar->setAlwaysOnTop (true);
 }
 
 /* =========================================================================

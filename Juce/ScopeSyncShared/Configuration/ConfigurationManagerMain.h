@@ -58,9 +58,9 @@ public:
 private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
-    TextButton                 saveButton;
-    TextButton                 saveAsButton;
-    TextButton                 discardChangesButton;
+    ImageButton                saveButton;
+    ImageButton                saveAsButton;
+    ImageButton                discardChangesButton;
     ScopedPointer<ConfigurationTree> treeView;
     ScopedPointer<Component>   panel;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
@@ -76,6 +76,8 @@ private:
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
+
+    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
     void deleteSelectedTreeItems();

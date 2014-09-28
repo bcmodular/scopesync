@@ -128,9 +128,13 @@ void ScopeSync::showConfigurationManager(int posX, int posY)
     if (configurationManager == nullptr)
     {
         configurationManager = new ConfigurationManager(*this, posX, posY);
-        configurationManager->setAlwaysOnTop(true);
+        
+        if (ScopeSyncApplication::inScopeFXContext())
+        {
+            configurationManager->setAlwaysOnTop(true);
+        }
     }
-    
+
     configurationManager->toFront(true);
 }
 

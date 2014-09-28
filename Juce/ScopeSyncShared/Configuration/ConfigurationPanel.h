@@ -65,7 +65,7 @@ protected:
     PropertyPanel propertyPanel;
     UndoManager&  undoManager;
     ConfigurationManagerMain& configurationManagerMain;
-    virtual void rebuildProperties() = 0;
+    virtual void rebuildProperties() {};
     
 private:
     
@@ -73,6 +73,20 @@ private:
     virtual void paint(Graphics& g) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasePanel)
+};
+
+/* =========================================================================
+ * EmptyPanel: Panel for situations where there's nothing to edit
+ */
+class EmptyPanel : public BasePanel
+{
+public:
+    EmptyPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    ~EmptyPanel();
+
+private:
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EmptyPanel)
 };
 
 /* =========================================================================
@@ -105,9 +119,15 @@ public:
                    ParameterType paramType, ConfigurationManagerMain& cmm);
     ~ParameterPanel();
 
+    void paintOverChildren(Graphics& g);
+    void childBoundsChanged(Component* child) override;
+
 private:
     ScopedPointer<SettingsTable> settingsTable;
     Value         valueType;
+
+    ScopedPointer<ResizableEdgeComponent> resizerBar;
+    ComponentBoundsConstrainer settingsTableConstrainer;
 
     ParameterType parameterType;
 
@@ -116,6 +136,8 @@ private:
     void createScopeProperties(PropertyListBuilder& propertyPanel);
     void createUIProperties(PropertyListBuilder& propertyPanel);
     
+    void createSettingsTable();
+
     void resized() override;
     
     void valueChanged(Value& valueThatChanged) override;

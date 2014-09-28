@@ -451,7 +451,7 @@ void ConfigurationTreeItem::changePanel()
     if (tree.hasType(Ids::configuration))
         configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain));
     else
-        configurationManagerMain.changePanel(nullptr);
+        configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configurationManagerMain));
 }
 
 void ConfigurationTreeItem::storeSelectionMove(int delta)

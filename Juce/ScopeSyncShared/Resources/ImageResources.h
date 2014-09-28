@@ -5,6 +5,15 @@
 
 namespace ImageResources
 {
+    extern const char*  close_button_off_png;
+    const int           close_button_off_pngSize = 780;
+
+    extern const char*  close_button_on_png;
+    const int           close_button_on_pngSize = 805;
+
+    extern const char*  close_button_over_png;
+    const int           close_button_over_pngSize = 781;
+
     extern const char*  load_config_button_off_png;
     const int           load_config_button_off_pngSize = 2966;
 
@@ -49,6 +58,24 @@ namespace ImageResources
 
     extern const char*  remove_button_over_png;
     const int           remove_button_over_pngSize = 3301;
+
+    extern const char*  saveas_button_off_png;
+    const int           saveas_button_off_pngSize = 542;
+
+    extern const char*  saveas_button_on_png;
+    const int           saveas_button_on_pngSize = 476;
+
+    extern const char*  saveas_button_over_png;
+    const int           saveas_button_over_pngSize = 551;
+
+    extern const char*  save_button_off_png;
+    const int           save_button_off_pngSize = 426;
+
+    extern const char*  save_button_on_png;
+    const int           save_button_on_pngSize = 365;
+
+    extern const char*  save_button_over_png;
+    const int           save_button_over_pngSize = 423;
 
     extern const char*  scopesync_logo_png;
     const int           scopesync_logo_pngSize = 4151;

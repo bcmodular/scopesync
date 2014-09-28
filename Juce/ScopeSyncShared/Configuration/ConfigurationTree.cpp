@@ -61,9 +61,11 @@ void ConfigurationTree::paint(Graphics& g)
 
 void ConfigurationTree::resized()
 {
-    Rectangle<int> r(getLocalBounds().reduced(8));
+    Rectangle<int> r(getLocalBounds());
 
-    r.removeFromBottom(4);
+    r.removeFromTop(8);
+    r.removeFromLeft(8);
+    r.removeFromRight(4);
     tree.setBounds(r);
 }
 

@@ -79,6 +79,21 @@ void ImageLoader::loadImageResources()
     addImageResource("snapshotOff",  ImageResources::snapshot_button_off_png,  ImageResources::snapshot_button_off_pngSize);
     addImageResource("snapshotOn",   ImageResources::snapshot_button_on_png,   ImageResources::snapshot_button_on_pngSize);
     addImageResource("snapshotOver", ImageResources::snapshot_button_over_png, ImageResources::snapshot_button_over_pngSize);
+
+    // Save buttons
+    addImageResource("saveOff",  ImageResources::save_button_off_png,  ImageResources::save_button_off_pngSize);
+    addImageResource("saveOn",   ImageResources::save_button_on_png,   ImageResources::save_button_on_pngSize);
+    addImageResource("saveOver", ImageResources::save_button_over_png, ImageResources::save_button_over_pngSize);
+
+    // SaveAs buttons
+    addImageResource("saveAsOff",  ImageResources::saveas_button_off_png,  ImageResources::saveas_button_off_pngSize);
+    addImageResource("saveAsOn",   ImageResources::saveas_button_on_png,   ImageResources::saveas_button_on_pngSize);
+    addImageResource("saveAsOver", ImageResources::saveas_button_over_png, ImageResources::saveas_button_over_pngSize);
+
+    // Close buttons
+    addImageResource("closeOff",  ImageResources::close_button_off_png,  ImageResources::close_button_off_pngSize);
+    addImageResource("closeOn",   ImageResources::close_button_on_png,   ImageResources::close_button_on_pngSize);
+    addImageResource("closeOver", ImageResources::close_button_over_png, ImageResources::close_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)
@@ -96,10 +111,7 @@ Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, co
     {
         if (imageResources[i]->imageName.equalsIgnoreCase(imageFileName))
         {
-            if (useImageCache)
-                return ImageCache::getFromMemory(imageResources[i]->image, imageResources[i]->imageSize);
-            else
-                return ImageFileFormat::loadFrom(imageResources[i]->image, imageResources[i]->imageSize);
+            return ImageCache::getFromMemory(imageResources[i]->image, imageResources[i]->imageSize);
         }
     }
 

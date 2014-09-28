@@ -36,21 +36,21 @@ public:
     ImageLoader();
     ~ImageLoader();
 
+    struct ImageResource {
+        String      imageName;
+        const char* image;
+        int         imageSize;
+    };
+    
     // Load image, either direct from file, via Image Cache, or from resources
-    Image loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath);
-
+    Image         loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath);
+    
     juce_DeclareSingleton(ImageLoader, false)
 
 private:
     // Initialise image resources
     void loadImageResources();
     void addImageResource(String imageName, const char* image, int imageSize);
-
-    struct ImageResource {
-        String      imageName;
-        const char* image;
-        int         imageSize;
-    };
 
     OwnedArray<ImageResource> imageResources;
 
