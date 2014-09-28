@@ -547,11 +547,11 @@ void ScopeSync::applyConfiguration()
     {
         hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i)));
         
-        int scopeCode = hostParameters[i]->getScopeCode();
-        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeCode: " + String(scopeCode));
+        int scopeSyncCode = hostParameters[i]->getScopeCode();
+        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
         
-        if (scopeCode > -1 && scopeCode < scopeSyncCodes.size())
-            paramIdxByScopeSyncId.set(hostParameters[i]->getScopeCode(), i);
+        if (scopeSyncCode > -1 && scopeSyncCode < scopeSyncCodes.size())
+            paramIdxByScopeSyncId.set(scopeSyncCode, i);
     }
     
     // Then do the same for each of the Scope Local Parameters
@@ -561,11 +561,11 @@ void ScopeSync::applyConfiguration()
     {
         scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i)));
         
-        int scopeCode = scopeLocalParameters[i]->getScopeCode();
-        DBG("ScopeSync::applyConfiguration - Added scope parameter: " + scopeLocalParameters[i]->getName() + ", ScopeCode: " + String(scopeCode));
+        int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
+        DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
         
-        if (scopeCode > -1 && scopeCode < scopeLocalCodes.size())
-            paramIdxByScopeLocalId.set(scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters, i);
+        if (scopeLocalCode > -1 && scopeLocalCode < scopeLocalCodes.size())
+            paramIdxByScopeLocalId.set(scopeLocalCode, i);
     }
 
 #ifndef __DLL_EFFECT__

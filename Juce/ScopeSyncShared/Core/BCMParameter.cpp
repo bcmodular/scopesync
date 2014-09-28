@@ -11,6 +11,7 @@
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "Global.h"
+#include "ScopeSyncApplication.h"
 
 BCMParameter::BCMParameter(int index, ValueTree parameterDefinition)
 {
@@ -104,7 +105,7 @@ int BCMParameter::getScopeCode()
         {
             // We found one, so shift the value by the number of
             // ScopeSyncIds to generate a valid ScopeCode
-            scopeCode += 128;
+            scopeCode += ScopeSyncApplication::numScopeSyncParameters;
         }
     }
     
