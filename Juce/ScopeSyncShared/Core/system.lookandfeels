@@ -45,6 +45,11 @@
       <textbutton upfilename="snapshotOff" downfilename="snapshotOn" mouseoverupfilename="snapshotOver" mouseoverdownfilename="snapshotOn"></textbutton>
     </images>
   </lookandfeel>
+  <lookandfeel id="system:showconfigurationmanager_button" parentid="system:default">
+    <images>
+      <textbutton upfilename="showconfigurationmanagerOff" downfilename="showconfigurationmanagerOn" mouseoverupfilename="showconfigurationmanagerOver" mouseoverdownfilename="showconfigurationmanagerOn"></textbutton>
+    </images>
+  </lookandfeel>
   <lookandfeel id="system:systemerror">
     <colours>
       <label textcolourid="ffa7aaae" outlinecolourid="00a7aaae"></label>
