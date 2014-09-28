@@ -14,50 +14,68 @@ namespace ImageResources
     extern const char*  close_button_over_png;
     const int           close_button_over_pngSize = 781;
 
+    extern const char*  config_manager_button_off_png;
+    const int           config_manager_button_off_pngSize = 907;
+
+    extern const char*  config_manager_button_on_png;
+    const int           config_manager_button_on_pngSize = 955;
+
+    extern const char*  config_manager_button_over_png;
+    const int           config_manager_button_over_pngSize = 927;
+
+    extern const char*  config_manager_off_png;
+    const int           config_manager_off_pngSize = 907;
+
+    extern const char*  config_manager_on_png;
+    const int           config_manager_on_pngSize = 955;
+
+    extern const char*  config_manager_over_png;
+    const int           config_manager_over_pngSize = 927;
+
     extern const char*  load_config_button_off_png;
-    const int           load_config_button_off_pngSize = 2966;
+    const int           load_config_button_off_pngSize = 661;
 
     extern const char*  load_config_button_on_png;
-    const int           load_config_button_on_pngSize = 2904;
+    const int           load_config_button_on_pngSize = 673;
 
     extern const char*  load_config_button_over_png;
-    const int           load_config_button_over_pngSize = 2901;
+    const int           load_config_button_over_pngSize = 672;
 
     extern const char*  patch_window_button_off_png;
-    const int           patch_window_button_off_pngSize = 2935;
+    const int           patch_window_button_off_pngSize = 374;
 
     extern const char*  patch_window_button_on_png;
-    const int           patch_window_button_on_pngSize = 2884;
+    const int           patch_window_button_on_pngSize = 328;
 
     extern const char*  patch_window_button_over_png;
-    const int           patch_window_button_over_pngSize = 2902;
+    const int           patch_window_button_over_pngSize = 353;
 
     extern const char*  presets_button_off_png;
-    const int           presets_button_off_pngSize = 2943;
+    const int           presets_button_off_pngSize = 469;
 
     extern const char*  presets_button_on_png;
-    const int           presets_button_on_pngSize = 2895;
+    const int           presets_button_on_pngSize = 390;
 
     extern const char*  presets_button_over_png;
-    const int           presets_button_over_pngSize = 2896;
+    const int           presets_button_over_pngSize = 456;
 
     extern const char*  reload_button_off_png;
-    const int           reload_button_off_pngSize = 3583;
+    const int           reload_button_off_pngSize = 875;
 
     extern const char*  reload_button_on_png;
-    const int           reload_button_on_pngSize = 3223;
+    const int           reload_button_on_pngSize = 883;
 
     extern const char*  reload_button_over_png;
-    const int           reload_button_over_pngSize = 3207;
+    const int           reload_button_over_pngSize = 873;
 
     extern const char*  remove_button_off_png;
-    const int           remove_button_off_pngSize = 3902;
+    const int           remove_button_off_pngSize = 780;
 
     extern const char*  remove_button_on_png;
-    const int           remove_button_on_pngSize = 3363;
+    const int           remove_button_on_pngSize = 805;
 
     extern const char*  remove_button_over_png;
-    const int           remove_button_over_pngSize = 3301;
+    const int           remove_button_over_pngSize = 781;
 
     extern const char*  saveas_button_off_png;
     const int           saveas_button_off_pngSize = 542;
@@ -81,22 +99,22 @@ namespace ImageResources
     const int           scopesync_logo_pngSize = 4151;
 
     extern const char*  settings_button_off_png;
-    const int           settings_button_off_pngSize = 3787;
+    const int           settings_button_off_pngSize = 1027;
 
     extern const char*  settings_button_on_png;
-    const int           settings_button_on_pngSize = 3304;
+    const int           settings_button_on_pngSize = 1068;
 
     extern const char*  settings_button_over_png;
-    const int           settings_button_over_pngSize = 3273;
+    const int           settings_button_over_pngSize = 1030;
 
     extern const char*  snapshot_button_off_png;
-    const int           snapshot_button_off_pngSize = 4044;
+    const int           snapshot_button_off_pngSize = 1190;
 
     extern const char*  snapshot_button_on_png;
-    const int           snapshot_button_on_pngSize = 788;
+    const int           snapshot_button_on_pngSize = 1237;
 
     extern const char*  snapshot_button_over_png;
-    const int           snapshot_button_over_pngSize = 770;
+    const int           snapshot_button_over_pngSize = 1202;
 
 }
 

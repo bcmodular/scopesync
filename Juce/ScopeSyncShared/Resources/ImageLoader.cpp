@@ -94,6 +94,11 @@ void ImageLoader::loadImageResources()
     addImageResource("closeOff",  ImageResources::close_button_off_png,  ImageResources::close_button_off_pngSize);
     addImageResource("closeOn",   ImageResources::close_button_on_png,   ImageResources::close_button_on_pngSize);
     addImageResource("closeOver", ImageResources::close_button_over_png, ImageResources::close_button_over_pngSize);
+	
+	// Config Manager buttons
+    addImageResource("showconfigurationmanagerOff",  ImageResources::config_manager_button_off_png,  ImageResources::config_manager_button_off_pngSize);
+    addImageResource("showconfigurationmanagerOn",   ImageResources::config_manager_button_on_png,   ImageResources::config_manager_button_on_pngSize);
+    addImageResource("showconfigurationmanagerOver", ImageResources::config_manager_button_over_png, ImageResources::config_manager_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)
