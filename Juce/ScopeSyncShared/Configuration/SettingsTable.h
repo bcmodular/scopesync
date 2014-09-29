@@ -84,6 +84,7 @@ private:
     void textWasEdited();
     void addSettings();
     void removeSettings();
+    void updateParameterRanges();
     void autoFill();
     void moveSettings(bool moveUp);
 

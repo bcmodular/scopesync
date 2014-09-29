@@ -26,6 +26,7 @@
  */
 
 #include "ScopeSyncApplication.h"
+#include "Global.h"
 
 const bool ScopeSyncApplication::inPluginContext() 
 { 
@@ -36,3 +37,54 @@ const bool ScopeSyncApplication::inScopeFXContext()
 { 
     return (appContext == scopefx) ? true : false; 
 };
+
+ScopeSyncClipboard::ScopeSyncClipboard()
+{
+    clipboard = ValueTree();
+}
+
+ScopeSyncClipboard::~ScopeSyncClipboard()
+{
+    clipboard = ValueTree();
+}
+
+void ScopeSyncClipboard::copy(const ValueTree& source)
+{
+    clipboard = source.createCopy();
+}
+
+juce_ImplementSingleton (ParameterClipboard)
+
+ParameterClipboard::ParameterClipboard() {}
+
+ParameterClipboard::~ParameterClipboard()
+{
+    clearSingletonInstance();
+}
+
+void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
+{
+    if (clipboardIsNotEmpty())
+    {
+        String name       = target.getProperty(Ids::name);
+        String shortDesc  = target.getProperty(Ids::shortDescription);
+        String fullDesc   = target.getProperty(Ids::fullDescription);
+        int    scopeSync  = target.getProperty(Ids::scopeSync);
+        int    scopeLocal = target.getProperty(Ids::scopeLocal);
+
+        target.copyPropertiesFrom(clipboard, undoManager);
+
+        target.removeAllChildren(undoManager);
+
+        ValueTree settings = clipboard.getChildWithName(Ids::settings).createCopy();
+        
+        if (settings.isValid())
+            target.addChild(settings, -1, undoManager);
+
+        target.setProperty(Ids::name,             name,       undoManager);
+        target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
+        target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
+        target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
+        target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+    }
+}

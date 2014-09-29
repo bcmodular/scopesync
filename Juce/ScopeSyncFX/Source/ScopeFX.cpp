@@ -99,6 +99,7 @@ ScopeFX::~ScopeFX()
     
     if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
+        ParameterClipboard::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
         Icons::deleteInstance();

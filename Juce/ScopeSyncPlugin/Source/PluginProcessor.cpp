@@ -55,6 +55,7 @@ PluginProcessor::~PluginProcessor()
 
     if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
+        ParameterClipboard::deleteInstance();
         Icons::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();

@@ -48,4 +48,36 @@ namespace ScopeSyncApplication
     const bool inScopeFXContext();
 };
 
+class ScopeSyncClipboard
+{
+public:
+    ScopeSyncClipboard();
+    ~ScopeSyncClipboard();
+
+    void copy (const ValueTree& source);
+    virtual void paste(ValueTree& target, UndoManager* undoManager) = 0;
+
+    bool clipboardIsNotEmpty() { return clipboard.isValid(); };
+
+protected:
+    ValueTree clipboard;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncClipboard)
+};
+
+class ParameterClipboard : public ScopeSyncClipboard
+{
+public:
+    ParameterClipboard();
+    ~ParameterClipboard();
+
+    void paste(ValueTree& target, UndoManager* undoManager) override;
+
+    juce_DeclareSingleton(ParameterClipboard, false)
+
+private:
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterClipboard)
+};
+
 #endif  // SCOPESYNCAPPLICATION_H_INCLUDED

@@ -123,6 +123,7 @@ public:
 
     void paintOverChildren(Graphics& g);
     void childBoundsChanged(Component* child) override;
+    void setParameterUIRanges(double min, double max, double reset);
 
 private:
     ScopedPointer<SettingsTable> settingsTable;
@@ -143,7 +144,7 @@ private:
     void resized() override;
     
     void valueChanged(Value& valueThatChanged) override;
-
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterPanel)
 };
 

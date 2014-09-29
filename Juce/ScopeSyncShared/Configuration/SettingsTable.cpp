@@ -26,6 +26,7 @@
 
 #include "SettingsTable.h"
 #include "ConfigurationManagerMain.h"
+#include "ConfigurationPanel.h"
 #include "../Core/Global.h"
 
 /* =========================================================================
@@ -296,6 +297,8 @@ void SettingsTable::addSettings()
 
         tree.addChild(newSetting, -1, &undoManager);
     }
+
+    updateParameterRanges();
 }
 
 void SettingsTable::removeSettings()
@@ -315,7 +318,18 @@ void SettingsTable::removeSettings()
     {
         tree.removeChild(settingsToRemove[i], &undoManager);
     }
+    
+    updateParameterRanges();
 }
+
+void SettingsTable::updateParameterRanges()
+{
+    ParameterPanel* panel = dynamic_cast<ParameterPanel*>(getParentComponent());
+
+    int maxValue = jmax(tree.getNumChildren() - 1, 0);
+    panel->setParameterUIRanges(0, maxValue, 0);
+}
+
 void SettingsTable::autoFill()
 {
     int    numSettings = tree.getNumChildren();

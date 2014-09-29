@@ -70,10 +70,6 @@ public:
     void addNewParameterFromClipboard(int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
     void addNewParameter(ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
 
-    static void copyParameterDefinition(const ValueTree& source);
-    static void pasteParameterDefinition(ValueTree& target, UndoManager* undoManager);
-    static bool parameterClipboardIsNotEmpty() { return parameterClipboard.isValid(); };
-
     StringArray& getComponentNames(const String& componentType);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
@@ -83,8 +79,6 @@ private:
     ValueTree  loaderConfigurationRoot;
     XmlElement layoutXml;       // Layout XML loaded from definition file(s)
     XmlElement loaderLayoutXml; // Default Layout XML
-
-    static ValueTree parameterClipboard;
 
     StringArray sliderNames;
     StringArray labelNames;

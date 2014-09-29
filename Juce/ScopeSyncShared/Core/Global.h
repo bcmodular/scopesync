@@ -85,6 +85,8 @@ namespace Ids
     DECLARE_ID(radioGroup);
 
     DECLARE_ID(ID);
+    DECLARE_ID(clipboard);
+    DECLARE_ID(parameterClipboard);
 
     #undef DECLARE_ID
 }

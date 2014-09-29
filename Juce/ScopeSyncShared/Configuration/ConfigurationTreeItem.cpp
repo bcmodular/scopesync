@@ -30,6 +30,7 @@
 #include "ConfigurationManagerMain.h"
 #include "ConfigurationPanel.h"
 #include "../Core/Global.h"
+#include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
  * ConfigurationTreeItem
@@ -579,12 +580,12 @@ void ParameterTreeItem::insertParameterAt(int index)
 
 void ParameterTreeItem::copyParameter()
 {
-    Configuration::copyParameterDefinition(tree);
+    ParameterClipboard::getInstance()->copy(tree);
 }
 
 void ParameterTreeItem::pasteParameter()
 {
-    Configuration::pasteParameterDefinition(tree, &undoManager);
+    ParameterClipboard::getInstance()->paste(tree, &undoManager);
     changePanel();
 }
 

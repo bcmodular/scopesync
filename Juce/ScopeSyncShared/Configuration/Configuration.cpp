@@ -30,8 +30,6 @@
 #include "../Utils/BCMMisc.h"
 #include "../Utils/BCMMath.h"
 
-ValueTree Configuration::parameterClipboard = ValueTree();
-
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,
                                                       "Choose a Configuration file to load",
@@ -244,38 +242,6 @@ void Configuration::addNewParameter(ValueTree& paramValues, int targetIndex, Par
     else
     {
         getScopeParameters().addChild(newParameter, targetIndex, um);
-    }
-}
-
-void Configuration::copyParameterDefinition(const ValueTree& source)
-{
-    parameterClipboard = source.createCopy();
-}
-
-void Configuration::pasteParameterDefinition(ValueTree& target, UndoManager* undoManager)
-{
-    if (parameterClipboardIsNotEmpty())
-    {
-        String name       = target.getProperty(Ids::name);
-        String shortDesc  = target.getProperty(Ids::shortDescription);
-        String fullDesc   = target.getProperty(Ids::fullDescription);
-        int    scopeSync  = target.getProperty(Ids::scopeSync);
-        int    scopeLocal = target.getProperty(Ids::scopeLocal);
-
-        target.copyPropertiesFrom(parameterClipboard, undoManager);
-
-        target.removeAllChildren(undoManager);
-
-        ValueTree settings = parameterClipboard.getChildWithName(Ids::settings).createCopy();
-        
-        if (settings.isValid())
-            target.addChild(settings, -1, undoManager);
-
-        target.setProperty(Ids::name,             name,       undoManager);
-        target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
-        target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
-        target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
-        target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
     }
 }
 

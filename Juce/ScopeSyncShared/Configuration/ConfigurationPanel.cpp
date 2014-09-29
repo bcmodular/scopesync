@@ -261,6 +261,7 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     if (int(valueThatChanged.getValue()) == 0)
     {
         settingsTable = nullptr;
+        setParameterUIRanges(0, 100, 0);
         resized();
     }
     else
@@ -270,12 +271,23 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     }
 }
 
+void ParameterPanel::setParameterUIRanges(double min, double max, double reset)
+{
+    valueTree.setProperty(Ids::uiRangeMin,      min,      &undoManager);
+    valueTree.setProperty(Ids::uiRangeMax,      max,      &undoManager);
+    valueTree.setProperty(Ids::uiResetValue,    reset,    &undoManager);
+}
+
 void ParameterPanel::createSettingsTable()
 {
     settingsTableConstrainer.setMinimumHeight(200);
     settingsTableConstrainer.setMaximumHeight(700);
 
     ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
+    
+    int maxValue = jmax(settings.getNumChildren() - 1, 0);
+    setParameterUIRanges(0, maxValue, 0);
+
     settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree);
 
     int lastSettingsTableHeight = configurationManagerMain.getConfiguration().getConfigurationProperties().getIntValue("lastSettingsTableHeight", 250);
