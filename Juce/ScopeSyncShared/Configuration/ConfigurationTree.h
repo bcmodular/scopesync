@@ -29,7 +29,7 @@
 
 #include <JuceHeader.h>
 class Configuration;
-class ConfigurationTreeItem;
+class ConfigurationItem;
 class ConfigurationManagerMain;
 
 class ConfigurationTree : public  Component,
@@ -44,12 +44,10 @@ public:
     void saveTreeViewState();
 
     void deleteSelectedItems();
-    void copyParameter();
-    void pasteParameter();
     void changePanel();
 
-    void storeSelectedItemMove(String itemId, int delta);
-    void moveToSelectedItemDelta();
+    void storeSelectedItem(int row);
+    void moveToSelectedItem();
 
     enum ColourIds
     {
@@ -58,13 +56,12 @@ public:
 
 private:
     TreeView       tree;
-    ScopedPointer<ConfigurationTreeItem> rootItem;
+    ScopedPointer<ConfigurationItem> rootItem;
     UndoManager&   undoManager;
     Configuration& configuration;
     ConfigurationManagerMain& configurationManagerMain;
 
-    String lastSelectedItem;
-    int    moveSelectedItemDelta;
+    int storedRow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationTree);
 };

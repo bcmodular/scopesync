@@ -97,22 +97,30 @@ namespace CommandIDs
     {
         undo                     = 0x200100,
         redo                     = 0x200110,
-        deleteSelectedItems      = 0x200120,
+        deleteItems              = 0x200120,
         
         saveConfig               = 0x200300,
-        saveConfigAs             = 0x200320,
-        applyConfigChanges       = 0x200325,
+        saveConfigAs             = 0x200310,
+        applyConfigChanges       = 0x200320,
         discardConfigChanges     = 0x200330,
         closeConfig              = 0x200340,
         focusOnPanel             = 0x200350,
-        copyParameter            = 0x200360,
-        pasteParameter           = 0x200365,
-
-        addSettings              = 0x200400,
-        removeSettings           = 0x200410,
-        autoFill                 = 0x200420,
-        moveUp                   = 0x200430,
-        moveDown                 = 0x200440
+        
+        copyParameter            = 0x200400,
+        pasteParameter           = 0x200410,
+        deleteParameter          = 0x200420,
+        addParameter             = 0x200430,
+        
+        copyMapping              = 0x200500,
+        pasteMapping             = 0x200510,
+        deleteMapping            = 0x200520,
+        addMapping               = 0x200530,
+        
+        addSettings              = 0x200600,
+        removeSettings           = 0x200610,
+        autoFill                 = 0x200620,
+        moveUp                   = 0x200630,
+        moveDown                 = 0x200640
     };
 }
 

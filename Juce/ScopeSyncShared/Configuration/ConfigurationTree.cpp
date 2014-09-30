@@ -32,13 +32,14 @@
 ConfigurationTree::ConfigurationTree(ConfigurationManagerMain& cmm, Configuration& config, UndoManager& um)
     : configurationManagerMain(cmm),
       configuration(config),
-      undoManager(um)
+      undoManager(um),
+      storedRow(0)
 {
     addAndMakeVisible(tree);
 
     tree.setDefaultOpenness(true);
     tree.setMultiSelectEnabled(true);
-    tree.setRootItem(rootItem = new ConfigurationTreeItem(configurationManagerMain, config.getConfigurationRoot(), undoManager));
+    tree.setRootItem(rootItem = new ConfigurationItem(configurationManagerMain, config.getConfigurationRoot(), undoManager));
 
     const ScopedPointer<XmlElement> treeOpenness(config.getConfigurationProperties().getXmlValue("openness"));
     
@@ -81,42 +82,16 @@ void ConfigurationTree::deleteSelectedItems()
 
     for (int i = 0; i < identifiers.size(); i++)
     {
-        dynamic_cast<ConfigurationTreeItem*>(tree.findItemFromIdentifierString(identifiers[i]))->deleteItem();
-    }
-}
-
-void ConfigurationTree::copyParameter()
-{
-    if (tree.getNumSelectedItems() == 1)
-    {
-        ParameterTreeItem* parameterItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(0));
-        if (parameterItem != nullptr)
-        {
-            parameterItem->copyParameter();
-        }
-    }
-}
-
-void ConfigurationTree::pasteParameter()
-{
-    if (tree.getNumSelectedItems() == 1)
-    {
-        ParameterTreeItem* parameterItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(0));
-        if (parameterItem != nullptr)
-        {
-            parameterItem->pasteParameter();
-        }
+        dynamic_cast<ConfigurationItem*>(tree.findItemFromIdentifierString(identifiers[i]))->deleteItem();
     }
 }
 
 void ConfigurationTree::changePanel()
 {
-    ConfigurationTreeItem* treeItem = dynamic_cast<ParameterTreeItem*>(tree.getSelectedItem(tree.getNumSelectedItems() - 1));
+    ConfigurationItem* treeItem = dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(tree.getNumSelectedItems() - 1));
+    
     if (treeItem != nullptr)
-    {
         treeItem->changePanel();
-    }
-
 }
 
 void ConfigurationTree::saveTreeViewState()
@@ -127,25 +102,17 @@ void ConfigurationTree::saveTreeViewState()
         configuration.getConfigurationProperties().setValue("openness", opennessState);
 }
 
-void ConfigurationTree::storeSelectedItemMove(String itemId, int delta)
+void ConfigurationTree::storeSelectedItem(int row)
 {
-    lastSelectedItem      = itemId;
-    moveSelectedItemDelta = delta;
+    storedRow = row;
 }
 
-void ConfigurationTree::moveToSelectedItemDelta()
+void ConfigurationTree::moveToSelectedItem()
 {
-    if (lastSelectedItem.isNotEmpty())
-    {
-        TreeViewItem* itemToMoveTo = tree.findItemFromIdentifierString(lastSelectedItem);
+    TreeViewItem* itemToMoveTo = tree.getItemOnRow(storedRow);
             
-        if (itemToMoveTo != nullptr)
-        {
-            itemToMoveTo->setSelected(true, true);
-            tree.moveSelectedRow(moveSelectedItemDelta);
-        }
-
-        lastSelectedItem      = String::empty;
-        moveSelectedItemDelta = 0;
+    if (itemToMoveTo != nullptr)
+    {
+        itemToMoveTo->setSelected(true, true);     
     }
 }

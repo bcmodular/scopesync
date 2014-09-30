@@ -85,8 +85,6 @@ private:
     void timerCallback() override;
     void deleteSelectedTreeItems();
     void switchFocusToPanel();
-    void copyParameter();
-    void pasteParameter();
     void undo();
     void redo();
 

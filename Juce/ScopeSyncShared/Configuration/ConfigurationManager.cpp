@@ -114,9 +114,6 @@ void ConfigurationManager::createEditMenu(PopupMenu& menu)
 {
     menu.addCommandItem(commandManager, CommandIDs::undo);
     menu.addCommandItem(commandManager, CommandIDs::redo);
-    menu.addSeparator();
-    menu.addCommandItem(commandManager, CommandIDs::copyParameter);   
-    menu.addCommandItem(commandManager, CommandIDs::pasteParameter);   
 }
 
 void ConfigurationManager::closeButtonPressed()
@@ -160,6 +157,7 @@ void ConfigurationManager::saveAs()
 void ConfigurationManager::discardChanges()
 {
     scopeSync.reloadSavedConfiguration();
+    configurationManagerMain->unload();
     clearContentComponent();
     setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSync), true);
 }

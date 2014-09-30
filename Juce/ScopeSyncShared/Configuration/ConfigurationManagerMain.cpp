@@ -122,6 +122,8 @@ void ConfigurationManagerMain::changePanel(Component* newComponent)
 void ConfigurationManagerMain::unload()
 {
     stopTimer();
+    commandManager->setFirstCommandTarget(nullptr);
+    commandManager->clearCommands();
     saveTreeViewState();
     scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrWidth", getWidth());
     scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrHeight", getHeight());
@@ -143,10 +145,8 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::closeConfig,
                               CommandIDs::undo,
                               CommandIDs::redo,
-                              CommandIDs::deleteSelectedItems,
-                              CommandIDs::focusOnPanel,
-                              CommandIDs::copyParameter,
-                              CommandIDs::pasteParameter
+                              CommandIDs::deleteItems,
+                              CommandIDs::focusOnPanel
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -164,7 +164,7 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.setInfo ("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::deleteSelectedItems:
+    case CommandIDs::deleteItems:
         result.setInfo ("Delete", "Delete selected items", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
         result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
@@ -193,14 +193,6 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.setInfo ("Focus on panel", "Switches keyboard focus to edit panel", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress (KeyPress::F2Key, ModifierKeys::noModifiers, 0));
         break;
-    case CommandIDs::copyParameter:
-        result.setInfo ("Copy parameter definition", "Copies a parameter's definition to the clipboard", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::pasteParameter:
-        result.setInfo ("Paste parameter definition", "Overwrites a parameter's definition with values from the clipboard", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
-        break;
     }
 }
 
@@ -210,15 +202,13 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
     {
         case CommandIDs::undo:                 undo(); break;
         case CommandIDs::redo:                 redo(); break;
-        case CommandIDs::deleteSelectedItems:  deleteSelectedTreeItems(); break;
+        case CommandIDs::deleteItems:          deleteSelectedTreeItems(); break;
         case CommandIDs::saveConfig:           configurationManager.save(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
         case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
         case CommandIDs::discardConfigChanges: configurationManager.discardChanges(); break;
         case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
         case CommandIDs::focusOnPanel:         switchFocusToPanel(); break;
-        case CommandIDs::copyParameter:        copyParameter(); break;
-        case CommandIDs::pasteParameter:       pasteParameter(); break;
         default:                               return false;
     }
 
@@ -312,16 +302,6 @@ void ConfigurationManagerMain::timerCallback()
 void ConfigurationManagerMain::deleteSelectedTreeItems()
 {
     treeView->deleteSelectedItems();
-}
-
-void ConfigurationManagerMain::copyParameter()
-{
-    treeView->copyParameter();
-}
-
-void ConfigurationManagerMain::pasteParameter()
-{
-    treeView->pasteParameter();
 }
 
 void ConfigurationManagerMain::switchFocusToPanel()

@@ -35,21 +35,23 @@
 /* =========================================================================
  * ConfigurationTreeItem
  */
-ConfigurationTreeItem::ConfigurationTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+ConfigurationItem::ConfigurationItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
     : configurationManagerMain(cmm),
       tree(v),
       undoManager(um),
-      textX(0)
+      textX(0),
+      commandManager(configurationManagerMain.getCommandManager())
 {
+    commandManager->registerAllCommandsForTarget(this);
     tree.addListener(this);
 }
 
-ConfigurationTreeItem::~ConfigurationTreeItem()
+ConfigurationItem::~ConfigurationItem()
 {
     masterReference.clear();
 }
 
-String ConfigurationTreeItem::getDisplayName() const 
+String ConfigurationItem::getDisplayName() const 
 {
     String displayName = tree["name"].toString();
 
@@ -59,77 +61,36 @@ String ConfigurationTreeItem::getDisplayName() const
     return displayName;
 }
 
-String ConfigurationTreeItem::getUniqueName() const
-{
-    return getDisplayName();
-}
+String ConfigurationItem::getUniqueName() const { return getDisplayName(); }
 
-bool ConfigurationTreeItem::mightContainSubItems()
-{
-    return tree.getNumChildren() > 0;
-}
+bool ConfigurationItem::mightContainSubItems() { return tree.getNumChildren() > 0; }
 
-Font ConfigurationTreeItem::getFont() const
-{
-    return Font (getItemHeight() * 0.7f);
-}
+Font ConfigurationItem::getFont() const { return Font (getItemHeight() * 0.7f); }
 
-float ConfigurationTreeItem::getIconSize() const
-{
-    return jmin (getItemHeight() - 4.0f, 18.0f);
-}
+float ConfigurationItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
-Icon ConfigurationTreeItem::getIcon() const
-{
-    if (tree.hasType(Ids::configuration))
-        return Icon(Icons::getInstance()->config, Colours::lightgreen);
-    else if (tree.hasType(Ids::hostParameters))
-        return Icon(Icons::getInstance()->hostparameters, Colours::aliceblue);
-    else if (tree.hasType(Ids::scopeParameters))
-        return Icon(Icons::getInstance()->scopeparameters, Colours::azure);
-    else if (tree.hasType(Ids::mapping))
-        return Icon(Icons::getInstance()->mapping, Colours::bisque);
-    else if (tree.hasType(Ids::sliders))
-        return Icon(Icons::getInstance()->sliders, Colours::bisque);
-    else if (tree.hasType(Ids::textButtons))
-        return Icon(Icons::getInstance()->textbuttons, Colours::bisque);
-    else if (tree.hasType(Ids::labels))
-        return Icon(Icons::getInstance()->labels, Colours::bisque);
-    else if (tree.hasType(Ids::tabbedComponents))
-        return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque);
-    else if (tree.hasType(Ids::comboBoxes))
-        return Icon(Icons::getInstance()->comboboxes, Colours::bisque);
-    else
-        return Icon(Icons::getInstance()->config, Colours::beige);
-    
-}
+Icon ConfigurationItem::getIcon() const { return Icon(Icons::getInstance()->config, Colours::lightgreen); }
 
-void ConfigurationTreeItem::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver)
+void ConfigurationItem::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver)
 {
     TreeViewItem::paintOpenCloseButton(g, area, backgroundColour, isMouseOver);
 }
 
-Colour ConfigurationTreeItem::getBackgroundColour() const
+Colour ConfigurationItem::getBackgroundColour() const
 {
     Colour background(Colours::darkgrey);
 
     if (isSelected())
-        background = background.overlaidWith (getOwnerView()->findColour(TreeView::selectedItemBackgroundColourId));
+        background = background.overlaidWith(getOwnerView()->findColour(TreeView::selectedItemBackgroundColourId));
      
     return background;
 }
 
-Colour ConfigurationTreeItem::getContrastingColour(float contrast) const
-{
-    return getBackgroundColour().contrasting(contrast);
-}
+Colour ConfigurationItem::getContrastingColour(float contrast) const { return getBackgroundColour().contrasting(contrast); }
 
-Colour ConfigurationTreeItem::getContrastingColour(Colour target, float minContrast) const
-{
-    return getBackgroundColour().contrasting(target, minContrast);
-}
+Colour ConfigurationItem::getContrastingColour(Colour target, float minContrast) const { return getBackgroundColour().contrasting(target, minContrast); }
 
-void ConfigurationTreeItem::paintContent(Graphics& g, const Rectangle<int>& area)
+void ConfigurationItem::paintContent(Graphics& g, const Rectangle<int>& area)
 {
     g.setFont(getFont());
     g.setColour(getContrastingColour(0.8f));
@@ -137,7 +98,7 @@ void ConfigurationTreeItem::paintContent(Graphics& g, const Rectangle<int>& area
     g.drawFittedText(getDisplayName(), area, Justification::centredLeft, 1, 0.8f);
 }
 
-void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
+void ConfigurationItem::itemOpennessChanged(bool isNowOpen)
 {
     if (isNowOpen && getNumSubItems() == 0)
     {
@@ -148,40 +109,21 @@ void ConfigurationTreeItem::itemOpennessChanged(bool isNowOpen)
         clearSubItems();
 }
 
-var ConfigurationTreeItem::getDragSourceDescription()
+var ConfigurationItem::getDragSourceDescription() { return "Configuration Root Item"; }
+
+Component* ConfigurationItem::createItemComponent() { return new TreeItemComponent(*this); }
+
+bool ConfigurationItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) { return false; }
+
+void ConfigurationItem::itemDropped(const DragAndDropTarget::SourceDetails&, int insertIndex)
 {
-    return "Configuration Root Item";
+    moveItems(*getOwnerView(),
+               getSelectedTreeViewItems(*getOwnerView()),
+               tree, insertIndex, undoManager);
 }
 
-Component* ConfigurationTreeItem::createItemComponent()
-{
-    return new TreeItemComponent(*this);
-}
-
-bool ConfigurationTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{
-    if (
-           (dragSourceDetails.description.toString() == "Parameter"              && (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters)))
-        || (dragSourceDetails.description.toString() == "SliderMapping"          && tree.hasType(Ids::sliders))
-        || (dragSourceDetails.description.toString() == "LabelMapping"           && tree.hasType(Ids::labels))
-        || (dragSourceDetails.description.toString() == "TextButtonMapping"      && tree.hasType(Ids::textButtons))
-        || (dragSourceDetails.description.toString() == "TabbedComponentMapping" && tree.hasType(Ids::tabbedComponents))
-        || (dragSourceDetails.description.toString() == "ComboBoxMapping"        && tree.hasType(Ids::comboBoxes))
-       )
-        return true;
-    else
-        return false;
-}
-
-void ConfigurationTreeItem::itemDropped(const DragAndDropTarget::SourceDetails&, int insertIndex)
-{
-    moveItems (*getOwnerView(),
-                getSelectedTreeViewItems (*getOwnerView()),
-                tree, insertIndex, undoManager);
-}
-
-void ConfigurationTreeItem::moveItems(TreeView& treeView, const Array<ValueTree>& items,
-                                      ValueTree newParent, int insertIndex, UndoManager& undoManager)
+void ConfigurationItem::moveItems(TreeView& treeView, const Array<ValueTree>& items,
+                                  ValueTree newParent, int insertIndex, UndoManager& undoManager)
 {
     if (items.size() > 0)
     {
@@ -203,20 +145,20 @@ void ConfigurationTreeItem::moveItems(TreeView& treeView, const Array<ValueTree>
     }
 }
 
-Array<ValueTree> ConfigurationTreeItem::getSelectedTreeViewItems (TreeView& treeView)
+Array<ValueTree> ConfigurationItem::getSelectedTreeViewItems (TreeView& treeView)
 {
     Array<ValueTree> items;
 
     const int numSelected = treeView.getNumSelectedItems();
 
     for (int i = 0; i < numSelected; ++i)
-        if (const ConfigurationTreeItem* vti = dynamic_cast<ConfigurationTreeItem*> (treeView.getSelectedItem (i)))
+        if (const ConfigurationItem* vti = dynamic_cast<ConfigurationItem*>(treeView.getSelectedItem (i)))
             items.add (vti->tree);
 
     return items;
 }
 
-void ConfigurationTreeItem::refreshSubItems()
+void ConfigurationItem::refreshSubItems()
 {
     WholeTreeOpennessRestorer wtor(*this);
     
@@ -224,64 +166,47 @@ void ConfigurationTreeItem::refreshSubItems()
 
     for (int i = 0; i < tree.getNumChildren(); ++i)
     {
-        if (tree.hasType(Ids::hostParameters))
+        ValueTree child = tree.getChild(i);
+
+        if (child.hasType(Ids::hostParameters) || child.hasType(Ids::scopeParameters))
         {
-            addSubItem (new HostParameterTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem (new ParameterRootItem(configurationManagerMain, child, undoManager));
         }
-        else if (tree.hasType(Ids::scopeParameters))
+        else if (child.hasType(Ids::mapping))
         {
-            addSubItem (new ScopeParameterTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem (new MappingRootItem(configurationManagerMain, child, undoManager));
         }
-        else if (tree.hasType(Ids::sliders))
-        {
-            addSubItem (new SliderMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
-        }
-        else if (tree.hasType(Ids::labels))
-        {
-            addSubItem (new LabelMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
-        }
-        else if (tree.hasType(Ids::comboBoxes))
-        {
-            addSubItem (new ComboBoxMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
-        }
-        else if (tree.hasType(Ids::tabbedComponents))
-        {
-            addSubItem (new TabbedComponentMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
-        }
-        else if (tree.hasType(Ids::textButtons))
-        {
-            addSubItem (new TextButtonMappingTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
-        }
-        else
-            addSubItem (new ConfigurationTreeItem(configurationManagerMain, tree.getChild(i), undoManager));
     }
 }
 
-void ConfigurationTreeItem::valueTreePropertyChanged (ValueTree&, const Identifier&)
-{
-    repaintItem();
-}
+void ConfigurationItem::valueTreePropertyChanged (ValueTree&, const Identifier&) { repaintItem(); }
 
-void ConfigurationTreeItem::treeChildrenChanged (const ValueTree& parentTree)
+void ConfigurationItem::treeChildrenChanged (const ValueTree& parentTree)
 {
     if (parentTree == tree)
     {
         setOpen(true);
         refreshSubItems();
-        
-        ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
-        configTree->moveToSelectedItemDelta();
+
+        ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*>(getOwnerView()->getParentComponent());
+        configTree->moveToSelectedItem();
     }
 }
         
-void ConfigurationTreeItem::itemClicked(const MouseEvent& e)
+void ConfigurationItem::itemClicked(const MouseEvent& e)
 {
     if (e.mods.isPopupMenu())
     {
         if (getOwnerView()->getNumSelectedItems() > 1)
+        {
+            commandManager->setFirstCommandTarget(&configurationManagerMain);
             showMultiSelectionPopupMenu();
+        }
         else
+        {
+            commandManager->setFirstCommandTarget(this);
             showPopupMenu();
+        }
     }
     else if (isSelected())
     {
@@ -289,136 +214,38 @@ void ConfigurationTreeItem::itemClicked(const MouseEvent& e)
     }
 }
 
-void ConfigurationTreeItem::treeViewMenuItemChosen(int resultCode, WeakReference<ConfigurationTreeItem> item)
+void ConfigurationItem::showMultiSelectionPopupMenu()
 {
-    if (item != nullptr)
-        item->handlePopupMenuResult(resultCode);
+    PopupMenu m;
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::deleteItems);
+    m.showMenuAsync(PopupMenu::Options(), nullptr);
 }
 
-void ConfigurationTreeItem::handlePopupMenuResult (int resultCode)
-{
-    if (resultCode == 1)
-        deleteItem();
-    else if (resultCode == 2)
-        addNewSubItem();
-    else if (resultCode == 3)
-        insertItemBefore();
-    else if (resultCode == 4)
-        insertItemAfter();
-}
-
-void ConfigurationTreeItem::launchPopupMenu(PopupMenu& m)
-{
-    m.showMenuAsync (PopupMenu::Options(),
-                     ModalCallbackFunction::create(treeViewMenuItemChosen, WeakReference<ConfigurationTreeItem>(this)));
-}
-
-void ConfigurationTreeItem::showPopupMenu()
-{
-    PopupMenu menu;
-    String addSubItemText = String::empty;
-
-    if (tree.hasType(Ids::hostParameters) || tree.hasType(Ids::scopeParameters))
-    {
-        addSubItemText = "Add new parameter";
-    }
-    else if (tree.hasType(Ids::sliders) || tree.hasType(Ids::textButtons) || tree.hasType(Ids::labels) || tree.hasType(Ids::tabbedComponents) || tree.hasType(Ids::comboBoxes))
-    {
-        addSubItemText = "Add new mapping";
-    }
-    
-    if (addSubItemText.isNotEmpty())
-    {
-        menu.addItem(2, addSubItemText);
-        launchPopupMenu(menu);
-    }
-}
-
-void ConfigurationTreeItem::addNewSubItem()
-{
-    if (tree.hasType(Ids::hostParameters))
-    {
-        storeSelectionMove(1);
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::host, &undoManager);
-    }
-    else if (tree.hasType(Ids::scopeParameters))
-    {
-        storeSelectionMove(1);
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::scopeLocal, &undoManager);
-    }
-    else if (tree.hasType(Ids::sliders))
-    {
-        storeSelectionMove(1);
-        ValueTree newMapping(Ids::slider);
-        tree.addChild(newMapping, 0, &undoManager);
-    }
-    else if (tree.hasType(Ids::textButtons))
-    {
-        storeSelectionMove(1);
-        ValueTree newMapping(Ids::textButton);
-        tree.addChild(newMapping, 0, &undoManager);
-    }
-    else if (tree.hasType(Ids::labels))
-    {
-        storeSelectionMove(1);
-        ValueTree newMapping(Ids::label);
-        tree.addChild(newMapping, 0, &undoManager);
-    }
-    else if (tree.hasType(Ids::tabbedComponents))
-    {
-        storeSelectionMove(1);
-        ValueTree newMapping(Ids::tabbedComponent);
-        tree.addChild(newMapping, 0, &undoManager);
-    }
-    else if (tree.hasType(Ids::comboBoxes))
-    {
-        storeSelectionMove(1);
-        ValueTree newMapping(Ids::comboBox);
-        tree.addChild(newMapping, 0, &undoManager);
-    }
-}
-
-void ConfigurationTreeItem::deleteAllSelectedItems()
+void ConfigurationItem::deleteAllSelectedItems()
 {
     TreeView* treeView = getOwnerView();
     StringArray identifiers;
 
     for (int i = 0; i < treeView->getNumSelectedItems(); i++)
-    {
         identifiers.add(treeView->getSelectedItem(i)->getItemIdentifierString());
-        DBG("ConfigurationTreeItem::deleteAllSelectedItems - added item to delete: " + identifiers[i]);
-    }
 
     for (int i = 0; i < identifiers.size(); i++)
-    {
-        dynamic_cast<ConfigurationTreeItem*>(treeView->findItemFromIdentifierString(identifiers[i]))->deleteItem();
-    }
+        dynamic_cast<ConfigurationItem*>(treeView->findItemFromIdentifierString(identifiers[i]))->deleteItem();
 }
 
-void ConfigurationTreeItem::treeViewMultiSelectItemChosen(int resultCode, ConfigurationTreeItem* item)
-{
-    switch (resultCode)
-    {
-        case 1:     item->deleteAllSelectedItems(); break;
-        default:    break;
-    }
-}
-
-class ConfigurationTreeItem::ItemSelectionTimer : public Timer
+class ConfigurationItem::ItemSelectionTimer : public Timer
 {
 public:
-    ItemSelectionTimer(ConfigurationTreeItem& cti) : owner (cti) {}
+    ItemSelectionTimer(ConfigurationItem& ci) : owner (ci) {}
 
     void timerCallback() override { owner.invokeChangePanel(); }
 
 private:
-    ConfigurationTreeItem& owner;
+    ConfigurationItem& owner;
     JUCE_DECLARE_NON_COPYABLE (ItemSelectionTimer)
 };
 
-void ConfigurationTreeItem::itemSelectionChanged(bool isNowSelected)
+void ConfigurationItem::itemSelectionChanged(bool isNowSelected)
 {
     if (isNowSelected)
     {
@@ -431,23 +258,24 @@ void ConfigurationTreeItem::itemSelectionChanged(bool isNowSelected)
     }
 }
 
-void ConfigurationTreeItem::invokeChangePanel()
+void ConfigurationItem::invokeChangePanel()
 {
     cancelDelayedSelectionTimer();
+    commandManager->setFirstCommandTarget(this);
     changePanel();
 }
 
-void ConfigurationTreeItem::itemDoubleClicked(const MouseEvent&)
+void ConfigurationItem::itemDoubleClicked(const MouseEvent&)
 {
     invokeChangePanel();
 }
 
-void ConfigurationTreeItem::cancelDelayedSelectionTimer()
+void ConfigurationItem::cancelDelayedSelectionTimer()
 {
     delayedSelectionTimer = nullptr;
 }
 
-void ConfigurationTreeItem::changePanel()
+void ConfigurationItem::changePanel()
 {
     if (tree.hasType(Ids::configuration))
         configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain));
@@ -455,49 +283,154 @@ void ConfigurationTreeItem::changePanel()
         configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configurationManagerMain));
 }
 
-void ConfigurationTreeItem::storeSelectionMove(int delta)
+void ConfigurationItem::storeSelectionOnAdd()
 {
-    String lastSelectedItem = getItemIdentifierString();
-       
     ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
-
-    configTree->storeSelectedItemMove(lastSelectedItem, delta);
+    configTree->storeSelectedItem(getRowNumberInTree() + 1);
 }
 
-void ConfigurationTreeItem::storeSelectionMove()
+void ConfigurationItem::storeSelectionOnDelete()
 {
-    TreeViewItem* nearbyItem = getParentItem()->getSubItem(getIndexInParent() + 1);
+    int rowNumber = getRowNumberInTree();
 
-    if (nearbyItem == nullptr)
+    if (getIndexInParent() == getParentItem()->getNumSubItems() - 1)
     {
-        nearbyItem = getParentItem()->getSubItem(getIndexInParent() - 1);
+        rowNumber -= 1;
     }
 
-    if (nearbyItem != nullptr)
-    {
-        String lastSelectedItem = nearbyItem->getItemIdentifierString();
-        ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
+    ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
 
-        configTree->storeSelectedItemMove(lastSelectedItem, 0);
-    }
+    configTree->storeSelectedItem(rowNumber);
+}
+
+ApplicationCommandTarget* ConfigurationItem::getNextCommandTarget()
+{
+    return &configurationManagerMain;
 }
 
 /* =========================================================================
- * ParameterTreeItem
+ * ParameterRootItem
  */
-ParameterTreeItem::ParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationTreeItem(cmm, v, um) {}
+ParameterRootItem::ParameterRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
 
-var ParameterTreeItem::getDragSourceDescription()
+var ParameterRootItem::getDragSourceDescription()
+{
+    return "Parameter Root Item";
+}
+
+bool ParameterRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{
+    if (dragSourceDetails.description.toString() == "Parameter")
+        return true;
+    else
+        return false;
+}
+
+Icon ParameterRootItem::getIcon() const
+{
+    if (tree.hasType(Ids::hostParameters))
+        return Icon(Icons::getInstance()->hostparameters, Colours::aliceblue);
+    else if (tree.hasType(Ids::scopeParameters))
+        return Icon(Icons::getInstance()->scopeparameters, Colours::azure);
+    else
+        return Icon();
+}
+
+void ParameterRootItem::showPopupMenu()
+{
+    PopupMenu m;
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addParameter);
+    
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
+}
+
+void ParameterRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+    {
+        if (tree.hasType(Ids::hostParameters))
+        {
+            addSubItem(new HostParameterItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+        else if (tree.hasType(Ids::scopeParameters))
+        {
+            addSubItem(new ScopeParameterItem(configurationManagerMain, tree.getChild(i), undoManager));
+        }
+    }
+}
+
+void ParameterRootItem::getAllCommands(Array<CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::addParameter
+                            };
+
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void ParameterRootItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::addParameter:
+        result.setInfo ("Add parameter", "Adds a new parameter", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool ParameterRootItem::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::addParameter:         addItem(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+void ParameterRootItem::addItem()
+{
+    storeSelectionOnAdd();
+    
+    if (tree.hasType(Ids::hostParameters))
+    {
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::host, &undoManager);
+    }
+    else if (tree.hasType(Ids::scopeParameters))
+    {
+        ValueTree tmp;
+        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::scopeLocal, &undoManager);
+    }   
+}
+
+/* =========================================================================
+ * ParameterItem
+ */
+ParameterItem::ParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+var ParameterItem::getDragSourceDescription()
 {
     return "Parameter";
 }
 
-bool ParameterTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
+bool ParameterItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
 {
     return false;
 }
 
-String ParameterTreeItem::getDisplayName() const 
+String ParameterItem::getDisplayName() const 
 {
     String displayName = tree[Ids::name].toString();
     displayName += " (" + tree[Ids::fullDescription].toString() + ")";
@@ -505,66 +438,35 @@ String ParameterTreeItem::getDisplayName() const
     return displayName;
 }
 
-void ParameterTreeItem::showMultiSelectionPopupMenu()
+void ParameterItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addItem(1, "Delete");
-    
-    m.showMenuAsync (PopupMenu::Options(),
-                     ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
-}
-
-void ParameterTreeItem::handlePopupMenuResult (int resultCode)
-{
-    if (resultCode == 1)
-        deleteItem();
-    else if (resultCode == 2)
-        addNewSubItem();
-    else if (resultCode == 3)
-        insertItemBefore();
-    else if (resultCode == 4)
-        insertItemAfter();
-    else if (resultCode == 5)
-        copyParameter();
-    else if (resultCode == 6)
-        pasteParameter();
-}
-
-void ParameterTreeItem::showPopupMenu()
-{
-    PopupMenu m;
-    m.addItem(3, "Insert new parameter before");
-    m.addItem(4, "Insert new parameter after");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addParameter);
     m.addSeparator();
-    m.addItem(5, "Copy parameter definition");
-    m.addItem(6, "Paste parameter definition");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::copyParameter);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::pasteParameter);
     m.addSeparator();
-    m.addItem(1, "Remove this parameter");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::deleteParameter);
     
-    launchPopupMenu(m);
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
 
-void ParameterTreeItem::refreshSubItems() {}
+void ParameterItem::refreshSubItems() {}
 
-void ParameterTreeItem::deleteItem()
+void ParameterItem::deleteItem()
 {
-    storeSelectionMove();
+    storeSelectionOnDelete();
+    commandManager->setFirstCommandTarget(&configurationManagerMain);
     tree.getParent().removeChild(tree, &undoManager);
 }
 
-void ParameterTreeItem::insertItemBefore()
+void ParameterItem::addItem()
 {
-    storeSelectionMove(-1);
-    insertParameterAt(tree.getParent().indexOf(tree));
-}
-
-void ParameterTreeItem::insertItemAfter()
-{
-    storeSelectionMove(1);
+    storeSelectionOnAdd();
     insertParameterAt(tree.getParent().indexOf(tree) + 1);
 }
 
-void ParameterTreeItem::insertParameterAt(int index)
+void ParameterItem::insertParameterAt(int index)
 {
     if (tree.getParent().hasType(Ids::hostParameters))
     {
@@ -578,30 +480,79 @@ void ParameterTreeItem::insertParameterAt(int index)
     }        
 }
 
-void ParameterTreeItem::copyParameter()
+void ParameterItem::copyParameter()
 {
     ParameterClipboard::getInstance()->copy(tree);
 }
 
-void ParameterTreeItem::pasteParameter()
+void ParameterItem::pasteParameter()
 {
     ParameterClipboard::getInstance()->paste(tree, &undoManager);
     changePanel();
 }
 
-/* =========================================================================
- * HostParameterTreeItem
- */
-HostParameterTreeItem::HostParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterTreeItem(cmm, v, um) {}
+void ParameterItem::getAllCommands(Array<CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::copyParameter,
+                              CommandIDs::pasteParameter,
+                              CommandIDs::deleteParameter,
+                              CommandIDs::addParameter
+                            };
 
-Icon HostParameterTreeItem::getIcon() const
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void ParameterItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::copyParameter:
+        result.setInfo ("Copy parameter definition", "Copies a parameter's definition to the clipboard", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::pasteParameter:
+        result.setInfo ("Paste parameter definition", "Overwrites a parameter's definition with values from the clipboard", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::deleteParameter:
+        result.setInfo ("Delete parameter", "Deletes the selected parameter", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::deleteKey, ModifierKeys::noModifiers, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
+        break;
+    case CommandIDs::addParameter:
+        result.setInfo ("Add parameter", "Adds a new parameter", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool ParameterItem::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::copyParameter:        copyParameter(); break;
+        case CommandIDs::pasteParameter:       pasteParameter(); break;
+        case CommandIDs::deleteParameter:      deleteItem(); break;
+        case CommandIDs::addParameter:         addItem(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+/* =========================================================================
+ * HostParameterItem
+ */
+HostParameterItem::HostParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterItem(cmm, v, um) {}
+
+Icon HostParameterItem::getIcon() const
 {
     return Icon(Icons::getInstance()->hostparameter, Colours::grey);
 }
 
-String HostParameterTreeItem::getDisplayName() const 
+String HostParameterItem::getDisplayName() const 
 {
-    String displayName = ParameterTreeItem::getDisplayName();
+    String displayName = ParameterItem::getDisplayName();
     
     if (int(tree[Ids::scopeSync]) != -1)
         displayName += " - " + ScopeSync::getScopeSyncCode(int(tree[Ids::scopeSync]));
@@ -609,24 +560,24 @@ String HostParameterTreeItem::getDisplayName() const
     return displayName;
 }
 
-void HostParameterTreeItem::changePanel()
+void HostParameterItem::changePanel()
 {
     configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::hostParameter, configurationManagerMain));
 }
 
 /* =========================================================================
- * ScopeParameterTreeItem
+ * ScopeParameterItem
  */
-ScopeParameterTreeItem::ScopeParameterTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterTreeItem(cmm, v, um) {}
+ScopeParameterItem::ScopeParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterItem(cmm, v, um) {}
 
-Icon ScopeParameterTreeItem::getIcon() const
+Icon ScopeParameterItem::getIcon() const
 {
     return Icon(Icons::getInstance()->scopeparameter, Colours::grey);
 }
 
-String ScopeParameterTreeItem::getDisplayName() const 
+String ScopeParameterItem::getDisplayName() const 
 {
-    String displayName = ParameterTreeItem::getDisplayName();
+    String displayName = ParameterItem::getDisplayName();
     
     if (int(tree[Ids::scopeLocal]) != -1)
         displayName += " - " + ScopeSync::getScopeLocalCode(int(tree[Ids::scopeLocal]));
@@ -634,27 +585,275 @@ String ScopeParameterTreeItem::getDisplayName() const
     return displayName;
 }
 
-void ScopeParameterTreeItem::changePanel()
+void ScopeParameterItem::changePanel()
 {
     configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::scopeLocal, configurationManagerMain));
 }
 
 /* =========================================================================
- * MappingTreeItem
+ * MappingRootItem
  */
-MappingTreeItem::MappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationTreeItem(cmm, v, um) {}
+MappingRootItem::MappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
 
-var MappingTreeItem::getDragSourceDescription()
+Icon MappingRootItem::getIcon() const
+{
+    return Icon(Icons::getInstance()->mapping, Colours::bisque);
+}
+
+var MappingRootItem::getDragSourceDescription()
+{
+    return "Mapping Root Item";
+}
+
+void MappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+    {
+        ValueTree child = tree.getChild(i);
+
+        if (child.hasType(Ids::sliders))
+            addSubItem(new SliderMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+        else if (child.hasType(Ids::labels))
+            addSubItem(new LabelMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+        else if (child.hasType(Ids::comboBoxes))
+            addSubItem(new ComboBoxMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+        else if (child.hasType(Ids::tabbedComponents))
+            addSubItem(new TabbedComponentMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+        else if (tree.hasType(Ids::textButtons))
+            addSubItem (new TextButtonMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+}
+
+void MappingRootItem::getAllCommands(Array<CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::addMapping
+                            };
+
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void MappingRootItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::addMapping:
+        result.setInfo ("Add mapping", "Adds a new mapping", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool MappingRootItem::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::addMapping:           addItem(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+void MappingRootItem::showPopupMenu()
+{
+    PopupMenu m;
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addMapping);
+    
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
+}
+
+void MappingRootItem::addGenericMapping(const Identifier& mappingType)
+{
+    storeSelectionOnAdd();
+    ValueTree newMapping(mappingType);
+    tree.addChild(newMapping, 0, &undoManager);
+}
+
+/* =========================================================================
+ * SliderMappingRootItem
+ */
+SliderMappingRootItem::SliderMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingRootItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+bool SliderMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{   
+    if (dragSourceDetails.description.toString() == "SliderMapping")
+        return true;
+    else
+        return false;
+}
+ 
+Icon SliderMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->sliders, Colours::bisque); }
+
+void SliderMappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+        addSubItem(new SliderMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+}
+
+void SliderMappingRootItem::addItem()
+{
+    addGenericMapping(Ids::slider);
+}
+
+/* =========================================================================
+ * LabelMappingRootItem
+ */
+LabelMappingRootItem::LabelMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingRootItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+bool LabelMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{   
+    if (dragSourceDetails.description.toString() == "LabelMapping")
+        return true;
+    else
+        return false;
+}
+ 
+Icon LabelMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->labels, Colours::bisque); }
+
+void LabelMappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+        addSubItem(new LabelMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+}
+
+void LabelMappingRootItem::addItem()
+{
+    addGenericMapping(Ids::label);
+}
+
+/* =========================================================================
+ * ComboBoxMappingRootItem
+ */
+ComboBoxMappingRootItem::ComboBoxMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingRootItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+bool ComboBoxMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{   
+    if (dragSourceDetails.description.toString() == "ComboBoxMapping")
+        return true;
+    else
+        return false;
+}
+ 
+Icon ComboBoxMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->comboboxes, Colours::bisque); }
+
+void ComboBoxMappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+        addSubItem(new ComboBoxMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+}
+
+void ComboBoxMappingRootItem::addItem()
+{
+    addGenericMapping(Ids::comboBox);
+}
+
+/* =========================================================================
+ * TabbedComponentMappingRootItem
+ */
+TabbedComponentMappingRootItem::TabbedComponentMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingRootItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+bool TabbedComponentMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{   
+    if (dragSourceDetails.description.toString() == "TabbedComponentMapping")
+        return true;
+    else
+        return false;
+}
+ 
+Icon TabbedComponentMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque); }
+
+void TabbedComponentMappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+        addSubItem(new TabbedComponentMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+}
+
+void TabbedComponentMappingRootItem::addItem()
+{
+    addGenericMapping(Ids::tabbedComponent);
+}
+
+/* =========================================================================
+ * TextButtonMappingRootItem
+ */
+TextButtonMappingRootItem::TextButtonMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingRootItem(cmm, v, um)
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
+
+bool TextButtonMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
+{   
+    if (dragSourceDetails.description.toString() == "TextButtonMapping")
+        return true;
+    else
+        return false;
+}
+ 
+Icon TextButtonMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->textbuttons, Colours::bisque); }
+
+void TextButtonMappingRootItem::refreshSubItems()
+{
+    WholeTreeOpennessRestorer wtor(*this);
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); ++i)
+        addSubItem(new TextButtonMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+}
+
+void TextButtonMappingRootItem::addItem()
+{
+    addGenericMapping(Ids::textButton);
+}
+
+/* =========================================================================
+ * MappingItem
+ */
+MappingItem::MappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
+
+var MappingItem::getDragSourceDescription()
 {
     return "Mapping";
 }
 
-bool MappingTreeItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
+bool MappingItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
 {
     return false;
 }
 
-String MappingTreeItem::getDisplayName() const 
+String MappingItem::getDisplayName() const 
 {
     String displayName = tree[Ids::name].toString();
     displayName += " => " + tree[Ids::mapTo].toString();
@@ -662,63 +861,86 @@ String MappingTreeItem::getDisplayName() const
     return displayName;
 }
 
-void MappingTreeItem::showMultiSelectionPopupMenu()
+void MappingItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addItem(1, "Delete");
-    m.showMenuAsync (PopupMenu::Options(),
-                     ModalCallbackFunction::create(treeViewMultiSelectItemChosen, (ConfigurationTreeItem*)this));
-}
-
-void MappingTreeItem::showPopupMenu()
-{
-    PopupMenu m;
-    m.addItem(3, "Insert new mapping before");
-    m.addItem(4, "Insert new mapping after");
+    m.addCommandItem(commandManager, CommandIDs::addMapping);
     m.addSeparator();
-    m.addItem (1, "Remove this mapping");
-    launchPopupMenu(m);
+    m.addCommandItem(commandManager, CommandIDs::deleteMapping);
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
 
-void MappingTreeItem::refreshSubItems() {}
+void MappingItem::refreshSubItems() {}
 
-void MappingTreeItem::deleteItem()
+void MappingItem::deleteItem()
 {
-    storeSelectionMove();
+    storeSelectionOnDelete();
+    commandManager->setFirstCommandTarget(&configurationManagerMain);
     tree.getParent().removeChild(tree, &undoManager);
 }
 
-void MappingTreeItem::insertItemBefore()
+void MappingItem::addItem()
 {
-    storeSelectionMove(-1);
-    ValueTree newMapping(tree.getType());
-    tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree), &undoManager);
-}
-
-void MappingTreeItem::insertItemAfter()
-{
-    storeSelectionMove(1);
+    storeSelectionOnAdd();
     ValueTree newMapping(tree.getType());
     tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
-/* =========================================================================
- * SliderMappingTreeItem
- */
-SliderMappingTreeItem::SliderMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingTreeItem(cmm, v, um) {}
+void MappingItem::getAllCommands(Array<CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::addMapping,
+                              CommandIDs::deleteMapping
+                            };
 
-var SliderMappingTreeItem::getDragSourceDescription()
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void MappingItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::addMapping:
+        result.setInfo ("Add mapping", "Adds a new mapping", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::deleteMapping:
+        result.setInfo ("Delete mapping", "Deletes the selected mapping", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::deleteKey, ModifierKeys::noModifiers, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
+        break;
+
+    }
+}
+
+bool MappingItem::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::addMapping:           addItem(); break;
+        case CommandIDs::deleteMapping:        deleteItem(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+/* =========================================================================
+ * SliderMappingItem
+ */
+SliderMappingItem::SliderMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingItem(cmm, v, um) {}
+
+var SliderMappingItem::getDragSourceDescription()
 {
     return "SliderMapping";
 }
 
-Icon SliderMappingTreeItem::getIcon() const
+Icon SliderMappingItem::getIcon() const
 {
     return Icon(Icons::getInstance()->slider, Colours::grey);
 }
 
-void SliderMappingTreeItem::changePanel()
+void SliderMappingItem::changePanel()
 {
     configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Slider"));
 }
@@ -726,20 +948,20 @@ void SliderMappingTreeItem::changePanel()
 /* =========================================================================
  * LabelMappingTreeItem
  */
-LabelMappingTreeItem::LabelMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingTreeItem(cmm, v, um) {}
+LabelMappingItem::LabelMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingItem(cmm, v, um) {}
 
-var LabelMappingTreeItem::getDragSourceDescription()
+var LabelMappingItem::getDragSourceDescription()
 {
     return "LabelMapping";
 }
 
-Icon LabelMappingTreeItem::getIcon() const
+Icon LabelMappingItem::getIcon() const
 {
     return Icon(Icons::getInstance()->label, Colours::grey);
 }
 
-void LabelMappingTreeItem::changePanel()
+void LabelMappingItem::changePanel()
 {
     configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Label"));
 }
@@ -747,41 +969,41 @@ void LabelMappingTreeItem::changePanel()
 /* =========================================================================
  * ComboBoxMappingTreeItem
  */
-ComboBoxMappingTreeItem::ComboBoxMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingTreeItem(cmm, v, um) {}
+ComboBoxMappingItem::ComboBoxMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingItem(cmm, v, um) {}
 
-var ComboBoxMappingTreeItem::getDragSourceDescription()
+var ComboBoxMappingItem::getDragSourceDescription()
 {
     return "ComboBoxMapping";
 }
 
-Icon ComboBoxMappingTreeItem::getIcon() const
+Icon ComboBoxMappingItem::getIcon() const
 {
     return Icon(Icons::getInstance()->combobox, Colours::grey);
 }
 
-void ComboBoxMappingTreeItem::changePanel()
+void ComboBoxMappingItem::changePanel()
 {
     configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "ComboBox"));
 }
 
 /* =========================================================================
- * TabbedComponentMappingTreeItem
+ * TabbedComponentMappingItem
  */
-TabbedComponentMappingTreeItem::TabbedComponentMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingTreeItem(cmm, v, um) {}
+TabbedComponentMappingItem::TabbedComponentMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingItem(cmm, v, um) {}
 
-var TabbedComponentMappingTreeItem::getDragSourceDescription()
+var TabbedComponentMappingItem::getDragSourceDescription()
 {
     return "TabbedComponentMapping";
 }
 
-Icon TabbedComponentMappingTreeItem::getIcon() const
+Icon TabbedComponentMappingItem::getIcon() const
 {
     return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey);
 }
 
-void TabbedComponentMappingTreeItem::changePanel()
+void TabbedComponentMappingItem::changePanel()
 {
     configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "TabbedComponent"));
 }
@@ -789,23 +1011,22 @@ void TabbedComponentMappingTreeItem::changePanel()
 /* =========================================================================
  * TextButtonMappingTreeItem
  */
-TextButtonMappingTreeItem::TextButtonMappingTreeItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingTreeItem(cmm, v, um) {}
+TextButtonMappingItem::TextButtonMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+    : MappingItem(cmm, v, um) {}
 
-var TextButtonMappingTreeItem::getDragSourceDescription()
+var TextButtonMappingItem::getDragSourceDescription()
 {
     return "TextButtonMapping";
 }
 
-Icon TextButtonMappingTreeItem::getIcon() const
+Icon TextButtonMappingItem::getIcon() const
 {
     return Icon(Icons::getInstance()->textbutton, Colours::grey);
 }
 
-String TextButtonMappingTreeItem::getDisplayName() const
+String TextButtonMappingItem::getDisplayName() const
 {
     String displayName = tree[Ids::name].toString();
-
     String settings = tree[Ids::settingDown].toString();
 
     if (tree.hasProperty(Ids::settingUp))
@@ -818,7 +1039,7 @@ String TextButtonMappingTreeItem::getDisplayName() const
     return displayName;
 }
 
-void TextButtonMappingTreeItem::changePanel()
+void TextButtonMappingItem::changePanel()
 {
     configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManagerMain));
 }
@@ -826,7 +1047,7 @@ void TextButtonMappingTreeItem::changePanel()
 /* =========================================================================
  * TreeItemComponent
  */
-TreeItemComponent::TreeItemComponent(ConfigurationTreeItem& i) : item (i)
+TreeItemComponent::TreeItemComponent(ConfigurationItem& i) : item (i)
 {
     setInterceptsMouseClicks (false, true);
 }
