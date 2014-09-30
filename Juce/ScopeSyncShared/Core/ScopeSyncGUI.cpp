@@ -164,6 +164,12 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     }
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
+
+    if (scopeSync.getConfigurationManager() != nullptr)
+    {
+        scopeSync.hideConfigurationManager();
+        scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
+    }        
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)

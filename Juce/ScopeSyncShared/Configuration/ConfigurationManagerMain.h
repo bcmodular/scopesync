@@ -83,8 +83,6 @@ private:
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
-    void deleteSelectedTreeItems();
-    void switchFocusToPanel();
     void undo();
     void redo();
 

@@ -122,8 +122,6 @@ void ConfigurationManagerMain::changePanel(Component* newComponent)
 void ConfigurationManagerMain::unload()
 {
     stopTimer();
-    commandManager->setFirstCommandTarget(nullptr);
-    commandManager->clearCommands();
     saveTreeViewState();
     scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrWidth", getWidth());
     scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrHeight", getHeight());
@@ -145,8 +143,11 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::closeConfig,
                               CommandIDs::undo,
                               CommandIDs::redo,
+                              CommandIDs::focusOnPanel,
+                              CommandIDs::copyItem,
+                              CommandIDs::pasteItem,
                               CommandIDs::deleteItems,
-                              CommandIDs::focusOnPanel
+                              CommandIDs::addItem
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -161,37 +162,49 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo ("Redo", "Redo latest change", CommandCategories::general, 0);
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::deleteItems:
-        result.setInfo ("Delete", "Delete selected items", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
-        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
-        break;
     case CommandIDs::saveConfig:
-        result.setInfo ("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
+        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfigAs:
-        result.setInfo ("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
+        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     case CommandIDs::applyConfigChanges:
-        result.setInfo ("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
+        result.setInfo("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
         break;
     case CommandIDs::discardConfigChanges:
-        result.setInfo ("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
+        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::closeConfig:
-        result.setInfo ("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
+        result.setInfo("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::focusOnPanel:
-        result.setInfo ("Focus on panel", "Switches keyboard focus to edit panel", CommandCategories::configmgr, 0);
+        result.setInfo("Focus on panel", "Switches keyboard focus to edit panel", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress (KeyPress::F2Key, ModifierKeys::noModifiers, 0));
+        break;
+    case CommandIDs::copyItem:
+        result.setInfo ("Copy configuration item", "Copies a configuration item to the clipboard", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::pasteItem:
+        result.setInfo ("Paste configuration item", "Overwrites a configuration item with values from the clipboard", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::deleteItems:
+        result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
+        break;
+    case CommandIDs::addItem:
+        result.setInfo("Add item", "Adds a new configuration item", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
         break;
     }
 }
@@ -202,13 +215,16 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
     {
         case CommandIDs::undo:                 undo(); break;
         case CommandIDs::redo:                 redo(); break;
-        case CommandIDs::deleteItems:          deleteSelectedTreeItems(); break;
         case CommandIDs::saveConfig:           configurationManager.save(); break;
         case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
         case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
-        case CommandIDs::discardConfigChanges: configurationManager.discardChanges(); break;
+        case CommandIDs::discardConfigChanges: configurationManager.reloadConfiguration(); break;
         case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
-        case CommandIDs::focusOnPanel:         switchFocusToPanel(); break;
+        case CommandIDs::focusOnPanel:         panel->grabKeyboardFocus(); break;
+        case CommandIDs::copyItem:             treeView->copyItem(); break;
+        case CommandIDs::pasteItem:            treeView->pasteItem(); break;
+        case CommandIDs::deleteItems:          treeView->deleteSelectedItems(); break;
+        case CommandIDs::addItem:              treeView->addItem(); break;
         default:                               return false;
     }
 
@@ -297,14 +313,4 @@ void ConfigurationManagerMain::paintOverChildren(Graphics& g)
 void ConfigurationManagerMain::timerCallback()
 {
     undoManager.beginNewTransaction();
-}
-
-void ConfigurationManagerMain::deleteSelectedTreeItems()
-{
-    treeView->deleteSelectedItems();
-}
-
-void ConfigurationManagerMain::switchFocusToPanel()
-{
-    panel->grabKeyboardFocus();
 }

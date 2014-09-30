@@ -154,7 +154,7 @@ void ConfigurationManager::saveAs()
     }
 }
 
-void ConfigurationManager::discardChanges()
+void ConfigurationManager::reloadConfiguration()
 {
     scopeSync.reloadSavedConfiguration();
     configurationManagerMain->unload();

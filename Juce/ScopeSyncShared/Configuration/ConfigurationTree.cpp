@@ -70,6 +70,24 @@ void ConfigurationTree::resized()
     tree.setBounds(r);
 }
 
+void ConfigurationTree::copyItem()
+{
+    if (tree.getNumSelectedItems() == 1)
+        dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->copyItem();
+}
+
+void ConfigurationTree::pasteItem()
+{
+    if (tree.getNumSelectedItems() == 1)
+        dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->pasteItem();
+}
+
+void ConfigurationTree::addItem()
+{
+    if (tree.getNumSelectedItems() == 1)
+        dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->addItem();
+}
+
 void ConfigurationTree::deleteSelectedItems()
 {
     StringArray identifiers;

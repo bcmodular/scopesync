@@ -89,6 +89,7 @@ public:
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
 
+    ConfigurationManager* getConfigurationManager() { return configurationManager; };
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
     ApplicationCommandManager* getCommandManager();

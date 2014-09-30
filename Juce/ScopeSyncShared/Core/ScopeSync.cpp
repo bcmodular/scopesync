@@ -509,6 +509,12 @@ bool ScopeSync::processConfigurationChange()
         else
         {
             setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
+            
+            if (configurationManager != nullptr)
+            {
+                hideConfigurationManager();
+            }
+            
             return false;
         }
     }

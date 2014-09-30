@@ -36,7 +36,6 @@ class ConfigurationManagerMain;
  * ConfigurationItem: Base class for Configuration Manager TreeViewItems
  */
 class ConfigurationItem  : public  TreeViewItem,
-                           public  ApplicationCommandTarget,
                            private ValueTree::Listener
 {
 public:
@@ -60,6 +59,9 @@ public:
     void         itemSelectionChanged(bool isNowSelected) override;
     void         itemDoubleClicked(const MouseEvent&) override;
     virtual void changePanel();
+    
+    virtual void copyItem() {};
+    virtual void pasteItem() {};
     virtual void deleteItem() {};
     virtual void addItem() {};
     
@@ -123,12 +125,6 @@ private:
     void valueTreeChildOrderChanged (ValueTree& parentTree) override         { treeChildrenChanged(parentTree); }
     void valueTreeParentChanged (ValueTree&) override {}
 
-    /* ================= Application Command Target overrides ================= */
-    virtual void getAllCommands(Array<CommandID>& /* commands */) override {};
-    virtual void getCommandInfo(CommandID /* commandID */, ApplicationCommandInfo& /* result */) override {};
-    virtual bool perform(const InvocationInfo& /* info */) override { return true; };
-    ApplicationCommandTarget* getNextCommandTarget();
-
     void treeChildrenChanged (const ValueTree& parentTree);
     void invokeChangePanel();
 
@@ -159,11 +155,6 @@ private:
     void refreshSubItems() override;
     void showPopupMenu() override;
 
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterRootItem);
 };
 
@@ -182,23 +173,18 @@ public:
     virtual Icon getIcon() const override = 0;
     virtual String getDisplayName() const override;
 
+    void copyItem() override;
+    void pasteItem() override;
     void deleteItem() override;
     void addItem() override;
-    void insertParameterAt(int index);
 
-    void copyParameter();
-    void pasteParameter();
+    void insertParameterAt(int index);
 
 private:
     void refreshSubItems() override;
     
     void showPopupMenu() override;
 
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterItem);
 };
 
@@ -250,11 +236,6 @@ public:
 private:
     virtual void refreshSubItems() override;
 
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingRootItem);
@@ -372,11 +353,6 @@ private:
     void refreshSubItems() override;
     
     void showPopupMenu() override;
-    
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingItem);
 };

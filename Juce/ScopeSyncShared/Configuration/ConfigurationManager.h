@@ -70,7 +70,7 @@ public:
     void save();
     void saveAndClose();
     void saveAs();
-    void discardChanges();
+    void reloadConfiguration();
     void unload();
 
 private:

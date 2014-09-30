@@ -43,6 +43,9 @@ public:
     void resized() override;
     void saveTreeViewState();
 
+    void copyItem();
+    void pasteItem();
+    void addItem();
     void deleteSelectedItems();
     void changePanel();
 

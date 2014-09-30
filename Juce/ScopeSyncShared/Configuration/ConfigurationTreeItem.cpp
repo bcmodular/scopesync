@@ -42,7 +42,6 @@ ConfigurationItem::ConfigurationItem(ConfigurationManagerMain& cmm, const ValueT
       textX(0),
       commandManager(configurationManagerMain.getCommandManager())
 {
-    commandManager->registerAllCommandsForTarget(this);
     tree.addListener(this);
 }
 
@@ -199,12 +198,10 @@ void ConfigurationItem::itemClicked(const MouseEvent& e)
     {
         if (getOwnerView()->getNumSelectedItems() > 1)
         {
-            commandManager->setFirstCommandTarget(&configurationManagerMain);
             showMultiSelectionPopupMenu();
         }
         else
         {
-            commandManager->setFirstCommandTarget(this);
             showPopupMenu();
         }
     }
@@ -247,6 +244,8 @@ private:
 
 void ConfigurationItem::itemSelectionChanged(bool isNowSelected)
 {
+    DBG("ConfigurationItem::itemSelectionChanged - isNowSelected: " + String(isNowSelected) + ", item: " + getUniqueName());
+
     if (isNowSelected)
     {
         delayedSelectionTimer = new ItemSelectionTimer(*this);
@@ -261,7 +260,6 @@ void ConfigurationItem::itemSelectionChanged(bool isNowSelected)
 void ConfigurationItem::invokeChangePanel()
 {
     cancelDelayedSelectionTimer();
-    commandManager->setFirstCommandTarget(this);
     changePanel();
 }
 
@@ -285,6 +283,8 @@ void ConfigurationItem::changePanel()
 
 void ConfigurationItem::storeSelectionOnAdd()
 {
+    DBG("ConfigurationItem::storeSelectionOnAdd - Row Number: " + String(getRowNumberInTree() + 1));
+
     ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
     configTree->storeSelectedItem(getRowNumberInTree() + 1);
 }
@@ -298,23 +298,16 @@ void ConfigurationItem::storeSelectionOnDelete()
         rowNumber -= 1;
     }
 
+    DBG("ConfigurationItem::storeSelectionOnDelete - Row Number: " + String(rowNumber));
+
     ConfigurationTree* configTree = dynamic_cast<ConfigurationTree*> (getOwnerView()->getParentComponent());
-
     configTree->storeSelectedItem(rowNumber);
-}
-
-ApplicationCommandTarget* ConfigurationItem::getNextCommandTarget()
-{
-    return &configurationManagerMain;
 }
 
 /* =========================================================================
  * ParameterRootItem
  */
-ParameterRootItem::ParameterRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+ParameterRootItem::ParameterRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
 
 var ParameterRootItem::getDragSourceDescription()
 {
@@ -342,7 +335,7 @@ Icon ParameterRootItem::getIcon() const
 void ParameterRootItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addParameter);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Parameter");
     
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
@@ -366,36 +359,6 @@ void ParameterRootItem::refreshSubItems()
     }
 }
 
-void ParameterRootItem::getAllCommands(Array<CommandID>& commands)
-{
-    const CommandID ids[] = { CommandIDs::addParameter
-                            };
-
-    commands.addArray (ids, numElementsInArray (ids));
-}
-
-void ParameterRootItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
-{
-    switch (commandID)
-    {
-    case CommandIDs::addParameter:
-        result.setInfo ("Add parameter", "Adds a new parameter", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
-        break;
-    }
-}
-
-bool ParameterRootItem::perform(const InvocationInfo& info)
-{
-    switch (info.commandID)
-    {
-        case CommandIDs::addParameter:         addItem(); break;
-        default:                               return false;
-    }
-
-    return true;
-}
-
 void ParameterRootItem::addItem()
 {
     storeSelectionOnAdd();
@@ -415,10 +378,7 @@ void ParameterRootItem::addItem()
 /* =========================================================================
  * ParameterItem
  */
-ParameterItem::ParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+ParameterItem::ParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
 
 var ParameterItem::getDragSourceDescription()
 {
@@ -441,12 +401,12 @@ String ParameterItem::getDisplayName() const
 void ParameterItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addParameter);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Parameter");
     m.addSeparator();
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::copyParameter);
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::pasteParameter);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::copyItem, "Copy Parameter Definition");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::pasteItem, "Paste Parameter Definition");
     m.addSeparator();
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::deleteParameter);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::deleteItems, "Delete Parameter");
     
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
@@ -456,7 +416,6 @@ void ParameterItem::refreshSubItems() {}
 void ParameterItem::deleteItem()
 {
     storeSelectionOnDelete();
-    commandManager->setFirstCommandTarget(&configurationManagerMain);
     tree.getParent().removeChild(tree, &undoManager);
 }
 
@@ -480,64 +439,16 @@ void ParameterItem::insertParameterAt(int index)
     }        
 }
 
-void ParameterItem::copyParameter()
+void ParameterItem::copyItem()
 {
     ParameterClipboard::getInstance()->copy(tree);
 }
 
-void ParameterItem::pasteParameter()
+void ParameterItem::pasteItem()
 {
+    storeSelectionOnDelete();
     ParameterClipboard::getInstance()->paste(tree, &undoManager);
     changePanel();
-}
-
-void ParameterItem::getAllCommands(Array<CommandID>& commands)
-{
-    const CommandID ids[] = { CommandIDs::copyParameter,
-                              CommandIDs::pasteParameter,
-                              CommandIDs::deleteParameter,
-                              CommandIDs::addParameter
-                            };
-
-    commands.addArray (ids, numElementsInArray (ids));
-}
-
-void ParameterItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
-{
-    switch (commandID)
-    {
-    case CommandIDs::copyParameter:
-        result.setInfo ("Copy parameter definition", "Copies a parameter's definition to the clipboard", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::pasteParameter:
-        result.setInfo ("Paste parameter definition", "Overwrites a parameter's definition with values from the clipboard", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::deleteParameter:
-        result.setInfo ("Delete parameter", "Deletes the selected parameter", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress (KeyPress::deleteKey, ModifierKeys::noModifiers, 0));
-        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
-        break;
-    case CommandIDs::addParameter:
-        result.setInfo ("Add parameter", "Adds a new parameter", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
-        break;
-    }
-}
-
-bool ParameterItem::perform(const InvocationInfo& info)
-{
-    switch (info.commandID)
-    {
-        case CommandIDs::copyParameter:        copyParameter(); break;
-        case CommandIDs::pasteParameter:       pasteParameter(); break;
-        case CommandIDs::deleteParameter:      deleteItem(); break;
-        case CommandIDs::addParameter:         addItem(); break;
-        default:                               return false;
-    }
-
-    return true;
 }
 
 /* =========================================================================
@@ -611,57 +522,27 @@ void MappingRootItem::refreshSubItems()
     
     clearSubItems();
 
-    for (int i = 0; i < tree.getNumChildren(); ++i)
+    for (int i = 0; i < tree.getNumChildren(); i++)
     {
         ValueTree child = tree.getChild(i);
 
         if (child.hasType(Ids::sliders))
-            addSubItem(new SliderMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem(new SliderMappingRootItem(configurationManagerMain, child, undoManager));
         else if (child.hasType(Ids::labels))
-            addSubItem(new LabelMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem(new LabelMappingRootItem(configurationManagerMain, child, undoManager));
         else if (child.hasType(Ids::comboBoxes))
-            addSubItem(new ComboBoxMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem(new ComboBoxMappingRootItem(configurationManagerMain, child, undoManager));
         else if (child.hasType(Ids::tabbedComponents))
-            addSubItem(new TabbedComponentMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
-        else if (tree.hasType(Ids::textButtons))
-            addSubItem (new TextButtonMappingRootItem(configurationManagerMain, tree.getChild(i), undoManager));
+            addSubItem(new TabbedComponentMappingRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::textButtons))
+            addSubItem(new TextButtonMappingRootItem(configurationManagerMain, child, undoManager));
     }
-}
-
-void MappingRootItem::getAllCommands(Array<CommandID>& commands)
-{
-    const CommandID ids[] = { CommandIDs::addMapping
-                            };
-
-    commands.addArray (ids, numElementsInArray (ids));
-}
-
-void MappingRootItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
-{
-    switch (commandID)
-    {
-    case CommandIDs::addMapping:
-        result.setInfo ("Add mapping", "Adds a new mapping", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
-        break;
-    }
-}
-
-bool MappingRootItem::perform(const InvocationInfo& info)
-{
-    switch (info.commandID)
-    {
-        case CommandIDs::addMapping:           addItem(); break;
-        default:                               return false;
-    }
-
-    return true;
 }
 
 void MappingRootItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addMapping);
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Mapping");
     
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
@@ -677,10 +558,7 @@ void MappingRootItem::addGenericMapping(const Identifier& mappingType)
  * SliderMappingRootItem
  */
 SliderMappingRootItem::SliderMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+    : MappingRootItem(cmm, v, um) {}
 
 bool SliderMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {   
@@ -710,10 +588,7 @@ void SliderMappingRootItem::addItem()
  * LabelMappingRootItem
  */
 LabelMappingRootItem::LabelMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+    : MappingRootItem(cmm, v, um) {}
 
 bool LabelMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {   
@@ -743,10 +618,7 @@ void LabelMappingRootItem::addItem()
  * ComboBoxMappingRootItem
  */
 ComboBoxMappingRootItem::ComboBoxMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+    : MappingRootItem(cmm, v, um) {}
 
 bool ComboBoxMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {   
@@ -776,10 +648,7 @@ void ComboBoxMappingRootItem::addItem()
  * TabbedComponentMappingRootItem
  */
 TabbedComponentMappingRootItem::TabbedComponentMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+    : MappingRootItem(cmm, v, um) {}
 
 bool TabbedComponentMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {   
@@ -809,10 +678,7 @@ void TabbedComponentMappingRootItem::addItem()
  * TextButtonMappingRootItem
  */
 TextButtonMappingRootItem::TextButtonMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-}
+    : MappingRootItem(cmm, v, um) {}
 
 bool TextButtonMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
 {   
@@ -855,8 +721,19 @@ bool MappingItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetail
 
 String MappingItem::getDisplayName() const 
 {
-    String displayName = tree[Ids::name].toString();
-    displayName += " => " + tree[Ids::mapTo].toString();
+    String source = tree[Ids::name].toString();
+    String target = tree[Ids::mapTo].toString();
+    String displayName;
+
+    if (source.isEmpty() && target.isEmpty())
+    {
+        displayName = "Empty Mapping (" + String(getRowNumberInTree()) + ")";
+    }
+    else
+    {
+        displayName = tree[Ids::name].toString();
+        displayName += " => " + tree[Ids::mapTo].toString();
+    }
     
     return displayName;
 }
@@ -864,9 +741,9 @@ String MappingItem::getDisplayName() const
 void MappingItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addCommandItem(commandManager, CommandIDs::addMapping);
+    m.addCommandItem(commandManager, CommandIDs::addItem, "Add Mapping");
     m.addSeparator();
-    m.addCommandItem(commandManager, CommandIDs::deleteMapping);
+    m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Mapping");
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
 
@@ -875,7 +752,6 @@ void MappingItem::refreshSubItems() {}
 void MappingItem::deleteItem()
 {
     storeSelectionOnDelete();
-    commandManager->setFirstCommandTarget(&configurationManagerMain);
     tree.getParent().removeChild(tree, &undoManager);
 }
 
@@ -884,44 +760,6 @@ void MappingItem::addItem()
     storeSelectionOnAdd();
     ValueTree newMapping(tree.getType());
     tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
-}
-
-void MappingItem::getAllCommands(Array<CommandID>& commands)
-{
-    const CommandID ids[] = { CommandIDs::addMapping,
-                              CommandIDs::deleteMapping
-                            };
-
-    commands.addArray (ids, numElementsInArray (ids));
-}
-
-void MappingItem::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
-{
-    switch (commandID)
-    {
-    case CommandIDs::addMapping:
-        result.setInfo ("Add mapping", "Adds a new mapping", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::deleteMapping:
-        result.setInfo ("Delete mapping", "Deletes the selected mapping", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress (KeyPress::deleteKey, ModifierKeys::noModifiers, 0));
-        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
-        break;
-
-    }
-}
-
-bool MappingItem::perform(const InvocationInfo& info)
-{
-    switch (info.commandID)
-    {
-        case CommandIDs::addMapping:           addItem(); break;
-        case CommandIDs::deleteMapping:        deleteItem(); break;
-        default:                               return false;
-    }
-
-    return true;
 }
 
 /* =========================================================================
@@ -1026,15 +864,26 @@ Icon TextButtonMappingItem::getIcon() const
 
 String TextButtonMappingItem::getDisplayName() const
 {
-    String displayName = tree[Ids::name].toString();
-    String settings = tree[Ids::settingDown].toString();
+    String source = tree[Ids::name].toString();
+    String target = tree[Ids::mapTo].toString();
+    String displayName;
 
-    if (tree.hasProperty(Ids::settingUp))
+    if (source.isEmpty() && target.isEmpty())
     {
-        settings += "/" + tree[Ids::settingUp].toString();
+        displayName = "Empty Mapping (" + String(getRowNumberInTree()) + ")";
     }
+    else
+    {
+        displayName = source;
+        String settings = tree[Ids::settingDown].toString();
 
-    displayName += " => " + tree[Ids::mapTo].toString() + " (" + settings + ")";
+        if (tree.hasProperty(Ids::settingUp))
+        {
+            settings += "/" + tree[Ids::settingUp].toString();
+        }
+
+        displayName += " => " + target + " (" + settings + ")";
+    }
     
     return displayName;
 }
