@@ -129,7 +129,7 @@
         </component>
         <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
         <tabbedcomponent displaycontext="scope" lfid="header tab" name="CP-Host Connection" showdropshadow="false">
-          <bounds relativerectangle="right - 58, 7, parent.width - 70, top + 32"></bounds>
+          <bounds relativerectangle="right - 58, 6, parent.width - 70, top + 32"></bounds>
           <tabbar orientation="right" depth="0"></tabbar>
           <tab idx="1" name="DISCONNECTED">
             <component>
