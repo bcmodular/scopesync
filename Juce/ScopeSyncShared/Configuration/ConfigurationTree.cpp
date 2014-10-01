@@ -88,6 +88,12 @@ void ConfigurationTree::addItem()
         dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->addItem();
 }
 
+void ConfigurationTree::addItemFromClipboard()
+{
+    if (tree.getNumSelectedItems() == 1)
+        dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->addItemFromClipboard();
+}
+
 void ConfigurationTree::deleteSelectedItems()
 {
     StringArray identifiers;

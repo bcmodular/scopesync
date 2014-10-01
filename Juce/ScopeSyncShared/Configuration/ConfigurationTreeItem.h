@@ -64,6 +64,7 @@ public:
     virtual void pasteItem() {};
     virtual void deleteItem() {};
     virtual void addItem() {};
+    virtual void addItemFromClipboard() {};
     
     virtual void showPopupMenu() {};
     virtual void showMultiSelectionPopupMenu();
@@ -147,13 +148,16 @@ public:
     Icon getIcon() const override;
     
     void addItem() override;
-
+    void addItemFromClipboard() override;
+    
 protected:
     void addNewSubItem();
     
 private:
     void refreshSubItems() override;
     void showPopupMenu() override;
+
+    void addParameter(const ValueTree& definition);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterRootItem);
 };
@@ -177,8 +181,9 @@ public:
     void pasteItem() override;
     void deleteItem() override;
     void addItem() override;
+    void addItemFromClipboard() override;
 
-    void insertParameterAt(int index);
+    void insertParameterAt(const ValueTree& definition, int index);
 
 private:
     void refreshSubItems() override;

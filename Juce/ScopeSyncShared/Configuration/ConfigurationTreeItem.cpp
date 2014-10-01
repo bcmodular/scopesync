@@ -336,6 +336,7 @@ void ParameterRootItem::showPopupMenu()
 {
     PopupMenu m;
     m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Parameter");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItemFromClipboard, "Add Parameter from clipboard");
     
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
@@ -361,18 +362,35 @@ void ParameterRootItem::refreshSubItems()
 
 void ParameterRootItem::addItem()
 {
+    ValueTree definition;
+    addParameter(definition);
+}
+
+void ParameterRootItem::addItemFromClipboard()
+{
+    ValueTree definition;
+
+    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    {
+        definition = ValueTree(Ids::parameter);
+        ParameterClipboard::getInstance()->paste(definition, nullptr);
+    }
+
+    addParameter(definition);
+}
+
+void ParameterRootItem::addParameter(const ValueTree& definition)
+{
     storeSelectionOnAdd();
     
+    Configuration::ParameterTarget parameterTarget;
+
     if (tree.hasType(Ids::hostParameters))
-    {
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::host, &undoManager);
-    }
-    else if (tree.hasType(Ids::scopeParameters))
-    {
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, 0, Configuration::scopeLocal, &undoManager);
-    }   
+        parameterTarget = Configuration::host;
+    else
+        parameterTarget = Configuration::scopeLocal;
+    
+    configurationManagerMain.getConfiguration().addNewParameter(definition, 0, parameterTarget, &undoManager);
 }
 
 /* =========================================================================
@@ -402,6 +420,7 @@ void ParameterItem::showPopupMenu()
 {
     PopupMenu m;
     m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Parameter");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItemFromClipboard, "Add Parameter from clipboard");
     m.addSeparator();
     m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::copyItem, "Copy Parameter Definition");
     m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::pasteItem, "Paste Parameter Definition");
@@ -421,22 +440,35 @@ void ParameterItem::deleteItem()
 
 void ParameterItem::addItem()
 {
-    storeSelectionOnAdd();
-    insertParameterAt(tree.getParent().indexOf(tree) + 1);
+    ValueTree definition;
+    insertParameterAt(definition, tree.getParent().indexOf(tree) + 1);
 }
 
-void ParameterItem::insertParameterAt(int index)
+void ParameterItem::addItemFromClipboard()
 {
-    if (tree.getParent().hasType(Ids::hostParameters))
+    ValueTree definition;
+    
+    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
     {
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, index, Configuration::host, &undoManager);
+        definition = ValueTree(Ids::parameter);
+        ParameterClipboard::getInstance()->paste(definition, nullptr);
     }
-    else if (tree.getParent().hasType(Ids::scopeParameters))
-    {
-        ValueTree tmp;
-        configurationManagerMain.getConfiguration().addNewParameter(tmp, index, Configuration::scopeLocal, &undoManager);
-    }        
+    
+    insertParameterAt(definition, tree.getParent().indexOf(tree) + 1);
+}
+
+void ParameterItem::insertParameterAt(const ValueTree& definition, int index)
+{
+    storeSelectionOnAdd();
+    
+    Configuration::ParameterTarget parameterTarget;
+
+    if (tree.getParent().hasType(Ids::hostParameters))
+        parameterTarget = Configuration::host;
+    else
+        parameterTarget = Configuration::scopeLocal;
+    
+    configurationManagerMain.getConfiguration().addNewParameter(definition, index, parameterTarget, &undoManager);
 }
 
 void ParameterItem::copyItem()
@@ -541,10 +573,13 @@ void MappingRootItem::refreshSubItems()
 
 void MappingRootItem::showPopupMenu()
 {
-    PopupMenu m;
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Mapping");
+    if (!(tree.hasType(Ids::mapping)))
+    {
+        PopupMenu m;
+        m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Mapping");
     
-    m.showMenuAsync (PopupMenu::Options(), nullptr);
+        m.showMenuAsync (PopupMenu::Options(), nullptr);
+    }
 }
 
 void MappingRootItem::addGenericMapping(const Identifier& mappingType)

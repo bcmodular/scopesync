@@ -109,6 +109,7 @@ namespace CommandIDs
         pasteItem                = 0x200410,
         deleteItems              = 0x200420,
         addItem                  = 0x200430,
+        addItemFromClipboard     = 0x200440,
         
         addSettings              = 0x200600,
         removeSettings           = 0x200610,

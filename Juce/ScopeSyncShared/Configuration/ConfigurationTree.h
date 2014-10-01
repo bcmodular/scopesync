@@ -46,6 +46,7 @@ public:
     void copyItem();
     void pasteItem();
     void addItem();
+    void addItemFromClipboard();
     void deleteSelectedItems();
     void changePanel();
 

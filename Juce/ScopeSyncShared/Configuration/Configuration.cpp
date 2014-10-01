@@ -201,7 +201,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     return true;
 }
 
-void Configuration::addNewParameter(ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
+void Configuration::addNewParameter(const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
 {
     ValueTree newParameter;
 
@@ -211,6 +211,9 @@ void Configuration::addNewParameter(ValueTree& paramValues, int targetIndex, Par
         newParameter = getDefaultParameter().createCopy();
 
     String parameterNameBase = newParameter.getProperty(Ids::name);
+    if (parameterNameBase.isEmpty())
+        parameterNameBase = getDefaultParameter().getProperty(Ids::name);
+
     String newParameterName;
     int settingNum = 1;
     
@@ -225,12 +228,27 @@ void Configuration::addNewParameter(ValueTree& paramValues, int targetIndex, Par
         }
         else
         {
-            String newShortDescription = newParameter.getProperty(Ids::shortDescription).toString() + " " + String(settingNum);
-            String newFullDescription  = newParameter.getProperty(Ids::fullDescription).toString()  + " " + String(settingNum);
+            String newShortDescription = newParameter.getProperty(Ids::shortDescription).toString();
             
+            if (newShortDescription.isEmpty())
+                newShortDescription = getDefaultParameter().getProperty(Ids::shortDescription);
+
+            newShortDescription += " " + String(settingNum);
+
+            String newFullDescription  = newParameter.getProperty(Ids::fullDescription).toString();
+            
+            if (newFullDescription.isEmpty())
+                newFullDescription = getDefaultParameter().getProperty(Ids::fullDescription);
+
+            newFullDescription +=  " " + String(settingNum);
+
             newParameter.setProperty(Ids::name,             newParameterName, um);
             newParameter.setProperty(Ids::shortDescription, newShortDescription, um);
             newParameter.setProperty(Ids::fullDescription,  newShortDescription, um);
+
+            newParameter.setProperty(Ids::scopeSync,  -1, um);
+            newParameter.setProperty(Ids::scopeLocal, -1, um);
+
             break;
         }
     }

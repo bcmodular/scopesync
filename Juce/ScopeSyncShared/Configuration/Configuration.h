@@ -67,8 +67,7 @@ public:
     bool replaceConfiguration(const String& newFileName);
 
     enum ParameterTarget { host, scopeLocal };
-    void addNewParameterFromClipboard(int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
-    void addNewParameter(ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
+    void addNewParameter(const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
 
     StringArray& getComponentNames(const String& componentType);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);

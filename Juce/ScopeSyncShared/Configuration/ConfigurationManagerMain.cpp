@@ -147,7 +147,8 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::copyItem,
                               CommandIDs::pasteItem,
                               CommandIDs::deleteItems,
-                              CommandIDs::addItem
+                              CommandIDs::addItem,
+                              CommandIDs::addItemFromClipboard
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -206,6 +207,10 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.setInfo("Add item", "Adds a new configuration item", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::addItemFromClipboard:
+        result.setInfo("Add item from clipboard", "Adds a new configuration item using the definition stored in the clipboard", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
     }
 }
 
@@ -225,6 +230,7 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
         case CommandIDs::pasteItem:            treeView->pasteItem(); break;
         case CommandIDs::deleteItems:          treeView->deleteSelectedItems(); break;
         case CommandIDs::addItem:              treeView->addItem(); break;
+        case CommandIDs::addItemFromClipboard: treeView->addItemFromClipboard(); break;
         default:                               return false;
     }
 
