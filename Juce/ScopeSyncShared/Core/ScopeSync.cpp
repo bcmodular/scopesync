@@ -125,22 +125,22 @@ void ScopeSync::initCommandManager()
 
 void ScopeSync::showConfigurationManager(int posX, int posY)
 {
-    if (configurationManager == nullptr)
+    if (configurationManagerWindow == nullptr)
     {
-        configurationManager = new ConfigurationManager(*this, posX, posY);
+        configurationManagerWindow = new ConfigurationManagerWindow(*this, posX, posY);
         
         if (ScopeSyncApplication::inScopeFXContext())
         {
-            configurationManager->setAlwaysOnTop(true);
+            configurationManagerWindow->setAlwaysOnTop(true);
         }
     }
 
-    configurationManager->toFront(true);
+    configurationManagerWindow->toFront(true);
 }
 
 void ScopeSync::hideConfigurationManager()
 {
-	configurationManager = nullptr;
+	configurationManagerWindow = nullptr;
 }
 
 ApplicationCommandManager* ScopeSync::getCommandManager()
@@ -150,10 +150,10 @@ ApplicationCommandManager* ScopeSync::getCommandManager()
 
 void ScopeSync::unload()
 {
-    if (configurationManager != nullptr)
+    if (configurationManagerWindow != nullptr)
     {
-        configurationManager->unload();
-        configurationManager = nullptr;
+        configurationManagerWindow->unload();
+        configurationManagerWindow = nullptr;
     }
 
     configuration->saveIfNeededAndUserAgrees(false);
@@ -510,7 +510,7 @@ bool ScopeSync::processConfigurationChange()
         {
             setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
             
-            if (configurationManager != nullptr)
+            if (configurationManagerWindow != nullptr)
             {
                 hideConfigurationManager();
             }
@@ -555,7 +555,7 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < hostParameterTree.getNumChildren(); i++)
     {
-        hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i)));
+        hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter));
         
         int scopeSyncCode = hostParameters[i]->getScopeCode();
         DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
@@ -569,7 +569,7 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < scopeLocalParameterTree.getNumChildren(); i++)
     {
-        scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i)));
+        scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal));
         
         int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
         DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));

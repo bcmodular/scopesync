@@ -39,7 +39,7 @@ class SettingsTable : public  Component,
                       public  ApplicationCommandTarget
 {
 public:
-    SettingsTable(const ValueTree& vt, UndoManager& um, ConfigurationManagerMain& cmm,
+    SettingsTable(const ValueTree& vt, UndoManager& um, Configuration& config, ApplicationCommandManager* acm,
                   ValueTree& parameter);
     ~SettingsTable();
 
@@ -62,18 +62,19 @@ public:
     void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
 
 private:
-    TableListBox table;
-    Font         font;
-    ValueTree    tree;
-    UndoManager& undoManager;
-    ConfigurationManagerMain& configurationManagerMain;
-    Label        numSettingsTextLabel;
-    Label        numSettingsToAddLabel;
-    TextButton   addSettingsButton;
-    TextButton   removeSettingsButton;
-    TextButton   autoFillValuesButton;
-    TextButton   moveUpButton;
-    TextButton   moveDownButton;
+    TableListBox   table;
+    Font           font;
+    ValueTree      tree;
+    UndoManager&   undoManager;
+    Configuration& configuration;
+    ApplicationCommandManager* commandManager;
+    Label          numSettingsTextLabel;
+    Label          numSettingsToAddLabel;
+    TextButton     addSettingsButton;
+    TextButton     removeSettingsButton;
+    TextButton     autoFillValuesButton;
+    TextButton     moveUpButton;
+    TextButton     moveDownButton;
 
     Value        numSettingsToAdd;
     ValueTree    parameter;

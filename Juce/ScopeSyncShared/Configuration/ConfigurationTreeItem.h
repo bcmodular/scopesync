@@ -31,6 +31,7 @@
 #include <JuceHeader.h>
 #include "../Resources/Icons.h"
 class ConfigurationManagerMain;
+class Configuration;
 
 /* =========================================================================
  * ConfigurationItem: Base class for Configuration Manager TreeViewItems
@@ -104,6 +105,7 @@ protected:
     Colour    getContrastingColour (Colour targetColour, float minContrast) const;
     ValueTree tree;
     ConfigurationManagerMain&  configurationManagerMain;
+    Configuration&             configuration;
     ApplicationCommandManager* commandManager;
     UndoManager& undoManager;
 

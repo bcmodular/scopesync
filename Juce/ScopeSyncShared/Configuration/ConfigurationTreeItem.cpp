@@ -28,6 +28,7 @@
 #include "ConfigurationTreeItem.h"
 #include "ConfigurationTree.h"
 #include "ConfigurationManagerMain.h"
+#include "Configuration.h"
 #include "ConfigurationPanel.h"
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
@@ -37,6 +38,7 @@
  */
 ConfigurationItem::ConfigurationItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
     : configurationManagerMain(cmm),
+      configuration(configurationManagerMain.getConfiguration()),
       tree(v),
       undoManager(um),
       textX(0),
@@ -276,9 +278,9 @@ void ConfigurationItem::cancelDelayedSelectionTimer()
 void ConfigurationItem::changePanel()
 {
     if (tree.hasType(Ids::configuration))
-        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain));
+        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configuration, commandManager));
     else
-        configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configurationManagerMain));
+        configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configuration, commandManager));
 }
 
 void ConfigurationItem::storeSelectionOnAdd()
@@ -505,7 +507,7 @@ String HostParameterItem::getDisplayName() const
 
 void HostParameterItem::changePanel()
 {
-    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::hostParameter, configurationManagerMain));
+    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::hostParameter, configuration, commandManager));
 }
 
 /* =========================================================================
@@ -530,7 +532,7 @@ String ScopeParameterItem::getDisplayName() const
 
 void ScopeParameterItem::changePanel()
 {
-    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, ParameterPanel::scopeLocal, configurationManagerMain));
+    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::scopeLocal, configuration, commandManager));
 }
 
 /* =========================================================================
@@ -585,8 +587,9 @@ void MappingRootItem::showPopupMenu()
 void MappingRootItem::addGenericMapping(const Identifier& mappingType)
 {
     storeSelectionOnAdd();
-    ValueTree newMapping(mappingType);
-    tree.addChild(newMapping, 0, &undoManager);
+    
+    ValueTree newMapping;
+    configuration.addNewMapping(mappingType, String::empty, String::empty, newMapping, 0, &undoManager);
 }
 
 /* =========================================================================
@@ -793,8 +796,9 @@ void MappingItem::deleteItem()
 void MappingItem::addItem()
 {
     storeSelectionOnAdd();
-    ValueTree newMapping(tree.getType());
-    tree.getParent().addChild(newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
+
+    ValueTree newMapping;
+    configuration.addNewMapping(tree.getType(), String::empty, String::empty, newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 /* =========================================================================
@@ -815,7 +819,7 @@ Icon SliderMappingItem::getIcon() const
 
 void SliderMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Slider"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "Slider"));
 }
 
 /* =========================================================================
@@ -836,7 +840,7 @@ Icon LabelMappingItem::getIcon() const
 
 void LabelMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "Label"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "Label"));
 }
 
 /* =========================================================================
@@ -857,7 +861,7 @@ Icon ComboBoxMappingItem::getIcon() const
 
 void ComboBoxMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "ComboBox"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "ComboBox"));
 }
 
 /* =========================================================================
@@ -878,7 +882,7 @@ Icon TabbedComponentMappingItem::getIcon() const
 
 void TabbedComponentMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain, "TabbedComponent"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "TabbedComponent"));
 }
 
 /* =========================================================================
@@ -925,7 +929,7 @@ String TextButtonMappingItem::getDisplayName() const
 
 void TextButtonMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManagerMain));
+    configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configuration, commandManager));
 }
 
 /* =========================================================================

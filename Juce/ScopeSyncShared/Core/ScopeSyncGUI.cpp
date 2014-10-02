@@ -165,7 +165,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
 
-    if (scopeSync.getConfigurationManager() != nullptr)
+    if (scopeSync.getConfigurationManagerWindow() != nullptr)
     {
         scopeSync.hideConfigurationManager();
         scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());

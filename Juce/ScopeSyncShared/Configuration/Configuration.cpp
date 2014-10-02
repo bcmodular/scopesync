@@ -263,6 +263,57 @@ void Configuration::addNewParameter(const ValueTree& paramValues, int targetInde
     }
 }
 
+void Configuration::deleteMapping(const Identifier& mappingType, 
+                                  ValueTree& mappingToDelete,
+                                  UndoManager* um)
+{
+    Identifier mappingTypeRoot;
+
+    if (mappingType == Ids::slider)
+        mappingTypeRoot = Ids::sliders;
+    else if (mappingType == Ids::comboBox)
+        mappingTypeRoot = Ids::comboBoxes;
+    else if (mappingType == Ids::textButton)
+        mappingTypeRoot = Ids::textButtons;
+    else if (mappingType == Ids::tabbedComponent)
+        mappingTypeRoot = Ids::tabbedComponents;
+    else if (mappingType == Ids::label)
+        mappingTypeRoot = Ids::labels;
+
+    ValueTree mappingRoot = configurationRoot.getChildWithName(Ids::mapping).getChildWithName(mappingTypeRoot);
+    
+    mappingRoot.removeChild(mappingRoot.indexOf(mappingToDelete), um);
+}
+
+void Configuration::addNewMapping(const Identifier& mappingType, 
+                                  const String& componentName, 
+                                  const String& parameterName, 
+                                  ValueTree& newMapping,
+                                  int targetIndex, 
+                                  UndoManager* um)
+{
+    Identifier mappingTypeRoot;
+
+    if (mappingType == Ids::slider)
+        mappingTypeRoot = Ids::sliders;
+    else if (mappingType == Ids::comboBox)
+        mappingTypeRoot = Ids::comboBoxes;
+    else if (mappingType == Ids::textButton)
+        mappingTypeRoot = Ids::textButtons;
+    else if (mappingType == Ids::tabbedComponent)
+        mappingTypeRoot = Ids::tabbedComponents;
+    else if (mappingType == Ids::label)
+        mappingTypeRoot = Ids::labels;
+
+    ValueTree mappingRoot = configurationRoot.getChildWithName(Ids::mapping).getChildWithName(mappingTypeRoot);
+    
+    newMapping = ValueTree(mappingType);
+    newMapping.setProperty(Ids::name, componentName, um);
+    newMapping.setProperty(Ids::mapTo, parameterName, um);
+
+    mappingRoot.addChild(newMapping, targetIndex, um);
+}
+
 ValueTree Configuration::getDefaultParameter()
 {
     ValueTree defaultParameter(Ids::parameter);
@@ -383,11 +434,48 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
 
         treeWhosePropertyHasChanged.setProperty(Ids::uiSkewFactor, skewFactor, nullptr);
     }
+    else if (property == Ids::mapTo)
+    {
+        if (treeWhosePropertyHasChanged.getType() != Ids::label)
+        {
+            String componentName = treeWhosePropertyHasChanged.getProperty(Ids::name, String::empty);
+            String parameterName = treeWhosePropertyHasChanged.getProperty(Ids::mapTo, String::empty);
+
+            ValueTree labelMappingRoot = treeWhosePropertyHasChanged.getParent().getParent().getChildWithName(Ids::labels);
+            ValueTree labelMapping = labelMappingRoot.getChildWithProperty(Ids::name, componentName);
+
+            if (labelMapping.isValid())
+                labelMapping.setProperty(Ids::mapTo, parameterName, nullptr);
+            else
+            {
+                ValueTree newMapping(Ids::label);
+                newMapping.setProperty(Ids::name, componentName, nullptr);
+                newMapping.setProperty(Ids::mapTo, parameterName, nullptr);
+                labelMappingRoot.addChild(newMapping, -1, nullptr);
+            }
+        }
+    }
 
     changed();
 }
 void Configuration::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */)                { changed(); }
-void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */)            { changed(); }
+
+void Configuration::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved)
+{ 
+    if (parentTree.getParent().hasType(Ids::mapping) && !(childWhichHasBeenRemoved.hasType(Ids::label)))
+    {
+        String componentName = childWhichHasBeenRemoved.getProperty(Ids::name, String::empty);
+        
+        ValueTree labelMappingRoot = parentTree.getParent().getChildWithName(Ids::labels);
+        ValueTree mappedLabel = labelMappingRoot.getChildWithProperty(Ids::name, componentName);
+
+        if (mappedLabel.isValid())
+            labelMappingRoot.removeChild(labelMappingRoot.indexOf(mappedLabel), nullptr);
+    }
+
+    changed();
+}
+
 void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */)                      { changed(); }
 void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */)                                 {}
 

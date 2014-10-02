@@ -69,6 +69,16 @@ public:
     enum ParameterTarget { host, scopeLocal };
     void addNewParameter(const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
 
+    void deleteMapping(const Identifier& mappingType, 
+                       ValueTree& mappingToDelete,
+                       UndoManager* um);
+    void addNewMapping(const Identifier& mappingType,
+                       const String& componentName, 
+                       const String& parameterName, 
+                       ValueTree& newMapping,
+                       int targetIndex, 
+                       UndoManager* um);
+
     StringArray& getComponentNames(const String& componentType);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);

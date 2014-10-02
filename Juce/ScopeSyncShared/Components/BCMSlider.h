@@ -36,7 +36,8 @@ class SliderProperties;
 #include "../Core/BCMParameter.h"
 #include "BCMComponentBounds.h"
 
-class BCMSlider : public Slider
+class BCMSlider : public Slider,
+                  public ApplicationCommandTarget
 {
 public:
     BCMSlider(const String& name, ScopeSyncGUI& owner);
@@ -59,10 +60,13 @@ private:
     bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
     BCMParameter* parameter;       // Pointer to a mapped parameter
 
+    ValueTree   mapping;
+
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
     BCMComponentBounds componentBounds; // Position/Size information
     ScopeSyncGUI& gui;                  // Reference to main ScopeSyncGUI
+    ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
 
     bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
@@ -87,6 +91,17 @@ private:
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
 
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+
+    void deleteMapping();
+    void editMapping();
+    void editMappedParameter();
+    void showPopup();
+    
     // Enumerations for User Settings relating to BCMSliders
     enum RotaryMovement
     {

@@ -13,11 +13,12 @@
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType)
+    : type(parameterType),
+      hostIdx(index),
+      definition(parameterDefinition),
+      affectedByUI(false)
 {
-    hostIdx = index;
-    definition = parameterDefinition;
-    affectedByUI = false;
     putValuesInRange(true);
     setNumDecimalPlaces();
 }
@@ -127,6 +128,9 @@ void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& range
 {
     rangeMin = definition.getProperty(Ids::uiRangeMin);
     rangeMax = definition.getProperty(Ids::uiRangeMax);
+
+    if (rangeMin == rangeMax)
+        rangeMax = rangeMin + 1.0f;
     rangeInt = definition.getProperty(Ids::uiRangeInterval);
     uiSuffix = definition.getProperty(Ids::uiSuffix);
 }

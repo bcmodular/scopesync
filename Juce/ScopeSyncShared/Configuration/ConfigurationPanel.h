@@ -30,8 +30,9 @@
 
 #include <JuceHeader.h>
 #include "../Core/Global.h"
+#include "../Core/BCMParameter.h"
 class SettingsTable;
-class ConfigurationManagerMain;
+class Configuration;
 
 /* =========================================================================
  * PropertyListBuilder: Utility class to help set up Property Lists
@@ -57,22 +58,23 @@ private:
 class BasePanel : public Component
 {
 public:
-    BasePanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    BasePanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
     ~BasePanel();
+
+    void focusGained(FocusChangeType cause) override;
 
 protected:
     ValueTree     valueTree;
     PropertyPanel propertyPanel;
     UndoManager&  undoManager;
-    ConfigurationManagerMain& configurationManagerMain;
+    Configuration& configuration;
+    ApplicationCommandManager* commandManager;
     virtual void rebuildProperties() {};
     
 private:
     
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
-
-    void focusGained(FocusChangeType cause) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasePanel)
 };
@@ -83,7 +85,7 @@ private:
 class EmptyPanel : public BasePanel
 {
 public:
-    EmptyPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    EmptyPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
     ~EmptyPanel();
 
 private:
@@ -97,7 +99,7 @@ private:
 class ConfigurationPanel : public BasePanel
 {
 public:
-    ConfigurationPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    ConfigurationPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
     ~ConfigurationPanel();
 
 protected:
@@ -115,10 +117,9 @@ class ParameterPanel : public BasePanel,
                        public Value::Listener
 {
 public:
-    enum ParameterType {hostParameter, scopeLocal};
-
     ParameterPanel(ValueTree& parameter, UndoManager& um,
-                   ParameterType paramType, ConfigurationManagerMain& cmm);
+                   BCMParameter::ParameterType paramType, Configuration& config,
+                   ApplicationCommandManager* acm, bool showCalloutView = false);
     ~ParameterPanel();
 
     void paintOverChildren(Graphics& g);
@@ -127,12 +128,13 @@ public:
 
 private:
     ScopedPointer<SettingsTable> settingsTable;
-    Value         valueType;
+    Value valueType;
+    bool  calloutView;
 
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer settingsTableConstrainer;
 
-    ParameterType parameterType;
+    BCMParameter::ParameterType parameterType;
 
     void rebuildProperties() override;
     void createDescriptionProperties(PropertyListBuilder& propertyPanel);
@@ -140,7 +142,7 @@ private:
     void createUIProperties(PropertyListBuilder& propertyPanel);
     
     void createSettingsTable();
-
+   
     void resized() override;
     
     void valueChanged(Value& valueThatChanged) override;
@@ -154,7 +156,7 @@ private:
 class MappingPanel : public BasePanel
 {
 public:
-    MappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm, const String& compType);
+    MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const String& compType, bool calloutView = false);
     ~MappingPanel();
 
 protected:
@@ -162,6 +164,7 @@ protected:
 
 private:
     String componentType;
+    bool   showComponent;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingPanel)
 };
@@ -173,7 +176,7 @@ class TextButtonMappingPanel : public MappingPanel,
                                public Value::Listener
 {
 public:
-    TextButtonMappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm);
+    TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, bool hideComponentName = false);
     ~TextButtonMappingPanel();
 
 private:

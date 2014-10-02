@@ -27,6 +27,7 @@
 
 #include "ConfigurationManagerMain.h"
 
+#include "../Core/ScopeSync.h"
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Utils/BCMMisc.h"
@@ -34,17 +35,21 @@
 #include "ConfigurationTree.h"
 #include "../Resources/ImageLoader.h"
 
-ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner,
-                                                   ScopeSync& ss) : configurationManager(owner),
-                                                                    scopeSync(ss),
-                                                                    saveButton("Save"),
-                                                                    saveAsButton("Save As..."),
-                                                                    applyChangesButton("Apply Changes"),
-                                                                    discardChangesButton("Discard All Unsaved Changes"),
-                                                                    undoButton("Undo"),
-                                                                    redoButton("Redo"),
-                                                                    commandManager(scopeSync.getCommandManager())
+/* =========================================================================
+ * ConfigurationManagerMain
+ */
+ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner, ScopeSync& ss) 
+    : configurationManager(owner),
+      scopeSync(ss),
+      saveButton("Save"),
+      saveAsButton("Save As..."),
+      applyChangesButton("Apply Changes"),
+      discardChangesButton("Discard All Unsaved Changes"),
+      undoButton("Undo"),
+      redoButton("Redo")
 {
+    commandManager = configurationManager.getCommandManager();
+    
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
     lookAndFeel.setColour(TreeView::linesColourId,                  Colours::white);
     lookAndFeel.setColour(TreeView::dragAndDropIndicatorColourId,   Colours::red);
@@ -317,6 +322,138 @@ void ConfigurationManagerMain::paintOverChildren(Graphics& g)
 }
 
 void ConfigurationManagerMain::timerCallback()
+{
+    undoManager.beginNewTransaction();
+}
+
+/* =========================================================================
+ * ConfigurationManagerCalloutMain
+ */
+ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
+    ConfigurationManager& owner,
+    ScopeSync& ss,
+    int width,
+    int height)
+    : configurationManager(owner),
+      scopeSync(ss)
+{
+    setLookAndFeel(&lookAndFeel);
+
+    commandManager = configurationManager.getCommandManager();
+    commandManager->registerAllCommandsForTarget(this);
+    
+    setSize(width, height);
+    
+    startTimer(500);
+}
+
+ConfigurationManagerCalloutMain::~ConfigurationManagerCalloutMain()
+{
+    stopTimer();
+}
+
+void ConfigurationManagerCalloutMain::changePanel(Component* newComponent)
+{
+    panel = newComponent;
+    addAndMakeVisible(panel);
+    resized();
+}
+
+void ConfigurationManagerCalloutMain::getAllCommands (Array <CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::saveConfig,
+                              CommandIDs::saveConfigAs,
+                              CommandIDs::applyConfigChanges,
+                              CommandIDs::discardConfigChanges,
+                              CommandIDs::undo,
+                              CommandIDs::redo,
+                              CommandIDs::closeConfig
+                            };
+
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void ConfigurationManagerCalloutMain::getCommandInfo (CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::undo:
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::redo:
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfig:
+        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfigAs:
+        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::applyConfigChanges:
+        result.setInfo("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
+        break;
+    case CommandIDs::discardConfigChanges:
+        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::closeConfig:
+        result.setInfo("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool ConfigurationManagerCalloutMain::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::undo:                 undo(); break;
+        case CommandIDs::redo:                 redo(); break;
+        case CommandIDs::saveConfig:           configurationManager.save(); break;
+        case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
+        case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
+        case CommandIDs::discardConfigChanges: configurationManager.reloadConfiguration(); break;
+        case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+void ConfigurationManagerCalloutMain::undo()
+{
+    undoManager.undo();
+}
+
+void ConfigurationManagerCalloutMain::redo()
+{
+    undoManager.redo();
+}
+
+ApplicationCommandTarget* ConfigurationManagerCalloutMain::getNextCommandTarget()
+{
+    return nullptr;
+}
+
+void ConfigurationManagerCalloutMain::resized()
+{
+    Rectangle<int> localBounds(getLocalBounds());
+    
+    if (panel != nullptr)
+        panel->setBounds(localBounds);
+}
+
+void ConfigurationManagerCalloutMain::paint(Graphics& g)
+{
+    g.fillAll (Colour (0xff434343));
+}
+
+void ConfigurationManagerCalloutMain::timerCallback()
 {
     undoManager.beginNewTransaction();
 }

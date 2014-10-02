@@ -60,9 +60,9 @@ private:
     int maxChars;
 };
 
-SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ConfigurationManagerMain& cmm,
+SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Configuration& config, ApplicationCommandManager* acm,
                              ValueTree& param)
-    : tree(valueTree), undoManager(um), font(14.0f), configurationManagerMain(cmm),
+    : tree(valueTree), undoManager(um), font(14.0f), configuration(config), commandManager(acm),
       numSettingsTextLabel(String::empty, "Num to add:"),
       addSettingsButton("Add"),
       removeSettingsButton("Remove"),
@@ -71,7 +71,7 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Config
       moveDownButton("Move Down"),
       parameter(param)
 {
-    configurationManagerMain.getCommandManager()->registerAllCommandsForTarget(this);
+    commandManager->registerAllCommandsForTarget(this);
 
     addAndMakeVisible(table);
     
@@ -98,19 +98,19 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Config
     numSettingsToAdd = 1;
 
     addAndMakeVisible(addSettingsButton);
-    addSettingsButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::addSettings, true);
+    addSettingsButton.setCommandToTrigger(commandManager, CommandIDs::addSettings, true);
     
     addAndMakeVisible(removeSettingsButton);
-    removeSettingsButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::removeSettings, true);
+    removeSettingsButton.setCommandToTrigger(commandManager, CommandIDs::removeSettings, true);
     
     addAndMakeVisible(autoFillValuesButton);
-    autoFillValuesButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::autoFill, true);
+    autoFillValuesButton.setCommandToTrigger(commandManager, CommandIDs::autoFill, true);
 
     addAndMakeVisible(moveUpButton);
-    moveUpButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::moveUp, true);
+    moveUpButton.setCommandToTrigger(commandManager, CommandIDs::moveUp, true);
 
     addAndMakeVisible(moveDownButton);
-    moveDownButton.setCommandToTrigger(configurationManagerMain.getCommandManager(), CommandIDs::moveDown, true);
+    moveDownButton.setCommandToTrigger(commandManager, CommandIDs::moveDown, true);
 }
 
 SettingsTable::~SettingsTable()
@@ -135,8 +135,6 @@ void SettingsTable::resized()
 
     DBG("SettingsTable::resized - Local Bounds: " + String(localBounds.getWidth()) + ", " + String(localBounds.getHeight()));
     table.setBounds(localBounds.reduced(4, 4));
-
-    configurationManagerMain.getConfiguration().getConfigurationProperties().setValue("lastSettingsTableHeight", table.getHeight() + 38);
 }
     
 int SettingsTable::getNumRows()
@@ -326,7 +324,7 @@ void SettingsTable::updateParameterRanges()
 {
     ParameterPanel* panel = dynamic_cast<ParameterPanel*>(getParentComponent());
 
-    int maxValue = jmax(tree.getNumChildren() - 1, 0);
+    int maxValue = jmax(tree.getNumChildren() - 1, 1);
     panel->setParameterUIRanges(0, maxValue, 0);
 }
 
@@ -387,5 +385,5 @@ void SettingsTable::moveSettings(bool moveUp)
 
 ApplicationCommandTarget* SettingsTable::getNextCommandTarget()
 {
-    return &configurationManagerMain;
+    return nullptr;
 }

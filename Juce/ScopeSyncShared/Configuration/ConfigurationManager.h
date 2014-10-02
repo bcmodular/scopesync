@@ -30,8 +30,11 @@
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Core/ScopeSync.h"
+#include "../Configuration/ConfigurationPanel.h"
+
 class PropertyListBuilder;
 class ConfigurationManagerMain;
+class ConfigurationManagerWindow;
 
 /* =========================================================================
  * ConfigurationMenuBarModel: Sets up the menu bar for the Config Mgr
@@ -39,29 +42,52 @@ class ConfigurationManagerMain;
 class ConfigurationMenuBarModel  : public MenuBarModel
 {
 public:
-    ConfigurationMenuBarModel(ConfigurationManager& owner);
+    ConfigurationMenuBarModel(ConfigurationManagerWindow& owner);
 
     StringArray getMenuBarNames();
     PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName);
     void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) {};
 
-    ConfigurationManager& configurationManager;
+    ConfigurationManagerWindow& configurationManagerWindow;
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationMenuBarModel);
 };
 
 /* =========================================================================
- * ConfigurationManager: Parent window and controller for the Config Mgr
+ * ConfigurationManager: Controller for the Config Mgr
  */
-class ConfigurationManager : public DocumentWindow
+class ConfigurationManager
 {
 public:
-    ConfigurationManager(ScopeSync& owner, int posX, int posY);
+    ConfigurationManager(ScopeSync& owner);
     ~ConfigurationManager();
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
-    Configuration& getConfiguration() { return scopeSync.getConfiguration(); };
+    Configuration&             getConfiguration() { return scopeSync.getConfiguration(); };
+    ScopeSync&                 getScopeSync() { return scopeSync; };
+
+    void save();
+    void saveAs();
+    void reloadConfiguration();
+
+private:
+    ScopeSync&                               scopeSync;
+    ApplicationCommandManager*               commandManager;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
+};
+
+/* =========================================================================
+ * ConfigurationManagerWindow: Parent window for the Config Mgr
+ */
+class ConfigurationManagerWindow : public DocumentWindow
+{
+public:
+    ConfigurationManagerWindow(ScopeSync& owner, int posX, int posY);
+    ~ConfigurationManagerWindow();
+
+    ApplicationCommandManager* getCommandManager() { return commandManager; };
     StringArray getMenuNames();
     void createMenu(PopupMenu& menu, const String& menuName);
     void createFileMenu(PopupMenu& menu);
@@ -70,20 +96,41 @@ public:
     void save();
     void saveAndClose();
     void saveAs();
-    void reloadConfiguration();
     void unload();
+    void reloadConfiguration();
 
 private:
-    ScopeSync&                               scopeSync;
     ApplicationCommandManager*               commandManager;
-    ScopedPointer<ConfigurationMenuBarModel> menuModel;
+    ConfigurationManager                     configurationManager;
     ConfigurationManagerMain*                configurationManagerMain;
+    ScopedPointer<ConfigurationMenuBarModel> menuModel;
     
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerWindow);
 };
 
+/* =========================================================================
+ * ConfigurationManagerCallout: Mini-version of the Config Mgr for a call-out box
+ */
+class ConfigurationManagerCalloutMain;
+
+class ConfigurationManagerCallout : public Component
+{
+public:
+    ConfigurationManagerCallout(ScopeSync& owner, int width, int height);
+    ~ConfigurationManagerCallout();
+
+    void setMappingPanel(ValueTree& mapping, const String& componentType, const String& componentName);
+    void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
+    
+private:
+    ApplicationCommandManager* commandManager;
+    ConfigurationManager       configurationManager;
+    ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCallout);
+};
 
 #endif  // CONFIGURATIONMANAGER_H_INCLUDED

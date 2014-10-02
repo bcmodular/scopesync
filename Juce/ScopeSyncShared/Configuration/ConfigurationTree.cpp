@@ -33,7 +33,7 @@ ConfigurationTree::ConfigurationTree(ConfigurationManagerMain& cmm, Configuratio
     : configurationManagerMain(cmm),
       configuration(config),
       undoManager(um),
-      storedRow(0)
+      storedRow(-1)
 {
     addAndMakeVisible(tree);
 
@@ -133,10 +133,15 @@ void ConfigurationTree::storeSelectedItem(int row)
 
 void ConfigurationTree::moveToSelectedItem()
 {
-    TreeViewItem* itemToMoveTo = tree.getItemOnRow(storedRow);
-            
-    if (itemToMoveTo != nullptr)
+    if (storedRow >= 0)
     {
-        itemToMoveTo->setSelected(true, true);     
+        TreeViewItem* itemToMoveTo = tree.getItemOnRow(storedRow);
+            
+        if (itemToMoveTo != nullptr)
+        {
+            itemToMoveTo->setSelected(true, true);     
+        }
     }
+
+    storedRow = -1;
 }

@@ -42,7 +42,7 @@
 class PluginProcessor;
 class ScopeFX;
 class Configuration;
-class ConfigurationManager;
+class ConfigurationManagerWindow;
 
 #include "../Comms/ScopeSyncAudio.h"
 #include "BCMParameter.h"
@@ -89,7 +89,7 @@ public:
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
 
-    ConfigurationManager* getConfigurationManager() { return configurationManager; };
+    ConfigurationManagerWindow* getConfigurationManagerWindow() { return configurationManagerWindow; };
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
     ApplicationCommandManager* getCommandManager();
@@ -176,7 +176,7 @@ private:
     Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
     ScopedPointer<ApplicationCommandManager> commandManager;
     static Array<ScopeSync*> scopeSyncInstances;       // Tracks instances of this object, so Juce can be shutdown when no more remain
-    ScopedPointer<ConfigurationManager> configurationManager;
+    ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     
     CriticalSection flagLock;
    

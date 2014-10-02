@@ -16,21 +16,27 @@
 class BCMParameter
 {
 public:
-    BCMParameter(int index, ValueTree parameterDefinition);
+    /* ============================ Enumerations ============================== */
+    enum ParameterType      {hostParameter, scopeLocal};
+    enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
+    
+    BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType);
     ~BCMParameter() {};
 
-    void    mapToUIValue(Value& valueToMapTo);
-    void    setAffectedByUI(bool isAffected);
-    bool    isAffectedByUI();
-    String  getName();
-    int     getHostIdx() { return hostIdx; };
-    int     getScopeCode();
-    void    getSettings(ValueTree& settings);
-    void    getDescriptions(String& shortDesc, String& fullDesc);
-    void    getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
-    void    getScopeRanges(int& min, int& max);
-    double  getUIResetValue();
-    double  getUISkewFactor();
+    void       mapToUIValue(Value& valueToMapTo);
+    void       setAffectedByUI(bool isAffected);
+    bool       isAffectedByUI();
+    String     getName();
+    int        getHostIdx() { return hostIdx; };
+    int        getScopeCode();
+    ParameterType getParameterType() { return type; };
+    ValueTree&    getDefinition() { return definition; };
+    void          getSettings(ValueTree& settings);
+    void          getDescriptions(String& shortDesc, String& fullDesc);
+    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
+    void          getScopeRanges(int& min, int& max);
+    double        getUIResetValue();
+    double        getUISkewFactor();
 
     void  getUITextValue(String& textValue);
     float getHostValue();
@@ -42,8 +48,6 @@ public:
     void setScopeIntValue(int newValue);
     void setUIValue(float newValue);
 
-    /* ============================ Enumerations ============================== */
-    enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     
 private:
     /* ====================== Private Parameter Methods ======================= */
@@ -65,12 +69,13 @@ private:
     int   findNearestParameterSetting(const ValueTree& settings, float value);
     
     /* ===================== Private member variables ========================= */
-    ValueTree definition;
-    Value     uiValue;
-    Value     linearNormalisedValue;
-    bool      affectedByUI;
-    int       hostIdx;
-    int       numDecimalPlaces;
+    ParameterType type;
+    ValueTree     definition;
+    Value         uiValue;
+    Value         linearNormalisedValue;
+    bool          affectedByUI;
+    int           hostIdx;
+    int           numDecimalPlaces;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

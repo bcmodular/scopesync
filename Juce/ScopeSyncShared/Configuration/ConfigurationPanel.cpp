@@ -26,7 +26,7 @@
  */
 
 #include "ConfigurationPanel.h"
-#include "ConfigurationManagerMain.h"
+#include "Configuration.h"
 #include "SettingsTable.h"
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
@@ -54,8 +54,8 @@ void PropertyListBuilder::clear()
 /* =========================================================================
  * BasePanel
  */
-BasePanel::BasePanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
-    : valueTree(parameter), undoManager(um), configurationManagerMain(cmm)
+BasePanel::BasePanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
+    : valueTree(node), undoManager(um), configuration(config), commandManager(acm)
 {
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
@@ -98,8 +98,8 @@ void BasePanel::focusGained(FocusChangeType /* cause */)
 /* =========================================================================
  * EmptyPanel
  */
-EmptyPanel::EmptyPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
-    : BasePanel(parameter, um, cmm)
+EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
+    : BasePanel(node, um, config, acm)
 {
     propertyPanel.setVisible(false);
 }
@@ -109,8 +109,8 @@ EmptyPanel::~EmptyPanel() {}
 /* =========================================================================
  * ConfigurationPanel
  */
-ConfigurationPanel::ConfigurationPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
-    : BasePanel(parameter, um, cmm)
+ConfigurationPanel::ConfigurationPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
+    : BasePanel(node, um, config, acm)
 {
     rebuildProperties();
 }
@@ -132,8 +132,9 @@ void ConfigurationPanel::rebuildProperties()
  * ParameterPanel
  */
 ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
-                               ParameterType paramType, ConfigurationManagerMain& cmm)
-    : BasePanel(parameter, um, cmm), parameterType(paramType)
+                               BCMParameter::ParameterType paramType, Configuration& config,
+                               ApplicationCommandManager* acm, bool showCalloutView)
+    : BasePanel(parameter, um, config, acm), parameterType(paramType), calloutView(showCalloutView)
 {
     rebuildProperties();
 
@@ -171,7 +172,7 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, &undoManager), "Short Description", 256, false), "Short Description of parameter");
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, &undoManager),  "Full Description", 256, false),  "Full Description of parameter");
 
-    if (parameterType == hostParameter)
+    if (parameterType == BCMParameter::hostParameter)
     {
         StringArray scopeSyncCodes = ScopeSync::getScopeSyncCodes();
         Array<var>  scopeSyncValues;
@@ -181,7 +182,7 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
 
         props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeSync, &undoManager), "ScopeSync Code", scopeSyncCodes, scopeSyncValues), "ScopeSync Code");
     }
-    else if (parameterType == scopeLocal)
+    else if (parameterType == BCMParameter::scopeLocal)
     {
         StringArray scopeLocalCodes = ScopeSync::getScopeLocalCodes();
         Array<var>  scopeLocalValues;
@@ -217,7 +218,15 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props)
 void ParameterPanel::childBoundsChanged(Component* child)
 {
     if (child == settingsTable)
+    {
+        if (calloutView)
+            configuration.getConfigurationProperties().setValue("lastCalloutSettingsTableHeight", settingsTable->getHeight());
+        else
+            configuration.getConfigurationProperties().setValue("lastSettingsTableHeight", settingsTable->getHeight());
+        
         resized();
+    }
+        
 }
 
 void ParameterPanel::paintOverChildren(Graphics& g)
@@ -260,6 +269,7 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
 {
     if (int(valueThatChanged.getValue()) == 0)
     {
+        resizerBar = nullptr;
         settingsTable = nullptr;
         setParameterUIRanges(0, 100, 0);
         resized();
@@ -280,17 +290,32 @@ void ParameterPanel::setParameterUIRanges(double min, double max, double reset)
 
 void ParameterPanel::createSettingsTable()
 {
-    settingsTableConstrainer.setMinimumHeight(200);
-    settingsTableConstrainer.setMaximumHeight(700);
+    int minHeight;
+    int maxHeight;
+    int lastSettingsTableHeight;
+
+    if (calloutView)
+    {
+        minHeight = 100;
+        maxHeight = 450;
+        lastSettingsTableHeight = configuration.getConfigurationProperties().getIntValue("lastCalloutSettingsTableHeight", 250);
+    }
+    else
+    {
+        minHeight = 200;
+        maxHeight = 700;
+        lastSettingsTableHeight = configuration.getConfigurationProperties().getIntValue("lastSettingsTableHeight", 250);
+    }
+
+    settingsTableConstrainer.setMinimumHeight(minHeight);
+    settingsTableConstrainer.setMaximumHeight(maxHeight);
 
     ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
     
-    int maxValue = jmax(settings.getNumChildren() - 1, 0);
+    int maxValue = jmax(settings.getNumChildren() - 1, 1);
     setParameterUIRanges(0, maxValue, 0);
 
-    settingsTable = new SettingsTable(settings, undoManager, configurationManagerMain, valueTree);
-
-    int lastSettingsTableHeight = configurationManagerMain.getConfiguration().getConfigurationProperties().getIntValue("lastSettingsTableHeight", 250);
+    settingsTable = new SettingsTable(settings, undoManager, configuration, commandManager, valueTree);
     settingsTable->setBounds(0, 0, getWidth(), lastSettingsTableHeight);
     addAndMakeVisible(settingsTable);
 
@@ -302,8 +327,8 @@ void ParameterPanel::createSettingsTable()
 /* =========================================================================
  * MappingPanel
  */
-MappingPanel::MappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm, const String& compType)
-    : BasePanel(parameter, um, cmm), componentType(compType)
+MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const String& compType, bool calloutView)
+    : BasePanel(mapping, um, config, acm), componentType(compType), showComponent(!calloutView)
 {
     rebuildProperties();
 }
@@ -316,13 +341,16 @@ void MappingPanel::rebuildProperties()
 
     props.clear();
 
-    // Set up Component Names
-    StringArray componentNames = configurationManagerMain.getConfiguration().getComponentNames(componentType);
-    Array<var>  componentValues;
+    if (showComponent)
+    {
+        // Set up Component Names
+        StringArray componentNames = configuration.getComponentNames(componentType);
+        Array<var>  componentValues;
 
-    for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
+        for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
 
-    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentType + " Name", componentNames, componentValues), "Choose the "+ componentType + " to map from");
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentType + " Name", componentNames, componentValues), "Choose the "+ componentType + " to map from");
+    }
 
     // Set up Parameter Names
     StringArray parameterNames;
@@ -330,7 +358,7 @@ void MappingPanel::rebuildProperties()
 
     bool discreteOnly(componentType == "TextButton" ? true : false);
 
-    configurationManagerMain.getConfiguration().setupParameterLists(parameterNames, parameterValues, discreteOnly);
+    configuration.setupParameterLists(parameterNames, parameterValues, discreteOnly);
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager), "Parameter", parameterNames, parameterValues), "Choose the Parameter to map to");
 
     propertyPanel.addProperties(props.components);
@@ -340,8 +368,8 @@ void MappingPanel::rebuildProperties()
 /* =========================================================================
  * TextButtonMappingPanel
  */
-TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& parameter, UndoManager& um, ConfigurationManagerMain& cmm)
-    : MappingPanel(parameter, um, cmm, "TextButton"),
+TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, bool hideComponentName)
+    : MappingPanel(mapping, um, config, acm, "TextButton", hideComponentName),
       parameterName(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager)),
       mappingType(valueTree.getPropertyAsValue(Ids::type, &undoManager))
 {
@@ -376,7 +404,7 @@ void TextButtonMappingPanel::rebuildProperties()
     
     if (parameterName.toString().isNotEmpty())
     {
-        configurationManagerMain.getConfiguration().setupSettingLists(parameterName.toString(), settingNames, settingValues);
+        configuration.setupSettingLists(parameterName.toString(), settingNames, settingValues);
     }
     
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingDown, &undoManager), "Down Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the down position");

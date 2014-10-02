@@ -115,7 +115,10 @@ namespace CommandIDs
         removeSettings           = 0x200610,
         autoFill                 = 0x200620,
         moveUp                   = 0x200630,
-        moveDown                 = 0x200640
+        moveDown                 = 0x200640,
+
+        editItem                 = 0x200700,
+        editMappedItem           = 0x200710
     };
 }
 

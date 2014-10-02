@@ -34,7 +34,11 @@
 #include "../Properties/SliderProperties.h"
 #include "../Core/Global.h"
 
-BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner) : Slider(name), gui(owner) {}
+BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
+    : Slider(name), gui(owner), commandManager(gui.getScopeSync().getCommandManager())
+{
+    commandManager->registerAllCommandsForTarget(this);
+}
 
 BCMSlider::~BCMSlider() {}
 
@@ -78,7 +82,6 @@ void BCMSlider::applyProperties(SliderProperties& properties)
 
     mapsToParameter = false;
     
-    ValueTree mapping;
     parameter = gui.getUIMapping(Ids::sliders, getName(), mapping);
 
     if (parameter != nullptr)
@@ -94,7 +97,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         ValueTree parameterSettings;
         parameter->getSettings(parameterSettings);
 
-        if (parameterSettings.isValid())
+        if (parameterSettings.isValid() && parameterSettings.getNumChildren() > 0)
         {
             // We have discrete settings for the mapped parameter, so configure these
             settingsNames.clear();
@@ -126,6 +129,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     }
 
     setTooltip(tooltip);
+    setPopupMenuEnabled(true);
     
     properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
@@ -166,8 +170,15 @@ double BCMSlider::getValueFromText(const String& text)
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
-    switchToTabs();
-    Slider::mouseDown(event);
+    if (event.mods.isPopupMenu())
+    {
+        showPopup();
+    }
+    else
+    {
+        switchToTabs();
+        Slider::mouseDown(event);
+    }
 }
 
 double BCMSlider::valueToProportionOfLength(double value)
@@ -250,4 +261,83 @@ bool BCMSlider::getEncoderSnap(bool encoderSnap)
         encoderSnap = (encoderSnapUserSetting == snap);
     
     return encoderSnap;
+}
+
+void BCMSlider::getAllCommands (Array <CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::deleteItems,
+                              CommandIDs::editItem,
+                              CommandIDs::editMappedItem
+                            };
+
+    commands.addArray (ids, numElementsInArray (ids));
+}
+
+void BCMSlider::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::deleteItems:
+        result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, mapsToParameter ? 0 : 1);
+        result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
+        break;
+    case CommandIDs::editItem:
+        result.setInfo("Edit Item", "Edit the most recently selected item", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::editMappedItem:
+        result.setInfo("Edit Mapped Item", "Edit item mapped to the most recently selected item", CommandCategories::general, mapsToParameter ? 0 : 1);
+        result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    }
+}
+
+bool BCMSlider::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::deleteItems:          deleteMapping(); break;
+        case CommandIDs::editItem:             editMapping(); break;
+        case CommandIDs::editMappedItem:       editMappedParameter(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+ApplicationCommandTarget* BCMSlider::getNextCommandTarget()
+{
+    return nullptr;
+}
+
+void BCMSlider::deleteMapping()
+{
+    gui.getScopeSync().getConfiguration().deleteMapping(Ids::slider, mapping, nullptr);
+    gui.getScopeSync().applyConfiguration();
+}
+
+void BCMSlider::editMapping()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 400, 34);
+    configurationManagerCallout->setMappingPanel(mapping, "Slider", getName());
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+}
+
+void BCMSlider::editMappedParameter()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 550, 700);
+    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+}
+
+void BCMSlider::showPopup()
+{
+    PopupMenu m;
+    m.addCommandItem(commandManager, CommandIDs::editItem, "Edit Parameter Mapping");
+    m.addCommandItem(commandManager, CommandIDs::editMappedItem, "Edit Mapped Parameter");
+    m.addSeparator();
+    m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Parameter Mapping");
+    
+    m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }

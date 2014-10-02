@@ -34,7 +34,11 @@
 
 class ConfigurationTree;
 class PropertyListBuilder;
+class ScopeSync;
 
+/* =========================================================================
+ * ConfigurationManagerMain: Regular version to display in Config Mgr window
+ */
 class ConfigurationManagerMain : public  Component,
                                  public  ApplicationCommandTarget,
                                  private Timer
@@ -89,7 +93,43 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };
 
+/* =========================================================================
+ * ConfigurationManagerMain: Version to show in Callout box
+ */
+class ConfigurationManagerCalloutMain : public  Component,
+                                        public  ApplicationCommandTarget,
+                                        private Timer
+{
+public:
+    ConfigurationManagerCalloutMain(ConfigurationManager& owner, ScopeSync& ss, int width, int height);
+    ~ConfigurationManagerCalloutMain();
 
+    void paint(Graphics& g) override;
+    void resized() override;
+    void changePanel(Component* newComponent);
 
+    UndoManager& getUndoManager() { return undoManager; };
+
+private:
+    LookAndFeel_V3             lookAndFeel;
+    ScopedPointer<Component>   panel;
+    
+    ScopeSync&                   scopeSync;
+    ApplicationCommandManager*   commandManager;
+    ConfigurationManager&        configurationManager;
+    UndoManager                  undoManager;
+    
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+
+    void timerCallback() override;
+    void undo();
+    void redo();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCalloutMain);
+};
 
 #endif  // CONFIGURATIONMANAGERMAIN_H_INCLUDED
