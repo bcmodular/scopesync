@@ -217,6 +217,7 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int w
     
     addKeyListener(commandManager->getKeyMappings());
 
+    setOpaque(true);
     setVisible(true);
     
     setWantsKeyboardFocus (false);
@@ -240,4 +241,9 @@ void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Stri
 void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
 {
     configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, configurationManagerCalloutMain->getUndoManager(), paramType, configurationManager.getConfiguration(), commandManager, true));
+}
+
+void ConfigurationManagerCallout::paint(Graphics& g)
+{
+    g.fillAll(Colour(0xff434343));
 }

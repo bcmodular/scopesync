@@ -37,6 +37,7 @@
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
     : Slider(name), gui(owner), commandManager(gui.getScopeSync().getCommandManager())
 {
+    setWantsKeyboardFocus(true);
     commandManager->registerAllCommandsForTarget(this);
 }
 

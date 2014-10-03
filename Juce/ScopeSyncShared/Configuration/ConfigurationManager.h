@@ -129,6 +129,8 @@ private:
     ApplicationCommandManager* commandManager;
     ConfigurationManager       configurationManager;
     ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;
+
+    void paint(Graphics& g) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCallout);
 };
