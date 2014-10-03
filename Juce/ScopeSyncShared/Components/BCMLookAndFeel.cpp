@@ -524,6 +524,16 @@ Font BCMLookAndFeel::getPopupMenuFont()
     return Font (popupMenuFontHeight, popupMenuFontStyleFlags);
 }
 
+void BCMLookAndFeel::drawCallOutBoxBackground(CallOutBox& box, Graphics& g,
+                                              const Path& path, Image& cachedImage)
+{
+    g.setColour(Colour::greyLevel(0.23f).withAlpha(1.0f));
+    g.fillPath(path);
+
+    g.setColour(Colours::white.withAlpha(1.0f));
+    g.strokePath(path, PathStrokeType(2.0f));
+}
+
 void BCMLookAndFeel::setRotarySliderImage()
 {
     if (rotaryFileName.isNotEmpty())

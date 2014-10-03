@@ -120,6 +120,9 @@ public:
     // Returns font for a PopupMenu (also used by ComboBoxes). Overridden to allow control of font
     Font   getPopupMenuFont();
 
+    // Callback for drawing a CallOutBox's background. Overridden to fix performance issue on Windows 8
+    void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
+
 private:
     String id;            // Identifier for a BCMLookAndFeel
     bool   useImageCache; // Flags as to whether the Image Cache should be used

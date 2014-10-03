@@ -27,16 +27,20 @@
 
 #include "ImageLoader.h"
 #include "../Resources/ImageResources.h"
+#include "../Components/BCMLookAndFeel.h"
 
 juce_ImplementSingleton (ImageLoader)
 
 ImageLoader::ImageLoader()
 {
     loadImageResources();
+    defaultBCMLookAndFeel = new BCMLookAndFeel(true);
+    LookAndFeel::setDefaultLookAndFeel(defaultBCMLookAndFeel);
 }
 
 ImageLoader::~ImageLoader()
 {
+    LookAndFeel::setDefaultLookAndFeel(nullptr);
     clearSingletonInstance();
 }
 

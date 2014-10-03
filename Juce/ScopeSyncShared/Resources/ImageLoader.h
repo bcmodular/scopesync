@@ -29,6 +29,7 @@
 #define IMAGELOADER_H_INCLUDED
 
 #include <JuceHeader.h>
+class BCMLookAndFeel;
 
 class ImageLoader
 {
@@ -53,6 +54,7 @@ private:
     void addImageResource(String imageName, const char* image, int imageSize);
 
     OwnedArray<ImageResource> imageResources;
+    ScopedPointer<BCMLookAndFeel> defaultBCMLookAndFeel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageLoader)
 };
