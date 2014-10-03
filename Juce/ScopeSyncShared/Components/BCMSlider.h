@@ -49,7 +49,7 @@ public:
     bool hasParameter() { return mapsToParameter; };
     
     // Returns the parameter a BCMSlider is mapped to
-    BCMParameter* getParameter()  { return parameter; };
+    BCMParameter* getParameter()  { return parameter.get(); };
 
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
@@ -58,7 +58,7 @@ public:
     
 private:
     bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter* parameter;       // Pointer to a mapped parameter
+    WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
 
     ValueTree   mapping;
 

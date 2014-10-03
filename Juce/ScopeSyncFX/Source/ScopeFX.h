@@ -62,7 +62,8 @@ public:
     // Update current window location values
     void positionChanged(int newPosX, int newPosY);
     
-    ScopeSync& getScopeSync() { return *scopeSync; }
+    ScopeSync& getScopeSync() { return *scopeSync; };
+    void setGUIEnabled(bool shouldBeEnabled);
 
 private:	
     // Initialise member variables

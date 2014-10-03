@@ -47,8 +47,12 @@ public:
     // Callback for timer. Used to check whether this component needs resizing to accommodate a
     // ScopeSyncGUI with a different size
     void timerCallback();
+    void setGUIEnabled(bool shouldBeEnabled);
 
 private:
+    WeakReference<PluginGUI>::Master masterReference;
+    friend class WeakReference<PluginGUI>;
+
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
 
     static const int timerInterval;

@@ -169,7 +169,9 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     {
         scopeSync.hideConfigurationManager();
         scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
-    }        
+    }
+
+    scopeSync.setGUIEnabled(true);
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)

@@ -362,7 +362,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        gui.getScopeSync().beginParameterChangeGesture(*(bcmSlider->getParameter()));
+        gui.getScopeSync().beginParameterChangeGesture(bcmSlider->getParameter());
     }
 }
 
@@ -372,6 +372,6 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        gui.getScopeSync().endParameterChangeGesture(*(bcmSlider->getParameter()));
+        gui.getScopeSync().endParameterChangeGesture(bcmSlider->getParameter());
     }
 }

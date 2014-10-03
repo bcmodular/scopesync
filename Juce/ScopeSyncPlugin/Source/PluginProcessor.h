@@ -85,11 +85,12 @@ public:
 
     void updateListeners(int index, float newHostValue);
     
-    ScopeSync& getScopeSync() const { return *scopeSync; }
+    ScopeSync& getScopeSync() const { return *scopeSync; };
+    void setGUIEnabled(bool shouldBeEnabled);
 
 private:
     ScopedPointer<ScopeSync> scopeSync;
-    PluginGUI*               pluginGUI;
+    WeakReference<PluginGUI> pluginGUI;
 
     void readStateInformation(XmlElement& data);
     void timerCallback();

@@ -187,6 +187,12 @@ void ScopeFX::positionChanged(int newPosX, int newPosY)
     windowHandlerDelay = windowHandlerDelayMax;
 }
 
+void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
+{
+    if (scopeFXGUI != nullptr)
+        scopeFXGUI->setEnabled(shouldBeEnabled);
+}
+
 void ScopeFX::hideWindow()
 {
     scopeFXGUI = nullptr;

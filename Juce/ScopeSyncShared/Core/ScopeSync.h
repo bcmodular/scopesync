@@ -77,8 +77,9 @@ public:
     static const StringArray& getScopeLocalCodes() { return scopeLocalCodes; };
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
-    void beginParameterChangeGesture(BCMParameter& parameter);
-    void endParameterChangeGesture(BCMParameter& parameter);
+    void beginParameterChangeGesture(BCMParameter* parameter);
+    void endParameterChangeGesture(BCMParameter* parameter);
+    void setGUIEnabled(bool shouldBeEnabled);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
     void receiveUpdates();
@@ -149,6 +150,7 @@ private:
     void receiveUpdatesFromScopeAsync();
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
+    void endAllParameterChangeGestures();
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
@@ -177,6 +179,8 @@ private:
     ScopedPointer<ApplicationCommandManager> commandManager;
     static Array<ScopeSync*> scopeSyncInstances;       // Tracks instances of this object, so Juce can be shutdown when no more remain
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
+
+    BigInteger changingParams;
     
     CriticalSection flagLock;
    

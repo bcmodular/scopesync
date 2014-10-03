@@ -52,6 +52,13 @@ PluginGUI::PluginGUI (PluginProcessor* owner)
 PluginGUI::~PluginGUI()
 {
     stopTimer();
+    masterReference.clear();
+}
+
+void PluginGUI::setGUIEnabled(bool shouldBeEnabled)
+{
+    if (scopeSyncGUI != nullptr)
+        scopeSyncGUI->setEnabled(shouldBeEnabled);
 }
 
 void PluginGUI::timerCallback()

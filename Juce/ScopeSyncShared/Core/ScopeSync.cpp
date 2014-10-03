@@ -204,23 +204,51 @@ void ScopeSync::snapshot()
 #endif // __DLL_EFFECT__
 }
 
-void ScopeSync::beginParameterChangeGesture(BCMParameter& parameter)
+void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
 {
+    if (parameter != nullptr)
+    {
 #ifndef __DLL_EFFECT__
-    if (pluginProcessor)
-        pluginProcessor->beginParameterChangeGesture(parameter.getHostIdx()); 
+        int hostIdx = parameter->getHostIdx();
+        pluginProcessor->beginParameterChangeGesture(hostIdx);
+        changingParams.setBit(hostIdx);
 #else
-    parameter.setAffectedByUI(true);
+        parameter->setAffectedByUI(true);
 #endif // __DLL_EFFECT__
+    }
 }
 
-void ScopeSync::endParameterChangeGesture(BCMParameter& parameter)
+void ScopeSync::endParameterChangeGesture(BCMParameter* parameter)
 {
+    if (parameter != nullptr)
+    {
 #ifndef __DLL_EFFECT__
-    pluginProcessor->endParameterChangeGesture(parameter.getHostIdx()); 
+        int hostIdx = parameter->getHostIdx();
+        pluginProcessor->endParameterChangeGesture(hostIdx); 
+        changingParams.clearBit(hostIdx);
 #else
-    parameter.setAffectedByUI(false);
+        parameter->setAffectedByUI(false);
 #endif // __DLL_EFFECT__
+    }
+}
+
+void ScopeSync::endAllParameterChangeGestures()
+{
+    for (int i = 0; i < hostParameters.size(); i++)
+    {
+        BCMParameter* parameter = hostParameters[i];
+#ifndef __DLL_EFFECT__
+        int hostIdx = parameter->getHostIdx();
+
+        if (changingParams[hostIdx])
+        {
+            pluginProcessor->endParameterChangeGesture(hostIdx); 
+            changingParams.clearBit(hostIdx);
+        }
+#else
+        parameter->setAffectedByUI(false);
+#endif // __DLL_EFFECT__
+    }
 }
 
 void ScopeSync::receiveUpdatesFromScopeAudio()
@@ -539,6 +567,9 @@ void ScopeSync::reloadLayout()
 
 void ScopeSync::applyConfiguration()
 {
+    setGUIEnabled(false);
+    endAllParameterChangeGestures();
+
     systemError        = String::empty;
     systemErrorDetails = String::empty;
     
@@ -588,6 +619,15 @@ void ScopeSync::applyConfiguration()
         initialiseScopeParameters = true;
 
     setGUIReload(true);
+}
+
+void ScopeSync::setGUIEnabled(bool shouldBeEnabled)
+{
+#ifndef __DLL_EFFECT__
+    pluginProcessor->setGUIEnabled(shouldBeEnabled);
+#else
+    scopeFX->setGUIEnabled(shouldBeEnabled);
+#endif // __DLL_EFFECT__
 }
 
 void ScopeSync::saveConfiguration()

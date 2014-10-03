@@ -220,6 +220,12 @@ AudioProcessorEditor* PluginProcessor::createEditor()
     return pluginGUI;
 }
 
+void PluginProcessor::setGUIEnabled(bool shouldBeEnabled)
+{
+    if (pluginGUI != nullptr)
+        pluginGUI->setEnabled(shouldBeEnabled);
+}
+
 void PluginProcessor::getStateInformation (MemoryBlock& destData)
 {
     // First put current parameter values into storage

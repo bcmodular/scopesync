@@ -21,7 +21,7 @@ public:
     enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     
     BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType);
-    ~BCMParameter() {};
+    ~BCMParameter() { masterReference.clear(); };
 
     void       mapToUIValue(Value& valueToMapTo);
     void       setAffectedByUI(bool isAffected);
@@ -50,6 +50,9 @@ public:
 
     
 private:
+    WeakReference<BCMParameter>::Master masterReference;
+    friend class WeakReference<BCMParameter>;
+
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
     // ensure the UI and LinearNormalised values are within the ranges
