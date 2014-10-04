@@ -161,7 +161,8 @@
     <complexType name="lookandfeelimagestype">
         <all minOccurs="0" maxOccurs="1">
             <element name="slider" type="tns:sliderimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="textbutton" type="tns:textbuttonimagestype" minOccurs="0" maxOccurs="1"></element>
+            <element name="textbutton" type="tns:buttonimagestype" minOccurs="0" maxOccurs="1"></element>
+            <element name="hyperlinkbutton" type="tns:buttonimagestype" minOccurs="0" maxOccurs="1"></element>
         </all>
     </complexType>
 
@@ -170,7 +171,6 @@
             <element name="rotary" type="tns:sliderrotaryimagestype" minOccurs="0" maxOccurs="1"></element>
             <element name="linearhorizontal" type="tns:sliderlinearimagestype" minOccurs="0" maxOccurs="1"></element>
             <element name="linearvertical" type="tns:sliderlinearimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="textbutton" type="tns:textbuttonimagestype" minOccurs="0" maxOccurs="1"></element>
         </all>
     </complexType>
 
@@ -192,7 +192,7 @@
 
     </complexType>
 
-    <complexType name="textbuttonimagestype">
+    <complexType name="buttonimagestype">
         <attribute name="upfilename" type="string"></attribute>
         <attribute name="downfilename" type="string"></attribute>
         <attribute name="mouseoverupfilename" type="string"></attribute>
