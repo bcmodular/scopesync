@@ -46,7 +46,6 @@
         	<element name="combobox" type="tns:comboboxtype"></element>
         	<element name="rectangle" type="tns:rectangletype"></element>
         	<element name="image" type="tns:imagetype"></element>
-        	<element name="hyperlinkbutton" type="tns:hyperlinkbuttontype"></element>
         </choice>
         <attribute name="id" type="string"></attribute>
         <attribute name="backgroundcolour" type="tns:colouridtype"></attribute>
@@ -67,7 +66,6 @@
 	        <element name="combobox" type="tns:comboboxcolourstype" minOccurs="0"></element>
 	        <element name="tooltip" type="tns:tooltipcolourstype" minOccurs="0"></element>
 	        <element name="bubblecomponent" type="tns:bubblecomponentcolourstype" minOccurs="0"></element>
-	        <element name="hyperlinkbutton" type="tns:hyperlinkbuttoncolourstype" minOccurs="0"></element>
         </all>
     </complexType>
 
@@ -129,10 +127,6 @@
         <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
     </complexType>
     
-    <complexType name="hyperlinkbuttoncolourstype">
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-    </complexType>
-    
     <complexType name="settingstype">
         <attribute name="encodersnap" type="boolean"></attribute>
         <attribute name="rotarymovement" type="tns:rotarymovementtype"></attribute>
@@ -162,7 +156,6 @@
         <all minOccurs="0" maxOccurs="1">
             <element name="slider" type="tns:sliderimagestype" minOccurs="0" maxOccurs="1"></element>
             <element name="textbutton" type="tns:buttonimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="hyperlinkbutton" type="tns:buttonimagestype" minOccurs="0" maxOccurs="1"></element>
         </all>
     </complexType>
 
@@ -356,32 +349,21 @@
     </simpleType>
 
     <complexType name="textbuttontype">
-        <choice minOccurs="1" maxOccurs="unbounded">
-            <element name="bounds" type="tns:boundstype"></element>
-            <element name="choosetab" type="tns:choosetabtype"></element>
-        </choice>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="id" type="string"></attribute>
-        <attribute name="text" type="string"></attribute>
-        <attribute name="tooltip" type="string"></attribute>
-        <attribute name="lfid" type="string"></attribute>
-        <attribute name="radiogroup" type="string"></attribute>
-        <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+    	<choice minOccurs="1" maxOccurs="unbounded">
+    		<element name="bounds" type="tns:boundstype"></element>
+    		<element name="choosetab" type="tns:choosetabtype"></element>
+    	</choice>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="id" type="string"></attribute>
+    	<attribute name="text" type="string"></attribute>
+    	<attribute name="tooltip" type="string"></attribute>
+    	<attribute name="lfid" type="string"></attribute>
+    	<attribute name="radiogroup" type="string"></attribute>
+    	<attribute name="displaycontext"
+    		type="tns:displaycontexttype">
+    	</attribute>
+    	<attribute name="url" type="string"></attribute>
     </complexType>
-    
-    <complexType name="hyperlinkbuttontype">
-        <choice minOccurs="1" maxOccurs="unbounded">
-            <element name="bounds" type="tns:boundstype"></element>
-            <element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
-            <element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
-        </choice>
-        <attribute name="name" type="string"></attribute>
-        <attribute name="id" type="string"></attribute>
-        <attribute name="linkText" type="string"></attribute>
-        <attribute name="tooltip" type="string"></attribute>
-        <attribute name="lfid" type="string"></attribute>
-        <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
-    </complexType>    
 
     <complexType name="choosetabtype">
         <attribute name="tabbedcomponent">
