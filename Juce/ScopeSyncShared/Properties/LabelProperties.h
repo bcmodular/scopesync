@@ -45,6 +45,8 @@ public:
 
     ~LabelProperties();
 
+    enum ParameterTextDisplay {parameterName, shortDescription, fullDescription, scopeCode};
+
     String               name;
     String               id;
     String               text;
@@ -53,11 +55,14 @@ public:
     float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
+    ParameterTextDisplay parameterTextDisplay;
     
 private:
     void initialise();
-    void copyProperties(LabelProperties& parentLabelProperties);
-    void setValuesFromXML(XmlElement& labelXML);
+    void copyProperties(const LabelProperties& parentLabelProperties);
+    void setValuesFromXML(const XmlElement& labelXML);
+
+    void getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& parameterTextDisplay);
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelProperties);

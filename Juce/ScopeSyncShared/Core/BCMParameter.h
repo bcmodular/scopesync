@@ -23,12 +23,13 @@ public:
     BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType);
     ~BCMParameter() { masterReference.clear(); };
 
-    void       mapToUIValue(Value& valueToMapTo);
-    void       setAffectedByUI(bool isAffected);
-    bool       isAffectedByUI();
-    String     getName();
-    int        getHostIdx() { return hostIdx; };
-    int        getScopeCode();
+    void          mapToUIValue(Value& valueToMapTo);
+    void          setAffectedByUI(bool isAffected);
+    bool          isAffectedByUI();
+    String        getName();
+    int           getHostIdx() { return hostIdx; };
+    int           getScopeCode();
+    String        getScopeCodeText();
     ParameterType getParameterType() { return type; };
     ValueTree&    getDefinition() { return definition; };
     void          getSettings(ValueTree& settings);

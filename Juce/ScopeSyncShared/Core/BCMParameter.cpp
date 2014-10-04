@@ -12,6 +12,7 @@
 #include "../Utils/BCMMath.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
+#include "ScopeSync.h"
 
 BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType)
     : type(parameterType),
@@ -96,12 +97,16 @@ String BCMParameter::getName()
 
 int BCMParameter::getScopeCode()
 {
-    int scopeCode = definition.getProperty(Ids::scopeSync);
+    int scopeCode;
 
-    if (scopeCode == -1)
+    if (type == hostParameter)
     {
-        scopeCode = definition.getProperty(Ids::scopeLocal);
-
+        scopeCode = definition.getProperty(Ids::scopeSync, -1);
+    }
+    else
+    {
+        scopeCode = definition.getProperty(Ids::scopeLocal, -1);
+        
         if (scopeCode != -1)
         {
             // We found one, so shift the value by the number of
@@ -109,8 +114,30 @@ int BCMParameter::getScopeCode()
             scopeCode += ScopeSyncApplication::numScopeSyncParameters;
         }
     }
-    
+
     return scopeCode;
+}
+
+String BCMParameter::getScopeCodeText()
+{
+    String scopeCodeText(String::empty);
+
+    if (type == hostParameter)
+    {
+        int scopeCode = definition.getProperty(Ids::scopeSync, -1);
+
+        if (scopeCode != -1)
+            scopeCodeText = ScopeSync::getScopeSyncCode(scopeCode);
+    }
+    else
+    {
+        int scopeCode = definition.getProperty(Ids::scopeLocal, -1);
+
+        if (scopeCode != -1)
+            scopeCodeText = ScopeSync::getScopeLocalCode(scopeCode);
+    }
+
+    return scopeCodeText;
 }
 
 void BCMParameter::getSettings(ValueTree& settings)
