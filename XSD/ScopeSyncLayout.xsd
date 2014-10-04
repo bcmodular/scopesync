@@ -225,13 +225,16 @@
     		<element name="justification" type="tns:justificationtype"
     			minOccurs="0" maxOccurs="1">
     		</element>
-    	</all>        <attribute name="name" type="string"></attribute>
-        <attribute name="id" type="string"></attribute>
-        <attribute name="text" type="string"></attribute>
+    	</all>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="id" type="string"></attribute>
+    	<attribute name="text" type="string"></attribute>
     	<attribute name="lfid" type="string"></attribute>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
-    	</attribute>
+    	</attribute>
+
+    	<attribute name="parametertextdisplay" type="tns:parametertextdisplaytype"></attribute>
     </complexType>
 
     <complexType name="fonttype">
@@ -486,4 +489,13 @@
     	</restriction>
     </simpleType>
 
+
+    <simpleType name="parametertextdisplaytype">
+    	<restriction base="string">
+    		<enumeration value="name"></enumeration>
+    		<enumeration value="shortdescription"></enumeration>
+    		<enumeration value="fulldescription"></enumeration>
+    		<enumeration value="scopecode"></enumeration>
+    	</restriction>
+    </simpleType>
 </schema>
