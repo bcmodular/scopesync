@@ -31,6 +31,7 @@
             <element name="component" type="tns:componenttype" minOccurs="0" maxOccurs="1"></element>
             <element name="tabbedcomponent" type="tns:tabbedcomponenttype" minOccurs="0" maxOccurs="1"></element>
             <element name="tab" type="tns:tabtype" minOccurs="0" maxOccurs="1"></element>
+            <element name="settings" type="tns:settingstype" minOccurs="0" maxOccurs="1"></element>
         </all>
     </complexType>
     
@@ -41,12 +42,11 @@
         	<element name="slider" type="tns:slidertype"></element>
         	<element name="label" type="tns:labeltype"></element>
         	<element name="textbutton" type="tns:textbuttontype"></element>
-        	<element name="tabbedcomponent"
-        		type="tns:tabbedcomponenttype">
-        	</element>
+        	<element name="tabbedcomponent" type="tns:tabbedcomponenttype"></element>
         	<element name="combobox" type="tns:comboboxtype"></element>
         	<element name="rectangle" type="tns:rectangletype"></element>
         	<element name="image" type="tns:imagetype"></element>
+        	<element name="hyperlinkbutton" type="tns:hyperlinkbuttontype"></element>
         </choice>
         <attribute name="id" type="string"></attribute>
         <attribute name="backgroundcolour" type="tns:colouridtype"></attribute>
@@ -65,6 +65,9 @@
 	        <element name="tabbar" type="tns:tabbarcolourstype" minOccurs="0"></element>
 	        <element name="texteditor" type="tns:texteditorcolourstype" minOccurs="0"></element>
 	        <element name="combobox" type="tns:comboboxcolourstype" minOccurs="0"></element>
+	        <element name="tooltip" type="tns:tooltipcolourstype" minOccurs="0"></element>
+	        <element name="bubblecomponent" type="tns:bubblecomponentcolourstype" minOccurs="0"></element>
+	        <element name="hyperlinkbutton" type="tns:hyperlinkbuttoncolourstype" minOccurs="0"></element>
         </all>
     </complexType>
 
@@ -114,6 +117,38 @@
         <attribute name="frontoutlinecolourid" type="tns:colouridtype"></attribute>
         <attribute name="fronttextcolourid" type="tns:colouridtype"></attribute>
     </complexType>
+    
+    <complexType name="tooltipcolourstype">
+        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
+    </complexType>
+    
+    <complexType name="bubblecomponentcolourstype">
+        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
+    </complexType>
+    
+    <complexType name="hyperlinkbuttoncolourstype">
+        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
+    </complexType>
+    
+    <complexType name="settingstype">
+        <attribute name="encodersnap" type="boolean"></attribute>
+        <attribute name="rotarymovement" type="tns:rotarymovementtype"></attribute>
+        <attribute name="incdecbuttonmode" type="tns:incdecbuttonmodetype"></attribute>
+        <attribute name="popupenabled" type="boolean"></attribute>
+        <attribute name="velocitybasedmode" type="boolean"></attribute>
+        <attribute name="enabletooltips" type="boolean"></attribute>
+        <attribute name="tooltipdelaytime">
+        	<simpleType>
+        		<restriction base="int">
+
+        			<minInclusive value="0"></minInclusive>
+        		</restriction>
+        	</simpleType>
+        </attribute>
+    </complexType>    
     
     <simpleType name="colouridtype">
         <restriction base="string">
@@ -219,12 +254,8 @@
     <complexType name="labeltype">
     	<all minOccurs="0" maxOccurs="1">
     		<element name="bounds" type="tns:boundstype"></element>
-    		<element name="font" type="tns:fonttype" minOccurs="0"
-    			maxOccurs="1">
-    		</element>
-    		<element name="justification" type="tns:justificationtype"
-    			minOccurs="0" maxOccurs="1">
-    		</element>
+    		<element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
+    		<element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
     	</all>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="id" type="string"></attribute>
@@ -284,6 +315,7 @@
     		<enumeration value="rotaryverticaldrag"></enumeration>
     		<enumeration value="rotaryhorizontalverticaldrag"></enumeration>
     		<enumeration value="incdecbuttons"></enumeration>
+    		<enumeration value="defaultrotarymovement"></enumeration>
     	</restriction>
     </simpleType>
 
@@ -336,6 +368,20 @@
         <attribute name="radiogroup" type="string"></attribute>
         <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
     </complexType>
+    
+    <complexType name="hyperlinkbuttontype">
+        <choice minOccurs="1" maxOccurs="unbounded">
+            <element name="bounds" type="tns:boundstype"></element>
+            <element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
+            <element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
+        </choice>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="id" type="string"></attribute>
+        <attribute name="linkText" type="string"></attribute>
+        <attribute name="tooltip" type="string"></attribute>
+        <attribute name="lfid" type="string"></attribute>
+        <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+    </complexType>    
 
     <complexType name="choosetabtype">
         <attribute name="tabbedcomponent">
@@ -496,6 +542,15 @@
     		<enumeration value="shortdescription"></enumeration>
     		<enumeration value="fulldescription"></enumeration>
     		<enumeration value="scopecode"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="rotarymovementtype">
+    	<restriction base="string">
+    		<enumeration value="rotary"></enumeration>
+    		<enumeration value="vertical"></enumeration>
+    		<enumeration value="horizontal"></enumeration>
+    		<enumeration value="horizontalandvertical"></enumeration>
     	</restriction>
     </simpleType>
 </schema>
