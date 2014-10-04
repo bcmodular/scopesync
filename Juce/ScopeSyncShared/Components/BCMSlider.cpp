@@ -52,6 +52,10 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     justificationFlags = properties.justificationFlags;
     
     overrideSliderStyle(properties.style);
+    
+    if (properties.style == Slider::IncDecButtons)
+        overrideIncDecButtonMode(properties.incDecButtonMode);
+
     overridePopupEnabled(properties.popupEnabled);
     overrideVelocityBasedMode(properties.velocityBasedMode);
 
@@ -213,7 +217,7 @@ void BCMSlider::switchToTabs()
     }
 }
 
-void BCMSlider::overrideSliderStyle(Slider::SliderStyle style)
+void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)
 {
     RotaryMovement rotaryMovementUserSetting = RotaryMovement(UserSettings::getInstance()->getAppProperties()->getIntValue("rotarymovement", 1));
 
@@ -223,15 +227,28 @@ void BCMSlider::overrideSliderStyle(Slider::SliderStyle style)
         || style == RotaryVerticalDrag 
         || style == RotaryHorizontalVerticalDrag))
     {
-             if (rotaryMovementUserSetting == rotary)             setSliderStyle(Rotary);
-        else if (rotaryMovementUserSetting == vertical)           setSliderStyle(RotaryVerticalDrag);
-        else if (rotaryMovementUserSetting == horizontal)         setSliderStyle(RotaryHorizontalDrag);
-        else if (rotaryMovementUserSetting == horizontalVertical) setSliderStyle(RotaryHorizontalVerticalDrag); 
+             if (rotaryMovementUserSetting == rotary)             style = Rotary;
+        else if (rotaryMovementUserSetting == vertical)           style = RotaryVerticalDrag;
+        else if (rotaryMovementUserSetting == horizontal)         style = RotaryHorizontalDrag;
+        else if (rotaryMovementUserSetting == horizontalVertical) style = RotaryHorizontalVerticalDrag; 
     }
-    else
+    
+    setSliderStyle(style);
+}
+
+void BCMSlider::overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode)
+{
+    IDBMode incDecButtonsUserSetting = IDBMode(UserSettings::getInstance()->getAppProperties()->getIntValue("incdecbuttonmode", 1));
+
+    if (incDecButtonsUserSetting != noOverride_IDB)
     {
-        setSliderStyle(style);
+             if (incDecButtonsUserSetting == idbNotDraggable)  incDecButtonMode = incDecButtonsNotDraggable;
+        else if (incDecButtonsUserSetting == idbAutoDirection) incDecButtonMode = incDecButtonsDraggable_AutoDirection;
+        else if (incDecButtonsUserSetting == idbHorizontal)    incDecButtonMode = incDecButtonsDraggable_Horizontal;
+        else if (incDecButtonsUserSetting == idbVertical)      incDecButtonMode = incDecButtonsDraggable_Vertical;
     }
+    
+    setIncDecButtonsMode(incDecButtonMode);
 }
 
 void BCMSlider::overridePopupEnabled(bool popupEnabledFlag)

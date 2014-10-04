@@ -31,4 +31,22 @@
 
 String createAlphaNumericUID();
 
+/* =========================================================================
+ * PropertyListBuilder: Utility class to help set up Property Lists
+ */
+class PropertyListBuilder
+{
+public:
+    PropertyListBuilder() {}
+
+    void add(PropertyComponent* propertyComp);
+    void add(PropertyComponent* propertyComp, const String& tooltip);
+    void clear();
+
+    Array<PropertyComponent*> components;
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyListBuilder)
+};
+
 #endif  // BCMMISC_H_INCLUDED

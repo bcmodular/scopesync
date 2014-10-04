@@ -31,25 +31,7 @@
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/ScopeSync.h"
-
-/* =========================================================================
- * PropertyListBuilder
- */
-void PropertyListBuilder::add(PropertyComponent* propertyComp)
-{
-    components.add(propertyComp);
-}
-
-void PropertyListBuilder::add(PropertyComponent* propertyComp, const String& tooltip)
-{
-    propertyComp->setTooltip (tooltip);
-    add(propertyComp);
-}
-
-void PropertyListBuilder::clear()
-{
-    components.clear();
-}
+#include "../Utils/BCMMisc.h"
 
 /* =========================================================================
  * BasePanel

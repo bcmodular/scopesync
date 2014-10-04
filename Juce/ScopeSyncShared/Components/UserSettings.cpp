@@ -27,30 +27,128 @@
 #include "UserSettings.h"
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
-#ifndef __DLL_EFFECT__
-    #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
-#else
-    #include "../../ScopeSyncFX/Source/ScopeFX.h"
-#endif // __DLL_EFFECT__
+#include "../Core/ScopeSync.h"
+#include "../Utils/BCMMisc.h"
+
+/* =========================================================================
+ * EncoderSnapProperty
+ */
+class EncoderSnapProperty : public ChoicePropertyComponent
+{
+public:
+    EncoderSnapProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Snap"), owner(userSettings)
+    {
+        choices.add ("No Override");
+        choices.add ("Don\'t Snap");
+        choices.add ("Snap");
+    }
+
+    void setIndex (int newIndex) override { owner.setPropertyIntValue("encodersnap", newIndex + 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("encodersnap", 1) - 1; }
+
+private:
+    UserSettings& owner;
+};
+
+/* =========================================================================
+ * RotaryMovementProperty
+ */
+class RotaryMovementProperty : public ChoicePropertyComponent
+{
+public:
+    RotaryMovementProperty(UserSettings& userSettings) : ChoicePropertyComponent("Rotary Encoder Movement"), owner(userSettings)
+    {
+        choices.add ("No Override");
+        choices.add ("Rotary");
+        choices.add ("Vertical");
+        choices.add ("Horizontal");
+        choices.add ("Horizontal & Vertical");
+    }
+
+    void setIndex (int newIndex) override { owner.setPropertyIntValue("rotarymovement", newIndex + 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("rotarymovement", 1) - 1; }
+
+private:
+    UserSettings& owner;
+};
+
+/* =========================================================================
+ * IncDecButtonModeProperty
+ */
+class IncDecButtonModeProperty : public ChoicePropertyComponent
+{
+public:
+    IncDecButtonModeProperty(UserSettings& userSettings) : ChoicePropertyComponent("Inc/Dec Button Mode"), owner(userSettings)
+    {
+        choices.add ("No Override");
+        choices.add ("Not Draggable");
+        choices.add ("Auto Direction");
+        choices.add ("Horizontal");
+        choices.add ("Vertical");
+    }
+
+    void setIndex (int newIndex) override { owner.setPropertyIntValue("incdecbuttonmode", newIndex + 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("incdecbuttonmode", 1) - 1; }
+
+private:
+    UserSettings& owner;
+};
+
+/* =========================================================================
+ * PopupEnabledProperty
+ */
+class PopupEnabledProperty : public ChoicePropertyComponent
+{
+public:
+    PopupEnabledProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Popup Enabled"), owner(userSettings)
+    {
+        choices.add ("No Override");
+        choices.add ("Enabled");
+        choices.add ("Disabled");
+    }
+
+    void setIndex (int newIndex) override { owner.setPropertyIntValue("popupenabled", newIndex + 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("popupenabled", 1) - 1; }
+
+private:
+    UserSettings& owner;
+};
+
+/* =========================================================================
+ * EncoderVelocityModeProperty
+ */
+class EncoderVelocityModeProperty : public ChoicePropertyComponent
+{
+public:
+    EncoderVelocityModeProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Velocity Mode"), owner(userSettings)
+    {
+        choices.add ("No Override");
+        choices.add ("Enabled");
+        choices.add ("Disabled");
+    }
+
+    void setIndex (int newIndex) override { owner.setPropertyIntValue("velocitybasedmode", newIndex + 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("velocitybasedmode", 1) - 1; }
+
+private:
+    UserSettings& owner;
+};
 
 juce_ImplementSingleton(UserSettings)
 
+/* =========================================================================
+ * UserSettings
+ */
 UserSettings::UserSettings()
 {
-    PropertiesFile::Options options;
-    options.applicationName     = ProjectInfo::projectName;
-    options.folderName          = ProjectInfo::projectName;
-    options.filenameSuffix      = "settings";
-    options.osxLibrarySubFolder = "Application Support";
-    appProperties.setStorageParameters(options);
-
-    properties = appProperties.getUserSettings();
-
+    addAndMakeVisible(propertyPanel);
+    setWantsKeyboardFocus(true);
+    propertyPanel.setWantsKeyboardFocus(true);
+    
     setName("User Settings");
-        
-    setupGUIElements();
-    loadSettings();
-    setSize (400, 175);
+    setupPanel();
+    
+    setSize (getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
 
 UserSettings::~UserSettings()
@@ -58,111 +156,49 @@ UserSettings::~UserSettings()
     clearSingletonInstance();
 }
 
-void UserSettings::setupGUIElements()
+void UserSettings::setupPanel()
 {
-    addAndMakeVisible (encoderSnapLabel = setupLabel("Encoder Snap Label",
-                                                     "Encoder Snap To Value",
-                                                     "Choose whether encoders snap to valid parameter values"));
-    
-    addAndMakeVisible(encoderSnapComboBox = setupComboBox("Encoder Snap ComboBox", "Choose whether encoders snap to valid parameter values"));
-    encoderSnapComboBox->addItem (TRANS("No Override"), 1);
-    encoderSnapComboBox->addItem (TRANS("Don\'t Snap"), 2);
-    encoderSnapComboBox->addItem (TRANS("Snap"), 3);
-    
-    addAndMakeVisible (rotaryMovementLabel = setupLabel("Rotary Movement Label",
-                                                        "Rotary Encoder Movement",
-                                                        "Choose which mouse movement type to be used by rotary encoders"));
-    
-    addAndMakeVisible(rotaryMovementComboBox = setupComboBox("Rotary Movement ComboBox", "Choose which mouse movement type to be used by rotary encoders"));
-    rotaryMovementComboBox->addItem (TRANS("No Override"), 1);
-    rotaryMovementComboBox->addItem (TRANS("Rotary"), 2);
-    rotaryMovementComboBox->addItem (TRANS("Vertical"), 3);
-    rotaryMovementComboBox->addItem (TRANS("Horizontal"), 4);
-    rotaryMovementComboBox->addItem (TRANS("Horizontal & Vertical"), 5);
-    
-    addAndMakeVisible (popupEnabledLabel = setupLabel("Popup Enabled Label",
-                                                      "Encoder Popup Enabled",
-                                                      "Choose whether encoders show a popup with current value when dragging"));
-    
-    addAndMakeVisible(popupEnabledComboBox = setupComboBox("Popup Enabled ComboBox", "Choose whether encoders show a popup with current value when dragging"));
-    popupEnabledComboBox->addItem (TRANS("No Override"), 1);
-    popupEnabledComboBox->addItem (TRANS("Enabled"), 2);
-    popupEnabledComboBox->addItem (TRANS("Disabled"), 3);
-    
-    addAndMakeVisible (encoderVelocityModeLabel = setupLabel("Encoder Velocity Mode Label",
-                                                             "Encoder Velocity Mode",
-                                                             "Choose whether Velocity Based Mode is enabled for Encoders"));
-    
-    addAndMakeVisible(encoderVelocityModeComboBox = setupComboBox("Encoder Velocity Mode ComboBox", "Choose whether Velocity Based Mode is enabled for Encoders"));
-    encoderVelocityModeComboBox->addItem (TRANS("No Override"), 1);
-    encoderVelocityModeComboBox->addItem (TRANS("Enabled"), 2);
-    encoderVelocityModeComboBox->addItem (TRANS("Disabled"), 3);
-}
+    PropertyListBuilder props;
+    props.clear();
 
-Label* UserSettings::setupLabel(const String& labelName, const String& labelText, const String& tooltip)
-{
-    Label* newLabel = new Label(labelName, labelText);
-    newLabel->setTooltip(tooltip);
-    newLabel->setFont(Font (15.00f, Font::plain));
-    newLabel->setJustificationType(Justification::centredRight);
-    newLabel->setEditable(false, false, false);
-    newLabel->setColour(Label::textColourId, Colours::aliceblue);
-    newLabel->setColour(TextEditor::textColourId, Colours::black);
-    newLabel->setColour(TextEditor::backgroundColourId, Colour (0x00000000));
+    props.add(new EncoderSnapProperty(*this),         "Choose whether encoders snap to valid parameter values");
+    props.add(new RotaryMovementProperty(*this),      "Choose which mouse movement type is to be used by rotary encoders");
+    props.add(new IncDecButtonModeProperty(*this),    "Choose the mode for Inc/Dec button style Sliders");
+    props.add(new PopupEnabledProperty(*this),        "Choose whether encoders show a popup with current value when dragging");
+    props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for Encoders");
 
-    return newLabel;
-}
-
-ComboBox* UserSettings::setupComboBox(const String& comboBoxName, const String& tooltip)
-{
-    ComboBox* newComboBox = new ComboBox (comboBoxName);
-    newComboBox->setTooltip(tooltip);
-    newComboBox->setEditableText(false);
-    newComboBox->setJustificationType(Justification::centredLeft);
-    newComboBox->setTextWhenNothingSelected(String::empty);
-    newComboBox->setTextWhenNoChoicesAvailable(TRANS("(no choices)"));
-    newComboBox->addListener(this);
-
-    return newComboBox;
+    propertyPanel.addProperties(props.components);
 }
 
 void UserSettings::paint (Graphics& g)
 {
-   g.fillAll (Colour (0xff434343));
+    g.fillAll (Colour (0xff434343));
+
+    g.setColour(Colours::lightgrey);
+
+    Rectangle<int> localBounds(getLocalBounds().reduced(4));
+    g.fillRect(localBounds);
 }
 
 void UserSettings::resized()
 {
-    encoderSnapLabel->setBounds(8, 24, 182, 24);
-    encoderSnapComboBox->setBounds(199, 24, 185, 24);
-    rotaryMovementLabel->setBounds(8, 56, 182, 24);
-    rotaryMovementComboBox->setBounds(199, 56, 185, 24);
-    popupEnabledLabel->setBounds(8, 88, 182, 24);
-    popupEnabledComboBox->setBounds(199, 88, 185, 24);
-    encoderVelocityModeLabel->setBounds(8, 122, 182, 24);
-    encoderVelocityModeComboBox->setBounds(199, 122, 185, 24);
-}
-
-void UserSettings::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
-{
-    if (comboBoxThatHasChanged == encoderSnapComboBox)
-        properties->setValue("encodersnap", comboBoxThatHasChanged->getSelectedId());
-    else if (comboBoxThatHasChanged == rotaryMovementComboBox)
-        properties->setValue("rotarymovement", comboBoxThatHasChanged->getSelectedId());
-    else if (comboBoxThatHasChanged == popupEnabledComboBox)
-        properties->setValue("popupenabled", comboBoxThatHasChanged->getSelectedId());
-    else if (comboBoxThatHasChanged == encoderVelocityModeComboBox)
-        properties->setValue("velocitybasedmode", comboBoxThatHasChanged->getSelectedId());
+    Rectangle<int> localBounds(getLocalBounds());
     
-    properties->saveIfNeeded();
+    localBounds.removeFromLeft(4);
+    localBounds.removeFromRight(8);
+    localBounds.removeFromTop(8);
+
+    propertyPanel.setBounds(localBounds);
 }
 
-void UserSettings::loadSettings()
+int UserSettings::getPropertyIntValue(const String& propertyName, int defaultValue)
 {
-    encoderSnapComboBox->setSelectedId(properties->getIntValue("encodersnap", 1));
-    rotaryMovementComboBox->setSelectedId(properties->getIntValue("rotarymovement", 1));
-    popupEnabledComboBox->setSelectedId(properties->getIntValue("popupenabled", 1));
-    encoderVelocityModeComboBox->setSelectedId(properties->getIntValue("velocitybasedmode", 1));
+    return getAppProperties()->getIntValue(propertyName, defaultValue);
+}
+
+void UserSettings::setPropertyIntValue(const String& propertyName, int newValue)
+{
+    return getAppProperties()->setValue(propertyName, newValue);
 }
 
 void UserSettings::userTriedToCloseWindow()
@@ -173,7 +209,14 @@ void UserSettings::userTriedToCloseWindow()
 
 PropertiesFile* UserSettings::getAppProperties()
 {
-    return properties;
+    PropertiesFile::Options options;
+    options.applicationName     = ProjectInfo::projectName;
+    options.folderName          = ProjectInfo::projectName;
+    options.filenameSuffix      = "settings";
+    options.osxLibrarySubFolder = "Application Support";
+    appProperties.setStorageParameters(options);
+
+    return appProperties.getUserSettings();
 }
 
 void UserSettings::show(int posX, int posY)
@@ -181,7 +224,7 @@ void UserSettings::show(int posX, int posY)
     setOpaque(true);
     setVisible(true);
     
-    setBounds(posX, posY, 400, 200);
+    setBounds(posX, posY, 600, 300);
     
     addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
     setAlwaysOnTop(true);

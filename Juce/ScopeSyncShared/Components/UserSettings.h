@@ -28,45 +28,32 @@
 #ifndef USERSETTINGS_H_INCLUDED
 #define USERSETTINGS_H_INCLUDED
 
-#include "JuceHeader.h"
-#include "../Core/ScopeSyncGUI.h"
+#include <JuceHeader.h>
 
-class UserSettings  : public Component,
-                      public ComboBoxListener
+class UserSettings  : public Component
 {
 public:
     UserSettings ();
     ~UserSettings();
 
-    void loadSettings();
-    void userTriedToCloseWindow();
-   
-    void paint (Graphics& g);
-    void resized();
-    void comboBoxChanged (ComboBox* comboBoxThatHasChanged);
     void show(int posX, int posY);
     void hide();
 
     PropertiesFile* getAppProperties();
+    int  getPropertyIntValue(const String& propertyName, int defaultValue);
+    void setPropertyIntValue(const String& propertyName, int newValue);
 
     juce_DeclareSingleton (UserSettings, false)
 
 private:
-    void      setupGUIElements();
-    Label*    setupLabel(const String& labelName, const String& labelText, const String& tooltip);
-    ComboBox* setupComboBox(const String& comboBoxName, const String& tooltip);
-
     ApplicationProperties appProperties;
-    PropertiesFile*       properties;
-
-    ScopedPointer<Label>    encoderSnapLabel;
-    ScopedPointer<ComboBox> encoderSnapComboBox;
-    ScopedPointer<Label>    rotaryMovementLabel;
-    ScopedPointer<ComboBox> rotaryMovementComboBox;
-    ScopedPointer<Label>    popupEnabledLabel;
-    ScopedPointer<ComboBox> popupEnabledComboBox;
-    ScopedPointer<Label>    encoderVelocityModeLabel;
-    ScopedPointer<ComboBox> encoderVelocityModeComboBox;
+    PropertyPanel         propertyPanel;
+    
+    void userTriedToCloseWindow() override;
+    void paint (Graphics& g) override;
+    void resized() override;
+    
+    void setupPanel();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };

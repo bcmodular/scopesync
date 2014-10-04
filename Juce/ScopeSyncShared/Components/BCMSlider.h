@@ -83,7 +83,8 @@ private:
     double getValueFromText(const String& text);
 
     // Utility methods for applying User Settings that override aspects of Slider handling
-    void overrideSliderStyle(Slider::SliderStyle style);
+    void overrideSliderStyle(Slider::SliderStyle& style);
+    void overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode);
     void overridePopupEnabled(bool popupEnabledFlag);
     void overrideVelocityBasedMode(bool velocityBasedMode);
     bool getEncoderSnap(bool encoderSnap);
@@ -111,6 +112,16 @@ private:
         vertical,
         horizontal,
         horizontalVertical
+    };
+
+    enum IDBMode
+    {
+        _DUMMYINCDECBUTTONS_,
+        noOverride_IDB,
+        idbNotDraggable,
+        idbAutoDirection,
+        idbHorizontal,
+        idbVertical
     };
 
     enum EncoderSnap

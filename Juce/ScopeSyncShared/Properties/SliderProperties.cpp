@@ -62,6 +62,7 @@ void SliderProperties::initialise()
     rangeMax           = 100;
     rangeInt           = 0.0001;
     style              = Slider::RotaryVerticalDrag;
+    incDecButtonMode   = Slider::incDecButtonsNotDraggable;
     textBoxPosition    = Slider::TextBoxBelow;
     textBoxReadOnly    = false;
     textBoxWidth       = 66;
@@ -89,6 +90,7 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
     rangeMax           = parentSliderProperties.rangeMax;
     rangeInt           = parentSliderProperties.rangeInt;
     style              = parentSliderProperties.style;
+    incDecButtonMode   = parentSliderProperties.incDecButtonMode;
     textBoxPosition    = parentSliderProperties.textBoxPosition;
     textBoxReadOnly    = parentSliderProperties.textBoxReadOnly;
     textBoxWidth       = parentSliderProperties.textBoxWidth;
@@ -129,6 +131,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     }
 
     getSliderStyleFromXml(sliderXML.getStringAttribute("style"), style);
+    getIncDecButtonModeFromXml(sliderXML.getStringAttribute("incdecbuttonsmode"), incDecButtonMode);
     
     XmlElement* rangeXml = sliderXML.getChildByName("range");
     if (rangeXml != nullptr)
@@ -166,6 +169,14 @@ void SliderProperties::getSliderStyleFromXml(const String& styleText, Slider::Sl
     else if (styleText.equalsIgnoreCase("rotaryverticaldrag"))           sliderStyle = Slider::RotaryVerticalDrag;
     else if (styleText.equalsIgnoreCase("rotaryhorizontalverticaldrag")) sliderStyle = Slider::RotaryHorizontalVerticalDrag;
     else if (styleText.equalsIgnoreCase("incdecbuttons"))                sliderStyle = Slider::IncDecButtons;
+}
+
+void SliderProperties::getIncDecButtonModeFromXml(const String& buttonModeText, Slider::IncDecButtonMode& incDecButtonMode)
+{
+         if (buttonModeText.equalsIgnoreCase("notdraggable"))  incDecButtonMode = Slider::incDecButtonsNotDraggable;
+    else if (buttonModeText.equalsIgnoreCase("autodirection")) incDecButtonMode = Slider::incDecButtonsDraggable_AutoDirection;
+    else if (buttonModeText.equalsIgnoreCase("horizontal"))    incDecButtonMode = Slider::incDecButtonsDraggable_Horizontal;
+    else if (buttonModeText.equalsIgnoreCase("vertical"))      incDecButtonMode = Slider::incDecButtonsDraggable_Vertical;
 }
 
 void SliderProperties::getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval)

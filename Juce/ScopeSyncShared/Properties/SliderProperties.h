@@ -52,6 +52,7 @@ public:
     double      rangeMax;
     double      rangeInt;
     Slider::SliderStyle          style;
+    Slider::IncDecButtonMode     incDecButtonMode;
     Slider::TextEntryBoxPosition textBoxPosition;
     bool        textBoxReadOnly;
     int         textBoxWidth;
@@ -72,6 +73,7 @@ private:
     void setValuesFromXML(XmlElement& sliderXML);
 
     static void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle);
+    static void getIncDecButtonModeFromXml(const String& buttonModeText, Slider::IncDecButtonMode& incDecButtonMode);
     static void getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval);
     static void getTextBoxPositionFromXML(const String& positionText, Slider::TextEntryBoxPosition& position);
     
