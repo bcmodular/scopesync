@@ -252,25 +252,45 @@
     </complexType>
 
     <complexType name="slidertype">
-        <choice minOccurs="1" maxOccurs="unbounded">
-        	<element name="bounds" type="tns:boundstype"></element>
-        	<element name="range" type="tns:sliderrangetype"></element>
-        	<element name="textbox" type="tns:slidertextboxtype"></element>
-        	<element name="choosetab" type="tns:choosetabtype"></element>
-        </choice>
-        
-        <attribute name="name" type="string"></attribute>
-        <attribute name="id" type="string"></attribute>
-        <attribute name="popupenabled" type="boolean"></attribute>
-        <attribute name="velocitybasedmode" type="boolean"></attribute>
-        <attribute name="encodersnap" type="boolean"></attribute>
-        <attribute name="style" type="tns:sliderstyletype"></attribute>
-        <attribute name="lfid" type="string"></attribute>
-        <attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+    	<choice minOccurs="1" maxOccurs="unbounded">
+    		<element name="bounds" type="tns:boundstype"></element>
+    		<element name="range" type="tns:sliderrangetype"></element>
+    		<element name="textbox" type="tns:slidertextboxtype"></element>
+    		<element name="choosetab" type="tns:choosetabtype"></element>
+    	</choice>
+
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="id" type="string"></attribute>
+    	<attribute name="popupenabled" type="boolean"></attribute>
+    	<attribute name="velocitybasedmode" type="boolean"></attribute>
+    	<attribute name="encodersnap" type="boolean"></attribute>
+    	<attribute name="style" type="tns:sliderstyletype"></attribute>
+    	<attribute name="lfid" type="string"></attribute>
+    	<attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+    	<attribute name="incdecbuttonmode" type="tns:incdecbuttonmodetype"></attribute>
     </complexType>
 
     <simpleType name="sliderstyletype">
-        <restriction base="string"></restriction>
+    	<restriction base="string">
+    		<enumeration value="linearhorizontal"></enumeration>
+    		<enumeration value="linearvertical"></enumeration>
+    		<enumeration value="linearbar"></enumeration>
+    		<enumeration value="linearbarvertical"></enumeration>
+    		<enumeration value="rotary"></enumeration>
+    		<enumeration value="rotaryhorizontaldrag"></enumeration>
+    		<enumeration value="rotaryverticaldrag"></enumeration>
+    		<enumeration value="rotaryhorizontalverticaldrag"></enumeration>
+    		<enumeration value="incdecbuttons"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="incdecbuttonmodetype">
+    	<restriction base="string">
+    		<enumeration value="notdraggable"></enumeration>
+    		<enumeration value="autodirection"></enumeration>
+    		<enumeration value="horizontal"></enumeration>
+    		<enumeration value="vertical"></enumeration>
+    	</restriction>
     </simpleType>
 
     <complexType name="sliderrangetype">
