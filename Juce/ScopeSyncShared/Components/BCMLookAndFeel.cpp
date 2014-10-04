@@ -108,6 +108,13 @@ void BCMLookAndFeel::setupColourIds()
     comboBoxColours.set("outlinecolourid", ComboBox::outlineColourId);
     comboBoxColours.set("buttoncolourid", ComboBox::buttonColourId);
     comboBoxColours.set("arrowcolourid", ComboBox::arrowColourId);
+    
+    tooltipWindowColours.set("backgroundcolourid", TooltipWindow::backgroundColourId);
+    tooltipWindowColours.set("textcolourid", TooltipWindow::textColourId);
+    tooltipWindowColours.set("outlinecolourid", TooltipWindow::outlineColourId);
+
+    bubbleComponentColours.set("backgroundcolourid", BubbleComponent::backgroundColourId);
+    bubbleComponentColours.set("outlinecolourid", BubbleComponent::outlineColourId);
 }                       
 
 void BCMLookAndFeel::initialise(bool cacheImages)
@@ -289,6 +296,16 @@ void BCMLookAndFeel::getColoursFromXml(const String& colourSet, const XmlElement
             lookAndFeelColours.set(textEditorColours[colourId], colourValue);
         else if (colourSet == "combobox" && comboBoxColours.contains(colourId))
             lookAndFeelColours.set(comboBoxColours[colourId], colourValue);
+        else if (colourSet == "tooltip" && tooltipWindowColours.contains(colourId))
+        {
+            DBG("BCMLookAndFeel::getColoursFromXml - tooltip: " + String(tooltipWindowColours[colourId]) + ":" + String(colourValue));
+            lookAndFeelColours.set(tooltipWindowColours[colourId], colourValue);
+        }
+        else if (colourSet == "bubblecomponent" && bubbleComponentColours.contains(colourId))
+        {
+            DBG("BCMLookAndFeel::getColoursFromXml - bubblecomponent: " + String(bubbleComponentColours[colourId]) + ":" + String(colourValue));
+            lookAndFeelColours.set(bubbleComponentColours[colourId], colourValue);
+        }
     }
 }
 

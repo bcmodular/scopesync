@@ -54,6 +54,7 @@ public:
     int                radioGroupId;
     StringArray        tabbedComponents;
     StringArray        tabNames;
+    URL                url;
     
 private:
     void initialise();

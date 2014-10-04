@@ -532,7 +532,7 @@
     		<enumeration value="rotary"></enumeration>
     		<enumeration value="vertical"></enumeration>
     		<enumeration value="horizontal"></enumeration>
-    		<enumeration value="horizontalandvertical"></enumeration>
+    		<enumeration value="horizontalvertical"></enumeration>
     	</restriction>
     </simpleType>
 </schema>

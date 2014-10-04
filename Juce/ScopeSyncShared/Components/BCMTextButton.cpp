@@ -211,6 +211,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         }
     }
     
+    url = properties.url;
     setTooltip (tooltip);
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
@@ -308,6 +309,9 @@ void BCMTextButton::clicked()
     }
     else
     {
+        if (url.isWellFormed())
+            url.launchInDefaultBrowser();
+
         if (getName().equalsIgnoreCase("snapshot"))
         {
             // force sync of all controls

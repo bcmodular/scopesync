@@ -185,7 +185,9 @@ private:
     HashMap<String, TabbedButtonBar::ColourIds> tabbedButtonBarColours;
     HashMap<String, TextEditor::ColourIds>      textEditorColours;
     HashMap<String, ComboBox::ColourIds>        comboBoxColours;
-
+    HashMap<String, TooltipWindow::ColourIds>   tooltipWindowColours;
+    HashMap<String, BubbleComponent::ColourIds> bubbleComponentColours;
+    
     // Directory File Path for the Configuration file. Used for relative path sourcing of Images
     String configurationFileDirectoryPath;
 

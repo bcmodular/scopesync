@@ -52,10 +52,11 @@ TextButtonProperties::~TextButtonProperties()
 void TextButtonProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    name             = "def";
-    id               = "def";
-    text             = "def";
-    tooltip          = "def";
+    name             = String::empty;
+    id               = String::empty;
+    text             = String::empty;
+    tooltip          = String::empty;
+    url              = URL();
     bounds.width     = 15;
     bounds.height    = 15;
     bounds.x         = 0;
@@ -80,6 +81,7 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
     bcmLookAndFeelId = parentTextButtonProperties.bcmLookAndFeelId;
     tabbedComponents = StringArray(parentTextButtonProperties.tabbedComponents);
     tabNames         = StringArray(parentTextButtonProperties.tabNames);
+    url              = parentTextButtonProperties.url;    
 };
 
 void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
@@ -88,6 +90,11 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     id      = textButtonXML.getStringAttribute("id",      name); // Default to name if no id set
     text    = textButtonXML.getStringAttribute("text",    text);
     tooltip = textButtonXML.getStringAttribute("tooltip", tooltip);
+    
+    String urlString = textButtonXML.getStringAttribute("url");
+
+    if (urlString.isNotEmpty())
+        url = URL(urlString);
     
     XmlElement* boundsXml = textButtonXML.getChildByName("bounds");
     if (boundsXml != nullptr)

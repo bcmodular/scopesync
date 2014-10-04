@@ -31,17 +31,19 @@
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
 
+class ScopeSyncGUI;
+
 class SliderProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
-    SliderProperties();
+    SliderProperties(ScopeSyncGUI& owner);
 
     // Constructor for use when setting up defaults
-    SliderProperties(XmlElement& sliderXML);
+    SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML);
 
     // Constructor for use when overriding defaults for a specific Slider
-    SliderProperties(XmlElement& sliderXML, SliderProperties& parentSliderProperties);
+    SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML, SliderProperties& parentSliderProperties);
 
     ~SliderProperties();
 
@@ -68,11 +70,13 @@ public:
     StringArray tabNames;
 
 private:
+    ScopeSyncGUI& scopeSyncGUI;
+
     void initialise();
     void copyProperties(SliderProperties& parentSliderProperties);
     void setValuesFromXML(XmlElement& sliderXML);
 
-    static void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle);
+           void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle);
     static void getIncDecButtonModeFromXml(const String& buttonModeText, Slider::IncDecButtonMode& incDecButtonMode);
     static void getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval);
     static void getTextBoxPositionFromXML(const String& positionText, Slider::TextEntryBoxPosition& position);

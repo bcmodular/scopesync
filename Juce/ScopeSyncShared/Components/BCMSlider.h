@@ -56,6 +56,46 @@ public:
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     
+    // Enumerations for User Settings relating to BCMSliders
+    enum RotaryMovement
+    {
+        noOverride_RM,
+        rotary,
+        vertical,
+        horizontal,
+        horizontalVertical
+    };
+
+    enum IDBMode
+    {
+        noOverride_IDB,
+        idbNotDraggable,
+        idbAutoDirection,
+        idbHorizontal,
+        idbVertical
+    };
+
+    enum EncoderSnap
+    {
+        noOverride_ES,
+        dontSnap,
+        snap
+    };
+
+    enum PopupEnabled
+    {
+        noOverride_PE,
+        popupEnabled,
+        popupDisabled
+    };
+
+    enum VelocityBasedMode
+    {
+        noOverride_VBM,
+        velocityBasedModeOn,
+        velocityBasedModeOff
+    };
+
 private:
     bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
     WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
@@ -103,51 +143,6 @@ private:
     void editMappedParameter();
     void showPopup();
     
-    // Enumerations for User Settings relating to BCMSliders
-    enum RotaryMovement
-    {
-        _DUMMYROTARYMOVEMENT_,
-        noOverride_RM,
-        rotary,
-        vertical,
-        horizontal,
-        horizontalVertical
-    };
-
-    enum IDBMode
-    {
-        _DUMMYINCDECBUTTONS_,
-        noOverride_IDB,
-        idbNotDraggable,
-        idbAutoDirection,
-        idbHorizontal,
-        idbVertical
-    };
-
-    enum EncoderSnap
-    {
-        _DUMMYENCODERSNAP_,
-        noOverride_ES,
-        dontSnap,
-        snap
-    };
-
-    enum PopupEnabled
-    {
-        _DUMMYPOPUPENABLED_,
-        noOverride_PE,
-        popupEnabled,
-        popupDisabled
-    };
-
-    enum VelocityBasedMode
-    {
-        _DUMMYVELOCITYBASEDMODE_,
-        noOverride_VBM,
-        velocityBasedModeOn,
-        velocityBasedModeOff
-    };
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMSlider);
 };
 

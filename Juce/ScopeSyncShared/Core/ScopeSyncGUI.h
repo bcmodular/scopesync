@@ -34,13 +34,14 @@
 #ifndef SCOPESYNCGUI_H_INCLUDED
 #define SCOPESYNCGUI_H_INCLUDED
 
-class BCMComponent;
-class BCMTabbedComponent;
-class UserSettings;
+//class BCMComponent;
+//class BCMTabbedComponent;
+//class UserSettings;
 
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponent.h"
+#include "../Components/BCMSlider.h"
 #include "../Components/BCMTabbedComponent.h"
 #include "../Components/UserSettings.h"
 #include "../Configuration/ConfigurationManager.h"
@@ -71,6 +72,7 @@ public:
    
     ScopeSync& getScopeSync() const { return scopeSync; };
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
+    Slider::SliderStyle getDefaultRotarySliderStyle();
 
     /* ====================== Public member variables ========================= */
     ScopedPointer<ComponentProperties>       defaultComponentProperties;
@@ -87,13 +89,28 @@ public:
     static const int   loadConfigButton_off_pngSize;
     static const char* loadConfigButton_on_png;
     static const int   loadConfigButton_on_pngSize;
+
+    class Settings
+    {
+    public:
+        BCMSlider::EncoderSnap       encoderSnap;
+        BCMSlider::RotaryMovement    rotaryMovement;
+        Slider::IncDecButtonMode     incDecButtonMode;
+        BCMSlider::PopupEnabled      popupEnabled;
+        BCMSlider::VelocityBasedMode velocityBasedMode;
+        bool enableTooltips;
+        int  tooltipDelayTime;
+    };
     
+    Settings settings;
+
 private:
     /* =================== Private Configuration Methods =======================*/
     void createGUI(bool forceReload);
     void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache);
     void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
     void setupDefaults(XmlElement& defaultsXML);
+    void readSettingsXml(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback();
     void showSystemError();
@@ -103,9 +120,9 @@ private:
     Array<BCMTabbedComponent*>  tabbedComponents;
     ScopedPointer<Label>        systemError;
     
-    ScopeSync&    scopeSync;
-    ValueTree     deviceMapping;
-    TooltipWindow tooltipWindow;
+    ScopeSync&                   scopeSync;
+    ValueTree                    deviceMapping;
+    ScopedPointer<TooltipWindow> tooltipWindow;
     
     static const int timerFrequency;
 

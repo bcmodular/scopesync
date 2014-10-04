@@ -114,8 +114,21 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
     }
 }
 
+Slider::SliderStyle ScopeSyncGUI::getDefaultRotarySliderStyle()
+{
+    if (settings.rotaryMovement == BCMSlider::rotary)
+        return Slider::Rotary;
+    else if (settings.rotaryMovement == BCMSlider::horizontal)
+        return Slider::RotaryHorizontalDrag;
+    else if (settings.rotaryMovement == BCMSlider::horizontalVertical)
+        return Slider::RotaryHorizontalVerticalDrag;
+    else
+        return Slider::RotaryVerticalDrag;
+}
+
 void ScopeSyncGUI::createGUI(bool forceReload)
 {
+    tooltipWindow = nullptr;
     mainComponent = nullptr;
     tabbedComponents.clearQuick();
 
@@ -143,6 +156,11 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     if (child)
         setupLookAndFeels(*child, useImageCache);
 
+    BCMLookAndFeel* defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("default");
+
+    if (defaultLookAndFeel == nullptr)
+        defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("system:default");
+
     child = layoutXml.getChildByName("defaults");
 
     if (child)
@@ -151,6 +169,21 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     {
         XmlElement defaults("defaults");
         setupDefaults(defaults);
+    }
+
+    int enableTooltipsUserSetting = UserSettings::getInstance()->getAppProperties()->getIntValue("enabletooltips", 0);
+    
+    if ((enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
+    {
+        tooltipWindow = new TooltipWindow();
+        tooltipWindow->setLookAndFeel(defaultLookAndFeel);
+
+        int tooltipDelayTimeUserSetting = UserSettings::getInstance()->getAppProperties()->getIntValue("tooltipdelaytime", -1);
+
+        if (tooltipDelayTimeUserSetting >= 0)
+            settings.tooltipDelayTime = tooltipDelayTimeUserSetting;
+
+        tooltipWindow->setMillisecondsBeforeTipAppears(settings.tooltipDelayTime);
     }
 
     child = layoutXml.getChildByName("component");
@@ -234,6 +267,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 
 void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
 {
+    XmlElement* settingsXML        = defaultsXML.getChildByName("settings");
     XmlElement* sliderXML          = defaultsXML.getChildByName("slider");
     XmlElement* labelXML           = defaultsXML.getChildByName("label");
     XmlElement* textButtonXML      = defaultsXML.getChildByName("textbutton");
@@ -241,11 +275,19 @@ void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
     XmlElement* componentXML       = defaultsXML.getChildByName("component");
     XmlElement* tabbedComponentXML = defaultsXML.getChildByName("tabbedcomponent");
     XmlElement* tabXML             = defaultsXML.getChildByName("tab");
+    
+    if (settingsXML != nullptr)
+        readSettingsXml(*settingsXML);
+    else
+    {
+        XmlElement emptySettings("settings");
+        readSettingsXml(emptySettings);
+    }    
 
     if (sliderXML != nullptr)
-        defaultSliderProperties = new SliderProperties(*sliderXML);
+        defaultSliderProperties = new SliderProperties(*this, *sliderXML);
     else
-        defaultSliderProperties = new SliderProperties();
+        defaultSliderProperties = new SliderProperties(*this);
     
     if (labelXML != nullptr)
         defaultLabelProperties = new LabelProperties(*labelXML);
@@ -276,6 +318,55 @@ void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)
         defaultTabProperties = new TabProperties(*tabXML);
     else
         defaultTabProperties = new TabProperties();
+}
+
+void ScopeSyncGUI::readSettingsXml(XmlElement& settingsXML)
+{
+    // Encoder Snap
+    if (settingsXML.getBoolAttribute("encodersnap", false))
+        settings.encoderSnap = BCMSlider::snap;
+    else
+        settings.encoderSnap = BCMSlider::dontSnap;
+
+    // Popup Enabled
+    if (settingsXML.getBoolAttribute("popupenabled", false))
+        settings.popupEnabled = BCMSlider::popupEnabled;
+    else
+        settings.popupEnabled = BCMSlider::popupDisabled;
+    
+    // Velocity Based Mode
+    if (settingsXML.getBoolAttribute("velocitybasedmode", false))
+        settings.velocityBasedMode = BCMSlider::velocityBasedModeOn;
+    else
+        settings.velocityBasedMode = BCMSlider::velocityBasedModeOff;
+    
+    // Rotary Movement
+    String rotaryMovementString = settingsXML.getStringAttribute("rotarymovement", "vertical");
+    
+    if (rotaryMovementString.equalsIgnoreCase("rotary"))
+        settings.rotaryMovement = BCMSlider::rotary;
+    else if (rotaryMovementString.equalsIgnoreCase("horizontal"))
+        settings.rotaryMovement = BCMSlider::horizontal;
+    else if (rotaryMovementString.equalsIgnoreCase("horizontalvertical"))
+        settings.rotaryMovement = BCMSlider::horizontalVertical;
+    else
+        settings.rotaryMovement = BCMSlider::vertical;
+    
+    // Inc/Dec Button Mode
+    String incDecButtonModeString = settingsXML.getStringAttribute("incdecbuttonmode", "notdraggable");
+    
+    if (incDecButtonModeString.equalsIgnoreCase("autodirection"))
+        settings.incDecButtonMode = Slider::incDecButtonsDraggable_AutoDirection;
+    else if (incDecButtonModeString.equalsIgnoreCase("horizontal"))
+        settings.incDecButtonMode = Slider::incDecButtonsDraggable_Horizontal;
+    else if (incDecButtonModeString.equalsIgnoreCase("vertical"))
+        settings.incDecButtonMode = Slider::incDecButtonsDraggable_Vertical;
+    else
+        settings.incDecButtonMode = Slider::incDecButtonsNotDraggable;
+    
+    // Tooltip settings
+    settings.enableTooltips   = settingsXML.getBoolAttribute("enabletooltips", true);
+    settings.tooltipDelayTime = settingsXML.getIntAttribute("tooltipdelaytime", 700);
 }
 
 void ScopeSyncGUI::createComponent(XmlElement& componentXML)

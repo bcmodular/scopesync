@@ -267,7 +267,7 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
 {
     if (showInThisContext(sliderXML))
     {
-        SliderProperties sliderProperties(sliderXML, *(gui.defaultSliderProperties));
+        SliderProperties sliderProperties(gui, sliderXML, *(gui.defaultSliderProperties));
         BCMSlider*       slider;
 
         // Setup slider object

@@ -53,14 +53,16 @@ public:
     bool  hasParameter() { return mapsToParameter; };
     
     // Returns parameter a BCMComboBox is mapped to
-    BCMParameter* getParameter()  { return parameter; };
+    BCMParameter* getParameter() { return parameter; };
 
 private:
     Value parameterValue; // Maintains a link to a mapped parameter's UI value
 
-    bool           mapsToParameter;     // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter*  parameter;           // Pointer to a mapped parameter
-    BCMComponentBounds componentBounds; // Position/Size information
+    bool                        mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
+    WeakReference<BCMParameter> parameter;       // Pointer to a mapped parameter
+    BCMComponentBounds          componentBounds; // Position/Size information
+
+    URL url; // URL launched on clicking the button
 
     // Timer Callback. Used as part of the click block solution
     void timerCallback();

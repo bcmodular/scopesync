@@ -27,19 +27,20 @@
 
 #include "SliderProperties.h"
 #include "PropertiesHelper.h"
+#include "../Core/ScopeSyncGUI.h"
 
-SliderProperties::SliderProperties()
+SliderProperties::SliderProperties(ScopeSyncGUI& owner) : scopeSyncGUI(owner)
 {
     initialise();
 };
 
-SliderProperties::SliderProperties(XmlElement& sliderXML)
+SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML) : scopeSyncGUI(owner)
 {
     initialise();
     setValuesFromXML(sliderXML);
 };
 
-SliderProperties::SliderProperties(XmlElement& sliderXML, SliderProperties& parentSliderProperties)
+SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML, SliderProperties& parentSliderProperties) : scopeSyncGUI(owner)
 {
     copyProperties(parentSliderProperties);
     setValuesFromXML(sliderXML);
@@ -62,7 +63,7 @@ void SliderProperties::initialise()
     rangeMax           = 100;
     rangeInt           = 0.0001;
     style              = Slider::RotaryVerticalDrag;
-    incDecButtonMode   = Slider::incDecButtonsNotDraggable;
+    incDecButtonMode   = scopeSyncGUI.settings.incDecButtonMode;
     textBoxPosition    = Slider::TextBoxBelow;
     textBoxReadOnly    = false;
     textBoxWidth       = 66;
@@ -71,9 +72,9 @@ void SliderProperties::initialise()
     fontStyleFlags     = Font::plain;
     justificationFlags = Justification::centred;
     bcmLookAndFeelId   = String::empty;
-    popupEnabled       = false;
-    velocityBasedMode  = false;
-    encoderSnap        = false;
+    popupEnabled       = (scopeSyncGUI.settings.popupEnabled      == BCMSlider::popupEnabled);
+    velocityBasedMode  = (scopeSyncGUI.settings.velocityBasedMode == BCMSlider::velocityBasedModeOn);
+    encoderSnap        = (scopeSyncGUI.settings.encoderSnap       == BCMSlider::snap);
     tabbedComponents.clear();
     tabNames.clear();
 };
@@ -169,6 +170,7 @@ void SliderProperties::getSliderStyleFromXml(const String& styleText, Slider::Sl
     else if (styleText.equalsIgnoreCase("rotaryverticaldrag"))           sliderStyle = Slider::RotaryVerticalDrag;
     else if (styleText.equalsIgnoreCase("rotaryhorizontalverticaldrag")) sliderStyle = Slider::RotaryHorizontalVerticalDrag;
     else if (styleText.equalsIgnoreCase("incdecbuttons"))                sliderStyle = Slider::IncDecButtons;
+    else if (styleText.equalsIgnoreCase("defaultrotarymovement"))        sliderStyle = scopeSyncGUI.getDefaultRotarySliderStyle();
 }
 
 void SliderProperties::getIncDecButtonModeFromXml(const String& buttonModeText, Slider::IncDecButtonMode& incDecButtonMode)

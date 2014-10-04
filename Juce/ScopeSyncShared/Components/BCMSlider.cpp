@@ -219,7 +219,7 @@ void BCMSlider::switchToTabs()
 
 void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)
 {
-    RotaryMovement rotaryMovementUserSetting = RotaryMovement(UserSettings::getInstance()->getAppProperties()->getIntValue("rotarymovement", 1));
+    RotaryMovement rotaryMovementUserSetting = RotaryMovement(UserSettings::getInstance()->getAppProperties()->getIntValue("rotarymovement", 0));
 
     if (rotaryMovementUserSetting != noOverride_RM &&
         (  style == Rotary 
@@ -238,7 +238,7 @@ void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)
 
 void BCMSlider::overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode)
 {
-    IDBMode incDecButtonsUserSetting = IDBMode(UserSettings::getInstance()->getAppProperties()->getIntValue("incdecbuttonmode", 1));
+    IDBMode incDecButtonsUserSetting = IDBMode(UserSettings::getInstance()->getAppProperties()->getIntValue("incdecbuttonmode", 0));
 
     if (incDecButtonsUserSetting != noOverride_IDB)
     {
@@ -253,17 +253,17 @@ void BCMSlider::overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonM
 
 void BCMSlider::overridePopupEnabled(bool popupEnabledFlag)
 {
-    PopupEnabled popupEnabledUserSetting = PopupEnabled(UserSettings::getInstance()->getAppProperties()->getIntValue("popupenabled", 1));
+    PopupEnabled popupEnabledUserSetting = PopupEnabled(UserSettings::getInstance()->getAppProperties()->getIntValue("popupenabled", 0));
 
     if (popupEnabledUserSetting != noOverride_PE)
         popupEnabledFlag = (popupEnabledUserSetting == popupEnabled);
     
-    setPopupDisplayEnabled(popupEnabledFlag, 0);
+    setPopupDisplayEnabled(popupEnabledFlag, nullptr);
 }
 
 void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)
 {
-    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(UserSettings::getInstance()->getAppProperties()->getIntValue("velocitybasedmode", 1));
+    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(UserSettings::getInstance()->getAppProperties()->getIntValue("velocitybasedmode", 0));
 
     if (velocityBasedModeUserSetting != noOverride_VBM)
         velocityBasedMode = (velocityBasedModeUserSetting == velocityBasedModeOn);
@@ -273,7 +273,7 @@ void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)
 
 bool BCMSlider::getEncoderSnap(bool encoderSnap)
 {
-    EncoderSnap encoderSnapUserSetting = EncoderSnap(UserSettings::getInstance()->getAppProperties()->getIntValue("encodersnap", 1));
+    EncoderSnap encoderSnapUserSetting = EncoderSnap(UserSettings::getInstance()->getAppProperties()->getIntValue("encodersnap", 0));
     
     if (encoderSnapUserSetting != noOverride_ES)
         encoderSnap = (encoderSnapUserSetting == snap);

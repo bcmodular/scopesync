@@ -30,7 +30,8 @@
 
 #include <JuceHeader.h>
 
-class UserSettings  : public Component
+class UserSettings  : public Component,
+                      Value::Listener
 {
 public:
     UserSettings ();
@@ -48,12 +49,16 @@ public:
 private:
     ApplicationProperties appProperties;
     PropertyPanel         propertyPanel;
+
+    Value tooltipDelayTime;
     
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
     void resized() override;
     
     void setupPanel();
+
+    void valueChanged(Value& valueThatChanged) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };
