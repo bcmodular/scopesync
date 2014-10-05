@@ -177,6 +177,7 @@ UserSettings::UserSettings()
 
 UserSettings::~UserSettings()
 {
+    tooltipDelayTime.removeListener(this);
     clearSingletonInstance();
 }
 

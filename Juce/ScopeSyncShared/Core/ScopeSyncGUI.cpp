@@ -98,7 +98,7 @@ void ScopeSyncGUI::addTabbedComponent(BCMTabbedComponent* tabbedComponent)
     DBG("ScopeSyncGUI::addTabbedComponent - " + tabbedComponent->getName());
     tabbedComponents.add(tabbedComponent);
 }
-    
+
 void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray)
 {
     tabbedComponentArray.clear();

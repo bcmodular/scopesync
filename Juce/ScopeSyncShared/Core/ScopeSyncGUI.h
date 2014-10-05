@@ -69,7 +69,7 @@ public:
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
     void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);
-   
+    
     ScopeSync& getScopeSync() const { return scopeSync; };
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
     Slider::SliderStyle getDefaultRotarySliderStyle();
@@ -113,8 +113,7 @@ private:
     void readSettingsXml(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback();
-    void showSystemError();
-
+    
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;

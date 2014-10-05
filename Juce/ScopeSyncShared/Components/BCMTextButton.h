@@ -56,7 +56,31 @@ public:
     BCMParameter* getParameter() { return parameter; };
 
 private:
-    Value parameterValue; // Maintains a link to a mapped parameter's UI value
+
+    class SystemErrorDetailsCallout : public Component
+    {
+    public:
+        SystemErrorDetailsCallout(const String& boxText, BCMTextButton& parent)
+            : errorDetailsBox("Callout box")
+        {
+            errorDetailsBox.setText(boxText);
+            errorDetailsBox.setMultiLine(true, true);
+            errorDetailsBox.setReadOnly(true);
+            errorDetailsBox.setCaretVisible(false);
+            errorDetailsBox.setScrollbarsShown(true);
+            errorDetailsBox.setLookAndFeel(&parent.getLookAndFeel());
+            addAndMakeVisible(errorDetailsBox);
+            errorDetailsBox.setBounds(getLocalBounds());
+            setSize(500, 75);
+        }
+
+    private:
+        void resized() override { errorDetailsBox.setBounds(getLocalBounds()); }
+        TextEditor errorDetailsBox;
+    };
+
+    Value parameterValue;     // Maintains a link to a mapped parameter's UI value
+    Value systemErrorDetails; // Used for the systemmoreinfo button
 
     bool                        mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
     WeakReference<BCMParameter> parameter;       // Pointer to a mapped parameter
@@ -91,7 +115,8 @@ private:
     
     // Callback for when a BCMTextButton is clicked
     void clicked();
-    
+    void showSystemErrorDetails();
+
     // Types of Mapping
     enum MappingType
     {

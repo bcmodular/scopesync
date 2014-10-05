@@ -43,8 +43,7 @@ BCMLabel::~BCMLabel()
 {
     if (getName().equalsIgnoreCase("SystemError"))
     {
-        gui.getScopeSync().getSystemError().removeListener(valueListener);
-        gui.getScopeSync().getSystemErrorDetails().removeListener(valueListener);    
+        gui.getScopeSync().getSystemError().removeListener(valueListener);    
     }
 }
 
@@ -97,13 +96,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     if (getName().equalsIgnoreCase("SystemError"))
     {
         labelText = gui.getScopeSync().getSystemError().getValue();
-
-        if (labelText.isNotEmpty())
-             labelText += " (hover over text for details)";
-
-        tooltip   = gui.getScopeSync().getSystemErrorDetails().getValue();
         gui.getScopeSync().getSystemError().addListener(valueListener);
-        gui.getScopeSync().getSystemErrorDetails().addListener(valueListener);
     }
     
     setText(labelText, dontSendNotification);
@@ -122,10 +115,6 @@ void BCMLabel::handleValueChanged(Value& valueThatChanged)
     if (valueThatChanged.refersToSameSourceAs(gui.getScopeSync().getSystemError()))
     {
         String text = valueThatChanged.getValue().toString();
-
-        if (text.isNotEmpty())
-             text += " (hover over text for details)";
-
         setText(text, dontSendNotification);
     }
 

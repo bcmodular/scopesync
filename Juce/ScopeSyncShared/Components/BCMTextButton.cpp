@@ -41,6 +41,9 @@ BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name) : TextButton(nam
 
 BCMTextButton::~BCMTextButton()
 {
+    if (getName().equalsIgnoreCase("systemerrormoreinfo"))
+        systemErrorDetails.removeListener(this);
+
     stopTimer();
 };
 
@@ -211,6 +214,13 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         }
     }
     
+    if (getName().equalsIgnoreCase("systemerrormoreinfo"))
+    {
+        systemErrorDetails.referTo(gui.getScopeSync().getSystemErrorDetails());
+        systemErrorDetails.addListener(this);
+        setVisible(systemErrorDetails.toString().isNotEmpty());
+    }
+
     url = properties.url;
     setTooltip (tooltip);
     setButtonText(buttonText);
@@ -337,6 +347,10 @@ void BCMTextButton::clicked()
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }
+        else if (getName().equalsIgnoreCase("systemerrormoreinfo"))
+        {
+            showSystemErrorDetails();
+        }
 
         if (hasParameter())
         {
@@ -360,7 +374,8 @@ void BCMTextButton::clicked()
 
 void BCMTextButton::valueChanged(Value& value)
 {
-    // DBG("BCMTextButton::valueChanged - New value: " + value.toString());
+    if (value.refersToSameSourceAs(systemErrorDetails))
+        setVisible(systemErrorDetails.toString().isNotEmpty());
 
     if (displayType == currentSetting)
     {
@@ -381,4 +396,10 @@ void BCMTextButton::valueChanged(Value& value)
     }
 
     setNextValues();
+}
+
+void BCMTextButton::showSystemErrorDetails()
+{
+    SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(gui.getScopeSync().getSystemErrorDetails().getValue(), *this);
+    CallOutBox::launchAsynchronously(errorDetailsBox, getScreenBounds(), nullptr);
 }
