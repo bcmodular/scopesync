@@ -61,6 +61,8 @@ void TabbedComponentProperties::initialise()
     tabBarOrientation = TabbedButtonBar::TabsAtLeft;
     bcmLookAndFeelId  = String::empty;
     name              = String::empty;
+    mappingParentType = Identifier();
+    mappingParent     = String::empty;
 }
 
 void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parentTabbedComponentProperties)
@@ -75,6 +77,8 @@ void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parent
     tabBarOrientation = parentTabbedComponentProperties.tabBarOrientation;
     bcmLookAndFeelId  = parentTabbedComponentProperties.bcmLookAndFeelId;
     name              = parentTabbedComponentProperties.name;
+    mappingParentType = parentTabbedComponentProperties.mappingParentType;
+    mappingParent     = parentTabbedComponentProperties.mappingParent;
 }
 
 void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
@@ -95,6 +99,10 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
         if (orientationXml != nullptr)
             getOrientationFromXml(*orientationXml, tabBarOrientation);
     }
+    
+    XmlElement* mappingParentXml = tabbedComponentXML.getChildByName("mappingparent");
+    if (mappingParentXml != nullptr)
+        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
 
     bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }

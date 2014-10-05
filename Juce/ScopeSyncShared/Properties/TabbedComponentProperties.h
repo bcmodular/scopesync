@@ -51,7 +51,8 @@ public:
     String                       bcmLookAndFeelId;
     TabbedButtonBar::Orientation tabBarOrientation;
     bool                         showDropShadow;
-
+    Identifier                   mappingParentType;
+    String                       mappingParent;
 private:
     void initialise();
     void copyProperties(TabbedComponentProperties& parentTabbedComponentXML);

@@ -64,6 +64,8 @@ void LabelProperties::initialise()
     justificationFlags   = Justification::centred;
     bcmLookAndFeelId     = String::empty;
     parameterTextDisplay = shortDescription;
+    mappingParentType    = Identifier();
+    mappingParent        = String::empty;
 };
 
 void LabelProperties::copyProperties(const LabelProperties& parentLabelProperties)
@@ -80,6 +82,8 @@ void LabelProperties::copyProperties(const LabelProperties& parentLabelPropertie
     justificationFlags   = parentLabelProperties.justificationFlags;
     bcmLookAndFeelId     = parentLabelProperties.bcmLookAndFeelId;
     parameterTextDisplay = parentLabelProperties.parameterTextDisplay;
+    mappingParentType    = parentLabelProperties.mappingParentType;
+    mappingParent        = parentLabelProperties.mappingParent;
 };
 
 void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
@@ -101,6 +105,10 @@ void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
         getJustificationFlagsFromXml(*justificationXml, justificationFlags);
 
     getParameterTextDisplayFromXml(labelXML, parameterTextDisplay);
+
+    XmlElement* mappingParentXml = labelXML.getChildByName("mappingparent");
+    if (mappingParentXml != nullptr)
+        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
 
     bcmLookAndFeelId = labelXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };

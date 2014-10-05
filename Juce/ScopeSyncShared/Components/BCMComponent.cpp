@@ -42,14 +42,16 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 
-BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name) : Component(name), gui(owner) {}
+BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name)
+    : Component(name), scopeSyncGUI(owner)
+{}
 
 BCMComponent::~BCMComponent() {}
 
 void BCMComponent::applyProperties(XmlElement& componentXML, const String& configDirectory)
 {
     // Firstly set up properties for this Component
-    ComponentProperties properties(componentXML, *(gui.defaultComponentProperties));
+    ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
     
     setComponentID(properties.id);
     
@@ -76,7 +78,6 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
     }
 
     BCM_SET_BOUNDS
-    
     BCM_SET_LOOK_AND_FEEL
 
     // Then loop through child component elements
@@ -202,7 +203,7 @@ void BCMComponent::setupSubComponent(XmlElement& subComponentXML)
         
         String name = getName() + ":" + String(subComponents.size());
 
-        addAndMakeVisible(subComponent = new BCMComponent(gui, name));
+        addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, name));
 
         subComponent->applyProperties(subComponentXML, configurationFileDirectoryPath);
         subComponents.add(subComponent);
@@ -213,15 +214,15 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
 {
     if (showInThisContext(tabbedComponentXML))
     {
-        TabbedComponentProperties tabbedComponentProperties(tabbedComponentXML, *(gui.defaultTabbedComponentProperties));
+        TabbedComponentProperties tabbedComponentProperties(tabbedComponentXML, *(scopeSyncGUI.defaultTabbedComponentProperties));
         BCMTabbedComponent*       tabbedComponent;
 
         // Setup Tabbed Component object
-        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation, gui));
+        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation, scopeSyncGUI));
 
         tabbedComponent->applyProperties(tabbedComponentProperties);
 
-        gui.addTabbedComponent(tabbedComponent);
+        scopeSyncGUI.addTabbedComponent(tabbedComponent);
         tabbedComponents.add(tabbedComponent);
     
         forEachXmlChildElementWithTagName(tabbedComponentXML, child, "tab")
@@ -235,7 +236,7 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
 {
     if (showInThisContext(tabXML))
     {
-        TabProperties tabProperties(tabXML, *(gui.defaultTabProperties));
+        TabProperties tabProperties(tabXML, *(scopeSyncGUI.defaultTabProperties));
         XmlElement*   componentXML = nullptr;
 
         componentXML = tabXML.getChildByName("component");
@@ -249,7 +250,7 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
             tabbedComponent.addTab(
                 tabProperties.name,
                 Colour::fromString(tabProperties.backgroundColour),
-                subComponent = new BCMComponent(gui, name),
+                subComponent = new BCMComponent(scopeSyncGUI, name),
                 true,
                 tabProperties.idx
             );
@@ -267,11 +268,11 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
 {
     if (showInThisContext(sliderXML))
     {
-        SliderProperties sliderProperties(gui, sliderXML, *(gui.defaultSliderProperties));
+        SliderProperties sliderProperties(scopeSyncGUI, sliderXML, *(scopeSyncGUI.defaultSliderProperties));
         BCMSlider*       slider;
 
         // Setup slider object
-        addAndMakeVisible(slider = new BCMSlider(sliderProperties.name, gui));
+        addAndMakeVisible(slider = new BCMSlider(sliderProperties.name, scopeSyncGUI));
         slider->addListener(this);
 
         slider->applyProperties(sliderProperties);
@@ -283,14 +284,14 @@ void BCMComponent::setupLabel(XmlElement& labelXML)
 {
     if (showInThisContext(labelXML))
     {
-        LabelProperties labelProperties(labelXML, *(gui.defaultLabelProperties));
+        LabelProperties labelProperties(labelXML, *(scopeSyncGUI.defaultLabelProperties));
         BCMLabel* label;
 
         String labelName = labelProperties.name;
         String labelText = labelProperties.text;
 
         // Setup label object
-        addAndMakeVisible(label = new BCMLabel(labelName, labelText, gui));
+        addAndMakeVisible(label = new BCMLabel(labelName, labelText, scopeSyncGUI));
 
         label->applyProperties(labelProperties);
         labels.add(label);
@@ -301,10 +302,10 @@ void BCMComponent::setupTextButton(XmlElement& textButtonXML)
 {
     if (showInThisContext(textButtonXML))
     {
-        TextButtonProperties textButtonProperties(textButtonXML, *(gui.defaultTextButtonProperties));
+        TextButtonProperties textButtonProperties(textButtonXML, *(scopeSyncGUI.defaultTextButtonProperties));
         BCMTextButton* textButton;
     
-        addAndMakeVisible (textButton = new BCMTextButton(gui, textButtonProperties.name));
+        addAndMakeVisible (textButton = new BCMTextButton(scopeSyncGUI, textButtonProperties.name));
 
         textButton->applyProperties(textButtonProperties);
         textButtons.add(textButton);
@@ -315,13 +316,13 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
 {
     if (showInThisContext(comboBoxXML))
     {
-        ComboBoxProperties comboBoxProperties(comboBoxXML, *(gui.defaultComboBoxProperties));
+        ComboBoxProperties comboBoxProperties(comboBoxXML, *(scopeSyncGUI.defaultComboBoxProperties));
         BCMComboBox* comboBox;
 
-        addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties.name));
+        addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties.name, scopeSyncGUI));
         comboBox->addListener(this);
     
-        comboBox->applyProperties(gui, comboBoxProperties);
+        comboBox->applyProperties(comboBoxProperties);
         comboBoxes.add(comboBox);
     }
 }
@@ -336,7 +337,7 @@ void BCMComponent::sliderValueChanged (Slider* sliderThatWasMoved)
         
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        gui.getScopeSync().setParameterFromGUI(*(bcmSlider->getParameter()), value);
+        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmSlider->getParameter()), value);
     }
     return;
 }
@@ -352,7 +353,7 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
         
     if (bcmComboBox && bcmComboBox->hasParameter())
     {
-        gui.getScopeSync().setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
+        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
     }
 }
 
@@ -362,7 +363,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        gui.getScopeSync().beginParameterChangeGesture(bcmSlider->getParameter());
+        scopeSyncGUI.getScopeSync().beginParameterChangeGesture(bcmSlider->getParameter());
     }
 }
 
@@ -372,6 +373,6 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        gui.getScopeSync().endParameterChangeGesture(bcmSlider->getParameter());
+        scopeSyncGUI.getScopeSync().endParameterChangeGesture(bcmSlider->getParameter());
     }
 }

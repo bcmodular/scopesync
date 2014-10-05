@@ -32,7 +32,11 @@
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Core/Global.h"
 
-BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner) : TabbedComponent(orientation), gui(owner) {}
+BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
+    : TabbedComponent(orientation), BCMParameterWidget(owner, this)
+{
+    setWantsKeyboardFocus(true);
+}
 
 BCMTabbedComponent::~BCMTabbedComponent() {}
 
@@ -45,16 +49,10 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 
     setTabBarDepth(properties.tabBarDepth);
     
-    mapsToParameter = false;
-    
-    ValueTree mapping;
-    parameter = gui.getUIMapping(Ids::tabbedComponents, getName(), mapping);
+    setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
 
-    if (parameter != nullptr)
+    if (mapsToParameter)
     {
-        mapsToParameter = true;      
-        
-        DBG("BCMTabbedComponent::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
         parameter->mapToUIValue(parameterValue);
     }
 
@@ -75,5 +73,5 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
     (void)newCurrentTabName;
 
     if (parameter != nullptr)
-        gui.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
+        scopeSyncGUI.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
 }

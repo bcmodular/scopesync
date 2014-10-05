@@ -66,6 +66,8 @@ void ComboBoxProperties::initialise()
     bounds.x            = 0;
     bounds.y            = 0;
     bcmLookAndFeelId    = String::empty;
+    mappingParentType   = Identifier();
+    mappingParent       = String::empty;
 };
 
 void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProperties)
@@ -88,6 +90,8 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
     bounds.width        = parentComboBoxProperties.bounds.width;
     bounds.height       = parentComboBoxProperties.bounds.height;
     bcmLookAndFeelId    = parentComboBoxProperties.bcmLookAndFeelId;
+    mappingParentType   = parentComboBoxProperties.mappingParentType;
+    mappingParent       = parentComboBoxProperties.mappingParent;
 };
 
 void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
@@ -115,6 +119,10 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
     {
         items.add(child->getAllSubText());
     }   
+
+    XmlElement* mappingParentXml = comboBoxXML.getChildByName("mappingparent");
+    if (mappingParentXml != nullptr)
+        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
 
     bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };

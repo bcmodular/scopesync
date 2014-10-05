@@ -35,7 +35,7 @@
 #include "../Core/Global.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
-    : Slider(name), gui(owner), BCMParameterWidget(owner.getScopeSync().getCommandManager())
+    : Slider(name), BCMParameterWidget(owner, this)
 {
     setWantsKeyboardFocus(true);
 }
@@ -84,14 +84,10 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
     }
 
-    mapsToParameter = false;
-    
-    parameter = gui.getUIMapping(Ids::sliders, getName(), mapping);
+    setupMapping(Ids::slider, getName(), properties.mappingParentType, properties.mappingParent);
 
-    if (parameter != nullptr)
+    if (mapsToParameter)
     {
-        mapsToParameter = true;      
-        
         String shortDesc;
         parameter->getDescriptions(shortDesc, tooltip);
 
@@ -176,7 +172,7 @@ void BCMSlider::mouseDown(const MouseEvent& event)
 {
     if (event.mods.isPopupMenu())
     {
-        showPopup();
+        showPopupMenu();
     }
     else
     {
@@ -202,7 +198,7 @@ void BCMSlider::switchToTabs()
 
         Array<BCMTabbedComponent*> tabbedComponents;
             
-        gui.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
+        scopeSyncGUI.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
         int numTabbedComponents = tabbedComponents.size();
 
         for (int j = 0; j < numTabbedComponents; j++)
@@ -278,24 +274,4 @@ bool BCMSlider::getEncoderSnap(bool encoderSnap)
         encoderSnap = (encoderSnapUserSetting == snap);
     
     return encoderSnap;
-}
-
-void BCMSlider::deleteMapping()
-{
-    gui.getScopeSync().getConfiguration().deleteMapping(Ids::slider, mapping, nullptr);
-    gui.getScopeSync().applyConfiguration();
-}
-
-void BCMSlider::editMapping()
-{
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 400, 34);
-    configurationManagerCallout->setMappingPanel(mapping, Ids::slider, getName());
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
-}
-
-void BCMSlider::editMappedParameter()
-{
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 550, 700);
-    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

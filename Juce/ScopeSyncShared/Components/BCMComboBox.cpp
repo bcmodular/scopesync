@@ -35,11 +35,15 @@
 #include "../Properties/ComboBoxProperties.h"
 #include "../Core/Global.h"
 
-BCMComboBox::BCMComboBox(String& name) : ComboBox(name) {}
+BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
+    : ComboBox(name), BCMParameterWidget(owner, this)
+{
+    setWantsKeyboardFocus(true);
+}
 
 BCMComboBox::~BCMComboBox() {}
 
-void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& properties)
+void BCMComboBox::applyProperties(ComboBoxProperties& properties)
 {
     setComponentID(properties.id);
     
@@ -52,20 +56,11 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
     setTextWhenNoChoicesAvailable(properties.noChoicesText);
     
     String tooltip  = properties.tooltip;
-    mapsToParameter = false;
     
-    // Will ignore any items provided in the layout for now,
-    // as there's no functionality associated with them
+    setupMapping(Ids::comboBox, getName(), properties.mappingParentType, properties.mappingParent);
 
-    mapsToParameter = false;
-        
-    ValueTree mapping;
-    parameter = gui.getUIMapping(Ids::comboBoxes, getName(), mapping);
-
-    if (parameter != nullptr)
+    if (mapsToParameter)
     {
-        mapsToParameter = true;       
-        
         ValueTree parameterSettings;
         parameter->getSettings(parameterSettings);
 
@@ -85,14 +80,12 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
                 String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
 
                 addItem(settingName, i + 1);
-                // DBG("BCMComboBox::BCMComboBox - Added parameter value to drop-down: " + settingName);
             }
             
             setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
         }
         else
         {
-            // DBG("BCMComboBox::BCMComboBox - No values to list");
             mapsToParameter = false;
         }
     }
@@ -102,6 +95,18 @@ void BCMComboBox::applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& propert
     properties.bounds.copyValues(componentBounds);
     BCM_SET_BOUNDS
     BCM_SET_LOOK_AND_FEEL
+}
+
+void BCMComboBox::mouseDown(const MouseEvent& event)
+{
+    if (event.mods.isPopupMenu())
+    {
+        showPopupMenu();
+    }
+    else
+    {
+        ComboBox::mouseDown(event);
+    }
 }
 
 void BCMComboBox::valueChanged(Value& value)

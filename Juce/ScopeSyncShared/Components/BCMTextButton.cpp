@@ -38,7 +38,8 @@
 const int BCMTextButton::clickBlockDuration = 1000;
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
-    : TextButton(name), gui(owner), BCMParameterWidget(owner.getScopeSync().getCommandManager()) {}
+    : TextButton(name), BCMParameterWidget(owner, this)
+{}
 
 BCMTextButton::~BCMTextButton()
 {
@@ -88,14 +89,11 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     mappingType = noToggle;
     displayType = currentSetting;
 
-    mapsToParameter = false;
+    setupMapping(Ids::textButton, getName(), properties.mappingParentType, properties.mappingParent);
     
-    parameter = gui.getUIMapping(Ids::textButtons, getName(), mapping);
-
-    if (parameter != nullptr)
+    if (mapsToParameter)
     {
         DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
-        mapsToParameter = true;       
         
         String paramShortDesc;
         parameter->getDescriptions(buttonText, tooltip);
@@ -216,7 +214,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     
     if (getName().equalsIgnoreCase("systemerrormoreinfo"))
     {
-        systemErrorDetails.referTo(gui.getScopeSync().getSystemErrorDetails());
+        systemErrorDetails.referTo(scopeSyncGUI.getScopeSync().getSystemErrorDetails());
         systemErrorDetails.addListener(this);
         setVisible(systemErrorDetails.toString().isNotEmpty());
     }
@@ -240,7 +238,7 @@ void BCMTextButton::switchToTabs()
 
         Array<BCMTabbedComponent*> tabbedComponents;
             
-        gui.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
+        scopeSyncGUI.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
         int numTabbedComponents = tabbedComponents.size();
 
         for (int j = 0; j < numTabbedComponents; j++)
@@ -298,7 +296,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
 {
     if (event.mods.isPopupMenu())
     {
-        showPopup();
+        showPopupMenu();
     }
     else
     {
@@ -308,17 +306,18 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     
 void BCMTextButton::mouseUp(const MouseEvent& event)
 {
-    (void)event;
-
-    if (hasParameter() && mappingType == noToggle)
+    if (!(event.mods.isPopupMenu()))
     {
-        float valueToSet = (float)upSettingIdx;
+        if (hasParameter() && mappingType == noToggle)
+        {
+            float valueToSet = (float)upSettingIdx;
             
-        if (valueToSet >= 0)
-            gui.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
-    }
+            if (valueToSet >= 0)
+                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+        }
 
-    TextButton::mouseUp(event);
+        TextButton::mouseUp(event);
+    }
 }
 
 void BCMTextButton::clicked()
@@ -337,25 +336,25 @@ void BCMTextButton::clicked()
         if (getName().equalsIgnoreCase("snapshot"))
         {
             // force sync of all controls
-            gui.getScopeSync().snapshot();
+            scopeSyncGUI.getScopeSync().snapshot();
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }
         else if (getName().equalsIgnoreCase("showusersettings"))
         {
-            gui.showUserSettings();
+            scopeSyncGUI.showUserSettings();
         }
         else if (getName().equalsIgnoreCase("showconfigurationmanager"))
         {
-            gui.getScopeSync().showConfigurationManager(gui.getScreenPosition().getX(), gui.getScreenPosition().getY());
+            scopeSyncGUI.getScopeSync().showConfigurationManager(scopeSyncGUI.getScreenPosition().getX(), scopeSyncGUI.getScreenPosition().getY());
         }
         else if (getName().equalsIgnoreCase("chooseconfiguration"))
         {
-            gui.chooseConfiguration();
+            scopeSyncGUI.chooseConfiguration();
         }
         else if (getName().equalsIgnoreCase("reloadconfiguration"))
         {
-            gui.getScopeSync().applyConfiguration();
+            scopeSyncGUI.getScopeSync().applyConfiguration();
             clicksBlocked = true;
             startTimer(clickBlockDuration);
         }
@@ -379,7 +378,7 @@ void BCMTextButton::clicked()
                 valueToSet = (float)downSettingIdx;
             
             if (valueToSet >= 0)
-                gui.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
         }
     }
 }
@@ -412,26 +411,6 @@ void BCMTextButton::valueChanged(Value& value)
 
 void BCMTextButton::showSystemErrorDetails()
 {
-    SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(gui.getScopeSync().getSystemErrorDetails().getValue(), *this);
+    SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(scopeSyncGUI.getScopeSync().getSystemErrorDetails().getValue(), *this);
     CallOutBox::launchAsynchronously(errorDetailsBox, getScreenBounds(), nullptr);
-}
-
-void BCMTextButton::deleteMapping()
-{
-    gui.getScopeSync().getConfiguration().deleteMapping(Ids::textButton, mapping, nullptr);
-    gui.getScopeSync().applyConfiguration();
-}
-
-void BCMTextButton::editMapping()
-{
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 400, 135);
-    configurationManagerCallout->setMappingPanel(mapping, Ids::textButton, getName());
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
-}
-
-void BCMTextButton::editMappedParameter()
-{
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 550, 700);
-    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

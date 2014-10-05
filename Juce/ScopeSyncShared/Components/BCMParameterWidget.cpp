@@ -26,10 +26,19 @@
 
 #include "BCMParameterWidget.h"
 #include "../Core/Global.h"
+#include "../Core/ScopeSyncGUI.h"
 
-BCMParameterWidget::BCMParameterWidget(ApplicationCommandManager* acm) : commandManager(acm)
+BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner, Component* parent)
+    : scopeSyncGUI(owner),
+      commandManager(owner.getScopeSync().getCommandManager())
 {
+    parentComponent = parent;
     commandManager->registerAllCommandsForTarget(this);
+}
+
+BCMParameterWidget::~BCMParameterWidget()
+{
+    commandManager->setFirstCommandTarget(nullptr);
 }
 
 void BCMParameterWidget::getAllCommands(Array <CommandID>& commands)
@@ -80,8 +89,10 @@ ApplicationCommandTarget* BCMParameterWidget::getNextCommandTarget()
     return nullptr;
 }
 
-void BCMParameterWidget::showPopup()
+void BCMParameterWidget::showPopupMenu()
 {
+    commandManager->setFirstCommandTarget(this);
+
     PopupMenu m;
     m.addCommandItem(commandManager, CommandIDs::editItem, "Edit Parameter Mapping");
     m.addCommandItem(commandManager, CommandIDs::editMappedItem, "Edit Mapped Parameter");
@@ -89,4 +100,65 @@ void BCMParameterWidget::showPopup()
     m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Parameter Mapping");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
+}
+
+void BCMParameterWidget::setupMapping(const Identifier& componentType,     const String& componentName, 
+                                      const Identifier& mappingParentType, const String& mappingParent)
+{
+    mapsToParameter      = false;
+        
+    // First try to use a specific mapping set up for this component. Even if it doesn't find a mapped parameter
+    // we'll still stick to this mapping, so it can be fixed up later
+    mappingComponentType = componentType;
+    mappingComponentName = componentName;
+    
+    parameter = scopeSyncGUI.getUIMapping(Configuration::getMappingParentId(mappingComponentType), mappingComponentName, mapping);
+
+    if (mapping.isValid())
+    {
+        DBG("BCMParameterWidget::setupMapping - Using direct mapping: " + String(componentType) + "/" + componentName);
+        if (parameter != nullptr)
+            mapsToParameter = true;
+
+        return;
+    }
+    
+    if (mappingParentType.isValid() && mappingParent.isNotEmpty())
+    {
+        DBG("BCMParameterWidget::setupMapping - Failing back to mappingParent: " + String(mappingComponentType) + "/" + mappingComponentName);
+        // Otherwise fail back to a mappingParent (set in the layout XML)
+        mappingComponentType = mappingParentType;
+        mappingComponentName = mappingParent;
+
+        parameter = scopeSyncGUI.getUIMapping(Configuration::getMappingParentId(mappingComponentType), mappingComponentName, mapping);
+
+        if (parameter != nullptr)
+        {
+            mapsToParameter = true;
+            return;
+        }
+    }
+
+    DBG("BCMParameterWidget::setupMapping - No mapping or parent mapping found for component: " + String(componentType) + "/" + componentName);
+}
+
+void BCMParameterWidget::deleteMapping()
+{
+    scopeSyncGUI.getScopeSync().getConfiguration().deleteMapping(mappingComponentType, mapping, nullptr);
+    scopeSyncGUI.getScopeSync().applyConfiguration();
+}
+
+void BCMParameterWidget::editMapping()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 400, 34);
+    DBG("BCMParameterWidget::editMapping from component: " + parentComponent->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
+    configurationManagerCallout->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, parentComponent->getScreenBounds(), nullptr);
+}
+
+void BCMParameterWidget::editMappedParameter()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 700);
+    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    CallOutBox::launchAsynchronously(configurationManagerCallout, parentComponent->getScreenBounds(), nullptr);
 }

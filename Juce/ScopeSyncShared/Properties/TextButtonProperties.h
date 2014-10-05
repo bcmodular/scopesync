@@ -55,7 +55,8 @@ public:
     StringArray        tabbedComponents;
     StringArray        tabNames;
     URL                url;
-    
+    Identifier         mappingParentType;
+    String             mappingParent;    
 private:
     void initialise();
     void copyProperties(TextButtonProperties& parentTextButtonProperties);

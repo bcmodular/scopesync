@@ -83,6 +83,8 @@ public:
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
 
+    static Identifier getMappingParentId(const Identifier& componentType);
+
 private:
     ValueTree  configurationRoot;
     ValueTree  loaderConfigurationRoot;

@@ -29,23 +29,28 @@
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+class ScopeSyncGUI;
 
 class BCMParameterWidget : public ApplicationCommandTarget
 {
 public:
-    BCMParameterWidget(ApplicationCommandManager* acm);
-    ~BCMParameterWidget() {}
+    BCMParameterWidget(ScopeSyncGUI& owner, Component* parent);
+    ~BCMParameterWidget();
 
-    // Indicates whether a BCMSlider has a parameter mapping
+    // Indicates whether the widget has a parameter mapping
     bool hasParameter() { return mapsToParameter; };
     
-    // Returns the parameter a BCMSlider is mapped to
+    // Returns the parameter the widget is mapped to
     BCMParameter* getParameter() { return parameter.get(); };
 
 protected:
+    ScopeSyncGUI& scopeSyncGUI;
+    Component*    parentComponent;
     bool          mapsToParameter;         // Flag for whether the widget maps to a parameter
     WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
 
+    Identifier  mappingComponentType;
+    String      mappingComponentName;
     ValueTree   mapping;
 
     ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
@@ -56,11 +61,14 @@ protected:
     virtual bool perform(const InvocationInfo& info) override;
     virtual ApplicationCommandTarget* getNextCommandTarget();
 
-    virtual void deleteMapping() {};
-    virtual void editMapping() {};
-    virtual void editMappedParameter() {};
-    virtual void showPopup();
+    void deleteMapping();
+    void editMapping();
+    void editMappedParameter();
+    void showPopupMenu();
     
+    void setupMapping(const Identifier& componentType,     const String& componentName,
+                      const Identifier& mappingParentType, const String& mappingParent);
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMParameterWidget);
 };
 

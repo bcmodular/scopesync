@@ -108,7 +108,7 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
     menuModel = new ConfigurationMenuBarModel(*this);
     setMenuBar(menuModel);
 
-    addKeyListener(configurationManager.getCommandManager()->getKeyMappings());
+    addKeyListener(commandManager->getKeyMappings());
 
     restoreWindowPosition(posX, posY);
     
@@ -122,6 +122,7 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
 
 ConfigurationManagerWindow::~ConfigurationManagerWindow()
 {
+    configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
     setMenuBar(nullptr);
 }
 
@@ -171,11 +172,8 @@ void ConfigurationManagerWindow::unload()
 {
     if (configurationManagerMain != nullptr)
         configurationManagerMain->unload();
-
-    configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
     
     removeKeyListener(commandManager->getKeyMappings());
-    setMenuBar(nullptr);
 }
 
 void ConfigurationManagerWindow::saveAs()

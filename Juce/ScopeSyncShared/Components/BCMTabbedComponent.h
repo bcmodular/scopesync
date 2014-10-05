@@ -35,8 +35,11 @@ class ScopeSyncGUI;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponentBounds.h"
 #include "../Core/BCMParameter.h"
+#include "BCMParameterWidget.h"
 
-class BCMTabbedComponent : public TabbedComponent, public Value::Listener
+class BCMTabbedComponent : public TabbedComponent,
+                           public Value::Listener,
+                           public BCMParameterWidget
 {
 public:
     BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner);
@@ -59,11 +62,7 @@ public:
     bool shouldShowDropShadow() { return showDropShadow; }
 
 private:
-    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter* parameter;       // Pointer to a mapped parameter
-    Value         parameterValue;  // Maintains a link to a mapped parameter's UI value
-
-    ScopeSyncGUI& gui; // Reference to main ScopeSyncGUI
+    Value parameterValue;  // Maintains a link to a mapped parameter's UI value
 
     String name;                        // Name of BCMTabbedComponent
     bool   showDropShadow;              // Flag as to whether Tabs should display a drop-shadow

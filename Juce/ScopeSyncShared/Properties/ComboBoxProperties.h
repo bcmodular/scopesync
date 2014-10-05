@@ -57,7 +57,8 @@ public:
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     String               bcmLookAndFeelId;
-
+    Identifier           mappingParentType;
+    String               mappingParent;
 private:
     void initialise();
     void copyProperties(ComboBoxProperties& parentComboBoxProperties);

@@ -35,8 +35,10 @@ class LabelProperties;
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
 #include "../Components/BCMComponentBounds.h"
+#include "BCMParameterWidget.h"
 
-class BCMLabel : public Label
+class BCMLabel : public Label,
+                 public BCMParameterWidget
 {
 public:
     BCMLabel(String& name, String& text, ScopeSyncGUI& owner);
@@ -46,12 +48,8 @@ public:
     void handleValueChanged(Value& valueThatChanged);
 
 private:
-    bool               mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter*      parameter;       // Pointer to a mapped parameter
     BCMComponentBounds componentBounds; // Position/Size information
-
-    ScopeSyncGUI&      gui;
-
+  
     class BCMLabelValueListener : public Value::Listener
     {
     public:
@@ -64,7 +62,9 @@ private:
     };
 
     ScopedPointer<BCMLabelValueListener> valueListener;
-
+    
+    void mouseDown(const MouseEvent& event) override;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };
 

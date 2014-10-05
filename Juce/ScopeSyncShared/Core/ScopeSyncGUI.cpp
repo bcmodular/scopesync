@@ -37,6 +37,7 @@ const int ScopeSyncGUI::timerFrequency = 100;
 
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
+    addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     createGUI(false);
     scopeSync.setGUIReload(false);
     startTimer(timerFrequency);
@@ -44,6 +45,7 @@ ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 
 ScopeSyncGUI::~ScopeSyncGUI()
 {
+    removeKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     stopTimer();
 }
 

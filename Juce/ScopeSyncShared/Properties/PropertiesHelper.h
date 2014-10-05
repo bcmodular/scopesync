@@ -30,6 +30,7 @@
 
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
+#include "../Core/Global.h"
 
 namespace PropertiesHelper
 {
@@ -160,6 +161,19 @@ namespace PropertiesHelper
 
             bounds.boundsType = BCMComponentBounds::standard;
         }
+    }
+
+    inline void getMappingParentFromXml(XmlElement& xml, Identifier& componentType, String& componentName)
+    {
+        String componentTypeString = xml.getStringAttribute("componenttype");
+
+             if (componentTypeString.equalsIgnoreCase("slider"))          componentType = Ids::slider;
+        else if (componentTypeString.equalsIgnoreCase("label"))           componentType = Ids::label;
+        else if (componentTypeString.equalsIgnoreCase("combobox"))        componentType = Ids::comboBox;
+        else if (componentTypeString.equalsIgnoreCase("tabbedcomponent")) componentType = Ids::tabbedComponent;
+        else if (componentTypeString.equalsIgnoreCase("textbutton"))      componentType = Ids::textButton;
+
+        componentName = xml.getStringAttribute("componentname");
     }
 };
 

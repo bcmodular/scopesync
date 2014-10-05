@@ -98,8 +98,6 @@ private:
     
     ValueTree settings; // Discrete parameter settings
     
-    ScopeSyncGUI& gui; // Reference to main ScopeSyncGUI
-
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
 
@@ -110,13 +108,8 @@ private:
     void mouseUp(const MouseEvent& event) override;
     
     // Callback for when a BCMTextButton is clicked
-    void clicked() override;
+    void clicked();
     void showSystemErrorDetails();
-
-    /* ================= BCMParameterWidget overrides ================= */
-    void deleteMapping() override;
-    void editMapping() override;
-    void editMappedParameter() override;
 
     class SystemErrorDetailsCallout : public Component
     {

@@ -819,7 +819,7 @@ Icon SliderMappingItem::getIcon() const
 
 void SliderMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "Slider"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::slider));
 }
 
 /* =========================================================================
@@ -840,7 +840,7 @@ Icon LabelMappingItem::getIcon() const
 
 void LabelMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "Label"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::label));
 }
 
 /* =========================================================================
@@ -861,7 +861,7 @@ Icon ComboBoxMappingItem::getIcon() const
 
 void ComboBoxMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "ComboBox"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::comboBox));
 }
 
 /* =========================================================================
@@ -882,7 +882,7 @@ Icon TabbedComponentMappingItem::getIcon() const
 
 void TabbedComponentMappingItem::changePanel()
 {
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, "TabbedComponent"));
+    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::tabbedComponent));
 }
 
 /* =========================================================================

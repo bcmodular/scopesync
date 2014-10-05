@@ -68,6 +68,8 @@ public:
     bool        encoderSnap;
     StringArray tabbedComponents;
     StringArray tabNames;
+    Identifier  mappingParentType;
+    String      mappingParent;
 
 private:
     ScopeSyncGUI& scopeSyncGUI;

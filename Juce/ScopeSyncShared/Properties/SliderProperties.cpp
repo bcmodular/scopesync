@@ -77,6 +77,8 @@ void SliderProperties::initialise()
     encoderSnap        = (scopeSyncGUI.settings.encoderSnap       == BCMSlider::snap);
     tabbedComponents.clear();
     tabNames.clear();
+    mappingParentType  = Identifier();
+    mappingParent      = String::empty;
 };
 
 void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
@@ -105,6 +107,8 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
     encoderSnap        = parentSliderProperties.encoderSnap;
     tabbedComponents   = StringArray(parentSliderProperties.tabbedComponents);
     tabNames           = StringArray(parentSliderProperties.tabNames);
+    mappingParentType  = parentSliderProperties.mappingParentType;
+    mappingParent      = parentSliderProperties.mappingParent;
 };
 
 void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
@@ -156,6 +160,10 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
             getJustificationFlagsFromXml(*justificationXml, justificationFlags);
     }
 
+    XmlElement* mappingParentXml = sliderXML.getChildByName("mappingparent");
+    if (mappingParentXml != nullptr)
+        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
+    
     bcmLookAndFeelId = sliderXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };
 

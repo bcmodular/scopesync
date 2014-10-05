@@ -137,7 +137,7 @@ private:
         } \
         catch (Expression::ParseError& error) \
         { \
-            gui.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + getName() + ", error: " + error.description); \
+            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + getName() + ", error: " + error.description); \
             return; \
         } \
     else if (componentBounds.boundsType == BCMComponentBounds::inset) \
@@ -153,7 +153,7 @@ private:
     }
 
 #define BCM_SET_LOOK_AND_FEEL \
-    BCMLookAndFeel* bcmLookAndFeel = gui.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId); \
+    BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId); \
     \
     if (bcmLookAndFeel != nullptr) \
         setLookAndFeel(bcmLookAndFeel);

@@ -95,7 +95,6 @@ private:
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
     BCMComponentBounds componentBounds; // Position/Size information
-    ScopeSyncGUI& gui;                  // Reference to main ScopeSyncGUI
     
     bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
@@ -120,11 +119,6 @@ private:
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
-
-    /* ================= BCMParameterWidget overrides ================= */
-    void deleteMapping() override;
-    void editMapping() override;
-    void editMappedParameter() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMSlider);
 };

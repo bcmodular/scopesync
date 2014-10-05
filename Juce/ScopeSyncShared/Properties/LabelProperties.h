@@ -56,7 +56,9 @@ public:
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     ParameterTextDisplay parameterTextDisplay;
-    
+    Identifier           mappingParentType;
+    String               mappingParent;  
+
 private:
     void initialise();
     void copyProperties(const LabelProperties& parentLabelProperties);

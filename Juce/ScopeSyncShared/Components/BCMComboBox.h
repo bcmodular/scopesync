@@ -35,32 +35,28 @@ class ComboBoxProperties;
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
 #include "../Components/BCMComponentBounds.h"
+#include "BCMParameterWidget.h"
 
-class BCMComboBox : public ComboBox
+class BCMComboBox : public ComboBox,
+                    public BCMParameterWidget
 {
 public:
-    BCMComboBox(String& name);
+    BCMComboBox(String& name, ScopeSyncGUI& owner);
     ~BCMComboBox();
 
-    void applyProperties(ScopeSyncGUI& gui, ComboBoxProperties& properties);
+    void applyProperties(ComboBoxProperties& properties);
     
-    void  valueChanged(Value& value);
-
-    // Indicates whether a BCMComboBox has a parameter mapping
-    bool  hasParameter() { return mapsToParameter; };
-    
-    // Returns the parameter a BCMComboBox is mapped to
-    BCMParameter* getParameter()  { return parameter; };
+    void valueChanged(Value& value) override;
 
     float                fontHeight;     // Height of font for BCMComboBox's current value (use PopupMenu LookAndFeel for other fonts)
     Font::FontStyleFlags fontStyleFlags; // Style flags for BCMComboBox's current value
 
 private:
     Value              parameterValue;  // Maintains a link to a mapped parameter's UI value
-    bool               mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    BCMParameter*      parameter;       // Pointer to a mapped parameter
     BCMComponentBounds componentBounds; // Position/Size information
 
+    void mouseDown(const MouseEvent& event) override;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComboBox);
 };
 

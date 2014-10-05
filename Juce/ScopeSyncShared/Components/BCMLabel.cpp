@@ -34,8 +34,10 @@
 #include "../Properties/LabelProperties.h"
 #include "../Core/Global.h"
 
-BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner) : Label(name, text), gui(owner)
+BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
+    : Label(name, text), BCMParameterWidget(owner, this)
 {
+    setWantsKeyboardFocus(true);
     valueListener = new BCMLabelValueListener(*this);
 }
 
@@ -43,7 +45,7 @@ BCMLabel::~BCMLabel()
 {
     if (getName().equalsIgnoreCase("SystemError"))
     {
-        gui.getScopeSync().getSystemError().removeListener(valueListener);    
+        scopeSyncGUI.getScopeSync().getSystemError().removeListener(valueListener);    
     }
 }
 
@@ -58,21 +60,18 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     
     if (getName().equalsIgnoreCase("configurationfilepath"))
     {
-        labelText = gui.getScopeSync().getConfigurationFile().getFullPathName();
+        labelText = scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName();
     }
     else if (getName().equalsIgnoreCase("configurationname"))
     {
-        labelText = gui.getScopeSync().getConfigurationName(true);
+        labelText = scopeSyncGUI.getScopeSync().getConfigurationName(true);
     }
     else
     {
-        ValueTree mapping;
-        parameter = gui.getUIMapping(Ids::labels, getName(), mapping);
+        setupMapping(Ids::label, getName(), properties.mappingParentType, properties.mappingParent);
 
-        if (parameter != nullptr)
+        if (mapsToParameter)
         {
-            mapsToParameter = true;
-            
             String shortDescription;
             String fullDescription;
             
@@ -95,8 +94,8 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     
     if (getName().equalsIgnoreCase("SystemError"))
     {
-        labelText = gui.getScopeSync().getSystemError().getValue();
-        gui.getScopeSync().getSystemError().addListener(valueListener);
+        labelText = scopeSyncGUI.getScopeSync().getSystemError().getValue();
+        scopeSyncGUI.getScopeSync().getSystemError().addListener(valueListener);
     }
     
     setText(labelText, dontSendNotification);
@@ -110,15 +109,28 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     BCM_SET_LOOK_AND_FEEL
 }
 
+void BCMLabel::mouseDown(const MouseEvent& event)
+{
+    if (event.mods.isPopupMenu())
+    {
+        grabKeyboardFocus();
+        showPopupMenu();
+    }
+    else
+    {
+        Label::mouseDown(event);
+    }
+}
+
 void BCMLabel::handleValueChanged(Value& valueThatChanged)
 {
-    if (valueThatChanged.refersToSameSourceAs(gui.getScopeSync().getSystemError()))
+    if (valueThatChanged.refersToSameSourceAs(scopeSyncGUI.getScopeSync().getSystemError()))
     {
         String text = valueThatChanged.getValue().toString();
         setText(text, dontSendNotification);
     }
 
-    if (valueThatChanged.refersToSameSourceAs(gui.getScopeSync().getSystemErrorDetails()))
+    if (valueThatChanged.refersToSameSourceAs(scopeSyncGUI.getScopeSync().getSystemErrorDetails()))
     {
         String tooltip = valueThatChanged.getValue().toString();
         setTooltip(tooltip);   

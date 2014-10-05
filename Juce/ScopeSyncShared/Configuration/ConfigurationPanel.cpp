@@ -368,7 +368,7 @@ void MappingPanel::rebuildProperties()
  * TextButtonMappingPanel
  */
 TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, bool hideComponentName)
-    : MappingPanel(mapping, um, config, acm, "TextButton", hideComponentName),
+    : MappingPanel(mapping, um, config, acm, Ids::textButton, hideComponentName),
       parameterName(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager)),
       mappingType(valueTree.getPropertyAsValue(Ids::type, &undoManager))
 {
