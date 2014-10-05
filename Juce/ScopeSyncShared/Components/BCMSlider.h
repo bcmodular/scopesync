@@ -34,22 +34,17 @@ class SliderProperties;
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+#include "BCMParameterWidget.h"
 #include "BCMComponentBounds.h"
 
 class BCMSlider : public Slider,
-                  public ApplicationCommandTarget
+                  public BCMParameterWidget
 {
 public:
     BCMSlider(const String& name, ScopeSyncGUI& owner);
     ~BCMSlider();
 
     void applyProperties(SliderProperties& properties);
-
-    // Indicates whether a BCMSlider has a parameter mapping
-    bool hasParameter() { return mapsToParameter; };
-    
-    // Returns the parameter a BCMSlider is mapped to
-    BCMParameter* getParameter()  { return parameter.get(); };
 
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
@@ -97,17 +92,11 @@ public:
     };
 
 private:
-    bool          mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
-
-    ValueTree   mapping;
-
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
     BCMComponentBounds componentBounds; // Position/Size information
     ScopeSyncGUI& gui;                  // Reference to main ScopeSyncGUI
-    ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
-
+    
     bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
@@ -132,16 +121,10 @@ private:
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
 
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
-
-    void deleteMapping();
-    void editMapping();
-    void editMappedParameter();
-    void showPopup();
+    /* ================= BCMParameterWidget overrides ================= */
+    void deleteMapping() override;
+    void editMapping() override;
+    void editMappedParameter() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMSlider);
 };

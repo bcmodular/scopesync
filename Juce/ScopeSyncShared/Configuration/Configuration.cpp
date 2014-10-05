@@ -559,20 +559,20 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
     return layoutXml;
 }
 
-StringArray& Configuration::getComponentNames(const String& componentType)
+StringArray& Configuration::getComponentNames(const Identifier& componentType)
 {
     String e1, e2;
 
     if (!layoutLoaded)
         loadLayoutXml(e1, e2);
 
-         if (componentType == "Slider")
+         if (componentType == Ids::slider)
         return sliderNames;
-    else if (componentType == "Label")
+    else if (componentType == Ids::label)
         return labelNames;
-    else if (componentType == "ComboBox")
+    else if (componentType == Ids::comboBox)
         return comboBoxNames;
-    else if (componentType == "TextButton")
+    else if (componentType == Ids::textButton)
         return textButtonNames;
     else
         return tabbedComponentNames;

@@ -309,7 +309,9 @@ void ParameterPanel::createSettingsTable()
 /* =========================================================================
  * MappingPanel
  */
-MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const String& compType, bool calloutView)
+MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, 
+                           Configuration& config, ApplicationCommandManager* acm, 
+                           const Identifier& compType, bool calloutView)
     : BasePanel(mapping, um, config, acm), componentType(compType), showComponent(!calloutView)
 {
     rebuildProperties();
@@ -331,16 +333,31 @@ void MappingPanel::rebuildProperties()
 
         for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
 
-        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentType + " Name", componentNames, componentValues), "Choose the "+ componentType + " to map from");
+        componentNames.insert(0, "- No Component -");
+        componentValues.insert(0, String::empty);
+
+        String componentTypeName;
+
+             if (componentType == Ids::slider)          componentTypeName = "Slider";
+        else if (componentType == Ids::label)           componentTypeName = "Label";
+        else if (componentType == Ids::comboBox)        componentTypeName = "Combo Box";
+        else if (componentType == Ids::tabbedComponent) componentTypeName = "Tabbed Component";
+        else if (componentType == Ids::textButton)      componentTypeName = "Text Button";
+        
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to map from");
     }
 
     // Set up Parameter Names
     StringArray parameterNames;
     Array<var>  parameterValues;
 
-    bool discreteOnly(componentType == "TextButton" ? true : false);
+    bool discreteOnly(componentType == Ids::textButton ? true : false);
 
     configuration.setupParameterLists(parameterNames, parameterValues, discreteOnly);
+
+    parameterNames.insert(0, "- No Mapping -");
+    parameterValues.insert(0, String::empty);
+
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager), "Parameter", parameterNames, parameterValues), "Choose the Parameter to map to");
 
     propertyPanel.addProperties(props.components);
@@ -388,12 +405,16 @@ void TextButtonMappingPanel::rebuildProperties()
     {
         configuration.setupSettingLists(parameterName.toString(), settingNames, settingValues);
     }
-    
-    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingDown, &undoManager), "Down Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the down position");
-    
-    if (int(mappingType.getValue()) < 2)
-        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingUp, &undoManager), "Up Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the up position");
 
+    settingNames.insert(0, "- No Setting -");
+    settingValues.insert(0, String::empty);
+
+    if (int(mappingType.getValue()) < 2)
+    {
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingDown, &undoManager), "Down Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the down position");
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::settingUp, &undoManager), "Up Setting", settingNames, settingValues), "Parameter Setting to be sent when button is moved into the up position");
+    }
+        
     // Radio Group
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::radioGroup, &undoManager), "Radio Group", 32, false), "Text identifier to match TextButtons within a radio group. Leave blank if no radio group needed.");
 

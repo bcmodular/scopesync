@@ -37,7 +37,8 @@
 
 const int BCMTextButton::clickBlockDuration = 1000;
 
-BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name) : TextButton(name), gui(owner) {}
+BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
+    : TextButton(name), gui(owner), BCMParameterWidget(owner.getScopeSync().getCommandManager()) {}
 
 BCMTextButton::~BCMTextButton()
 {
@@ -89,7 +90,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
     mapsToParameter = false;
     
-    ValueTree mapping;
     parameter = gui.getUIMapping(Ids::textButtons, getName(), mapping);
 
     if (parameter != nullptr)
@@ -294,6 +294,18 @@ void BCMTextButton::timerCallback()
     clicksBlocked = false;
 }
 
+void BCMTextButton::mouseDown(const MouseEvent& event)
+{
+    if (event.mods.isPopupMenu())
+    {
+        showPopup();
+    }
+    else
+    {
+        TextButton::mouseDown(event);
+    }
+}
+    
 void BCMTextButton::mouseUp(const MouseEvent& event)
 {
     (void)event;
@@ -402,4 +414,24 @@ void BCMTextButton::showSystemErrorDetails()
 {
     SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(gui.getScopeSync().getSystemErrorDetails().getValue(), *this);
     CallOutBox::launchAsynchronously(errorDetailsBox, getScreenBounds(), nullptr);
+}
+
+void BCMTextButton::deleteMapping()
+{
+    gui.getScopeSync().getConfiguration().deleteMapping(Ids::textButton, mapping, nullptr);
+    gui.getScopeSync().applyConfiguration();
+}
+
+void BCMTextButton::editMapping()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 400, 135);
+    configurationManagerCallout->setMappingPanel(mapping, Ids::textButton, getName());
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+}
+
+void BCMTextButton::editMappedParameter()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(gui.getScopeSync(), 550, 700);
+    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

@@ -139,15 +139,15 @@ private:
 class MappingPanel : public BasePanel
 {
 public:
-    MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const String& compType, bool calloutView = false);
+    MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
     ~MappingPanel();
 
 protected:
     void rebuildProperties() override;
 
 private:
-    String componentType;
-    bool   showComponent;
+    Identifier componentType;
+    bool       showComponent;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingPanel)
 };

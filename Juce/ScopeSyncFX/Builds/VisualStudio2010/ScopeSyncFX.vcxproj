@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMParameterWidget.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp"/>
@@ -1071,6 +1072,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMParameterWidget.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.h"/>

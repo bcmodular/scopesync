@@ -34,11 +34,13 @@ class TextButtonProperties;
 
 #include <JuceHeader.h>
 #include "BCMTabbedComponent.h"
+#include "BCMParameterWidget.h"
 #include "../Core/BCMParameter.h"
 
 class BCMTextButton : public TextButton,
                       public Value::Listener,
-                      public Timer
+                      public Timer,
+                      public BCMParameterWidget
 {
 public:
     BCMTextButton(ScopeSyncGUI& owner, String& name);
@@ -49,42 +51,35 @@ public:
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value);
 
-    // Indicates whether a BCMComboBox has a parameter mapping
-    bool  hasParameter() { return mapsToParameter; };
-    
-    // Returns parameter a BCMComboBox is mapped to
-    BCMParameter* getParameter() { return parameter; };
-
 private:
-
-    class SystemErrorDetailsCallout : public Component
+    
+    // Types of Mapping
+    enum MappingType
     {
-    public:
-        SystemErrorDetailsCallout(const String& boxText, BCMTextButton& parent)
-            : errorDetailsBox("Callout box")
-        {
-            errorDetailsBox.setText(boxText);
-            errorDetailsBox.setMultiLine(true, true);
-            errorDetailsBox.setReadOnly(true);
-            errorDetailsBox.setCaretVisible(false);
-            errorDetailsBox.setScrollbarsShown(true);
-            errorDetailsBox.setLookAndFeel(&parent.getLookAndFeel());
-            addAndMakeVisible(errorDetailsBox);
-            errorDetailsBox.setBounds(getLocalBounds());
-            setSize(500, 75);
-        }
-
-    private:
-        void resized() override { errorDetailsBox.setBounds(getLocalBounds()); }
-        TextEditor errorDetailsBox;
+        noToggle, // Regular button that doesn't toggle
+        toggle,   // Button that toggles (e.g. on/off)
+        inc,      // Button that increments a value, stopping at maximum
+        dec,      // Button that decrements a value, stopping at minimum
+        incWrap,  // Button that increments a value, wrapping round to minimum after hitting maximum
+        decWrap   // Button that decrements a value, wrapping round to maximum after hitting minimum
     };
+
+    // Types of Button Display
+    enum DisplayType
+    {
+        currentSetting, // Display the current setting for a parameter
+        downSetting,    // Display the setting that will be chosen on clicking the button
+        parameterName,  // Display a mapped parameter's name
+        custom          // Display a custom piece of text
+    };
+    
+    MappingType mappingType;
+    DisplayType displayType;
 
     Value parameterValue;     // Maintains a link to a mapped parameter's UI value
     Value systemErrorDetails; // Used for the systemmoreinfo button
 
-    bool                        mapsToParameter; // Flag for whether BCMComboBox maps to a parameter
-    WeakReference<BCMParameter> parameter;       // Pointer to a mapped parameter
-    BCMComponentBounds          componentBounds; // Position/Size information
+    BCMComponentBounds componentBounds; // Position/Size information
 
     URL url; // URL launched on clicking the button
 
@@ -111,34 +106,39 @@ private:
     // For incrementing and decrementing MappingTypes, update the "next" values to be set
     void setNextValues();
     
-    void mouseUp(const MouseEvent& event);
+    void mouseDown(const MouseEvent& event) override;
+    void mouseUp(const MouseEvent& event) override;
     
     // Callback for when a BCMTextButton is clicked
-    void clicked();
+    void clicked() override;
     void showSystemErrorDetails();
 
-    // Types of Mapping
-    enum MappingType
-    {
-        noToggle, // Regular button that doesn't toggle
-        toggle,   // Button that toggles (e.g. on/off)
-        inc,      // Button that increments a value, stopping at maximum
-        dec,      // Button that decrements a value, stopping at minimum
-        incWrap,  // Button that increments a value, wrapping round to minimum after hitting maximum
-        decWrap   // Button that decrements a value, wrapping round to maximum after hitting minimum
-    };
+    /* ================= BCMParameterWidget overrides ================= */
+    void deleteMapping() override;
+    void editMapping() override;
+    void editMappedParameter() override;
 
-    // Types of Button Display
-    enum DisplayType
+    class SystemErrorDetailsCallout : public Component
     {
-        currentSetting, // Display the current setting for a parameter
-        downSetting,    // Display the setting that will be chosen on clicking the button
-        parameterName,  // Display a mapped parameter's name
-        custom          // Display a custom piece of text
+    public:
+        SystemErrorDetailsCallout(const String& boxText, BCMTextButton& parent)
+            : errorDetailsBox("Callout box")
+        {
+            errorDetailsBox.setText(boxText);
+            errorDetailsBox.setMultiLine(true, true);
+            errorDetailsBox.setReadOnly(true);
+            errorDetailsBox.setCaretVisible(false);
+            errorDetailsBox.setScrollbarsShown(true);
+            errorDetailsBox.setLookAndFeel(&parent.getLookAndFeel());
+            addAndMakeVisible(errorDetailsBox);
+            errorDetailsBox.setBounds(getLocalBounds());
+            setSize(500, 75);
+        }
+
+    private:
+        void resized() override { errorDetailsBox.setBounds(getLocalBounds()); }
+        TextEditor errorDetailsBox;
     };
-    
-    MappingType mappingType;
-    DisplayType displayType;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTextButton);
 };

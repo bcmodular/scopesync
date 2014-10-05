@@ -79,7 +79,7 @@ public:
                        int targetIndex, 
                        UndoManager* um);
 
-    StringArray& getComponentNames(const String& componentType);
+    StringArray& getComponentNames(const Identifier& componentType);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
 

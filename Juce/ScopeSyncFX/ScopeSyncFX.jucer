@@ -92,6 +92,10 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="TsQrR2" name="BCMParameterWidget.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/BCMParameterWidget.cpp"/>
+        <FILE id="yZpO93" name="BCMParameterWidget.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/BCMParameterWidget.h"/>
         <FILE id="WqAQsV" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
         <FILE id="RFLS26" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
         <FILE id="uTOHLc" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>

@@ -122,7 +122,7 @@ public:
     ConfigurationManagerCallout(ScopeSync& owner, int width, int height);
     ~ConfigurationManagerCallout();
 
-    void setMappingPanel(ValueTree& mapping, const String& componentType, const String& componentName);
+    void setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName);
     void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
     
 private:

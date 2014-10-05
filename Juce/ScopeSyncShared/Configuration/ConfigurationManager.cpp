@@ -230,12 +230,19 @@ ConfigurationManagerCallout::~ConfigurationManagerCallout()
     configurationManager.getScopeSync().applyConfiguration();
 }
 
-void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const String& componentType, const String& componentName)
+void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName)
 {
     if (!(mapping.isValid()))
-         configurationManager.getConfiguration().addNewMapping(Ids::slider, componentName, String::empty, mapping, -1, &(configurationManagerCalloutMain->getUndoManager()));
+         configurationManager.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &(configurationManagerCalloutMain->getUndoManager()));
 
-    configurationManagerCalloutMain->changePanel(new MappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), configurationManager.getConfiguration(), commandManager, componentType, true));
+    MappingPanel* panelToShow;
+
+    if (componentType == Ids::textButton)
+        panelToShow = new TextButtonMappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), configurationManager.getConfiguration(), commandManager, true);
+    else
+        panelToShow = new MappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), configurationManager.getConfiguration(), commandManager, componentType, true);
+    
+        configurationManagerCalloutMain->changePanel(panelToShow);
 }
 
 void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
