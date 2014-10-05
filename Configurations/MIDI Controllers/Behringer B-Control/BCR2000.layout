@@ -115,6 +115,11 @@
           <textbutton upfilename="Skins/B-Control/ButtonRotary_Off.png" downfilename="Skins/B-Control/ButtonRotary_On.png" mouseoverupfilename="Skins/B-Control/ButtonRotary_Off.png" mouseoverdownfilename="Skins/B-Control/ButtonRotary_On.png"></textbutton>
         </images>
       </lookandfeel>
+      <lookandfeel id="ScopeSync_Codes">
+        <colours>
+          <label textcolourid="7ff7fdff"></label>
+        </colours>
+      </lookandfeel>
     </lookandfeels>
     <defaults>
       <slider style="rotaryverticaldrag">
@@ -214,14 +219,8 @@
         <component backgroundcolour="9ff7fdff">
           <bounds x="47" y="145" width="580" height="13" />
         </component>
-        <component backgroundimage="Skins/B-Control/GRP_M.png">
-          <bounds x="39" y="183" width="532" height="9" />
-        </component>
         <component backgroundcolour="9ff7fdff">
           <bounds x="47" y="214" width="580" height="13" />
-        </component>
-        <component backgroundimage="Skins/B-Control/GRP_N.png">
-          <bounds x="39" y="252" width="532" height="9" />
         </component>
         <component backgroundcolour="9ff7fdff">
           <bounds x="47" y="283" width="580" height="13" />
@@ -249,6 +248,49 @@
       <!--Group M (Buttons)-->
       <component backgroundimage="" backgroundcolour="00000000">
         <bounds x="0" y="206" width="674" height="61" />
+        <component backgroundimage="">
+          <bounds x="37" y="17" width="532" height="11" />
+          <label name="S97" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="0" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S98" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="73" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S99" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="146" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S100" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="219" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S101" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="292" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S102" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="365" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S103" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="438" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S104" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="511" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+        </component>
         <slider name="S97" style="linearbar">
           <bounds x="48" y="0" width="66" height="14" />
         </slider>
@@ -325,6 +367,49 @@
       <!--Group N (Buttons)-->
       <component backgroundimage="" backgroundcolour="00000000">
         <bounds x="0" y="275" width="674" height="61" />
+        <component backgroundimage="">
+          <bounds x="37" y="17" width="532" height="11" />
+          <label name="S105" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="0" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S106" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="73" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S107" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="146" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S108" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="219" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S109" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="292" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S110" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="365" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S111" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="438" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S112" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="511" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+        </component>
         <slider name="S105" style="linearbar">
           <bounds x="48" y="0" width="66" height="14" />
         </slider>
@@ -401,8 +486,48 @@
       <!--Group E (Rotaries)-->
       <component backgroundcolour="00000000">
         <bounds x="28" y="360" width="619" height="105" />
-        <component backgroundimage="Skins/B-Control/GRP_E.png">
-          <bounds x="10" y="24" width="532" height="9" />
+        <component backgroundimage="">
+          <bounds x="9" y="23" width="532" height="11" />
+          <label name="S33" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="0" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S34" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="73" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S35" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="146" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S36" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="219" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S37" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="292" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S38" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="365" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S39" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="438" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S40" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="511" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
         </component>
         <slider name="S33">
           <bounds x="19" y="6" />
@@ -456,8 +581,48 @@
       <!--Group F (Rotaries)-->
       <component backgroundcolour="00000000">
         <bounds x="28" y="467" width="619" height="105" />
-        <component backgroundimage="Skins/B-Control/GRP_F.png">
-          <bounds x="10" y="24" width="532" height="9" />
+        <component backgroundimage="">
+          <bounds x="9" y="23" width="532" height="11" />
+          <label name="S41" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="0" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S42" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="73" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S43" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="146" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S44" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="219" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S45" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="292" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S46" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="365" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S47" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="438" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S48" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="511" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
         </component>
         <slider name="S41">
           <bounds x="19" y="6" />
@@ -511,8 +676,48 @@
       <!--Group G (Rotaries)-->
       <component backgroundcolour="00000000">
         <bounds x="28" y="574" width="619" height="105" />
-        <component backgroundimage="Skins/B-Control/GRP_G.png">
-          <bounds x="10" y="24" width="532" height="9" />
+        <component backgroundimage="">
+          <bounds x="9" y="23" width="532" height="11" />
+          <label name="S49" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="0" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S50" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="73" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S51" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="146" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S52" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="219" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S53" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="292" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S54" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="365" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S55" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="438" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
+          <label name="S56" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <bounds x="511" y="0" width="24" height="11" />
+            <font bold="false" height="11"></font>
+            <justification left="true" />
+          </label>
         </component>
         <slider name="S49">
           <bounds x="19" y="6" />
@@ -576,8 +781,48 @@
               <!--Group A (Rotaries)-->
               <tab idx="1" name="GROUP 1">
                 <component backgroundcolour="00000000">
-                  <component backgroundimage="Skins/B-Control/GRP_A.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S1" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S2" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S3" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S4" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S5" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S6" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S7" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S8" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <textbutton lfid="enc2push" name="B1">
                     <bounds x="18" y="46" width="69" height="69" />
@@ -661,8 +906,48 @@
               <!--Group B (Rotaries)-->
               <tab idx="2" name="GROUP 2">
                 <component backgroundcolour="00000000">
-                  <component backgroundimage="Skins/B-Control/GRP_B.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S9" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S10" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S11" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S12" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S13" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S14" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S15" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S16" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <textbutton lfid="enc2push" name="B9">
                     <bounds x="18" y="46" width="69" height="69" />
@@ -746,8 +1031,48 @@
               <!--Group C (Rotaries)-->
               <tab idx="3" name="GROUP 3">
                 <component backgroundcolour="00000000">
-                  <component backgroundimage="Skins/B-Control/GRP_C.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S17" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S18" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S19" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S20" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S21" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S22" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S23" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S24" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <textbutton lfid="enc2push" name="B17">
                     <bounds x="18" y="46" width="69" height="69" />
@@ -831,8 +1156,48 @@
               <!--Group D (Rotaries)-->
               <tab idx="4" name="GROUP 4">
                 <component backgroundcolour="00000000" lfid="encoder2">
-                  <component backgroundimage="Skins/B-Control/GRP_D.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S25" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S26" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S27" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S28" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S29" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S30" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S31" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S32" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <textbutton lfid="enc2push" name="B25">
                     <bounds x="18" y="46" width="69" height="69" />
@@ -945,8 +1310,48 @@
               <!--Group I (Push Encoders)-->
               <tab idx="1" name="GROUP 1">
                 <component backgroundcolour="00000000" lfid="encoder2">
-                  <component backgroundimage="Skins/B-Control/GRP_I.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S65" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S66" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S67" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S68" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S69" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S70" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S71" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S72" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <slider lfid="enc2push" name="S1">
                     <bounds x="19" y="33" />
@@ -1054,8 +1459,48 @@
               <!--Group J (Push Encoders)-->
               <tab idx="2" name="GROUP 2">
                 <component backgroundcolour="00000000" lfid="encoder2">
-                  <component backgroundimage="Skins/B-Control/GRP_J.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S73" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S74" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S75" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S76" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S77" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S78" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S79" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S80" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <slider lfid="enc2push" name="S9">
                     <bounds x="19" y="33" />
@@ -1163,8 +1608,48 @@
               <!--Group K (Push Encoders)-->
               <tab idx="3" name="GROUP 3">
                 <component backgroundcolour="00000000" lfid="encoder2">
-                  <component backgroundimage="Skins/B-Control/GRP_K.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S81" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S82" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S83" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S84" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S85" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S86" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S87" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S88" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <slider lfid="enc2push" name="S17">
                     <bounds x="19" y="33" />
@@ -1272,8 +1757,48 @@
               <!--Group L (Push Encoders)-->
               <tab idx="4" name="GROUP 4">
                 <component backgroundcolour="00000000" lfid="encoder2">
-                  <component backgroundimage="Skins/B-Control/GRP_L.png">
-                    <bounds x="10" y="51" width="532" height="9" />
+                  <component backgroundimage="">
+                    <bounds x="9" y="50" width="532" height="11" />
+                    <label name="S89" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="0" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S90" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="73" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S91" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="146" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S92" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="219" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S93" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="292" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S94" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="365" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S95" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="438" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
+                    <label name="S96" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <bounds x="511" y="0" width="24" height="11" />
+                      <font bold="false" height="11"></font>
+                      <justification left="true" />
+                    </label>
                   </component>
                   <slider lfid="enc2push" name="S25">
                     <bounds x="19" y="33" />
