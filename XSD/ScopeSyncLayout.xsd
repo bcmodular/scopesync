@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout">
 
+    <complexType name="mappingparenttype">
+        <attribute name="componenttype" type="tns:componenttypetype" use="required"></attribute>
+        <attribute name="componentname" type="string" use="required"></attribute>
+    </complexType>
     
+    <simpleType name="componenttypetype">
+        <restriction base="string">
+            <enumeration value="slider"></enumeration>
+            <enumeration value="label"></enumeration>
+            <enumeration value="textbutton"></enumeration>
+            <enumeration value="tabbedcomponent"></enumeration>
+            <enumeration value="combobox"></enumeration>
+        </restriction>
+    </simpleType>
     
     <complexType name="lookandfeelstype">
         <choice minOccurs="0" maxOccurs="unbounded">
@@ -222,6 +235,7 @@
             <element name="bounds" type="tns:boundstype"></element>
             <element name="tabbar" type="tns:tabbartype"></element>
             <element name="tab" type="tns:tabtype"></element>
+            <element name="mappingparent" type="tns:mappingparenttype"></element>
         </choice>
         <attribute name="name" type="string"></attribute>
         <attribute name="id" type="string"></attribute>
@@ -249,6 +263,7 @@
     		<element name="bounds" type="tns:boundstype"></element>
     		<element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
     		<element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
+    		<element name="mappingparent" type="tns:mappingparenttype"></element>
     	</all>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="id" type="string"></attribute>
@@ -284,6 +299,7 @@
     		<element name="range" type="tns:sliderrangetype"></element>
     		<element name="textbox" type="tns:slidertextboxtype"></element>
     		<element name="choosetab" type="tns:choosetabtype"></element>
+    		<element name="mappingparent" type="tns:mappingparenttype"></element>
     	</choice>
 
     	<attribute name="name" type="string"></attribute>
@@ -352,6 +368,7 @@
     	<choice minOccurs="1" maxOccurs="unbounded">
     		<element name="bounds" type="tns:boundstype"></element>
     		<element name="choosetab" type="tns:choosetabtype"></element>
+            <element name="mappingparent" type="tns:mappingparenttype"></element>
     	</choice>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="id" type="string"></attribute>
@@ -363,6 +380,7 @@
     		type="tns:displaycontexttype">
     	</attribute>
     	<attribute name="url" type="string"></attribute>
+    	
     </complexType>
 
     <complexType name="choosetabtype">
@@ -388,6 +406,7 @@
             <element name="bounds" type="tns:boundstype"></element>
             <element name="font" type="tns:fonttype"></element>
             <element name="item" type="string"></element>
+            <element name="mappingparent" type="tns:mappingparenttype"></element>
         </choice>
         <attribute name="name" type="string"></attribute>
 		<attribute name="id" type="string"></attribute>

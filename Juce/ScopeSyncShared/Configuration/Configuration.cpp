@@ -458,6 +458,7 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
 
     changed();
 }
+
 void Configuration::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */)                { changed(); }
 
 void Configuration::valueTreeChildRemoved(ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved)
