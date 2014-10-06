@@ -33,6 +33,7 @@
 #ifndef SCOPEFX_H_INCLUDED
 #define SCOPEFX_H_INCLUDED
 
+//#include <vld.h>
 #include <JuceHeader.h>
 #include "../../ScopeSyncShared/Core/ScopeSync.h"
 class ScopeFXGUI;

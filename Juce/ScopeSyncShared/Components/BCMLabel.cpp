@@ -96,6 +96,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     {
         labelText = scopeSyncGUI.getScopeSync().getSystemError().getValue();
         scopeSyncGUI.getScopeSync().getSystemError().addListener(valueListener);
+        setVisible(labelText.isNotEmpty());
     }
     
     setText(labelText, dontSendNotification);
@@ -128,11 +129,6 @@ void BCMLabel::handleValueChanged(Value& valueThatChanged)
     {
         String text = valueThatChanged.getValue().toString();
         setText(text, dontSendNotification);
-    }
-
-    if (valueThatChanged.refersToSameSourceAs(scopeSyncGUI.getScopeSync().getSystemErrorDetails()))
-    {
-        String tooltip = valueThatChanged.getValue().toString();
-        setTooltip(tooltip);   
+        setVisible(text.isNotEmpty());
     }
 }

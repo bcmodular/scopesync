@@ -35,7 +35,7 @@
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 
-const int BCMTextButton::clickBlockDuration = 1000;
+const int BCMTextButton::clickBlockDuration = 500;
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner, this)
@@ -290,6 +290,7 @@ void BCMTextButton::setNextValues()
 void BCMTextButton::timerCallback()
 {
     clicksBlocked = false;
+    stopTimer();
 }
 
 void BCMTextButton::mouseDown(const MouseEvent& event)

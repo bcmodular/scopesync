@@ -153,6 +153,7 @@ void BCMParameterWidget::editMapping()
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 400, 34);
     DBG("BCMParameterWidget::editMapping from component: " + parentComponent->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
     configurationManagerCallout->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
+    configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentComponent->getScreenBounds(), nullptr);
 }
 
@@ -160,5 +161,11 @@ void BCMParameterWidget::editMappedParameter()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 700);
     configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentComponent->getScreenBounds(), nullptr);
+}
+
+void BCMParameterWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
+{
+    scopeSyncGUI.getScopeSync().applyConfiguration();
 }

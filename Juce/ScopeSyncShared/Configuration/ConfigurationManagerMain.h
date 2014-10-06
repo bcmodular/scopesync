@@ -97,8 +97,7 @@ private:
  * ConfigurationManagerMain: Version to show in Callout box
  */
 class ConfigurationManagerCalloutMain : public  Component,
-                                        public  ApplicationCommandTarget,
-                                        private Timer
+                                        public  ApplicationCommandTarget
 {
 public:
     ConfigurationManagerCalloutMain(ConfigurationManager& owner, ScopeSync& ss, int width, int height);
@@ -108,7 +107,7 @@ public:
     void resized() override;
     void changePanel(Component* newComponent);
 
-    UndoManager& getUndoManager() { return undoManager; };
+    UndoManager& getUndoManager() { return scopeSync.getUndoManager(); };
 
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -117,7 +116,6 @@ private:
     ScopeSync&                   scopeSync;
     ApplicationCommandManager*   commandManager;
     ConfigurationManager&        configurationManager;
-    UndoManager                  undoManager;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -125,7 +123,6 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
 
-    void timerCallback() override;
     void undo();
     void redo();
 

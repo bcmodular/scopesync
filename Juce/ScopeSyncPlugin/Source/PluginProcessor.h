@@ -31,7 +31,7 @@
 
 #ifndef PLUGINPROCESSOR_H_INCLUDED
 #define PLUGINPROCESSOR_H_INCLUDED
-
+//#include <vld.h>
 class PluginGUI;
 #include <JuceHeader.h>
 #include "../../ScopeSyncShared/Core/ScopeSync.h"

@@ -88,8 +88,8 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner, 
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
     addAndMakeVisible(redoButton);
 
-    treeSizeConstrainer.setMinimumWidth (200);
-    treeSizeConstrainer.setMaximumWidth (700);
+    treeSizeConstrainer.setMinimumWidth(200);
+    treeSizeConstrainer.setMaximumWidth(700);
 
     treeView = new ConfigurationTree(*this, scopeSync.getConfiguration(), undoManager);
     int lastTreeWidth = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigTreeWidth", 300);
@@ -115,7 +115,10 @@ void ConfigurationManagerMain::setButtonImages(ImageButton& button, const String
                      ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
 }
 
-ConfigurationManagerMain::~ConfigurationManagerMain() {}
+ConfigurationManagerMain::~ConfigurationManagerMain()
+{
+    stopTimer();
+}
 
 void ConfigurationManagerMain::changePanel(Component* newComponent)
 {
@@ -156,7 +159,7 @@ void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
                               CommandIDs::addItemFromClipboard
                             };
 
-    commands.addArray (ids, numElementsInArray (ids));
+    commands.addArray (ids, numElementsInArray(ids));
 }
 
 void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationCommandInfo& result)
@@ -341,15 +344,15 @@ ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
 
     commandManager = configurationManager.getCommandManager();
     commandManager->registerAllCommandsForTarget(this);
+    addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     
     setSize(width, height);
-    
-    startTimer(500);
+    scopeSync.getUndoManager().beginNewTransaction();
 }
 
 ConfigurationManagerCalloutMain::~ConfigurationManagerCalloutMain()
 {
-    stopTimer();
+    removeKeyListener(scopeSync.getCommandManager()->getKeyMappings());
 }
 
 void ConfigurationManagerCalloutMain::changePanel(Component* newComponent)
@@ -361,13 +364,8 @@ void ConfigurationManagerCalloutMain::changePanel(Component* newComponent)
 
 void ConfigurationManagerCalloutMain::getAllCommands (Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::saveConfig,
-                              CommandIDs::saveConfigAs,
-                              CommandIDs::applyConfigChanges,
-                              CommandIDs::discardConfigChanges,
-                              CommandIDs::undo,
-                              CommandIDs::redo,
-                              CommandIDs::closeConfig
+    const CommandID ids[] = { CommandIDs::undo,
+                              CommandIDs::redo
                             };
 
     commands.addArray (ids, numElementsInArray (ids));
@@ -385,26 +383,6 @@ void ConfigurationManagerCalloutMain::getCommandInfo (CommandID commandID, Appli
         result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::saveConfig:
-        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::saveConfigAs:
-        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
-        break;
-    case CommandIDs::applyConfigChanges:
-        result.setInfo("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
-        break;
-    case CommandIDs::discardConfigChanges:
-        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::closeConfig:
-        result.setInfo("Close Configuration Manager", "Closes Configuration Manager window", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
-        break;
     }
 }
 
@@ -412,14 +390,9 @@ bool ConfigurationManagerCalloutMain::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::undo:                 undo(); break;
-        case CommandIDs::redo:                 redo(); break;
-        case CommandIDs::saveConfig:           configurationManager.save(); break;
-        case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
-        case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
-        case CommandIDs::discardConfigChanges: configurationManager.reloadConfiguration(); break;
-        case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
-        default:                               return false;
+        case CommandIDs::undo:   undo(); break;
+        case CommandIDs::redo:   redo(); break;
+        default:                 return false;
     }
 
     return true;
@@ -427,12 +400,12 @@ bool ConfigurationManagerCalloutMain::perform(const InvocationInfo& info)
 
 void ConfigurationManagerCalloutMain::undo()
 {
-    undoManager.undo();
+    scopeSync.getUndoManager().undoCurrentTransactionOnly();
 }
 
 void ConfigurationManagerCalloutMain::redo()
 {
-    undoManager.redo();
+    scopeSync.getUndoManager().redo();
 }
 
 ApplicationCommandTarget* ConfigurationManagerCalloutMain::getNextCommandTarget()
@@ -451,9 +424,4 @@ void ConfigurationManagerCalloutMain::resized()
 void ConfigurationManagerCalloutMain::paint(Graphics& g)
 {
     g.fillAll (Colour (0xff434343));
-}
-
-void ConfigurationManagerCalloutMain::timerCallback()
-{
-    undoManager.beginNewTransaction();
 }

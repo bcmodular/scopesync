@@ -29,7 +29,6 @@
  *  Will Ellis
  *  Jessica Brandt
  */
-
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
 #include "../../ScopeSyncShared/Resources/ImageLoader.h"

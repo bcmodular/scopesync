@@ -58,6 +58,10 @@ ConfigurationManager::ConfigurationManager(ScopeSync& owner)
     : scopeSync(owner)
 {
     commandManager = scopeSync.getCommandManager();
+
+    // Make sure the Application Command Manager uses the standard algorithm
+    // to choose its target (overriden by callouts)
+    commandManager->setFirstCommandTarget(nullptr);
 }
 
 ConfigurationManager::~ConfigurationManager() {}
@@ -78,16 +82,12 @@ void ConfigurationManager::saveAs()
     if (fileChooser.browseForFileToSave(true))
     {
         scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
-        //configurationManagerMain->updateConfigurationFileName();
     }
 }
 
 void ConfigurationManager::reloadConfiguration()
 {
     scopeSync.reloadSavedConfiguration();
-    //configurationManagerMain->unload();
-    //clearContentComponent();
-    //setContentOwned(configurationManagerMain = new ConfigurationManagerMain(*this, scopeSync), true);
 }
 
 /* =========================================================================
@@ -123,6 +123,8 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
 ConfigurationManagerWindow::~ConfigurationManagerWindow()
 {
     configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
+    removeKeyListener(commandManager->getKeyMappings());
+    clearContentComponent();
     setMenuBar(nullptr);
 }
 
@@ -206,7 +208,7 @@ void ConfigurationManagerWindow::restoreWindowPosition(int posX, int posY)
  * ConfigurationManagerCallout
  */
 ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int width, int height)
-    : configurationManager(owner)
+    : configurationManager(owner), scopeSync(owner)
 {
     commandManager = owner.getCommandManager();
     
@@ -225,7 +227,12 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int w
 ConfigurationManagerCallout::~ConfigurationManagerCallout()
 {
     removeKeyListener(commandManager->getKeyMappings());
-    configurationManager.getScopeSync().applyConfiguration();
+    
+    if (scopeSync.getUndoManager().getNumActionsInCurrentTransaction() > 0)
+    {
+        scopeSync.getUndoManager().beginNewTransaction();
+        sendSynchronousChangeMessage();
+    }
 }
 
 void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName)

@@ -90,10 +90,11 @@ public:
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
 
-    ConfigurationManagerWindow* getConfigurationManagerWindow() { return configurationManagerWindow; };
+    ConfigurationManagerWindow* getConfigurationManagerWindow() { return configurationManagerWindow; }
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
-    ApplicationCommandManager* getCommandManager();
+    ApplicationCommandManager* getCommandManager() { return commandManager; }
+    UndoManager& getUndoManager() { return undoManager; }
 
     /* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
@@ -177,8 +178,9 @@ private:
     Array<int>                 paramIdxByScopeSyncId;  // Index of parameters by their ScopeSyncId
     Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
     ScopedPointer<ApplicationCommandManager> commandManager;
-    static Array<ScopeSync*> scopeSyncInstances;       // Tracks instances of this object, so Juce can be shutdown when no more remain
+    static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
+    UndoManager                undoManager;
 
     BigInteger changingParams;
     

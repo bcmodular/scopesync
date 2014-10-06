@@ -58,6 +58,7 @@ private:
     Label label;
     Value value;
     int maxChars;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelComp)
 };
 
 SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Configuration& config, ApplicationCommandManager* acm,

@@ -143,11 +143,6 @@ void ScopeSync::hideConfigurationManager()
 	configurationManagerWindow = nullptr;
 }
 
-ApplicationCommandManager* ScopeSync::getCommandManager()
-{
-    return commandManager;
-}
-
 void ScopeSync::unload()
 {
     if (configurationManagerWindow != nullptr)

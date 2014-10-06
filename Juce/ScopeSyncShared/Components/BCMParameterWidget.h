@@ -31,7 +31,8 @@
 #include "../Core/BCMParameter.h"
 class ScopeSyncGUI;
 
-class BCMParameterWidget : public ApplicationCommandTarget
+class BCMParameterWidget : public ApplicationCommandTarget,
+                           public ChangeListener
 {
 public:
     BCMParameterWidget(ScopeSyncGUI& owner, Component* parent);
@@ -54,7 +55,12 @@ protected:
     ValueTree   mapping;
 
     ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
-
+   
+    void showPopupMenu();
+    void setupMapping(const Identifier& componentType,     const String& componentName,
+                      const Identifier& mappingParentType, const String& mappingParent);
+    
+private:
     /* ================= Application Command Target overrides ================= */
     virtual void getAllCommands(Array<CommandID>& commands) override;
     virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
@@ -64,10 +70,8 @@ protected:
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
-    void showPopupMenu();
     
-    void setupMapping(const Identifier& componentType,     const String& componentName,
-                      const Identifier& mappingParentType, const String& mappingParent);
+    void changeListenerCallback (ChangeBroadcaster* source);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMParameterWidget);
 };

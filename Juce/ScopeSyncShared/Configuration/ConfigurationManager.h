@@ -116,7 +116,8 @@ private:
  */
 class ConfigurationManagerCalloutMain;
 
-class ConfigurationManagerCallout : public Component
+class ConfigurationManagerCallout : public Component,
+                                    public ChangeBroadcaster
 {
 public:
     ConfigurationManagerCallout(ScopeSync& owner, int width, int height);
@@ -126,6 +127,7 @@ public:
     void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
     
 private:
+    ScopeSync&                 scopeSync;
     ApplicationCommandManager* commandManager;
     ConfigurationManager       configurationManager;
     ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;

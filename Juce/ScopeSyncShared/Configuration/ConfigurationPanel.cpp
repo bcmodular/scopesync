@@ -118,15 +118,15 @@ ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um,
                                ApplicationCommandManager* acm, bool showCalloutView)
     : BasePanel(parameter, um, config, acm), parameterType(paramType), calloutView(showCalloutView)
 {
-    rebuildProperties();
-
+    // Listen for changes to the valueType, to decide whether or not to show
+    // the SettingsTable
     valueType = valueTree.getPropertyAsValue(Ids::valueType, &undoManager);
     valueType.addListener(this);
 
+    rebuildProperties();
+
     if (int(valueType.getValue()) == 1)
-    {
         createSettingsTable();
-    }
 }
 
 ParameterPanel::~ParameterPanel()
@@ -136,6 +136,8 @@ ParameterPanel::~ParameterPanel()
 
 void ParameterPanel::rebuildProperties()
 {
+    propertyPanel.clear();
+
     PropertyListBuilder props;
     createDescriptionProperties(props);
     propertyPanel.addProperties(props.components);
@@ -181,19 +183,34 @@ void ParameterPanel::createScopeProperties(PropertyListBuilder& props)
     props.clear();
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters)");
-    props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
+    
+    if (int(valueType.getValue()) == 0)
+    {
+        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters)");
+        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
+    }
 }
 
 void ParameterPanel::createUIProperties(PropertyListBuilder& props)
 {
     props.clear();
-    props.add(new TextPropertyComponent   (valueTree.getPropertyAsValue(Ids::uiSuffix,        &undoManager), "UI Suffix", 32, false),  "Text to display after value in the User Interface, e.g. Hz, %");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMin,      &undoManager), "Min UI Value"),          "Minimum User Interface Value (Float)");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMax,      &undoManager), "Max UI Value"),          "Maximum User Interface Value (Float)");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),        "Step between consecutive User Interface values");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
-    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required)");
+    
+    if (int(valueType.getValue()) == 0)
+    {
+        props.add(new TextPropertyComponent   (valueTree.getPropertyAsValue(Ids::uiSuffix,        &undoManager), "UI Suffix", 32, false),  "Text to display after value in the User Interface, e.g. Hz, %");
+        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMin,      &undoManager), "Min UI Value"),          "Minimum User Interface Value (Float)");
+        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMax,      &undoManager), "Max UI Value"),          "Maximum User Interface Value (Float)");
+        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
+        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required)");
+    }
+    
+    String valIntTooltip;
+    if (int(valueType.getValue()) == 0)
+        valIntTooltip = "Step between consecutive User Interface values";
+    else
+        valIntTooltip = "Step between consecutive User Interface values (use 1 to snap to discrete values, or a smaller number to allow smooth scrolling)";
+
+    props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),                     valIntTooltip);
     props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String::empty), "Use a set of discrete parameter values relating to specific control settings");
 }
 
@@ -207,8 +224,7 @@ void ParameterPanel::childBoundsChanged(Component* child)
             configuration.getConfigurationProperties().setValue("lastSettingsTableHeight", settingsTable->getHeight());
         
         resized();
-    }
-        
+    }      
 }
 
 void ParameterPanel::paintOverChildren(Graphics& g)
@@ -254,10 +270,12 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
         resizerBar = nullptr;
         settingsTable = nullptr;
         setParameterUIRanges(0, 100, 0);
+        rebuildProperties();
         resized();
     }
     else
     {
+        rebuildProperties();
         createSettingsTable();
         resized();
     }
@@ -296,6 +314,10 @@ void ParameterPanel::createSettingsTable()
     
     int maxValue = jmax(settings.getNumChildren() - 1, 1);
     setParameterUIRanges(0, maxValue, 0);
+
+    // Reset Skew values to default to save confusion
+    valueTree.setProperty(Ids::uiSkewMidpoint, String::empty, &undoManager);
+    valueTree.setProperty(Ids::scopeDBRef, 0.0f, &undoManager);
 
     settingsTable = new SettingsTable(settings, undoManager, configuration, commandManager, valueTree);
     settingsTable->setBounds(0, 0, getWidth(), lastSettingsTableHeight);

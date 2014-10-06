@@ -103,6 +103,8 @@ private:
     NumericProperty& owner;
     int maxChars;
     String validInput;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelComp);
 };
 
 NumericProperty::NumericProperty(const Value&  valueToControl,
