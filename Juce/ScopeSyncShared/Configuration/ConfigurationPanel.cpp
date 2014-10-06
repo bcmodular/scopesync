@@ -140,7 +140,7 @@ void ParameterPanel::rebuildProperties()
 
     PropertyListBuilder props;
     createDescriptionProperties(props);
-    propertyPanel.addProperties(props.components);
+    propertyPanel.addSection("Main Properties", props.components, true);
 
     createScopeProperties(props);
     propertyPanel.addSection("Scope Properties", props.components, true);

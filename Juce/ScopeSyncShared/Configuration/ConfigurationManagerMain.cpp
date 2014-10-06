@@ -197,6 +197,7 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
     case CommandIDs::focusOnPanel:
         result.setInfo("Focus on panel", "Switches keyboard focus to edit panel", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress (KeyPress::F2Key, ModifierKeys::noModifiers, 0));
+        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::noModifiers, 0));
         break;
     case CommandIDs::copyItem:
         result.setInfo ("Copy configuration item", "Copies a configuration item to the clipboard", CommandCategories::configmgr, 0);

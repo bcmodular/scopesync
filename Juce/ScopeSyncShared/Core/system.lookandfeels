@@ -50,14 +50,18 @@
       <textbutton upfilename="showconfigurationmanagerOff" downfilename="showconfigurationmanagerOn" mouseoverupfilename="showconfigurationmanagerOver" mouseoverdownfilename="showconfigurationmanagerOn"></textbutton>
     </images>
   </lookandfeel>
-  <lookandfeel id="system:systemerror">
-    <colours>
-      <label textcolourid="ffa7aaae" outlinecolourid="00a7aaae"></label>
-    </colours>
-  </lookandfeel>
   <lookandfeel id="system:configname">
     <colours>
       <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
     </colours>
+  </lookandfeel>
+  <lookandfeel id="system:systemerror">
+    <colours>
+      <label textcolourid="ffa7aaae" backgroundcolourid="ff000000" outlinecolourid="ffa7aaae"></label>
+      <textbutton textcolouroffid="00ffffff" textcolouronid="00ffffff"></textbutton>
+    </colours>
+    <images>
+      <textbutton upfilename="helpOff" downfilename="helpOn" mouseoverupfilename="helpOver" mouseoverdownfilename="helpOn"></textbutton>
+    </images>
   </lookandfeel>
 </lookandfeels>

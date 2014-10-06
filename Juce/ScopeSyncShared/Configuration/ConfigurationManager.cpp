@@ -122,10 +122,7 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
 
 ConfigurationManagerWindow::~ConfigurationManagerWindow()
 {
-    configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
-    removeKeyListener(commandManager->getKeyMappings());
-    clearContentComponent();
-    setMenuBar(nullptr);
+    unload();
 }
 
 StringArray ConfigurationManagerWindow::getMenuNames()
@@ -172,10 +169,14 @@ void ConfigurationManagerWindow::save()
 
 void ConfigurationManagerWindow::unload()
 {
+    configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
+
     if (configurationManagerMain != nullptr)
         configurationManagerMain->unload();
     
     removeKeyListener(commandManager->getKeyMappings());
+    
+    setMenuBar(nullptr);
 }
 
 void ConfigurationManagerWindow::saveAs()

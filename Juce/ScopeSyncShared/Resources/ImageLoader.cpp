@@ -136,6 +136,11 @@ void ImageLoader::loadImageResources()
     addImageResource("undoOff",  ImageResources::undo_button_off_png,  ImageResources::undo_button_off_pngSize);
     addImageResource("undoOn",   ImageResources::undo_button_on_png,   ImageResources::undo_button_on_pngSize);
     addImageResource("undoOver", ImageResources::undo_button_over_png, ImageResources::undo_button_over_pngSize);
+
+    // Help buttons
+    addImageResource("helpOff",  ImageResources::help_button_off_png,  ImageResources::help_button_off_pngSize);
+    addImageResource("helpOn",   ImageResources::help_button_on_png,   ImageResources::help_button_on_pngSize);
+    addImageResource("helpOver", ImageResources::help_button_over_png, ImageResources::help_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)

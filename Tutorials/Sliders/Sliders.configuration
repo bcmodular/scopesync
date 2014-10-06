@@ -44,7 +44,7 @@
     </parameter>
     <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -77,15 +77,7 @@
       <slider name="s6" mapTo="PARAM6"/>
       <slider name="s7" mapTo="PARAM7"/>
     </sliders>
-    <labels>
-      <label name="s1" mapTo="PARAM1"/>
-      <label name="s2" mapTo="PARAM2"/>
-      <label name="s3" mapTo="PARAM3"/>
-      <label name="s4" mapTo="PARAM4"/>
-      <label name="s5" mapTo="PARAM5"/>
-      <label name="s6" mapTo="PARAM6"/>
-      <label name="s7" mapTo="PARAM7"/>
-    </labels>
+    <labels/>
     <textButtons>
       <textButton name="B65" mapTo="PARAM129" settingDown="DISCONNECTED" type="1" radioGroup=""/>
       <textButton name="B66" mapTo="PARAM129" settingDown="CONNECTED" type="1" radioGroup=""/>

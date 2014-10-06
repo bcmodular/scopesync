@@ -72,8 +72,8 @@ public:
     void reloadConfiguration();
 
 private:
-    ScopeSync&                               scopeSync;
-    ApplicationCommandManager*               commandManager;
+    ScopeSync&                 scopeSync;
+    ApplicationCommandManager* commandManager;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };

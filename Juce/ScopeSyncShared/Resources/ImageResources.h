@@ -44,6 +44,15 @@ namespace ImageResources
     extern const char*  divider_png;
     const int           divider_pngSize = 173;
 
+    extern const char*  help_button_off_png;
+    const int           help_button_off_pngSize = 548;
+
+    extern const char*  help_button_on_png;
+    const int           help_button_on_pngSize = 528;
+
+    extern const char*  help_button_over_png;
+    const int           help_button_over_pngSize = 552;
+
     extern const char*  load_config_button_off_png;
     const int           load_config_button_off_pngSize = 661;
 

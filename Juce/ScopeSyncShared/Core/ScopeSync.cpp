@@ -105,6 +105,7 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
+    hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
 }
 
@@ -785,14 +786,20 @@ const String ScopeSync::systemLookAndFeels =
 "n\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
-"  <lookandfeel id=\"system:systemerror\">\n"
-"    <colours>\n"
-"      <label textcolourid=\"ffa7aaae\" outlinecolourid=\"00a7aaae\"></label>\n"
-"    </colours>\n"
-"  </lookandfeel>\n"
 "  <lookandfeel id=\"system:configname\">\n"
 "    <colours>\n"
 "      <label textcolourid=\"ffa7aaae\" outlinecolourid=\"ffa7aaae\"></label>\n"
 "    </colours>\n"
+"  </lookandfeel>\n"
+"  <lookandfeel id=\"system:systemerror\">\n"
+"    <colours>\n"
+"      <label textcolourid=\"ffa7aaae\" backgroundcolourid=\"ff000000\" outlinecolourid=\"ffa7aaae\"></labe"
+"l>\n"
+"      <textbutton textcolouroffid=\"00ffffff\" textcolouronid=\"00ffffff\"></textbutton>\n"
+"    </colours>\n"
+"    <images>\n"
+"      <textbutton upfilename=\"helpOff\" downfilename=\"helpOn\" mouseoverupfilename=\"helpOver\" mouseove"
+"rdownfilename=\"helpOn\"></textbutton>\n"
+"    </images>\n"
 "  </lookandfeel>\n"
 "</lookandfeels>\n";
