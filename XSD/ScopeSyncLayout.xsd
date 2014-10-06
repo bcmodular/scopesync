@@ -263,7 +263,7 @@
     		<element name="bounds" type="tns:boundstype"></element>
     		<element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
     		<element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
-    		<element name="mappingparent" type="tns:mappingparenttype"></element>
+    		<element name="mappingparent" type="tns:mappingparenttype" minOccurs="0" maxOccurs="1"></element>
     	</all>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="id" type="string"></attribute>
