@@ -526,15 +526,15 @@
     </parameter>
   </hostParameters>
   <scopeParameters>
-    <parameter name="PARAM129" shortDescription="Param 129" fullDescription="CP-Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0" scopeRangeMax="2147483647"
-               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
-               uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+    <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="DISCONNECTED" value="0" intValue="0"/>
         <setting name="CONNECTED" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
+    <parameter name="PatchWindow" shortDescription="PatchWindow" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
@@ -542,15 +542,15 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PARAM131" shortDescription="Param 131" fullDescription="Open Preset List" scopeSync="-1" scopeLocal="14" scopeRangeMin="0"
+    <parameter name="PresetList" shortDescription="PresetList" fullDescription="Open Preset List" scopeSync="-1" scopeLocal="14" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PARAM132" shortDescription="Param 132" fullDescription="Load New Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
+    <parameter name="LoadConfig" shortDescription="LoadConfig" fullDescription="Load Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
@@ -657,11 +657,11 @@
       <textButton name="B62" mapTo="PARAM127" settingDown="GROUP 4" type="1" radioGroup=""/>
       <textButton name="B63" mapTo="PARAM128" settingDown="ROTARY" type="1" radioGroup=""/>
       <textButton name="B64" mapTo="PARAM128" settingDown="PUSH" type="1" radioGroup=""/>
-      <textButton name="B65" mapTo="PARAM129" settingDown="DISCONNECTED" type="1" radioGroup=""/>
-      <textButton name="B66" mapTo="PARAM129" settingDown="CONNECTED" type="1" radioGroup=""/>
-      <textButton name="B67" mapTo="PARAM130" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B68" mapTo="PARAM131" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B69" mapTo="PARAM132" settingDown="ON" type="0" radioGroup=""/>
+      <textButton name="CPHost-Disconnected" mapTo="CPHost" settingDown="DISCONNECTED" type="1" radioGroup=""/>
+      <textButton name="CPHost-Connected" mapTo="CPHost" settingDown="CONNECTED" type="1" radioGroup=""/>
+      <textButton name="PatchWindow" mapTo="PatchWindow" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
+      <textButton name="PresetList" mapTo="PresetList" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
+      <textButton name="LoadConfig" mapTo="LoadConfig" settingDown="ON" type="0" radioGroup=""/>
     </textButtons>
     <labels/>
     <comboBoxes/>
