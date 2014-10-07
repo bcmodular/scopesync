@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
   <layout>
     <lookandfeels>
@@ -593,7 +593,7 @@
       </component>
       <!--Group E (Faders)-->
       <component backgroundcolour="00000000">
-        <bounds x="28" y="360" width="619" height="362" />
+        <bounds x="28" y="360" width="619" height="328" />
         <component backgroundimage="">
           <bounds x="9" y="23" width="532" height="11" />
           <label name="LS33" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
