@@ -122,81 +122,9 @@
     <parameter name="PARAM40" shortDescription="Param 40" fullDescription="Parameter 40" scopeSync="39" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM41" shortDescription="Param 41" fullDescription="Parameter 41" scopeSync="40" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM42" shortDescription="Param 42" fullDescription="Parameter 42" scopeSync="41" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM43" shortDescription="Param 43" fullDescription="Parameter 43" scopeSync="42" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM44" shortDescription="Param 44" fullDescription="Parameter 44" scopeSync="43" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM45" shortDescription="Param 45" fullDescription="Parameter 45" scopeSync="44" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM46" shortDescription="Param 46" fullDescription="Parameter 46" scopeSync="45" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM47" shortDescription="Param 47" fullDescription="Parameter 47" scopeSync="46" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM48" shortDescription="Param 48" fullDescription="Parameter 48" scopeSync="47" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM49" shortDescription="Param 49" fullDescription="Parameter 49" scopeSync="48" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM50" shortDescription="Param 50" fullDescription="Parameter 50" scopeSync="49" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM51" shortDescription="Param 51" fullDescription="Parameter 51" scopeSync="50" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM52" shortDescription="Param 52" fullDescription="Parameter 52" scopeSync="51" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM53" shortDescription="Param 53" fullDescription="Parameter 53" scopeSync="52" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM54" shortDescription="Param 54" fullDescription="Parameter 54" scopeSync="53" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM55" shortDescription="Param 55" fullDescription="Parameter 55" scopeSync="54" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM56" shortDescription="Param 56" fullDescription="Parameter 56" scopeSync="55" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM57" shortDescription="Param 57" fullDescription="Parameter 57" scopeSync="56" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM58" shortDescription="Param 58" fullDescription="Parameter 58" scopeSync="57" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM59" shortDescription="Param 59" fullDescription="Parameter 59" scopeSync="58" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM60" shortDescription="Param 60" fullDescription="Parameter 60" scopeSync="59" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM61" shortDescription="Param 61" fullDescription="Parameter 61" scopeSync="60" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM62" shortDescription="Param 62" fullDescription="Parameter 62" scopeSync="61" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM63" shortDescription="Param 63" fullDescription="Parameter 63" scopeSync="62" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM64" shortDescription="Param 64" fullDescription="Parameter 64" scopeSync="63" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
     <parameter name="PARAM65" shortDescription="Param 65" fullDescription="Parameter 65" scopeSync="64" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -578,73 +506,9 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PARAM113" shortDescription="Param 113" fullDescription="Parameter 113" scopeSync="112" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM114" shortDescription="Param 114" fullDescription="Parameter 114" scopeSync="113" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM115" shortDescription="Param 115" fullDescription="Parameter 115" scopeSync="114" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM116" shortDescription="Param 116" fullDescription="Parameter 116" scopeSync="115" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM117" shortDescription="Param 117" fullDescription="Parameter 117" scopeSync="116" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM118" shortDescription="Param 118" fullDescription="Parameter 118" scopeSync="117" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM119" shortDescription="Param 119" fullDescription="Parameter 119" scopeSync="118" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM120" shortDescription="Param 120" fullDescription="Parameter 120" scopeSync="119" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
     <parameter name="PARAM127" shortDescription="Param 127" fullDescription="Encoder Groups" scopeSync="126" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="3" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="3" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="GROUP 1" value="0" intValue="0"/>
         <setting name="GROUP 2" value="0.333333" intValue="715827882"/>
@@ -664,7 +528,7 @@
   <scopeParameters>
     <parameter name="PARAM129" shortDescription="Param 129" fullDescription="CP-Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
-               uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="DISCONNECTED" value="0" intValue="0"/>
         <setting name="CONNECTED" value="1" intValue="2147483647"/>
@@ -672,7 +536,7 @@
     </parameter>
     <parameter name="PARAM130" shortDescription="Param 130" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -688,7 +552,7 @@
     </parameter>
     <parameter name="PARAM132" shortDescription="Param 132" fullDescription="Load New Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -737,30 +601,6 @@
       <slider name="S38" mapTo="PARAM38"/>
       <slider name="S39" mapTo="PARAM39"/>
       <slider name="S40" mapTo="PARAM40"/>
-      <slider name="S41" mapTo="PARAM41"/>
-      <slider name="S42" mapTo="PARAM42"/>
-      <slider name="S43" mapTo="PARAM43"/>
-      <slider name="S44" mapTo="PARAM44"/>
-      <slider name="S45" mapTo="PARAM45"/>
-      <slider name="S46" mapTo="PARAM46"/>
-      <slider name="S47" mapTo="PARAM47"/>
-      <slider name="S48" mapTo="PARAM48"/>
-      <slider name="S49" mapTo="PARAM49"/>
-      <slider name="S50" mapTo="PARAM50"/>
-      <slider name="S51" mapTo="PARAM51"/>
-      <slider name="S52" mapTo="PARAM52"/>
-      <slider name="S53" mapTo="PARAM53"/>
-      <slider name="S54" mapTo="PARAM54"/>
-      <slider name="S55" mapTo="PARAM55"/>
-      <slider name="S56" mapTo="PARAM56"/>
-      <slider name="S57" mapTo="PARAM57"/>
-      <slider name="S58" mapTo="PARAM58"/>
-      <slider name="S59" mapTo="PARAM59"/>
-      <slider name="S60" mapTo="PARAM60"/>
-      <slider name="S61" mapTo="PARAM61"/>
-      <slider name="S62" mapTo="PARAM62"/>
-      <slider name="S63" mapTo="PARAM63"/>
-      <slider name="S64" mapTo="PARAM64"/>
     </sliders>
     <textButtons>
       <textButton name="B1" mapTo="PARAM65" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
@@ -811,14 +651,6 @@
       <textButton name="B46" mapTo="PARAM110" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B47" mapTo="PARAM111" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B48" mapTo="PARAM112" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B49" mapTo="PARAM113" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B50" mapTo="PARAM114" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B51" mapTo="PARAM115" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B52" mapTo="PARAM116" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B53" mapTo="PARAM117" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B54" mapTo="PARAM118" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B55" mapTo="PARAM119" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B56" mapTo="PARAM120" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B59" mapTo="PARAM127" settingDown="GROUP 1" type="1" radioGroup=""/>
       <textButton name="B60" mapTo="PARAM127" settingDown="GROUP 2" type="1" radioGroup=""/>
       <textButton name="B61" mapTo="PARAM127" settingDown="GROUP 3" type="1" radioGroup=""/>

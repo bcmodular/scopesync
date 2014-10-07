@@ -242,101 +242,128 @@
         </component>
         <label lfid="system:systemerror" name="SystemError" text="">
           <justification horizontallycentred="true" />
-          <bounds relativerectangle="7, parent.height-35, parent.width-7, parent.height-15"></bounds>
+          <bounds relativerectangle="125, parent.height-35, parent.width-143, parent.height-15"></bounds>
         </label>
+        <textbutton lfid="system:systemerror" name="systemerrormoreinfo" id="systemerrormoreinfo" text="" tooltip="Click for more information">
+          <bounds relativerectangle="right - 18, parent.height-35, parent.width-125, parent.height-15"></bounds>
+        </textbutton>
       </component>
       <!--Group M (Buttons)-->
       <component backgroundimage="" backgroundcolour="00000000">
         <bounds x="0" y="206" width="674" height="61" />
         <component backgroundimage="">
           <bounds x="37" y="17" width="532" height="11" />
-          <label name="S97" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS97" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B33" />
             <bounds x="0" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S98" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS98" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B34" />
             <bounds x="73" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S99" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS99" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B35" />
             <bounds x="146" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S100" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS100" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B36" />
             <bounds x="219" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S101" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS101" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B37" />
             <bounds x="292" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S102" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS102" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B38" />
             <bounds x="365" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S103" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS103" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B39" />
             <bounds x="438" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S104" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS104" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B40" />
             <bounds x="511" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
         </component>
         <slider name="S97" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B33" />
           <bounds x="48" y="0" width="66" height="14" />
         </slider>
         <slider name="S98" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B34" />
           <bounds x="121" y="0" width="66" height="14" />
         </slider>
         <slider name="S99" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B35" />
           <bounds x="194" y="0" width="66" height="14" />
         </slider>
         <slider name="S100" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B36" />
           <bounds x="267" y="0" width="66" height="14" />
         </slider>
         <slider name="S101" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B37" />
           <bounds x="340" y="0" width="66" height="14" />
         </slider>
         <slider name="S102" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B38" />
           <bounds x="413" y="0" width="66" height="14" />
         </slider>
         <slider name="S103" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B39" />
           <bounds x="486" y="0" width="66" height="14" />
         </slider>
         <slider name="S104" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B40" />
           <bounds x="559" y="0" width="66" height="14" />
         </slider>
-        <label name="S97">
+        <label name="L97">
+          <mappingparent componenttype="textbutton" componentname="B33" />
           <bounds x="48" y="48" />
         </label>
-        <label name="S98">
+        <label name="L98">
+          <mappingparent componenttype="textbutton" componentname="B34" />
           <bounds x="121" y="48" />
         </label>
-        <label name="S99">
+        <label name="L99">
+          <mappingparent componenttype="textbutton" componentname="B35" />
           <bounds x="194" y="48" />
         </label>
-        <label name="S100">
+        <label name="L100">
+          <mappingparent componenttype="textbutton" componentname="B36" />
           <bounds x="267" y="48" />
         </label>
-        <label name="S101">
+        <label name="L101">
+          <mappingparent componenttype="textbutton" componentname="B37" />
           <bounds x="340" y="48" />
         </label>
-        <label name="S102">
+        <label name="L102">
+          <mappingparent componenttype="textbutton" componentname="B38" />
           <bounds x="413" y="48" />
         </label>
-        <label name="S103">
+        <label name="L103">
+          <mappingparent componenttype="textbutton" componentname="B39" />
           <bounds x="486" y="48" />
         </label>
-        <label name="S104">
+        <label name="L104">
+          <mappingparent componenttype="textbutton" componentname="B40" />
           <bounds x="559" y="48" />
         </label>
         <textbutton lfid="BCMbutton" name="B33">
@@ -369,93 +396,117 @@
         <bounds x="0" y="275" width="674" height="61" />
         <component backgroundimage="">
           <bounds x="37" y="17" width="532" height="11" />
-          <label name="S105" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS105" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B41" />
             <bounds x="0" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S106" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS106" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B42" />
             <bounds x="73" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S107" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS107" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B43" />
             <bounds x="146" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S108" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS108" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B44" />
             <bounds x="219" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S109" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS109" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B45" />
             <bounds x="292" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S110" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS110" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B46" />
             <bounds x="365" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S111" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS111" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B47" />
             <bounds x="438" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S112" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS112" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="textbutton" componentname="B48" />
             <bounds x="511" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
         </component>
         <slider name="S105" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B41" />
           <bounds x="48" y="0" width="66" height="14" />
         </slider>
         <slider name="S106" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B42" />
           <bounds x="121" y="0" width="66" height="14" />
         </slider>
         <slider name="S107" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B43" />
           <bounds x="194" y="0" width="66" height="14" />
         </slider>
         <slider name="S108" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B44" />
           <bounds x="267" y="0" width="66" height="14" />
         </slider>
         <slider name="S109" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B45" />
           <bounds x="340" y="0" width="66" height="14" />
         </slider>
         <slider name="S110" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B46" />
           <bounds x="413" y="0" width="66" height="14" />
         </slider>
         <slider name="S111" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B47" />
           <bounds x="486" y="0" width="66" height="14" />
         </slider>
         <slider name="S112" style="linearbar">
+          <mappingparent componenttype="textbutton" componentname="B48" />
           <bounds x="559" y="0" width="66" height="14" />
         </slider>
-        <label name="S105">
+        <label name="L105">
+          <mappingparent componenttype="textbutton" componentname="B41" />
           <bounds x="48" y="48" />
         </label>
-        <label name="S106">
+        <label name="L106">
+          <mappingparent componenttype="textbutton" componentname="B42" />
           <bounds x="121" y="48" />
         </label>
-        <label name="S107">
+        <label name="L107">
+          <mappingparent componenttype="textbutton" componentname="B43" />
           <bounds x="194" y="48" />
         </label>
-        <label name="S108">
+        <label name="L108">
+          <mappingparent componenttype="textbutton" componentname="B44" />
           <bounds x="267" y="48" />
         </label>
-        <label name="S109">
+        <label name="L109">
+          <mappingparent componenttype="textbutton" componentname="B45" />
           <bounds x="340" y="48" />
         </label>
-        <label name="S110">
+        <label name="L110">
+          <mappingparent componenttype="textbutton" componentname="B46" />
           <bounds x="413" y="48" />
         </label>
-        <label name="S111">
+        <label name="L111">
+          <mappingparent componenttype="textbutton" componentname="B47" />
           <bounds x="486" y="48" />
         </label>
-        <label name="S112">
+        <label name="L112">
+          <mappingparent componenttype="textbutton" componentname="B48" />
           <bounds x="559" y="48" />
         </label>
         <textbutton lfid="BCMbutton" name="B41">
@@ -488,42 +539,50 @@
         <bounds x="28" y="360" width="619" height="105" />
         <component backgroundimage="">
           <bounds x="9" y="23" width="532" height="11" />
-          <label name="S33" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS33" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S33" />
             <bounds x="0" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S34" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS34" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S34" />
             <bounds x="73" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S35" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS35" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S35" />
             <bounds x="146" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S36" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS36" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S36" />
             <bounds x="219" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S37" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS37" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S37" />
             <bounds x="292" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S38" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS38" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S38" />
             <bounds x="365" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S39" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS39" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S39" />
             <bounds x="438" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S40" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS40" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S40" />
             <bounds x="511" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
@@ -553,28 +612,36 @@
         <slider name="S40">
           <bounds x="530" y="6" />
         </slider>
-        <label name="S33">
+        <label name="L33">
+          <mappingparent componenttype="slider" componentname="S33" />
           <bounds x="19" y="91" />
         </label>
-        <label name="S34">
+        <label name="L34">
+          <mappingparent componenttype="slider" componentname="S34" />
           <bounds x="92" y="91" />
         </label>
-        <label name="S35">
+        <label name="L35">
+          <mappingparent componenttype="slider" componentname="S35" />
           <bounds x="165" y="91" />
         </label>
-        <label name="S36">
+        <label name="L36">
+          <mappingparent componenttype="slider" componentname="S36" />
           <bounds x="238" y="91" />
         </label>
-        <label name="S37">
+        <label name="L37">
+          <mappingparent componenttype="slider" componentname="S37" />
           <bounds x="311" y="91" />
         </label>
-        <label name="S38">
+        <label name="L38">
+          <mappingparent componenttype="slider" componentname="S38" />
           <bounds x="384" y="91" />
         </label>
-        <label name="S39">
+        <label name="L39">
+          <mappingparent componenttype="slider" componentname="S39" />
           <bounds x="457" y="91" />
         </label>
-        <label name="S40">
+        <label name="L40">
+          <mappingparent componenttype="slider" componentname="S40" />
           <bounds x="530" y="91" />
         </label>
       </component>
@@ -583,42 +650,50 @@
         <bounds x="28" y="467" width="619" height="105" />
         <component backgroundimage="">
           <bounds x="9" y="23" width="532" height="11" />
-          <label name="S41" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS41" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S41" />
             <bounds x="0" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S42" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS42" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S42" />
             <bounds x="73" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S43" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS43" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S43" />
             <bounds x="146" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S44" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS44" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S44" />
             <bounds x="219" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S45" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS45" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S45" />
             <bounds x="292" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S46" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS46" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S46" />
             <bounds x="365" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S47" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS47" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S47" />
             <bounds x="438" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S48" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS48" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S48" />
             <bounds x="511" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
@@ -648,28 +723,36 @@
         <slider name="S48">
           <bounds x="530" y="6" />
         </slider>
-        <label name="S41">
+        <label name="L41">
+          <mappingparent componenttype="slider" componentname="S41" />
           <bounds x="19" y="91" />
         </label>
-        <label name="S42">
+        <label name="L42">
+          <mappingparent componenttype="slider" componentname="S42" />
           <bounds x="92" y="91" />
         </label>
-        <label name="S43">
+        <label name="L43">
+          <mappingparent componenttype="slider" componentname="S43" />
           <bounds x="165" y="91" />
         </label>
-        <label name="S44">
+        <label name="L44">
+          <mappingparent componenttype="slider" componentname="S44" />
           <bounds x="238" y="91" />
         </label>
-        <label name="S45">
+        <label name="L45">
+          <mappingparent componenttype="slider" componentname="S45" />
           <bounds x="311" y="91" />
         </label>
-        <label name="S46">
+        <label name="L46">
+          <mappingparent componenttype="slider" componentname="S46" />
           <bounds x="384" y="91" />
         </label>
-        <label name="S47">
+        <label name="L47">
+          <mappingparent componenttype="slider" componentname="S47" />
           <bounds x="457" y="91" />
         </label>
-        <label name="S48">
+        <label name="L48">
+          <mappingparent componenttype="slider" componentname="S48" />
           <bounds x="530" y="91" />
         </label>
       </component>
@@ -678,42 +761,50 @@
         <bounds x="28" y="574" width="619" height="105" />
         <component backgroundimage="">
           <bounds x="9" y="23" width="532" height="11" />
-          <label name="S49" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS49" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S49" />
             <bounds x="0" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S50" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS50" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S50" />
             <bounds x="73" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S51" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS51" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S51" />
             <bounds x="146" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S52" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS52" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S52" />
             <bounds x="219" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S53" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS53" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S53" />
             <bounds x="292" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S54" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS54" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S54" />
             <bounds x="365" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S55" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS55" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S55" />
             <bounds x="438" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
           </label>
-          <label name="S56" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+          <label name="LS56" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+            <mappingparent componenttype="slider" componentname="S56" />
             <bounds x="511" y="0" width="24" height="11" />
             <font bold="false" height="11"></font>
             <justification left="true" />
@@ -743,28 +834,36 @@
         <slider name="S56">
           <bounds x="530" y="6" />
         </slider>
-        <label name="S49">
+        <label name="L49">
+          <mappingparent componenttype="slider" componentname="S49" />
           <bounds x="19" y="91" />
         </label>
-        <label name="S50">
+        <label name="L50">
+          <mappingparent componenttype="slider" componentname="S50" />
           <bounds x="92" y="91" />
         </label>
-        <label name="S51">
+        <label name="L51">
+          <mappingparent componenttype="slider" componentname="S51" />
           <bounds x="165" y="91" />
         </label>
-        <label name="S52">
+        <label name="L52">
+          <mappingparent componenttype="slider" componentname="S52" />
           <bounds x="238" y="91" />
         </label>
-        <label name="S53">
+        <label name="L53">
+          <mappingparent componenttype="slider" componentname="S53" />
           <bounds x="311" y="91" />
         </label>
-        <label name="S54">
+        <label name="L54">
+          <mappingparent componenttype="slider" componentname="S54" />
           <bounds x="384" y="91" />
         </label>
-        <label name="S55">
+        <label name="L55">
+          <mappingparent componenttype="slider" componentname="S55" />
           <bounds x="457" y="91" />
         </label>
-        <label name="S56">
+        <label name="L56">
+          <mappingparent componenttype="slider" componentname="S56" />
           <bounds x="530" y="91" />
         </label>
       </component>
@@ -783,42 +882,50 @@
                 <component backgroundcolour="00000000">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S1" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS1" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S1" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S2" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS2" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S2" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S3" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS3" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S3" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S4" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS4" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S4" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S5" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS5" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S5" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S6" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS6" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S6" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S7" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS7" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S7" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S8" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS8" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S8" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -872,28 +979,36 @@
                   <slider lfid="encoder2" name="S8">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S1">
+                  <label name="L1">
+                    <mappingparent componenttype="slider" componentname="S1" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S2">
+                  <label name="L2">
+                    <mappingparent componenttype="slider" componentname="S2" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S3">
+                  <label name="L3">
+                    <mappingparent componenttype="slider" componentname="S3" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S4">
+                  <label name="L4">
+                    <mappingparent componenttype="slider" componentname="S4" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S5">
+                  <label name="L5">
+                    <mappingparent componenttype="slider" componentname="S5" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S6">
+                  <label name="L6">
+                    <mappingparent componenttype="slider" componentname="S6" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S7">
+                  <label name="L7">
+                    <mappingparent componenttype="slider" componentname="S7" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S8">
+                  <label name="L8">
+                    <mappingparent componenttype="slider" componentname="S8" />
                     <bounds x="530" y="118" />
                   </label>
                   <label lfid="TabControl" name="LCDlabel" text="GROUP A">
@@ -908,42 +1023,50 @@
                 <component backgroundcolour="00000000">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S9" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS9" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S9" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S10" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS10" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S10" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S11" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS11" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S11" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S12" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS12" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S12" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S13" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS13" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S13" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S14" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS14" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S14" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S15" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS15" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S15" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S16" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS16" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S16" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -997,28 +1120,36 @@
                   <slider lfid="encoder2" name="S16">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S9">
+                  <label name="L9">
+                    <mappingparent componenttype="slider" componentname="S9" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S10">
+                  <label name="L10">
+                    <mappingparent componenttype="slider" componentname="S10" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S11">
+                  <label name="L11">
+                    <mappingparent componenttype="slider" componentname="S11" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S12">
+                  <label name="L12">
+                    <mappingparent componenttype="slider" componentname="S12" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S13">
+                  <label name="L13">
+                    <mappingparent componenttype="slider" componentname="S13" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S14">
+                  <label name="L14">
+                    <mappingparent componenttype="slider" componentname="S14" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S15">
+                  <label name="L15">
+                    <mappingparent componenttype="slider" componentname="S15" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S16">
+                  <label name="L16">
+                    <mappingparent componenttype="slider" componentname="S16" />
                     <bounds x="530" y="118" />
                   </label>
                   <label lfid="TabControl" name="LCDlabel" text="GROUP B">
@@ -1033,42 +1164,50 @@
                 <component backgroundcolour="00000000">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S17" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS17" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S17" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S18" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS18" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S18" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S19" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS19" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S19" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S20" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS20" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S20" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S21" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS21" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S21" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S22" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS22" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S22" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S23" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS23" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S23" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S24" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS24" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S24" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1122,28 +1261,36 @@
                   <slider lfid="encoder2" name="S24">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S17">
+                  <label name="L17">
+                    <mappingparent componenttype="slider" componentname="S17" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S18">
+                  <label name="L18">
+                    <mappingparent componenttype="slider" componentname="S18" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S19">
+                  <label name="L19">
+                    <mappingparent componenttype="slider" componentname="S19" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S20">
+                  <label name="L20">
+                    <mappingparent componenttype="slider" componentname="S20" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S21">
+                  <label name="L21">
+                    <mappingparent componenttype="slider" componentname="S21" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S22">
+                  <label name="L22">
+                    <mappingparent componenttype="slider" componentname="S22" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S23">
+                  <label name="L23">
+                    <mappingparent componenttype="slider" componentname="S23" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S24">
+                  <label name="L24">
+                    <mappingparent componenttype="slider" componentname="S24" />
                     <bounds x="530" y="118" />
                   </label>
                   <label lfid="TabControl" name="LCDlabel" text="GROUP C">
@@ -1158,42 +1305,50 @@
                 <component backgroundcolour="00000000" lfid="encoder2">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S25" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS25" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S25" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S26" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS26" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S26" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S27" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS27" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S27" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S28" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS28" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S28" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S29" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS29" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S29" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S30" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS30" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S30" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S31" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS31" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S31" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S32" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS32" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="slider" componentname="S32" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1247,28 +1402,36 @@
                   <slider lfid="encoder2" name="S32">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S25">
+                  <label name="L25">
+                    <mappingparent componenttype="slider" componentname="S25" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S26">
+                  <label name="L26">
+                    <mappingparent componenttype="slider" componentname="S26" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S27">
+                  <label name="L27">
+                    <mappingparent componenttype="slider" componentname="S27" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S28">
+                  <label name="L28">
+                    <mappingparent componenttype="slider" componentname="S28" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S29">
+                  <label name="L29">
+                    <mappingparent componenttype="slider" componentname="S29" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S30">
+                  <label name="L30">
+                    <mappingparent componenttype="slider" componentname="S30" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S31">
+                  <label name="L31">
+                    <mappingparent componenttype="slider" componentname="S31" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S32">
+                  <label name="L32">
+                    <mappingparent componenttype="slider" componentname="S32" />
                     <bounds x="530" y="118" />
                   </label>
                   <label lfid="TabControl" name="LCDlabel" text="GROUP D">
@@ -1312,42 +1475,50 @@
                 <component backgroundcolour="00000000" lfid="encoder2">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S65" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS65" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B1" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S66" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS66" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B2" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S67" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS67" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B3" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S68" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS68" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B4" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S69" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS69" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B5" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S70" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS70" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B6" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S71" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS71" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B7" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S72" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS72" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B8" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1377,52 +1548,68 @@
                   <slider lfid="enc2push" name="S8">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S65">
+                  <label name="L65">
+                    <mappingparent componenttype="textbutton" componentname="B1" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S66">
+                  <label name="L66">
+                    <mappingparent componenttype="textbutton" componentname="B2" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S67">
+                  <label name="L67">
+                    <mappingparent componenttype="textbutton" componentname="B3" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S68">
+                  <label name="L68">
+                    <mappingparent componenttype="textbutton" componentname="B4" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S69">
+                  <label name="L69">
+                    <mappingparent componenttype="textbutton" componentname="B5" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S70">
+                  <label name="L70">
+                    <mappingparent componenttype="textbutton" componentname="B6" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S71">
+                  <label name="L71">
+                    <mappingparent componenttype="textbutton" componentname="B7" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S72">
+                  <label name="L72">
+                    <mappingparent componenttype="textbutton" componentname="B8" />
                     <bounds x="530" y="118" />
                   </label>
                   <slider name="S65" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B1" />
                     <bounds x="19" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S66" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B2" />
                     <bounds x="92" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S67" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B3" />
                     <bounds x="165" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S68" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B4" />
                     <bounds x="238" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S69" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B5" />
                     <bounds x="311" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S70" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B6" />
                     <bounds x="384" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S71" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B7" />
                     <bounds x="457" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S72" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B8" />
                     <bounds x="530" y="33" width="66" height="14" />
                   </slider>
                   <textbutton lfid="enc2push" name="B1">
@@ -1461,42 +1648,50 @@
                 <component backgroundcolour="00000000" lfid="encoder2">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S73" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS73" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B9" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S74" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS74" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B10" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S75" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS75" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B11" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S76" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS76" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B12" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S77" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS77" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B13" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S78" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS78" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B14" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S79" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS79" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B15" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S80" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS80" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B16" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1526,52 +1721,68 @@
                   <slider lfid="enc2push" name="S16">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S73">
+                  <label name="L73">
+                    <mappingparent componenttype="textbutton" componentname="B9" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S74">
+                  <label name="L74">
+                    <mappingparent componenttype="textbutton" componentname="B10" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S75">
+                  <label name="L75">
+                    <mappingparent componenttype="textbutton" componentname="B11" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S76">
+                  <label name="L76">
+                    <mappingparent componenttype="textbutton" componentname="B12" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S77">
+                  <label name="L77">
+                    <mappingparent componenttype="textbutton" componentname="B13" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S78">
+                  <label name="L78">
+                    <mappingparent componenttype="textbutton" componentname="B14" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S79">
+                  <label name="L79">
+                    <mappingparent componenttype="textbutton" componentname="B15" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S80">
+                  <label name="L80">
+                    <mappingparent componenttype="textbutton" componentname="B16" />
                     <bounds x="530" y="118" />
                   </label>
                   <slider name="S73" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B9" />
                     <bounds x="19" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S74" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B10" />
                     <bounds x="92" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S75" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B11" />
                     <bounds x="165" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S76" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B12" />
                     <bounds x="238" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S77" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B13" />
                     <bounds x="311" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S78" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B14" />
                     <bounds x="384" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S79" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B15" />
                     <bounds x="457" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S80" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B16" />
                     <bounds x="530" y="33" width="66" height="14" />
                   </slider>
                   <textbutton lfid="enc2push" name="B9">
@@ -1610,42 +1821,50 @@
                 <component backgroundcolour="00000000" lfid="encoder2">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S81" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS81" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B17" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S82" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS82" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B18" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S83" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS83" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B19" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S84" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS84" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B20" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S85" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS85" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B21" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S86" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS86" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B22" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S87" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS87" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B23" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S88" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS88" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B24" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1675,52 +1894,68 @@
                   <slider lfid="enc2push" name="S24">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S81">
+                  <label name="L81">
+                    <mappingparent componenttype="textbutton" componentname="B17" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S82">
+                  <label name="L82">
+                    <mappingparent componenttype="textbutton" componentname="B18" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S83">
+                  <label name="L83">
+                    <mappingparent componenttype="textbutton" componentname="B19" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S84">
+                  <label name="L84">
+                    <mappingparent componenttype="textbutton" componentname="B20" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S85">
+                  <label name="L85">
+                    <mappingparent componenttype="textbutton" componentname="B21" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S86">
+                  <label name="L86">
+                    <mappingparent componenttype="textbutton" componentname="B22" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S87">
+                  <label name="L87">
+                    <mappingparent componenttype="textbutton" componentname="B23" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S88">
+                  <label name="L88">
+                    <mappingparent componenttype="textbutton" componentname="B24" />
                     <bounds x="530" y="118" />
                   </label>
                   <slider name="S81" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B17" />
                     <bounds x="19" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S82" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B18" />
                     <bounds x="92" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S83" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B19" />
                     <bounds x="165" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S84" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B20" />
                     <bounds x="238" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S85" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B21" />
                     <bounds x="311" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S86" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B22" />
                     <bounds x="384" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S87" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B23" />
                     <bounds x="457" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S88" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B24" />
                     <bounds x="530" y="33" width="66" height="14" />
                   </slider>
                   <textbutton lfid="enc2push" name="B17">
@@ -1759,42 +1994,50 @@
                 <component backgroundcolour="00000000" lfid="encoder2">
                   <component backgroundimage="">
                     <bounds x="9" y="50" width="532" height="11" />
-                    <label name="S89" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS89" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B25" />
                       <bounds x="0" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S90" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS90" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B26" />
                       <bounds x="73" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S91" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS91" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B27" />
                       <bounds x="146" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S92" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS92" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B28" />
                       <bounds x="219" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S93" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS93" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B29" />
                       <bounds x="292" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S94" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS94" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B30" />
                       <bounds x="365" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S95" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS95" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B31" />
                       <bounds x="438" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
                     </label>
-                    <label name="S96" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                    <label name="LS96" lfid="ScopeSync_Codes" parametertextdisplay="scopecode">
+                      <mappingparent componenttype="textbutton" componentname="B32" />
                       <bounds x="511" y="0" width="24" height="11" />
                       <font bold="false" height="11"></font>
                       <justification left="true" />
@@ -1824,52 +2067,68 @@
                   <slider lfid="enc2push" name="S32">
                     <bounds x="530" y="33" />
                   </slider>
-                  <label name="S89">
+                  <label name="L89">
+                    <mappingparent componenttype="textbutton" componentname="B25" />
                     <bounds x="19" y="118" />
                   </label>
-                  <label name="S90">
+                  <label name="L90">
+                    <mappingparent componenttype="textbutton" componentname="B26" />
                     <bounds x="92" y="118" />
                   </label>
-                  <label name="S91">
+                  <label name="L91">
+                    <mappingparent componenttype="textbutton" componentname="B27" />
                     <bounds x="165" y="118" />
                   </label>
-                  <label name="S92">
+                  <label name="L92">
+                    <mappingparent componenttype="textbutton" componentname="B28" />
                     <bounds x="238" y="118" />
                   </label>
-                  <label name="S93">
+                  <label name="L93">
+                    <mappingparent componenttype="textbutton" componentname="B29" />
                     <bounds x="311" y="118" />
                   </label>
-                  <label name="S94">
+                  <label name="L94">
+                    <mappingparent componenttype="textbutton" componentname="B30" />
                     <bounds x="384" y="118" />
                   </label>
-                  <label name="S95">
+                  <label name="L95">
+                    <mappingparent componenttype="textbutton" componentname="B31" />
                     <bounds x="457" y="118" />
                   </label>
-                  <label name="S96">
+                  <label name="L96">
+                    <mappingparent componenttype="textbutton" componentname="B32" />
                     <bounds x="530" y="118" />
                   </label>
                   <slider name="S89" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B25" />
                     <bounds x="19" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S90" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B26" />
                     <bounds x="92" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S91" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B27" />
                     <bounds x="165" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S92" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B28" />
                     <bounds x="238" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S93" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B29" />
                     <bounds x="311" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S94" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B30" />
                     <bounds x="384" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S95" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B31" />
                     <bounds x="457" y="33" width="66" height="14" />
                   </slider>
                   <slider name="S96" style="linearbar">
+                    <mappingparent componenttype="textbutton" componentname="B32" />
                     <bounds x="530" y="33" width="66" height="14" />
                   </slider>
                   <textbutton lfid="enc2push" name="B25">

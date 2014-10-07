@@ -170,33 +170,9 @@
     <parameter name="PARAM56" shortDescription="Param 56" fullDescription="Parameter 56" scopeSync="55" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM57" shortDescription="Param 57" fullDescription="Parameter 57" scopeSync="56" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM58" shortDescription="Param 58" fullDescription="Parameter 58" scopeSync="57" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM59" shortDescription="Param 59" fullDescription="Parameter 59" scopeSync="58" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM60" shortDescription="Param 60" fullDescription="Parameter 60" scopeSync="59" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM61" shortDescription="Param 61" fullDescription="Parameter 61" scopeSync="60" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM62" shortDescription="Param 62" fullDescription="Parameter 62" scopeSync="61" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM63" shortDescription="Param 63" fullDescription="Parameter 63" scopeSync="62" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
-    <parameter name="PARAM64" shortDescription="Param 64" fullDescription="Parameter 64" scopeSync="63" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
     <parameter name="PARAM65" shortDescription="Param 65" fullDescription="Parameter 65" scopeSync="64" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -356,7 +332,7 @@
     </parameter>
     <parameter name="PARAM85" shortDescription="Param 85" fullDescription="Parameter 85" scopeSync="84" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="OFF" value="0" intValue="0"/>
         <setting name="ON" value="1" intValue="2147483647"/>
@@ -578,73 +554,9 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PARAM113" shortDescription="Param 113" fullDescription="Parameter 113" scopeSync="112" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM114" shortDescription="Param 114" fullDescription="Parameter 114" scopeSync="113" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM115" shortDescription="Param 115" fullDescription="Parameter 115" scopeSync="114" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM116" shortDescription="Param 116" fullDescription="Parameter 116" scopeSync="115" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM117" shortDescription="Param 117" fullDescription="Parameter 117" scopeSync="116" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM118" shortDescription="Param 118" fullDescription="Parameter 118" scopeSync="117" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM119" shortDescription="Param 119" fullDescription="Parameter 119" scopeSync="118" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PARAM120" shortDescription="Param 120" fullDescription="Parameter 120" scopeSync="119" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
     <parameter name="PARAM127" shortDescription="Param 127" fullDescription="Encoder Groups" scopeSync="126" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="3" uiRangeInterval="1" uiSuffix="">
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="3" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings>
         <setting name="GROUP 1" value="0" intValue="0"/>
         <setting name="GROUP 2" value="0.333333" intValue="715827882"/>
@@ -753,76 +665,6 @@
       <slider name="S54" mapTo="PARAM54"/>
       <slider name="S55" mapTo="PARAM55"/>
       <slider name="S56" mapTo="PARAM56"/>
-      <slider name="S57" mapTo="PARAM57"/>
-      <slider name="S58" mapTo="PARAM58"/>
-      <slider name="S59" mapTo="PARAM59"/>
-      <slider name="S60" mapTo="PARAM60"/>
-      <slider name="S61" mapTo="PARAM61"/>
-      <slider name="S62" mapTo="PARAM62"/>
-      <slider name="S63" mapTo="PARAM63"/>
-      <slider name="S64" mapTo="PARAM64"/>
-      <slider name="S65" mapTo="PARAM65"/>
-      <slider name="S66" mapTo="PARAM66"/>
-      <slider name="S67" mapTo="PARAM67"/>
-      <slider name="S68" mapTo="PARAM68"/>
-      <slider name="S69" mapTo="PARAM69"/>
-      <slider name="S70" mapTo="PARAM70"/>
-      <slider name="S71" mapTo="PARAM71"/>
-      <slider name="S72" mapTo="PARAM72"/>
-      <slider name="S73" mapTo="PARAM73"/>
-      <slider name="S74" mapTo="PARAM74"/>
-      <slider name="S75" mapTo="PARAM75"/>
-      <slider name="S76" mapTo="PARAM76"/>
-      <slider name="S77" mapTo="PARAM77"/>
-      <slider name="S78" mapTo="PARAM78"/>
-      <slider name="S79" mapTo="PARAM79"/>
-      <slider name="S80" mapTo="PARAM80"/>
-      <slider name="S81" mapTo="PARAM81"/>
-      <slider name="S82" mapTo="PARAM82"/>
-      <slider name="S83" mapTo="PARAM83"/>
-      <slider name="S84" mapTo="PARAM84"/>
-      <slider name="S85" mapTo="PARAM85"/>
-      <slider name="S86" mapTo="PARAM86"/>
-      <slider name="S87" mapTo="PARAM87"/>
-      <slider name="S88" mapTo="PARAM88"/>
-      <slider name="S89" mapTo="PARAM89"/>
-      <slider name="S90" mapTo="PARAM90"/>
-      <slider name="S91" mapTo="PARAM91"/>
-      <slider name="S92" mapTo="PARAM92"/>
-      <slider name="S93" mapTo="PARAM93"/>
-      <slider name="S94" mapTo="PARAM94"/>
-      <slider name="S95" mapTo="PARAM95"/>
-      <slider name="S96" mapTo="PARAM96"/>
-      <slider name="S97" mapTo="PARAM97"/>
-      <slider name="S98" mapTo="PARAM98"/>
-      <slider name="S99" mapTo="PARAM99"/>
-      <slider name="S100" mapTo="PARAM100"/>
-      <slider name="S101" mapTo="PARAM101"/>
-      <slider name="S102" mapTo="PARAM102"/>
-      <slider name="S103" mapTo="PARAM103"/>
-      <slider name="S104" mapTo="PARAM104"/>
-      <slider name="S105" mapTo="PARAM105"/>
-      <slider name="S106" mapTo="PARAM106"/>
-      <slider name="S107" mapTo="PARAM107"/>
-      <slider name="S108" mapTo="PARAM108"/>
-      <slider name="S109" mapTo="PARAM109"/>
-      <slider name="S110" mapTo="PARAM110"/>
-      <slider name="S111" mapTo="PARAM111"/>
-      <slider name="S112" mapTo="PARAM112"/>
-      <slider name="S113" mapTo="PARAM113"/>
-      <slider name="S114" mapTo="PARAM114"/>
-      <slider name="S115" mapTo="PARAM115"/>
-      <slider name="S116" mapTo="PARAM116"/>
-      <slider name="S117" mapTo="PARAM117"/>
-      <slider name="S118" mapTo="PARAM118"/>
-      <slider name="S119" mapTo="PARAM119"/>
-      <slider name="S120" mapTo="PARAM120"/>
-      <slider name="S121" mapTo="PARAM121"/>
-      <slider name="S122" mapTo="PARAM122"/>
-      <slider name="S123" mapTo="PARAM123"/>
-      <slider name="S124" mapTo="PARAM124"/>
-      <slider name="S127" mapTo="PARAM127"/>
-      <slider name="S128" mapTo="PARAM128"/>
     </sliders>
     <textButtons>
       <textButton name="B1" mapTo="PARAM65" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
@@ -873,14 +715,6 @@
       <textButton name="B46" mapTo="PARAM110" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B47" mapTo="PARAM111" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B48" mapTo="PARAM112" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B49" mapTo="PARAM113" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B50" mapTo="PARAM114" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B51" mapTo="PARAM115" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B52" mapTo="PARAM116" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B53" mapTo="PARAM117" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B54" mapTo="PARAM118" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B55" mapTo="PARAM119" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B56" mapTo="PARAM120" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B59" mapTo="PARAM127" settingDown="GROUP 1" type="1" radioGroup=""/>
       <textButton name="B60" mapTo="PARAM127" settingDown="GROUP 2" type="1" radioGroup=""/>
       <textButton name="B61" mapTo="PARAM127" settingDown="GROUP 3" type="1" radioGroup=""/>
@@ -893,190 +727,7 @@
       <textButton name="B68" mapTo="PARAM131" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B69" mapTo="PARAM132" settingDown="ON" type="0" radioGroup=""/>
     </textButtons>
-    <labels>
-      <label name="S1" mapTo="PARAM1"/>
-      <label name="S2" mapTo="PARAM2"/>
-      <label name="S3" mapTo="PARAM3"/>
-      <label name="S4" mapTo="PARAM4"/>
-      <label name="S5" mapTo="PARAM5"/>
-      <label name="S6" mapTo="PARAM6"/>
-      <label name="S7" mapTo="PARAM7"/>
-      <label name="S8" mapTo="PARAM8"/>
-      <label name="S9" mapTo="PARAM9"/>
-      <label name="S10" mapTo="PARAM10"/>
-      <label name="S11" mapTo="PARAM11"/>
-      <label name="S12" mapTo="PARAM12"/>
-      <label name="S13" mapTo="PARAM13"/>
-      <label name="S14" mapTo="PARAM14"/>
-      <label name="S15" mapTo="PARAM15"/>
-      <label name="S16" mapTo="PARAM16"/>
-      <label name="S17" mapTo="PARAM17"/>
-      <label name="S18" mapTo="PARAM18"/>
-      <label name="S19" mapTo="PARAM19"/>
-      <label name="S20" mapTo="PARAM20"/>
-      <label name="S21" mapTo="PARAM21"/>
-      <label name="S22" mapTo="PARAM22"/>
-      <label name="S23" mapTo="PARAM23"/>
-      <label name="S24" mapTo="PARAM24"/>
-      <label name="S25" mapTo="PARAM25"/>
-      <label name="S26" mapTo="PARAM26"/>
-      <label name="S27" mapTo="PARAM27"/>
-      <label name="S28" mapTo="PARAM28"/>
-      <label name="S29" mapTo="PARAM29"/>
-      <label name="S30" mapTo="PARAM30"/>
-      <label name="S31" mapTo="PARAM31"/>
-      <label name="S32" mapTo="PARAM32"/>
-      <label name="S33" mapTo="PARAM33"/>
-      <label name="S34" mapTo="PARAM34"/>
-      <label name="S35" mapTo="PARAM35"/>
-      <label name="S36" mapTo="PARAM36"/>
-      <label name="S37" mapTo="PARAM37"/>
-      <label name="S38" mapTo="PARAM38"/>
-      <label name="S39" mapTo="PARAM39"/>
-      <label name="S40" mapTo="PARAM40"/>
-      <label name="S41" mapTo="PARAM41"/>
-      <label name="S42" mapTo="PARAM42"/>
-      <label name="S43" mapTo="PARAM43"/>
-      <label name="S44" mapTo="PARAM44"/>
-      <label name="S45" mapTo="PARAM45"/>
-      <label name="S46" mapTo="PARAM46"/>
-      <label name="S47" mapTo="PARAM47"/>
-      <label name="S48" mapTo="PARAM48"/>
-      <label name="S49" mapTo="PARAM49"/>
-      <label name="S50" mapTo="PARAM50"/>
-      <label name="S51" mapTo="PARAM51"/>
-      <label name="S52" mapTo="PARAM52"/>
-      <label name="S53" mapTo="PARAM53"/>
-      <label name="S54" mapTo="PARAM54"/>
-      <label name="S55" mapTo="PARAM55"/>
-      <label name="S56" mapTo="PARAM56"/>
-      <label name="S57" mapTo="PARAM57"/>
-      <label name="S58" mapTo="PARAM58"/>
-      <label name="S59" mapTo="PARAM59"/>
-      <label name="S60" mapTo="PARAM60"/>
-      <label name="S61" mapTo="PARAM61"/>
-      <label name="S62" mapTo="PARAM62"/>
-      <label name="S63" mapTo="PARAM63"/>
-      <label name="S64" mapTo="PARAM64"/>
-      <label name="S65" mapTo="PARAM65"/>
-      <label name="S66" mapTo="PARAM66"/>
-      <label name="S67" mapTo="PARAM67"/>
-      <label name="S68" mapTo="PARAM68"/>
-      <label name="S69" mapTo="PARAM69"/>
-      <label name="S70" mapTo="PARAM70"/>
-      <label name="S71" mapTo="PARAM71"/>
-      <label name="S72" mapTo="PARAM72"/>
-      <label name="S73" mapTo="PARAM73"/>
-      <label name="S74" mapTo="PARAM74"/>
-      <label name="S75" mapTo="PARAM75"/>
-      <label name="S76" mapTo="PARAM76"/>
-      <label name="S77" mapTo="PARAM77"/>
-      <label name="S78" mapTo="PARAM78"/>
-      <label name="S79" mapTo="PARAM79"/>
-      <label name="S80" mapTo="PARAM80"/>
-      <label name="S81" mapTo="PARAM81"/>
-      <label name="S82" mapTo="PARAM82"/>
-      <label name="S83" mapTo="PARAM83"/>
-      <label name="S84" mapTo="PARAM84"/>
-      <label name="S85" mapTo="PARAM85"/>
-      <label name="S86" mapTo="PARAM86"/>
-      <label name="S87" mapTo="PARAM87"/>
-      <label name="S88" mapTo="PARAM88"/>
-      <label name="S89" mapTo="PARAM89"/>
-      <label name="S90" mapTo="PARAM90"/>
-      <label name="S91" mapTo="PARAM91"/>
-      <label name="S92" mapTo="PARAM92"/>
-      <label name="S93" mapTo="PARAM93"/>
-      <label name="S94" mapTo="PARAM94"/>
-      <label name="S95" mapTo="PARAM95"/>
-      <label name="S96" mapTo="PARAM96"/>
-      <label name="S97" mapTo="PARAM97"/>
-      <label name="S98" mapTo="PARAM98"/>
-      <label name="S99" mapTo="PARAM99"/>
-      <label name="S100" mapTo="PARAM100"/>
-      <label name="S101" mapTo="PARAM101"/>
-      <label name="S102" mapTo="PARAM102"/>
-      <label name="S103" mapTo="PARAM103"/>
-      <label name="S104" mapTo="PARAM104"/>
-      <label name="S105" mapTo="PARAM105"/>
-      <label name="S106" mapTo="PARAM106"/>
-      <label name="S107" mapTo="PARAM107"/>
-      <label name="S108" mapTo="PARAM108"/>
-      <label name="S109" mapTo="PARAM109"/>
-      <label name="S110" mapTo="PARAM110"/>
-      <label name="S111" mapTo="PARAM111"/>
-      <label name="S112" mapTo="PARAM112"/>
-      <label name="S113" mapTo="PARAM113"/>
-      <label name="S114" mapTo="PARAM114"/>
-      <label name="S115" mapTo="PARAM115"/>
-      <label name="S116" mapTo="PARAM116"/>
-      <label name="S117" mapTo="PARAM117"/>
-      <label name="S118" mapTo="PARAM118"/>
-      <label name="S119" mapTo="PARAM119"/>
-      <label name="S120" mapTo="PARAM120"/>
-      <label name="S121" mapTo="PARAM121"/>
-      <label name="S122" mapTo="PARAM122"/>
-      <label name="S123" mapTo="PARAM123"/>
-      <label name="S124" mapTo="PARAM124"/>
-      <label name="S127" mapTo="PARAM127"/>
-      <label name="S128" mapTo="PARAM128"/>
-      <label name="B1" mapTo="PARAM65"/>
-      <label name="B2" mapTo="PARAM66"/>
-      <label name="B3" mapTo="PARAM67"/>
-      <label name="B4" mapTo="PARAM68"/>
-      <label name="B5" mapTo="PARAM69"/>
-      <label name="B6" mapTo="PARAM70"/>
-      <label name="B7" mapTo="PARAM71"/>
-      <label name="B8" mapTo="PARAM72"/>
-      <label name="B9" mapTo="PARAM73"/>
-      <label name="B10" mapTo="PARAM74"/>
-      <label name="B11" mapTo="PARAM75"/>
-      <label name="B12" mapTo="PARAM76"/>
-      <label name="B13" mapTo="PARAM77"/>
-      <label name="B14" mapTo="PARAM78"/>
-      <label name="B15" mapTo="PARAM79"/>
-      <label name="B16" mapTo="PARAM80"/>
-      <label name="B17" mapTo="PARAM81"/>
-      <label name="B18" mapTo="PARAM82"/>
-      <label name="B19" mapTo="PARAM83"/>
-      <label name="B20" mapTo="PARAM84"/>
-      <label name="B21" mapTo="PARAM85"/>
-      <label name="B22" mapTo="PARAM86"/>
-      <label name="B23" mapTo="PARAM87"/>
-      <label name="B24" mapTo="PARAM88"/>
-      <label name="B25" mapTo="PARAM89"/>
-      <label name="B26" mapTo="PARAM90"/>
-      <label name="B27" mapTo="PARAM91"/>
-      <label name="B28" mapTo="PARAM92"/>
-      <label name="B29" mapTo="PARAM93"/>
-      <label name="B30" mapTo="PARAM94"/>
-      <label name="B31" mapTo="PARAM95"/>
-      <label name="B32" mapTo="PARAM96"/>
-      <label name="B33" mapTo="PARAM97"/>
-      <label name="B34" mapTo="PARAM98"/>
-      <label name="B35" mapTo="PARAM99"/>
-      <label name="B36" mapTo="PARAM100"/>
-      <label name="B37" mapTo="PARAM101"/>
-      <label name="B38" mapTo="PARAM102"/>
-      <label name="B39" mapTo="PARAM103"/>
-      <label name="B40" mapTo="PARAM104"/>
-      <label name="B41" mapTo="PARAM105"/>
-      <label name="B42" mapTo="PARAM106"/>
-      <label name="B43" mapTo="PARAM107"/>
-      <label name="B44" mapTo="PARAM108"/>
-      <label name="B45" mapTo="PARAM109"/>
-      <label name="B46" mapTo="PARAM110"/>
-      <label name="B47" mapTo="PARAM111"/>
-      <label name="B48" mapTo="PARAM112"/>
-      <label name="B49" mapTo="PARAM113"/>
-      <label name="B50" mapTo="PARAM114"/>
-      <label name="B51" mapTo="PARAM115"/>
-      <label name="B52" mapTo="PARAM116"/>
-      <label name="B53" mapTo="PARAM117"/>
-      <label name="B54" mapTo="PARAM118"/>
-      <label name="B55" mapTo="PARAM119"/>
-      <label name="B56" mapTo="PARAM120"/>
-    </labels>
+    <labels/>
     <comboBoxes/>
     <tabbedComponents/>
   </mapping>
