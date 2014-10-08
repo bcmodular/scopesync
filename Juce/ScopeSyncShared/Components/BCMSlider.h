@@ -34,7 +34,7 @@ class SliderProperties;
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 #include "BCMComponentBounds.h"
 
 class BCMSlider : public Slider,
@@ -45,6 +45,7 @@ public:
     ~BCMSlider();
 
     void applyProperties(SliderProperties& properties);
+    const Identifier getComponentType() const override;
 
     // Font and justification variables (made public so they can be accessed by the LookAndFeel)
     float                fontHeight;
@@ -94,8 +95,6 @@ public:
 private:
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
-    BCMComponentBounds componentBounds; // Position/Size information
-    
     bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to

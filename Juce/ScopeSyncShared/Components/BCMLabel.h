@@ -35,7 +35,7 @@ class LabelProperties;
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
 #include "../Components/BCMComponentBounds.h"
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 
 class BCMLabel : public Label,
                  public BCMParameterWidget
@@ -45,11 +45,12 @@ public:
     ~BCMLabel();
 
     void applyProperties(LabelProperties& properties);
+    const Identifier getComponentType() const override;
+
     void handleValueChanged(Value& valueThatChanged);
 
 private:
-    BCMComponentBounds componentBounds; // Position/Size information
-  
+    
     class BCMLabelValueListener : public Value::Listener
     {
     public:

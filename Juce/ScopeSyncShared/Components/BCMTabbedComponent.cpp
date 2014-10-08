@@ -59,9 +59,11 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     barProperties.set("showdropshadow", properties.showDropShadow);
     
     properties.bounds.copyValues(componentBounds);
-    BCM_SET_BOUNDS
-    BCM_SET_LOOK_AND_FEEL
+    applyBounds();
+    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
+
+const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabbedComponent; };
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {

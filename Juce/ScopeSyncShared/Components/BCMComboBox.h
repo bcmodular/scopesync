@@ -35,7 +35,7 @@ class ComboBoxProperties;
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
 #include "../Components/BCMComponentBounds.h"
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 
 class BCMComboBox : public ComboBox,
                     public BCMParameterWidget
@@ -45,16 +45,16 @@ public:
     ~BCMComboBox();
 
     void applyProperties(ComboBoxProperties& properties);
-    
+    const Identifier getComponentType() const override;
+
     void valueChanged(Value& value) override;
 
     float                fontHeight;     // Height of font for BCMComboBox's current value (use PopupMenu LookAndFeel for other fonts)
     Font::FontStyleFlags fontStyleFlags; // Style flags for BCMComboBox's current value
 
 private:
-    Value              parameterValue;  // Maintains a link to a mapped parameter's UI value
-    BCMComponentBounds componentBounds; // Position/Size information
-
+    Value parameterValue;  // Maintains a link to a mapped parameter's UI value
+    
     void mouseDown(const MouseEvent& event) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComboBox);

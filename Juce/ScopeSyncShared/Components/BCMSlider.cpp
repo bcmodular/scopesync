@@ -29,10 +29,12 @@
 #include "BCMSlider.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/BCMLookAndFeel.h"
+#include "../Components/BCMTabbedComponent.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
 #include "../Core/Global.h"
+#include "../Components/UserSettings.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
     : Slider(name), BCMParameterWidget(owner, this)
@@ -132,9 +134,11 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     setPopupMenuEnabled(true);
     
     properties.bounds.copyValues(componentBounds);
-    BCM_SET_BOUNDS
-    BCM_SET_LOOK_AND_FEEL
+    applyBounds();
+    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
+
+const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
 
 String BCMSlider::getTextFromValue(double v)
 {

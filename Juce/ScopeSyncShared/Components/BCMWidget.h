@@ -28,10 +28,29 @@
 #define BCMPARAMETERWIDGET_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
+#include "../Components/BCMComponentBounds.h"
 class ScopeSyncGUI;
 
-class BCMParameterWidget : public ApplicationCommandTarget,
+class BCMWidget
+{
+public:
+    BCMWidget(ScopeSyncGUI& owner, Component* parent);
+    ~BCMWidget() {};
+
+protected:
+    ScopeSyncGUI&      scopeSyncGUI;
+    BCMComponentBounds componentBounds; // Position/Size information
+    Component*         parentComponent;
+        
+    virtual const Identifier getComponentType() const = 0;
+    void applyBounds();
+    void applyLookAndFeel(String& bcmLookAndFeelId);
+};
+
+class BCMParameter;
+
+class BCMParameterWidget : public BCMWidget,
+                           public ApplicationCommandTarget,
                            public ChangeListener
 {
 public:
@@ -45,8 +64,6 @@ public:
     BCMParameter* getParameter() { return parameter.get(); };
 
 protected:
-    ScopeSyncGUI& scopeSyncGUI;
-    Component*    parentComponent;
     bool          mapsToParameter;         // Flag for whether the widget maps to a parameter
     WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
 

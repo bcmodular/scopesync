@@ -106,9 +106,11 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     setJustificationType(Justification(properties.justificationFlags));
 
     properties.bounds.copyValues(componentBounds);
-    BCM_SET_BOUNDS
-    BCM_SET_LOOK_AND_FEEL
+    applyBounds();
+    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
+
+const Identifier BCMLabel::getComponentType() const { return Ids::label; };
 
 void BCMLabel::mouseDown(const MouseEvent& event)
 {

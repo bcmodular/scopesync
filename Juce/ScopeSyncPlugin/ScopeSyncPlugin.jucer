@@ -107,10 +107,8 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
-      <FILE id="TY4E9p" name="BCMParameterWidget.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Components/BCMParameterWidget.cpp"/>
-      <FILE id="MwfKqv" name="BCMParameterWidget.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Components/BCMParameterWidget.h"/>
+      <FILE id="TY4E9p" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMWidget.cpp"/>
+      <FILE id="MwfKqv" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMWidget.h"/>
       <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
       <FILE id="AbJaYe" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.h"/>
       <FILE id="gLWoeo" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMImage.cpp"/>

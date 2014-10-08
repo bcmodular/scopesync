@@ -34,26 +34,19 @@
 #ifndef SCOPESYNCGUI_H_INCLUDED
 #define SCOPESYNCGUI_H_INCLUDED
 
-//class BCMComponent;
-//class BCMTabbedComponent;
-//class UserSettings;
-
 #include <JuceHeader.h>
-#include "../Components/BCMLookAndFeel.h"
-#include "../Components/BCMComponent.h"
+class ScopeSync;
+class BCMComponent;
+class BCMTabbedComponent;
+class ComponentProperties;
+class SliderProperties;
+class LabelProperties;
+class TextButtonProperties;
+class ComboBoxProperties;
+class TabbedComponentProperties;
+class TabProperties;
+class BCMParameter;
 #include "../Components/BCMSlider.h"
-#include "../Components/BCMTabbedComponent.h"
-#include "../Components/UserSettings.h"
-#include "../Configuration/ConfigurationManager.h"
-#include "ScopeSync.h"
-#include "BCMParameter.h"
-#include "../Properties/ComponentProperties.h"
-#include "../Properties/SliderProperties.h"
-#include "../Properties/LabelProperties.h"
-#include "../Properties/TextButtonProperties.h"
-#include "../Properties/ComboBoxProperties.h"
-#include "../Properties/TabbedComponentProperties.h"
-#include "../Properties/TabProperties.h"
 
 class ScopeSyncGUI : public Component,
                      public Timer               
@@ -128,34 +121,5 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };
-
-#define BCM_SET_BOUNDS \
-    if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle) \
-        try \
-        { \
-            setBounds(componentBounds.relativeRectangleString); \
-        } \
-        catch (Expression::ParseError& error) \
-        { \
-            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + getName() + ", error: " + error.description); \
-            return; \
-        } \
-    else if (componentBounds.boundsType == BCMComponentBounds::inset) \
-        setBoundsInset(componentBounds.borderSize); \
-    else \
-    { \
-        setBounds( \
-            componentBounds.x, \
-            componentBounds.y, \
-            componentBounds.width, \
-            componentBounds.height \
-        ); \
-    }
-
-#define BCM_SET_LOOK_AND_FEEL \
-    BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(properties.bcmLookAndFeelId); \
-    \
-    if (bcmLookAndFeel != nullptr) \
-        setLookAndFeel(bcmLookAndFeel);
 
 #endif  // SCOPESYNCGUI_H_INCLUDED

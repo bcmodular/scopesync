@@ -66,6 +66,15 @@ void Configuration::setMissingDefaultValues()
     mapping.getOrCreateChildWithName(Ids::labels, nullptr);
     mapping.getOrCreateChildWithName(Ids::comboBoxes, nullptr);
     mapping.getOrCreateChildWithName(Ids::tabbedComponents, nullptr);
+
+    ValueTree styleOverrides(configurationRoot.getOrCreateChildWithName(Ids::styleOverrides, nullptr));
+    styleOverrides.getOrCreateChildWithName(Ids::components, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::sliders, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::textButtons, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::labels, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::comboBoxes, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::tabbedComponents, nullptr);
+    styleOverrides.getOrCreateChildWithName(Ids::tabs, nullptr);
 }
 
 const char* Configuration::configurationFileExtension = ".configuration";
@@ -620,7 +629,16 @@ Identifier Configuration::getMappingParentId(const Identifier& componentType)
     else if (componentType == Ids::comboBox)        return Ids::comboBoxes;
     else if (componentType == Ids::tabbedComponent) return Ids::tabbedComponents;
     else if (componentType == Ids::textButton)      return Ids::textButtons;
-    else                                            return Ids::labels;
+    else if (componentType == Ids::label)           return Ids::labels;
+    else                                            return Ids::components;
+}
+
+ValueTree Configuration::getStyleOverride(const Identifier& componentType, const String& componentName)
+{
+    ValueTree componentStyleOverrides = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
+
+    DBG("Configuration::getStyleOverride - componentType: " + String(componentType) + ", componentName: " + componentName + ", overrides valid: " + String(componentStyleOverrides.isValid()));
+    return componentStyleOverrides.getChildWithProperty(Ids::name, componentName);
 }
 
 const String Configuration::loaderConfiguration =

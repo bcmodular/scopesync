@@ -34,6 +34,7 @@
 #include "../../ScopeSyncShared/Resources/ImageLoader.h"
 #include "../../ScopeSyncShared/Resources/Icons.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
+#include "../../ScopeSyncShared/Components/UserSettings.h"
 
 const int ScopeFX::initPositionX           = 100;
 const int ScopeFX::initPositionY           = 100;

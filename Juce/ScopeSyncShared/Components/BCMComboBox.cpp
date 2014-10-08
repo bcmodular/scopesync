@@ -93,9 +93,11 @@ void BCMComboBox::applyProperties(ComboBoxProperties& properties)
     setTooltip(tooltip);
     
     properties.bounds.copyValues(componentBounds);
-    BCM_SET_BOUNDS
-    BCM_SET_LOOK_AND_FEEL
+    applyBounds();
+    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
+
+const Identifier BCMComboBox::getComponentType() const { return Ids::comboBox; };
 
 void BCMComboBox::mouseDown(const MouseEvent& event)
 {

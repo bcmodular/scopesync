@@ -37,13 +37,20 @@
 #include "../Components/BCMRectangle.h"
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
-#include "../Core/ScopeSyncGUI.h"
 #include "../Components/UserSettings.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
+#include "../Properties/TabbedComponentProperties.h"
+#include "../Properties/TabProperties.h"
+#include "../Properties/SliderProperties.h"
+#include "../Properties/LabelProperties.h"
+#include "../Properties/TextButtonProperties.h"
+#include "../Properties/ComboBoxProperties.h"
+#include "../Core/ScopeSyncGUI.h"
+#include "../Core/ScopeSync.h"
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name)
-    : Component(name), scopeSyncGUI(owner)
+    : BCMWidget(owner, this), Component(name)
 {}
 
 BCMComponent::~BCMComponent() {}
@@ -77,8 +84,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
         }
     }
 
-    BCM_SET_BOUNDS
-    BCM_SET_LOOK_AND_FEEL
+    applyBounds();
+    applyLookAndFeel(properties.bcmLookAndFeelId);
 
     // Then loop through child component elements
     forEachXmlChildElement(componentXML, child)
@@ -94,6 +101,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
     }
 }
 
+const Identifier BCMComponent::getComponentType() const { return Ids::component; };
+    
 void BCMComponent::paint(Graphics& g)
 {
     g.fillAll(Colour::fromString(backgroundColour));

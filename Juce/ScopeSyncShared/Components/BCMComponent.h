@@ -30,7 +30,8 @@
 #ifndef BCMCOMPONENT_H_INCLUDED
 #define BCMCOMPONENT_H_INCLUDED
 
-class ScopeSyncGUI;
+#include <JuceHeader.h>
+
 class ComponentProperties;
 class BCMSlider;
 class BCMComboBox;
@@ -40,11 +41,11 @@ class BCMTabbedComponent;
 class BCMGraphic;
 class BCMRectangle;
 class BCMImage;
+#include "../Core/ScopeSyncGUI.h"
+#include "../Components/BCMWidget.h"
 
-#include "JuceHeader.h"
-#include "../Components/BCMComponentBounds.h"
-
-class BCMComponent : public Component,
+class BCMComponent : public BCMWidget,
+                     public Component,
                      public SliderListener,
                      public ComboBoxListener
 {
@@ -53,7 +54,8 @@ public:
     ~BCMComponent();
 
     void applyProperties(XmlElement& componentXML, const String& configDirectory);
-
+    const Identifier getComponentType() const override;
+    
     // Returns width of the BCMComponent
     int  getWidth()  { return componentBounds.width; };
     
@@ -83,11 +85,9 @@ private:
     OwnedArray<BCMComponent>       subComponents;             // BCMComponents owned by this Component
     OwnedArray<BCMTabbedComponent> tabbedComponents;          // BCMTabbedComponents owned by this Component
     OwnedArray<BCMGraphic>         graphics;                  // BCMGraphics owned by this Component
-    ScopeSyncGUI&                  scopeSyncGUI;              // Reference to the main ScopeSyncGUI
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
-    BCMComponentBounds             componentBounds;           // Position/Size information
 
     // Directory File Path for the Configuration file. Used for relative path sourcing of Images
     String configurationFileDirectoryPath;

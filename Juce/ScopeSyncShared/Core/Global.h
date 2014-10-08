@@ -88,6 +88,12 @@ namespace Ids
     DECLARE_ID(clipboard);
     DECLARE_ID(parameterClipboard);
 
+    DECLARE_ID(styleOverrides);
+    DECLARE_ID(lookAndFeelId);
+    DECLARE_ID(components);
+    DECLARE_ID(component);
+    DECLARE_ID(tabs);
+
     #undef DECLARE_ID
 }
 

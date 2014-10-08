@@ -27,11 +27,23 @@
  */
 
 #include "ScopeSyncGUI.h"
+#include "ScopeSync.h"
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
+#include "../Components/BCMLookAndFeel.h"
+#include "../Components/BCMComponent.h"
+#include "../Components/BCMTabbedComponent.h"
+#include "../Configuration/ConfigurationManager.h"
+#include "../Properties/ComponentProperties.h"
+#include "../Properties/SliderProperties.h"
+#include "../Properties/LabelProperties.h"
+#include "../Properties/TextButtonProperties.h"
+#include "../Properties/ComboBoxProperties.h"
+#include "../Properties/TabbedComponentProperties.h"
+#include "../Properties/TabProperties.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 

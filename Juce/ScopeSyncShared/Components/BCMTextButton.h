@@ -34,7 +34,7 @@ class TextButtonProperties;
 
 #include <JuceHeader.h>
 #include "BCMTabbedComponent.h"
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 #include "../Core/BCMParameter.h"
 
 class BCMTextButton : public TextButton,
@@ -47,10 +47,11 @@ public:
     ~BCMTextButton();
 
     void applyProperties(TextButtonProperties& properties);
+    const Identifier getComponentType() const override;
 
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value);
-
+    
 private:
     
     // Types of Mapping
@@ -78,8 +79,6 @@ private:
 
     Value parameterValue;     // Maintains a link to a mapped parameter's UI value
     Value systemErrorDetails; // Used for the systemmoreinfo button
-
-    BCMComponentBounds componentBounds; // Position/Size information
 
     URL url; // URL launched on clicking the button
 

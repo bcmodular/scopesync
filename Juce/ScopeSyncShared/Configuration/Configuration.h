@@ -85,6 +85,8 @@ public:
 
     static Identifier getMappingParentId(const Identifier& componentType);
 
+    ValueTree getStyleOverride(const Identifier& componentType, const String& componentName);
+
 private:
     ValueTree  configurationRoot;
     ValueTree  loaderConfigurationRoot;

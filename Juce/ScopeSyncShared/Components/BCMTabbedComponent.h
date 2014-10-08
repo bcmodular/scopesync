@@ -35,7 +35,7 @@ class ScopeSyncGUI;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponentBounds.h"
 #include "../Core/BCMParameter.h"
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 
 class BCMTabbedComponent : public TabbedComponent,
                            public Value::Listener,
@@ -46,6 +46,7 @@ public:
     ~BCMTabbedComponent();
     
     void applyProperties(TabbedComponentProperties& properties);
+    const Identifier getComponentType() const override;
 
     // Returns the name of a BCMTabbedComponent
     const String& getName() { return name; }
@@ -66,8 +67,7 @@ private:
 
     String name;                        // Name of BCMTabbedComponent
     bool   showDropShadow;              // Flag as to whether Tabs should display a drop-shadow
-    BCMComponentBounds componentBounds; // Position/Size information
-
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTabbedComponent);
 };
 

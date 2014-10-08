@@ -24,15 +24,63 @@
  *  Jessica Brandt
  */
 
-#include "BCMParameterWidget.h"
+#include "BCMWidget.h"
 #include "../Core/Global.h"
+#include "../Core/BCMParameter.h"
 #include "../Core/ScopeSyncGUI.h"
+#include "../Core/ScopeSync.h"
+#include "../Configuration/ConfigurationManager.h"
 
-BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner, Component* parent)
-    : scopeSyncGUI(owner),
-      commandManager(owner.getScopeSync().getCommandManager())
+BCMWidget::BCMWidget(ScopeSyncGUI& owner, Component* parent)
+    : scopeSyncGUI(owner)
 {
     parentComponent = parent;
+}
+
+void BCMWidget::applyBounds()
+{
+    if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
+    {
+        try
+        {
+            parentComponent->setBounds(componentBounds.relativeRectangleString);
+        }
+        catch (Expression::ParseError& error)
+        {
+            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + parentComponent->getName() + ", error: " + error.description);
+            return;
+        }
+    }
+    else if (componentBounds.boundsType == BCMComponentBounds::inset)
+        parentComponent->setBoundsInset(componentBounds.borderSize);
+    else
+    {
+        parentComponent->setBounds(
+            componentBounds.x,
+            componentBounds.y,
+            componentBounds.width,
+            componentBounds.height
+        );
+    }
+}
+
+void BCMWidget::applyLookAndFeel(String& bcmLookAndFeelId)
+{
+    ValueTree styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentComponent->getName());
+    
+    if (styleOverride.isValid())
+        bcmLookAndFeelId = styleOverride.getProperty(Ids::lookAndFeelId, bcmLookAndFeelId);
+    
+    BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(bcmLookAndFeelId);
+    
+    if (bcmLookAndFeel != nullptr)
+        parentComponent->setLookAndFeel(bcmLookAndFeel);
+}
+
+BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner, Component* parent)
+    : BCMWidget(owner, parent),
+      commandManager(owner.getScopeSync().getCommandManager())
+{
     commandManager->registerAllCommandsForTarget(this);
 }
 
