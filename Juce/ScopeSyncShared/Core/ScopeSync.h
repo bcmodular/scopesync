@@ -89,6 +89,7 @@ public:
     BCMLookAndFeel* getBCMLookAndFeelById(String id);
     void clearBCMLookAndFeels();
     int  getNumBCMLookAndFeels();
+    StringArray getBCMLookAndFeelIds();
 
     ConfigurationManagerWindow* getConfigurationManagerWindow() { return configurationManagerWindow; }
     void showConfigurationManager(int posX, int posY);

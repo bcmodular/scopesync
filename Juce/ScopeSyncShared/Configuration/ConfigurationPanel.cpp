@@ -36,8 +36,8 @@
 /* =========================================================================
  * BasePanel
  */
-BasePanel::BasePanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
-    : valueTree(node), undoManager(um), configuration(config), commandManager(acm)
+BasePanel::BasePanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm)
+    : valueTree(node), undoManager(um), scopeSync(ss), configuration(ss.getConfiguration()), commandManager(acm)
 {
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
@@ -80,8 +80,8 @@ void BasePanel::focusGained(FocusChangeType /* cause */)
 /* =========================================================================
  * EmptyPanel
  */
-EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
-    : BasePanel(node, um, config, acm)
+EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm)
+    : BasePanel(node, um, ss, acm)
 {
     propertyPanel.setVisible(false);
 }
@@ -91,8 +91,8 @@ EmptyPanel::~EmptyPanel() {}
 /* =========================================================================
  * ConfigurationPanel
  */
-ConfigurationPanel::ConfigurationPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm)
-    : BasePanel(node, um, config, acm)
+ConfigurationPanel::ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm)
+    : BasePanel(node, um, ss, acm)
 {
     rebuildProperties();
 }
@@ -114,9 +114,9 @@ void ConfigurationPanel::rebuildProperties()
  * ParameterPanel
  */
 ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
-                               BCMParameter::ParameterType paramType, Configuration& config,
+                               BCMParameter::ParameterType paramType, ScopeSync& ss,
                                ApplicationCommandManager* acm, bool showCalloutView)
-    : BasePanel(parameter, um, config, acm), parameterType(paramType), calloutView(showCalloutView)
+    : BasePanel(parameter, um, ss, acm), parameterType(paramType), calloutView(showCalloutView)
 {
     // Listen for changes to the valueType, to decide whether or not to show
     // the SettingsTable
@@ -332,9 +332,9 @@ void ParameterPanel::createSettingsTable()
  * MappingPanel
  */
 MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, 
-                           Configuration& config, ApplicationCommandManager* acm, 
+                           ScopeSync& ss, ApplicationCommandManager* acm, 
                            const Identifier& compType, bool calloutView)
-    : BasePanel(mapping, um, config, acm), componentType(compType), showComponent(!calloutView)
+    : BasePanel(mapping, um, ss, acm), componentType(compType), showComponent(!calloutView)
 {
     rebuildProperties();
 }
@@ -389,8 +389,8 @@ void MappingPanel::rebuildProperties()
 /* =========================================================================
  * TextButtonMappingPanel
  */
-TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, bool hideComponentName)
-    : MappingPanel(mapping, um, config, acm, Ids::textButton, hideComponentName),
+TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool hideComponentName)
+    : MappingPanel(mapping, um, ss, acm, Ids::textButton, hideComponentName),
       parameterName(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager)),
       mappingType(valueTree.getPropertyAsValue(Ids::type, &undoManager))
 {
@@ -448,4 +448,60 @@ void TextButtonMappingPanel::valueChanged(Value& /* valueThatChanged */)
     propertyPanel.clear();
     MappingPanel::rebuildProperties();
     rebuildProperties();
+}
+
+/* =========================================================================
+ * StyleOverridePanel
+ */
+StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um, 
+                                       ScopeSync& ss, ApplicationCommandManager* acm, 
+                                       const Identifier& compType, bool calloutView)
+    : BasePanel(mapping, um, ss, acm), componentType(compType), showComponent(!calloutView)
+{
+    rebuildProperties();
+}
+
+StyleOverridePanel::~StyleOverridePanel() {}
+
+void StyleOverridePanel::rebuildProperties()
+{
+    PropertyListBuilder props;
+
+    props.clear();
+
+    if (showComponent)
+    {
+        // Set up Component Names
+        StringArray componentNames = configuration.getComponentNames(componentType);
+        Array<var>  componentValues;
+
+        for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
+
+        componentNames.insert(0, "- No Component -");
+        componentValues.insert(0, String::empty);
+
+        String componentTypeName;
+
+             if (componentType == Ids::slider)          componentTypeName = "Slider";
+        else if (componentType == Ids::label)           componentTypeName = "Label";
+        else if (componentType == Ids::comboBox)        componentTypeName = "Combo Box";
+        else if (componentType == Ids::tabbedComponent) componentTypeName = "Tabbed Component";
+        else if (componentType == Ids::textButton)      componentTypeName = "Text Button";
+        else if (componentType == Ids::component)       componentTypeName = "Component";
+        
+        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to override style for");
+    }
+
+    // Set up LookAndFeels
+    StringArray lookAndFeelIds = scopeSync.getBCMLookAndFeelIds();
+    Array<var>  lookAndFeelValues;
+
+    for (int i = 0; i < lookAndFeelIds.size(); i++) lookAndFeelValues.add(lookAndFeelIds[i]);
+    
+    lookAndFeelIds.insert(0, "- No Style Override -");
+    lookAndFeelValues.insert(0, String::empty);
+
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "Style Override", lookAndFeelIds, lookAndFeelValues), "Choose the Style to use");
+
+    propertyPanel.addProperties(props.components);
 }

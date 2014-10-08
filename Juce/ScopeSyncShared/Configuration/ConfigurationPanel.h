@@ -34,6 +34,7 @@
 class SettingsTable;
 class Configuration;
 class PropertyListBuilder;
+class ScopeSync;
 
 /* =========================================================================
  * BasePanel: Base Edit Panel
@@ -41,15 +42,16 @@ class PropertyListBuilder;
 class BasePanel : public Component
 {
 public:
-    BasePanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
+    BasePanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
     ~BasePanel();
 
     void focusGained(FocusChangeType cause) override;
 
 protected:
-    ValueTree     valueTree;
-    PropertyPanel propertyPanel;
-    UndoManager&  undoManager;
+    ValueTree      valueTree;
+    PropertyPanel  propertyPanel;
+    UndoManager&   undoManager;
+    ScopeSync&     scopeSync;
     Configuration& configuration;
     ApplicationCommandManager* commandManager;
     virtual void rebuildProperties() {};
@@ -68,7 +70,7 @@ private:
 class EmptyPanel : public BasePanel
 {
 public:
-    EmptyPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
+    EmptyPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
     ~EmptyPanel();
 
 private:
@@ -82,7 +84,7 @@ private:
 class ConfigurationPanel : public BasePanel
 {
 public:
-    ConfigurationPanel(ValueTree& node, UndoManager& um, Configuration& config, ApplicationCommandManager* acm);
+    ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
     ~ConfigurationPanel();
 
 protected:
@@ -101,7 +103,7 @@ class ParameterPanel : public BasePanel,
 {
 public:
     ParameterPanel(ValueTree& parameter, UndoManager& um,
-                   BCMParameter::ParameterType paramType, Configuration& config,
+                   BCMParameter::ParameterType paramType, ScopeSync& ss,
                    ApplicationCommandManager* acm, bool showCalloutView = false);
     ~ParameterPanel();
 
@@ -139,7 +141,7 @@ private:
 class MappingPanel : public BasePanel
 {
 public:
-    MappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
+    MappingPanel(ValueTree& mapping, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
     ~MappingPanel();
 
 protected:
@@ -159,7 +161,7 @@ class TextButtonMappingPanel : public MappingPanel,
                                public Value::Listener
 {
 public:
-    TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, Configuration& config, ApplicationCommandManager* acm, bool hideComponentName = false);
+    TextButtonMappingPanel(ValueTree& mapping, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool hideComponentName = false);
     ~TextButtonMappingPanel();
 
 private:
@@ -171,6 +173,25 @@ private:
     void valueChanged(Value& valueThatChanged) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonMappingPanel)
+};
+
+/* =========================================================================
+ * StyleOverridePanel: Edit Panel for Style Overrides
+ */
+class StyleOverridePanel : public BasePanel
+{
+public:
+    StyleOverridePanel(ValueTree& styleOverride, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
+    ~StyleOverridePanel();
+
+protected:
+    void rebuildProperties() override;
+
+private:
+    Identifier componentType;
+    bool       showComponent;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverridePanel)
 };
 
 #endif  // PARAMETERPANEL_H_INCLUDED

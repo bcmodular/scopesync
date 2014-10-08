@@ -88,4 +88,13 @@
     <comboBoxes/>
     <tabbedComponents/>
   </mapping>
+  <styleOverrides>
+    <components/>
+    <sliders/>
+    <textButtons/>
+    <labels/>
+    <comboBoxes/>
+    <tabbedComponents/>
+    <tabs/>
+  </styleOverrides>
 </configuration>

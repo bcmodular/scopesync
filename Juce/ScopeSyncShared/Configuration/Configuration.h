@@ -86,6 +86,16 @@ public:
     static Identifier getMappingParentId(const Identifier& componentType);
 
     ValueTree getStyleOverride(const Identifier& componentType, const String& componentName);
+    
+    void deleteStyleOverride(const Identifier& componentType, 
+                             ValueTree& styleOverrideToDelete,
+                             UndoManager* um);
+
+    void addStyleOverride(const Identifier& componentType,
+                          const String& componentName, 
+                          ValueTree& newStyleOverride,
+                          int targetIndex, 
+                          UndoManager* um);
 
 private:
     ValueTree  configurationRoot;

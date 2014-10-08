@@ -34,6 +34,870 @@
 #include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
+ * TreeItemComponent: Component to display as the TreeViewItem
+ */
+class TreeItemComponent : public Component
+{
+public:
+    TreeItemComponent(ConfigurationItem& i) : item (i)
+    {
+        setInterceptsMouseClicks (false, true);
+    }
+
+    void paint (Graphics& g) override
+    {
+        g.setColour(Colours::black);
+        paintIcon(g);
+        item.paintContent(g, Rectangle<int>(item.textX, 0, getWidth() - item.textX, getHeight()));
+    }
+
+    void paintIcon (Graphics& g)
+    {
+        item.getIcon().draw(g, Rectangle<float> (4.0f, 2.0f, item.getIconSize(), getHeight() - 4.0f),
+                                item.isIconCrossedOut());
+    }
+
+    void resized() override { item.textX = (int)item.getIconSize() + 8; }
+
+    ConfigurationItem& item;
+
+private:    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TreeItemComponent);
+
+};
+
+/* =========================================================================
+ * ParameterRootItem: Parameter root node TreeViewItems
+ */
+class ParameterRootItem : public ConfigurationItem
+{
+public:
+    ParameterRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ConfigurationItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "Parameter Root Item"; }
+
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    {
+        return dragSourceDetails.description.toString() == "Parameter";
+    }
+    
+    Icon getIcon() const override;
+
+    void addItem() override;
+    void addItemFromClipboard() override;
+    
+protected:
+    void addNewSubItem();
+    
+private:
+    void refreshSubItems() override;
+    void showPopupMenu() override;
+
+    void addParameter(const ValueTree& definition);
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterRootItem);
+};
+
+/* =========================================================================
+ * ParameterItem: Base class for Parameter instance TreeViewItems
+ */
+class ParameterItem : public ConfigurationItem
+{
+public:
+    ParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+         : ConfigurationItem(cmm, v, um) {}
+
+    bool mightContainSubItems() override { return false; }
+    var  getDragSourceDescription() override { return "Parameter"; }
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
+    
+    virtual Icon getIcon() const override = 0;
+    virtual String getDisplayName() const override;
+
+    void copyItem() override;
+    void pasteItem() override;
+    void deleteItem() override;
+    void addItem() override;
+    void addItemFromClipboard() override;
+
+    void insertParameterAt(const ValueTree& definition, int index);
+
+private:
+    void refreshSubItems() override;
+    void showPopupMenu() override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterItem);
+};
+
+/* =========================================================================
+ * HostParameterItem: Host Parameter instance TreeViewItems
+ */
+class HostParameterItem  : public ParameterItem
+{
+public:
+    HostParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ParameterItem(cmm, v, um) {}
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->hostparameter, Colours::grey); }
+    
+    String getDisplayName() const override
+    {
+        String displayName = ParameterItem::getDisplayName();
+    
+        if (int(tree[Ids::scopeSync]) != -1)
+            displayName += " - " + ScopeSync::getScopeSyncCode(int(tree[Ids::scopeSync]));
+
+        return displayName;
+    }
+
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::hostParameter, configurationManagerMain.getScopeSync(), commandManager));
+    }
+
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HostParameterItem);
+};
+
+/* =========================================================================
+ * ScopeParameterItem: Scope Parameter instance TreeViewItems
+ */
+class ScopeParameterItem  : public ParameterItem
+{
+public:
+    ScopeParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ParameterItem(cmm, v, um) {}
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->scopeparameter, Colours::grey); }
+    
+    String getDisplayName() const override
+    {
+        String displayName = ParameterItem::getDisplayName();
+    
+        if (int(tree[Ids::scopeLocal]) != -1)
+            displayName += " - " + ScopeSync::getScopeLocalCode(int(tree[Ids::scopeLocal]));
+
+        return displayName;
+    }
+
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::scopeLocal, configurationManagerMain.getScopeSync(), commandManager));
+    }
+
+private:    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeParameterItem);
+};
+
+/* =========================================================================
+ * MappingItem: Base class for Mapping-based TreeViewItems
+ */
+class MappingItem : public ConfigurationItem
+{
+public:
+    MappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ConfigurationItem(cmm, v, um) {}
+
+    bool mightContainSubItems() override { return false; }
+    virtual var getDragSourceDescription() override;
+    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+
+    void deleteItem() override;
+    void addItem() override;
+    
+    virtual Icon getIcon() const override { return Icon(); };
+    virtual String getDisplayName() const override;
+
+private:
+    void refreshSubItems() override;
+    
+    void showPopupMenu() override;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingItem);
+};
+
+/* =========================================================================
+ * SliderMappingItem: TreeViewItem for Slider Mappings
+ */
+class SliderMappingItem : public MappingItem
+{
+public:
+    SliderMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "SliderMapping"; }
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::slider));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderMappingItem);
+};
+
+/* =========================================================================
+ * LabelMappingItem: TreeViewItem for Label Mappings
+ */
+class LabelMappingItem : public MappingItem
+{
+public:
+    LabelMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "LabelMapping"; }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::label));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelMappingItem);
+};
+
+/* =========================================================================
+ * ComboBoxMappingItem: TreeViewItem for ComboBox Mappings
+ */
+class ComboBoxMappingItem : public MappingItem
+{
+public:
+    ComboBoxMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "ComboBoxMapping"; }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::comboBox));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxMappingItem);
+};
+
+/* =========================================================================
+ * TabbedComponentMappingItem: TreeViewItem for TabbedComponent Mappings
+ */
+class TabbedComponentMappingItem : public MappingItem
+{
+public:
+    TabbedComponentMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "TabbedComponentMapping"; }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::tabbedComponent));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentMappingItem);
+};
+
+/* =========================================================================
+ * TextButtonMappingItem: TreeViewItem for TextButton Mappings
+ */
+class TextButtonMappingItem : public MappingItem
+{
+public:
+    TextButtonMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "TextButtonMapping"; }
+    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager));
+    }
+
+private:
+    String getDisplayName() const override
+    {
+        String source = tree[Ids::name].toString();
+        String target = tree[Ids::mapTo].toString();
+        String displayName;
+
+        if (source.isEmpty() && target.isEmpty())
+        {
+            displayName = "Empty Mapping (" + String(getRowNumberInTree()) + ")";
+        }
+        else
+        {
+            displayName = source;
+            String settings = tree[Ids::settingDown].toString();
+
+            if (tree.hasProperty(Ids::settingUp))
+            {
+                settings += "/" + tree[Ids::settingUp].toString();
+            }
+
+            displayName += " => " + target + " (" + settings + ")";
+        }
+    
+        return displayName;
+    }
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonMappingItem);
+};
+
+/* =========================================================================
+ * MappingRootItem: Mapping root node TreeViewItems
+ */
+class MappingRootItem : public ConfigurationItem
+{
+public:
+    MappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ConfigurationItem(cmm, v, um) {}
+
+    virtual var  getDragSourceDescription() override { return "Mapping Root Item"; }
+    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->mapping, Colours::bisque); }
+
+    void addGenericMapping(const Identifier& mappingType);
+
+private:
+    virtual void refreshSubItems() override;
+
+    void showPopupMenu() override;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingRootItem);
+};
+
+/* =========================================================================
+ * SliderMappingRootItem: Slider Mapping root node TreeViewItem
+ */
+class SliderMappingRootItem : public MappingRootItem
+{
+public:
+    SliderMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "SliderMapping";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::bisque); }
+    void addItem() override { addGenericMapping(Ids::slider); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new SliderMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderMappingRootItem);
+};
+
+/* =========================================================================
+ * LabelMappingRootItem: Label Mapping root node TreeViewItem
+ */
+class LabelMappingRootItem : public MappingRootItem
+{
+public:
+    LabelMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    {
+        return dragSourceDetails.description.toString() == "LabelMapping";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::bisque); }
+    void addItem() override { addGenericMapping(Ids::label); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new LabelMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelMappingRootItem);
+};
+
+/* =========================================================================
+ * ComboBoxMappingRootItem: ComboBox Mapping root node TreeViewItem
+ */
+class ComboBoxMappingRootItem : public MappingRootItem
+{
+public:
+    ComboBoxMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingRootItem(cmm, v, um) {}
+
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    {
+        return dragSourceDetails.description.toString() == "ComboBoxMapping";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::bisque); }
+    void addItem() override { addGenericMapping(Ids::comboBox); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new ComboBoxMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxMappingRootItem);
+};
+
+/* =========================================================================
+ * TabbedComponentMappingRootItem: TabbedComponent Mapping root node TreeViewItem
+ */
+class TabbedComponentMappingRootItem : public MappingRootItem
+{
+public:
+    TabbedComponentMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingRootItem(cmm, v, um) {}    
+
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    {
+        return dragSourceDetails.description.toString() == "TabbedComponentMapping";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque); }
+    void addItem() override { addGenericMapping(Ids::tabbedComponent); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new TabbedComponentMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentMappingRootItem);
+};
+
+/* =========================================================================
+ * TextButtonMappingRootItem: TextButton Mapping root node TreeViewItem
+ */
+class TextButtonMappingRootItem : public MappingRootItem
+{
+public:
+    TextButtonMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : MappingRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    {
+        return dragSourceDetails.description.toString() == "TextButtonMapping";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::bisque); }
+    void addItem() override { addGenericMapping(Ids::textButton); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new TextButtonMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonMappingRootItem);
+};
+
+/* =========================================================================
+ * StyleOverrideItem: Base class for Style Override TreeViewItems
+ */
+class StyleOverrideItem : public ConfigurationItem
+{
+public:
+    StyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ConfigurationItem(cmm, v, um) {}
+
+    bool mightContainSubItems() override { return false; }
+    virtual var getDragSourceDescription() override;
+    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+
+    void deleteItem() override;
+    void addItem() override;
+    
+    virtual Icon getIcon() const override { return Icon(); }
+    virtual String getDisplayName() const override;
+
+private:
+    void refreshSubItems() override;
+    
+    void showPopupMenu() override;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideItem);
+};
+
+/* =========================================================================
+ * SliderStyleOverrideItem: TreeViewItem for Slider Style Overrides
+ */
+class SliderStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    SliderStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "SliderStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::slider));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderStyleOverrideItem);
+};
+
+/* =========================================================================
+ * LabelStyleOverrideItem: TreeViewItem for Label Style Overrides
+ */
+class LabelStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    LabelStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "LabelStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::label));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelStyleOverrideItem);
+};
+
+/* =========================================================================
+ * ComboBoxStyleOverrideItem: TreeViewItem for ComboBox Style Overrides
+ */
+class ComboBoxStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    ComboBoxStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "ComboBoxStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::comboBox));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxStyleOverrideItem);
+};
+
+/* =========================================================================
+ * TabbedComponentStyleOverrideItem: TreeViewItem for TabbedComponent Style Overrides
+ */
+class TabbedComponentStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    TabbedComponentStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "TabbedComponentStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::tabbedComponent));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentStyleOverrideItem);
+};
+
+/* =========================================================================
+ * TextButtonStyleOverrideItem: TreeViewItem for TextButton Style Overrides
+ */
+class TextButtonStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    TextButtonStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "TextButtonStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::textButton));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonStyleOverrideItem);
+};
+
+/* =========================================================================
+ * ComponentStyleOverrideItem: TreeViewItem for Component Style Overrides
+ */
+class ComponentStyleOverrideItem : public StyleOverrideItem
+{
+public:
+    ComponentStyleOverrideItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideItem(cmm, v, um) {}
+
+    var  getDragSourceDescription() override { return "ComponentStyleOverride"; };
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->component, Colours::grey); }
+    
+    void changePanel() override
+    {
+        configurationManagerMain.changePanel(new StyleOverridePanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, Ids::component));
+    }
+
+private:
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComponentStyleOverrideItem);
+};
+
+/* =========================================================================
+ * StyleOverrideRootItem: Style Override root node TreeViewItem
+ */
+class StyleOverrideRootItem : public ConfigurationItem
+{
+public:
+    StyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : ConfigurationItem(cmm, v, um) {}
+
+    virtual var  getDragSourceDescription() override { return "StyleOverrideRoot"; }
+    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
+    
+    Icon getIcon() const override { return Icon(Icons::getInstance()->styleoverrides, Colours::lightblue); }
+
+protected:
+    void addGenericStyleOverride(const Identifier& componentType);
+
+private:
+    virtual void refreshSubItems() override;
+    
+    void showPopupMenu() override;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * SliderStyleOverrideRootItem: Slider Style Override root node TreeViewItem
+ */
+class SliderStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    SliderStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "SliderStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::slider); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new SliderStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderStyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * LabelStyleOverrideRootItem: Label Style Override root node TreeViewItem
+ */
+class LabelStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    LabelStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "LabelStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::label); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new LabelStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelStyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * ComboBoxStyleOverrideRootItem: ComboBox Style Override root node TreeViewItem
+ */
+class ComboBoxStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    ComboBoxStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "ComboBoxStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::comboBox); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new ComboBoxStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxStyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * TabbedComponentStyleOverrideRootItem: TabbedComponent Style Override root node TreeViewItem
+ */
+class TabbedComponentStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    TabbedComponentStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "TabbedComponentStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::tabbedComponent); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new TabbedComponentStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentStyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * TextButtonStyleOverrideRootItem: TextButton Style Override root node TreeViewItem
+ */
+class TextButtonStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    TextButtonStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "TextButtonStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::textButton); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new TextButtonStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextButtonStyleOverrideRootItem);
+};
+
+/* =========================================================================
+ * ComponentStyleOverrideRootItem: Component Style Override root node TreeViewItem
+ */
+class ComponentStyleOverrideRootItem : public StyleOverrideRootItem
+{
+public:
+    ComponentStyleOverrideRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
+        : StyleOverrideRootItem(cmm, v, um) {}
+    
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override
+    { 
+        return dragSourceDetails.description.toString() == "ComponentStyleOverride";
+    }
+
+    Icon getIcon() const override { return Icon(Icons::getInstance()->components, Colours::lightblue); }
+    void addItem() override { addGenericStyleOverride(Ids::component); }
+    
+private:
+    void refreshSubItems() override
+    {
+        WholeTreeOpennessRestorer wtor(*this);
+        clearSubItems();
+
+        for (int i = 0; i < tree.getNumChildren(); ++i)
+            addSubItem(new ComponentStyleOverrideItem(configurationManagerMain, tree.getChild(i), undoManager));
+    }
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComponentStyleOverrideRootItem);
+};
+
+/* =========================================================================
  * ConfigurationTreeItem
  */
 ConfigurationItem::ConfigurationItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
@@ -177,6 +1041,10 @@ void ConfigurationItem::refreshSubItems()
         {
             addSubItem (new MappingRootItem(configurationManagerMain, child, undoManager));
         }
+        else if (child.hasType(Ids::styleOverrides))
+        {
+            addSubItem (new StyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        }
     }
 }
 
@@ -278,9 +1146,9 @@ void ConfigurationItem::cancelDelayedSelectionTimer()
 void ConfigurationItem::changePanel()
 {
     if (tree.hasType(Ids::configuration))
-        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configuration, commandManager));
+        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager));
     else
-        configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configuration, commandManager));
+        configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager));
 }
 
 void ConfigurationItem::storeSelectionOnAdd()
@@ -309,21 +1177,6 @@ void ConfigurationItem::storeSelectionOnDelete()
 /* =========================================================================
  * ParameterRootItem
  */
-ParameterRootItem::ParameterRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
-
-var ParameterRootItem::getDragSourceDescription()
-{
-    return "Parameter Root Item";
-}
-
-bool ParameterRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{
-    if (dragSourceDetails.description.toString() == "Parameter")
-        return true;
-    else
-        return false;
-}
-
 Icon ParameterRootItem::getIcon() const
 {
     if (tree.hasType(Ids::hostParameters))
@@ -398,18 +1251,6 @@ void ParameterRootItem::addParameter(const ValueTree& definition)
 /* =========================================================================
  * ParameterItem
  */
-ParameterItem::ParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
-
-var ParameterItem::getDragSourceDescription()
-{
-    return "Parameter";
-}
-
-bool ParameterItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
-{
-    return false;
-}
-
 String ParameterItem::getDisplayName() const 
 {
     String displayName = tree[Ids::name].toString();
@@ -486,70 +1327,8 @@ void ParameterItem::pasteItem()
 }
 
 /* =========================================================================
- * HostParameterItem
- */
-HostParameterItem::HostParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterItem(cmm, v, um) {}
-
-Icon HostParameterItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->hostparameter, Colours::grey);
-}
-
-String HostParameterItem::getDisplayName() const 
-{
-    String displayName = ParameterItem::getDisplayName();
-    
-    if (int(tree[Ids::scopeSync]) != -1)
-        displayName += " - " + ScopeSync::getScopeSyncCode(int(tree[Ids::scopeSync]));
-
-    return displayName;
-}
-
-void HostParameterItem::changePanel()
-{
-    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::hostParameter, configuration, commandManager));
-}
-
-/* =========================================================================
- * ScopeParameterItem
- */
-ScopeParameterItem::ScopeParameterItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ParameterItem(cmm, v, um) {}
-
-Icon ScopeParameterItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->scopeparameter, Colours::grey);
-}
-
-String ScopeParameterItem::getDisplayName() const 
-{
-    String displayName = ParameterItem::getDisplayName();
-    
-    if (int(tree[Ids::scopeLocal]) != -1)
-        displayName += " - " + ScopeSync::getScopeLocalCode(int(tree[Ids::scopeLocal]));
-
-    return displayName;
-}
-
-void ScopeParameterItem::changePanel()
-{
-    configurationManagerMain.changePanel(new ParameterPanel(tree, undoManager, BCMParameter::scopeLocal, configuration, commandManager));
-}
-
-/* =========================================================================
  * MappingRootItem
  */
-MappingRootItem::MappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
-
-Icon MappingRootItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->mapping, Colours::bisque);
-}
-
-var MappingRootItem::getDragSourceDescription()
-{
-    return "Mapping Root Item";
-}
-
 void MappingRootItem::refreshSubItems()
 {
     WholeTreeOpennessRestorer wtor(*this);
@@ -593,160 +1372,8 @@ void MappingRootItem::addGenericMapping(const Identifier& mappingType)
 }
 
 /* =========================================================================
- * SliderMappingRootItem
- */
-SliderMappingRootItem::SliderMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um) {}
-
-bool SliderMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{   
-    if (dragSourceDetails.description.toString() == "SliderMapping")
-        return true;
-    else
-        return false;
-}
- 
-Icon SliderMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->sliders, Colours::bisque); }
-
-void SliderMappingRootItem::refreshSubItems()
-{
-    WholeTreeOpennessRestorer wtor(*this);
-    clearSubItems();
-
-    for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem(new SliderMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
-}
-
-void SliderMappingRootItem::addItem()
-{
-    addGenericMapping(Ids::slider);
-}
-
-/* =========================================================================
- * LabelMappingRootItem
- */
-LabelMappingRootItem::LabelMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um) {}
-
-bool LabelMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{   
-    if (dragSourceDetails.description.toString() == "LabelMapping")
-        return true;
-    else
-        return false;
-}
- 
-Icon LabelMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->labels, Colours::bisque); }
-
-void LabelMappingRootItem::refreshSubItems()
-{
-    WholeTreeOpennessRestorer wtor(*this);
-    clearSubItems();
-
-    for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem(new LabelMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
-}
-
-void LabelMappingRootItem::addItem()
-{
-    addGenericMapping(Ids::label);
-}
-
-/* =========================================================================
- * ComboBoxMappingRootItem
- */
-ComboBoxMappingRootItem::ComboBoxMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um) {}
-
-bool ComboBoxMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{   
-    if (dragSourceDetails.description.toString() == "ComboBoxMapping")
-        return true;
-    else
-        return false;
-}
- 
-Icon ComboBoxMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->comboboxes, Colours::bisque); }
-
-void ComboBoxMappingRootItem::refreshSubItems()
-{
-    WholeTreeOpennessRestorer wtor(*this);
-    clearSubItems();
-
-    for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem(new ComboBoxMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
-}
-
-void ComboBoxMappingRootItem::addItem()
-{
-    addGenericMapping(Ids::comboBox);
-}
-
-/* =========================================================================
- * TabbedComponentMappingRootItem
- */
-TabbedComponentMappingRootItem::TabbedComponentMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um) {}
-
-bool TabbedComponentMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{   
-    if (dragSourceDetails.description.toString() == "TabbedComponentMapping")
-        return true;
-    else
-        return false;
-}
- 
-Icon TabbedComponentMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque); }
-
-void TabbedComponentMappingRootItem::refreshSubItems()
-{
-    WholeTreeOpennessRestorer wtor(*this);
-    clearSubItems();
-
-    for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem(new TabbedComponentMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
-}
-
-void TabbedComponentMappingRootItem::addItem()
-{
-    addGenericMapping(Ids::tabbedComponent);
-}
-
-/* =========================================================================
- * TextButtonMappingRootItem
- */
-TextButtonMappingRootItem::TextButtonMappingRootItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingRootItem(cmm, v, um) {}
-
-bool TextButtonMappingRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails)
-{   
-    if (dragSourceDetails.description.toString() == "TextButtonMapping")
-        return true;
-    else
-        return false;
-}
- 
-Icon TextButtonMappingRootItem::getIcon() const { return Icon(Icons::getInstance()->textbuttons, Colours::bisque); }
-
-void TextButtonMappingRootItem::refreshSubItems()
-{
-    WholeTreeOpennessRestorer wtor(*this);
-    clearSubItems();
-
-    for (int i = 0; i < tree.getNumChildren(); ++i)
-        addSubItem(new TextButtonMappingItem(configurationManagerMain, tree.getChild(i), undoManager));
-}
-
-void TextButtonMappingRootItem::addItem()
-{
-    addGenericMapping(Ids::textButton);
-}
-
-/* =========================================================================
  * MappingItem
  */
-MappingItem::MappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um) : ConfigurationItem(cmm, v, um) {}
-
 var MappingItem::getDragSourceDescription()
 {
     return "Mapping";
@@ -802,158 +1429,88 @@ void MappingItem::addItem()
 }
 
 /* =========================================================================
- * SliderMappingItem
+ * StyleOverrideRootItem
  */
-SliderMappingItem::SliderMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingItem(cmm, v, um) {}
-
-var SliderMappingItem::getDragSourceDescription()
+void StyleOverrideRootItem::refreshSubItems()
 {
-    return "SliderMapping";
-}
-
-Icon SliderMappingItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->slider, Colours::grey);
-}
-
-void SliderMappingItem::changePanel()
-{
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::slider));
-}
-
-/* =========================================================================
- * LabelMappingTreeItem
- */
-LabelMappingItem::LabelMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingItem(cmm, v, um) {}
-
-var LabelMappingItem::getDragSourceDescription()
-{
-    return "LabelMapping";
-}
-
-Icon LabelMappingItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->label, Colours::grey);
-}
-
-void LabelMappingItem::changePanel()
-{
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::label));
-}
-
-/* =========================================================================
- * ComboBoxMappingTreeItem
- */
-ComboBoxMappingItem::ComboBoxMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingItem(cmm, v, um) {}
-
-var ComboBoxMappingItem::getDragSourceDescription()
-{
-    return "ComboBoxMapping";
-}
-
-Icon ComboBoxMappingItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->combobox, Colours::grey);
-}
-
-void ComboBoxMappingItem::changePanel()
-{
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::comboBox));
-}
-
-/* =========================================================================
- * TabbedComponentMappingItem
- */
-TabbedComponentMappingItem::TabbedComponentMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingItem(cmm, v, um) {}
-
-var TabbedComponentMappingItem::getDragSourceDescription()
-{
-    return "TabbedComponentMapping";
-}
-
-Icon TabbedComponentMappingItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey);
-}
-
-void TabbedComponentMappingItem::changePanel()
-{
-    configurationManagerMain.changePanel(new MappingPanel(tree, undoManager, configuration, commandManager, Ids::tabbedComponent));
-}
-
-/* =========================================================================
- * TextButtonMappingTreeItem
- */
-TextButtonMappingItem::TextButtonMappingItem(ConfigurationManagerMain& cmm, const ValueTree& v, UndoManager& um)
-    : MappingItem(cmm, v, um) {}
-
-var TextButtonMappingItem::getDragSourceDescription()
-{
-    return "TextButtonMapping";
-}
-
-Icon TextButtonMappingItem::getIcon() const
-{
-    return Icon(Icons::getInstance()->textbutton, Colours::grey);
-}
-
-String TextButtonMappingItem::getDisplayName() const
-{
-    String source = tree[Ids::name].toString();
-    String target = tree[Ids::mapTo].toString();
-    String displayName;
-
-    if (source.isEmpty() && target.isEmpty())
-    {
-        displayName = "Empty Mapping (" + String(getRowNumberInTree()) + ")";
-    }
-    else
-    {
-        displayName = source;
-        String settings = tree[Ids::settingDown].toString();
-
-        if (tree.hasProperty(Ids::settingUp))
-        {
-            settings += "/" + tree[Ids::settingUp].toString();
-        }
-
-        displayName += " => " + target + " (" + settings + ")";
-    }
+    WholeTreeOpennessRestorer wtor(*this);
     
-    return displayName;
+    clearSubItems();
+
+    for (int i = 0; i < tree.getNumChildren(); i++)
+    {
+        ValueTree child = tree.getChild(i);
+
+        if (child.hasType(Ids::labels))
+            addSubItem(new LabelStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::sliders))
+            addSubItem(new SliderStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::comboBoxes))
+            addSubItem(new ComboBoxStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::tabbedComponents))
+            addSubItem(new TabbedComponentStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::textButtons))
+            addSubItem(new TextButtonStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+        else if (child.hasType(Ids::components))
+            addSubItem(new ComponentStyleOverrideRootItem(configurationManagerMain, child, undoManager));
+    }
 }
 
-void TextButtonMappingItem::changePanel()
+void StyleOverrideRootItem::showPopupMenu()
 {
-    configurationManagerMain.changePanel(new TextButtonMappingPanel(tree, undoManager, configuration, commandManager));
+    PopupMenu m;
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Style Override");
+    
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
+}
+
+void StyleOverrideRootItem::addGenericStyleOverride(const Identifier& componentType)
+{
+    storeSelectionOnAdd();
+    
+    ValueTree newStyleOverride;
+    configuration.addStyleOverride(componentType, String::empty, newStyleOverride, 0, &undoManager);
 }
 
 /* =========================================================================
- * TreeItemComponent
+ * StyleOverrideItem
  */
-TreeItemComponent::TreeItemComponent(ConfigurationItem& i) : item (i)
+var StyleOverrideItem::getDragSourceDescription()
 {
-    setInterceptsMouseClicks (false, true);
+    return "Style Override";
 }
 
-void TreeItemComponent::paint (Graphics& g)
+bool StyleOverrideItem::isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */)
 {
-    g.setColour(Colours::black);
-    paintIcon(g);
-    item.paintContent(g, Rectangle<int>(item.textX, 0, getWidth() - item.textX, getHeight()));
+    return false;
 }
 
-void TreeItemComponent::paintIcon (Graphics& g)
+String StyleOverrideItem::getDisplayName() const 
 {
-    item.getIcon().draw(g, Rectangle<float> (4.0f, 2.0f, item.getIconSize(), getHeight() - 4.0f),
-                            item.isIconCrossedOut());
+    return tree[Ids::name].toString();
 }
 
-void TreeItemComponent::resized()
+void StyleOverrideItem::showPopupMenu()
 {
-    item.textX = (int)item.getIconSize() + 8;
+    PopupMenu m;
+    m.addCommandItem(commandManager, CommandIDs::addItem, "Add Style Override");
+    m.addSeparator();
+    m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Style Override");
+    m.showMenuAsync (PopupMenu::Options(), nullptr);
+}
+
+void StyleOverrideItem::refreshSubItems() {}
+
+void StyleOverrideItem::deleteItem()
+{
+    storeSelectionOnDelete();
+    tree.getParent().removeChild(tree, &undoManager);
+}
+
+void StyleOverrideItem::addItem()
+{
+    storeSelectionOnAdd();
+
+    ValueTree newStyleOverride;
+    configuration.addStyleOverride(tree.getType(), String::empty, newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
 }

@@ -683,6 +683,18 @@ int ScopeSync::getNumBCMLookAndFeels()
     return bcmLookAndFeels.size();
 }
 
+StringArray ScopeSync::getBCMLookAndFeelIds()
+{
+    StringArray bcmLookAndFeelIds;
+    
+    for (int i = 0; i < getNumBCMLookAndFeels(); i++)
+    {
+        bcmLookAndFeelIds.add(bcmLookAndFeels[i]->getId());
+    }
+
+    return bcmLookAndFeelIds;
+}
+
 void ScopeSync::storeParameterValues()
 {
     Array<float> currentParameterValues;

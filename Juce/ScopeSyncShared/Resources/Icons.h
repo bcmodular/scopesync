@@ -76,7 +76,8 @@ public:
          textbuttons, textbutton, 
          labels, label,
          comboboxes, combobox,
-         tabbedcomponents, tabbedcomponent;
+         tabbedcomponents, tabbedcomponent,
+         styleoverrides, components, component;
 
     juce_DeclareSingleton(Icons, false)
 

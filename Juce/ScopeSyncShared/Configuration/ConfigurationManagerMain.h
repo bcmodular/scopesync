@@ -58,6 +58,7 @@ public:
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
     Configuration&             getConfiguration()  { return configurationManager.getConfiguration(); };
+    ScopeSync&                 getScopeSync()      { return scopeSync; };
 
 private:
     LookAndFeel_V3             lookAndFeel;

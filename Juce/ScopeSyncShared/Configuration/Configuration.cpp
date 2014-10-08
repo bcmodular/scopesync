@@ -333,6 +333,30 @@ bool Configuration::parameterNameExists(const String& parameterName)
     return false;
 }
 
+void Configuration::deleteStyleOverride(const Identifier& componentType, 
+                                        ValueTree& styleOverrideToDelete,
+                                        UndoManager* um)
+{
+    ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
+    
+    styleOverrideRoot.removeChild(styleOverrideRoot.indexOf(styleOverrideToDelete), um);
+}
+
+void Configuration::addStyleOverride(const Identifier& componentType,
+                                     const String& componentName,
+                                     ValueTree& newStyleOverride,
+                                     int targetIndex,
+                                     UndoManager* um)
+{
+    ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
+    
+    newStyleOverride = ValueTree(componentType);
+    newStyleOverride.setProperty(Ids::name, componentName, um);
+    newStyleOverride.setProperty(Ids::lookAndFeelId, String::empty, um);
+
+    styleOverrideRoot.addChild(newStyleOverride, targetIndex, um);
+}
+
 Result Configuration::saveDocument (const File& /* file */)
 {
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();

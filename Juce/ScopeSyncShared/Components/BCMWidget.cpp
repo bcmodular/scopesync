@@ -69,7 +69,12 @@ void BCMWidget::applyLookAndFeel(String& bcmLookAndFeelId)
     ValueTree styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentComponent->getName());
     
     if (styleOverride.isValid())
-        bcmLookAndFeelId = styleOverride.getProperty(Ids::lookAndFeelId, bcmLookAndFeelId);
+    {
+        String overrideId = styleOverride.getProperty(Ids::lookAndFeelId);
+            
+        if (overrideId.isNotEmpty())
+            bcmLookAndFeelId = overrideId;
+    }
     
     BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(bcmLookAndFeelId);
     

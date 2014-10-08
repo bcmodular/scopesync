@@ -244,16 +244,16 @@ void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Iden
     MappingPanel* panelToShow;
 
     if (componentType == Ids::textButton)
-        panelToShow = new TextButtonMappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), configurationManager.getConfiguration(), commandManager, true);
+        panelToShow = new TextButtonMappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, true);
     else
-        panelToShow = new MappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), configurationManager.getConfiguration(), commandManager, componentType, true);
+        panelToShow = new MappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, componentType, true);
     
         configurationManagerCalloutMain->changePanel(panelToShow);
 }
 
 void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
 {
-    configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, configurationManagerCalloutMain->getUndoManager(), paramType, configurationManager.getConfiguration(), commandManager, true));
+    configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, configurationManagerCalloutMain->getUndoManager(), paramType, scopeSync, commandManager, true));
 }
 
 void ConfigurationManagerCallout::paint(Graphics& g)

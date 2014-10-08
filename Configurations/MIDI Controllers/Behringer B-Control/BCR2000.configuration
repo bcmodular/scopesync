@@ -731,4 +731,13 @@
     <comboBoxes/>
     <tabbedComponents/>
   </mapping>
+  <styleOverrides>
+    <labels/>
+    <components/>
+    <sliders/>
+    <textButtons/>
+    <comboBoxes/>
+    <tabbedComponents/>
+    <tabs/>
+  </styleOverrides>
 </configuration>
