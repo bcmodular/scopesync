@@ -29,36 +29,31 @@
 #include "PropertiesHelper.h"
 #include "../Core/ScopeSyncGUI.h"
 
-SliderProperties::SliderProperties(ScopeSyncGUI& owner) : scopeSyncGUI(owner)
+SliderProperties::SliderProperties(ScopeSyncGUI& owner)
+    : scopeSyncGUI(owner)
 {
     initialise();
-};
+}
 
-SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML) : scopeSyncGUI(owner)
+SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML)
+    : scopeSyncGUI(owner), WidgetProperties(sliderXML)
 {
     initialise();
     setValuesFromXML(sliderXML);
-};
+}
 
-SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML, SliderProperties& parentSliderProperties) : scopeSyncGUI(owner)
+SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML, SliderProperties& parentSliderProperties)
+    : scopeSyncGUI(owner), WidgetProperties(sliderXML, parentSliderProperties)
 {
     copyProperties(parentSliderProperties);
     setValuesFromXML(sliderXML);
-};
+}
 
-SliderProperties::~SliderProperties()
-{
-};
+SliderProperties::~SliderProperties() {}
 
 void SliderProperties::initialise()
 {
     // Ultimate fall-back defaults, used when creating default SliderProperties
-    name               = "def";
-    id                 = "def";
-    bounds.width       = 72;
-    bounds.height      = 88;
-    bounds.x           = 0;
-    bounds.y           = 0;
     rangeMin           = 0;
     rangeMax           = 100;
     rangeInt           = 0.0001;
@@ -71,24 +66,15 @@ void SliderProperties::initialise()
     fontHeight         = 15.00f;
     fontStyleFlags     = Font::plain;
     justificationFlags = Justification::centred;
-    bcmLookAndFeelId   = String::empty;
     popupEnabled       = (scopeSyncGUI.settings.popupEnabled      == BCMSlider::popupEnabled);
     velocityBasedMode  = (scopeSyncGUI.settings.velocityBasedMode == BCMSlider::velocityBasedModeOn);
     encoderSnap        = (scopeSyncGUI.settings.encoderSnap       == BCMSlider::snap);
     tabbedComponents.clear();
     tabNames.clear();
-    mappingParentType  = Identifier();
-    mappingParent      = String::empty;
-};
+}
 
 void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
 {
-    name               = parentSliderProperties.name;
-    id                 = parentSliderProperties.id;
-    bounds.x           = parentSliderProperties.bounds.x;
-    bounds.y           = parentSliderProperties.bounds.y;
-    bounds.width       = parentSliderProperties.bounds.width;
-    bounds.height      = parentSliderProperties.bounds.height;
     rangeMin           = parentSliderProperties.rangeMin;
     rangeMax           = parentSliderProperties.rangeMax;
     rangeInt           = parentSliderProperties.rangeInt;
@@ -101,28 +87,19 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
     fontHeight         = parentSliderProperties.fontHeight;
     fontStyleFlags     = parentSliderProperties.fontStyleFlags;
     justificationFlags = parentSliderProperties.justificationFlags;
-    bcmLookAndFeelId   = parentSliderProperties.bcmLookAndFeelId;
     popupEnabled       = parentSliderProperties.popupEnabled;
     velocityBasedMode  = parentSliderProperties.velocityBasedMode;
     encoderSnap        = parentSliderProperties.encoderSnap;
     tabbedComponents   = StringArray(parentSliderProperties.tabbedComponents);
     tabNames           = StringArray(parentSliderProperties.tabNames);
-    mappingParentType  = parentSliderProperties.mappingParentType;
-    mappingParent      = parentSliderProperties.mappingParent;
-};
+}
 
 void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
 {
-    name              = sliderXML.getStringAttribute("name",              name);
-    id                = sliderXML.getStringAttribute("id",      name); // Default to name if no id set
     popupEnabled      = sliderXML.getBoolAttribute  ("popupenabled",      popupEnabled);
     velocityBasedMode = sliderXML.getBoolAttribute  ("velocitybasedmode", velocityBasedMode);
     encoderSnap       = sliderXML.getBoolAttribute  ("encodersnap",       encoderSnap);
     
-    XmlElement* boundsXml = sliderXML.getChildByName("bounds");
-    if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds);
-
     forEachXmlChildElementWithTagName(sliderXML, chooseTabXml, "choosetab")
     {
         String tabbedComponent = chooseTabXml->getStringAttribute("tabbedcomponent", String::empty);
@@ -159,13 +136,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
         if (justificationXml != nullptr)
             getJustificationFlagsFromXml(*justificationXml, justificationFlags);
     }
-
-    XmlElement* mappingParentXml = sliderXML.getChildByName("mappingparent");
-    if (mappingParentXml != nullptr)
-        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
-    
-    bcmLookAndFeelId = sliderXML.getStringAttribute("lfid", bcmLookAndFeelId);
-};
+}
 
 void SliderProperties::getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle)
 {

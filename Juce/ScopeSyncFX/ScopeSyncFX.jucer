@@ -61,6 +61,10 @@
               file="../ScopeSyncShared/Comms/ScopeSyncControl.h"/>
       </GROUP>
       <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
+        <FILE id="CiMxrd" name="WidgetProperties.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Properties/WidgetProperties.cpp"/>
+        <FILE id="seuytK" name="WidgetProperties.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Properties/WidgetProperties.h"/>
         <FILE id="iOUs8X" name="ComboBoxProperties.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Properties/ComboBoxProperties.cpp"/>
         <FILE id="yDYnkx" name="ComboBoxProperties.h" compile="0" resource="0"

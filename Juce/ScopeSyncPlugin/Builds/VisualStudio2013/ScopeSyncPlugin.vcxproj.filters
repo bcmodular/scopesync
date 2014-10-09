@@ -313,6 +313,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp">
       <Filter>ScopeSyncPlugin\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp">
+      <Filter>ScopeSyncPlugin\Properties</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp">
       <Filter>ScopeSyncPlugin\Properties</Filter>
     </ClCompile>
@@ -1469,6 +1472,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h">
       <Filter>ScopeSyncPlugin\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h">
+      <Filter>ScopeSyncPlugin\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h">
       <Filter>ScopeSyncPlugin\Properties</Filter>

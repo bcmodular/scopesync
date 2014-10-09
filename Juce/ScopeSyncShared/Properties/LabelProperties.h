@@ -29,9 +29,9 @@
 #define LABELPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/BCMComponentBounds.h"
+#include "WidgetProperties.h"
 
-class LabelProperties
+class LabelProperties : public WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
@@ -47,17 +47,11 @@ public:
 
     enum ParameterTextDisplay {parameterName, shortDescription, fullDescription, scopeCode};
 
-    String               name;
-    String               id;
     String               text;
-    BCMComponentBounds   bounds;
-    String               bcmLookAndFeelId;
     float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     ParameterTextDisplay parameterTextDisplay;
-    Identifier           mappingParentType;
-    String               mappingParent;  
 
 private:
     void initialise();

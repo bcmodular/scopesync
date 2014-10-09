@@ -292,6 +292,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp">
+      <Filter>ScopeSyncFX\Source\Properties</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClCompile>
@@ -1358,6 +1361,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h">
+      <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h">
       <Filter>ScopeSyncFX\Source\Properties</Filter>

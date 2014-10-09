@@ -55,8 +55,7 @@ BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAn
 {
     configurationFileDirectoryPath = configDirectory;
     id = lookAndFeelXML.getStringAttribute("id");
-    //DBG("BCMLookAndFeel::BCMLookAndFeel - Creating " + id);
-
+    
     copyProperties(parentLookAndFeel);
     setValuesFromXml(lookAndFeelXML);
     applyProperties();
@@ -187,6 +186,7 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
     linearHorizontalBackgroundIsHorizontal = parentLookAndFeel.linearHorizontalBackgroundIsHorizontal;
     popupMenuFontHeight                    = parentLookAndFeel.popupMenuFontHeight;    
     popupMenuFontStyleFlags                = parentLookAndFeel.popupMenuFontStyleFlags;
+    appliesTo                              = parentLookAndFeel.appliesTo;
 
     setupColourIds();
 
@@ -198,6 +198,8 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
 
 void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
 {
+    bool firstAppliesTo = true;
+
     // Grab values set in XML
     forEachXmlChildElement(lookAndFeelXML, child)
     {
@@ -232,8 +234,37 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
                 }
             }
         }
+        else if (child->hasTagName("appliesto"))
+        {
+            // Wipe the inherited list if we've had specific
+            // items supplied at this level
+            if (firstAppliesTo)
+            {
+                appliesTo.clear();
+                firstAppliesTo = false;
+            }
+            
+            String componentTypeString = child->getStringAttribute("componenttype");
+
+            if (componentTypeString.equalsIgnoreCase("none"))
+                appliesTo.clear();
+            else
+            {
+                Identifier componentType;
+
+                     if (componentTypeString.equalsIgnoreCase("slider"))          componentType = Ids::slider;
+                else if (componentTypeString.equalsIgnoreCase("label"))           componentType = Ids::label;
+                else if (componentTypeString.equalsIgnoreCase("textbutton"))      componentType = Ids::textButton;
+                else if (componentTypeString.equalsIgnoreCase("tabbedcomponent")) componentType = Ids::tabbedComponent;
+                else if (componentTypeString.equalsIgnoreCase("combobox"))        componentType = Ids::comboBox;
+                else if (componentTypeString.equalsIgnoreCase("component"))       componentType = Ids::component;
+
+                if (componentType.isValid())
+                    appliesTo.add(componentType);
+            }
+        }
     }
-};
+}
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
@@ -549,6 +580,20 @@ void BCMLookAndFeel::drawCallOutBoxBackground(CallOutBox& /* box */, Graphics& g
 
     g.setColour(Colours::white.withAlpha(1.0f));
     g.strokePath(path, PathStrokeType(2.0f));
+}
+
+int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType)
+{
+    // Applies generally
+    if (appliesTo.size() == 0)
+        return 2;
+
+    // Applies specifically
+    if (appliesTo.indexOf(componentType) > -1)
+        return 1;
+
+    // Doesn't apply
+    return 0;
 }
 
 void BCMLookAndFeel::setRotarySliderImage()

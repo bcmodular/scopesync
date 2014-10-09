@@ -29,9 +29,9 @@
 #define TEXTBUTTONPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/BCMComponentBounds.h"
+#include "WidgetProperties.h"
 
-class TextButtonProperties
+class TextButtonProperties : public WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
@@ -45,18 +45,13 @@ public:
 
     ~TextButtonProperties();
 
-    String             name;
-    String             id;
     String             text;
     String             tooltip;
-    BCMComponentBounds bounds;
-    String             bcmLookAndFeelId;
     int                radioGroupId;
     StringArray        tabbedComponents;
     StringArray        tabNames;
     URL                url;
-    Identifier         mappingParentType;
-    String             mappingParent;    
+
 private:
     void initialise();
     void copyProperties(TextButtonProperties& parentTextButtonProperties);

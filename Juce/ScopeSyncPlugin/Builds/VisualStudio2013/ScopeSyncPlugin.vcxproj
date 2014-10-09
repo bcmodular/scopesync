@@ -271,6 +271,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.cpp"/>
@@ -1244,6 +1245,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.h"/>

@@ -29,9 +29,9 @@
 #define TABBEDCOMPONENTPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/BCMComponentBounds.h"
+#include "WidgetProperties.h"
 
-class TabbedComponentProperties
+class TabbedComponentProperties : public WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
@@ -42,17 +42,13 @@ public:
 
     // Constructor for use when overriding defaults for a specific BCMTabbedComponent
     TabbedComponentProperties(XmlElement& tabbedComponentXML, TabbedComponentProperties& parentTabbedComponentXML);
+
     ~TabbedComponentProperties();
 
-    String                       name;
-    String                       id;
-    BCMComponentBounds           bounds;
     int                          tabBarDepth;
-    String                       bcmLookAndFeelId;
     TabbedButtonBar::Orientation tabBarOrientation;
     bool                         showDropShadow;
-    Identifier                   mappingParentType;
-    String                       mappingParent;
+    
 private:
     void initialise();
     void copyProperties(TabbedComponentProperties& parentTabbedComponentXML);

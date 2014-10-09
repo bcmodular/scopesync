@@ -31,81 +31,54 @@
 ComboBoxProperties::ComboBoxProperties()
 {
     initialise();
-};
+}
 
 ComboBoxProperties::ComboBoxProperties(XmlElement& comboBoxXML)
+    : WidgetProperties(comboBoxXML)
 {
     initialise();
     setValuesFromXML(comboBoxXML);
-};
+}
 
 ComboBoxProperties::ComboBoxProperties(XmlElement& comboBoxXML, ComboBoxProperties& parentComboBoxProperties)
+    :WidgetProperties(comboBoxXML, parentComboBoxProperties)
 {
     copyProperties(parentComboBoxProperties);
     setValuesFromXML(comboBoxXML);
-};
+}
 
-ComboBoxProperties::~ComboBoxProperties()
-{
-};
+ComboBoxProperties::~ComboBoxProperties() {}
 
 void ComboBoxProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    name                = "def";
-    id                  = "def";
-    tooltip             = "def";
+    tooltip             = String::empty;
     editableText        = false;
     fontHeight          = 15.00f;
     fontStyleFlags      = Font::plain;
     justificationFlags  = Justification::centred;
-    nothingSelectedText = "def";
-    noChoicesText       = "def";
-    bounds.width        = 15;
-    bounds.height       = 15;
-    bounds.x            = 0;
-    bounds.y            = 0;
-    bcmLookAndFeelId    = String::empty;
-    mappingParentType   = Identifier();
-    mappingParent       = String::empty;
+    nothingSelectedText = "- Nothing selected -";
+    noChoicesText       = "- No choices available -";
 };
 
 void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProperties)
 {
-    name                = parentComboBoxProperties.name;
-    id                  = parentComboBoxProperties.id;
     tooltip             = parentComboBoxProperties.tooltip;
     editableText        = parentComboBoxProperties.editableText;
     fontHeight          = parentComboBoxProperties.fontHeight;
     fontStyleFlags      = parentComboBoxProperties.fontStyleFlags;
     justificationFlags  = parentComboBoxProperties.justificationFlags;
     nothingSelectedText = parentComboBoxProperties.nothingSelectedText;
-    for (int i = 0; i < items.size(); i++)
-    {
-        items.add(parentComboBoxProperties.items[i]);
-    }
+    items               = parentComboBoxProperties.items;
     noChoicesText       = parentComboBoxProperties.noChoicesText;
-    bounds.x            = parentComboBoxProperties.bounds.x;
-    bounds.y            = parentComboBoxProperties.bounds.y;
-    bounds.width        = parentComboBoxProperties.bounds.width;
-    bounds.height       = parentComboBoxProperties.bounds.height;
-    bcmLookAndFeelId    = parentComboBoxProperties.bcmLookAndFeelId;
-    mappingParentType   = parentComboBoxProperties.mappingParentType;
-    mappingParent       = parentComboBoxProperties.mappingParent;
 };
 
 void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
 {
-    name                = comboBoxXML.getStringAttribute("name",                name);
-    id                  = comboBoxXML.getStringAttribute("id",                  name); // Default to name if no id set
     tooltip             = comboBoxXML.getStringAttribute("tooltip",             tooltip);
     nothingSelectedText = comboBoxXML.getStringAttribute("nothingselectedtext", nothingSelectedText);
     noChoicesText       = comboBoxXML.getStringAttribute("nochoicestext",       noChoicesText);
     editableText        = comboBoxXML.getBoolAttribute  ("editabletext",        editableText);
-    
-    XmlElement* boundsXml = comboBoxXML.getChildByName("bounds");
-    if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds);
     
     XmlElement* fontXml = comboBoxXML.getChildByName("font");
     if (fontXml != nullptr)
@@ -119,10 +92,4 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
     {
         items.add(child->getAllSubText());
     }   
-
-    XmlElement* mappingParentXml = comboBoxXML.getChildByName("mappingparent");
-    if (mappingParentXml != nullptr)
-        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
-
-    bcmLookAndFeelId = comboBoxXML.getStringAttribute("lfid", bcmLookAndFeelId);
-};
+}

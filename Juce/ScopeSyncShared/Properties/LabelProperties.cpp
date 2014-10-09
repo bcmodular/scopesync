@@ -31,70 +31,45 @@
 LabelProperties::LabelProperties()
 {
     initialise();
-};
+}
 
 LabelProperties::LabelProperties(XmlElement& labelXML)
+    : WidgetProperties(labelXML)
 {
     initialise();
     setValuesFromXML(labelXML);
-};
+}
 
 LabelProperties::LabelProperties(XmlElement& labelXML, LabelProperties& parentLabelProperties)
+    : WidgetProperties(labelXML, parentLabelProperties)
 {
     copyProperties(parentLabelProperties);
     setValuesFromXML(labelXML);
-};
+}
 
-LabelProperties::~LabelProperties()
-{
-};
+LabelProperties::~LabelProperties() {}
 
 void LabelProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    name                 = "def";
-    id                   = "def";
-    text                 = "def";
-    bounds.width         = 66;
-    bounds.height        = 20;
-    bounds.x             = 18;
-    bounds.y             = 26;
     fontHeight           = 15.00f;
     fontStyleFlags       = Font::plain;
     justificationFlags   = Justification::centred;
-    bcmLookAndFeelId     = String::empty;
     parameterTextDisplay = shortDescription;
-    mappingParentType    = Identifier();
-    mappingParent        = String::empty;
 };
 
 void LabelProperties::copyProperties(const LabelProperties& parentLabelProperties)
 {
-    name                 = parentLabelProperties.name;
-    id                   = parentLabelProperties.id;
     text                 = parentLabelProperties.text;
-    bounds.x             = parentLabelProperties.bounds.x;
-    bounds.y             = parentLabelProperties.bounds.y;
-    bounds.width         = parentLabelProperties.bounds.width;
-    bounds.height        = parentLabelProperties.bounds.height;
     fontHeight           = parentLabelProperties.fontHeight;
     fontStyleFlags       = parentLabelProperties.fontStyleFlags;
     justificationFlags   = parentLabelProperties.justificationFlags;
-    bcmLookAndFeelId     = parentLabelProperties.bcmLookAndFeelId;
     parameterTextDisplay = parentLabelProperties.parameterTextDisplay;
-    mappingParentType    = parentLabelProperties.mappingParentType;
-    mappingParent        = parentLabelProperties.mappingParent;
 };
 
 void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
 {
-    name = labelXML.getStringAttribute("name", name);
-    id   = labelXML.getStringAttribute("id",   name); // Default to name if no id set
     text = labelXML.getStringAttribute("text", text);
-    
-    XmlElement* boundsXml = labelXML.getChildByName("bounds");
-    if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds);
     
     XmlElement* fontXml = labelXML.getChildByName("font");
     if (fontXml != nullptr)
@@ -105,12 +80,6 @@ void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
         getJustificationFlagsFromXml(*justificationXml, justificationFlags);
 
     getParameterTextDisplayFromXml(labelXML, parameterTextDisplay);
-
-    XmlElement* mappingParentXml = labelXML.getChildByName("mappingparent");
-    if (mappingParentXml != nullptr)
-        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
-
-    bcmLookAndFeelId = labelXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };
 
 void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& parameterTextDisplay)

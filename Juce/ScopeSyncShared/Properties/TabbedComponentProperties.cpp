@@ -34,57 +34,37 @@ TabbedComponentProperties::TabbedComponentProperties()
 }
 
 TabbedComponentProperties::TabbedComponentProperties(XmlElement& tabbedComponentXML)
+    : WidgetProperties(tabbedComponentXML)
 {
     initialise();
     setValuesFromXML(tabbedComponentXML);
 }
 
 TabbedComponentProperties::TabbedComponentProperties(XmlElement& tabbedComponentXML, TabbedComponentProperties& parentTabbedComponentProperties)
+    : WidgetProperties(tabbedComponentXML, parentTabbedComponentProperties)
 {
     copyProperties(parentTabbedComponentProperties);
     setValuesFromXML(tabbedComponentXML);
 }
 
-TabbedComponentProperties::~TabbedComponentProperties()
-{
-}
+TabbedComponentProperties::~TabbedComponentProperties() {}
 
 void TabbedComponentProperties::initialise()
 {
-    id                = "def";
-    bounds.width      = 0;
-    bounds.height     = 0;
-    bounds.x          = 0;
-    bounds.y          = 0;
     tabBarDepth       = 0;
     showDropShadow    = true;
     tabBarOrientation = TabbedButtonBar::TabsAtLeft;
-    bcmLookAndFeelId  = String::empty;
-    name              = String::empty;
-    mappingParentType = Identifier();
-    mappingParent     = String::empty;
 }
 
 void TabbedComponentProperties::copyProperties(TabbedComponentProperties& parentTabbedComponentProperties)
 {
-    id                = parentTabbedComponentProperties.id;
-    bounds.x          = parentTabbedComponentProperties.bounds.x;
-    bounds.y          = parentTabbedComponentProperties.bounds.y;
-    bounds.width      = parentTabbedComponentProperties.bounds.width;
-    bounds.height     = parentTabbedComponentProperties.bounds.height;
     tabBarDepth       = parentTabbedComponentProperties.tabBarDepth;
     showDropShadow    = parentTabbedComponentProperties.showDropShadow;
     tabBarOrientation = parentTabbedComponentProperties.tabBarOrientation;
-    bcmLookAndFeelId  = parentTabbedComponentProperties.bcmLookAndFeelId;
-    name              = parentTabbedComponentProperties.name;
-    mappingParentType = parentTabbedComponentProperties.mappingParentType;
-    mappingParent     = parentTabbedComponentProperties.mappingParent;
 }
 
 void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
 {
-    name           = tabbedComponentXML.getStringAttribute("name",           name);
-    id             = tabbedComponentXML.getStringAttribute("id",      name); // Default to name if no id set
     showDropShadow = tabbedComponentXML.getBoolAttribute  ("showdropshadow", showDropShadow);
     
     XmlElement* boundsXml = tabbedComponentXML.getChildByName("bounds");
@@ -99,12 +79,6 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
         if (orientationXml != nullptr)
             getOrientationFromXml(*orientationXml, tabBarOrientation);
     }
-    
-    XmlElement* mappingParentXml = tabbedComponentXML.getChildByName("mappingparent");
-    if (mappingParentXml != nullptr)
-        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
-
-    bcmLookAndFeelId = tabbedComponentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }
 
 void TabbedComponentProperties::getOrientationFromXml(const XmlElement& xml, TabbedButtonBar::Orientation& orientation)

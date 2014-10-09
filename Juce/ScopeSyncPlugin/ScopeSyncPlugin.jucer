@@ -61,6 +61,10 @@
       <FILE id="zhLooZ" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
     </GROUP>
     <GROUP id="{98750E9D-E625-1DE1-D7F7-EF9A76569CE6}" name="Properties">
+      <FILE id="sflrtT" name="WidgetProperties.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Properties/WidgetProperties.cpp"/>
+      <FILE id="rjmbw7" name="WidgetProperties.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Properties/WidgetProperties.h"/>
       <FILE id="IxY4tg" name="ComboBoxProperties.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Properties/ComboBoxProperties.cpp"/>
       <FILE id="qMLHOa" name="ComboBoxProperties.h" compile="0" resource="0"

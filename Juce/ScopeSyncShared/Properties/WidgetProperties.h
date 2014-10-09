@@ -1,5 +1,5 @@
 /**
- * Intermediary class for extracting BCMComboBox definitions from
+ * Base class for extracting BCMWidget definitions from
  * XML layout files
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
@@ -25,42 +25,40 @@
  *  Jessica Brandt
  */
 
-#ifndef COMBOBOXPROPERTIES_H_INCLUDED
-#define COMBOBOXPROPERTIES_H_INCLUDED
+#ifndef WIDGETPROPERTIES_H_INCLUDED
+#define WIDGETPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "WidgetProperties.h"
+#include "../Components/BCMComponentBounds.h"
 
-class ComboBoxProperties : public WidgetProperties
+class WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
-    ComboBoxProperties();
+    WidgetProperties();
 
     // Constructor for use when setting up defaults
-    ComboBoxProperties(XmlElement& comboBoxXML);
-    
-    // Constructor for use when overriding defaults for a specific ComboBox
-    ComboBoxProperties(XmlElement& comboBoxXML, ComboBoxProperties& parentComboBoxProperties);
+    WidgetProperties(XmlElement& widgetXML);
 
-    ~ComboBoxProperties();
+    // Constructor for use when overriding defaults
+    WidgetProperties(XmlElement& widgetXML, WidgetProperties& parentWidgetProperties);
 
-    bool                 editableText;
-    String               nothingSelectedText;
-    String               noChoicesText;
-    StringArray          items;
-    String               tooltip;
-    float                fontHeight;
-    Font::FontStyleFlags fontStyleFlags;
-    Justification::Flags justificationFlags;
-    
+    ~WidgetProperties();
+
+    String             name;
+    String             id;
+    BCMComponentBounds bounds;
+    String             bcmLookAndFeelId;
+    Identifier         mappingParentType;
+    String             mappingParent;  
+
 private:
-    void initialise();
-    void copyProperties(ComboBoxProperties& parentComboBoxProperties);
-    void setValuesFromXML(XmlElement& comboBoxXML);
+    void initialiseWidget();
+    void copyWidgetProperties(const WidgetProperties& parentWidgetProperties);
+    void setWidgetValuesFromXML(const XmlElement& widgetXML);
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComboBoxProperties);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WidgetProperties);
 };
 
-#endif  // COMBOBOXPROPERTIES_H_INCLUDED
+#endif  // WIDGETPROPERTIES_H_INCLUDED

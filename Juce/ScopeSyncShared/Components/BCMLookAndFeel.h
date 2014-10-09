@@ -123,10 +123,17 @@ public:
     // Callback for drawing a CallOutBox's background. Overridden to fix performance issue on Windows 8
     void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
 
+    // Returns a result to indicate whether the BCMLookAndFeel applies to the supplied Component Type
+    // 0: Doesn't apply, 1: Applies specifically, 2: Applies generally
+    int  appliesToComponentType(const Identifier& componentType);
+
 private:
     String id;            // Identifier for a BCMLookAndFeel
     bool   useImageCache; // Flags as to whether the Image Cache should be used
     
+    Array<Identifier> appliesTo; // Array of component types the BCMLookAndFeel is relevant to (used to
+                                 // restrict drop-down lists for Style Overrides)
+
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     String rotaryFileName;
     String rotaryMouseOverFileName;

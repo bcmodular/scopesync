@@ -20,6 +20,8 @@
           <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="aa555555"></texteditor>
           <textbutton textcolouroffid="ffffffff" textcolouronid="ffff4200" buttoncolourid="ff16171a"></textbutton>
         </colours>
+        <appliesto componenttype="slider" />
+        <appliesto componenttype="label" />
       </lookandfeel>
       <lookandfeel id="sliders2" parentid="sliders1">
         <colours>

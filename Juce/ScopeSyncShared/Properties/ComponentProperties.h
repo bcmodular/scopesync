@@ -29,9 +29,9 @@
 #define COMPONENTPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/BCMComponentBounds.h"
+#include "WidgetProperties.h"
 
-class ComponentProperties
+class ComponentProperties : public WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
@@ -44,13 +44,10 @@ public:
     ComponentProperties(XmlElement& componentXML, ComponentProperties& parentComponentProperties);
     ~ComponentProperties();
 
-    String             id;
-    BCMComponentBounds bounds;
     String             backgroundColour;
     String             backgroundImageFileName;
     RectanglePlacement backgroundImagePlacement;
-    String             bcmLookAndFeelId;
-
+    
 private:
     void initialise();
     void copyProperties(ComponentProperties& parentComponentProperties);

@@ -29,11 +29,11 @@
 #define SLIDERPROPERTIES_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/BCMComponentBounds.h"
+#include "WidgetProperties.h"
 
 class ScopeSyncGUI;
 
-class SliderProperties
+class SliderProperties : public WidgetProperties
 {
 public:
     // Fall-back constructor in case no default XML supplied
@@ -47,9 +47,6 @@ public:
 
     ~SliderProperties();
 
-    String      name;
-    String      id;
-    BCMComponentBounds bounds;
     double      rangeMin;
     double      rangeMax;
     double      rangeInt;
@@ -62,14 +59,11 @@ public:
     float       fontHeight;
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
-    String      bcmLookAndFeelId;
     bool        popupEnabled;
     bool        velocityBasedMode;
     bool        encoderSnap;
     StringArray tabbedComponents;
     StringArray tabNames;
-    Identifier  mappingParentType;
-    String      mappingParent;
 
 private:
     ScopeSyncGUI& scopeSyncGUI;

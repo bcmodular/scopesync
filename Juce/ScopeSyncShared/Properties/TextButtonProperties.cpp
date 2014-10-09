@@ -31,67 +31,47 @@
 TextButtonProperties::TextButtonProperties()
 {
     initialise();
-};
+}
 
 TextButtonProperties::TextButtonProperties(XmlElement& textButtonXML)
+    : WidgetProperties(textButtonXML)
 {
     initialise();
     setValuesFromXML(textButtonXML);
-};
+}
 
 TextButtonProperties::TextButtonProperties(XmlElement& textButtonXML, TextButtonProperties& parentTextButtonProperties)
+    : WidgetProperties(textButtonXML, parentTextButtonProperties)
 {
     copyProperties(parentTextButtonProperties);
     setValuesFromXML(textButtonXML);
-};
+}
 
-TextButtonProperties::~TextButtonProperties()
-{
-};
+TextButtonProperties::~TextButtonProperties() {}
 
 void TextButtonProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    name              = String::empty;
-    id                = String::empty;
     text              = String::empty;
     tooltip           = String::empty;
     url               = URL();
-    bounds.width      = 15;
-    bounds.height     = 15;
-    bounds.x          = 0;
-    bounds.y          = 0;
-    bcmLookAndFeelId  = String::empty;
     radioGroupId      = 0;
     tabbedComponents.clear();
     tabNames.clear();
-    mappingParentType = Identifier();
-    mappingParent     = String::empty;
-};
+}
 
 void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButtonProperties)
 {
-    name              = parentTextButtonProperties.name;
-    id                = parentTextButtonProperties.id;
     text              = parentTextButtonProperties.text;
     tooltip           = parentTextButtonProperties.tooltip;
-    bounds.x          = parentTextButtonProperties.bounds.x;
-    bounds.y          = parentTextButtonProperties.bounds.y;
-    bounds.width      = parentTextButtonProperties.bounds.width;
-    bounds.height     = parentTextButtonProperties.bounds.height;
     radioGroupId      = parentTextButtonProperties.radioGroupId;
-    bcmLookAndFeelId  = parentTextButtonProperties.bcmLookAndFeelId;
     tabbedComponents  = StringArray(parentTextButtonProperties.tabbedComponents);
     tabNames          = StringArray(parentTextButtonProperties.tabNames);
-    url               = parentTextButtonProperties.url;    
-    mappingParentType = parentTextButtonProperties.mappingParentType;
-    mappingParent     = parentTextButtonProperties.mappingParent;
-};
+    url               = parentTextButtonProperties.url;
+}
 
 void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
 {
-    name    = textButtonXML.getStringAttribute("name",    name);
-    id      = textButtonXML.getStringAttribute("id",      name); // Default to name if no id set
     text    = textButtonXML.getStringAttribute("text",    text);
     tooltip = textButtonXML.getStringAttribute("tooltip", tooltip);
     
@@ -99,10 +79,6 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
 
     if (urlString.isNotEmpty())
         url = URL(urlString);
-    
-    XmlElement* boundsXml = textButtonXML.getChildByName("bounds");
-    if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds);
     
     forEachXmlChildElementWithTagName(textButtonXML, chooseTabXml, "choosetab")
     {
@@ -117,10 +93,4 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
     }
 
     if (textButtonXML.hasAttribute("radiogroup")) radioGroupId = textButtonXML.getStringAttribute("radiogroup").hashCode();
-
-    XmlElement* mappingParentXml = textButtonXML.getChildByName("mappingparent");
-    if (mappingParentXml != nullptr)
-        getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
-    
-    bcmLookAndFeelId = textButtonXML.getStringAttribute("lfid", bcmLookAndFeelId);
-};
+}

@@ -34,61 +34,41 @@ ComponentProperties::ComponentProperties()
 }
 
 ComponentProperties::ComponentProperties(XmlElement& componentXML)
+    : WidgetProperties(componentXML)
 {
     initialise();
     setValuesFromXML(componentXML);
 }
 
 ComponentProperties::ComponentProperties(XmlElement& componentXML, ComponentProperties& parentComponentProperties)
+    : WidgetProperties(componentXML, parentComponentProperties)
 {
     copyProperties(parentComponentProperties);
     setValuesFromXML(componentXML);
 }
 
-ComponentProperties::~ComponentProperties()
-{
-
-}
+ComponentProperties::~ComponentProperties() {}
 
 void ComponentProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    id                       = "def";
-    bounds.x                 = 0;
-    bounds.y                 = 0;
-    bounds.width             = 0;
-    bounds.height            = 0;
     backgroundColour         = "00000000";
     backgroundImageFileName  = String::empty;
     backgroundImagePlacement = RectanglePlacement::doNotResize;
-    bcmLookAndFeelId         = String::empty;
 }
 
 void ComponentProperties::copyProperties(ComponentProperties& parentComponentProperties)
 {
-    id                       = parentComponentProperties.id;
-    bounds.x                 = parentComponentProperties.bounds.x;
-    bounds.y                 = parentComponentProperties.bounds.y;
-    bounds.width             = parentComponentProperties.bounds.width;
-    bounds.height            = parentComponentProperties.bounds.height;
     backgroundColour         = parentComponentProperties.backgroundColour;
     backgroundImageFileName  = parentComponentProperties.backgroundImageFileName;
     backgroundImagePlacement = parentComponentProperties.backgroundImagePlacement;
-    bcmLookAndFeelId         = parentComponentProperties.bcmLookAndFeelId;
 }
 
 void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
 {
-    id                       = componentXML.getStringAttribute("id", id);
     backgroundColour         = componentXML.getStringAttribute("backgroundcolour", backgroundColour);
     backgroundImageFileName  = componentXML.getStringAttribute("backgroundimage", backgroundImageFileName);
     getRectanglePlacementFromString(componentXML.getStringAttribute("backgroundimageplacement"), backgroundImagePlacement);
-    
-    XmlElement* boundsXml = componentXML.getChildByName("bounds");
-    if (boundsXml != nullptr)
-        getBoundsFromXml(*boundsXml, bounds);
-    
-    bcmLookAndFeelId = componentXML.getStringAttribute("lfid", bcmLookAndFeelId);
 }
 
 void ComponentProperties::getRectanglePlacementFromString(String string, RectanglePlacement& placement)
