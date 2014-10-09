@@ -60,13 +60,9 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
     // Firstly set up properties for this Component
     ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
     
-    setComponentID(properties.id);
-    
+    applyWidgetProperties(properties);
     configurationFileDirectoryPath = configDirectory;
-
     backgroundColour = properties.backgroundColour;
-
-    properties.bounds.copyValues(componentBounds);
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
@@ -83,9 +79,6 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& confi
             }
         }
     }
-
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 
     // Then loop through child component elements
     forEachXmlChildElement(componentXML, child)

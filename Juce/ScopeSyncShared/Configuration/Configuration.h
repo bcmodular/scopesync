@@ -79,11 +79,13 @@ public:
                        int targetIndex, 
                        UndoManager* um);
 
-    StringArray& getComponentNames(const Identifier& componentType);
+    StringArray getComponentNames(const Identifier& componentType, bool checkStyleOverrideFlag = false);
     void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
     void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
 
     static Identifier getMappingParentId(const Identifier& componentType);
+    static Identifier getComponentTypeId(const String& typeString);
+    static String     getComponentTypeName(const Identifier& type);
 
     ValueTree getStyleOverride(const Identifier& componentType, const String& componentName);
     
@@ -128,9 +130,36 @@ private:
     
     void        setMissingDefaultValues();
 
-    void        setupComponentNameArrays();
-    void        tidyUpComponentArray(StringArray& arrayToTidy);
-    void        getComponentNames(XmlElement& xml);
+    class ComponentLookupItem
+    {
+    public:
+        ComponentLookupItem(const String& componentName, const Identifier& componentType, bool noStyleOverrideFlag)
+            : name(componentName), type(componentType), noStyleOverride(noStyleOverrideFlag) {}
+
+        String     name;
+        Identifier type;
+        bool       noStyleOverride;
+    };
+
+    class ComponentLookupSorter
+    {
+    public:
+        static int compareElements(ComponentLookupItem* first, ComponentLookupItem* second)
+        {
+            int typeComparison = first->type.toString().compareNatural(second->type.toString());
+
+            if (typeComparison == 0)
+                return first->name.compareNatural(second->name);
+            else
+                return typeComparison;
+        }
+    };
+
+    OwnedArray<ComponentLookupItem> componentLookup;
+
+    void setupComponentLookup();
+    void getComponentNamesFromXml(XmlElement& xml);
+    bool componentInLookup(const Identifier& componentType, const String& componentName);
 
     static ValueTree getDefaultParameter();
     bool             parameterNameExists(const String& parameterName);

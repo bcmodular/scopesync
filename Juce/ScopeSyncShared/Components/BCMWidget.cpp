@@ -30,11 +30,23 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationManager.h"
+#include "../Properties/WidgetProperties.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner, Component* parent)
     : scopeSyncGUI(owner)
 {
     parentBCMComponent = parent;
+}
+
+void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
+{
+    parentBCMComponent->setComponentID(properties.id);
+
+    properties.bounds.copyValues(componentBounds);
+    applyBounds();
+
+    bcmLookAndFeelId = properties.bcmLookAndFeelId;
+    applyLookAndFeel(properties.noStyleOverride);
 }
 
 void BCMWidget::applyBounds()
@@ -64,22 +76,27 @@ void BCMWidget::applyBounds()
     }
 }
 
-void BCMWidget::applyLookAndFeel(String& bcmLookAndFeelId)
+void BCMWidget::applyLookAndFeel(bool noStyleOverride)
 {
-    styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentBCMComponent->getName());
-    
-    if (styleOverride.isValid())
+    if (!noStyleOverride)
     {
-        String overrideId = styleOverride.getProperty(Ids::lookAndFeelId);
+        styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentBCMComponent->getName());
+    
+        if (styleOverride.isValid())
+        {
+            String overrideId = styleOverride.getProperty(Ids::lookAndFeelId);
             
-        if (overrideId.isNotEmpty())
-            bcmLookAndFeelId = overrideId;
+            if (overrideId.isNotEmpty())
+                bcmLookAndFeelId = overrideId;
+        }
     }
     
     BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(bcmLookAndFeelId);
     
     if (bcmLookAndFeel != nullptr)
         parentBCMComponent->setLookAndFeel(bcmLookAndFeel);
+    else
+        bcmLookAndFeelId = String::empty;
 }
 
 BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner, Component* parent)

@@ -45,7 +45,7 @@ BCMComboBox::~BCMComboBox() {}
 
 void BCMComboBox::applyProperties(ComboBoxProperties& properties)
 {
-    setComponentID(properties.id);
+    applyWidgetProperties(properties);
     
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
@@ -91,10 +91,6 @@ void BCMComboBox::applyProperties(ComboBoxProperties& properties)
     }
     
     setTooltip(tooltip);
-    
-    properties.bounds.copyValues(componentBounds);
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
 
 const Identifier BCMComboBox::getComponentType() const { return Ids::comboBox; };

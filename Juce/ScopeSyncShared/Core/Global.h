@@ -93,6 +93,7 @@ namespace Ids
     DECLARE_ID(components);
     DECLARE_ID(component);
     DECLARE_ID(tabs);
+    DECLARE_ID(none);
 
     #undef DECLARE_ID
 }

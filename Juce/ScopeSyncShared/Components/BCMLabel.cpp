@@ -51,8 +51,8 @@ BCMLabel::~BCMLabel()
 
 void BCMLabel::applyProperties(LabelProperties& properties) 
 {
-    setComponentID(properties.id);
-        
+    applyWidgetProperties(properties);
+    
     String labelText = getText();
     String tooltip   = getText();
     
@@ -104,10 +104,6 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     
     setFont(Font(properties.fontHeight, properties.fontStyleFlags));
     setJustificationType(Justification(properties.justificationFlags));
-
-    properties.bounds.copyValues(componentBounds);
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
 
 const Identifier BCMLabel::getComponentType() const { return Ids::label; };

@@ -51,7 +51,7 @@ BCMTextButton::~BCMTextButton()
 
 void BCMTextButton::applyProperties(TextButtonProperties& properties)
 {
-    setComponentID(properties.id);
+    applyWidgetProperties(properties);
     
     clicksBlocked = false;
 
@@ -223,10 +223,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setTooltip (tooltip);
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
-    
-    properties.bounds.copyValues(componentBounds);
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
 
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };

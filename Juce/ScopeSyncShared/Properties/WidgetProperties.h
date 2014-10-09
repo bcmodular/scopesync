@@ -51,6 +51,7 @@ public:
     String             bcmLookAndFeelId;
     Identifier         mappingParentType;
     String             mappingParent;  
+    bool               noStyleOverride;
 
 private:
     void initialiseWidget();

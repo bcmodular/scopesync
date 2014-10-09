@@ -46,7 +46,7 @@ BCMSlider::~BCMSlider() {}
 
 void BCMSlider::applyProperties(SliderProperties& properties)
 {
-    setComponentID(properties.id);
+    applyWidgetProperties(properties);
     
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
@@ -132,10 +132,6 @@ void BCMSlider::applyProperties(SliderProperties& properties)
 
     setTooltip(tooltip);
     setPopupMenuEnabled(true);
-    
-    properties.bounds.copyValues(componentBounds);
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };

@@ -683,16 +683,25 @@ int ScopeSync::getNumBCMLookAndFeels()
     return bcmLookAndFeels.size();
 }
 
-StringArray ScopeSync::getBCMLookAndFeelIds()
+StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType)
 {
-    StringArray bcmLookAndFeelIds;
+    StringArray specificList;
+    StringArray genericList;
     
     for (int i = 0; i < getNumBCMLookAndFeels(); i++)
     {
-        bcmLookAndFeelIds.add(bcmLookAndFeels[i]->getId());
+        int res = bcmLookAndFeels[i]->appliesToComponentType(componentType);
+
+        if (res == 1)
+            specificList.add(bcmLookAndFeels[i]->getId());
+        else if (res == 2)
+            genericList.add(bcmLookAndFeels[i]->getId());
     }
 
-    return bcmLookAndFeelIds;
+    specificList.add(String::empty);
+    specificList.addArray(genericList);
+
+    return specificList;
 }
 
 void ScopeSync::storeParameterValues()
@@ -736,6 +745,7 @@ const String ScopeSync::systemLookAndFeels =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 "<lookandfeels>\n"
 "  <lookandfeel id=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <colours>\n"
 "      <slider textboxbackgroundcolourid=\"ff000000\" textboxoutlinecolourid=\"ff121517\" textboxtextcolo"
 "urid=\"ffb3bbbd\" textboxhighlightcolourid=\"ffa7aaae\" thumbcolourid=\"00ffffff\" backgroundcolourid=\"ff0"
@@ -750,48 +760,56 @@ const String ScopeSync::systemLookAndFeels =
 "    </colours>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:load_config_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"loadConfigButtonOff\" downfilename=\"loadConfigButtonOn\" mouseoverupfile"
 "name=\"loadConfigButtonOver\" mouseoverdownfilename=\"loadConfigButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:reload_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"reloadButtonOff\" downfilename=\"reloadButtonOn\" mouseoverupfilename=\"re"
 "loadButtonOver\" mouseoverdownfilename=\"reloadButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:remove_config_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"removeConfigButtonOff\" downfilename=\"removeConfigButtonOn\" mouseoverup"
 "filename=\"removeConfigButtonOver\" mouseoverdownfilename=\"removeConfigButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:patch_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"patchWindowButtonOff\" downfilename=\"patchWindowButtonOn\" mouseoverupfi"
 "lename=\"patchWindowButtonOver\" mouseoverdownfilename=\"patchWindowButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:presets_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"presetsButtonOff\" downfilename=\"presetsButtonOn\" mouseoverupfilename=\""
 "presetsButtonOver\" mouseoverdownfilename=\"presetsButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:settings_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"settingsButtonOff\" downfilename=\"settingsButtonOn\" mouseoverupfilename"
 "=\"settingsButtonOver\" mouseoverdownfilename=\"settingsButtonOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:snapshot_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"snapshotOff\" downfilename=\"snapshotOn\" mouseoverupfilename=\"snapshotOv"
 "er\" mouseoverdownfilename=\"snapshotOn\"></textbutton>\n"
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:showconfigurationmanager_button\" parentid=\"system:default\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <images>\n"
 "      <textbutton upfilename=\"showconfigurationmanagerOff\" downfilename=\"showconfigurationmanagerOn\""
 " mouseoverupfilename=\"showconfigurationmanagerOver\" mouseoverdownfilename=\"showconfigurationmanagerO"
@@ -799,11 +817,13 @@ const String ScopeSync::systemLookAndFeels =
 "    </images>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:configname\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <colours>\n"
 "      <label textcolourid=\"ffa7aaae\" outlinecolourid=\"ffa7aaae\"></label>\n"
 "    </colours>\n"
 "  </lookandfeel>\n"
 "  <lookandfeel id=\"system:systemerror\">\n"
+"    <appliesto componenttype=\"none\" />\n"
 "    <colours>\n"
 "      <label textcolourid=\"ffa7aaae\" backgroundcolourid=\"ff000000\" outlinecolourid=\"ffa7aaae\"></labe"
 "l>\n"

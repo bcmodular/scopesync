@@ -34,6 +34,7 @@
 #include "../Utils/BCMMath.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Resources/ImageLoader.h"
+#include "../Configuration/Configuration.h"
 
 BCMLookAndFeel::BCMLookAndFeel(bool cacheImages)
 {
@@ -247,18 +248,13 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
             String componentTypeString = child->getStringAttribute("componenttype");
 
             if (componentTypeString.equalsIgnoreCase("none"))
-                appliesTo.clear();
+            {
+                appliesTo.add(Ids::none);
+            }                
             else
             {
-                Identifier componentType;
-
-                     if (componentTypeString.equalsIgnoreCase("slider"))          componentType = Ids::slider;
-                else if (componentTypeString.equalsIgnoreCase("label"))           componentType = Ids::label;
-                else if (componentTypeString.equalsIgnoreCase("textbutton"))      componentType = Ids::textButton;
-                else if (componentTypeString.equalsIgnoreCase("tabbedcomponent")) componentType = Ids::tabbedComponent;
-                else if (componentTypeString.equalsIgnoreCase("combobox"))        componentType = Ids::comboBox;
-                else if (componentTypeString.equalsIgnoreCase("component"))       componentType = Ids::component;
-
+                Identifier componentType = Configuration::getComponentTypeId(componentTypeString);
+                
                 if (componentType.isValid())
                     appliesTo.add(componentType);
             }
@@ -589,7 +585,7 @@ int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType)
         return 2;
 
     // Applies specifically
-    if (appliesTo.indexOf(componentType) > -1)
+    if (appliesTo.indexOf(Ids::none) == -1 && appliesTo.indexOf(componentType) > -1)
         return 1;
 
     // Doesn't apply

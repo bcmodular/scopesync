@@ -30,6 +30,7 @@
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
 class ScopeSyncGUI;
+class WidgetProperties;
 
 class BCMWidget
 {
@@ -37,15 +38,22 @@ public:
     BCMWidget(ScopeSyncGUI& owner, Component* parent);
     ~BCMWidget() {};
 
+    const String& getLookAndFeelId() { return bcmLookAndFeelId; }
+
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
     BCMComponentBounds componentBounds; // Position/Size information
     Component*         parentBCMComponent;
     ValueTree          styleOverride;
+    String             bcmLookAndFeelId;
 
     virtual const Identifier getComponentType() const = 0;
+
+    void applyWidgetProperties(WidgetProperties& properties);
+
+private:
     void applyBounds();
-    void applyLookAndFeel(String& bcmLookAndFeelId);
+    void applyLookAndFeel(bool noStyleOverride);
 };
 
 class BCMParameter;

@@ -525,74 +525,87 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
         layoutXml = loaderLayoutXml;
     }
 
-    setupComponentNameArrays();
+    setupComponentLookup();
 
     return layoutXml;
 }
 
-StringArray& Configuration::getComponentNames(const Identifier& componentType)
+StringArray Configuration::getComponentNames(const Identifier& componentType, bool checkStyleOverrideFlag)
 {
     String e1, e2;
 
     if (!layoutLoaded)
         loadLayoutXml(e1, e2);
 
-         if (componentType == Ids::slider)
-        return sliderNames;
-    else if (componentType == Ids::label)
-        return labelNames;
-    else if (componentType == Ids::comboBox)
-        return comboBoxNames;
-    else if (componentType == Ids::textButton)
-        return textButtonNames;
-    else
-        return tabbedComponentNames;
+    StringArray componentNames;
+
+    for (int i = 0; i < componentLookup.size(); i++)
+    {
+        ComponentLookupItem* cli = componentLookup[i];
+
+        if ((checkStyleOverrideFlag && cli->noStyleOverride) || componentType != cli->type)
+            continue;
+        else
+            componentNames.add(cli->name);
+    }
+
+    return componentNames;
 }
 
-void Configuration::setupComponentNameArrays()
+void Configuration::setupComponentLookup()
 {
-    sliderNames.clear();
-    labelNames.clear();
-    textButtonNames.clear();
-    tabbedComponentNames.clear();
-    comboBoxNames.clear();
-
-    getComponentNames(layoutXml);
+    componentLookup.clear();
     
-    tidyUpComponentArray(sliderNames);
-    tidyUpComponentArray(labelNames);
-    tidyUpComponentArray(textButtonNames);
-    tidyUpComponentArray(tabbedComponentNames);
-    tidyUpComponentArray(comboBoxNames);
-}
+    XmlElement* topLevelComponent = layoutXml.getChildByName("component");
 
-void Configuration::tidyUpComponentArray(StringArray& arrayToTidy)
-{
-    arrayToTidy.removeEmptyStrings();
-    arrayToTidy.removeDuplicates(true);
-    arrayToTidy.sortNatural();
+    if (topLevelComponent != nullptr)
+        getComponentNamesFromXml(*topLevelComponent);
+    
+    ComponentLookupSorter sorter;
+    componentLookup.sort(sorter);
 }
     
-void Configuration::getComponentNames(XmlElement& xml)
+void Configuration::getComponentNamesFromXml(XmlElement& xml)
 {
     forEachXmlChildElement(xml, child)
     {
-             if (child->hasTagName("slider"))
-            sliderNames.add(child->getStringAttribute(Ids::name, String::empty));
-        else if (child->hasTagName("label"))
-            labelNames.add(child->getStringAttribute(Ids::name, String::empty));
-        else if (child->hasTagName("textbutton"))
-            textButtonNames.add(child->getStringAttribute(Ids::name, String::empty));
-        else if (child->hasTagName("tabbedcomponent"))
+        String componentName   = child->getStringAttribute("name", String::empty);
+        String componentType   = child->getTagName();
+        bool   noStyleOverride = child->getBoolAttribute("nostyleoverride", false);
+        
+        if (componentName.isNotEmpty() 
+            && 
+            (  componentType.equalsIgnoreCase("slider")
+            || componentType.equalsIgnoreCase("label")  
+            || componentType.equalsIgnoreCase("textbutton")
+            || componentType.equalsIgnoreCase("combobox")
+            || componentType.equalsIgnoreCase("tabbedcomponent")
+            || componentType.equalsIgnoreCase("component"))
+            &&
+            !componentInLookup(getComponentTypeId(componentType), componentName))
         {
-            tabbedComponentNames.add(child->getStringAttribute(Ids::name, String::empty));
-            getComponentNames(*child);
+            ComponentLookupItem* cli = new ComponentLookupItem(componentName, getComponentTypeId(componentType), noStyleOverride);
+            componentLookup.add(cli);
+
+            if (componentType.equalsIgnoreCase("tabbedcomponent") || componentType.equalsIgnoreCase("component"))
+                getComponentNamesFromXml(*child);
         }
-        else if (child->hasTagName("combobox"))
-            comboBoxNames.add(child->getStringAttribute(Ids::name, String::empty));
         else
-            getComponentNames(*child);
+            getComponentNamesFromXml(*child);
     }
+}
+
+bool Configuration::componentInLookup(const Identifier& componentType, const String& componentName)
+{
+    for (int i = 0; i < componentLookup.size(); i++)
+    {
+        ComponentLookupItem* cli = componentLookup[i];
+        
+        if (cli->type == componentType && cli->name == componentName)
+            return true;
+    }
+
+    return false;
 }
 
 void Configuration::setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly)
@@ -655,6 +668,28 @@ Identifier Configuration::getMappingParentId(const Identifier& componentType)
     else if (componentType == Ids::textButton)      return Ids::textButtons;
     else if (componentType == Ids::label)           return Ids::labels;
     else                                            return Ids::components;
+}
+
+Identifier Configuration::getComponentTypeId(const String& typeString)
+{
+         if (typeString.equalsIgnoreCase("slider"))          return Ids::slider;
+    else if (typeString.equalsIgnoreCase("label"))           return Ids::label;
+    else if (typeString.equalsIgnoreCase("textbutton"))      return Ids::textButton;
+    else if (typeString.equalsIgnoreCase("tabbedcomponent")) return Ids::tabbedComponent;
+    else if (typeString.equalsIgnoreCase("combobox"))        return Ids::comboBox;
+    else if (typeString.equalsIgnoreCase("component"))       return Ids::component;
+    else                                                     return Identifier();
+}
+
+String Configuration::getComponentTypeName(const Identifier& type)
+{
+         if (type == Ids::slider)          return "Slider";
+    else if (type == Ids::label)           return "Label";
+    else if (type == Ids::comboBox)        return "Combo Box";
+    else if (type == Ids::tabbedComponent) return "Tabbed Component";
+    else if (type == Ids::textButton)      return "Text Button";
+    else if (type == Ids::component)       return "Component";
+    else                                   return String::empty;
 }
 
 ValueTree Configuration::getStyleOverride(const Identifier& componentType, const String& componentName)

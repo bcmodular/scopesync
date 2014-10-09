@@ -358,13 +358,7 @@ void MappingPanel::rebuildProperties()
         componentNames.insert(0, "- No Component -");
         componentValues.insert(0, String::empty);
 
-        String componentTypeName;
-
-             if (componentType == Ids::slider)          componentTypeName = "Slider";
-        else if (componentType == Ids::label)           componentTypeName = "Label";
-        else if (componentType == Ids::comboBox)        componentTypeName = "Combo Box";
-        else if (componentType == Ids::tabbedComponent) componentTypeName = "Tabbed Component";
-        else if (componentType == Ids::textButton)      componentTypeName = "Text Button";
+        String componentTypeName = Configuration::getComponentTypeName(componentType);
         
         props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to map from");
     }
@@ -450,13 +444,18 @@ void TextButtonMappingPanel::valueChanged(Value& /* valueThatChanged */)
     rebuildProperties();
 }
 
+#include "../Components/BCMWidget.h"
+
 /* =========================================================================
  * StyleOverridePanel
  */
 StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um, 
                                        ScopeSync& ss, ApplicationCommandManager* acm, 
-                                       const Identifier& compType, bool calloutView)
-    : BasePanel(mapping, um, ss, acm), componentType(compType), showComponent(!calloutView)
+                                       const Identifier& compType,
+                                       bool calloutView)
+    : BasePanel(mapping, um, ss, acm), 
+      componentType(compType), 
+      showComponent(!calloutView)
 {
     rebuildProperties();
 }
@@ -472,7 +471,7 @@ void StyleOverridePanel::rebuildProperties()
     if (showComponent)
     {
         // Set up Component Names
-        StringArray componentNames = configuration.getComponentNames(componentType);
+        StringArray componentNames = configuration.getComponentNames(componentType, true);
         Array<var>  componentValues;
 
         for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
@@ -480,28 +479,24 @@ void StyleOverridePanel::rebuildProperties()
         componentNames.insert(0, "- No Component -");
         componentValues.insert(0, String::empty);
 
-        String componentTypeName;
-
-             if (componentType == Ids::slider)          componentTypeName = "Slider";
-        else if (componentType == Ids::label)           componentTypeName = "Label";
-        else if (componentType == Ids::comboBox)        componentTypeName = "Combo Box";
-        else if (componentType == Ids::tabbedComponent) componentTypeName = "Tabbed Component";
-        else if (componentType == Ids::textButton)      componentTypeName = "Text Button";
-        else if (componentType == Ids::component)       componentTypeName = "Component";
+        String componentTypeName = Configuration::getComponentTypeName(componentType);
         
         props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to override style for");
     }
 
     // Set up LookAndFeels
-    StringArray lookAndFeelIds = scopeSync.getBCMLookAndFeelIds();
+    StringArray lookAndFeelIds = scopeSync.getBCMLookAndFeelIds(componentType);
     Array<var>  lookAndFeelValues;
 
     for (int i = 0; i < lookAndFeelIds.size(); i++) lookAndFeelValues.add(lookAndFeelIds[i]);
     
-    lookAndFeelIds.insert(0, "- No Style Override -");
+    lookAndFeelIds.insert(0, String::empty);
+    lookAndFeelValues.insert(0, String::empty);
+    
+    lookAndFeelIds.insert(0, "- No Override -");
     lookAndFeelValues.insert(0, String::empty);
 
-    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "Style Override", lookAndFeelIds, lookAndFeelValues), "Choose the Style to use");
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
 
     propertyPanel.addProperties(props.components);
 }

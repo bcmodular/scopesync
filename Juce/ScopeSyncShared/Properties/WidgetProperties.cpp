@@ -59,6 +59,7 @@ void WidgetProperties::initialiseWidget()
     bcmLookAndFeelId     = String::empty;
     mappingParentType    = Identifier();
     mappingParent        = String::empty;
+    noStyleOverride      = false;
 };
 
 void WidgetProperties::copyWidgetProperties(const WidgetProperties& parentWidgetProperties)
@@ -72,20 +73,22 @@ void WidgetProperties::copyWidgetProperties(const WidgetProperties& parentWidget
     bcmLookAndFeelId  = parentWidgetProperties.bcmLookAndFeelId;
     mappingParentType = parentWidgetProperties.mappingParentType;
     mappingParent     = parentWidgetProperties.mappingParent;
+    noStyleOverride   = parentWidgetProperties.noStyleOverride;
 };
 
-void WidgetProperties::setWidgetValuesFromXML(const XmlElement& labelXML)
+void WidgetProperties::setWidgetValuesFromXML(const XmlElement& widgetXML)
 {
-    name = labelXML.getStringAttribute("name", name);
-    id   = labelXML.getStringAttribute("id",   name); // Default to name if no id set
+    name = widgetXML.getStringAttribute("name", name);
+    id   = widgetXML.getStringAttribute("id",   name); // Default to name if no id set
     
-    XmlElement* boundsXml = labelXML.getChildByName("bounds");
+    XmlElement* boundsXml = widgetXML.getChildByName("bounds");
     if (boundsXml != nullptr)
         getBoundsFromXml(*boundsXml, bounds);
     
-    XmlElement* mappingParentXml = labelXML.getChildByName("mappingparent");
+    XmlElement* mappingParentXml = widgetXML.getChildByName("mappingparent");
     if (mappingParentXml != nullptr)
         getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
 
-    bcmLookAndFeelId = labelXML.getStringAttribute("lfid", bcmLookAndFeelId);
+    noStyleOverride  = widgetXML.getBoolAttribute("nostyleoverride", noStyleOverride);
+    bcmLookAndFeelId = widgetXML.getStringAttribute("lfid", bcmLookAndFeelId);
 };

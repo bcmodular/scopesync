@@ -43,7 +43,7 @@ BCMTabbedComponent::~BCMTabbedComponent() {}
 void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 {
     setName(properties.name);
-    setComponentID(properties.id);
+    applyWidgetProperties(properties);
     
     NamedValueSet& barProperties = getTabbedButtonBar().getProperties();
 
@@ -52,15 +52,9 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
 
     if (mapsToParameter)
-    {
         parameter->mapToUIValue(parameterValue);
-    }
 
     barProperties.set("showdropshadow", properties.showDropShadow);
-    
-    properties.bounds.copyValues(componentBounds);
-    applyBounds();
-    applyLookAndFeel(properties.bcmLookAndFeelId);
 }
 
 const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabbedComponent; };
