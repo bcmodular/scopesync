@@ -40,8 +40,9 @@ public:
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
     BCMComponentBounds componentBounds; // Position/Size information
-    Component*         parentComponent;
-        
+    Component*         parentBCMComponent;
+    ValueTree          styleOverride;
+
     virtual const Identifier getComponentType() const = 0;
     void applyBounds();
     void applyLookAndFeel(String& bcmLookAndFeelId);
@@ -87,6 +88,8 @@ private:
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
+    void overrideStyle();
+    void clearStyleOverride();
     
     void changeListenerCallback (ChangeBroadcaster* source);
 

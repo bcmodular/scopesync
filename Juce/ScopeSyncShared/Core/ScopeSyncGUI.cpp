@@ -144,6 +144,8 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 {
     tooltipWindow = nullptr;
     mainComponent = nullptr;
+    scopeSync.setGUIEnabled(true);
+
     tabbedComponents.clearQuick();
 
     deviceMapping = scopeSync.getMapping();
@@ -218,7 +220,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
         scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
     }
 
-    scopeSync.setGUIEnabled(true);
+
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)

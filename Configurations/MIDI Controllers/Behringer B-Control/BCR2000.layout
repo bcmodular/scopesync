@@ -120,6 +120,11 @@
           <label textcolourid="7ff7fdff"></label>
         </colours>
       </lookandfeel>
+      <lookandfeel id="ScopeSync_Codes_red">
+        <colours>
+          <label textcolourid="ffff0000"></label>
+        </colours>
+      </lookandfeel>
     </lookandfeels>
     <defaults>
       <slider style="rotaryverticaldrag">

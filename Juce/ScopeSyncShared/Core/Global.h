@@ -124,7 +124,9 @@ namespace CommandIDs
         moveDown                 = 0x200640,
 
         editItem                 = 0x200700,
-        editMappedItem           = 0x200710
+        editMappedItem           = 0x200710,
+        overrideStyle            = 0x200720,
+        clearStyleOverride       = 0x200730
     };
 }
 

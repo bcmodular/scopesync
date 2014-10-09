@@ -256,6 +256,14 @@ void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMPar
     configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, configurationManagerCalloutMain->getUndoManager(), paramType, scopeSync, commandManager, true));
 }
 
+void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, const Identifier& componentType, const String& componentName)
+{
+    if (!(styleOverride.isValid()))
+         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &(configurationManagerCalloutMain->getUndoManager()));
+
+    configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, componentType, true));
+}
+
 void ConfigurationManagerCallout::paint(Graphics& g)
 {
     g.fillAll(Colour(0xff434343));
