@@ -125,7 +125,8 @@ public:
     String          getConfigurationName(bool showUnsavedIndicator);
     const File&     getConfigurationFile() { return configuration->getFile(); };
     const File&     getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); };
-    String          getConfigurationDirectory() { return configuration->getDirectory(); };
+    String          getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }
+    String          getLayoutDirectory() { return configuration->getLayoutDirectory(); };
     bool            hasConfigurationUpdate(String& fileName);
     void            changeConfiguration(const String& fileName, bool asyncLoad);
     bool            processConfigurationChange();

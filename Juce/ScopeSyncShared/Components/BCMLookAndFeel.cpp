@@ -43,18 +43,18 @@ BCMLookAndFeel::BCMLookAndFeel(bool cacheImages)
     applyProperties();
 };
 
-BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& configDirectory, bool cacheImages)
+BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir, bool cacheImages)
 {
-    configurationFileDirectoryPath = configDirectory;
+    layoutDirectory = layoutDir;
     id = lookAndFeelXML.getStringAttribute("id");
     initialise(cacheImages);
     setValuesFromXml(lookAndFeelXML);
     applyProperties();
 };
 
-BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& configDirectory)
+BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& layoutDir)
 {
-    configurationFileDirectoryPath = configDirectory;
+    layoutDirectory = layoutDir;
     id = lookAndFeelXML.getStringAttribute("id");
     
     copyProperties(parentLookAndFeel);
@@ -596,10 +596,10 @@ void BCMLookAndFeel::setRotarySliderImage()
 {
     if (rotaryFileName.isNotEmpty())
     {
-        rotary          = ImageLoader::getInstance()->loadImage(rotaryFileName, useImageCache, configurationFileDirectoryPath);
+        rotary          = ImageLoader::getInstance()->loadImage(rotaryFileName, useImageCache, layoutDirectory);
         
         if (rotaryMouseOverFileName.isNotEmpty())
-            rotaryMouseOver = ImageLoader::getInstance()->loadImage(rotaryMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+            rotaryMouseOver = ImageLoader::getInstance()->loadImage(rotaryMouseOverFileName, useImageCache, layoutDirectory);
 
         if (rotary.isValid())
         {
@@ -630,7 +630,7 @@ void BCMLookAndFeel::setLinearSliderImages()
     
     // Set up Image and values for Vertical Slider Thumbs
     if (linearVerticalThumbFileName.isNotEmpty())
-        linearVerticalThumb = ImageLoader::getInstance()->loadImage(linearVerticalThumbFileName, useImageCache, configurationFileDirectoryPath);
+        linearVerticalThumb = ImageLoader::getInstance()->loadImage(linearVerticalThumbFileName, useImageCache, layoutDirectory);
     
     if (linearVerticalThumb.isValid())
         useLinearVerticalSliderImage = true;
@@ -638,7 +638,7 @@ void BCMLookAndFeel::setLinearSliderImages()
     if (useLinearVerticalSliderImage)
     {
         if (linearVerticalThumbMouseOverFileName.isNotEmpty())
-            linearVerticalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalThumbMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+            linearVerticalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalThumbMouseOverFileName, useImageCache, layoutDirectory);
 
         if (!(linearVerticalThumbMouseOver.isValid()))
             linearVerticalThumbMouseOver = linearVerticalThumb;
@@ -646,10 +646,10 @@ void BCMLookAndFeel::setLinearSliderImages()
         // Set up Image and values for Vertical Slider Backgrounds
         if (linearVerticalBackgroundFileName.isNotEmpty())
         {
-            linearVerticalBackground = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
+            linearVerticalBackground = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundFileName, useImageCache, layoutDirectory);
 
             if (linearVerticalBackgroundMouseOverFileName.isNotEmpty())
-                linearVerticalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+                linearVerticalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearVerticalBackgroundMouseOverFileName, useImageCache, layoutDirectory);
 
             if (linearVerticalBackground.isValid())
             {
@@ -679,7 +679,7 @@ void BCMLookAndFeel::setLinearSliderImages()
 
     // Set up Image and values for Horizontal Slider Thumbs
     if (linearHorizontalThumbFileName.isNotEmpty())
-        linearHorizontalThumb = ImageLoader::getInstance()->loadImage(linearHorizontalThumbFileName, useImageCache, configurationFileDirectoryPath);
+        linearHorizontalThumb = ImageLoader::getInstance()->loadImage(linearHorizontalThumbFileName, useImageCache, layoutDirectory);
     
     if (linearHorizontalThumb.isValid())
         useLinearHorizontalSliderImage = true;
@@ -687,7 +687,7 @@ void BCMLookAndFeel::setLinearSliderImages()
     if (useLinearHorizontalSliderImage)
     {
         if (linearHorizontalThumbMouseOverFileName.isNotEmpty())
-            linearHorizontalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalThumbMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+            linearHorizontalThumbMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalThumbMouseOverFileName, useImageCache, layoutDirectory);
 
         if (!(linearHorizontalThumbMouseOver.isValid()))
             linearHorizontalThumbMouseOver = linearHorizontalThumb;
@@ -695,10 +695,10 @@ void BCMLookAndFeel::setLinearSliderImages()
         // Set up Image and values for Horizontal Slider Backgrounds
         if (linearHorizontalBackgroundFileName.isNotEmpty())
         {
-            linearHorizontalBackground = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundFileName, useImageCache, configurationFileDirectoryPath);
+            linearHorizontalBackground = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundFileName, useImageCache, layoutDirectory);
 
             if (linearHorizontalBackgroundMouseOverFileName.isNotEmpty())
-                linearHorizontalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundMouseOverFileName, useImageCache, configurationFileDirectoryPath);
+                linearHorizontalBackgroundMouseOver = ImageLoader::getInstance()->loadImage(linearHorizontalBackgroundMouseOverFileName, useImageCache, layoutDirectory);
 
             if (linearHorizontalBackground.isValid())
             {
@@ -731,22 +731,22 @@ void BCMLookAndFeel::setTextButtonImages()
     useTextButtonImage = true;
 
     if (textButtonUpFileName.isNotEmpty())
-        textButtonUp = ImageLoader::getInstance()->loadImage(textButtonUpFileName, useImageCache, configurationFileDirectoryPath);
+        textButtonUp = ImageLoader::getInstance()->loadImage(textButtonUpFileName, useImageCache, layoutDirectory);
     else
         useTextButtonImage = false;
 
     if (textButtonDownFileName.isNotEmpty())
-        textButtonDown = ImageLoader::getInstance()->loadImage(textButtonDownFileName, useImageCache, configurationFileDirectoryPath);
+        textButtonDown = ImageLoader::getInstance()->loadImage(textButtonDownFileName, useImageCache, layoutDirectory);
     else
         useTextButtonImage = false;
 
     if (textButtonOverUpFileName.isNotEmpty())
-        textButtonOverUp = ImageLoader::getInstance()->loadImage(textButtonOverUpFileName, useImageCache, configurationFileDirectoryPath);
+        textButtonOverUp = ImageLoader::getInstance()->loadImage(textButtonOverUpFileName, useImageCache, layoutDirectory);
     else
         useTextButtonImage = false;
 
     if (textButtonOverDownFileName.isNotEmpty())
-        textButtonOverDown = ImageLoader::getInstance()->loadImage(textButtonOverDownFileName, useImageCache, configurationFileDirectoryPath);
+        textButtonOverDown = ImageLoader::getInstance()->loadImage(textButtonOverDownFileName, useImageCache, layoutDirectory);
     else
         useTextButtonImage = false;
 };

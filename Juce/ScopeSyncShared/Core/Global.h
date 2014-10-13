@@ -95,6 +95,14 @@ namespace Ids
     DECLARE_ID(tabs);
     DECLARE_ID(none);
 
+    DECLARE_ID(layoutLocations);
+    DECLARE_ID(layoutLibrary);
+    DECLARE_ID(layoutName);
+    DECLARE_ID(layoutLocation);
+    DECLARE_ID(location);
+    DECLARE_ID(folder);
+    DECLARE_ID(filePath);
+
     #undef DECLARE_ID
 }
 
@@ -127,14 +135,20 @@ namespace CommandIDs
         editItem                 = 0x200700,
         editMappedItem           = 0x200710,
         overrideStyle            = 0x200720,
-        clearStyleOverride       = 0x200730
+        clearStyleOverride       = 0x200730,
+
+        editLayoutLocations      = 0x200800,
+        addLayoutLocation        = 0x200810,
+        removeLayoutLocations    = 0x200820,
+        resetLayoutLocations     = 0x200830
     };
 }
 
 namespace CommandCategories
 {
-    static const char* const general   = "General";
-    static const char* const configmgr = "Configuration Manager";
+    static const char* const general      = "General";
+    static const char* const configmgr    = "Configuration Manager";
+    static const char* const usersettings = "User Settings";
 }
 
 #endif // GLOBAL_H_INCLUDED

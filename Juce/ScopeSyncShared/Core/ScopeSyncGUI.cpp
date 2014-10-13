@@ -240,7 +240,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
-        String configurationFileDirectory = scopeSync.getConfigurationDirectory();
+        String layoutDirectory = scopeSync.getLayoutDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
         DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
@@ -255,14 +255,14 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
             if (parentBCMLookAndFeel != nullptr)
             {
                 DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
-                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, configurationFileDirectory);
+                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, layoutDirectory);
             }
             else
-                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, configurationFileDirectory, useImageCache);
+                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory, useImageCache);
         }
         else
         {
-            bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, configurationFileDirectory, useImageCache);
+            bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory, useImageCache);
         }
 
         if (bcmLookAndFeel != nullptr)
@@ -387,11 +387,11 @@ void ScopeSyncGUI::readSettingsXml(XmlElement& settingsXML)
 
 void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
-    const String& configurationFileDirectory = scopeSync.getConfigurationDirectory();
+    const String& layoutDirectory = scopeSync.getLayoutDirectory();
         
     addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));
     
-    mainComponent->applyProperties(componentXML, configurationFileDirectory);
+    mainComponent->applyProperties(componentXML, layoutDirectory);
     return;
 }
 

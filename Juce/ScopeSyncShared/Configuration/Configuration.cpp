@@ -29,6 +29,7 @@
 #include "../Core/Global.h"
 #include "../Utils/BCMMisc.h"
 #include "../Utils/BCMMath.h"
+#include "../Components/UserSettings.h"
 
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,
@@ -122,14 +123,6 @@ PropertiesFile& Configuration::getConfigurationProperties ()
     return *properties;
 }
 
-String Configuration::getDirectory()
-{
-    if (getFile() != File::nonexistent)
-        return getFile().getParentDirectory().getFullPathName();
-    else
-        return String::empty;
-}
-
 Result Configuration::loadDocument(const File& file)
 {
     ScopedPointer<XmlElement> xml(XmlDocument::parse(file));
@@ -152,6 +145,14 @@ Result Configuration::loadDocument(const File& file)
 
     DBG("Needs Saving: " + String(hasChangedSinceSaved()));
     return Result::ok();
+}
+
+String Configuration::getConfigurationDirectory()
+{
+    if (getFile() != File::nonexistent)
+        return getFile().getParentDirectory().getFullPathName();
+    else
+        return String::empty;
 }
 
 bool Configuration::replaceConfiguration(const String& newFileName)
@@ -478,55 +479,71 @@ XmlElement& Configuration::getLayout(String& errorText, String& errorDetails, bo
 
 XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails)
 {
-    String layoutFilename = configurationRoot.getProperty(Ids::layoutFilename, String::empty).toString();
+    layoutDirectory = String::empty;
+    layoutXml       = loaderLayoutXml;
+    layoutLoaded    = false;
+    
+    String layoutName     = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
+    String layoutLocation = configurationRoot.getProperty(Ids::layoutLocation, String::empty).toString();
+
+    String layoutFilename = UserSettings::getInstance()->getLayoutFilename(layoutName, layoutLocation);
 
     if (layoutFilename.isEmpty())
     {
-        DBG("ScopeSync::loadLayoutFile - No layout filename supplied, returning Loader");
-        layoutXml    = loaderLayoutXml;
-        layoutLoaded = false;
+        errorText    = "Layout not found, using default layout";
+        errorDetails = "No layout filename found in library for layout: '" + layoutName + "', in location: '" + layoutLocation + "'. Check settings in Configuration.";
         return layoutXml;
     }
-     
-    File layoutFile = getFile().getSiblingFile(layoutFilename);
-        
-    DBG("ScopeSync::loadLayoutFile - Trying to load: " + layoutFile.getFullPathName());
+    
+    File layoutFile;
 
-    XmlDocument               layoutDocument(layoutFile);
-    ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
-
-    if (loadedLayoutXml != nullptr)
+    if (File::isAbsolutePath(layoutFilename) && File(layoutFilename) != File::nonexistent)
     {
-        if (loadedLayoutXml->hasTagName(Ids::layout))
+        layoutFile = File(layoutFilename);
+        
+        DBG("ScopeSync::loadLayoutFile - Trying to load: " + layoutFile.getFullPathName());
+
+        XmlDocument               layoutDocument(layoutFile);
+        ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
+
+        if (loadedLayoutXml != nullptr)
         {
-            // No XSD validation header
-            layoutXml    = *loadedLayoutXml;
-            layoutLoaded = true;
-        }
-        else
-        {
-            // Look for a layout element at the 2nd level down instead
-            XmlElement* subXml = loadedLayoutXml->getChildByName(Ids::layout);
-            
-            if (subXml != nullptr)
+            if (loadedLayoutXml->hasTagName(Ids::layout))
             {
-                layoutXml    = *subXml;
+                // No XSD validation header
+                layoutXml    = *loadedLayoutXml;
                 layoutLoaded = true;
             }
+            else
+            {
+                // Look for a layout element at the 2nd level down instead
+                XmlElement* subXml = loadedLayoutXml->getChildByName(Ids::layout);
+            
+                if (subXml != nullptr)
+                {
+                    layoutXml    = *subXml;
+                    layoutLoaded = true;
+                }
+            }
+        }
+    
+        if (!layoutLoaded)
+        {
+            errorText    = "Problem reading Configuration's Layout File";
+            errorDetails = layoutDocument.getLastParseError();
+            return layoutXml;
         }
     }
-    
-    if (!layoutLoaded)
+    else
     {
-        errorText    = "Problem reading Configuration's Layout File";
-        errorDetails = layoutDocument.getLastParseError();
-        DBG("Problem reading Configuration's Layout File: " + layoutDocument.getLastParseError());
-        
-        layoutXml = loaderLayoutXml;
+        errorText    = "Invalid layout filename, using default layout";
+        errorDetails = layoutFilename + " is not a valid layout filename";
+        return layoutXml;
     }
 
-    setupComponentLookup();
+    layoutDirectory = layoutFile.getParentDirectory().getFullPathName();
 
+    setupComponentLookup();
     return layoutXml;
 }
 

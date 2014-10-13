@@ -62,7 +62,8 @@ public:
 
     PropertiesFile& getConfigurationProperties();
     
-    String getDirectory();
+    String getConfigurationDirectory();
+    String getLayoutDirectory() { return layoutDirectory; }
 
     bool replaceConfiguration(const String& newFileName);
 
@@ -104,6 +105,7 @@ private:
     ValueTree  loaderConfigurationRoot;
     XmlElement layoutXml;       // Layout XML loaded from definition file(s)
     XmlElement loaderLayoutXml; // Default Layout XML
+    String     layoutDirectory;
 
     StringArray sliderNames;
     StringArray labelNames;

@@ -40,10 +40,10 @@ public:
     
     // Constructor for use when setting up LookAndFeel object from XML where we
     // are not copying values from a parent
-    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& configDirectory, bool cacheImages);
+    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir, bool cacheImages);
     
     // Constructor for use when overriding parent values for a specific LookAndFeel
-    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& configDirectory);
+    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& layoutDirectory);
     
     ~BCMLookAndFeel();
 
@@ -195,8 +195,8 @@ private:
     HashMap<String, TooltipWindow::ColourIds>   tooltipWindowColours;
     HashMap<String, BubbleComponent::ColourIds> bubbleComponentColours;
     
-    // Directory File Path for the Configuration file. Used for relative path sourcing of Images
-    String configurationFileDirectoryPath;
+    // Directory Path for the Layout file. Used for relative path sourcing of Images
+    String layoutDirectory;
 
     // Sets up the various HashMaps containing ColourId mapping from XML tags
     void setupColourIds();

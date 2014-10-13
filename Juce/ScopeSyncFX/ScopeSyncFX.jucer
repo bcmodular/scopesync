@@ -96,6 +96,10 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="omqKmC" name="LayoutLocationEditor.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/LayoutLocationEditor.cpp"/>
+        <FILE id="zVQ8xj" name="LayoutLocationEditor.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/LayoutLocationEditor.h"/>
         <FILE id="LFmhts" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMWidget.cpp"/>
         <FILE id="lxa9us" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMWidget.h"/>
         <FILE id="WqAQsV" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>

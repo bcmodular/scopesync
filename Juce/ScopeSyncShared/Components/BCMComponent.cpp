@@ -55,20 +55,20 @@ BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name)
 
 BCMComponent::~BCMComponent() {}
 
-void BCMComponent::applyProperties(XmlElement& componentXML, const String& configDirectory)
+void BCMComponent::applyProperties(XmlElement& componentXML, const String& layoutDir)
 {
     // Firstly set up properties for this Component
     ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
     
     applyWidgetProperties(properties);
-    configurationFileDirectoryPath = configDirectory;
+    layoutDirectory = layoutDir;
     backgroundColour = properties.backgroundColour;
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
         bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
 
-        backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, configurationFileDirectoryPath);
+        backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
         {
@@ -159,7 +159,7 @@ void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
 {
     bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
 
-    Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, configurationFileDirectoryPath);
+    Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, layoutDirectory);
 
     if (loadedImage.isValid())
     {
@@ -207,7 +207,7 @@ void BCMComponent::setupSubComponent(XmlElement& subComponentXML)
 
         addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, name));
 
-        subComponent->applyProperties(subComponentXML, configurationFileDirectoryPath);
+        subComponent->applyProperties(subComponentXML, layoutDirectory);
         subComponents.add(subComponent);
     }
 }
@@ -257,7 +257,7 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
                 tabProperties.idx
             );
 
-            subComponent->applyProperties(*componentXML, configurationFileDirectoryPath);
+            subComponent->applyProperties(*componentXML, layoutDirectory);
         }
         else
         {

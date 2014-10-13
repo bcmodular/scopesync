@@ -104,8 +104,9 @@ void ConfigurationPanel::rebuildProperties()
     PropertyListBuilder props;
 
     props.clear();
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),           "Name",        256, false), "Name of Configuration");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::layoutFilename, &undoManager), "Layout File", 256, false), "Relative path to Layout File");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),           "Name",            256, false), "Name of Configuration");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::layoutName, &undoManager),     "Layout Name",     256, false), "Name of Layout");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::layoutLocation, &undoManager), "Layout Location", 256, false), "Library Location of Layout");
 
     propertyPanel.addProperties(props.components);
 }

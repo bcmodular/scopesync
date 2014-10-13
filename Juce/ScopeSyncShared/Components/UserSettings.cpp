@@ -29,6 +29,7 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
+#include "LayoutLocationEditor.h"
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -160,7 +161,41 @@ juce_ImplementSingleton(UserSettings)
  * UserSettings
  */
 UserSettings::UserSettings()
+: layoutLocationsButton("Layout Locations...")
 {
+    commandManager = new ApplicationCommandManager();
+
+    commandManager->registerAllCommandsForTarget(this);
+    addKeyListener(commandManager->getKeyMappings());
+
+    PropertiesFile::Options options;
+    options.applicationName     = ProjectInfo::projectName;
+    options.folderName          = "ScopeSync";
+    options.filenameSuffix      = "settings";
+    options.osxLibrarySubFolder = "Application Support";
+    appProperties.setStorageParameters(options);
+
+    options.applicationName     = "ScopeSync";
+    options.folderName          = "ScopeSync";
+    globalProperties.setStorageParameters(options);
+
+    // Build Layout Locations and Library trees
+    ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(Ids::layoutLocations.toString());
+    
+    if (xml != nullptr)
+    {
+        layoutLocations = ValueTree::fromXml(*xml);
+
+        xml = getGlobalProperties()->getXmlValue(Ids::layoutLibrary.toString());
+
+        if (xml != nullptr)
+            layoutLibrary = ValueTree::fromXml(*xml);
+        else
+            rebuildLayoutLibrary();
+    }
+    else
+        initialiseLayoutLocations();
+   
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
     propertyPanel.setWantsKeyboardFocus(true);
@@ -170,13 +205,24 @@ UserSettings::UserSettings()
     tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
     tooltipDelayTime.addListener(this);
 
+    layoutLocations.addListener(this);
+
     setupPanel();
+
+    addAndMakeVisible(layoutLocationsButton);
+    layoutLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editLayoutLocations, true);
     
     setSize (getLocalBounds().getWidth(), getLocalBounds().getHeight());
+
+    startTimer(500);
 }
 
 UserSettings::~UserSettings()
 {
+    removeKeyListener(commandManager->getKeyMappings());
+    stopTimer();
+
+    layoutLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
     clearSingletonInstance();
 }
@@ -219,6 +265,12 @@ void UserSettings::resized()
     localBounds.removeFromRight(8);
     localBounds.removeFromTop(8);
 
+    Rectangle<int> toolbarButtons = localBounds.removeFromTop(30);
+    toolbarButtons.removeFromLeft(4);
+
+    layoutLocationsButton.setBounds(toolbarButtons.removeFromLeft(120));
+
+    localBounds.removeFromTop(5);
     propertyPanel.setBounds(localBounds);
 }
 
@@ -242,20 +294,19 @@ void UserSettings::valueChanged(Value& valueThatChanged)
 
 void UserSettings::userTriedToCloseWindow()
 {
+    layoutLocationEditorWindow = nullptr;
     ScopeSync::reloadAllGUIs(); 
     removeFromDesktop();
 }
 
 PropertiesFile* UserSettings::getAppProperties()
 {
-    PropertiesFile::Options options;
-    options.applicationName     = ProjectInfo::projectName;
-    options.folderName          = ProjectInfo::projectName;
-    options.filenameSuffix      = "settings";
-    options.osxLibrarySubFolder = "Application Support";
-    appProperties.setStorageParameters(options);
-
     return appProperties.getUserSettings();
+}
+
+PropertiesFile* UserSettings::getGlobalProperties()
+{
+    return globalProperties.getUserSettings();
 }
 
 void UserSettings::show(int posX, int posY)
@@ -272,5 +323,168 @@ void UserSettings::show(int posX, int posY)
     
 void UserSettings::hide()
 {
+    layoutLocationEditorWindow = nullptr;
     removeFromDesktop();
+}
+
+void UserSettings::changeListenerCallback(ChangeBroadcaster* /* source */)
+{
+    layoutLocationEditorWindow = nullptr;
+}
+
+void UserSettings::editLayoutLocations()
+{
+    if (layoutLocationEditorWindow == nullptr)
+        layoutLocationEditorWindow = new LayoutLocationEditorWindow
+                                            (
+                                            getScreenPosition().getX(), 
+                                            getScreenPosition().getY(), 
+                                            layoutLocations, commandManager, undoManager
+                                            );
+    
+    layoutLocationEditorWindow->addChangeListener(this);
+    layoutLocationEditorWindow->setVisible(true);
+    layoutLocationEditorWindow->setAlwaysOnTop(true);
+    layoutLocationEditorWindow->toFront(true);
+}
+
+void UserSettings::updateLayoutLocations()
+{
+    ScopedPointer<XmlElement> xml = layoutLocations.createXml();
+    getGlobalProperties()->setValue(Ids::layoutLocations.toString(), xml);
+
+    rebuildLayoutLibrary();
+}
+
+void UserSettings::initialiseLayoutLocations()
+{
+    if (layoutLocations.isValid())
+        layoutLocations.removeAllChildren(&undoManager);
+    else
+        layoutLocations = ValueTree(Ids::layoutLocations);
+
+    ValueTree stockLayouts(Ids::location);
+    stockLayouts.setProperty(Ids::name, "ScopeSync", &undoManager);
+    stockLayouts.setProperty(Ids::folder, "C:\\development\\github\\scopesync\\Layouts", &undoManager);
+
+    layoutLocations.addChild(stockLayouts, -1, &undoManager);
+}
+
+void UserSettings::rebuildLayoutLibrary()
+{
+    layoutLibrary = ValueTree(Ids::layoutLibrary);
+
+    for (int i = 0; i < layoutLocations.getNumChildren(); i++)
+    {
+        String locationName   = layoutLocations.getChild(i).getProperty(Ids::name);
+        String locationFolder = layoutLocations.getChild(i).getProperty(Ids::folder);
+
+        if (locationName.isEmpty() || locationFolder.isEmpty() || !(File::isAbsolutePath(locationFolder)))
+            continue;
+
+        File location = File(locationFolder);
+        
+        if (!(location.isDirectory()))
+            continue;
+        
+        Array<File> layoutFiles;
+        location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
+
+        for (int j = 0; j < layoutFiles.size(); j++)
+        {
+            ValueTree layout(Ids::layout);
+            
+            XmlDocument               layoutDocument(layoutFiles[j]);
+            ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
+
+            String layoutName;
+
+            if (loadedLayoutXml != nullptr)
+            {
+                if (loadedLayoutXml->hasTagName(Ids::layout))
+                {
+                    // No XSD validation header
+                    XmlElement layoutXml = *loadedLayoutXml;
+                    layoutName = layoutXml.getStringAttribute(Ids::name);
+                }
+                else
+                {
+                    // Look for a layout element at the 2nd level down instead
+                    XmlElement* subXml = loadedLayoutXml->getChildByName(Ids::layout);
+            
+                    if (subXml != nullptr)
+                    {
+                        XmlElement layoutXml = *subXml;
+                        layoutName = layoutXml.getStringAttribute(Ids::name);
+                    }
+                }
+            }
+
+            if (layoutName.isNotEmpty())
+            {
+                layout.setProperty(Ids::name, layoutName, nullptr);
+                layout.setProperty(Ids::location, locationName, nullptr);
+                layout.setProperty(Ids::filePath, layoutFiles[j].getFullPathName(), nullptr);
+                layoutLibrary.addChild(layout, -1, nullptr);
+            }
+        }
+    }
+
+    ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
+    getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+}
+
+String UserSettings::getLayoutFilename(const String& name, const String& location)
+{
+    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
+    {
+        ValueTree layout = layoutLibrary.getChild(i);
+
+        if (   layout.getProperty(Ids::name).toString().equalsIgnoreCase(name)
+            && layout.getProperty(Ids::location).toString().equalsIgnoreCase(location))
+        {
+            return layout.getProperty(Ids::filePath);
+        }
+    }
+
+    return String::empty;
+}
+
+void UserSettings::timerCallback()
+{
+    undoManager.beginNewTransaction();
+}
+
+void UserSettings::getAllCommands(Array <CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::editLayoutLocations };
+
+    commands.addArray(ids, numElementsInArray (ids));
+}
+
+void UserSettings::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::editLayoutLocations:
+        result.setInfo("Layout Locations...", "Open Layout Locations edit window", CommandCategories::usersettings, 0);
+        result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool UserSettings::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::editLayoutLocations:    editLayoutLocations(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+ApplicationCommandTarget* UserSettings::getNextCommandTarget()
+{
+    return nullptr;
 }

@@ -29,9 +29,14 @@
 #define USERSETTINGS_H_INCLUDED
 
 #include <JuceHeader.h>
+class LayoutLocationEditorWindow;
 
-class UserSettings  : public Component,
-                      Value::Listener
+class UserSettings  : public  Component,
+                      public  Value::Listener,
+                      private ValueTree::Listener,
+                      public  ApplicationCommandTarget,
+                      public  Timer,
+                      public  ChangeListener
 {
 public:
     UserSettings ();
@@ -40,25 +45,55 @@ public:
     void show(int posX, int posY);
     void hide();
 
+    void   changeListenerCallback(ChangeBroadcaster* source);
+    void   initialiseLayoutLocations();
+    void   rebuildLayoutLibrary();
+    String getLayoutFilename(const String& name, const String& location);
+
     PropertiesFile* getAppProperties();
+    PropertiesFile* getGlobalProperties();
     int  getPropertyIntValue(const String& propertyName, int defaultValue);
     void setPropertyIntValue(const String& propertyName, int newValue);
 
     juce_DeclareSingleton (UserSettings, false)
 
 private:
-    ApplicationProperties appProperties;
-    PropertyPanel         propertyPanel;
+    ScopedPointer<ApplicationCommandManager> commandManager;
+    UndoManager               undoManager;
+    ApplicationProperties     appProperties;
+    ApplicationProperties     globalProperties;
+    PropertyPanel             propertyPanel;
+    TextButton                layoutLocationsButton;
+    ScopedPointer<LayoutLocationEditorWindow> layoutLocationEditorWindow;
 
-    Value tooltipDelayTime;
+    Value     tooltipDelayTime;
+    ValueTree layoutLocations;
+    ValueTree layoutLibrary;
     
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
     void resized() override;
     
     void setupPanel();
+    void editLayoutLocations();
+    void updateLayoutLocations();
+    
+    void timerCallback();
 
     void valueChanged(Value& valueThatChanged) override;
+
+    // Overridden methods for ValueTree::Listener
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { updateLayoutLocations(); };
+    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { updateLayoutLocations(); };
+    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { updateLayoutLocations(); };
+    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { updateLayoutLocations(); };
+    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { updateLayoutLocations(); };
+
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };

@@ -53,7 +53,7 @@ public:
     BCMComponent (ScopeSyncGUI& owner, const String& name);
     ~BCMComponent();
 
-    void applyProperties(XmlElement& componentXML, const String& configDirectory);
+    void applyProperties(XmlElement& componentXML, const String& layoutDir);
     const Identifier getComponentType() const override;
     
     // Returns width of the BCMComponent
@@ -89,8 +89,8 @@ private:
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
 
-    // Directory File Path for the Configuration file. Used for relative path sourcing of Images
-    String configurationFileDirectoryPath;
+    // Directory Path for the Layout file. Used for relative path sourcing of Images
+    String layoutDirectory;
     
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)
     bool showInThisContext(XmlElement& xml);

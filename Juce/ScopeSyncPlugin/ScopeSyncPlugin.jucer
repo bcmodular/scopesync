@@ -111,6 +111,10 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
+      <FILE id="cUBBVP" name="LayoutLocationEditor.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Components/LayoutLocationEditor.cpp"/>
+      <FILE id="uYbbjm" name="LayoutLocationEditor.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Components/LayoutLocationEditor.h"/>
       <FILE id="TY4E9p" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMWidget.cpp"/>
       <FILE id="MwfKqv" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMWidget.h"/>
       <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
