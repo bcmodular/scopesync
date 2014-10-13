@@ -45,7 +45,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("encodersnap", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("encodersnap", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("encodersnap", 0); }
 
 private:
     UserSettings& owner;
@@ -67,7 +67,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("rotarymovement", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("rotarymovement", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("rotarymovement", 0); }
 
 private:
     UserSettings& owner;
@@ -89,7 +89,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("incdecbuttonmode", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("incdecbuttonmode", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("incdecbuttonmode", 0); }
 
 private:
     UserSettings& owner;
@@ -109,7 +109,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("popupenabled", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("popupenabled", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("popupenabled", 0); }
 
 private:
     UserSettings& owner;
@@ -129,7 +129,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("velocitybasedmode", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("velocitybasedmode", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("velocitybasedmode", 0); }
 
 private:
     UserSettings& owner;
@@ -149,7 +149,7 @@ public:
     }
 
     void setIndex (int newIndex) override { owner.setPropertyIntValue("enabletooltips", newIndex); }
-    int  getIndex() const override { return owner.getPropertyIntValue("enabletooltips", 1); }
+    int  getIndex() const override { return owner.getPropertyIntValue("enabletooltips", 0); }
 
 private:
     UserSettings& owner;
@@ -205,6 +205,9 @@ UserSettings::UserSettings()
     tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
     tooltipDelayTime.addListener(this);
 
+    useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
+    useImageCache.addListener(this);
+
     layoutLocations.addListener(this);
 
     setupPanel();
@@ -245,6 +248,11 @@ void UserSettings::setupPanel()
     props.add(new EncoderVelocityModeProperty(*this),                           "Choose whether Velocity Based Mode is enabled for Encoders");
     
     propertyPanel.addSection("Encoder Settings", props.components, true);
+
+    props.clear();
+    props.add(new BooleanPropertyComponent(useImageCache, "Image Cache", "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
+
+    propertyPanel.addSection("Expert Settings", props.components, false);
 }
 
 void UserSettings::paint (Graphics& g)
@@ -284,12 +292,22 @@ void UserSettings::setPropertyIntValue(const String& propertyName, int newValue)
     return getAppProperties()->setValue(propertyName, newValue);
 }
 
+bool UserSettings::getPropertyBoolValue(const String& propertyName, bool defaultValue)
+{
+    return getAppProperties()->getBoolValue(propertyName, defaultValue);
+}
+
+void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValue)
+{
+    return getAppProperties()->setValue(propertyName, newValue);
+}
+
 void UserSettings::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(tooltipDelayTime))
-    {
         setPropertyIntValue("tooltipdelaytime", valueThatChanged.getValue());
-    }
+    else if (valueThatChanged.refersToSameSourceAs(useImageCache))
+        setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
 }
 
 void UserSettings::userTriedToCloseWindow()
@@ -314,7 +332,7 @@ void UserSettings::show(int posX, int posY)
     setOpaque(true);
     setVisible(true);
     
-    setBounds(posX, posY, 600, 300);
+    setBounds(posX, posY, 600, 350);
     
     addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
     setAlwaysOnTop(true);

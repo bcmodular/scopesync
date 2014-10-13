@@ -54,6 +54,8 @@ public:
     PropertiesFile* getGlobalProperties();
     int  getPropertyIntValue(const String& propertyName, int defaultValue);
     void setPropertyIntValue(const String& propertyName, int newValue);
+    bool getPropertyBoolValue(const String& propertyName, bool defaultValue);
+    void setPropertyBoolValue(const String& propertyName, bool newValue);
 
     juce_DeclareSingleton (UserSettings, false)
 
@@ -66,6 +68,7 @@ private:
     TextButton                layoutLocationsButton;
     ScopedPointer<LayoutLocationEditorWindow> layoutLocationEditorWindow;
 
+    Value     useImageCache;
     Value     tooltipDelayTime;
     ValueTree layoutLocations;
     ValueTree layoutLibrary;

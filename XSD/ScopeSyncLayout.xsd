@@ -490,11 +490,18 @@
     </element>
 
     <complexType name="layouttype">
-        <sequence>
-            <element name="lookandfeels" type="tns:lookandfeelstype" minOccurs="0" maxOccurs="1"></element>
-            <element name="defaults" type="tns:defaultstype" minOccurs="0" maxOccurs="1"></element>
-            <element name="component" type="tns:componenttype" minOccurs="0" maxOccurs="1"></element>
-        </sequence>
+    	<sequence>
+    		<element name="lookandfeels" type="tns:lookandfeelstype"
+    			minOccurs="0" maxOccurs="1">
+    		</element>
+    		<element name="defaults" type="tns:defaultstype"
+    			minOccurs="0" maxOccurs="1">
+    		</element>
+    		<element name="component" type="tns:componenttype"
+    			minOccurs="0" maxOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
     </complexType>
 
     <simpleType name="displaycontexttype">

@@ -66,7 +66,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
-        bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
+        bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
         backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, layoutDirectory);
         
@@ -157,7 +157,7 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
 
 void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
 {
-    bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
+    bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
     Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, layoutDirectory);
 

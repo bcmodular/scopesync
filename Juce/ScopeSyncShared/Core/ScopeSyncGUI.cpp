@@ -153,7 +153,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     scopeSync.clearBCMLookAndFeels();
 
     // Firstly add the system LookAndFeels
-    bool useImageCache = UserSettings::getInstance()->getAppProperties()->getBoolValue("useimagecache", true);
+    bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
     ScopedPointer<XmlElement> systemLookAndFeels = scopeSync.getSystemLookAndFeels();
     
     setupLookAndFeels(*systemLookAndFeels, useImageCache);
