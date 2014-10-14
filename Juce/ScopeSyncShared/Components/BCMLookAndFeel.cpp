@@ -437,6 +437,14 @@ void BCMLookAndFeel::drawRotarySlider
 {
     if (rotary.numFrames > 0)
     {
+        // Draw background image
+        if (rotaryBackground.isValid())
+        {
+            g.setColour(findColour(Slider::rotarySliderFillColourId));
+            g.drawImageWithin(rotaryBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+        }
+
+        // Draw filmstrip image
         int   frameIndex = (int)(sliderPosProportional * (rotary.numFrames - 1));
         Image indexImage = rotary.getImageAtIndex(frameIndex, slider.isMouseOverOrDragging());
         

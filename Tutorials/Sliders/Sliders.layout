@@ -40,7 +40,7 @@
       </lookandfeel>
       <lookandfeel id="sliders5">
         <colours>
-          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
+          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffff0000" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
           <label textcolourid="bbcad5d9"></label>
           <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="df111111"></texteditor>
           <textbutton textcolouroffid="ffcad5d9" textcolouronid="ffff4200" buttoncolourid="ff4a5961"></textbutton>
@@ -52,7 +52,7 @@
         </colours>
         <images>
           <slider>
-            <rotary><image filename="Skins/SSKnob_Orange.png" numframes="61" ishorizontal="false"/></rotary>
+            <rotary backgroundfilename="Skins/White_Pot_New_LED.png"><image filename="Skins/White_Pot_New.png" numframes="62" ishorizontal="false"/></rotary>
             <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">
               <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearhorizontal>
