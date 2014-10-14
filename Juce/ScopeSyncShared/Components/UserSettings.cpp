@@ -386,6 +386,8 @@ void UserSettings::initialiseLayoutLocations()
     stockLayouts.setProperty(Ids::folder, "C:\\development\\github\\scopesync\\Layouts", &undoManager);
 
     layoutLocations.addChild(stockLayouts, -1, &undoManager);
+
+    updateLayoutLocations();
 }
 
 void UserSettings::rebuildLayoutLibrary()
