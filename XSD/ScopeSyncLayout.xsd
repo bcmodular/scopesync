@@ -192,9 +192,12 @@
 
     <complexType name="sliderrotaryimagestype">
     	<attribute name="filename" type="string"></attribute>
-        <attribute name="mouseoverfilename" type="string"></attribute>
-        <attribute name="numframes" type="int"></attribute>
-    	<attribute name="ishorizontal" type="boolean"></attribute>
+    	<attribute name="mouseoverfilename" type="string"></attribute>
+    	<attribute name="numframes" type="int"></attribute>
+    	<attribute name="ishorizontal" type="boolean"></attribute>
+
+    	<attribute name="backgroundfilename" type="string"></attribute>
+    	<attribute name="backgroundusefillcolour" type="boolean"></attribute>
     </complexType>
 
     <complexType name="sliderlinearimagestype">
