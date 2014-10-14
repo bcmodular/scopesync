@@ -52,8 +52,10 @@
         </colours>
         <images>
           <slider>
-            <rotary filename="Skins/SSKnob_Orange.png" numframes="61" ishorizontal="false"></rotary>
-            <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbborder="3" backgroundfilename="Skins/Blank.png" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
+            <rotary><image filename="Skins/SSKnob_Orange.png" numframes="61" ishorizontal="false"/></rotary>
+            <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">
+              <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
+            </linearhorizontal>
           </slider>
           <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
         </images>
@@ -65,8 +67,12 @@
         </colours>
         <images>
           <slider>
-            <linearhorizontal thumbfilename="Skins/SliderCap2.png" thumbborder="0" backgroundfilename="Skins/BipolarSlider.png" backgroundnumframes="61" backgroundishorizontal="false"></linearhorizontal>
-            <linearvertical thumbfilename="Skins/SliderCap3.png" thumbborder="-5" backgroundfilename="Skins/Blank.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+            <linearhorizontal thumbfilename="Skins/SliderCap2.png" thumbmouseoverfilename="Skins/SliderCap2.png" thumbborder="0">
+              <backgroundimage filename="Skins/BipolarSlider.png" numframes="61" ishorizontal="false"/>
+            </linearhorizontal>
+            <linearvertical thumbfilename="Skins/SliderCap3.png" thumbmouseoverfilename="Skins/SliderCap3.png" thumbborder="-5">
+              <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false"/>
+            </linearvertical>
           </slider>
           <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
         </images>

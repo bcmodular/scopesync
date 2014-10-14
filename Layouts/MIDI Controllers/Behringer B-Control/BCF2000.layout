@@ -5,9 +5,13 @@
       <lookandfeel id="default" parentid="system:default">
         <images>
           <slider>
-            <rotary filename="Skins/B-Control/BCR_knob.png" numframes="45" ishorizontal="false"></rotary>
-            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
-            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+            <rotary><image filename="Skins/B-Control/BCR_knob.png" numframes="45" ishorizontal="false"/></rotary>
+            <linearhorizontal thumbfilename="" >
+              <backgroundimage filename="" numframes="1" ishorizontal="false"/>
+            </linearhorizontal>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbmouseoverfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2">
+              <backgroundimage filename="Skins/B-Control/slider_back.png" numframes="1" ishorizontal="false"/>
+            </linearvertical>
           </slider>
         </images>
       </lookandfeel>
@@ -30,9 +34,13 @@
         </colours>
         <images>
           <slider>
-            <rotary filename="BCR_encoder.png" numframes="45" ishorizontal="false"></rotary>
-            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
-            <linearvertical thumbfilename="slider_cap_BCM.png" thumbborder="2" backgroundfilename="slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+            <rotary><image filename="BCR_encoder.png" numframes="45" ishorizontal="false" /></rotary>
+            <linearhorizontal thumbfilename="">
+              <backgroundimage filename="" numframes="1" ishorizontal="false" />
+            </linearhorizontal>
+            <linearvertical thumbfilename="slider_cap_BCM.png" thumbmouseoverfilename="slider_cap_BCM.png" thumbborder="2">
+              <backgroundimage filename="slider_back.png" numframes="1" ishorizontal="false"/>
+            </linearvertical>
           </slider>
         </images>
       </lookandfeel>
@@ -87,9 +95,13 @@
         </colours>
         <images>
           <slider>
-            <rotary filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"></rotary>
-            <linearhorizontal thumbfilename="" backgroundfilename="" backgroundnumframes="1" backgroundishorizontal="false"></linearhorizontal>
-            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+            <rotary><image filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"/></rotary>
+            <linearhorizontal thumbfilename="" >
+              <backgroundimage filename="" numframes="1" ishorizontal="false" />
+            </linearhorizontal>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbmouseoverfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2">
+              <backgroundimage filename="Skins/B-Control/slider_back.png" numframes="1" ishorizontal="false" />
+            </linearvertical>
           </slider>
         </images>
       </lookandfeel>
@@ -101,7 +113,7 @@
         <images>
           <textbutton upfilename="Skins/B-Control/BCR_encoder_Push_off.png" downfilename="Skins/B-Control/BCR_encoder_Push_on.png" mouseoverupfilename="Skins/B-Control/BCR_encoder_Push_off.png" mouseoverdownfilename="Skins/B-Control/BCR_encoder_Push_on.png"></textbutton>
           <slider>
-            <rotary filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"></rotary>
+            <rotary><image filename="Skins/B-Control/BCR_encoder_rotary.png" numframes="45" ishorizontal="false"/></rotary>
           </slider>
         </images>
       </lookandfeel>
@@ -123,7 +135,9 @@
         </colours>
         <images>
           <slider>
-            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2" backgroundfilename="Skins/B-Control/slider_back.png" backgroundnumframes="1" backgroundishorizontal="false"></linearvertical>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbmouseoverfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2">
+              <backgroundimage filename="Skins/B-Control/slider_back.png" numframes="1" ishorizontal="false"/>
+            </linearvertical>
           </slider>
         </images>
       </lookandfeel>

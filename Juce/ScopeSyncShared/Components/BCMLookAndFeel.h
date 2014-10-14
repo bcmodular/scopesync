@@ -32,6 +32,30 @@
 
 #include <JuceHeader.h>
 
+class FilmStripImage
+{
+public:
+    int    numFrames;
+    Image  image;
+    Image  mouseOverImage;
+    bool   isHorizontal;
+    int    frameWidth;
+    int    frameHeight;
+
+    FilmStripImage() { initialise(); }
+    void initialise();
+    void copyFrom(const FilmStripImage& source);
+    void setUp(const String& fileName,       const String& mouseOverFileName, 
+               int           numberOfFrames, bool          fsIsHorizontal, 
+               bool          useImageCache,  const String& layoutDirectory);
+
+    // Cut a specific slice from a film-strip image
+    Image getImageAtIndex(int frameIndex, bool isMouseOver);
+    
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilmStripImage);
+};
+
 class BCMLookAndFeel : public LookAndFeel_V3
 {
 public:
@@ -135,51 +159,26 @@ private:
                                  // restrict drop-down lists for Style Overrides)
 
     // Variables holding LookAndFeel attributes to be applied on drawing Components
-    String rotaryFileName;
-    String rotaryMouseOverFileName;
-    Image  rotary;
-    Image  rotaryMouseOver;
-    int    rotaryNumFrames;
-    int    rotaryFrameHeight;
-    int	   rotaryFrameWidth;
-    bool   rotaryIsHorizontal;
-    String linearVerticalThumbFileName;
+    FilmStripImage rotary;
+    Image rotaryBackground;
+    bool  rotaryBackgroundUseFillColour;
+    
     Image  linearVerticalThumb;
-    String linearVerticalThumbMouseOverFileName;
     Image  linearVerticalThumbMouseOver;
     int	   linearVerticalThumbBorder;
-    String linearVerticalBackgroundFileName;
-    Image  linearVerticalBackground;
-    String linearVerticalBackgroundMouseOverFileName;
-    Image  linearVerticalBackgroundMouseOver;
-    int    linearVerticalBackgroundNumFrames;
-    int    linearVerticalBackgroundFrameHeight;
-    int	   linearVerticalBackgroundFrameWidth;
-    bool   linearVerticalBackgroundIsHorizontal;
-    String linearHorizontalThumbFileName;
+    
+    FilmStripImage linearVerticalBackground;
+    
     Image  linearHorizontalThumb;
-    String linearHorizontalThumbMouseOverFileName;
     Image  linearHorizontalThumbMouseOver;
     int	   linearHorizontalThumbBorder;
-    String linearHorizontalBackgroundFileName;
-    Image  linearHorizontalBackground;
-    String linearHorizontalBackgroundMouseOverFileName;
-    Image  linearHorizontalBackgroundMouseOver;
-    int    linearHorizontalBackgroundNumFrames;
-    int    linearHorizontalBackgroundFrameHeight;
-    int	   linearHorizontalBackgroundFrameWidth;
-    bool   linearHorizontalBackgroundIsHorizontal;
-    String textButtonUpFileName;
-    String textButtonDownFileName;
-    String textButtonOverUpFileName;
-    String textButtonOverDownFileName;
+    
+    FilmStripImage linearHorizontalBackground;
+    
     Image  textButtonUp;
     Image  textButtonDown;
     Image  textButtonOverUp;
     Image  textButtonOverDown;
-    bool   useTextButtonImage;
-    bool   useLinearVerticalSliderImage;
-    bool   useLinearHorizontalSliderImage;
     float  popupMenuFontHeight;
     Font::FontStyleFlags popupMenuFontStyleFlags;
     
@@ -211,6 +210,8 @@ private:
     void setValuesFromXml(const XmlElement& lookAndFeelXML);
     
     // Utility methods to read information from XML
+    void overrideImageIfValid(Image& imageToOverride, const String& fileName);
+    void setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage);
     void getRotarySliderImagesFromXml(const XmlElement& xml);
     void getLinearVerticalSliderImagesFromXml(const XmlElement& xml);
     void getLinearHorizontalSliderImagesFromXml(const XmlElement& xml);
@@ -219,23 +220,10 @@ private:
     
     // Use the properties to set the various LookAndFeel values
     void applyProperties();
-    void setRotarySliderImage();
-    void setLinearSliderImages();
-    void setTextButtonImages();
     
     // Callback to draw the area behind TabbedComponent's Tabs. Overridden to allow
     // the drop-shadow to be disabled
     void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h);
-
-    // Utility method to cut a specific slice from a film-strip image
-    Image filmStripIndexImage
-    (
-        Image& filmStripImage,
-        bool   isHorizontal,
-        int    frameWidth,
-        int    frameHeight,
-        int    frameNumber
-    );
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLookAndFeel);
 };
