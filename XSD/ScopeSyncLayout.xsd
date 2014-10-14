@@ -191,23 +191,21 @@
     </complexType>
 
     <complexType name="sliderrotaryimagestype">
-    	<attribute name="filename" type="string"></attribute>
-    	<attribute name="mouseoverfilename" type="string"></attribute>
-    	<attribute name="numframes" type="int"></attribute>
-    	<attribute name="ishorizontal" type="boolean"></attribute>
+    	<sequence>
+    		<element name="image" type="tns:filmstripimagetype" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
 
     	<attribute name="backgroundfilename" type="string"></attribute>
     	<attribute name="backgroundusefillcolour" type="boolean"></attribute>
     </complexType>
 
     <complexType name="sliderlinearimagestype">
+    	<sequence>
+    		<element name="backgroundimage" type="tns:filmstripimagetype" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
     	<attribute name="thumbfilename" type="string"></attribute>
     	<attribute name="thumbmouseoverfilename" type="string"></attribute>
-    	<attribute name="thumbborder" type="int"></attribute>
-    	<attribute name="backgroundfilename" type="string"></attribute>
-        <attribute name="backgroundmouseoverfilename" type="string"></attribute>
-        <attribute name="backgroundnumframes" type="int"></attribute>
-    	<attribute name="backgroundishorizontal" type="boolean"></attribute>
+    	<attribute name="thumbborder" type="int"></attribute>
 
     </complexType>
 
@@ -608,5 +606,12 @@
 
     <complexType name="appliestotype">
     	<attribute name="componenttype" type="tns:componenttypetype"></attribute>
+    </complexType>
+
+    <complexType name="filmstripimagetype">
+    	<attribute name="filename" type="string"></attribute>
+    	<attribute name="mouseoverfilename" type="string"></attribute>
+    	<attribute name="numframes" type="int"></attribute>
+    	<attribute name="ishorizontal" type="boolean"></attribute>
     </complexType>
 </schema>
