@@ -418,13 +418,14 @@ void UserSettings::rebuildLayoutLibrary()
             ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
 
             String layoutName;
+            XmlElement layoutXml("dummy");
 
             if (loadedLayoutXml != nullptr)
             {
                 if (loadedLayoutXml->hasTagName(Ids::layout))
                 {
                     // No XSD validation header
-                    XmlElement layoutXml = *loadedLayoutXml;
+                    layoutXml = *loadedLayoutXml;
                     layoutName = layoutXml.getStringAttribute(Ids::name);
                 }
                 else
@@ -434,7 +435,7 @@ void UserSettings::rebuildLayoutLibrary()
             
                     if (subXml != nullptr)
                     {
-                        XmlElement layoutXml = *subXml;
+                        layoutXml = *subXml;
                         layoutName = layoutXml.getStringAttribute(Ids::name);
                     }
                 }
@@ -444,6 +445,9 @@ void UserSettings::rebuildLayoutLibrary()
             {
                 layout.setProperty(Ids::name, layoutName, nullptr);
                 layout.setProperty(Ids::location, locationName, nullptr);
+                layout.setProperty(Ids::screenshot, layoutXml.getStringAttribute(Ids::screenshot), nullptr);
+                layout.setProperty(Ids::thumbnail, layoutXml.getStringAttribute(Ids::thumbnail), nullptr);
+                layout.setProperty(Ids::blurb, layoutXml.getStringAttribute(Ids::blurb), nullptr);
                 layout.setProperty(Ids::filePath, layoutFiles[j].getFullPathName(), nullptr);
                 layoutLibrary.addChild(layout, -1, nullptr);
             }

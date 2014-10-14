@@ -102,6 +102,9 @@ namespace Ids
     DECLARE_ID(location);
     DECLARE_ID(folder);
     DECLARE_ID(filePath);
+    DECLARE_ID(screenshot);
+    DECLARE_ID(thumbnail);
+    DECLARE_ID(blurb);
 
     #undef DECLARE_ID
 }
@@ -140,7 +143,8 @@ namespace CommandIDs
         editLayoutLocations      = 0x200800,
         addLayoutLocation        = 0x200810,
         removeLayoutLocations    = 0x200820,
-        resetLayoutLocations     = 0x200830
+        resetLayoutLocations     = 0x200830,
+        chooseSelectedLayout     = 0x200840
     };
 }
 

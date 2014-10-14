@@ -277,6 +277,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
@@ -1434,6 +1437,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
@@ -1686,6 +1692,9 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioProcessorListener.h">
       <Filter>Juce Modules\juce_audio_processors\processors</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioProcessorParameter.h">
+      <Filter>Juce Modules\juce_audio_processors\processors</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_processors\processors\juce_GenericAudioProcessorEditor.h">
       <Filter>Juce Modules\juce_audio_processors\processors</Filter>
     </ClInclude>
@@ -1780,6 +1789,9 @@
       <Filter>Juce Modules\juce_core\maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_MathsFunctions.h">
+      <Filter>Juce Modules\juce_core\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_NormalisableRange.h">
       <Filter>Juce Modules\juce_core\maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_Random.h">

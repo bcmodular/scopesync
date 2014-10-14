@@ -14,6 +14,9 @@
               companyEmail="support@bcmodular.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
     <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
+      <FILE id="AaQSpb" name="LayoutChooser.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Configuration/LayoutChooser.cpp"/>
+      <FILE id="GunUQI" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/LayoutChooser.h"/>
       <FILE id="avXY6h" name="SettingsTable.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/SettingsTable.cpp"/>
       <FILE id="ABl7zA" name="SettingsTable.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/SettingsTable.h"/>

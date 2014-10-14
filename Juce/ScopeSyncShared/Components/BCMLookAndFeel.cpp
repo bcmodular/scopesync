@@ -337,13 +337,12 @@ void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStrip
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
+    overrideImageIfValid(rotaryBackground, xml.getStringAttribute("backgroundfilename", String::empty));
+    rotaryBackgroundUseFillColour = xml.getBoolAttribute("backgroundusefillcolour", true);
     XmlElement* child = xml.getChildByName("image");
 
     if (child != nullptr)
         setupFilmStripImageFromXml(*child, rotary);
-
-    overrideImageIfValid(rotaryBackground, xml.getStringAttribute("backgroundfilename", String::empty));
-    rotaryBackgroundUseFillColour = xml.getBoolAttribute("backgroundusefillcolour", true);
 }
 
 void BCMLookAndFeel::getLinearHorizontalSliderImagesFromXml(const XmlElement& xml)
@@ -380,8 +379,6 @@ void BCMLookAndFeel::getTextButtonImagesFromXml(const XmlElement& xml)
     
 void BCMLookAndFeel::getColoursFromXml(const String& colourSet, const XmlElement& xml)
 {
-    // DBG("BCMLookAndFeel::getColoursFromXml - xml input = " + xml.createDocument(""));
-
     for (int i = 0; i < xml.getNumAttributes(); i++)
     {
         String colourId    = xml.getAttributeName(i).toLowerCase();
@@ -652,7 +649,7 @@ int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType)
     return 0;
 }
 
-void BCMLookAndFeel::drawTabAreaBehindFrontButton (TabbedButtonBar& bar, Graphics& g, const int w, const int h)
+void BCMLookAndFeel::drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, const int w, const int h)
 {
     const float shadowSize = 0.15f;
 

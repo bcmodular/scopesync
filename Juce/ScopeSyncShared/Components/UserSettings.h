@@ -49,6 +49,7 @@ public:
     void   initialiseLayoutLocations();
     void   rebuildLayoutLibrary();
     String getLayoutFilename(const String& name, const String& location);
+    const ValueTree& getLayoutLibrary() { return layoutLibrary; }
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();

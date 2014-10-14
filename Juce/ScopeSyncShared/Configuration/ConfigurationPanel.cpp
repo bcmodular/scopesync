@@ -32,6 +32,8 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
+#include "LayoutChooser.h"
+#include "../Components/UserSettings.h"
 
 /* =========================================================================
  * BasePanel
@@ -88,6 +90,26 @@ EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, Applicat
 
 EmptyPanel::~EmptyPanel() {}
 
+class LayoutChooserButton : public ButtonPropertyComponent
+{
+public:
+    LayoutChooserButton(ConfigurationPanel& cp)
+        : ButtonPropertyComponent("Layout Chooser", false),
+          configurationPanel(cp) {}
+
+    void buttonClicked() override
+    {
+        configurationPanel.chooseLayout();
+    }
+
+    String getButtonText() const override { return "Launch ..."; }
+
+private:
+    ConfigurationPanel& configurationPanel;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LayoutChooserButton)
+};
+
 /* =========================================================================
  * ConfigurationPanel
  */
@@ -101,14 +123,45 @@ ConfigurationPanel::~ConfigurationPanel() {}
 
 void ConfigurationPanel::rebuildProperties()
 {
+    layoutName     = valueTree.getPropertyAsValue(Ids::layoutName,     &undoManager);
+    layoutLocation = valueTree.getPropertyAsValue(Ids::layoutLocation, &undoManager);
+
+    propertyPanel.clear();
+
     PropertyListBuilder props;
 
     props.clear();
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),           "Name",            256, false), "Name of Configuration");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::layoutName, &undoManager),     "Layout Name",     256, false), "Name of Layout");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::layoutLocation, &undoManager), "Layout Location", 256, false), "Library Location of Layout");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), "Name",            256, false), "Name of Configuration");
+    props.add(new LayoutChooserButton(*this),                                                                                  "Launch the Layout Chooser");
+    props.add(new TextPropertyComponent(layoutName,                                            "Layout Name",     256, false), "Name of Layout");
+    props.add(new TextPropertyComponent(layoutLocation,                                        "Layout Location", 256, false), "Library Location of Layout");
 
     propertyPanel.addProperties(props.components);
+}
+
+void ConfigurationPanel::changeListenerCallback(ChangeBroadcaster* /* source */)
+{ 
+    layoutChooserWindow = nullptr;
+    rebuildProperties();
+}
+
+void ConfigurationPanel::chooseLayout()
+{
+    if (layoutChooserWindow == nullptr)
+        layoutChooserWindow = new LayoutChooserWindow
+                                      (
+                                      getScreenPosition().getX(), 
+                                      getScreenPosition().getY(), 
+                                      UserSettings::getInstance()->getLayoutLibrary(),
+                                      layoutName,
+                                      layoutLocation,
+                                      commandManager
+                                      );
+    
+    layoutChooserWindow->addChangeListener(this);
+    layoutChooserWindow->setVisible(true);
+    layoutChooserWindow->setAlwaysOnTop(true);
+    layoutChooserWindow->toFront(true);
 }
 
 /* =========================================================================

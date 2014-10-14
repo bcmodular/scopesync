@@ -250,6 +250,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
@@ -1323,6 +1326,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h">
+      <Filter>ScopeSyncFX\Source\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
@@ -1588,6 +1594,9 @@
       <Filter>Juce Modules\juce_core\maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_MathsFunctions.h">
+      <Filter>Juce Modules\juce_core\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_NormalisableRange.h">
       <Filter>Juce Modules\juce_core\maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_Random.h">

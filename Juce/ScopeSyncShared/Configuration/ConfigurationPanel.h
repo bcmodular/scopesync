@@ -78,19 +78,29 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EmptyPanel)
 };
 
+class LayoutChooserWindow;
+
 /* =========================================================================
  * ConfigurationPanel: Edit Panel for Configuration
  */
-class ConfigurationPanel : public BasePanel
+class ConfigurationPanel : public BasePanel,
+                           public ChangeListener
 {
 public:
     ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
     ~ConfigurationPanel();
-
+    void chooseLayout();
+    
 protected:
     void rebuildProperties() override;
 
 private:
+    Value layoutName;
+    Value layoutLocation;
+
+    void changeListenerCallback(ChangeBroadcaster* /* source */);
+    
+    ScopedPointer<LayoutChooserWindow> layoutChooserWindow;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationPanel)
 };

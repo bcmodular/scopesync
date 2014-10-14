@@ -145,6 +145,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
@@ -1060,6 +1061,7 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
@@ -1149,6 +1151,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_BigInteger.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_Expression.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_MathsFunctions.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_NormalisableRange.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_Random.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\maths\juce_Range.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\memory\juce_Atomic.h"/>
