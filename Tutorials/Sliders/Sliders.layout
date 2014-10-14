@@ -40,7 +40,7 @@
       </lookandfeel>
       <lookandfeel id="sliders5">
         <colours>
-          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffff0000" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
+          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffff4d00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
           <label textcolourid="bbcad5d9"></label>
           <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="df111111"></texteditor>
           <textbutton textcolouroffid="ffcad5d9" textcolouronid="ffff4200" buttoncolourid="ff4a5961"></textbutton>
@@ -52,7 +52,9 @@
         </colours>
         <images>
           <slider>
-            <rotary backgroundfilename="Skins/White_Pot_New_LED.png"><image filename="Skins/White_Pot_New.png" numframes="62" ishorizontal="false"/></rotary>
+            <rotary backgroundfilename="Skins/White_Pot_New_LED.png">
+              <image filename="Skins/White_Pot_New.png" numframes="62" ishorizontal="false" />
+            </rotary>
             <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">
               <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearhorizontal>
@@ -68,10 +70,10 @@
         <images>
           <slider>
             <linearhorizontal thumbfilename="Skins/SliderCap2.png" thumbmouseoverfilename="Skins/SliderCap2.png" thumbborder="0">
-              <backgroundimage filename="Skins/BipolarSlider.png" numframes="61" ishorizontal="false"/>
+              <backgroundimage filename="Skins/BipolarSlider.png" numframes="61" ishorizontal="false" />
             </linearhorizontal>
             <linearvertical thumbfilename="Skins/SliderCap3.png" thumbmouseoverfilename="Skins/SliderCap3.png" thumbborder="-5">
-              <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false"/>
+              <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearvertical>
           </slider>
           <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
@@ -81,6 +83,22 @@
         <colours>
           <slider backgroundcolourid="fffdfdfd" thumbcolourid="fffe8c00" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ff000000" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
         </colours>
+      </lookandfeel>
+      <lookandfeel id="sliders9" parentid="sliders5">
+        <colours>
+          <label textcolourid="ffdfe6eb"></label>
+        </colours>
+        <images>
+          <slider>
+            <rotary backgroundfilename="Skins/White_Pot_New_LED.png">
+              <image filename="Skins/Black_Pot_New.png" numframes="63" ishorizontal="false" />
+            </rotary>
+            <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">
+              <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
+            </linearhorizontal>
+          </slider>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+        </images>
       </lookandfeel>
     </lookandfeels>
     <defaults>
@@ -415,7 +433,7 @@
           <mappingparent componenttype="slider" componentname="S5" />
           <bounds x="100" y="125" width="90" height="15"></bounds>
         </label>
-        <slider lfid="sliders6" name="S19" style="rotary">
+        <slider lfid="sliders9" name="S19" style="rotary">
           <mappingparent componenttype="slider" componentname="S5" />
           <bounds x="100" y="140" width="90" height="79" />
           <textbox position="above"></textbox>
