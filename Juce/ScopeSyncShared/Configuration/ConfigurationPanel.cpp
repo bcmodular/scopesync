@@ -132,11 +132,13 @@ void ConfigurationPanel::rebuildProperties()
 
     props.clear();
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), "Name",            256, false), "Name of Configuration");
+    propertyPanel.addSection("Configuration Settings", props.components);
+
+    props.clear();
     props.add(new LayoutChooserButton(*this),                                                                                  "Launch the Layout Chooser");
     props.add(new TextPropertyComponent(layoutName,                                            "Layout Name",     256, false), "Name of Layout");
     props.add(new TextPropertyComponent(layoutLocation,                                        "Layout Location", 256, false), "Library Location of Layout");
-
-    propertyPanel.addProperties(props.components);
+    propertyPanel.addSection("Layout Settings", props.components);
 }
 
 void ConfigurationPanel::changeListenerCallback(ChangeBroadcaster* /* source */)

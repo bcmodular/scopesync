@@ -72,9 +72,11 @@ public:
     void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
-    void       sortOrderChanged(int /* newSortColumnId */, bool /* isForwards */) override {};
+    void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void       selectedRowsChanged(int lastRowSelected) override;
     void       backgroundClicked(const MouseEvent&) override;
+    void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
+    void       returnKeyPressed(int lastRowSelected);
     
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
@@ -98,6 +100,7 @@ private:
     friend class ImageComp;
 
     void chooseSelectedLayout();
+    void closeWindow();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

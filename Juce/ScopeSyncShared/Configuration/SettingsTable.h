@@ -98,42 +98,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsTable)
 };
 
-//==============================================================================
-// A comparator used to sort our data when the user clicks a column header
-class SettingsSorter
-{
-public:
-    SettingsSorter (const int columnIdToSort, bool forwards)
-        : columnId(columnIdToSort),
-          direction (forwards ? 1 : -1)
-    {
-    }
-
-    int compareElements(const ValueTree& first, const ValueTree& second) const
-    {
-        int result = 0;
-
-        if (columnId == 2)
-        {
-            String firstString  = first.getProperty(Ids::name, String::empty);
-            String secondString = second.getProperty(Ids::name, String::empty);
-            result = firstString.compareNatural(secondString);
-        }
-        else if (columnId == 3)
-        {
-            int firstInt  = first.getProperty(Ids::intValue);
-            int secondInt = second.getProperty(Ids::intValue);
-            result = (firstInt < secondInt) ? -1 : ((secondInt < firstInt) ? 1 : 0);
-        }
-        
-        return direction * result;
-    }
-
-private:
-    int columnId;
-    int direction;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsSorter)
-};
-
 #endif  // SETTINGSTABLE_H_INCLUDED

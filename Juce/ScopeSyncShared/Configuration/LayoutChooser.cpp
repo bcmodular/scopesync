@@ -26,6 +26,7 @@
 
 #include "LayoutChooser.h"
 #include "../Resources/ImageLoader.h"
+#include "../Components/UserSettings.h"
 
 /* =========================================================================
  * LayoutChooserWindow
@@ -67,31 +68,70 @@ void LayoutChooserWindow::restoreWindowPosition(int posX, int posY)
 }
 
 /* =========================================================================
- * LayoutChooser
+ * LayoutSorter - A comparator used to sort our data when the user clicks a column header
  */
+class LayoutSorter
+{
+public:
+    LayoutSorter (const int columnIdToSort, bool forwards)
+        : columnId(columnIdToSort),
+          direction (forwards ? 1 : -1)
+    {
+    }
 
+    int compareElements(const ValueTree& first, const ValueTree& second) const
+    {
+        int result = 0;
+
+        if (columnId == 2)
+        {
+            String firstString  = first.getProperty(Ids::name, String::empty);
+            String secondString = second.getProperty(Ids::name, String::empty);
+            result = firstString.compareNatural(secondString);
+        }
+        else if (columnId == 3)
+        {
+            String firstString  = first.getProperty(Ids::location, String::empty);
+            String secondString = second.getProperty(Ids::location, String::empty);
+            result = firstString.compareNatural(secondString);
+        }
+        
+        return direction * result;
+    }
+
+private:
+    int columnId;
+    int direction;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LayoutSorter)
+};
+
+/* =========================================================================
+ * LayoutChooser::ImageComp - Used for handling the thumbnail and screenshot display
+ */
 class LayoutChooser::ImageComp : public Component
 {
 public:
     ImageComp(const String& thumb, const String& screenshot, const String& layoutDir)
         : layoutDirectory(layoutDir)
     {
+        useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
         setImage(thumb, screenshot);
     }
 
-    void resized() override
-    {
-        imageComponent.setBoundsInset(BorderSize<int> (2));
-    }
+    void resized() override {}
 
     void paint(Graphics& g) override
     {
-        g.drawImageWithin(thumbImage, 0, 0, getWidth() - 2, getHeight() - 2, RectanglePlacement::centred);
+        g.fillAll(Colours::white);
+        
+        if (thumbImage.isValid())
+            g.drawImageWithin(thumbImage, 0, 0, getWidth() - 2, getHeight() - 2, RectanglePlacement::centred);
     }
 
-    void mouseDown(const MouseEvent& e) override
+    void mouseDown(const MouseEvent& /* e */) override
     {
-        Image screenshotImage = ImageLoader::getInstance()->loadImage(screenshotFileName, true, layoutDirectory);
+        Image screenshotImage = ImageLoader::getInstance()->loadImage(screenshotFileName, useImageCache, layoutDirectory);
 
         if (screenshotImage.isValid())
         {
@@ -106,23 +146,22 @@ public:
 
     void setImage(const String& thumb, const String& screenshot)
     {
-        thumbImage = ImageLoader::getInstance()->loadImage(thumb, true, layoutDirectory);
-        
-        if (thumbImage.isValid())
-            imageComponent.setImage(thumbImage);
-
+        thumbImage = ImageLoader::getInstance()->loadImage(thumb, useImageCache, layoutDirectory);
         screenshotFileName = screenshot;
     }
 
 private:
-    ImageComponent imageComponent;
     String screenshotFileName;
     String layoutDirectory;
     Image  thumbImage;
+    bool   useImageCache;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageComp)
 };
 
+/* =========================================================================
+ * LayoutChooser
+ */
 LayoutChooser::LayoutChooser(const ValueTree& valueTree,
                              const Value& layoutName,
                              const Value& layoutLocation,
@@ -197,15 +236,14 @@ Component* LayoutChooser::refreshComponentForCell(int rowNumber, int columnId, b
     if (columnId == 1)
     {
         String thumbFileName = viewTree.getChild(rowNumber).getProperty(Ids::thumbnail);
-        
+        ImageComp* imageComp = (ImageComp*)existingComponentToUpdate;
+
         if (thumbFileName.isNotEmpty())
         {
             File   layoutFile(viewTree.getChild(rowNumber).getProperty(Ids::filePath));
             String layoutDirectory    = layoutFile.getParentDirectory().getFullPathName();
             String screenshotFileName = viewTree.getChild(rowNumber).getProperty(Ids::screenshot);
             
-            ImageComp* imageComp = (ImageComp*)existingComponentToUpdate;
-
             if (imageComp == nullptr)
                 imageComp = new ImageComp(thumbFileName, screenshotFileName, layoutDirectory);
             else
@@ -213,8 +251,18 @@ Component* LayoutChooser::refreshComponentForCell(int rowNumber, int columnId, b
     
             return imageComp;
         }
+        else if (imageComp != nullptr)
+        {
+            delete imageComp;
+        }
     }
     return nullptr;
+}
+
+void LayoutChooser::sortOrderChanged(int newSortColumnId, bool isForwards)
+{
+    LayoutSorter sorter(newSortColumnId, isForwards);
+    viewTree.sort(sorter, nullptr, true);
 }
 
 void LayoutChooser::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
@@ -241,15 +289,19 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
     
     g.setColour(Colours::black.withAlpha(0.2f));
     g.fillRect(width - 1, 0, 1, height);
-
-    g.setColour(Colours::darkgrey);
-    g.drawRect(width, 0, 0, height, 4.0);
-
 }
 
 void LayoutChooser::backgroundClicked(const MouseEvent&)
 {
     table.deselectAllRows();
+}
+
+void LayoutChooser::cellDoubleClicked(int rowNumber, int /* columnId */, const MouseEvent& /* e */)
+{
+    name     = viewTree.getChild(rowNumber).getProperty(Ids::name);
+    location = viewTree.getChild(rowNumber).getProperty(Ids::location);
+    
+    closeWindow();
 }
 
 void LayoutChooser::selectedRowsChanged(int lastRowSelected)
@@ -276,6 +328,11 @@ void LayoutChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
     }
 }
 
+void LayoutChooser::returnKeyPressed(int /* lastRowSelected */)
+{
+    chooseSelectedLayout();
+}
+
 bool LayoutChooser::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
@@ -292,6 +349,11 @@ void LayoutChooser::chooseSelectedLayout()
     name     = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::name);
     location = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::location);
     
+    closeWindow();
+}
+
+void LayoutChooser::closeWindow()
+{
     LayoutChooserWindow* window = (LayoutChooserWindow*)getParentComponent();
     window->sendChangeMessage();
 }
