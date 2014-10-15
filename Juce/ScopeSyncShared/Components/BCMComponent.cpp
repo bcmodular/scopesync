@@ -49,9 +49,179 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Core/ScopeSync.h"
 
-BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name)
-    : BCMWidget(owner, this), Component(name)
-{}
+
+class EditToolbar : public Component,
+                    public Value::Listener,
+                    public Button::Listener
+{
+public:
+    EditToolbar(ScopeSync& ss, int width, int height)    
+    : scopeSync(ss),
+      saveButton("Save"),
+      saveAsButton("Save As..."),
+      applyChangesButton("Apply Changes"),
+      discardChangesButton("Discard All Unsaved Changes"),
+      undoButton("Undo"),
+      redoButton("Redo"),
+      systemErrorDetailsButton()
+    {
+        commandManager = scopeSync.getCommandManager();
+        
+        setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+        saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
+        addAndMakeVisible(saveButton);
+
+        setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+        saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
+        addAndMakeVisible(saveAsButton);
+
+        setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
+        applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyConfigChanges, true);
+        addAndMakeVisible(applyChangesButton);
+
+        setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
+        discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
+        addAndMakeVisible(discardChangesButton);
+
+        setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+        undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
+        addAndMakeVisible(undoButton);
+
+        setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+        redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
+        addAndMakeVisible(redoButton);
+
+        scopeSync.getSystemError().addListener(this);
+        String labelText = scopeSync.getSystemError().toString();
+        systemErrorLabel.setColour(Label::textColourId, Colour::fromString("ffa7aaae"));
+        systemErrorLabel.setColour(Label::backgroundColourId, Colour::fromString("ff000000"));
+        systemErrorLabel.setColour(Label::outlineColourId, Colour::fromString("ffa7aaae"));
+        systemErrorLabel.setText(labelText, dontSendNotification);
+        systemErrorLabel.setJustificationType(Justification::centred);
+        addAndMakeVisible(systemErrorLabel);
+        systemErrorLabel.setVisible(labelText.isNotEmpty());
+
+        scopeSync.getSystemErrorDetails().addListener(this);
+        systemErrorDetailsButton.setImages(true, false, false,
+            ImageLoader::getInstance()->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
+            ImageLoader::getInstance()->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
+            ImageLoader::getInstance()->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+
+        addAndMakeVisible(systemErrorDetailsButton);
+        systemErrorDetailsButton.setVisible(scopeSync.getSystemErrorDetails().toString().isNotEmpty());
+        systemErrorDetailsButton.addListener(this);
+
+        setSize(width, height);
+    }
+
+    ~EditToolbar()
+    {
+        scopeSync.getSystemError().removeListener(this);    
+        scopeSync.getSystemErrorDetails().removeListener(this);
+    }
+
+    // Callback for when the systemerror values change
+    void valueChanged(Value& valueThatChanged) override
+    {
+        if (valueThatChanged.refersToSameSourceAs(scopeSync.getSystemError()))
+        {
+            String text = valueThatChanged.getValue().toString();
+            systemErrorLabel.setText(text, dontSendNotification);
+            systemErrorLabel.setVisible(text.isNotEmpty());
+        }
+
+        if (valueThatChanged.refersToSameSourceAs(scopeSync.getSystemErrorDetails()))
+        {
+            String text = valueThatChanged.getValue().toString();
+            systemErrorDetailsButton.setVisible(text.isNotEmpty());
+        }
+    }
+
+    void buttonClicked(Button* /* buttonThatWasClicked */) override
+    {
+        showSystemErrorDetails();
+    }
+
+private:
+    ScopeSync&                 scopeSync;
+    ApplicationCommandManager* commandManager;
+    Label                      systemErrorLabel;
+    ImageButton                systemErrorDetailsButton;
+    
+    ImageButton saveButton;
+    ImageButton saveAsButton;
+    ImageButton applyChangesButton;
+    ImageButton discardChangesButton;
+    ImageButton undoButton;
+    ImageButton redoButton;
+    
+    void resized() override
+    {
+        Rectangle<int> toolbar(getLocalBounds().reduced(8, 8));
+    
+        saveButton.setBounds(toolbar.removeFromLeft(40));
+        saveAsButton.setBounds(toolbar.removeFromLeft(40));
+        toolbar.removeFromLeft(16);
+        applyChangesButton.setBounds(toolbar.removeFromLeft(40));
+        discardChangesButton.setBounds(toolbar.removeFromLeft(40));
+        toolbar.removeFromLeft(16);
+        undoButton.setBounds(toolbar.removeFromLeft(40));
+        redoButton.setBounds(toolbar.removeFromLeft(40));
+        toolbar.removeFromLeft(8);
+        systemErrorDetailsButton.setBounds(toolbar.removeFromRight(18));
+        systemErrorLabel.setBounds(toolbar.reduced(0, 2));
+    }
+
+    void paint(Graphics& g) override
+    {
+        g.fillAll(Colours::darkgrey);
+
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 94, 8);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 188, 8);
+    }
+
+    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+    {
+        button.setImages(true, true, true,
+                         ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
+                         ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
+                         ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+    }
+
+    class SystemErrorDetailsCallout : public Component
+    {
+    public:
+        SystemErrorDetailsCallout(const String& boxText, EditToolbar& parent)
+            : errorDetailsBox("Callout box")
+        {
+            errorDetailsBox.setText(boxText);
+            errorDetailsBox.setMultiLine(true, true);
+            errorDetailsBox.setReadOnly(true);
+            errorDetailsBox.setCaretVisible(false);
+            errorDetailsBox.setScrollbarsShown(true);
+            errorDetailsBox.setLookAndFeel(&parent.getLookAndFeel());
+            addAndMakeVisible(errorDetailsBox);
+            errorDetailsBox.setBounds(getLocalBounds());
+            setSize(500, 75);
+        }
+
+    private:
+        void resized() override { errorDetailsBox.setBounds(getLocalBounds()); }
+        TextEditor errorDetailsBox;
+    };
+
+    void showSystemErrorDetails()
+    {
+        SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(scopeSync.getSystemErrorDetails().getValue(), *this);
+        CallOutBox::launchAsynchronously(errorDetailsBox, systemErrorDetailsButton.getScreenBounds(), nullptr);
+    }
+};
+
+BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name, bool showEditToolbar)
+    : BCMWidget(owner, this), Component(name), editToolbarShown(showEditToolbar)
+{
+    setWantsKeyboardFocus(true);
+}
 
 BCMComponent::~BCMComponent() {}
 
@@ -91,6 +261,14 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
         else if (child->hasTagName("combobox"))        setupComboBox(*child);
         else if (child->hasTagName("rectangle"))       graphics.add(new BCMRectangle(*child));
         else if (child->hasTagName("image"))           graphics.add(new BCMImage(*child));
+    }
+
+    if (editToolbarShown)
+    {
+        editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
+        Rectangle<int> localBounds(getLocalBounds());
+        editToolbar->setBounds(getLocalBounds().removeFromBottom(40));
+        addAndMakeVisible(editToolbar);
     }
 }
 

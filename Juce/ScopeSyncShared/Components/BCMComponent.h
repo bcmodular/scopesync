@@ -41,6 +41,7 @@ class BCMTabbedComponent;
 class BCMGraphic;
 class BCMRectangle;
 class BCMImage;
+class EditToolbar;
 #include "../Core/ScopeSyncGUI.h"
 #include "../Components/BCMWidget.h"
 
@@ -50,7 +51,7 @@ class BCMComponent : public BCMWidget,
                      public ComboBoxListener
 {
 public:
-    BCMComponent (ScopeSyncGUI& owner, const String& name);
+    BCMComponent(ScopeSyncGUI& owner, const String& name, bool showEditToolbar = false);
     ~BCMComponent();
 
     void applyProperties(XmlElement& componentXML, const String& layoutDir);
@@ -78,6 +79,7 @@ public:
     void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
 
 private:
+    ScopedPointer<EditToolbar>     editToolbar;               // Toolbar containing edit buttons
     OwnedArray<BCMSlider>          sliders;                   // BCMSliders owned by this Component
     OwnedArray<BCMLabel>           labels;                    // BCMLabels owned by this Component
     OwnedArray<BCMComboBox>        comboBoxes;                // BCMComboBoxes owned by this Component
@@ -92,6 +94,9 @@ private:
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;
     
+    // Whether to show an edit toolbar (only applicable for the main component)
+    bool editToolbarShown;
+
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)
     bool showInThisContext(XmlElement& xml);
 

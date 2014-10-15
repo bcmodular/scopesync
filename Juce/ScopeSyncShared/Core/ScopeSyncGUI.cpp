@@ -49,6 +49,10 @@ const int ScopeSyncGUI::timerFrequency = 100;
 
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
+    setWantsKeyboardFocus(true);
+    
+    scopeSync.getCommandManager()->registerAllCommandsForTarget(this);
+    
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     createGUI(false);
     scopeSync.setGUIReload(false);
@@ -213,14 +217,14 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     }
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
-
+    
     if (scopeSync.getConfigurationManagerWindow() != nullptr)
     {
         scopeSync.hideConfigurationManager();
         scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
     }
 
-
+    grabKeyboardFocus();
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)
@@ -389,7 +393,7 @@ void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
     const String& layoutDirectory = scopeSync.getLayoutDirectory();
         
-    addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp"));
+    addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp", true));
     
     mainComponent->applyProperties(componentXML, layoutDirectory);
     return;
@@ -402,4 +406,99 @@ void ScopeSyncGUI::timerCallback()
         createGUI(true);
         scopeSync.setGUIReload(false);
     }
+}
+
+void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
+{
+    const CommandID ids[] = { CommandIDs::saveConfig,
+                              CommandIDs::saveConfigAs,
+                              CommandIDs::applyConfigChanges,
+                              CommandIDs::discardConfigChanges,
+                              CommandIDs::undo,
+                              CommandIDs::redo
+                            };
+
+    commands.addArray (ids, numElementsInArray(ids));
+}
+
+void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::undo:
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, scopeSync.getUndoManager().canUndo() ? 0 : 1);
+        result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::redo:
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, scopeSync.getUndoManager().canRedo() ? 0 : 1);
+        result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfig:
+        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfigAs:
+        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::applyConfigChanges:
+        result.setInfo("Apply Configuration Changes", "Refreshes the current instance using the latest changes", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
+        break;
+    case CommandIDs::discardConfigChanges:
+        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
+        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool ScopeSyncGUI::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::undo:                 undo(); break;
+        case CommandIDs::redo:                 redo(); break;
+        case CommandIDs::saveConfig:           save(); break;
+        case CommandIDs::saveConfigAs:         saveAs(); break;
+        case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
+        case CommandIDs::discardConfigChanges: scopeSync.reloadSavedConfiguration(); break;
+        default:                               return false;
+    }
+
+    return true;
+}
+
+ApplicationCommandTarget* ScopeSyncGUI::getNextCommandTarget() { return nullptr; }
+
+void ScopeSyncGUI::save()
+{
+    scopeSync.saveConfiguration();
+    scopeSync.applyConfiguration();
+}
+
+void ScopeSyncGUI::saveAs()
+{
+    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
+    
+    FileChooser fileChooser("Save Configuration File As...",
+                            configurationFileDirectory,
+                            "*.configuration");
+    
+    if (fileChooser.browseForFileToSave(true))
+    {
+        scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
+        scopeSync.applyConfiguration();
+    }
+}
+
+void ScopeSyncGUI::undo()
+{
+    scopeSync.getUndoManager().undo();
+    scopeSync.applyConfiguration();
+}
+
+void ScopeSyncGUI::redo()
+{
+    scopeSync.getUndoManager().redo();
+    scopeSync.applyConfiguration();
 }

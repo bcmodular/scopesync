@@ -49,7 +49,8 @@ class BCMParameter;
 #include "../Components/BCMSlider.h"
 
 class ScopeSyncGUI : public Component,
-                     public Timer               
+                     public Timer,
+                     public ApplicationCommandTarget               
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -76,13 +77,6 @@ public:
     ScopedPointer<TabbedComponentProperties> defaultTabbedComponentProperties;
     ScopedPointer<TabProperties>             defaultTabProperties;
 
-    static const char* scopeSync_logo_png;
-    static const int   scopeSync_logo_pngSize;
-    static const char* loadConfigButton_off_png;
-    static const int   loadConfigButton_off_pngSize;
-    static const char* loadConfigButton_on_png;
-    static const int   loadConfigButton_on_pngSize;
-
     class Settings
     {
     public:
@@ -98,15 +92,6 @@ public:
     Settings settings;
 
 private:
-    /* =================== Private Configuration Methods =======================*/
-    void createGUI(bool forceReload);
-    void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache);
-    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
-    void setupDefaults(XmlElement& defaultsXML);
-    void readSettingsXml(XmlElement& defaultsXML);
-    void createComponent(XmlElement& componentXML);
-    void timerCallback();
-    
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;
@@ -118,7 +103,26 @@ private:
     
     static const int timerFrequency;
 
-    //==============================================================================
+    /* =================== Private Configuration Methods =======================*/
+    void createGUI(bool forceReload);
+    void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache);
+    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
+    void setupDefaults(XmlElement& defaultsXML);
+    void readSettingsXml(XmlElement& defaultsXML);
+    void createComponent(XmlElement& componentXML);
+    void timerCallback();
+    
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget() override;
+    
+    void save();
+    void saveAs();
+    void undo();
+    void redo();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };
 

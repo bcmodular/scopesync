@@ -82,6 +82,10 @@ protected:
 
     ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
    
+    void saveAs();
+    void undo();
+    void redo();
+
     void showPopupMenu();
     void setupMapping(const Identifier& componentType,     const String& componentName,
                       const Identifier& mappingParentType, const String& mappingParent);

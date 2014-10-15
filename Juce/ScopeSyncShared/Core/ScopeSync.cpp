@@ -648,6 +648,7 @@ void ScopeSync::reloadSavedConfiguration()
 {
     configuration->loadFrom(configuration->getFile(), true);
     applyConfiguration();
+    undoManager.clearUndoHistory();
 }
 
 String ScopeSync::getConfigurationName(bool showUnsavedIndicator)

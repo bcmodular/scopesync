@@ -113,7 +113,13 @@ BCMParameterWidget::~BCMParameterWidget()
 
 void BCMParameterWidget::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::deleteItems,
+    const CommandID ids[] = { CommandIDs::saveConfig,
+                              CommandIDs::saveConfigAs,
+                              CommandIDs::applyConfigChanges,
+                              CommandIDs::discardConfigChanges,
+                              CommandIDs::undo,
+                              CommandIDs::redo,
+                              CommandIDs::deleteItems,
                               CommandIDs::editItem,
                               CommandIDs::editMappedItem,
                               CommandIDs::overrideStyle,
@@ -127,6 +133,30 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
 {
     switch (commandID)
     {
+    case CommandIDs::undo:
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(scopeSyncGUI.getScopeSync().getUndoManager().canUndo()));
+        result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::redo:
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSyncGUI.getScopeSync().getUndoManager().canRedo()));
+        result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfig:
+        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, !(scopeSyncGUI.getScopeSync().getConfiguration().hasChangedSinceSaved()));
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::saveConfigAs:
+        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::applyConfigChanges:
+        result.setInfo("Apply Configuration Changes", "Applies changes made in the Configuration Manager to the relevant ScopeSync instance", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
+        break;
+    case CommandIDs::discardConfigChanges:
+        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, !(scopeSyncGUI.getScopeSync().getConfiguration().hasChangedSinceSaved()));
+        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
+        break;
     case CommandIDs::deleteItems:
         result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, mapsToParameter ? 0 : 1);
         result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
@@ -155,6 +185,12 @@ bool BCMParameterWidget::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
+        case CommandIDs::undo:                 undo(); break;
+        case CommandIDs::redo:                 redo(); break;
+        case CommandIDs::saveConfig:           scopeSyncGUI.getScopeSync().saveConfiguration(); break;
+        case CommandIDs::saveConfigAs:         saveAs(); break;
+        case CommandIDs::applyConfigChanges:   scopeSyncGUI.getScopeSync().applyConfiguration(); break;
+        case CommandIDs::discardConfigChanges: scopeSyncGUI.getScopeSync().reloadSavedConfiguration(); break;
         case CommandIDs::deleteItems:          deleteMapping(); break;
         case CommandIDs::editItem:             editMapping(); break;
         case CommandIDs::editMappedItem:       editMappedParameter(); break;
@@ -169,6 +205,32 @@ bool BCMParameterWidget::perform(const InvocationInfo& info)
 ApplicationCommandTarget* BCMParameterWidget::getNextCommandTarget()
 {
     return nullptr;
+}
+
+void BCMParameterWidget::saveAs()
+{
+    File configurationFileDirectory = scopeSyncGUI.getScopeSync().getConfigurationDirectory();
+    
+    FileChooser fileChooser("Save Configuration File As...",
+                            configurationFileDirectory,
+                            "*.configuration");
+    
+    if (fileChooser.browseForFileToSave(true))
+    {
+        scopeSyncGUI.getScopeSync().saveConfigurationAs(fileChooser.getResult().getFullPathName());
+    }
+}
+
+void BCMParameterWidget::undo()
+{
+    scopeSyncGUI.getScopeSync().getUndoManager().undo();
+    scopeSyncGUI.getScopeSync().applyConfiguration();
+}
+
+void BCMParameterWidget::redo()
+{
+    scopeSyncGUI.getScopeSync().getUndoManager().redo();
+    scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
 void BCMParameterWidget::showPopupMenu()

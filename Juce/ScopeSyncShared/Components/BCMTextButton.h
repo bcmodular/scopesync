@@ -50,7 +50,7 @@ public:
     const Identifier getComponentType() const override;
 
     // Callback for when the value of a mapped parameter changes
-    void valueChanged(Value& value);
+    void valueChanged(Value& value) override;
     
 private:
     
@@ -78,8 +78,7 @@ private:
     DisplayType displayType;
 
     Value parameterValue;     // Maintains a link to a mapped parameter's UI value
-    Value systemErrorDetails; // Used for the systemmoreinfo button
-
+    
     URL url; // URL launched on clicking the button
 
     // Timer Callback. Used as part of the click block solution
@@ -108,30 +107,7 @@ private:
     
     // Callback for when a BCMTextButton is clicked
     void clicked();
-    void showSystemErrorDetails();
-
-    class SystemErrorDetailsCallout : public Component
-    {
-    public:
-        SystemErrorDetailsCallout(const String& boxText, BCMTextButton& parent)
-            : errorDetailsBox("Callout box")
-        {
-            errorDetailsBox.setText(boxText);
-            errorDetailsBox.setMultiLine(true, true);
-            errorDetailsBox.setReadOnly(true);
-            errorDetailsBox.setCaretVisible(false);
-            errorDetailsBox.setScrollbarsShown(true);
-            errorDetailsBox.setLookAndFeel(&parent.getLookAndFeel());
-            addAndMakeVisible(errorDetailsBox);
-            errorDetailsBox.setBounds(getLocalBounds());
-            setSize(500, 75);
-        }
-
-    private:
-        void resized() override { errorDetailsBox.setBounds(getLocalBounds()); }
-        TextEditor errorDetailsBox;
-    };
-
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTextButton);
 };
 

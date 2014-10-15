@@ -167,15 +167,15 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
     switch (commandID)
     {
     case CommandIDs::undo:
-        result.setInfo("Undo", "Undo latest change", CommandCategories::general, 0);
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(undoManager.canUndo()));
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(undoManager.canRedo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:
-        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, 0);
+        result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfigAs:
@@ -187,7 +187,7 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
         break;
     case CommandIDs::discardConfigChanges:
-        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, 0);
+        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::closeConfig:
@@ -348,7 +348,6 @@ ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     
     setSize(width, height);
-    scopeSync.getUndoManager().beginNewTransaction();
 }
 
 ConfigurationManagerCalloutMain::~ConfigurationManagerCalloutMain()
@@ -377,11 +376,11 @@ void ConfigurationManagerCalloutMain::getCommandInfo (CommandID commandID, Appli
     switch (commandID)
     {
     case CommandIDs::undo:
-        result.setInfo("Undo", "Undo latest change", CommandCategories::general, 0);
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, scopeSync.getUndoManager().canUndo() ? 0 : 1);
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, scopeSync.getUndoManager().canRedo() ? 0 : 1);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
     }
@@ -401,7 +400,7 @@ bool ConfigurationManagerCalloutMain::perform(const InvocationInfo& info)
 
 void ConfigurationManagerCalloutMain::undo()
 {
-    scopeSync.getUndoManager().undoCurrentTransactionOnly();
+    scopeSync.getUndoManager().undo();
 }
 
 void ConfigurationManagerCalloutMain::redo()

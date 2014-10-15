@@ -33,8 +33,6 @@ class ScopeSyncGUI;
 class LabelProperties;
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
-#include "../Components/BCMComponentBounds.h"
 #include "BCMWidget.h"
 
 class BCMLabel : public Label,
@@ -47,23 +45,7 @@ public:
     void applyProperties(LabelProperties& properties);
     const Identifier getComponentType() const override;
 
-    void handleValueChanged(Value& valueThatChanged);
-
 private:
-    
-    class BCMLabelValueListener : public Value::Listener
-    {
-    public:
-        BCMLabelValueListener(BCMLabel& label) : parent(label) {};
-        ~BCMLabelValueListener() {};
-
-        BCMLabel& parent;
-        void valueChanged (Value& v)  { parent.handleValueChanged(v); }
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabelValueListener)
-    };
-
-    ScopedPointer<BCMLabelValueListener> valueListener;
-    
     void mouseDown(const MouseEvent& event) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);

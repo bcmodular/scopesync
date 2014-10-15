@@ -38,16 +38,9 @@ BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
     : Label(name, text), BCMParameterWidget(owner, this)
 {
     setWantsKeyboardFocus(true);
-    valueListener = new BCMLabelValueListener(*this);
 }
 
-BCMLabel::~BCMLabel()
-{
-    if (getName().equalsIgnoreCase("SystemError"))
-    {
-        scopeSyncGUI.getScopeSync().getSystemError().removeListener(valueListener);    
-    }
-}
+BCMLabel::~BCMLabel() {}
 
 void BCMLabel::applyProperties(LabelProperties& properties) 
 {
@@ -91,14 +84,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
 
     // Only relevant if label is editable. Not currently supported
     setEditable(false, false, false);
-    
-    if (getName().equalsIgnoreCase("SystemError"))
-    {
-        labelText = scopeSyncGUI.getScopeSync().getSystemError().getValue();
-        scopeSyncGUI.getScopeSync().getSystemError().addListener(valueListener);
-        setVisible(labelText.isNotEmpty());
-    }
-    
+      
     setText(labelText, dontSendNotification);
     setTooltip(tooltip);
     
@@ -118,15 +104,5 @@ void BCMLabel::mouseDown(const MouseEvent& event)
     else
     {
         Label::mouseDown(event);
-    }
-}
-
-void BCMLabel::handleValueChanged(Value& valueThatChanged)
-{
-    if (valueThatChanged.refersToSameSourceAs(scopeSyncGUI.getScopeSync().getSystemError()))
-    {
-        String text = valueThatChanged.getValue().toString();
-        setText(text, dontSendNotification);
-        setVisible(text.isNotEmpty());
     }
 }

@@ -176,11 +176,8 @@
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="LoadConfig" tooltip="Load Configuration">
           <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
-        <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
-          <bounds x="373" y="9" width="21" height="21"></bounds>
-        </textbutton>
         <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
-          <bounds x="399" y="9" width="21" height="21"></bounds>
+          <bounds x="373" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
           <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>
@@ -258,13 +255,6 @@
         <component backgroundimage="Skins/B-Control/BCR_logo.png" backgroundcolour="00000000">
           <bounds x="535" y="30" width="93" height="15" />
         </component>
-        <label lfid="system:systemerror" name="SystemError" text="">
-          <justification horizontallycentred="true" />
-          <bounds relativerectangle="125, parent.height-35, parent.width-143, parent.height-15"></bounds>
-        </label>
-        <textbutton lfid="system:systemerror" name="systemerrormoreinfo" id="systemerrormoreinfo" text="" tooltip="Click for more information">
-          <bounds relativerectangle="right - 18, parent.height-35, parent.width-125, parent.height-15"></bounds>
-        </textbutton>
       </component>
       <!--Group M (Buttons)-->
       <component backgroundimage="" backgroundcolour="00000000">
