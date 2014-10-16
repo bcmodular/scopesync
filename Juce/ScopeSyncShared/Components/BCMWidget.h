@@ -30,6 +30,7 @@
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
 class ScopeSyncGUI;
+class ScopeSync;
 class WidgetProperties;
 
 class BCMWidget
@@ -42,6 +43,7 @@ public:
 
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
+    ScopeSync&         scopeSync;
     BCMComponentBounds componentBounds; // Position/Size information
     Component*         parentBCMComponent;
     ValueTree          styleOverride;

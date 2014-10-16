@@ -122,6 +122,7 @@ namespace CommandIDs
         discardConfigChanges     = 0x200330,
         closeConfig              = 0x200340,
         focusOnPanel             = 0x200350,
+        showHideEditToolbar      = 0x200360,
         
         copyItem                 = 0x200400,
         pasteItem                = 0x200410,

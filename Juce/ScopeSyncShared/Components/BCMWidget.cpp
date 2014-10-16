@@ -33,7 +33,7 @@
 #include "../Properties/WidgetProperties.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner, Component* parent)
-    : scopeSyncGUI(owner)
+    : scopeSyncGUI(owner), scopeSync(owner.getScopeSync())
 {
     parentBCMComponent = parent;
 }

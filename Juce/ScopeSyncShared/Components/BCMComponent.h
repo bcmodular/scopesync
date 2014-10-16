@@ -48,7 +48,9 @@ class EditToolbar;
 class BCMComponent : public BCMWidget,
                      public Component,
                      public SliderListener,
-                     public ComboBoxListener
+                     public ComboBoxListener,
+                     public ChangeListener,
+                     public Value::Listener                                     
 {
 public:
     BCMComponent(ScopeSyncGUI& owner, const String& name, bool showEditToolbar = false);
@@ -78,8 +80,20 @@ public:
     // Callback for when ComboBox's value has been changed
     void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
 
+    // Callback for when the SystemErrorBar's closeButton is clicked
+    void changeListenerCallback(ChangeBroadcaster* source);
+
+    // Callback for when the systemerror values change
+    void valueChanged(Value& valueThatChanged) override;
+
+    void showHideEditToolbar();
+
 private:
+    class EditToolbar;
+    class SystemErrorBar;
+
     ScopedPointer<EditToolbar>     editToolbar;               // Toolbar containing edit buttons
+    ScopedPointer<SystemErrorBar>  systemErrorBar;            // System error display bar
     OwnedArray<BCMSlider>          sliders;                   // BCMSliders owned by this Component
     OwnedArray<BCMLabel>           labels;                    // BCMLabels owned by this Component
     OwnedArray<BCMComboBox>        comboBoxes;                // BCMComboBoxes owned by this Component
@@ -94,7 +108,10 @@ private:
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;
     
-    // Whether to show an edit toolbar (only applicable for the main component)
+    // Indicates whether this is the "Main" Component, i.e. should toolbars be displayed etc.
+    bool mainComponent;
+
+    // Indicates whether the EditToolbar is currently being shown
     bool editToolbarShown;
 
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)

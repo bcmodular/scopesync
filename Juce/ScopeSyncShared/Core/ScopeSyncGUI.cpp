@@ -415,7 +415,8 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
                               CommandIDs::applyConfigChanges,
                               CommandIDs::discardConfigChanges,
                               CommandIDs::undo,
-                              CommandIDs::redo
+                              CommandIDs::redo,
+                              CommandIDs::showHideEditToolbar
                             };
 
     commands.addArray (ids, numElementsInArray(ids));
@@ -449,6 +450,10 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::showHideEditToolbar:
+        result.setInfo("Toggle Edit Toolbar display", "Switches the Edit Toolbar between shown and hidden modes", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -462,6 +467,7 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
         case CommandIDs::saveConfigAs:         saveAs(); break;
         case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
         case CommandIDs::discardConfigChanges: scopeSync.reloadSavedConfiguration(); break;
+        case CommandIDs::showHideEditToolbar:  mainComponent->showHideEditToolbar(); break;
         default:                               return false;
     }
 
