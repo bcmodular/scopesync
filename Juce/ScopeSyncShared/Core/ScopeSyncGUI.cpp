@@ -410,16 +410,19 @@ void ScopeSyncGUI::timerCallback()
 
 void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::saveConfig,
-                              CommandIDs::saveConfigAs,
-                              CommandIDs::applyConfigChanges,
-                              CommandIDs::discardConfigChanges,
-                              CommandIDs::undo,
-                              CommandIDs::redo,
-                              CommandIDs::showHideEditToolbar
-                            };
+    if (!scopeSync.configurationIsReadOnly())
+    {
+        const CommandID ids[] = { CommandIDs::saveConfig,
+                                  CommandIDs::saveConfigAs,
+                                  CommandIDs::applyConfigChanges,
+                                  CommandIDs::discardConfigChanges,
+                                  CommandIDs::undo,
+                                  CommandIDs::redo,
+                                  CommandIDs::showHideEditToolbar
+                                };
 
-    commands.addArray (ids, numElementsInArray(ids));
+        commands.addArray (ids, numElementsInArray(ids));
+    }
 }
 
 void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)

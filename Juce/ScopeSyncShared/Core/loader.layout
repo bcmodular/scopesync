@@ -62,13 +62,6 @@
     <!--Background-->
     <component backgroundcolour="55000000" backgroundimage="Skins/B-Control/background.png">
       <bounds relativerectangle="right - parent.width, 41, parent.width, parent.height" />
-      <label lfid="system:systemerror" name="SystemError" text="">
-        <justification horizontallycentred="true" />
-        <bounds relativerectangle="125, parent.height-35, parent.width-143, parent.height-15"></bounds>
-      </label>
-      <textbutton lfid="system:systemerror" name="systemerrormoreinfo" id="systemerrormoreinfo" text="" tooltip="Click for more information">
-        <bounds relativerectangle="right - 18, parent.height-35, parent.width-125, parent.height-15"></bounds>
-      </textbutton>
     </component>
   </component>
 </layout>

@@ -65,14 +65,4 @@
       <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
     </colours>
   </lookandfeel>
-  <lookandfeel id="system:systemerror">
-    <appliesto componenttype="none" />
-    <colours>
-      <label textcolourid="ffa7aaae" backgroundcolourid="ff000000" outlinecolourid="ffa7aaae"></label>
-      <textbutton textcolouroffid="00ffffff" textcolouronid="00ffffff"></textbutton>
-    </colours>
-    <images>
-      <textbutton upfilename="helpOff" downfilename="helpOn" mouseoverupfilename="helpOver" mouseoverdownfilename="helpOn"></textbutton>
-    </images>
-  </lookandfeel>
 </lookandfeels>

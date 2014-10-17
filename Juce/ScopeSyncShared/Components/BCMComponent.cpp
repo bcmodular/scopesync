@@ -303,20 +303,23 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
 
     if (mainComponent)
     {
-        editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
-        
-        Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
-        
-        bool showEditToolbar = scopeSync.shouldShowEditToolbar();
-        DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
-            
-        if (!showEditToolbar)
+        if (!scopeSync.configurationIsReadOnly())
         {
-            editToolbarBounds.translate(-178, 0);
-        }
+            editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
         
-        editToolbar->setBounds(editToolbarBounds);
-        addAndMakeVisible(editToolbar);
+            Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
+        
+            bool showEditToolbar = scopeSync.shouldShowEditToolbar();
+            DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
+            
+            if (!showEditToolbar)
+            {
+                editToolbarBounds.translate(-178, 0);
+            }
+        
+            editToolbar->setBounds(editToolbarBounds);
+            addAndMakeVisible(editToolbar);
+        }
 
         if (scopeSync.getSystemError().toString().isNotEmpty())
         {

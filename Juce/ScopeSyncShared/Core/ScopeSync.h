@@ -126,6 +126,7 @@ public:
     Configuration&  getConfiguration() { return *configuration; };
     ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
     String          getConfigurationName(bool showUnsavedIndicator);
+    bool            configurationIsReadOnly();
     const File&     getConfigurationFile() { return configuration->getFile(); };
     const File&     getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); };
     String          getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }

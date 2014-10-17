@@ -661,7 +661,12 @@ String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
 
     return name;
 }
-    
+
+bool ScopeSync::configurationIsReadOnly()
+{
+    return getConfigurationRoot().getProperty(Ids::readOnly, false);
+}
+
 void ScopeSync::addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel) { bcmLookAndFeels.add(bcmLookAndFeel); }
 
 BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id)
@@ -823,17 +828,5 @@ const String ScopeSync::systemLookAndFeels =
 "    <colours>\n"
 "      <label textcolourid=\"ffa7aaae\" outlinecolourid=\"ffa7aaae\"></label>\n"
 "    </colours>\n"
-"  </lookandfeel>\n"
-"  <lookandfeel id=\"system:systemerror\">\n"
-"    <appliesto componenttype=\"none\" />\n"
-"    <colours>\n"
-"      <label textcolourid=\"ffa7aaae\" backgroundcolourid=\"ff000000\" outlinecolourid=\"ffa7aaae\"></labe"
-"l>\n"
-"      <textbutton textcolouroffid=\"00ffffff\" textcolouronid=\"00ffffff\"></textbutton>\n"
-"    </colours>\n"
-"    <images>\n"
-"      <textbutton upfilename=\"helpOff\" downfilename=\"helpOn\" mouseoverupfilename=\"helpOver\" mouseove"
-"rdownfilename=\"helpOn\"></textbutton>\n"
-"    </images>\n"
 "  </lookandfeel>\n"
 "</lookandfeels>\n";

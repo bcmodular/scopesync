@@ -113,20 +113,23 @@ BCMParameterWidget::~BCMParameterWidget()
 
 void BCMParameterWidget::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::saveConfig,
-                              CommandIDs::saveConfigAs,
-                              CommandIDs::applyConfigChanges,
-                              CommandIDs::discardConfigChanges,
-                              CommandIDs::undo,
-                              CommandIDs::redo,
-                              CommandIDs::deleteItems,
-                              CommandIDs::editItem,
-                              CommandIDs::editMappedItem,
-                              CommandIDs::overrideStyle,
-                              CommandIDs::clearStyleOverride
-                            };
+    if (!scopeSync.configurationIsReadOnly())
+    {
+        const CommandID ids[] = { CommandIDs::saveConfig,
+                                  CommandIDs::saveConfigAs,
+                                  CommandIDs::applyConfigChanges,
+                                  CommandIDs::discardConfigChanges,
+                                  CommandIDs::undo,
+                                  CommandIDs::redo,
+                                  CommandIDs::deleteItems,
+                                  CommandIDs::editItem,
+                                  CommandIDs::editMappedItem,
+                                  CommandIDs::overrideStyle,
+                                  CommandIDs::clearStyleOverride
+                                };
 
-    commands.addArray (ids, numElementsInArray (ids));
+        commands.addArray (ids, numElementsInArray (ids));
+    }
 }
 
 void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)

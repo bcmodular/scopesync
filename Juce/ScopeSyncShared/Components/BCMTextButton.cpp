@@ -213,6 +213,11 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setTooltip (tooltip);
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
+
+    if (scopeSync.configurationIsReadOnly() && getName().equalsIgnoreCase("showconfigurationmanager"))
+    {
+        setVisible(false);
+    }
 }
 
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };

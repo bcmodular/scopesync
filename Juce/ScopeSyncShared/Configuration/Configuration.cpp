@@ -41,10 +41,11 @@ Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
 {
     lastFailedFile = File();
     loadLoaderConfiguration();
-    loadLoaderLayout();
-    layoutLoaded = false;
-    setChangedFlag(false);
     configurationRoot = loaderConfigurationRoot;
+    loadLoaderLayout();
+    layoutXml = loaderLayoutXml;
+    layoutLoaded = true;
+    setChangedFlag(false);
     configurationRoot.addListener(this);
 }
 
@@ -115,7 +116,7 @@ void Configuration::setupConfigurationProperties()
     properties = new PropertiesFile(options);
 }
 
-PropertiesFile& Configuration::getConfigurationProperties ()
+PropertiesFile& Configuration::getConfigurationProperties()
 {
     if (properties == nullptr)
         setupConfigurationProperties();
@@ -676,7 +677,6 @@ void Configuration::setupSettingLists(const String& parameterName, StringArray& 
     }
 }
 
-
 Identifier Configuration::getMappingParentId(const Identifier& componentType)
 {
          if (componentType == Ids::slider)          return Ids::sliders;
@@ -720,7 +720,7 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
 const String Configuration::loaderConfiguration =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "\n"
-"<configuration name=\"No configuration loaded...\" ID=\"NqZmNe\">\n"
+"<configuration name=\"No configuration loaded...\" readOnly=\"true\" ID=\"NqZmNe\">\n"
 "  <hostParameters/>\n"
 "  <scopeParameters>\n"
 "    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeS"
@@ -854,16 +854,6 @@ const String Configuration::loaderLayout =
 "    <!--Background-->\n"
 "    <component backgroundcolour=\"55000000\" backgroundimage=\"Skins/B-Control/background.png\">\n"
 "      <bounds relativerectangle=\"right - parent.width, 41, parent.width, parent.height\" />\n"
-"      <label lfid=\"system:systemerror\" name=\"SystemError\" text=\"\">\n"
-"        <justification horizontallycentred=\"true\" />\n"
-"        <bounds relativerectangle=\"125, parent.height-35, parent.width-143, parent.height-15\"></boun"
-"ds>\n"
-"      </label>\n"
-"      <textbutton lfid=\"system:systemerror\" name=\"systemerrormoreinfo\" id=\"systemerrormoreinfo\" text"
-"=\"\" tooltip=\"Click for more information\">\n"
-"        <bounds relativerectangle=\"right - 18, parent.height-35, parent.width-125, parent.height-15\""
-"></bounds>\n"
-"      </textbutton>\n"
 "    </component>\n"
 "  </component>\n"
 "</layout>";
