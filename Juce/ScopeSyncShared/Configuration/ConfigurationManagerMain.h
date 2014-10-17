@@ -98,6 +98,7 @@ private:
  * ConfigurationManagerMain: Version to show in Callout box
  */
 class ConfigurationManagerCalloutMain : public  Component,
+                                        public Timer,
                                         public  ApplicationCommandTarget
 {
 public:
@@ -108,16 +109,20 @@ public:
     void resized() override;
     void changePanel(Component* newComponent);
 
-    UndoManager& getUndoManager() { return scopeSync.getUndoManager(); };
+    void timerCallback() override;
+    int  getNumActions() { return numActions; }
 
 private:
     LookAndFeel_V3             lookAndFeel;
     ScopedPointer<Component>   panel;
     
     ScopeSync&                   scopeSync;
+    UndoManager&                 undoManager;
     ApplicationCommandManager*   commandManager;
     ConfigurationManager&        configurationManager;
     
+    int numActions;
+
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;

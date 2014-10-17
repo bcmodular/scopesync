@@ -339,8 +339,11 @@ ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
     int width,
     int height)
     : configurationManager(owner),
-      scopeSync(ss)
+      scopeSync(ss),
+      undoManager(ss.getUndoManager())
 {
+    numActions = 0;
+    
     setLookAndFeel(&lookAndFeel);
 
     commandManager = configurationManager.getCommandManager();
@@ -348,11 +351,23 @@ ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     
     setSize(width, height);
+    
+    startTimer(500);
 }
 
 ConfigurationManagerCalloutMain::~ConfigurationManagerCalloutMain()
 {
+    stopTimer();
+    undoManager.beginNewTransaction();
+    
     removeKeyListener(scopeSync.getCommandManager()->getKeyMappings());
+}
+
+
+void ConfigurationManagerCalloutMain::timerCallback()
+{
+    numActions += undoManager.getNumActionsInCurrentTransaction();
+    undoManager.beginNewTransaction();
 }
 
 void ConfigurationManagerCalloutMain::changePanel(Component* newComponent)
@@ -400,12 +415,14 @@ bool ConfigurationManagerCalloutMain::perform(const InvocationInfo& info)
 
 void ConfigurationManagerCalloutMain::undo()
 {
-    scopeSync.getUndoManager().undo();
+    if (scopeSync.getUndoManager().undo())
+        numActions += 1;
 }
 
 void ConfigurationManagerCalloutMain::redo()
 {
-    scopeSync.getUndoManager().redo();
+    if (scopeSync.getUndoManager().redo())
+        numActions += 1;
 }
 
 ApplicationCommandTarget* ConfigurationManagerCalloutMain::getNextCommandTarget()

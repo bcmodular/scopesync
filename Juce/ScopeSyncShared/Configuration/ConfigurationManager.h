@@ -129,6 +129,7 @@ public:
     
 private:
     ScopeSync&                 scopeSync;
+    UndoManager&               undoManager;
     ApplicationCommandManager* commandManager;
     ConfigurationManager       configurationManager;
     ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;

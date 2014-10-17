@@ -209,15 +209,15 @@ void ConfigurationManagerWindow::restoreWindowPosition(int posX, int posY)
  * ConfigurationManagerCallout
  */
 ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int width, int height)
-    : configurationManager(owner), scopeSync(owner)
+    : configurationManager(owner), scopeSync(owner), undoManager(owner.getUndoManager())
 {
     commandManager = owner.getCommandManager();
     
+    undoManager.beginNewTransaction();
+        
     configurationManagerCalloutMain = new ConfigurationManagerCalloutMain(configurationManager, owner, width, height);
     addAndMakeVisible(configurationManagerCalloutMain);
     
-    addKeyListener(commandManager->getKeyMappings());
-
     setOpaque(true);
     setVisible(true);
     
@@ -227,41 +227,37 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int w
 
 ConfigurationManagerCallout::~ConfigurationManagerCallout()
 {
-    removeKeyListener(commandManager->getKeyMappings());
-    
-    if (scopeSync.getUndoManager().getNumActionsInCurrentTransaction() > 0)
-    {
-        scopeSync.getUndoManager().beginNewTransaction();
+    // Tell the parent component to reload, as we've made a change
+    if (configurationManagerCalloutMain->getNumActions() > 0)
         sendSynchronousChangeMessage();
-    }
 }
 
 void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName)
 {
     if (!(mapping.isValid()))
-         configurationManager.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &(configurationManagerCalloutMain->getUndoManager()));
+         configurationManager.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &undoManager);
 
     MappingPanel* panelToShow;
 
     if (componentType == Ids::textButton)
-        panelToShow = new TextButtonMappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, true);
+        panelToShow = new TextButtonMappingPanel(mapping, undoManager, scopeSync, commandManager, true);
     else
-        panelToShow = new MappingPanel(mapping, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, componentType, true);
+        panelToShow = new MappingPanel(mapping, undoManager, scopeSync, commandManager, componentType, true);
     
         configurationManagerCalloutMain->changePanel(panelToShow);
 }
 
 void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
 {
-    configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, configurationManagerCalloutMain->getUndoManager(), paramType, scopeSync, commandManager, true));
+    configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, undoManager, paramType, scopeSync, commandManager, true));
 }
 
 void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, const Identifier& componentType, const String& componentName)
 {
     if (!(styleOverride.isValid()))
-         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &(configurationManagerCalloutMain->getUndoManager()));
+         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
 
-    configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, configurationManagerCalloutMain->getUndoManager(), scopeSync, commandManager, componentType, true));
+    configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));
 }
 
 void ConfigurationManagerCallout::paint(Graphics& g)
