@@ -83,7 +83,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
 
         mapsToTabs = true;
             
-        DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
+        // DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
     }
 
     setupMapping(Ids::slider, getName(), properties.mappingParentType, properties.mappingParent);
@@ -122,7 +122,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         setDoubleClickReturnValue(true, parameter->getUIResetValue());
         setSkewFactor(parameter->getUISkewFactor());
         
-        DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
+        // DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
         parameter->mapToUIValue(getValueObject());
     }
     else
@@ -206,8 +206,8 @@ void BCMSlider::switchToTabs()
             StringArray tabNames = tabbedComponents[j]->getTabNames();
             int tabIndex = tabNames.indexOf(tabName, true);
 
-            DBG("BCMSlider::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
-                tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);
+            // DBG("BCMSlider::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
+            tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);
         }
     }
 }

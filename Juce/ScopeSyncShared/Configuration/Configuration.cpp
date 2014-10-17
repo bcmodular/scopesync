@@ -713,7 +713,7 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
 {
     ValueTree componentStyleOverrides = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
 
-    DBG("Configuration::getStyleOverride - componentType: " + String(componentType) + ", componentName: " + componentName + ", overrides valid: " + String(componentStyleOverrides.isValid()));
+    // DBG("Configuration::getStyleOverride - componentType: " + String(componentType) + ", componentName: " + componentName + ", overrides valid: " + String(componentStyleOverrides.isValid()));
     return componentStyleOverrides.getChildWithProperty(Ids::name, componentName);
 }
 

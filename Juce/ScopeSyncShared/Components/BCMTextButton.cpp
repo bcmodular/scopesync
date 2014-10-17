@@ -55,7 +55,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     String tooltip(properties.tooltip);
     String buttonText(properties.text);
 
-    DBG("BCMTextButton::applyProperties - setting up button: " + getName());
+    // DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
     int radioGroupId = properties.radioGroupId;
     
@@ -74,7 +74,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         radioGroupTag += properties.tabbedComponents[i];
         mapsToTabs = true;
             
-        DBG("BCMTextButton::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
+        // DBG("BCMTextButton::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
     }
         
     if (mapsToTabs)
@@ -90,7 +90,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     
     if (mapsToParameter)
     {
-        DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
+        // DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         
         String paramShortDesc;
         parameter->getDescriptions(buttonText, tooltip);
@@ -99,7 +99,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         
         // Grab the correct mapping type
         mappingType = (MappingType)(int(mapping.getProperty(Ids::type)));
-        DBG("BCMTextButton::applyProperties - mappingType: " + String(mappingType));
+        // DBG("BCMTextButton::applyProperties - mappingType: " + String(mappingType));
         
         // For mapped buttons, we want them to send their
         // "down" value parameter changes on mouse down
@@ -116,7 +116,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
             if (mapping.getProperty(Ids::radioGroup).isInt())
             {
                 radioGroupId = mapping.getProperty(Ids::radioGroup);
-                DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
+                // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
             }
                 
             // Set up the button display type and the initial button text
@@ -142,12 +142,12 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
                     if (settingName == settingDown)
                     {
                         downSettingIdx = i;
-                        DBG("BCMTextButton::applyProperties - Found mapped parameter settings - down: " + settingDown);
+                        // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - down: " + settingDown);
                     }
                     else if (settingName == settingUp)
                     {
                         upSettingIdx = i;
-                        DBG("BCMTextButton::applyProperties - Found mapped parameter settings - up: " + settingUp);
+                        // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - up: " + settingUp);
                     }
                 }
 

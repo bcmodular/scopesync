@@ -97,6 +97,9 @@ public:
     ApplicationCommandManager* getCommandManager() { return commandManager; }
     UndoManager& getUndoManager() { return undoManager; }
 
+    void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
+    bool shouldShowEditToolbar() { return showEditToolbar; }
+
     /* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
     // the "minHostParameters" value if the real numHostParameters is smaller.
@@ -191,9 +194,10 @@ private:
     bool reloadGUI;                 // Flag to indicate whether the GUI needs to be reloaded
     bool retainParameterState;      // Flag to indicate whether parameter values should be restored after loading configuration
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
-
     bool configurationLoading;
     
+    bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
+
     Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
     Array<std::pair<int,int>, CriticalSection>   asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
     Array<String, CriticalSection>               configurationChanges;

@@ -264,7 +264,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
 
     if (mapping.isValid())
     {
-        DBG("BCMParameterWidget::setupMapping - Using direct mapping: " + String(componentType) + "/" + componentName);
+        // DBG("BCMParameterWidget::setupMapping - Using direct mapping: " + String(componentType) + "/" + componentName);
         if (parameter != nullptr)
             mapsToParameter = true;
 
@@ -273,7 +273,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
     
     if (mappingParentType.isValid() && mappingParent.isNotEmpty())
     {
-        DBG("BCMParameterWidget::setupMapping - Failing back to mappingParent: " + String(mappingComponentType) + "/" + mappingComponentName);
+        // DBG("BCMParameterWidget::setupMapping - Failing back to mappingParent: " + String(mappingComponentType) + "/" + mappingComponentName);
         // Otherwise fail back to a mappingParent (set in the layout XML)
         mappingComponentType = mappingParentType;
         mappingComponentName = mappingParent;
@@ -287,7 +287,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
         }
     }
 
-    DBG("BCMParameterWidget::setupMapping - No mapping or parent mapping found for component: " + String(componentType) + "/" + componentName);
+    // DBG("BCMParameterWidget::setupMapping - No mapping or parent mapping found for component: " + String(componentType) + "/" + componentName);
 }
 
 void BCMParameterWidget::deleteMapping()

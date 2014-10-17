@@ -113,7 +113,7 @@ BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const Strin
 
 void ScopeSyncGUI::addTabbedComponent(BCMTabbedComponent* tabbedComponent)
 {
-    DBG("ScopeSyncGUI::addTabbedComponent - " + tabbedComponent->getName());
+    // DBG("ScopeSyncGUI::addTabbedComponent - " + tabbedComponent->getName());
     tabbedComponents.add(tabbedComponent);
 }
 
@@ -247,7 +247,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
         String layoutDirectory = scopeSync.getLayoutDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
-        DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
+        // DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
         BCMLookAndFeel* bcmLookAndFeel;
 
@@ -258,7 +258,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 
             if (parentBCMLookAndFeel != nullptr)
             {
-                DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
+                // DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
                 bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, layoutDirectory);
             }
             else
@@ -275,12 +275,12 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
         }
         else
         {
-            DBG("ScopeSyncGUI::setupLookAndFeel: Failed to set up LookAndFeel id: " + id);
+            // DBG("ScopeSyncGUI::setupLookAndFeel: Failed to set up LookAndFeel id: " + id);
         }
     }
     else
     {
-        DBG("ScopeSyncGUI::setupLookAndFeel: Must supply an id for a LookAndFeel tag");
+        // DBG("ScopeSyncGUI::setupLookAndFeel: Must supply an id for a LookAndFeel tag");
     }
     return;
 }

@@ -111,9 +111,6 @@ private:
     // Indicates whether this is the "Main" Component, i.e. should toolbars be displayed etc.
     bool mainComponent;
 
-    // Indicates whether the EditToolbar is currently being shown
-    bool editToolbarShown;
-
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)
     bool showInThisContext(XmlElement& xml);
 

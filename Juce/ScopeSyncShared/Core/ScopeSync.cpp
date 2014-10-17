@@ -111,6 +111,7 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+    showEditToolbar = false;
     initCommandManager();
 
     resetScopeCodeIndexes();
@@ -585,7 +586,7 @@ void ScopeSync::applyConfiguration()
         hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter));
         
         int scopeSyncCode = hostParameters[i]->getScopeCode();
-        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
+        // DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
         
         if (scopeSyncCode > -1 && scopeSyncCode < scopeSyncCodes.size())
             paramIdxByScopeSyncId.set(scopeSyncCode, i);
@@ -599,7 +600,7 @@ void ScopeSync::applyConfiguration()
         scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal));
         
         int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
-        DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
+        // DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
         
         if (scopeLocalCode > -1 && scopeLocalCode < scopeLocalCodes.size())
             paramIdxByScopeLocalId.set(scopeLocalCode, i);

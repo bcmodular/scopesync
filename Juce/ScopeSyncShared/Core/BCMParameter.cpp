@@ -63,27 +63,27 @@ void BCMParameter::setNumDecimalPlaces()
 
 void BCMParameter::putValuesInRange(bool initialise)
 {
-    DBG("BCMParameter::putValuesInRange - " + String(getName()));
+    // DBG("BCMParameter::putValuesInRange - " + String(getName()));
     float uiMinValue = definition.getProperty(Ids::uiRangeMin);
     float uiMaxValue = definition.getProperty(Ids::uiRangeMax);
     
-    DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
+    // DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
     
     if (initialise)
     {
-        DBG("BCMParameter::putValuesInRange - Initialise to: " + String(definition.getProperty(Ids::uiResetValue)));
+        // DBG("BCMParameter::putValuesInRange - Initialise to: " + String(definition.getProperty(Ids::uiResetValue)));
         uiValue.setValue(definition.getProperty(Ids::uiResetValue));
     }
     else
     {
         if (float(uiValue.getValue()) < uiMinValue)
         {
-            DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
+            // DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
             uiValue.setValue(uiMinValue);
         }
         else if (float(uiValue.getValue()) > uiMaxValue)
         {
-            DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
+            // DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
             uiValue.setValue(uiMaxValue);
         }
     }
@@ -93,7 +93,7 @@ void BCMParameter::putValuesInRange(bool initialise)
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo)
 {
-    DBG("BCMParameter::mapToUIValue - current uiValue: " + uiValue.getValue().toString());
+    // DBG("BCMParameter::mapToUIValue - current uiValue: " + uiValue.getValue().toString());
     valueToMapTo.referTo(uiValue);
 }
 
@@ -216,7 +216,7 @@ void BCMParameter::getUITextValue(String& textValue)
 float BCMParameter::getHostValue()
 {
     float hostValue = skewHostValue(linearNormalisedValue.getValue(), true);
-    DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
+    // DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
     return hostValue;
 }
 
@@ -238,7 +238,7 @@ float BCMParameter::getScopeFltValue()
     }
 
     float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale);
-    DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
+    // DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
     return scopeValue;
 }
 

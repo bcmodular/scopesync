@@ -304,12 +304,19 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     if (mainComponent)
     {
         editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
-        Rectangle<int> footerBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
-        footerBounds.translate(-178, 0);
-        editToolbar->setBounds(footerBounds);
+        
+        Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
+        
+        bool showEditToolbar = scopeSync.shouldShowEditToolbar();
+        DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
+            
+        if (!showEditToolbar)
+        {
+            editToolbarBounds.translate(-178, 0);
+        }
+        
+        editToolbar->setBounds(editToolbarBounds);
         addAndMakeVisible(editToolbar);
-
-        editToolbarShown = false;
 
         if (scopeSync.getSystemError().toString().isNotEmpty())
         {
@@ -590,19 +597,20 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 
 void BCMComponent::showHideEditToolbar()
 {
-    if (editToolbarShown)
-    {
-        Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
+    Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
+    
+    bool showEditToolbar = scopeSync.shouldShowEditToolbar();
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String(showEditToolbar));
+        
+    if (showEditToolbar)
         editToolbarBounds.translate(-178, 0);
-        Desktop::getInstance().getAnimator().animateComponent(editToolbar, editToolbarBounds, 1.0f, 300, true, 1.0f, 1.0f);
-        editToolbarShown = false;
-    }
-    else
-    {
-        Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
-        Desktop::getInstance().getAnimator().animateComponent(editToolbar, editToolbarBounds, 1.0f, 300, true, 1.0f, 1.0f);
-        editToolbarShown = true;
-    }
+    
+    Desktop::getInstance().getAnimator().animateComponent(editToolbar, editToolbarBounds, 1.0f, 300, true, 1.0f, 1.0f);
+    
+    scopeSync.toggleEditToolbar();
+
+    showEditToolbar = scopeSync.shouldShowEditToolbar();
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String(showEditToolbar));
 }
 
 void BCMComponent::changeListenerCallback(ChangeBroadcaster* /* source */)
