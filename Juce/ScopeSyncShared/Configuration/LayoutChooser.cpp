@@ -34,7 +34,7 @@
 LayoutChooserWindow::LayoutChooserWindow(int posX, int posY, 
                                          const ValueTree& vt,
                                          const Value& layoutName,
-                                         const Value& layoutLocation,
+                                         const Value& layoutLibrarySet,
                                          ApplicationCommandManager* acm)
     : DocumentWindow("Layout Chooser",
                      Colour::greyLevel(0.6f),
@@ -43,7 +43,7 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(new LayoutChooser(vt, layoutName, layoutLocation, acm), true);
+    setContentOwned(new LayoutChooser(vt, layoutName, layoutLibrarySet, acm), true);
     
     restoreWindowPosition(posX, posY);
     
@@ -91,8 +91,8 @@ public:
         }
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::location, String::empty);
-            String secondString = second.getProperty(Ids::location, String::empty);
+            String firstString  = first.getProperty(Ids::libraryset, String::empty);
+            String secondString = second.getProperty(Ids::libraryset, String::empty);
             result = firstString.compareNatural(secondString);
         }
         
@@ -112,47 +112,28 @@ private:
 class LayoutChooser::ImageComp : public Component
 {
 public:
-    ImageComp(const String& thumb, const String& screenshot, const String& layoutDir)
-        : layoutDirectory(layoutDir)
+    ImageComp()
     {
         useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-        setImage(thumb, screenshot);
     }
 
-    void resized() override {}
+    //void resized() override {}
 
     void paint(Graphics& g) override
     {
-        g.fillAll(Colours::white);
-        
+        g.fillAll(Colours::lightgrey);
+
         if (thumbImage.isValid())
-            g.drawImageWithin(thumbImage, 0, 0, getWidth() - 2, getHeight() - 2, RectanglePlacement::centred);
+            g.drawImageWithin(thumbImage, 0, 0, getWidth(), getHeight(), RectanglePlacement::centred);
     }
 
-    void mouseDown(const MouseEvent& /* e */) override
-    {
-        Image screenshotImage = ImageLoader::getInstance()->loadImage(screenshotFileName, useImageCache, layoutDirectory);
-
-        if (screenshotImage.isValid())
-        {
-            ImageComponent* screenshotComponent = new ImageComponent(String::empty);
-            screenshotComponent->setImage(screenshotImage);
-            screenshotComponent->setSize(screenshotImage.getWidth(), screenshotImage.getHeight());
-            screenshotComponent->setAlwaysOnTop(true);
-            DBG("screenshotImage - " + String(screenshotComponent->getWidth()) + "/" + String(screenshotComponent->getHeight()));
-            CallOutBox::launchAsynchronously(screenshotComponent, getScreenBounds(), nullptr);
-        }
-    }
-
-    void setImage(const String& thumb, const String& screenshot)
+    void setImage(const String& thumb, const String& layoutDirectory)
     {
         thumbImage = ImageLoader::getInstance()->loadImage(thumb, useImageCache, layoutDirectory);
-        screenshotFileName = screenshot;
+        repaint();
     }
 
 private:
-    String screenshotFileName;
-    String layoutDirectory;
     Image  thumbImage;
     bool   useImageCache;
 
@@ -164,7 +145,7 @@ private:
  */
 LayoutChooser::LayoutChooser(const ValueTree& valueTree,
                              const Value& layoutName,
-                             const Value& layoutLocation,
+                             const Value& layoutLibrarySet,
                              ApplicationCommandManager* acm)
     : viewTree(valueTree.createCopy()), 
       tree(valueTree), 
@@ -173,11 +154,14 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
       chooseButton("Choose Layout"),
       blurb(String::empty)
 {
+    removeExcludedLayouts();
+
     commandManager->registerAllCommandsForTarget(this);
 
     chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedLayout, true);
     addAndMakeVisible(chooseButton);
 
+    blurb.setJustificationType(Justification::topLeft);
     addAndMakeVisible(blurb);
 
     addAndMakeVisible(table);
@@ -186,16 +170,18 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
     
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness (4);
-    table.setRowHeight(50);
     
-    table.getHeader().addColumn(String::empty, 1, 50,  50,  50, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String::empty, 1, 10,  10,  10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Name",        2, 100, 40,  -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Location",    3, 200, 100, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Library Set", 3, 200, 100, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     
     table.getHeader().setStretchToFitActive(true);
     
     name.referTo(layoutName);
-    location.referTo(layoutLocation);
+    librarySet.referTo(layoutLibrarySet);
+
+    thumbnailView = new ImageComp();
+    addAndMakeVisible(thumbnailView);
 
     viewTree.addListener(this);
 
@@ -210,6 +196,17 @@ LayoutChooser::~LayoutChooser()
     viewTree.removeListener(this);
 }
 
+void LayoutChooser::removeExcludedLayouts()
+{
+    for (int i = 0; i < viewTree.getNumChildren(); i++)
+    {
+        bool excludeFromChooser = viewTree.getChild(i).getProperty(Ids::excludefromchooser, false);
+        
+        if (excludeFromChooser)
+            viewTree.removeChild(i, nullptr);
+    }
+}
+
 void LayoutChooser::paint(Graphics& g)
 {
     g.fillAll(Colours::lightgrey);
@@ -218,45 +215,20 @@ void LayoutChooser::paint(Graphics& g)
 void LayoutChooser::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
-    Rectangle<int> buttonBar(localBounds.removeFromTop(100));
+    Rectangle<int> headerBounds(localBounds.removeFromTop(140));
+    Rectangle<int> headerLeftSection(headerBounds.removeFromLeft(110));
 
-    chooseButton.setBounds(buttonBar.removeFromLeft(100).reduced(4, 35));
-    buttonBar.removeFromLeft(4);
-    blurb.setBounds(buttonBar.reduced(4, 4));
+    thumbnailView->setBounds(headerLeftSection.removeFromTop(110).reduced(4,4));
+    chooseButton.setBounds(headerLeftSection.reduced(4, 1));
+    headerBounds.removeFromLeft(4);
+    headerBounds.removeFromTop(10);
+    blurb.setBounds(headerBounds.reduced(4, 4));
     table.setBounds(localBounds.reduced(4, 4));
 }
     
 int LayoutChooser::getNumRows()
 {
     return viewTree.getNumChildren();
-}
-
-Component* LayoutChooser::refreshComponentForCell(int rowNumber, int columnId, bool /* isRowSelected */, Component* existingComponentToUpdate)
-{
-    if (columnId == 1)
-    {
-        String thumbFileName = viewTree.getChild(rowNumber).getProperty(Ids::thumbnail);
-        ImageComp* imageComp = (ImageComp*)existingComponentToUpdate;
-
-        if (thumbFileName.isNotEmpty())
-        {
-            File   layoutFile(viewTree.getChild(rowNumber).getProperty(Ids::filePath));
-            String layoutDirectory    = layoutFile.getParentDirectory().getFullPathName();
-            String screenshotFileName = viewTree.getChild(rowNumber).getProperty(Ids::screenshot);
-            
-            if (imageComp == nullptr)
-                imageComp = new ImageComp(thumbFileName, screenshotFileName, layoutDirectory);
-            else
-                imageComp->setImage(thumbFileName, screenshotFileName);
-    
-            return imageComp;
-        }
-        else if (imageComp != nullptr)
-        {
-            delete imageComp;
-        }
-    }
-    return nullptr;
 }
 
 void LayoutChooser::sortOrderChanged(int newSortColumnId, bool isForwards)
@@ -282,7 +254,7 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
     {
         case 1: text = String::empty; break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
-        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::location); break;
+        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::libraryset); break;
     }
 
     g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
@@ -298,14 +270,28 @@ void LayoutChooser::backgroundClicked(const MouseEvent&)
 
 void LayoutChooser::cellDoubleClicked(int rowNumber, int /* columnId */, const MouseEvent& /* e */)
 {
-    name     = viewTree.getChild(rowNumber).getProperty(Ids::name);
-    location = viewTree.getChild(rowNumber).getProperty(Ids::location);
+    name       = viewTree.getChild(rowNumber).getProperty(Ids::name);
+    librarySet = viewTree.getChild(rowNumber).getProperty(Ids::libraryset);
     
     closeWindow();
 }
 
 void LayoutChooser::selectedRowsChanged(int lastRowSelected)
 {
+    String thumbFileName = viewTree.getChild(lastRowSelected).getProperty(Ids::thumbnail);
+  
+    if (thumbFileName.isNotEmpty())
+    {
+        File   layoutFile(viewTree.getChild(lastRowSelected).getProperty(Ids::filePath));
+        String layoutDirectory(layoutFile.getParentDirectory().getFullPathName());
+            
+        thumbnailView->setImage(thumbFileName, layoutDirectory);
+    }
+    else
+    {
+        thumbnailView->setImage(String::empty, String::empty);
+    }
+
     blurb.setText(viewTree.getChild(lastRowSelected).getProperty(Ids::blurb), dontSendNotification);
     commandManager->commandStatusChanged();
 }
@@ -346,8 +332,8 @@ bool LayoutChooser::perform(const InvocationInfo& info)
 
 void LayoutChooser::chooseSelectedLayout()
 {
-    name     = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::name);
-    location = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::location);
+    name       = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::name);
+    librarySet = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::libraryset);
     
     closeWindow();
 }

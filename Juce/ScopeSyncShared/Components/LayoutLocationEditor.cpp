@@ -136,7 +136,7 @@ LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManag
       removeLayoutLocationButton("Remove"),
       moveUpButton("Move Up"),
       moveDownButton("Move Down"),
-      resetLayoutLocationsButton("Reset"),
+      rebuildButton("Rebuild library"),
       undoButton("Undo"),
       redoButton("Redo")
 {
@@ -152,9 +152,8 @@ LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManag
     table.setOutlineThickness (1);
     
     table.getHeader().addColumn(String::empty, 1, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Name",        2, 100, 40,  -1, TableHeaderComponent::defaultFlags & TableHeaderComponent::notSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Location",    3, 200, 100, -1, TableHeaderComponent::defaultFlags & TableHeaderComponent::notSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn(String::empty, 4, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Location",    2, 200, 100, -1, TableHeaderComponent::defaultFlags & TableHeaderComponent::notSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String::empty, 3, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     
     table.getHeader().setStretchToFitActive(true);
     table.setMultipleSelectionEnabled (true);
@@ -179,8 +178,8 @@ LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManag
     addAndMakeVisible(redoButton);
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
 
-    addAndMakeVisible(resetLayoutLocationsButton);
-    resetLayoutLocationsButton.setCommandToTrigger(commandManager, CommandIDs::resetLayoutLocations, true);
+    addAndMakeVisible(rebuildButton);
+    rebuildButton.setCommandToTrigger(commandManager, CommandIDs::rebuildLayoutLibrary, true);
 
     addKeyListener(commandManager->getKeyMappings());
 
@@ -210,7 +209,7 @@ void LayoutLocationEditor::resized()
     moveUpButton.setBounds(buttonBar.removeFromLeft(70));
     moveDownButton.setBounds(buttonBar.removeFromLeft(70));
     buttonBar.removeFromLeft(20);
-    resetLayoutLocationsButton.setBounds(buttonBar.removeFromLeft(70));
+    rebuildButton.setBounds(buttonBar.removeFromLeft(90));
     buttonBar.removeFromLeft(20);
     undoButton.setBounds(buttonBar.removeFromLeft(70));
     redoButton.setBounds(buttonBar.removeFromLeft(70));
@@ -228,11 +227,7 @@ Component* LayoutLocationEditor::refreshComponentForCell(int rowNumber, int colu
 {
     Identifier propertyId;
 
-    if (columnId == 2)
-    {
-        propertyId = Ids::name;
-    }
-    else if (columnId == 3 || columnId == 4)
+    if (columnId == 2 || columnId == 3)
     {
         propertyId = Ids::folder;
     }
@@ -243,7 +238,7 @@ Component* LayoutLocationEditor::refreshComponentForCell(int rowNumber, int colu
     
     Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyId, &undoManager));
     
-    if (columnId == 2 || columnId == 3)
+    if (columnId == 2)
     {
         LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
 
@@ -307,7 +302,7 @@ void LayoutLocationEditor::getAllCommands(Array <CommandID>& commands)
                               CommandIDs::moveDown,
                               CommandIDs::undo,
                               CommandIDs::redo,
-                              CommandIDs::resetLayoutLocations
+                              CommandIDs::rebuildLayoutLibrary
                             };
 
     commands.addArray(ids, numElementsInArray (ids));
@@ -341,8 +336,8 @@ void LayoutLocationEditor::getCommandInfo(CommandID commandID, ApplicationComman
         result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::resetLayoutLocations:
-        result.setInfo("Reset", "Reset Layout Locations to defaults", CommandCategories::configmgr, 0);
+    case CommandIDs::rebuildLayoutLibrary:
+        result.setInfo("Rebuild library", "Rebuild Layout Library", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     }
@@ -358,7 +353,7 @@ bool LayoutLocationEditor::perform(const InvocationInfo& info)
         case CommandIDs::moveDown:              moveLayoutLocations(false); break;
         case CommandIDs::undo:                  undo(); break;
         case CommandIDs::redo:                  redo(); break;
-        case CommandIDs::resetLayoutLocations:  UserSettings::getInstance()->initialiseLayoutLocations(); break;
+        case CommandIDs::rebuildLayoutLibrary:  UserSettings::getInstance()->rebuildLayoutLibrary(); break;
         default:                                return false;
     }
 
@@ -380,22 +375,6 @@ void LayoutLocationEditor::addLayoutLocation()
     ValueTree newLayoutLocation(Ids::location);
     String newLocationName;
 
-    int locationNum = 1;
-
-    for(;;)
-    {
-        newLocationName = "New Layout Location " + String(locationNum);
-
-        if (tree.getChildWithProperty(Ids::name, newLocationName).isValid())
-        {
-            locationNum++;
-            continue;
-        }
-        else
-            break;
-    }
-
-    newLayoutLocation.setProperty(Ids::name, newLocationName, &undoManager);
     newLayoutLocation.setProperty(Ids::folder, String::empty, &undoManager);
 
     tree.addChild(newLayoutLocation, -1, &undoManager);

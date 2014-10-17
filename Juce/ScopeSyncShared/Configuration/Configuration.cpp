@@ -484,15 +484,15 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
     layoutXml       = loaderLayoutXml;
     layoutLoaded    = false;
     
-    String layoutName     = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
-    String layoutLocation = configurationRoot.getProperty(Ids::layoutLocation, String::empty).toString();
+    String layoutName       = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
+    String layoutLibrarySet = configurationRoot.getProperty(Ids::layoutLibrarySet, String::empty).toString();
 
-    String layoutFilename = UserSettings::getInstance()->getLayoutFilename(layoutName, layoutLocation);
+    String layoutFilename = UserSettings::getInstance()->getLayoutFilename(layoutName, layoutLibrarySet);
 
     if (layoutFilename.isEmpty())
     {
         errorText    = "Layout not found, using default layout";
-        errorDetails = "No layout filename found in library for layout: '" + layoutName + "', in location: '" + layoutLocation + "'. Check settings in Configuration.";
+        errorDetails = "No layout filename found in library for layout: '" + layoutName + "', in library set: '" + layoutLibrarySet + "'. Check settings in Configuration.";
         return layoutXml;
     }
     

@@ -71,7 +71,6 @@ public:
     int        getNumRows();
     void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-    Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
     void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void       selectedRowsChanged(int lastRowSelected) override;
     void       backgroundClicked(const MouseEvent&) override;
@@ -91,7 +90,7 @@ private:
     ValueTree    tree;
     ValueTree    viewTree;
     Value        name;
-    Value        location;
+    Value        librarySet;
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
     Label        blurb;
@@ -99,8 +98,11 @@ private:
     class ImageComp;
     friend class ImageComp;
 
+    ScopedPointer<ImageComp> thumbnailView;
+
     void chooseSelectedLayout();
     void closeWindow();
+    void removeExcludedLayouts();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

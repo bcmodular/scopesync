@@ -48,7 +48,7 @@ public:
     void   changeListenerCallback(ChangeBroadcaster* source);
     void   initialiseLayoutLocations();
     void   rebuildLayoutLibrary();
-    String getLayoutFilename(const String& name, const String& location);
+    String getLayoutFilename(const String& name, const String& librarySet);
     const ValueTree& getLayoutLibrary() { return layoutLibrary; }
 
     PropertiesFile* getAppProperties();

@@ -98,12 +98,19 @@ namespace Ids
     DECLARE_ID(layoutLocations);
     DECLARE_ID(layoutLibrary);
     DECLARE_ID(layoutName);
-    DECLARE_ID(layoutLocation);
+    DECLARE_ID(layoutLibrarySet);
     DECLARE_ID(location);
+
     DECLARE_ID(folder);
     DECLARE_ID(filePath);
-    DECLARE_ID(screenshot);
+    DECLARE_ID(libraryset);
+    DECLARE_ID(numbuttons);
+    DECLARE_ID(numencoders);
+    DECLARE_ID(panelwidth);
+    DECLARE_ID(panelheight); 
+    DECLARE_ID(numparameters);
     DECLARE_ID(thumbnail);
+    DECLARE_ID(excludefromchooser);
     DECLARE_ID(blurb);
 
     #undef DECLARE_ID
@@ -144,7 +151,7 @@ namespace CommandIDs
         editLayoutLocations      = 0x200800,
         addLayoutLocation        = 0x200810,
         removeLayoutLocations    = 0x200820,
-        resetLayoutLocations     = 0x200830,
+        rebuildLayoutLibrary     = 0x200830,
         chooseSelectedLayout     = 0x200840
     };
 }

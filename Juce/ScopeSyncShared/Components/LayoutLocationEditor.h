@@ -84,7 +84,7 @@ private:
     TextButton     removeLayoutLocationButton;
     TextButton     moveUpButton;
     TextButton     moveDownButton;
-    TextButton     resetLayoutLocationsButton;
+    TextButton     rebuildButton;
     TextButton     undoButton;
     TextButton     redoButton;
     

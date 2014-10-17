@@ -376,13 +376,10 @@ void UserSettings::updateLayoutLocations()
 
 void UserSettings::initialiseLayoutLocations()
 {
-    if (layoutLocations.isValid())
-        layoutLocations.removeAllChildren(&undoManager);
-    else
+    if (!(layoutLocations.isValid()))
         layoutLocations = ValueTree(Ids::layoutLocations);
 
     ValueTree stockLayouts(Ids::location);
-    stockLayouts.setProperty(Ids::name, "ScopeSync", &undoManager);
     stockLayouts.setProperty(Ids::folder, "C:\\development\\github\\scopesync\\Layouts", &undoManager);
 
     layoutLocations.addChild(stockLayouts, -1, &undoManager);
@@ -392,14 +389,16 @@ void UserSettings::initialiseLayoutLocations()
 
 void UserSettings::rebuildLayoutLibrary()
 {
+    if (!(layoutLocations.isValid()) || layoutLocations.getNumChildren() == 0)
+        initialiseLayoutLocations();
+
     layoutLibrary = ValueTree(Ids::layoutLibrary);
 
     for (int i = 0; i < layoutLocations.getNumChildren(); i++)
     {
-        String locationName   = layoutLocations.getChild(i).getProperty(Ids::name);
         String locationFolder = layoutLocations.getChild(i).getProperty(Ids::folder);
 
-        if (locationName.isEmpty() || locationFolder.isEmpty() || !(File::isAbsolutePath(locationFolder)))
+        if (locationFolder.isEmpty() || !(File::isAbsolutePath(locationFolder)))
             continue;
 
         File location = File(locationFolder);
@@ -444,9 +443,14 @@ void UserSettings::rebuildLayoutLibrary()
             if (layoutName.isNotEmpty())
             {
                 layout.setProperty(Ids::name, layoutName, nullptr);
-                layout.setProperty(Ids::location, locationName, nullptr);
-                layout.setProperty(Ids::screenshot, layoutXml.getStringAttribute(Ids::screenshot), nullptr);
+                layout.setProperty(Ids::libraryset, layoutXml.getStringAttribute(Ids::libraryset), nullptr);
+                layout.setProperty(Ids::numbuttons, layoutXml.getIntAttribute(Ids::numbuttons), nullptr);
+                layout.setProperty(Ids::numencoders, layoutXml.getIntAttribute(Ids::numencoders), nullptr);
+                layout.setProperty(Ids::panelwidth, layoutXml.getIntAttribute(Ids::panelwidth), nullptr);
+                layout.setProperty(Ids::panelheight, layoutXml.getIntAttribute(Ids::panelheight), nullptr);
+                layout.setProperty(Ids::numparameters, layoutXml.getIntAttribute(Ids::numparameters), nullptr);
                 layout.setProperty(Ids::thumbnail, layoutXml.getStringAttribute(Ids::thumbnail), nullptr);
+                layout.setProperty(Ids::excludefromchooser, layoutXml.getBoolAttribute(Ids::excludefromchooser), nullptr);
                 layout.setProperty(Ids::blurb, layoutXml.getStringAttribute(Ids::blurb), nullptr);
                 layout.setProperty(Ids::filePath, layoutFiles[j].getFullPathName(), nullptr);
                 layoutLibrary.addChild(layout, -1, nullptr);
@@ -458,14 +462,14 @@ void UserSettings::rebuildLayoutLibrary()
     getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
 }
 
-String UserSettings::getLayoutFilename(const String& name, const String& location)
+String UserSettings::getLayoutFilename(const String& name, const String& librarySet)
 {
     for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
     {
         ValueTree layout = layoutLibrary.getChild(i);
 
         if (   layout.getProperty(Ids::name).toString().equalsIgnoreCase(name)
-            && layout.getProperty(Ids::location).toString().equalsIgnoreCase(location))
+            && layout.getProperty(Ids::libraryset).toString().equalsIgnoreCase(librarySet))
         {
             return layout.getProperty(Ids::filePath);
         }

@@ -96,7 +96,7 @@ protected:
 
 private:
     Value layoutName;
-    Value layoutLocation;
+    Value layoutLibrarySet;
 
     void changeListenerCallback(ChangeBroadcaster* /* source */);
     
