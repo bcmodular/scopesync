@@ -414,11 +414,14 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
     {
         const CommandID ids[] = { CommandIDs::saveConfig,
                                   CommandIDs::saveConfigAs,
-                                  CommandIDs::applyConfigChanges,
-                                  CommandIDs::discardConfigChanges,
                                   CommandIDs::undo,
                                   CommandIDs::redo,
-                                  CommandIDs::showHideEditToolbar
+                                  CommandIDs::showHideEditToolbar,
+                                  CommandIDs::snapshot,
+                                  CommandIDs::showUserSettings,
+                                  CommandIDs::showConfigurationManager,
+                                  CommandIDs::chooseConfiguration,
+                                  CommandIDs::reloadSavedConfiguration
                                 };
 
         commands.addArray (ids, numElementsInArray(ids));
@@ -430,11 +433,11 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
     switch (commandID)
     {
     case CommandIDs::undo:
-        result.setInfo("Undo", "Undo latest change", CommandCategories::general, scopeSync.getUndoManager().canUndo() ? 0 : 1);
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(scopeSync.getUndoManager().canUndo()));
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo("Redo", "Redo latest change", CommandCategories::general, scopeSync.getUndoManager().canRedo() ? 0 : 1);
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSync.getUndoManager().canUndo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:
@@ -442,20 +445,32 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfigAs:
-        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, 0);
+        result.setInfo("Save Configuration As...", "Save Configuration as a new file", CommandCategories::configmgr, scopeSync.configurationIsReadOnly());
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
-    case CommandIDs::applyConfigChanges:
-        result.setInfo("Apply Configuration Changes", "Refreshes the current instance using the latest changes", CommandCategories::configmgr, 0);
-        result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
-        break;
-    case CommandIDs::discardConfigChanges:
-        result.setInfo("Discard Configuration Changes", "Discards all unsaved changes to the current Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
-        result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
-        break;
     case CommandIDs::showHideEditToolbar:
-        result.setInfo("Toggle Edit Toolbar display", "Switches the Edit Toolbar between shown and hidden modes", CommandCategories::general, 0);
+        result.setInfo("Toggle Edit Toolbar display", "Switches the Edit Toolbar between shown and hidden modes", CommandCategories::general, scopeSync.configurationIsReadOnly());
         result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::snapshot:
+        result.setInfo("Snapshot", "Sends a snapshot of all current parameter values", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('t', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::showUserSettings:
+        result.setInfo("Show User Settings", "Shows the User Settings Window", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('u', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::showConfigurationManager:
+        result.setInfo("Show Configuration Manager", "Shows the Configuration Manager Window", CommandCategories::general, scopeSync.configurationIsReadOnly());
+        result.defaultKeypresses.add(KeyPress ('m', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::chooseConfiguration:
+        result.setInfo("Choose Configuration", "Opens the Configuration Chooser", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('o', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::reloadSavedConfiguration:
+        result.setInfo("Reload Saved Configuration", "Reloads the most recently saved version of the current Configuration. This will discard all unsaved changes and wipe the undo history.", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier, 0));
         break;
     }
 }
@@ -464,20 +479,31 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::undo:                 undo(); break;
-        case CommandIDs::redo:                 redo(); break;
-        case CommandIDs::saveConfig:           save(); break;
-        case CommandIDs::saveConfigAs:         saveAs(); break;
-        case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
-        case CommandIDs::discardConfigChanges: scopeSync.reloadSavedConfiguration(); break;
-        case CommandIDs::showHideEditToolbar:  mainComponent->showHideEditToolbar(); break;
-        default:                               return false;
+        case CommandIDs::undo:                     undo(); break;
+        case CommandIDs::redo:                     redo(); break;
+        case CommandIDs::saveConfig:               save(); break;
+        case CommandIDs::saveConfigAs:             saveAs(); break;
+        case CommandIDs::showHideEditToolbar:      mainComponent->showHideEditToolbar(); break;
+        case CommandIDs::snapshot:                 snapshot(); break;
+        case CommandIDs::showUserSettings:         showUserSettings(); break;
+        case CommandIDs::showConfigurationManager: showConfigurationManager(); break;
+        case CommandIDs::chooseConfiguration:      chooseConfiguration(); break;
+        case CommandIDs::reloadSavedConfiguration: reloadSavedConfiguration(); break;
+        default:                                   return false;
     }
 
     return true;
 }
 
 ApplicationCommandTarget* ScopeSyncGUI::getNextCommandTarget() { return nullptr; }
+
+void ScopeSyncGUI::alertBoxResultChosen(int result, ScopeSyncGUI* scopeSyncGUI)
+{
+    if (result)
+    {
+        scopeSyncGUI->getScopeSync().reloadSavedConfiguration();
+    }
+}
 
 void ScopeSyncGUI::save()
 {
@@ -510,4 +536,28 @@ void ScopeSyncGUI::redo()
 {
     scopeSync.getUndoManager().redo();
     scopeSync.applyConfiguration();
+}
+
+void ScopeSyncGUI::snapshot()
+{
+    scopeSync.snapshot();
+}
+
+void ScopeSyncGUI::showConfigurationManager()
+{
+    scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
+}
+
+void ScopeSyncGUI::reloadSavedConfiguration()
+{
+    if (scopeSync.configurationHasUnsavedChanges())
+        AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+                                     "Are you sure?",
+                                     "There are unsaved changes. This will discard them and clear the undo history.",
+                                     String::empty,
+                                     String::empty,
+                                     this,
+                                     ModalCallbackFunction::forComponent(alertBoxResultChosen, this));
+    else
+        scopeSync.reloadSavedConfiguration();
 }

@@ -138,8 +138,11 @@
         <textbutton lfid="system:load_config_button" displaycontext="scope" name="LoadConfig" tooltip="Load Configuration">
           <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
-        <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+        <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
           <bounds x="373" y="9" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+          <bounds x="399" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
           <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>

@@ -118,10 +118,15 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
     
+    static void alertBoxResultChosen(int result, ScopeSyncGUI*);
+    
     void save();
     void saveAs();
     void undo();
     void redo();
+    void snapshot();
+    void showConfigurationManager();
+    void reloadSavedConfiguration();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };

@@ -152,7 +152,13 @@ namespace CommandIDs
         addLayoutLocation        = 0x200810,
         removeLayoutLocations    = 0x200820,
         rebuildLayoutLibrary     = 0x200830,
-        chooseSelectedLayout     = 0x200840
+        chooseSelectedLayout     = 0x200840,
+
+        snapshot                 = 0x200900,
+        showUserSettings         = 0x200910,
+        showConfigurationManager = 0x200920,
+        chooseConfiguration      = 0x200930,
+        reloadSavedConfiguration = 0x200940
     };
 }
 

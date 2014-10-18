@@ -163,8 +163,6 @@ public:
     : scopeSync(ss),
       saveButton("Save"),
       saveAsButton("Save As..."),
-      applyChangesButton("Apply Changes"),
-      discardChangesButton("Discard All Unsaved Changes"),
       undoButton("Undo"),
       redoButton("Redo")
     {
@@ -177,14 +175,6 @@ public:
         setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
         saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
         addAndMakeVisible(saveAsButton);
-
-        setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
-        applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyConfigChanges, true);
-        addAndMakeVisible(applyChangesButton);
-
-        setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
-        discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
-        addAndMakeVisible(discardChangesButton);
 
         setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
         undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
@@ -207,8 +197,6 @@ private:
     
     ImageButton saveButton;
     ImageButton saveAsButton;
-    ImageButton applyChangesButton;
-    ImageButton discardChangesButton;
     ImageButton undoButton;
     ImageButton redoButton;
     ImageButton editToolbarShowButton;
@@ -222,10 +210,6 @@ private:
         toolbar.removeFromLeft(6);
         saveAsButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(16);
-        applyChangesButton.setBounds(toolbar.removeFromLeft(20));
-        toolbar.removeFromLeft(2);
-        discardChangesButton.setBounds(toolbar.removeFromLeft(20));
-        toolbar.removeFromLeft(16);
         undoButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(6);
         redoButton.setBounds(toolbar.removeFromLeft(20));
@@ -236,7 +220,6 @@ private:
     void paint(Graphics& g) override
     {
         g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 122, 8);
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
@@ -314,7 +297,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
             
             if (!showEditToolbar)
             {
-                editToolbarBounds.translate(-178, 0);
+                editToolbarBounds.translate(-120, 0);
             }
         
             editToolbar->setBounds(editToolbarBounds);
@@ -606,7 +589,7 @@ void BCMComponent::showHideEditToolbar()
     DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String(showEditToolbar));
         
     if (showEditToolbar)
-        editToolbarBounds.translate(-178, 0);
+        editToolbarBounds.translate(-120, 0);
     
     Desktop::getInstance().getAnimator().animateComponent(editToolbar, editToolbarBounds, 1.0f, 300, true, 1.0f, 1.0f);
     

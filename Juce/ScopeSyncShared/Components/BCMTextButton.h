@@ -39,7 +39,6 @@ class TextButtonProperties;
 
 class BCMTextButton : public TextButton,
                       public Value::Listener,
-                      public Timer,
                       public BCMParameterWidget
 {
 public:
@@ -81,13 +80,8 @@ private:
     
     URL url; // URL launched on clicking the button
 
-    // Timer Callback. Used as part of the click block solution
-    void timerCallback();
-
-    bool             clicksBlocked;      // Flag to indicate that clicks should be blocked
-    static const int clickBlockDuration; // Length of time (ms) for clicks to be blocked for
-    
     bool        mapsToTabs;           // Does this button map to one or more tabs in a tabbed component
+    bool        isCommandButton;      // Does this button map to a Command Manager command
     StringArray tabbedComponentNames; // Array of tabbed component names that this button maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this button maps to
     
@@ -107,6 +101,7 @@ private:
     
     // Callback for when a BCMTextButton is clicked
     void clicked();
+
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTextButton);
 };

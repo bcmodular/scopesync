@@ -35,22 +35,38 @@
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 
-const int BCMTextButton::clickBlockDuration = 500;
-
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner, this)
 {}
 
-BCMTextButton::~BCMTextButton()
-{
-    stopTimer();
-};
+BCMTextButton::~BCMTextButton() {};
 
 void BCMTextButton::applyProperties(TextButtonProperties& properties)
 {
     applyWidgetProperties(properties);
+    mapsToTabs = false;
+    isCommandButton = false;
+        
+    CommandID commandToTrigger = 0;
+
+    if (getName().equalsIgnoreCase("snapshot"))
+        commandToTrigger = CommandIDs::snapshot;
+    else if (getName().equalsIgnoreCase("showusersettings"))
+        commandToTrigger = CommandIDs::showUserSettings;
+    else if (getName().equalsIgnoreCase("showconfigurationmanager"))
+        commandToTrigger = CommandIDs::showConfigurationManager;
+    else if (getName().equalsIgnoreCase("chooseconfiguration"))
+        commandToTrigger = CommandIDs::chooseConfiguration;
+    else if (getName().equalsIgnoreCase("reloadconfiguration"))
+        commandToTrigger = CommandIDs::reloadSavedConfiguration;
     
-    clicksBlocked = false;
+    if (commandToTrigger != 0)
+    {
+        setCommandToTrigger(commandManager, commandToTrigger, true);
+        isCommandButton = true;
+        setWantsKeyboardFocus(false);
+        return;
+    }
 
     String tooltip(properties.tooltip);
     String buttonText(properties.text);
@@ -60,7 +76,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     int radioGroupId = properties.radioGroupId;
     
     // Set up any mapping to TabbedComponent Tabs
-    mapsToTabs = false;
     String radioGroupTag = String::empty;
 
     for (int i = 0; i < properties.tabbedComponents.size(); i++)
@@ -280,15 +295,11 @@ void BCMTextButton::setNextValues()
     }
 }
 
-void BCMTextButton::timerCallback()
-{
-    clicksBlocked = false;
-    stopTimer();
-}
-
 void BCMTextButton::mouseDown(const MouseEvent& event)
 {
-    if (event.mods.isPopupMenu())
+    DBG("BCMTextButton::mouseDown - button clicked: " + getName());
+
+    if (!isCommandButton && event.mods.isPopupMenu())
     {
         showPopupMenu();
     }
@@ -300,9 +311,11 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     
 void BCMTextButton::mouseUp(const MouseEvent& event)
 {
+    DBG("BCMTextButton::mouseUp - button clicked: " + getName());
+
     if (!(event.mods.isPopupMenu()))
     {
-        if (hasParameter() && mappingType == noToggle)
+        if (!isCommandButton && hasParameter() && mappingType == noToggle)
         {
             float valueToSet = (float)upSettingIdx;
             
@@ -318,58 +331,31 @@ void BCMTextButton::clicked()
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
 
-    if (clicksBlocked)
+    if (isCommandButton)
     {
-        DBG("BCMTextButton::clicked - clicks blocked");
+        TextButton::clicked();
+        return;
     }
-    else
+
+    if (url.isWellFormed())
+        url.launchInDefaultBrowser();
+
+    if (hasParameter())
     {
-        if (url.isWellFormed())
-            url.launchInDefaultBrowser();
+        float valueToSet;
 
-        if (getName().equalsIgnoreCase("snapshot"))
+        if (mappingType == toggle)
         {
-            // force sync of all controls
-            scopeSyncGUI.getScopeSync().snapshot();
-            clicksBlocked = true;
-            startTimer(clickBlockDuration);
-        }
-        else if (getName().equalsIgnoreCase("showusersettings"))
-        {
-            scopeSyncGUI.showUserSettings();
-        }
-        else if (getName().equalsIgnoreCase("showconfigurationmanager"))
-        {
-            scopeSyncGUI.getScopeSync().showConfigurationManager(scopeSyncGUI.getScreenPosition().getX(), scopeSyncGUI.getScreenPosition().getY());
-        }
-        else if (getName().equalsIgnoreCase("chooseconfiguration"))
-        {
-            scopeSyncGUI.chooseConfiguration();
-        }
-        else if (getName().equalsIgnoreCase("reloadconfiguration"))
-        {
-            scopeSyncGUI.getScopeSync().applyConfiguration();
-            clicksBlocked = true;
-            startTimer(clickBlockDuration);
-        }
-
-        if (hasParameter())
-        {
-            float valueToSet;
-
-            if (mappingType == toggle)
-            {
-                if (getToggleState())
-                    valueToSet = (float)downSettingIdx;
-                else
-                    valueToSet = (float)upSettingIdx;
-            }
-            else
+            if (getToggleState())
                 valueToSet = (float)downSettingIdx;
-            
-            if (valueToSet >= 0)
-                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+            else
+                valueToSet = (float)upSettingIdx;
         }
+        else
+            valueToSet = (float)downSettingIdx;
+            
+        if (valueToSet >= 0)
+            scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
     }
 }
 

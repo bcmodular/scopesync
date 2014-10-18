@@ -662,6 +662,11 @@ String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
     return name;
 }
 
+bool ScopeSync::configurationHasUnsavedChanges()
+{
+    return configuration->hasChangedSinceSaved();
+}
+
 bool ScopeSync::configurationIsReadOnly()
 {
     return getConfigurationRoot().getProperty(Ids::readOnly, false);
