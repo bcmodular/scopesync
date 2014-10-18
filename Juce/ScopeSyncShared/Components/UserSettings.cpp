@@ -444,8 +444,10 @@ void UserSettings::rebuildLayoutLibrary()
             {
                 layout.setProperty(Ids::name, layoutName, nullptr);
                 layout.setProperty(Ids::libraryset, layoutXml.getStringAttribute(Ids::libraryset), nullptr);
+                layout.setProperty(Ids::author, layoutXml.getStringAttribute(Ids::author), nullptr);
                 layout.setProperty(Ids::numbuttons, layoutXml.getIntAttribute(Ids::numbuttons), nullptr);
                 layout.setProperty(Ids::numencoders, layoutXml.getIntAttribute(Ids::numencoders), nullptr);
+                layout.setProperty(Ids::numfaders, layoutXml.getIntAttribute(Ids::numfaders), nullptr);
                 layout.setProperty(Ids::panelwidth, layoutXml.getIntAttribute(Ids::panelwidth), nullptr);
                 layout.setProperty(Ids::panelheight, layoutXml.getIntAttribute(Ids::panelheight), nullptr);
                 layout.setProperty(Ids::numparameters, layoutXml.getIntAttribute(Ids::numparameters), nullptr);

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-  <layout name="BCR2000" libraryset="ScopeSync" numbuttons="48" numencoders="56" panelwidth="674" panelheight="732" numparameters="104" thumbnail="BCR2000-thumb.png" blurb="Replica of the Behringer BCR2000 layout. Featuring 24 regular rotary encoders, 16 push buttons and 4 banks of 8 push encoders, the BCR2000 layout allows a total of 104 parameters to be controlled.">
+  <layout name="BCR2000" libraryset="ScopeSync" author="ScopeSync" numbuttons="48" numencoders="56" panelwidth="674" panelheight="732" numparameters="104" thumbnail="BCR2000-thumb.png" blurb="Replica of the Behringer BCR2000 layout. Featuring 24 regular rotary encoders, 16 push buttons and 4 banks of 8 push encoders, the BCR2000 layout allows a total of 104 parameters to be controlled.">
     <lookandfeels>
       <lookandfeel id="default" parentid="system:default">
         <images>

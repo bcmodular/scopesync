@@ -104,8 +104,10 @@ namespace Ids
     DECLARE_ID(folder);
     DECLARE_ID(filePath);
     DECLARE_ID(libraryset);
+    DECLARE_ID(author);
     DECLARE_ID(numbuttons);
     DECLARE_ID(numencoders);
+    DECLARE_ID(numfaders);
     DECLARE_ID(panelwidth);
     DECLARE_ID(panelheight); 
     DECLARE_ID(numparameters);

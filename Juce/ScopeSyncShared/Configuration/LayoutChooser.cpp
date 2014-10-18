@@ -95,7 +95,43 @@ public:
             String secondString = second.getProperty(Ids::libraryset, String::empty);
             result = firstString.compareNatural(secondString);
         }
-        
+        else if (columnId == 4)
+        {
+            String firstString  = first.getProperty(Ids::author, String::empty);
+            String secondString = second.getProperty(Ids::author, String::empty);
+            result = firstString.compareNatural(secondString);
+        }
+        else if (columnId == 5)
+        {
+            int firstPixelCount  = int(first.getProperty(Ids::panelwidth, 0))  * int(first.getProperty(Ids::panelheight, 0));
+            int secondPixelCount = int(second.getProperty(Ids::panelwidth, 0)) * int(second.getProperty(Ids::panelheight, 0));
+            result = (firstPixelCount < secondPixelCount) ? -1 : ((secondPixelCount < firstPixelCount) ? 1 : 0);
+        }
+        else if (columnId == 6)
+        {
+            int firstCount  = first.getProperty(Ids::numencoders, 0);
+            int secondCount = second.getProperty(Ids::numencoders, 0);
+            result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
+        }
+        else if (columnId == 7)
+        {
+            int firstCount  = first.getProperty(Ids::numfaders, 0);
+            int secondCount = second.getProperty(Ids::numfaders, 0);
+            result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
+        }
+        else if (columnId == 8)
+        {
+            int firstCount  = first.getProperty(Ids::numbuttons, 0);
+            int secondCount = second.getProperty(Ids::numbuttons, 0);
+            result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
+        }
+        else if (columnId == 9)
+        {
+            int firstCount  = first.getProperty(Ids::numparameters, 0);
+            int secondCount = second.getProperty(Ids::numparameters, 0);
+            result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
+        }
+
         return direction * result;
     }
 
@@ -139,10 +175,16 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness (4);
     
-    table.getHeader().addColumn(String::empty, 1, 10,  10,  10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Name",        2, 100, 40,  -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Library Set", 3, 200, 100, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    
+    table.getHeader().addColumn(String::empty, 1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Name",        2, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Library Set", 3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Author",      4, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Dimensions",  5, 80,  40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Encoders",    6, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Faders",      7, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Buttons",     8, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Parameters",  9, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+        
     table.getHeader().setStretchToFitActive(true);
     
     name.referTo(layoutName);
@@ -154,7 +196,7 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
 
     addKeyListener(commandManager->getKeyMappings());
 
-    setBounds(0, 0, 600, 500);
+    setBounds(0, 0, 750, 600);
 }
 
 LayoutChooser::~LayoutChooser()
@@ -238,6 +280,14 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
         case 1: text = String::empty; break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
         case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::libraryset); break;
+        case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
+        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::panelwidth).toString() 
+                       + "x" 
+                       + viewTree.getChild(rowNumber).getProperty(Ids::panelheight).toString(); break;
+        case 6: text = viewTree.getChild(rowNumber).getProperty(Ids::numencoders); break;
+        case 7: text = viewTree.getChild(rowNumber).getProperty(Ids::numfaders); break;
+        case 8: text = viewTree.getChild(rowNumber).getProperty(Ids::numbuttons); break;
+        case 9: text = viewTree.getChild(rowNumber).getProperty(Ids::numparameters); break;
     }
 
     g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
