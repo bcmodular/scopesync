@@ -107,40 +107,6 @@ private:
 };
 
 /* =========================================================================
- * LayoutChooser::ImageComp - Used for handling the thumbnail and screenshot display
- */
-class LayoutChooser::ImageComp : public Component
-{
-public:
-    ImageComp()
-    {
-        useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-    }
-
-    //void resized() override {}
-
-    void paint(Graphics& g) override
-    {
-        g.fillAll(Colours::lightgrey);
-
-        if (thumbImage.isValid())
-            g.drawImageWithin(thumbImage, 0, 0, getWidth(), getHeight(), RectanglePlacement::centred);
-    }
-
-    void setImage(const String& thumb, const String& layoutDirectory)
-    {
-        thumbImage = ImageLoader::getInstance()->loadImage(thumb, useImageCache, layoutDirectory);
-        repaint();
-    }
-
-private:
-    Image  thumbImage;
-    bool   useImageCache;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageComp)
-};
-
-/* =========================================================================
  * LayoutChooser
  */
 LayoutChooser::LayoutChooser(const ValueTree& valueTree,
@@ -154,6 +120,8 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
       chooseButton("Choose Layout"),
       blurb(String::empty)
 {
+    useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
+
     removeExcludedLayouts();
 
     commandManager->registerAllCommandsForTarget(this);
@@ -180,8 +148,7 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
     name.referTo(layoutName);
     librarySet.referTo(layoutLibrarySet);
 
-    thumbnailView = new ImageComp();
-    addAndMakeVisible(thumbnailView);
+    selectCurrentLayout();
 
     viewTree.addListener(this);
 
@@ -207,19 +174,35 @@ void LayoutChooser::removeExcludedLayouts()
     }
 }
 
+void LayoutChooser::selectCurrentLayout()
+{
+    for (int i = 0; i < viewTree.getNumChildren(); i++)
+    {
+        String itemName       = viewTree.getChild(i).getProperty(Ids::name);
+        String itemLibrarySet = viewTree.getChild(i).getProperty(Ids::libraryset);
+        
+        if (itemName == name && itemLibrarySet == librarySet)
+        {
+            table.selectRow(i);
+        }
+    }
+}
+
 void LayoutChooser::paint(Graphics& g)
 {
     g.fillAll(Colours::lightgrey);
+
+    if (thumbImage.isValid())
+        g.drawImageWithin(thumbImage, 4, 4, 196, 106, RectanglePlacement::centred);
 }
     
 void LayoutChooser::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     Rectangle<int> headerBounds(localBounds.removeFromTop(140));
-    Rectangle<int> headerLeftSection(headerBounds.removeFromLeft(110));
+    Rectangle<int> headerLeftSection(headerBounds.removeFromLeft(200).removeFromBottom(30));
 
-    thumbnailView->setBounds(headerLeftSection.removeFromTop(110).reduced(4,4));
-    chooseButton.setBounds(headerLeftSection.reduced(4, 1));
+    chooseButton.setBounds(headerLeftSection.reduced(20, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     blurb.setBounds(headerBounds.reduced(4, 4));
@@ -285,11 +268,13 @@ void LayoutChooser::selectedRowsChanged(int lastRowSelected)
         File   layoutFile(viewTree.getChild(lastRowSelected).getProperty(Ids::filePath));
         String layoutDirectory(layoutFile.getParentDirectory().getFullPathName());
             
-        thumbnailView->setImage(thumbFileName, layoutDirectory);
+        thumbImage = ImageLoader::getInstance()->loadImage(thumbFileName, useImageCache, layoutDirectory);
+        repaint();
     }
     else
     {
-        thumbnailView->setImage(String::empty, String::empty);
+        thumbImage = Image();
+        repaint();
     }
 
     blurb.setText(viewTree.getChild(lastRowSelected).getProperty(Ids::blurb), dontSendNotification);

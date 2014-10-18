@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-  <layout name="Sliders Demo" libraryset="ScopeSyncTutorials" excludefromchooser="true">
+  <layout name="Sliders Demo" libraryset="ScopeSyncTutorials" excludefromchooser="false">
     <lookandfeels>
       <!--default lookandfeel - is used unless otherwise specified at component level.-->
       <!--When left empty as is the case here reverts to JUCE default lookandfeel.-->

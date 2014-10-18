@@ -102,7 +102,7 @@ public:
         configurationPanel.chooseLayout();
     }
 
-    String getButtonText() const override { return "Launch ..."; }
+    String getButtonText() const override { return "Choose Layout ..."; }
 
 private:
     ConfigurationPanel& configurationPanel;

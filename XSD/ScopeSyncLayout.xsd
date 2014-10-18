@@ -504,7 +504,8 @@
     	</sequence>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="libraryset" type="string"></attribute>
-    	<attribute name="thumbnail" type="string"></attribute>
+        <attribute name="author" type="string"></attribute>
+        <attribute name="thumbnail" type="string"></attribute>
     	<attribute name="blurb" type="string"></attribute>
 
     	<attribute name="excludefromchooser" type="boolean"></attribute>
@@ -513,7 +514,7 @@
     	<attribute name="numencoders" type="int"></attribute>
     	<attribute name="numfaders" type="int"></attribute>
     	<attribute name="numbuttons" type="int"></attribute>
-    	<attribute name="numparameters" type="int"></attribute>
+    	<attribute name="numparameters" type="int"></attribute>
     </complexType>
 
     <simpleType name="displaycontexttype">

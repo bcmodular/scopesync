@@ -94,15 +94,14 @@ private:
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
     Label        blurb;
-    
-    class ImageComp;
-    friend class ImageComp;
 
-    ScopedPointer<ImageComp> thumbnailView;
+    Image  thumbImage;
+    bool   useImageCache;
 
     void chooseSelectedLayout();
     void closeWindow();
     void removeExcludedLayouts();
+    void selectCurrentLayout();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
