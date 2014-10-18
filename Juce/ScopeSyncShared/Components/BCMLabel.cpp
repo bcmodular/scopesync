@@ -35,8 +35,9 @@
 #include "../Core/Global.h"
 
 BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
-    : Label(name, text), BCMParameterWidget(owner, this)
+    : Label(name, text), BCMParameterWidget(owner)
 {
+    setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 

@@ -36,16 +36,17 @@ class WidgetProperties;
 class BCMWidget
 {
 public:
-    BCMWidget(ScopeSyncGUI& owner, Component* parent);
+    BCMWidget(ScopeSyncGUI& owner);
     ~BCMWidget() {};
 
+    void setParentWidget(Component* parent);
     const String& getLookAndFeelId() { return bcmLookAndFeelId; }
 
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
     ScopeSync&         scopeSync;
     BCMComponentBounds componentBounds; // Position/Size information
-    Component*         parentBCMComponent;
+    Component*         parentWidget;
     ValueTree          styleOverride;
     String             bcmLookAndFeelId;
 
@@ -65,7 +66,7 @@ class BCMParameterWidget : public BCMWidget,
                            public ChangeListener
 {
 public:
-    BCMParameterWidget(ScopeSyncGUI& owner, Component* parent);
+    BCMParameterWidget(ScopeSyncGUI& owner);
     ~BCMParameterWidget();
 
     // Indicates whether the widget has a parameter mapping

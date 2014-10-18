@@ -32,15 +32,18 @@
 #include "../Configuration/ConfigurationManager.h"
 #include "../Properties/WidgetProperties.h"
 
-BCMWidget::BCMWidget(ScopeSyncGUI& owner, Component* parent)
+BCMWidget::BCMWidget(ScopeSyncGUI& owner)
     : scopeSyncGUI(owner), scopeSync(owner.getScopeSync())
+{}
+
+void BCMWidget::setParentWidget(Component* parent)
 {
-    parentBCMComponent = parent;
+    parentWidget = parent;
 }
 
 void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
 {
-    parentBCMComponent->setComponentID(properties.id);
+    parentWidget->setComponentID(properties.id);
 
     properties.bounds.copyValues(componentBounds);
     applyBounds();
@@ -55,19 +58,19 @@ void BCMWidget::applyBounds()
     {
         try
         {
-            parentBCMComponent->setBounds(componentBounds.relativeRectangleString);
+            parentWidget->setBounds(componentBounds.relativeRectangleString);
         }
         catch (Expression::ParseError& error)
         {
-            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + parentBCMComponent->getName() + ", error: " + error.description);
+            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + parentWidget->getName() + ", error: " + error.description);
             return;
         }
     }
     else if (componentBounds.boundsType == BCMComponentBounds::inset)
-        parentBCMComponent->setBoundsInset(componentBounds.borderSize);
+        parentWidget->setBoundsInset(componentBounds.borderSize);
     else
     {
-        parentBCMComponent->setBounds(
+        parentWidget->setBounds(
             componentBounds.x,
             componentBounds.y,
             componentBounds.width,
@@ -80,7 +83,7 @@ void BCMWidget::applyLookAndFeel(bool noStyleOverride)
 {
     if (!noStyleOverride)
     {
-        styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentBCMComponent->getName());
+        styleOverride = scopeSyncGUI.getScopeSync().getConfiguration().getStyleOverride(getComponentType(), parentWidget->getName());
     
         if (styleOverride.isValid())
         {
@@ -94,13 +97,13 @@ void BCMWidget::applyLookAndFeel(bool noStyleOverride)
     BCMLookAndFeel* bcmLookAndFeel = scopeSyncGUI.getScopeSync().getBCMLookAndFeelById(bcmLookAndFeelId);
     
     if (bcmLookAndFeel != nullptr)
-        parentBCMComponent->setLookAndFeel(bcmLookAndFeel);
+        parentWidget->setLookAndFeel(bcmLookAndFeel);
     else
         bcmLookAndFeelId = String::empty;
 }
 
-BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner, Component* parent)
-    : BCMWidget(owner, parent),
+BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner)
+    : BCMWidget(owner),
       commandManager(owner.getScopeSync().getCommandManager())
 {
     commandManager->registerAllCommandsForTarget(this);
@@ -207,7 +210,7 @@ bool BCMParameterWidget::perform(const InvocationInfo& info)
 
 ApplicationCommandTarget* BCMParameterWidget::getNextCommandTarget()
 {
-    return nullptr;
+    return &scopeSyncGUI;
 }
 
 void BCMParameterWidget::saveAs()
@@ -241,7 +244,7 @@ void BCMParameterWidget::showPopupMenu()
     commandManager->setFirstCommandTarget(this);
 
     PopupMenu m;
-    m.addSectionHeader(String(getComponentType()) + ": " + parentBCMComponent->getName());
+    m.addSectionHeader(String(getComponentType()) + ": " + parentWidget->getName());
     m.addCommandItem(commandManager, CommandIDs::editItem, "Edit Parameter Mapping");
     m.addCommandItem(commandManager, CommandIDs::editMappedItem, "Edit Mapped Parameter");
     m.addSeparator();
@@ -302,10 +305,10 @@ void BCMParameterWidget::deleteMapping()
 void BCMParameterWidget::editMapping()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 400, 34);
-    DBG("BCMParameterWidget::editMapping from component: " + parentBCMComponent->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
+    DBG("BCMParameterWidget::editMapping from component: " + parentWidget->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
     configurationManagerCallout->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
     configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentBCMComponent->getScreenBounds(), nullptr);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMParameterWidget::editMappedParameter()
@@ -313,15 +316,15 @@ void BCMParameterWidget::editMappedParameter()
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 700);
     configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
     configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentBCMComponent->getScreenBounds(), nullptr);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMParameterWidget::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 34);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentBCMComponent->getName());
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName());
     configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentBCMComponent->getScreenBounds(), nullptr);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMParameterWidget::clearStyleOverride()

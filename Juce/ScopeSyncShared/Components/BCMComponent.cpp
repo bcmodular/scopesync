@@ -232,8 +232,9 @@ private:
 };
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name, bool isMainComponent)
-    : BCMWidget(owner, this), Component(name), mainComponent(isMainComponent)
+    : BCMWidget(owner), Component(name), mainComponent(isMainComponent)
 {
+    setParentWidget(this);
     setWantsKeyboardFocus(true);
     
     if (mainComponent)

@@ -36,8 +36,9 @@
 #include "../Core/Global.h"
 
 BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
-    : ComboBox(name), BCMParameterWidget(owner, this)
+    : ComboBox(name), BCMParameterWidget(owner)
 {
+    setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 

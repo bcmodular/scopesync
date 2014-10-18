@@ -36,8 +36,10 @@
 #include "../Core/Global.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
-    : TextButton(name), BCMParameterWidget(owner, this)
-{}
+    : TextButton(name), BCMParameterWidget(owner)
+{
+    setParentWidget(this);
+}
 
 BCMTextButton::~BCMTextButton() {};
 
@@ -308,7 +310,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
         TextButton::mouseDown(event);
     }
 }
-    
+
 void BCMTextButton::mouseUp(const MouseEvent& event)
 {
     DBG("BCMTextButton::mouseUp - button clicked: " + getName());

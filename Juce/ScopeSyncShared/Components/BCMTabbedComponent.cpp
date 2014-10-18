@@ -33,8 +33,9 @@
 #include "../Core/Global.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
-    : TabbedComponent(orientation), BCMParameterWidget(owner, this)
+    : TabbedComponent(orientation), BCMParameterWidget(owner)
 {
+    setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 

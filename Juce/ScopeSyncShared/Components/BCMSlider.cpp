@@ -37,8 +37,9 @@
 #include "../Components/UserSettings.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
-    : Slider(name), BCMParameterWidget(owner, this)
+    : Slider(name), BCMParameterWidget(owner)
 {
+    setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 
