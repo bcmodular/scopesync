@@ -28,6 +28,7 @@
 #define BCMMISC_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/UserSettings.h"
 
 String createAlphaNumericUID();
 
@@ -122,6 +123,191 @@ public:
 private:
     bool allowedToBeBlank;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FltProperty)
+};
+
+/* =========================================================================
+ * ColourPropertyComponent: PropertyComponent for choosing Colour values
+ *                          (appropriated from the Introjucer)
+ */
+class ColourPropertyComponent : public PropertyComponent
+{
+public:
+    ColourPropertyComponent(const String& name,
+                            const bool canReset)
+        : PropertyComponent (name)
+    {
+        colourPropEditor = new ColourPropEditorComponent(this, canReset);
+        addAndMakeVisible(colourPropEditor);
+    }
+
+    virtual void   setColour(Colour newColour) = 0;
+    virtual Colour getColour() const = 0;
+    virtual void   resetToDefault() = 0;
+
+    void refresh()
+    {
+        ((ColourPropEditorComponent*)getChildComponent(0))->refresh();
+    }
+
+    class ColourEditorComponent : public Component,
+                                  public ChangeListener
+    {
+    public:
+        ColourEditorComponent (const bool canReset)
+            : canResetToDefault (canReset)
+        {}
+
+        void paint (Graphics& g)
+        {
+            g.fillAll (Colours::grey);
+
+            g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
+                                10, 10,
+                                Colour (0xffdddddd).overlaidWith (colour),
+                                Colour (0xffffffff).overlaidWith (colour));
+
+            g.setColour (Colours::white.overlaidWith (colour).contrasting());
+            g.setFont (Font (getHeight() * 0.6f, Font::bold));
+            g.drawFittedText (colour.toDisplayString (true),
+                              2, 1, getWidth() - 4, getHeight() - 1,
+                              Justification::centred, 1);
+        }
+
+        virtual void setColour (Colour newColour) = 0;
+        virtual void resetToDefault() = 0;
+        virtual Colour getColour() const = 0;
+
+        void refresh()
+        {
+            const Colour col (getColour());
+
+            if (col != colour)
+            {
+                colour = col;
+                repaint();
+            }
+        }
+
+        void mouseDown (const MouseEvent&)
+        {
+            CallOutBox::launchAsynchronously (new ColourSelectorComp (this, canResetToDefault),
+                                              getScreenBounds(), nullptr);
+        }
+
+        void changeListenerCallback (ChangeBroadcaster* source)
+        {
+            const ColourSelector* const cs = (const ColourSelector*) source;
+
+            if (cs->getCurrentColour() != getColour())
+                setColour(cs->getCurrentColour());
+        }
+
+        class ColourSelectorComp : public Component,
+                                   public ButtonListener
+        {
+        public:
+            ColourSelectorComp (ColourEditorComponent* owner_,
+                                const bool canReset)
+                : owner (owner_),
+                  defaultButton ("Reset to Default")
+            {
+                addAndMakeVisible (selector);
+                selector.setName ("Colour");
+                selector.setCurrentColour (owner->getColour());
+                selector.addChangeListener (owner);
+
+                if (canReset)
+                {
+                    addAndMakeVisible (defaultButton);
+                    defaultButton.addListener (this);
+                }
+
+                setSize (300, 400);
+            }
+
+            void resized()
+            {
+                if (defaultButton.isVisible())
+                {
+                    selector.setBounds (0, 0, getWidth(), getHeight() - 30);
+                    defaultButton.changeWidthToFitText (22);
+                    defaultButton.setTopLeftPosition (10, getHeight() - 26);
+                }
+                else
+                {
+                    selector.setBounds (getLocalBounds());
+                }
+            }
+
+            void buttonClicked (Button*)
+            {
+                owner->resetToDefault();
+                owner->refresh();
+                selector.setCurrentColour (owner->getColour());
+            }
+
+        private:
+            class ColourSelectorWithSwatches : public ColourSelector
+            {
+            public:
+                ColourSelectorWithSwatches()
+                {
+                }
+
+                int getNumSwatches() const override
+                {
+                    return UserSettings::getInstance()->swatchColours.size();
+                }
+
+                Colour getSwatchColour (int index) const override
+                {
+                    return UserSettings::getInstance()->swatchColours [index];
+                }
+
+                void setSwatchColour (int index, const Colour& newColour) const override
+                {
+                    UserSettings::getInstance()->swatchColours.set(index, newColour);
+                }
+            };
+
+            ColourEditorComponent* owner;
+            ColourSelectorWithSwatches selector;
+            TextButton defaultButton;
+        };
+
+    private:
+        Colour colour;
+        bool canResetToDefault;
+    };
+
+    class ColourPropEditorComponent : public ColourEditorComponent
+    {
+        ColourPropertyComponent* const owner;
+
+    public:
+        ColourPropEditorComponent(ColourPropertyComponent* const owner_,
+                                  const bool canReset)
+            : ColourEditorComponent(canReset),
+              owner (owner_)
+        {}
+
+        void setColour (Colour newColour) override
+        {
+            owner->setColour(newColour);
+        }
+
+        Colour getColour() const override
+        {
+            return owner->getColour();
+        }
+
+        void resetToDefault()
+        {
+            owner->resetToDefault();
+        }
+    };
+
+    ScopedPointer<ColourPropEditorComponent> colourPropEditor;
 };
 
 #endif  // BCMMISC_H_INCLUDED

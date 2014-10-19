@@ -195,6 +195,8 @@ UserSettings::UserSettings()
     }
     else
         initialiseLayoutLocations();
+
+    loadSwatchColours();
    
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
@@ -224,6 +226,8 @@ UserSettings::~UserSettings()
 {
     removeKeyListener(commandManager->getKeyMappings());
     stopTimer();
+
+    saveSwatchColours();
 
     layoutLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
@@ -517,4 +521,67 @@ bool UserSettings::perform(const InvocationInfo& info)
 ApplicationCommandTarget* UserSettings::getNextCommandTarget()
 {
     return nullptr;
+}
+
+void UserSettings::loadSwatchColours()
+{
+    swatchColours.clear();
+
+    const Colour colours[] =
+    {
+        Colours::blue,
+        Colours::grey,
+        Colours::green,
+        Colours::red,
+        Colours::yellow,
+        Colours::aliceblue,
+        Colours::antiquewhite,
+        Colours::aqua,
+        Colours::aquamarine,
+        Colours::azure,
+        Colours::beige,
+        Colours::bisque,
+        Colours::blanchedalmond,
+        Colours::blueviolet,
+        Colours::brown,
+        Colours::burlywood,
+        Colours::cadetblue,
+        Colours::chartreuse,
+        Colours::chocolate,
+        Colours::coral,
+        Colours::cornflowerblue,
+        Colours::cornsilk,
+        Colours::crimson,
+        Colours::cyan
+    };
+
+    const int numSwatchColours = 24;
+    PropertiesFile* props = getGlobalProperties();
+
+    for (int i = 0; i < numSwatchColours; ++i)
+        swatchColours.add(Colour::fromString(props->getValue("swatchColour" + String(i),
+                                                               colours[i].toString())));
+}
+
+void UserSettings::saveSwatchColours()
+{
+    PropertiesFile* props = getGlobalProperties();
+
+    for (int i = 0; i < swatchColours.size(); ++i)
+        props->setValue ("swatchColour" + String(i), swatchColours.getReference(i).toString());
+}
+
+int UserSettings::ColourSelectorWithSwatches::getNumSwatches() const
+{
+    return UserSettings::getInstance()->swatchColours.size();
+}
+
+Colour UserSettings::ColourSelectorWithSwatches::getSwatchColour (int index) const
+{
+    return UserSettings::getInstance()->swatchColours[index];
+}
+
+void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour) const
+{
+    UserSettings::getInstance()->swatchColours.set(index, newColour);
 }

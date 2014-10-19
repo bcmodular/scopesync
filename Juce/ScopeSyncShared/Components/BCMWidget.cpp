@@ -33,7 +33,7 @@
 #include "../Properties/WidgetProperties.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner)
-    : scopeSyncGUI(owner), scopeSync(owner.getScopeSync())
+    : scopeSyncGUI(owner), scopeSync(owner.getScopeSync()), undoManager(owner.getScopeSync().getUndoManager())
 {}
 
 void BCMWidget::setParentWidget(Component* parent)
@@ -140,11 +140,11 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
     switch (commandID)
     {
     case CommandIDs::undo:
-        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(scopeSyncGUI.getScopeSync().getUndoManager().canUndo()));
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(undoManager.canUndo()));
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSyncGUI.getScopeSync().getUndoManager().canRedo()));
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(undoManager.canRedo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:
@@ -164,7 +164,7 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::deleteItems:
-        result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, mapsToParameter ? 0 : 1);
+        result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, !mapsToParameter);
         result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
         result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
         break;
@@ -173,7 +173,7 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
         result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::editMappedItem:
-        result.setInfo("Edit Mapped Item", "Edit item mapped to the most recently selected item", CommandCategories::general, mapsToParameter ? 0 : 1);
+        result.setInfo("Edit Mapped Item", "Edit item mapped to the most recently selected item", CommandCategories::general, !mapsToParameter);
         result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     case CommandIDs::overrideStyle:
@@ -181,8 +181,8 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
         result.defaultKeypresses.add(KeyPress ('l', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::clearStyleOverride:
-        result.setInfo("Clear Style Override", "Clear a style override for the most recently selected widget", CommandCategories::general, styleOverride.isValid() ? 0 : 1);
-        result.defaultKeypresses.add(KeyPress ('l', ModifierKeys::commandModifier, 0));
+        result.setInfo("Clear Style Override", "Clear a style override for the most recently selected widget", CommandCategories::general, !styleOverride.isValid());
+        result.defaultKeypresses.add(KeyPress ('l', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     }
 }
@@ -298,7 +298,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
 
 void BCMParameterWidget::deleteMapping()
 {
-    scopeSyncGUI.getScopeSync().getConfiguration().deleteMapping(mappingComponentType, mapping, nullptr);
+    scopeSyncGUI.getScopeSync().getConfiguration().deleteMapping(mappingComponentType, mapping, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
@@ -329,7 +329,7 @@ void BCMParameterWidget::overrideStyle()
 
 void BCMParameterWidget::clearStyleOverride()
 {
-    scopeSyncGUI.getScopeSync().getConfiguration().deleteStyleOverride(getComponentType(), styleOverride, nullptr);
+    scopeSyncGUI.getScopeSync().getConfiguration().deleteStyleOverride(getComponentType(), styleOverride, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 

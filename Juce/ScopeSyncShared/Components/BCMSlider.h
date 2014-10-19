@@ -92,6 +92,9 @@ public:
         velocityBasedModeOff
     };
 
+protected:
+    void applyLookAndFeel(bool noStyleOverride) override;
+
 private:
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
@@ -118,6 +121,12 @@ private:
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
+
+    // Returns true if this is a Rotary-style Slider
+    bool isRotary() const;
+
+    // Open the specific Style Override Panel for sliders as appropriate
+    void overrideStyle() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMSlider);
 };

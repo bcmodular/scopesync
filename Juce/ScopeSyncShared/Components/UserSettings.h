@@ -58,6 +58,18 @@ public:
     bool getPropertyBoolValue(const String& propertyName, bool defaultValue);
     void setPropertyBoolValue(const String& propertyName, bool newValue);
 
+    Array<Colour> swatchColours;
+
+    class ColourSelectorWithSwatches : public ColourSelector
+    {
+    public:
+        ColourSelectorWithSwatches() {}
+
+        int getNumSwatches() const override;
+        Colour getSwatchColour (int index) const override;
+        void setSwatchColour (int index, const Colour& newColour) const override;
+    };
+
     juce_DeclareSingleton (UserSettings, false)
 
 private:
@@ -98,6 +110,9 @@ private:
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
+
+    void loadSwatchColours();
+    void saveSwatchColours();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };

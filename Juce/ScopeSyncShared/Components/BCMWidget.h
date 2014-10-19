@@ -45,6 +45,7 @@ public:
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
     ScopeSync&         scopeSync;
+    UndoManager&       undoManager;
     BCMComponentBounds componentBounds; // Position/Size information
     Component*         parentWidget;
     ValueTree          styleOverride;
@@ -52,11 +53,11 @@ protected:
 
     virtual const Identifier getComponentType() const = 0;
 
+    virtual void applyLookAndFeel(bool noStyleOverride);
     void applyWidgetProperties(WidgetProperties& properties);
 
 private:
     void applyBounds();
-    void applyLookAndFeel(bool noStyleOverride);
 };
 
 class BCMParameter;
@@ -92,6 +93,7 @@ protected:
     void showPopupMenu();
     void setupMapping(const Identifier& componentType,     const String& componentName,
                       const Identifier& mappingParentType, const String& mappingParent);
+    virtual void overrideStyle();
     
 private:
     /* ================= Application Command Target overrides ================= */
@@ -103,7 +105,6 @@ private:
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
-    void overrideStyle();
     void clearStyleOverride();
     
     void changeListenerCallback (ChangeBroadcaster* source);

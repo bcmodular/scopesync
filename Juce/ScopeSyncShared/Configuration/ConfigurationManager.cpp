@@ -260,6 +260,17 @@ void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride
     configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));
 }
 
+void ConfigurationManagerCallout::setRotaryStyleOverridePanel(ValueTree& styleOverride, const String& componentName, const String& fillColour)
+{
+    if (!(styleOverride.isValid()))
+    {
+        configurationManager.getConfiguration().addStyleOverride(Ids::slider, componentName, styleOverride, -1, &undoManager);
+        styleOverride.setProperty(Ids::fillColour, fillColour, &undoManager);
+    }
+
+    configurationManagerCalloutMain->changePanel(new RotaryStyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, true));
+}
+
 void ConfigurationManagerCallout::paint(Graphics& g)
 {
     g.fillAll(Colour(0xff434343));

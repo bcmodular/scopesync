@@ -437,7 +437,7 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::redo:
-        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSync.getUndoManager().canUndo()));
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSync.getUndoManager().canRedo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:

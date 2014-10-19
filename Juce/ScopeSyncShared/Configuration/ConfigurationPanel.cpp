@@ -35,6 +35,38 @@
 #include "LayoutChooser.h"
 #include "../Components/UserSettings.h"
 
+//==============================================================================
+class ComponentBackgroundColourProperty : public  ColourPropertyComponent,
+                                          private Value::Listener
+{
+public:
+    ComponentBackgroundColourProperty(const Value& valueToControl, const String& colourName)
+        : ColourPropertyComponent(colourName, false),
+          colourValue(valueToControl)
+    {
+        colourValue.referTo(valueToControl);
+        colourValue.addListener(this);
+    }
+
+    ~ComponentBackgroundColourProperty() {}
+
+    void valueChanged(Value& /* valueThatChanged */) override
+    {
+        refresh();
+    }
+
+    void   setColour(Colour newColour) override { colourValue = newColour.toString(); }
+    Colour getColour() const override           { return Colour::fromString(colourValue.toString()); }
+
+    void resetToDefault() override
+    {
+        jassertfalse; // option shouldn't be visible
+    }
+
+protected:
+    Value colourValue;
+};
+
 /* =========================================================================
  * BasePanel
  */
@@ -516,8 +548,6 @@ StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um,
     rebuildProperties();
 }
 
-StyleOverridePanel::~StyleOverridePanel() {}
-
 void StyleOverridePanel::rebuildProperties()
 {
     PropertyListBuilder props;
@@ -554,5 +584,25 @@ void StyleOverridePanel::rebuildProperties()
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
 
+    propertyPanel.addProperties(props.components);
+}
+
+/* =========================================================================
+ * RotaryStyleOverridePanel
+ */
+RotaryStyleOverridePanel::RotaryStyleOverridePanel(ValueTree& mapping, UndoManager& um, 
+                                       ScopeSync& ss, ApplicationCommandManager* acm, 
+                                       bool calloutView)
+    : StyleOverridePanel(mapping, um, ss, acm, Ids::slider, calloutView)
+{
+    rebuildProperties();
+}
+
+void RotaryStyleOverridePanel::rebuildProperties()
+{
+    PropertyListBuilder props;
+
+    props.clear();
+    props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour"), "Choose the Colour to fill this Rotary Slider with");
     propertyPanel.addProperties(props.components);
 }

@@ -35,25 +35,26 @@
 #include "../Properties/SliderProperties.h"
 #include "../Core/Global.h"
 #include "../Components/UserSettings.h"
+#include "../Configuration/ConfigurationManager.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
     : Slider(name), BCMParameterWidget(owner)
 {
     setParentWidget(this);
-    setWantsKeyboardFocus(true);
+    //setWantsKeyboardFocus(true);
 }
 
 BCMSlider::~BCMSlider() {}
 
 void BCMSlider::applyProperties(SliderProperties& properties)
 {
+    overrideSliderStyle(properties.style);
+    
     applyWidgetProperties(properties);
     
     fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
     justificationFlags = properties.justificationFlags;
-    
-    overrideSliderStyle(properties.style);
     
     if (properties.style == Slider::IncDecButtons)
         overrideIncDecButtonMode(properties.incDecButtonMode);
@@ -275,4 +276,39 @@ bool BCMSlider::getEncoderSnap(bool encoderSnap)
         encoderSnap = (encoderSnapUserSetting == snap);
     
     return encoderSnap;
+}
+
+bool BCMSlider::isRotary() const
+{
+    DBG("BCMSlider::isRotary - slider style: " + String(getSliderStyle()));
+
+    return getSliderStyle() == Rotary
+        || getSliderStyle() == RotaryHorizontalDrag
+        || getSliderStyle() == RotaryVerticalDrag
+        || getSliderStyle() == RotaryHorizontalVerticalDrag;
+}
+void BCMSlider::overrideStyle()
+{
+    if (isRotary())
+    {
+        ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
+        configurationManagerCallout->setRotaryStyleOverridePanel(styleOverride, getName(), findColour(Slider::rotarySliderFillColourId).toString());
+        configurationManagerCallout->addChangeListener(this);
+        CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+    }
+    else
+        BCMParameterWidget::overrideStyle();
+}
+
+void BCMSlider::applyLookAndFeel(bool noStyleOverride)
+{
+    BCMWidget::applyLookAndFeel(noStyleOverride);
+
+    if (!noStyleOverride && isRotary())
+    {
+        String fillColourString = styleOverride.getProperty(Ids::fillColour);
+
+        if (fillColourString.isNotEmpty())
+            setColour(Slider::rotarySliderFillColourId, Colour::fromString(fillColourString));        
+    }
 }

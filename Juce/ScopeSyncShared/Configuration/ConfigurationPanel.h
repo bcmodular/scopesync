@@ -192,16 +192,29 @@ class StyleOverridePanel : public BasePanel
 {
 public:
     StyleOverridePanel(ValueTree& styleOverride, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
-    ~StyleOverridePanel();
 
 protected:
-    void rebuildProperties() override;
+    virtual void rebuildProperties() override;
 
 private:
     Identifier componentType;
     bool       showComponent;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverridePanel)
+};
+
+/* =========================================================================
+ * RotaryStyleOverridePanel: Edit Panel for Rotary Slider Style Overrides
+ */
+class RotaryStyleOverridePanel : public StyleOverridePanel
+{
+public:
+    RotaryStyleOverridePanel(ValueTree& styleOverride, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool calloutView = false);
+
+protected:
+    void rebuildProperties() override;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RotaryStyleOverridePanel)
 };
 
 #endif  // PARAMETERPANEL_H_INCLUDED

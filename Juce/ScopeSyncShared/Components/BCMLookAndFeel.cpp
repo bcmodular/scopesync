@@ -437,7 +437,7 @@ void BCMLookAndFeel::drawRotarySlider
         // Draw background image
         if (rotaryBackground.isValid())
         {
-            g.setColour(findColour(Slider::rotarySliderFillColourId));
+            g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
             g.drawImageWithin(rotaryBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
         }
 
