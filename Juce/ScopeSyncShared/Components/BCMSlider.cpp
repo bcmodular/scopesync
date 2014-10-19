@@ -287,28 +287,42 @@ bool BCMSlider::isRotary() const
         || getSliderStyle() == RotaryVerticalDrag
         || getSliderStyle() == RotaryHorizontalVerticalDrag;
 }
+
 void BCMSlider::overrideStyle()
 {
-    if (isRotary())
-    {
-        ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
-        configurationManagerCallout->setRotaryStyleOverridePanel(styleOverride, getName(), findColour(Slider::rotarySliderFillColourId).toString());
-        configurationManagerCallout->addChangeListener(this);
-        CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
-    }
+    String fillColourString;
+    
+    if (getSliderStyle() == IncDecButtons)
+        fillColourString = findColour(TextButton::buttonColourId).toString();
+    else if (isRotary())
+        fillColourString = findColour(Slider::rotarySliderFillColourId).toString();
     else
-        BCMParameterWidget::overrideStyle();
+        fillColourString = findColour(Slider::thumbColourId).toString();
+
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), fillColourString);
+    configurationManagerCallout->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }
 
 void BCMSlider::applyLookAndFeel(bool noStyleOverride)
 {
     BCMWidget::applyLookAndFeel(noStyleOverride);
 
-    if (!noStyleOverride && isRotary())
+    if (!noStyleOverride)
     {
         String fillColourString = styleOverride.getProperty(Ids::fillColour);
 
         if (fillColourString.isNotEmpty())
-            setColour(Slider::rotarySliderFillColourId, Colour::fromString(fillColourString));        
+        {
+            if (getSliderStyle() == IncDecButtons)
+                setColour(TextButton::buttonColourId, Colour::fromString(fillColourString));
+            else if (isRotary())
+                setColour(Slider::rotarySliderFillColourId, Colour::fromString(fillColourString));
+            else
+                setColour(Slider::thumbColourId, Colour::fromString(fillColourString));
+        }    
     }
+
+    sendLookAndFeelChange();
 }

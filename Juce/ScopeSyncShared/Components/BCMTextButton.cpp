@@ -307,6 +307,9 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     }
     else
     {
+        if (hasParameter())
+            scopeSync.beginParameterChangeGesture(getParameter());
+
         TextButton::mouseDown(event);
     }
 }
@@ -324,6 +327,9 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
             if (valueToSet >= 0)
                 scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
         }
+
+        if (hasParameter())
+            scopeSync.endParameterChangeGesture(getParameter());
 
         TextButton::mouseUp(event);
     }

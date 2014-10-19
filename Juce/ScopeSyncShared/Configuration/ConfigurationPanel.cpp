@@ -550,6 +550,7 @@ StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um,
 
 void StyleOverridePanel::rebuildProperties()
 {
+    String componentTypeName = Configuration::getComponentTypeName(componentType);
     PropertyListBuilder props;
 
     props.clear();
@@ -564,8 +565,6 @@ void StyleOverridePanel::rebuildProperties()
 
         componentNames.insert(0, "- No Component -");
         componentValues.insert(0, String::empty);
-
-        String componentTypeName = Configuration::getComponentTypeName(componentType);
         
         props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to override style for");
     }
@@ -583,26 +582,9 @@ void StyleOverridePanel::rebuildProperties()
     lookAndFeelValues.insert(0, String::empty);
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
-
-    propertyPanel.addProperties(props.components);
-}
-
-/* =========================================================================
- * RotaryStyleOverridePanel
- */
-RotaryStyleOverridePanel::RotaryStyleOverridePanel(ValueTree& mapping, UndoManager& um, 
-                                       ScopeSync& ss, ApplicationCommandManager* acm, 
-                                       bool calloutView)
-    : StyleOverridePanel(mapping, um, ss, acm, Ids::slider, calloutView)
-{
-    rebuildProperties();
-}
-
-void RotaryStyleOverridePanel::rebuildProperties()
-{
-    PropertyListBuilder props;
-
-    props.clear();
-    props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour"), "Choose the Colour to fill this Rotary Slider with");
+    
+    if (componentType == Ids::slider)
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour"), "Choose the Colour to fill this " + componentTypeName + " with");
+    
     propertyPanel.addProperties(props.components);
 }

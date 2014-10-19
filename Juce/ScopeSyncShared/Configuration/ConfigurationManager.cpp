@@ -252,23 +252,18 @@ void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMPar
     configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, undoManager, paramType, scopeSync, commandManager, true));
 }
 
-void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, const Identifier& componentType, const String& componentName)
-{
-    if (!(styleOverride.isValid()))
-         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
-
-    configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));
-}
-
-void ConfigurationManagerCallout::setRotaryStyleOverridePanel(ValueTree& styleOverride, const String& componentName, const String& fillColour)
+void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, 
+                                                        const Identifier& componentType, 
+                                                        const String& componentName, 
+                                                        const String& fillColour)
 {
     if (!(styleOverride.isValid()))
     {
-        configurationManager.getConfiguration().addStyleOverride(Ids::slider, componentName, styleOverride, -1, &undoManager);
+        configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
         styleOverride.setProperty(Ids::fillColour, fillColour, &undoManager);
     }
 
-    configurationManagerCalloutMain->changePanel(new RotaryStyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, true));
+    configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));
 }
 
 void ConfigurationManagerCallout::paint(Graphics& g)

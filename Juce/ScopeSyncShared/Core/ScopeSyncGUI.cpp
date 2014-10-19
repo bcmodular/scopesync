@@ -426,6 +426,17 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
 
         commands.addArray (ids, numElementsInArray(ids));
     }
+    else
+    {
+        const CommandID ids[] = { CommandIDs::snapshot,
+                                  CommandIDs::showUserSettings,
+                                  CommandIDs::chooseConfiguration
+                                };
+
+        commands.addArray (ids, numElementsInArray(ids));
+    }
+
+    
 }
 
 void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)

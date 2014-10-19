@@ -322,7 +322,7 @@ void BCMParameterWidget::editMappedParameter()
 void BCMParameterWidget::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 34);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName());
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), Colours::transparentBlack.toString());
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }

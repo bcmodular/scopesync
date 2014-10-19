@@ -207,8 +207,12 @@ void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
     {
 #ifndef __DLL_EFFECT__
         int hostIdx = parameter->getHostIdx();
-        pluginProcessor->beginParameterChangeGesture(hostIdx);
-        changingParams.setBit(hostIdx);
+        
+        if (!changingParams[hostIdx])
+        {
+            pluginProcessor->beginParameterChangeGesture(hostIdx);
+            changingParams.setBit(hostIdx);
+        }
 #else
         parameter->setAffectedByUI(true);
 #endif // __DLL_EFFECT__
@@ -221,8 +225,12 @@ void ScopeSync::endParameterChangeGesture(BCMParameter* parameter)
     {
 #ifndef __DLL_EFFECT__
         int hostIdx = parameter->getHostIdx();
-        pluginProcessor->endParameterChangeGesture(hostIdx); 
-        changingParams.clearBit(hostIdx);
+        
+        if (changingParams[hostIdx])
+        {
+            pluginProcessor->endParameterChangeGesture(hostIdx); 
+            changingParams.clearBit(hostIdx);
+        }
 #else
         parameter->setAffectedByUI(false);
 #endif // __DLL_EFFECT__
