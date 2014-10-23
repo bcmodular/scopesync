@@ -291,16 +291,26 @@ bool BCMSlider::isRotary() const
 void BCMSlider::overrideStyle()
 {
     String fillColourString;
+    String lineColourString;
     
     if (getSliderStyle() == IncDecButtons)
+    {
         fillColourString = findColour(TextButton::buttonColourId).toString();
+        lineColourString = findColour(TextButton::textColourOffId).toString();
+    }
     else if (isRotary())
+    {
         fillColourString = findColour(Slider::rotarySliderFillColourId).toString();
+        lineColourString = findColour(Slider::rotarySliderOutlineColourId).toString();
+    }
     else
+    {
         fillColourString = findColour(Slider::thumbColourId).toString();
+        lineColourString = findColour(Slider::trackColourId).toString();
+    }
 
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), fillColourString);
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 85);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), fillColourString, lineColourString);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }
@@ -312,6 +322,7 @@ void BCMSlider::applyLookAndFeel(bool noStyleOverride)
     if (!noStyleOverride)
     {
         String fillColourString = styleOverride.getProperty(Ids::fillColour);
+        String lineColourString = styleOverride.getProperty(Ids::lineColour);
 
         if (fillColourString.isNotEmpty())
         {
@@ -322,7 +333,15 @@ void BCMSlider::applyLookAndFeel(bool noStyleOverride)
             else
                 setColour(Slider::thumbColourId, Colour::fromString(fillColourString));
         }    
-    }
 
-    sendLookAndFeelChange();
+        if (lineColourString.isNotEmpty())
+        {
+            if (getSliderStyle() == IncDecButtons)
+                setColour(TextButton::textColourOffId, Colour::fromString(lineColourString));
+            else if (isRotary())
+                setColour(Slider::rotarySliderOutlineColourId, Colour::fromString(lineColourString));
+            else
+                setColour(Slider::trackColourId, Colour::fromString(lineColourString));
+        }  
+    }
 }

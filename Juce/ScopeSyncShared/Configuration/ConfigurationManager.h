@@ -125,7 +125,11 @@ public:
 
     void setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName);
     void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
-    void setStyleOverridePanel(ValueTree& styleOverride, const Identifier& componentType, const String& componentName, const String& fillColour);
+    void setStyleOverridePanel(ValueTree& styleOverride,
+                               const Identifier& componentType, 
+                               const String& componentName, 
+                               const String& fillColour,
+                               const String& lineColour);
     
 private:
     ScopeSync&                 scopeSync;

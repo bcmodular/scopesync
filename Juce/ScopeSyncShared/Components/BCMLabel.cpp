@@ -33,6 +33,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/LabelProperties.h"
 #include "../Core/Global.h"
+#include "../Configuration/ConfigurationManager.h"
 
 BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
     : Label(name, text), BCMParameterWidget(owner)
@@ -106,4 +107,35 @@ void BCMLabel::mouseDown(const MouseEvent& event)
     {
         Label::mouseDown(event);
     }
+}
+
+void BCMLabel::applyLookAndFeel(bool noStyleOverride)
+{
+    BCMWidget::applyLookAndFeel(noStyleOverride);
+
+    if (!noStyleOverride)
+    {
+        String fillColourString = styleOverride.getProperty(Ids::fillColour);
+        String lineColourString = styleOverride.getProperty(Ids::lineColour);
+
+        if (fillColourString.isNotEmpty())
+        {
+            Colour fillColour(Colour::fromString(fillColourString));
+            Colour lineColour(Colour::fromString(lineColourString));
+
+            setColour(Label::backgroundColourId, fillColour);
+            setColour(Label::textColourId, lineColour);
+        }
+    }
+}
+
+void BCMLabel::overrideStyle()
+{
+    String fillColourString = findColour(Label::backgroundColourId).toString();
+    String lineColourString = findColour(Label::textColourId).toString();
+    
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 85);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::label, getName(), fillColourString, lineColourString);
+    configurationManagerCallout->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

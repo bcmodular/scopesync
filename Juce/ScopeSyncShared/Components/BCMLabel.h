@@ -45,9 +45,15 @@ public:
     void applyProperties(LabelProperties& properties);
     const Identifier getComponentType() const override;
 
+protected:
+    void applyLookAndFeel(bool noStyleOverride) override;
+
 private:
     void mouseDown(const MouseEvent& event) override;
     
+    // Open the specific Style Override Panel for labels as appropriate
+    void overrideStyle() override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLabel);
 };
 

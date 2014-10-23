@@ -65,8 +65,8 @@ public:
 private:
     Value parameterValue;  // Maintains a link to a mapped parameter's UI value
 
-    String name;                        // Name of BCMTabbedComponent
-    bool   showDropShadow;              // Flag as to whether Tabs should display a drop-shadow
+    String name;           // Name of BCMTabbedComponent
+    bool   showDropShadow; // Flag as to whether Tabs should display a drop-shadow
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTabbedComponent);
 };

@@ -48,6 +48,7 @@
 #include "../Properties/ComboBoxProperties.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Core/ScopeSync.h"
+#include "../Configuration/ConfigurationManager.h"
 
 /* =========================================================================
  * SystemErrorBar
@@ -254,7 +255,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     applyWidgetProperties(properties);
     layoutDirectory = layoutDir;
-    backgroundColour = properties.backgroundColour;
+
+    backgroundColour = styleOverride.getProperty(Ids::fillColour, properties.backgroundColour);
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
@@ -600,9 +602,12 @@ void BCMComponent::showHideEditToolbar()
     DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String(showEditToolbar));
 }
 
-void BCMComponent::changeListenerCallback(ChangeBroadcaster* /* source */)
+void BCMComponent::changeListenerCallback(ChangeBroadcaster* source)
 {
-    systemErrorBar = nullptr;
+    if (source == systemErrorBar)
+        systemErrorBar = nullptr;
+    else
+        BCMWidget::changeListenerCallback(source);
 }
 
 void BCMComponent::valueChanged(Value& valueThatChanged)
@@ -645,5 +650,26 @@ void BCMComponent::sliderDragEnded(Slider* slider)
     if (bcmSlider && bcmSlider->hasParameter())
     {
         scopeSyncGUI.getScopeSync().endParameterChangeGesture(bcmSlider->getParameter());
+    }
+}
+
+void BCMComponent::overrideStyle()
+{
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), backgroundColour, Colours::transparentBlack.toString());
+    configurationManagerCallout->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+}
+
+void BCMComponent::mouseDown(const MouseEvent& event)
+{
+    if (event.mods.isPopupMenu())
+    {
+        //grabKeyboardFocus();
+        showPopupMenu();
+    }
+    else
+    {
+        Component::mouseDown(event);
     }
 }

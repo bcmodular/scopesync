@@ -33,11 +33,12 @@ class ScopeSyncGUI;
 class ScopeSync;
 class WidgetProperties;
 
-class BCMWidget
+class BCMWidget : public ChangeListener,
+                  public ApplicationCommandTarget
 {
 public:
     BCMWidget(ScopeSyncGUI& owner);
-    ~BCMWidget() {};
+    ~BCMWidget();
 
     void setParentWidget(Component* parent);
     const String& getLookAndFeelId() { return bcmLookAndFeelId; }
@@ -45,6 +46,7 @@ public:
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
     ScopeSync&         scopeSync;
+    ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
     UndoManager&       undoManager;
     BCMComponentBounds componentBounds; // Position/Size information
     Component*         parentWidget;
@@ -56,19 +58,31 @@ protected:
     virtual void applyLookAndFeel(bool noStyleOverride);
     void applyWidgetProperties(WidgetProperties& properties);
 
+    virtual void overrideStyle();
+    void clearStyleOverride();
+    
+    virtual void showPopupMenu();
+
+    /* ================= Application Command Target overrides ================= */
+    virtual void getAllCommands(Array<CommandID>& commands) override;
+    virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    virtual bool perform(const InvocationInfo& info) override;
+    virtual ApplicationCommandTarget* getNextCommandTarget();
+
+    virtual void changeListenerCallback (ChangeBroadcaster* source);
+
 private:
     void applyBounds();
+    
 };
 
 class BCMParameter;
 
-class BCMParameterWidget : public BCMWidget,
-                           public ApplicationCommandTarget,
-                           public ChangeListener
+class BCMParameterWidget : public BCMWidget
 {
 public:
     BCMParameterWidget(ScopeSyncGUI& owner);
-    ~BCMParameterWidget();
+    ~BCMParameterWidget() {};
 
     // Indicates whether the widget has a parameter mapping
     bool hasParameter() { return mapsToParameter; };
@@ -84,34 +98,22 @@ protected:
     String      mappingComponentName;
     ValueTree   mapping;
 
-    ApplicationCommandManager* commandManager; // ScopeSync's ApplicationCommandManager
-   
-    void saveAs();
-    void undo();
-    void redo();
-
-    void showPopupMenu();
     void setupMapping(const Identifier& componentType,     const String& componentName,
                       const Identifier& mappingParentType, const String& mappingParent);
-    virtual void overrideStyle();
-    
-private:
-    /* ================= Application Command Target overrides ================= */
-    virtual void getAllCommands(Array<CommandID>& commands) override;
-    virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    virtual bool perform(const InvocationInfo& info) override;
-    virtual ApplicationCommandTarget* getNextCommandTarget();
 
+    void showPopupMenu();
+
+private:
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
-    void clearStyleOverride();
-    
-    void changeListenerCallback (ChangeBroadcaster* source);
 
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMParameterWidget);
 };
-
-
 
 #endif  // BCMPARAMETERWIDGET_H_INCLUDED

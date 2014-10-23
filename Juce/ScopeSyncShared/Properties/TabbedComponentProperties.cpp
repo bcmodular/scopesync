@@ -75,16 +75,15 @@ void TabbedComponentProperties::setValuesFromXML(XmlElement& tabbedComponentXML)
     {
         tabBarDepth = child->getIntAttribute("depth", tabBarDepth);
 
-        XmlElement* orientationXml = child->getChildByName("orientation");
-        if (orientationXml != nullptr)
-            getOrientationFromXml(*orientationXml, tabBarOrientation);
+        String orientationString = child->getStringAttribute("orientation");
+        
+        if (orientationString.isNotEmpty())
+            getOrientationFromString(orientationString, tabBarOrientation);
     }
 }
 
-void TabbedComponentProperties::getOrientationFromXml(const XmlElement& xml, TabbedButtonBar::Orientation& orientation)
+void TabbedComponentProperties::getOrientationFromString(const String& orientationString, TabbedButtonBar::Orientation& orientation)
 {
-    String orientationString = xml.getAllSubText();
-
          if (orientationString.equalsIgnoreCase("bottom")) orientation = TabbedButtonBar::TabsAtBottom;
     else if (orientationString.equalsIgnoreCase("left"))   orientation = TabbedButtonBar::TabsAtLeft;
     else if (orientationString.equalsIgnoreCase("right"))  orientation = TabbedButtonBar::TabsAtRight;

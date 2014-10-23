@@ -255,12 +255,14 @@ void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMPar
 void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, 
                                                         const Identifier& componentType, 
                                                         const String& componentName, 
-                                                        const String& fillColour)
+                                                        const String& fillColour,
+                                                        const String& lineColour)
 {
     if (!(styleOverride.isValid()))
     {
         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
         styleOverride.setProperty(Ids::fillColour, fillColour, &undoManager);
+        styleOverride.setProperty(Ids::lineColour, lineColour, &undoManager);
     }
 
     configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));

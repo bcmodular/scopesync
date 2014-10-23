@@ -583,8 +583,11 @@ void StyleOverridePanel::rebuildProperties()
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
     
-    if (componentType == Ids::slider)
+    if (componentType == Ids::slider || componentType == Ids::label || componentType == Ids::component)
         props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour"), "Choose the Colour to fill this " + componentTypeName + " with");
+    
+    if (componentType == Ids::slider || componentType == Ids::label)
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour, &undoManager), "Line Colour"), "Choose the Line Colour for this " + componentTypeName);
     
     propertyPanel.addProperties(props.components);
 }

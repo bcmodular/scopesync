@@ -54,7 +54,7 @@ private:
     void copyProperties(TabbedComponentProperties& parentTabbedComponentXML);
     void setValuesFromXML(XmlElement& tabbedComponentXML);
 
-    void getOrientationFromXml(const XmlElement& xml, TabbedButtonBar::Orientation& orientation);
+    void getOrientationFromString(const String& orientationString, TabbedButtonBar::Orientation& orientation);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TabbedComponentProperties);
 };

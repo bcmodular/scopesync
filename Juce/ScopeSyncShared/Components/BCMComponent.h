@@ -49,7 +49,6 @@ class BCMComponent : public BCMWidget,
                      public Component,
                      public SliderListener,
                      public ComboBoxListener,
-                     public ChangeListener,
                      public Value::Listener                                     
 {
 public:
@@ -81,7 +80,7 @@ public:
     void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
 
     // Callback for when the SystemErrorBar's closeButton is clicked
-    void changeListenerCallback(ChangeBroadcaster* source);
+    void changeListenerCallback(ChangeBroadcaster* source) override;
 
     // Callback for when the systemerror values change
     void valueChanged(Value& valueThatChanged) override;
@@ -140,6 +139,12 @@ private:
     
     // Draw a BCMImage on the canvas
     void drawBCMImage(Graphics& g, BCMImage& image);
+
+    // To handle the right-click menu
+    void mouseDown(const MouseEvent& event);
+
+    // Open the specific Style Override Panel for components as appropriate
+    void overrideStyle() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComponent);
 };
