@@ -87,6 +87,7 @@
 	        <element name="tabbar" type="tns:tabbarcolourstype" minOccurs="0"></element>
 	        <element name="texteditor" type="tns:texteditorcolourstype" minOccurs="0"></element>
 	        <element name="combobox" type="tns:comboboxcolourstype" minOccurs="0"></element>
+	        <element name="popupmenu" type="tns:popupmenucolourstype" minOccurs="0"></element>
 	        <element name="tooltip" type="tns:tooltipcolourstype" minOccurs="0"></element>
 	        <element name="bubblecomponent" type="tns:bubblecomponentcolourstype" minOccurs="0"></element>
         </all>
@@ -222,6 +223,14 @@
         <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
         <attribute name="buttoncolourid" type="tns:colouridtype"></attribute>
         <attribute name="arrowcolourid" type="tns:colouridtype"></attribute>
+    </complexType>
+
+	<complexType name="popupmenucolourstype">
+        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="headertextcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="highlightedbackgroundcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="highlightedtextcolourid" type="tns:colouridtype"></attribute>
     </complexType>
 
     <simpleType name="rectangleplacementtype">

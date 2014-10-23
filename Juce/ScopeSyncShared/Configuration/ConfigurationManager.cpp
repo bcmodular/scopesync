@@ -252,17 +252,21 @@ void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMPar
     configurationManagerCalloutMain->changePanel(new ParameterPanel(parameter, undoManager, paramType, scopeSync, commandManager, true));
 }
 
-void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree& styleOverride, 
+void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree&        styleOverride, 
                                                         const Identifier& componentType, 
-                                                        const String& componentName, 
-                                                        const String& fillColour,
-                                                        const String& lineColour)
+                                                        const String&     componentName, 
+                                                        const String&     fillColour,
+                                                        const String&     lineColour,
+                                                        const String&     fillColour2,
+                                                        const String&     lineColour2)
 {
     if (!(styleOverride.isValid()))
     {
         configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
-        styleOverride.setProperty(Ids::fillColour, fillColour, &undoManager);
-        styleOverride.setProperty(Ids::lineColour, lineColour, &undoManager);
+        styleOverride.setProperty(Ids::fillColour,  fillColour, &undoManager);
+        styleOverride.setProperty(Ids::lineColour,  lineColour, &undoManager);
+        styleOverride.setProperty(Ids::fillColour2, fillColour2, &undoManager);
+        styleOverride.setProperty(Ids::lineColour2, lineColour2, &undoManager);
     }
 
     configurationManagerCalloutMain->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));

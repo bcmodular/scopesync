@@ -583,11 +583,37 @@ void StyleOverridePanel::rebuildProperties()
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
     
-    if (componentType == Ids::slider || componentType == Ids::label || componentType == Ids::component)
-        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour"), "Choose the Colour to fill this " + componentTypeName + " with");
+    String buttonOffText;
+    String buttonOffTooltipText;
+
+    if (componentType == Ids::textButton)
+    {
+        buttonOffText = " (Off)";
+        buttonOffTooltipText = " when it's off";
+    }
+
+    if (componentType == Ids::slider || componentType == Ids::label || componentType == Ids::component || componentType == Ids::textButton)
+    {
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour, &undoManager), "Fill Colour" + buttonOffText), "Choose the Colour to fill this " + componentTypeName + " with" + buttonOffTooltipText);
+    }
     
-    if (componentType == Ids::slider || componentType == Ids::label)
-        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour, &undoManager), "Line Colour"), "Choose the Line Colour for this " + componentTypeName);
+    if (componentType == Ids::slider || componentType == Ids::label || componentType == Ids::textButton)
+    {
+        String colourText;
+
+        if (componentType == Ids::label || componentType == Ids::textButton)
+            colourText = "Text Colour";
+        else
+            colourText = "Line Colour";
+
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour, &undoManager), colourText), "Choose the " + colourText + " for this " + componentTypeName + buttonOffTooltipText);
+    }
+
+    if (componentType == Ids::textButton)
+    {
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour2, &undoManager), "Fill Colour (On)"), "Choose the Fill Colour for this " + componentTypeName + " when it's on");
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour2, &undoManager), "Text Colour (On)"), "Choose the Text Colour for this " + componentTypeName + " when it's on");
+    }
     
     propertyPanel.addProperties(props.components);
 }

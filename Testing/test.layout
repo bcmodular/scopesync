@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
+  <layout name="test" libraryset="ScopeSync" author="ScopeSync" numbuttons="48" numencoders="32" numfaders="8" numparameters="88" panelwidth="674" panelheight="732" thumbnail="BCF2000-thumb.png" blurb="Replica of the Behringer BCF2000 layout. Featuring 8 faders, 16 push buttons and 4 banks of 8 push encoders, the BCF2000 layout allows a total of 88 parameters to be controlled.">
+    <lookandfeels>
+      <lookandfeel id="default" parentid="system:default">
+        <images>
+          <slider>
+            <rotary><image filename="Skins/B-Control/BCR_knob.png" numframes="45" ishorizontal="false"/></rotary>
+            <linearhorizontal thumbfilename="" >
+              <backgroundimage filename="" numframes="1" ishorizontal="false"/>
+            </linearhorizontal>
+            <linearvertical thumbfilename="Skins/B-Control/slider_cap_BCM.png" thumbmouseoverfilename="Skins/B-Control/slider_cap_BCM.png" thumbborder="2">
+              <backgroundimage filename="Skins/B-Control/slider_back.png" numframes="1" ishorizontal="false"/>
+            </linearvertical>
+          </slider>
+        </images>
+        <colours>
+          <label textcolourid="ffffffff"/>
+          <tabbedcomponent backgroundcolourid="ff123456" outlinecolourid="ff654321"/>
+          <tabbar fronttextcolourid="ffff00ff" taboutlinecolourid="ffffff00" frontoutlinecolourid="ffffffff" tabtextcolourid="ff00ffff"/>
+          <textbutton buttoncolourid="ff00ff00" buttononcolourid="ffff0000" textcolouroffid="ffffff00" textcolouronid="ff00ffff"/>
+          <combobox arrowcolourid="ff00ff00" backgroundcolourid="ffff0000" buttoncolourid="ffffff00" textcolourid="ff00ffff"></combobox>
+          <popupmenu backgroundcolourid="ffff00ff" textcolourid="ff00ffff" headertextcolourid="ff0000ff" highlightedbackgroundcolourid="ffff0000" highlightedtextcolourid="ff00ff00"/>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="incdec" parentid="default">
+        <colours>
+          <textbutton buttoncolourid="ff0000ff" textcolouroffid="ff000000" />
+        </colours>
+      </lookandfeel>
+    </lookandfeels>
+    <defaults>
+      <label name="defaultlabel" text="Untitled">
+        <bounds x="0" y="0" width="67" height="15" />
+        <font bold="true" height="12"></font>
+        <justification horizontallycentred="true" />
+      </label>
+    </defaults>
+    <!--Main Component-->
+    <component backgroundcolour="ff2d3035" lfid="default">
+      <bounds x="0" y="0" width="674" height="732" />
+      <!--Header Section-->
+      <component id="header">
+        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
+        <label lfid="system:configname" name="configurationname" text="Current Configuration">
+          <bounds x="177" y="11" width="160" height="17"></bounds>
+          <font bold="true" height="12"></font>
+        </label>
+        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load Configuration">
+          <bounds x="347" y="9" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:load_config_button" displaycontext="scope" name="LoadConfig" tooltip="Load Configuration">
+          <bounds x="347" y="9" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
+          <bounds x="373" y="9" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+          <bounds x="399" y="9" width="21" height="21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+          <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+          <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
+        </textbutton>
+        <component backgroundcolour="00000000" backgroundimage="scopeSyncLogo">
+          <bounds x="13" y="11" width="151" height="16"></bounds>
+        </component>
+        <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
+        <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
+          <bounds relativerectangle="right - 58, 6, parent.width - 70, top + 32"></bounds>
+          <tabbar orientation="right" depth="0"></tabbar>
+          <tab idx="1" name="DISCONNECTED">
+            <component>
+              <!--No Controls-->
+            </component>
+          </tab>
+          <tab idx="2" name="CONNECTED">
+            <component>
+              <textbutton lfid="system:patch_button" name="PatchWindow">
+                <bounds x="0" y="2" width="27" height="21"></bounds>
+              </textbutton>
+              <textbutton lfid="system:presets_button" name="PresetList">
+                <bounds x="33" y="2" width="19" height="21"></bounds>
+              </textbutton>
+            </component>
+          </tab>
+        </tabbedcomponent>
+        <component displaycontext="scope" backgroundcolour="00000000">
+          <bounds relativerectangle="right - 2, 0, parent.width - 132, top + 2"></bounds>
+          <!--CP<->Host Disconnected-->
+          <textbutton name="CPHost-Disconnected" nostyleoverride="true">
+            <bounds x="3" y="3" width="1" height="1"></bounds>
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
+          </textbutton>
+          <!--CP<->Host Connected-->
+          <textbutton name="CPHost-Connected" nostyleoverride="true">
+            <bounds x="3" y="3" width="1" height="1"></bounds>
+            <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
+          </textbutton>
+        </component>
+      </component>
+      <component id="maincomp">
+        <bounds relativerectangle="0, header.bottom, parent.width, parent.height"></bounds>
+        <tabbedcomponent name="testtabbedcomponent" id="tabbedcomp">
+          <bounds relativerectangle="0, 0, parent.width, parent.height - 40"/>
+          <tabbar depth="30" orientation="bottom"/>
+          <tab idx="1" name="tab1">
+            <component id="tab1comp">
+              <label name="Test Label" text="TEST LABEL"></label>
+              <textbutton name="button1" text="my button">
+                <bounds x="0" y="50" />
+              </textbutton>
+              <slider name="slider1" style="incdecbuttons" lfid="incdec">
+                <bounds x="0" y="150" />
+              </slider>
+              <combobox editabletext="true" name="combo1" nochoicestext="-NOCHOICE-" nothingselectedtext="-NOTHINGSELECTED-" tooltip="TOOLTIP">
+                <bounds x="0" y="250" height="25" width="200"></bounds>
+              </combobox>
+            </component>
+          </tab>
+          <tab idx="2" name="tab2">
+            <component id="tab2comp">
+              <label name="Test Label 2" text="TEST LABEL 2">
+                <bounds x="20" y="20" />
+              </label>
+              
+            </component>
+          </tab>
+        </tabbedcomponent>
+      </component>
+    </component>
+  </layout>
+</tns:ScopeSyncLayout>

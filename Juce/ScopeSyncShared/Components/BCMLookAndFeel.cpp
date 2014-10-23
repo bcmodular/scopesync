@@ -144,53 +144,59 @@ const String& BCMLookAndFeel::getId() { return id; };
 
 void BCMLookAndFeel::setupColourIds()
 {
-    sliderColours.set("backgroundcolourid", Slider::backgroundColourId);
-    sliderColours.set("thumbcolourid", Slider::thumbColourId);
-    sliderColours.set("trackcolourid", Slider::trackColourId);
-    sliderColours.set("rotarysliderfillcolourid", Slider::rotarySliderFillColourId);
+    sliderColours.set("backgroundcolourid",          Slider::backgroundColourId);
+    sliderColours.set("thumbcolourid",               Slider::thumbColourId);
+    sliderColours.set("trackcolourid",               Slider::trackColourId);
+    sliderColours.set("rotarysliderfillcolourid",    Slider::rotarySliderFillColourId);
     sliderColours.set("rotaryslideroutlinecolourid", Slider::rotarySliderOutlineColourId);
-    sliderColours.set("textboxtextcolourid", Slider::textBoxTextColourId);
-    sliderColours.set("textboxbackgroundcolourid", Slider::textBoxBackgroundColourId);
-    sliderColours.set("textboxhighlightcolourid", Slider::textBoxHighlightColourId);
-    sliderColours.set("textboxoutlinecolourid", Slider::textBoxOutlineColourId);
+    sliderColours.set("textboxtextcolourid",         Slider::textBoxTextColourId);
+    sliderColours.set("textboxbackgroundcolourid",   Slider::textBoxBackgroundColourId);
+    sliderColours.set("textboxhighlightcolourid",    Slider::textBoxHighlightColourId);
+    sliderColours.set("textboxoutlinecolourid",      Slider::textBoxOutlineColourId);
 
     labelColours.set("backgroundcolourid", Label::backgroundColourId);
-    labelColours.set("textcolourid", Label::textColourId);
-    labelColours.set("outlinecolourid", Label::outlineColourId);
+    labelColours.set("textcolourid",       Label::textColourId);
+    labelColours.set("outlinecolourid",    Label::outlineColourId);
 
-    textButtonColours.set("buttoncolourid", juce::TextButton::buttonColourId);
-    textButtonColours.set("buttononcolourid", juce::TextButton::buttonOnColourId);
-    textButtonColours.set("textcolouroffid", juce::TextButton::textColourOffId);
-    textButtonColours.set("textcolouronid", juce::TextButton::textColourOnId);
+    textButtonColours.set("buttoncolourid",   TextButton::buttonColourId);
+    textButtonColours.set("buttononcolourid", TextButton::buttonOnColourId);
+    textButtonColours.set("textcolouroffid",  TextButton::textColourOffId);
+    textButtonColours.set("textcolouronid",   TextButton::textColourOnId);
 
-    tabbedComponentColours.set("backgroundcolourid", juce::TabbedComponent::backgroundColourId);
-    tabbedComponentColours.set("outlinecolourid", juce::TabbedComponent::outlineColourId);
+    tabbedComponentColours.set("backgroundcolourid", TabbedComponent::backgroundColourId);
+    tabbedComponentColours.set("outlinecolourid",    TabbedComponent::outlineColourId);
 
-    tabbedButtonBarColours.set("taboutlinecolourid", TabbedButtonBar::tabOutlineColourId);
-    tabbedButtonBarColours.set("tabtextcolourid", TabbedButtonBar::tabTextColourId);
+    tabbedButtonBarColours.set("taboutlinecolourid",   TabbedButtonBar::tabOutlineColourId);
+    tabbedButtonBarColours.set("tabtextcolourid",      TabbedButtonBar::tabTextColourId);
     tabbedButtonBarColours.set("frontoutlinecolourid", TabbedButtonBar::frontOutlineColourId);
-    tabbedButtonBarColours.set("fronttextcolourid", TabbedButtonBar::frontTextColourId);
+    tabbedButtonBarColours.set("fronttextcolourid",    TabbedButtonBar::frontTextColourId);
 
-    textEditorColours.set("backgroundcolourid", TextEditor::backgroundColourId);
-    textEditorColours.set("textcolourid", TextEditor::textColourId);
-    textEditorColours.set("highlightcolourid", TextEditor::highlightColourId);
+    textEditorColours.set("backgroundcolourid",      TextEditor::backgroundColourId);
+    textEditorColours.set("textcolourid",            TextEditor::textColourId);
+    textEditorColours.set("highlightcolourid",       TextEditor::highlightColourId);
     textEditorColours.set("highlightedtextcolourid", TextEditor::highlightedTextColourId);
-    textEditorColours.set("outlinecolourid", TextEditor::outlineColourId);
-    textEditorColours.set("focusedoutlinecolourid", TextEditor::focusedOutlineColourId);
-    textEditorColours.set("shadowcolourid", TextEditor::shadowColourId);
+    textEditorColours.set("outlinecolourid",         TextEditor::outlineColourId);
+    textEditorColours.set("focusedoutlinecolourid",  TextEditor::focusedOutlineColourId);
+    textEditorColours.set("shadowcolourid",          TextEditor::shadowColourId);
 
     comboBoxColours.set("backgroundcolourid", ComboBox::backgroundColourId);
-    comboBoxColours.set("textcolourid", ComboBox::textColourId);
-    comboBoxColours.set("outlinecolourid", ComboBox::outlineColourId);
-    comboBoxColours.set("buttoncolourid", ComboBox::buttonColourId);
-    comboBoxColours.set("arrowcolourid", ComboBox::arrowColourId);
+    comboBoxColours.set("textcolourid",       ComboBox::textColourId);
+    comboBoxColours.set("outlinecolourid",    ComboBox::outlineColourId);
+    comboBoxColours.set("buttoncolourid",     ComboBox::buttonColourId);
+    comboBoxColours.set("arrowcolourid",      ComboBox::arrowColourId);
+
+    popupMenuColours.set("backgroundcolourid",            PopupMenu::backgroundColourId);
+    popupMenuColours.set("textcolourid",                  PopupMenu::textColourId);
+    popupMenuColours.set("headertextcolourid",            PopupMenu::headerTextColourId);
+    popupMenuColours.set("highlightedbackgroundcolourid", PopupMenu::highlightedBackgroundColourId);
+    popupMenuColours.set("highlightedtextcolourid",       PopupMenu::highlightedTextColourId);
     
     tooltipWindowColours.set("backgroundcolourid", TooltipWindow::backgroundColourId);
-    tooltipWindowColours.set("textcolourid", TooltipWindow::textColourId);
-    tooltipWindowColours.set("outlinecolourid", TooltipWindow::outlineColourId);
+    tooltipWindowColours.set("textcolourid",       TooltipWindow::textColourId);
+    tooltipWindowColours.set("outlinecolourid",    TooltipWindow::outlineColourId);
 
     bubbleComponentColours.set("backgroundcolourid", BubbleComponent::backgroundColourId);
-    bubbleComponentColours.set("outlinecolourid", BubbleComponent::outlineColourId);
+    bubbleComponentColours.set("outlinecolourid",    BubbleComponent::outlineColourId);
 }                       
 
 void BCMLookAndFeel::initialise(bool cacheImages)
@@ -398,6 +404,8 @@ void BCMLookAndFeel::getColoursFromXml(const String& colourSet, const XmlElement
             lookAndFeelColours.set(textEditorColours[colourId], colourValue);
         else if (colourSet == "combobox" && comboBoxColours.contains(colourId))
             lookAndFeelColours.set(comboBoxColours[colourId], colourValue);
+        else if (colourSet == "popupmenu" && popupMenuColours.contains(colourId))
+            lookAndFeelColours.set(popupMenuColours[colourId], colourValue);
         else if (colourSet == "tooltip" && tooltipWindowColours.contains(colourId))
         {
             DBG("BCMLookAndFeel::getColoursFromXml - tooltip: " + String(tooltipWindowColours[colourId]) + ":" + String(colourValue));
@@ -597,6 +605,16 @@ Label* BCMLookAndFeel::createSliderTextBox(Slider& slider)
     }
 
     return label;
+}
+
+Button* BCMLookAndFeel::createSliderButton(Slider& slider, bool isIncrement)
+{
+    TextButton* textButton = new TextButton (isIncrement ? "+" : "-", String::empty);
+
+    textButton->setColour(TextButton::buttonColourId,  slider.findColour(TextButton::buttonColourId));
+    textButton->setColour(TextButton::textColourOffId, slider.findColour(TextButton::textColourOffId));
+
+    return textButton;
 }
 
 Font BCMLookAndFeel::getComboBoxFont (ComboBox& box)

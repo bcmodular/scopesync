@@ -67,11 +67,16 @@ void BCMWidget::applyBounds()
     {
         try
         {
+            DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
             parentWidget->setBounds(componentBounds.relativeRectangleString);
+            DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
         }
         catch (Expression::ParseError& error)
         {
-            scopeSyncGUI.getScopeSync().setSystemError("Failed to set RelativeRectangle bounds for component", "Component: " + parentWidget->getName() + ", error: " + error.description);
+            String errorText = "Failed to set RelativeRectangle bounds for component";
+            String errorDetailsText = "Component: " + parentWidget->getName() + ", error: " + error.description;
+            DBG("BCMWidget::applyBounds - " + errorText + ", " + errorDetailsText);
+            scopeSyncGUI.getScopeSync().setSystemError(errorText, errorDetailsText);
             return;
         }
     }
@@ -127,12 +132,12 @@ void BCMWidget::getAllCommands(Array<CommandID>& commands)
     for (int i = 1; i < commands.size(); i++)
         commandIDList += ", " + String(commands[i]);
 
-    DBG("BCMWidget::getAllCommands - current array: " + commandIDList);
+    //DBG("BCMWidget::getAllCommands - current array: " + commandIDList);
 }    
 
 void BCMWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 {
-    DBG("BCMWidget::getCommandInfo - commandID: " + String(commandID));
+    //DBG("BCMWidget::getCommandInfo - commandID: " + String(commandID));
     
     switch (commandID)
     {
@@ -149,7 +154,7 @@ void BCMWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& resu
 
 bool BCMWidget::perform(const InvocationInfo& info)
 {
-    DBG("BCMWidget::perform - commandID: " + String(info.commandID));
+    //DBG("BCMWidget::perform - commandID: " + String(info.commandID));
    
     switch (info.commandID)
     {
@@ -181,7 +186,7 @@ void BCMWidget::showPopupMenu()
 void BCMWidget::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 34);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), Colours::transparentBlack.toString(), Colours::transparentBlack.toString());
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName());
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }
@@ -221,13 +226,13 @@ void BCMParameterWidget::getAllCommands(Array<CommandID>& commands)
     for (int i = 1; i < commands.size(); i++)
         commandIDList += ", " + String(commands[i]);
 
-    DBG("BCMParameterWidget::getAllCommands - current array: " + commandIDList);
+    //DBG("BCMParameterWidget::getAllCommands - current array: " + commandIDList);
     
 }
 
 void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 {
-    DBG("BCMParameterWidget::getCommandInfo - commandID: " + String(commandID));
+    //DBG("BCMParameterWidget::getCommandInfo - commandID: " + String(commandID));
     
     switch (commandID)
     {
@@ -250,7 +255,7 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
 
 bool BCMParameterWidget::perform(const InvocationInfo& info)
 {
-    DBG("BCMParameterWidget::perform - commandID: " + String(info.commandID));
+    //DBG("BCMParameterWidget::perform - commandID: " + String(info.commandID));
    
     switch (info.commandID)
     {

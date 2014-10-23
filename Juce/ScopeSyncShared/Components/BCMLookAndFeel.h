@@ -135,6 +135,9 @@ public:
     // Callback for creating a Slider's textbox. Overridden to allow control of font and justification
     Label* createSliderTextBox(Slider& slider);
     
+    // Callback for creating a Slider's inc/dec buttons. Overridden to pick up overridden colours
+    Button* createSliderButton(Slider&, bool isIncrement) override;
+
     // Returns font for a ComboBox. Overridden to allow control of font
     Font   getComboBoxFont (ComboBox& box);
     
@@ -193,6 +196,7 @@ private:
     HashMap<String, ComboBox::ColourIds>        comboBoxColours;
     HashMap<String, TooltipWindow::ColourIds>   tooltipWindowColours;
     HashMap<String, BubbleComponent::ColourIds> bubbleComponentColours;
+    HashMap<String, PopupMenu::ColourIds>       popupMenuColours;
     
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;

@@ -51,6 +51,9 @@ public:
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value) override;
     
+protected:
+    void applyLookAndFeel(bool noStyleOverride) override;
+
 private:
     
     // Types of Mapping
@@ -102,7 +105,9 @@ private:
     // Callback for when a BCMTextButton is clicked
     void clicked();
 
-    
+    // Open the specific Style Override Panel for labels as appropriate
+    void overrideStyle() override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTextButton);
 };
 

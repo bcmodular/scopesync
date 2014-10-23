@@ -128,8 +128,10 @@ public:
     void setStyleOverridePanel(ValueTree& styleOverride,
                                const Identifier& componentType, 
                                const String& componentName, 
-                               const String& fillColour,
-                               const String& lineColour);
+                               const String& fillColour  = String::empty,
+                               const String& lineColour  = String::empty,
+                               const String& fillColour2 = String::empty,
+                               const String& lineColour2 = String::empty);
     
 private:
     ScopeSync&                 scopeSync;

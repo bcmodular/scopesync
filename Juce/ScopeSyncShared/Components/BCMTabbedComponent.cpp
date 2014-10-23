@@ -31,7 +31,6 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Core/Global.h"
-#include "../Configuration/ConfigurationManager.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
     : TabbedComponent(orientation), BCMParameterWidget(owner)
@@ -73,3 +72,8 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
     if (parameter != nullptr)
         scopeSyncGUI.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
 }
+
+void BCMTabbedComponent::popupMenuClickOnTab(int /* tabIndex */, const String& /* tabName */)
+{
+    showPopupMenu();
+}	

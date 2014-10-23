@@ -34,6 +34,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
+#include "../Configuration/ConfigurationManager.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner)
@@ -225,7 +226,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
             mapsToParameter = false;
         }
     }
-    
+
     url = properties.url;
     setTooltip (tooltip);
     setButtonText(buttonText);
@@ -388,4 +389,43 @@ void BCMTextButton::valueChanged(Value& value)
     }
 
     setNextValues();
+}
+
+void BCMTextButton::applyLookAndFeel(bool noStyleOverride)
+{
+    BCMWidget::applyLookAndFeel(noStyleOverride);
+
+    if (!noStyleOverride)
+    {
+        String fillColourString  = styleOverride.getProperty(Ids::fillColour);
+        String lineColourString  = styleOverride.getProperty(Ids::lineColour);
+        String fillColour2String = styleOverride.getProperty(Ids::fillColour2);
+        String lineColour2String = styleOverride.getProperty(Ids::lineColour2);
+
+        if (fillColourString.isNotEmpty())
+        {
+            Colour fillColour (Colour::fromString(fillColourString));
+            Colour lineColour (Colour::fromString(lineColourString));
+            Colour fillColour2(Colour::fromString(fillColour2String));
+            Colour lineColour2(Colour::fromString(lineColour2String));
+
+            setColour(TextButton::buttonColourId,   fillColour);
+            setColour(TextButton::textColourOffId,  lineColour);
+            setColour(TextButton::buttonOnColourId, fillColour2);
+            setColour(TextButton::textColourOnId,   lineColour2);
+        }
+    }
+}
+
+void BCMTextButton::overrideStyle()
+{
+    String fillColourString  = findColour(TextButton::buttonColourId).toString();
+    String lineColourString  = findColour(TextButton::textColourOffId).toString();
+    String fillColour2String = findColour(TextButton::buttonOnColourId).toString();
+    String lineColour2String = findColour(TextButton::textColourOnId).toString();
+    
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::textButton, getName(), fillColourString, lineColourString, fillColour2String, lineColour2String);
+    configurationManagerCallout->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

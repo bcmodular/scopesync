@@ -92,6 +92,8 @@ namespace Ids
     DECLARE_ID(lookAndFeelId);
     DECLARE_ID(fillColour);
     DECLARE_ID(lineColour);
+    DECLARE_ID(fillColour2);
+    DECLARE_ID(lineColour2);
     DECLARE_ID(components);
     DECLARE_ID(component);
     DECLARE_ID(tabs);

@@ -656,13 +656,15 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 void BCMComponent::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), backgroundColour, Colours::transparentBlack.toString());
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), backgroundColour);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }
 
 void BCMComponent::mouseDown(const MouseEvent& event)
 {
+    DBG("BCMComponent::mouseDown  - component id: " + getComponentID());
+
     if (event.mods.isPopupMenu())
     {
         //grabKeyboardFocus();
