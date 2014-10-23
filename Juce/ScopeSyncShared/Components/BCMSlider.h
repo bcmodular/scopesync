@@ -125,6 +125,9 @@ private:
     // Returns true if this is a Rotary-style Slider
     bool isRotary() const;
 
+    // Returns true if this is a LinearBar-style Slider
+    bool isLinearBar() const;
+
     // Open the specific Style Override Panel for sliders as appropriate
     void overrideStyle() override;
     

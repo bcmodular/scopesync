@@ -82,6 +82,14 @@ void ConfigurationTree::pasteItem()
         dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->pasteItem();
 }
 
+bool ConfigurationTree::canPasteItem()
+{
+    if (tree.getNumSelectedItems() == 1)
+        return dynamic_cast<ConfigurationItem*>(tree.getSelectedItem(0))->canPasteItem();
+    else
+        return false;
+}
+
 void ConfigurationTree::addItem()
 {
     if (tree.getNumSelectedItems() == 1)

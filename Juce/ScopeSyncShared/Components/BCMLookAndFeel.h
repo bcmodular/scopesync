@@ -163,7 +163,8 @@ private:
 
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     FilmStripImage rotary;
-    Image rotaryBackground;
+    Image rotaryFillBackground;
+    Image rotaryOutlineBackground;
     bool  rotaryBackgroundUseFillColour;
     
     Image  linearVerticalThumb;

@@ -193,11 +193,18 @@
 
     <complexType name="sliderrotaryimagestype">
     	<sequence>
-    		<element name="image" type="tns:filmstripimagetype" maxOccurs="1" minOccurs="0"></element>
-    	</sequence>
+    		<element name="image" type="tns:filmstripimagetype"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    	</sequence>
 
-    	<attribute name="backgroundfilename" type="string"></attribute>
-    	<attribute name="backgroundusefillcolour" type="boolean"></attribute>
+
+
+
+
+        <attribute name="fillbackgroundfilename" type="string"></attribute>
+        <attribute name="outlinebackgroundfilename" type="string"></attribute>
+    	<attribute name="backgroundusefillcolour" type="boolean"></attribute>
     </complexType>
 
     <complexType name="sliderlinearimagestype">

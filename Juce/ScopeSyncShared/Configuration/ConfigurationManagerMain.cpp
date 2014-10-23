@@ -204,7 +204,7 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::pasteItem:
-        result.setInfo ("Paste configuration item", "Overwrites a configuration item with values from the clipboard", CommandCategories::configmgr, 0);
+        result.setInfo ("Paste configuration item", "Overwrites a configuration item with values from the clipboard", CommandCategories::configmgr, !canPasteItem());
         result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::deleteItems:
@@ -217,7 +217,7 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
         result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::addItemFromClipboard:
-        result.setInfo("Add item from clipboard", "Adds a new configuration item using the definition stored in the clipboard", CommandCategories::configmgr, 0);
+        result.setInfo("Add item from clipboard", "Adds a new configuration item using the definition stored in the clipboard", CommandCategories::configmgr, !canPasteItem());
         result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     }
@@ -256,6 +256,14 @@ void ConfigurationManagerMain::redo()
 {
     undoManager.redo();
     treeView->changePanel();
+}
+
+bool ConfigurationManagerMain::canPasteItem()
+{
+    if (treeView != nullptr)
+        return treeView->canPasteItem();
+    else
+        return false;
 }
 
 ApplicationCommandTarget* ConfigurationManagerMain::getNextCommandTarget()

@@ -55,13 +55,6 @@ void ScopeSyncClipboard::copy(const ValueTree& source)
 
 juce_ImplementSingleton (ParameterClipboard)
 
-ParameterClipboard::ParameterClipboard() {}
-
-ParameterClipboard::~ParameterClipboard()
-{
-    clearSingletonInstance();
-}
-
 void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
 {
     if (clipboardIsNotEmpty())
@@ -86,5 +79,19 @@ void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
         target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
         target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
         target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+    }
+}
+
+juce_ImplementSingleton (StyleOverrideClipboard)
+
+void StyleOverrideClipboard::paste(ValueTree& target, UndoManager* undoManager)
+{
+    if (clipboardIsNotEmpty())
+    {
+        String componentName = target.getProperty(Ids::name);
+        
+        target.copyPropertiesFrom(clipboard, undoManager);
+
+        target.setProperty(Ids::name, componentName, undoManager);
     }
 }

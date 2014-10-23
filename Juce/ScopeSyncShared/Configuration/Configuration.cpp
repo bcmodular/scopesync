@@ -352,10 +352,13 @@ void Configuration::addStyleOverride(const Identifier& componentType,
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
-    newStyleOverride = ValueTree(componentType);
-    newStyleOverride.setProperty(Ids::name, componentName, um);
-    newStyleOverride.setProperty(Ids::lookAndFeelId, String::empty, um);
+    if (!newStyleOverride.isValid())
+    {
+        newStyleOverride = ValueTree(componentType);
+        newStyleOverride.setProperty(Ids::lookAndFeelId, String::empty, um);
+    }
 
+    newStyleOverride.setProperty(Ids::name, componentName, um);
     styleOverrideRoot.addChild(newStyleOverride, targetIndex, um);
 }
 
@@ -491,8 +494,12 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
 
     if (layoutFilename.isEmpty())
     {
-        errorText    = "Layout not found, using default layout";
-        errorDetails = "No layout filename found in library for layout: '" + layoutName + "', in library set: '" + layoutLibrarySet + "'. Check settings in Configuration.";
+        if (configurationRoot.getProperty(Ids::name).toString() != "No configuration loaded...")
+        {
+            errorText    = "Layout not found, using default layout";
+            errorDetails = "No layout filename found in library for layout: '" + layoutName + "', in library set: '" + layoutLibrarySet + "'. Check settings in Configuration.";
+        }
+
         return layoutXml;
     }
     

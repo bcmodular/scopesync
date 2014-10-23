@@ -288,11 +288,21 @@ bool BCMSlider::isRotary() const
         || getSliderStyle() == RotaryHorizontalVerticalDrag;
 }
 
+bool BCMSlider::isLinearBar() const
+{
+    DBG("BCMSlider::isLinearBar - slider style: " + String(getSliderStyle()));
+
+    return getSliderStyle() == LinearBar
+        || getSliderStyle() == LinearBarVertical;
+}
+
 void BCMSlider::overrideStyle()
 {
     String fillColourString;
     String lineColourString;
-    
+    String fillColour2String;
+    String lineColour2String;
+
     if (getSliderStyle() == IncDecButtons)
     {
         fillColourString = findColour(TextButton::buttonColourId).toString();
@@ -303,13 +313,21 @@ void BCMSlider::overrideStyle()
         fillColourString = findColour(Slider::rotarySliderFillColourId).toString();
         lineColourString = findColour(Slider::rotarySliderOutlineColourId).toString();
     }
+    else if (isLinearBar())
+    {
+        fillColourString = findColour(Slider::thumbColourId).toString();
+        lineColourString = findColour(Slider::backgroundColourId).toString();
+    }
     else
     {
         fillColourString = findColour(Slider::thumbColourId).toString();
         lineColourString = findColour(Slider::trackColourId).toString();
     }
 
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 85);
+    fillColour2String = findColour(Slider::textBoxBackgroundColourId).toString();
+    lineColour2String = findColour(Slider::textBoxTextColourId).toString();
+
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
     configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), fillColourString, lineColourString);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
@@ -321,8 +339,10 @@ void BCMSlider::applyLookAndFeel(bool noStyleOverride)
 
     if (!noStyleOverride)
     {
-        String fillColourString = styleOverride.getProperty(Ids::fillColour);
-        String lineColourString = styleOverride.getProperty(Ids::lineColour);
+        String fillColourString  = styleOverride.getProperty(Ids::fillColour);
+        String lineColourString  = styleOverride.getProperty(Ids::lineColour);
+        String fillColour2String = styleOverride.getProperty(Ids::fillColour2);
+        String lineColour2String = styleOverride.getProperty(Ids::lineColour2);
 
         if (fillColourString.isNotEmpty())
         {
@@ -342,6 +362,12 @@ void BCMSlider::applyLookAndFeel(bool noStyleOverride)
                 setColour(Slider::rotarySliderOutlineColourId, Colour::fromString(lineColourString));
             else
                 setColour(Slider::trackColourId, Colour::fromString(lineColourString));
-        }  
+        }
+
+        if (fillColour2String.isNotEmpty())
+            setColour(Slider::textBoxBackgroundColourId, Colour::fromString(fillColour2String));
+
+        if (lineColour2String.isNotEmpty())
+            setColour(Slider::textBoxTextColourId, Colour::fromString(lineColour2String));
     }
 }

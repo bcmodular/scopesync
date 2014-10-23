@@ -86,7 +86,9 @@ public:
 
     void addItem() override;
     void addItemFromClipboard() override;
-    
+
+    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+
 protected:
     void addNewSubItem();
     
@@ -117,6 +119,8 @@ public:
 
     void copyItem() override;
     void pasteItem() override;
+    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+
     void deleteItem() override;
     void addItem() override;
     void addItemFromClipboard() override;
@@ -540,8 +544,13 @@ public:
     virtual var getDragSourceDescription() override;
     virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
 
+    void copyItem() override;
+    void pasteItem() override;
+    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
+
     void deleteItem() override;
     void addItem() override;
+    void addItemFromClipboard() override;
     
     virtual Icon getIcon() const override { return Icon(); }
     virtual String getDisplayName() const override;
@@ -705,9 +714,12 @@ public:
     virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
     Icon getIcon() const override { return Icon(Icons::getInstance()->styleoverrides, Colours::lightblue); }
+    
+    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
 
 protected:
     void addGenericStyleOverride(const Identifier& componentType);
+    void addGenericItemFromClipboard(const Identifier& componentType);
 
 private:
     virtual void refreshSubItems() override;
@@ -733,6 +745,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::slider); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::slider); }
     
 private:
     void refreshSubItems() override
@@ -763,6 +776,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::label); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::label); }
     
 private:
     void refreshSubItems() override
@@ -793,6 +807,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::comboBox); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::comboBox); }
     
 private:
     void refreshSubItems() override
@@ -823,6 +838,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::tabbedComponent); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::tabbedComponent); }
     
 private:
     void refreshSubItems() override
@@ -853,6 +869,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::textButton); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::textButton); }
     
 private:
     void refreshSubItems() override
@@ -883,6 +900,7 @@ public:
 
     Icon getIcon() const override { return Icon(Icons::getInstance()->components, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::component); }
+    void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::component); }
     
 private:
     void refreshSubItems() override
@@ -1458,10 +1476,14 @@ void StyleOverrideRootItem::refreshSubItems()
 
 void StyleOverrideRootItem::showPopupMenu()
 {
-    PopupMenu m;
-    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Style Override");
+    if (!tree.hasType(Ids::styleOverrides))
+    {
+        PopupMenu m;
+        m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItem, "Add Style Override");
+        m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItemFromClipboard, "Add Style Override from clipboard");
     
-    m.showMenuAsync (PopupMenu::Options(), nullptr);
+        m.showMenuAsync (PopupMenu::Options(), nullptr);
+    }
 }
 
 void StyleOverrideRootItem::addGenericStyleOverride(const Identifier& componentType)
@@ -1470,6 +1492,20 @@ void StyleOverrideRootItem::addGenericStyleOverride(const Identifier& componentT
     
     ValueTree newStyleOverride;
     configuration.addStyleOverride(componentType, String::empty, newStyleOverride, 0, &undoManager);
+}
+
+void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& componentType)
+{
+    ValueTree styleOverride;
+    
+    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    {
+        styleOverride = ValueTree(componentType);
+        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+    }
+    
+    storeSelectionOnAdd();
+    configuration.addStyleOverride(componentType, String::empty, styleOverride, 0, &undoManager);
 }
 
 /* =========================================================================
@@ -1494,6 +1530,10 @@ void StyleOverrideItem::showPopupMenu()
 {
     PopupMenu m;
     m.addCommandItem(commandManager, CommandIDs::addItem, "Add Style Override");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::addItemFromClipboard, "Add Style Override from clipboard");
+    m.addSeparator();
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::copyItem, "Copy Style Override");
+    m.addCommandItem(configurationManagerMain.getCommandManager(), CommandIDs::pasteItem, "Paste Style Override");
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Style Override");
     m.showMenuAsync (PopupMenu::Options(), nullptr);
@@ -1513,4 +1553,30 @@ void StyleOverrideItem::addItem()
 
     ValueTree newStyleOverride;
     configuration.addStyleOverride(tree.getType(), String::empty, newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+}
+
+void StyleOverrideItem::addItemFromClipboard()
+{
+    ValueTree styleOverride;
+    
+    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    {
+        styleOverride = ValueTree(tree.getType());
+        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+    }
+    
+    storeSelectionOnAdd();
+    configuration.addStyleOverride(tree.getType(), String::empty, styleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+}
+
+void StyleOverrideItem::copyItem()
+{
+    StyleOverrideClipboard::getInstance()->copy(tree);
+}
+
+void StyleOverrideItem::pasteItem()
+{
+    storeSelectionOnDelete();
+    StyleOverrideClipboard::getInstance()->paste(tree, &undoManager);
+    changePanel();
 }

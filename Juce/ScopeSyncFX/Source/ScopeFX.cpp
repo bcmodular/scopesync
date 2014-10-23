@@ -100,6 +100,7 @@ ScopeFX::~ScopeFX()
     if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
         ParameterClipboard::deleteInstance();
+        StyleOverrideClipboard::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
         Icons::deleteInstance();
@@ -144,7 +145,7 @@ void ScopeFX::timerCallback()
     }
     else
     {
-        DBG("ScopeFX::timerCallback - Ignoring values: " + String(windowHandlerDelay))
+        DBG("ScopeFX::timerCallback - Ignoring values: " + String(windowHandlerDelay));
         windowHandlerDelay--;
     }
     

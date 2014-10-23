@@ -52,7 +52,7 @@
         </colours>
         <images>
           <slider>
-            <rotary backgroundfilename="Skins/White_Pot_New_LED.png">
+            <rotary fillbackgroundfilename="Skins/White_Pot_New_LED.png">
               <image filename="Skins/White_Pot_New.png" numframes="62" ishorizontal="false" />
             </rotary>
             <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">
@@ -90,7 +90,7 @@
         </colours>
         <images>
           <slider>
-            <rotary backgroundfilename="Skins/White_Pot_New_LED.png">
+            <rotary fillbackgroundfilename="Skins/White_Pot_New_LED.png">
               <image filename="Skins/Black_Pot_New.png" numframes="63" ishorizontal="false" />
             </rotary>
             <linearhorizontal thumbfilename="Skins/SliderCap1.png" thumbmouseoverfilename="Skins/SliderCap1.png" thumbborder="3">

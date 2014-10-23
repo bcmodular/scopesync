@@ -90,6 +90,7 @@ private:
     void timerCallback() override;
     void undo();
     void redo();
+    bool canPasteItem();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerMain);
 };

@@ -61,11 +61,13 @@ public:
     void         itemDoubleClicked(const MouseEvent&) override;
     virtual void changePanel();
     
-    virtual void copyItem() {};
-    virtual void pasteItem() {};
-    virtual void deleteItem() {};
-    virtual void addItem() {};
-    virtual void addItemFromClipboard() {};
+    virtual void copyItem() {}
+    virtual void pasteItem() {}
+    virtual bool canPasteItem() { return false; }
+
+    virtual void deleteItem() {}
+    virtual void addItem() {}
+    virtual void addItemFromClipboard() {}
     
     virtual void showPopupMenu() {};
     virtual void showMultiSelectionPopupMenu();

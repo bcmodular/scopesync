@@ -68,8 +68,8 @@ protected:
 class ParameterClipboard : public ScopeSyncClipboard
 {
 public:
-    ParameterClipboard();
-    ~ParameterClipboard();
+    ParameterClipboard() {}
+    ~ParameterClipboard() { clearSingletonInstance(); }
 
     void paste(ValueTree& target, UndoManager* undoManager) override;
 
@@ -78,6 +78,21 @@ public:
 private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterClipboard)
+};
+
+class StyleOverrideClipboard : public ScopeSyncClipboard
+{
+public:
+    StyleOverrideClipboard() {}
+    ~StyleOverrideClipboard() { clearSingletonInstance(); }
+
+    void paste(ValueTree& target, UndoManager* undoManager) override;
+
+    juce_DeclareSingleton(StyleOverrideClipboard, false)
+
+private:
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideClipboard)
 };
 
 #endif  // SCOPESYNCAPPLICATION_H_INCLUDED

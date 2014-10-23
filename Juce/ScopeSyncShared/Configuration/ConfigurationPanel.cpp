@@ -615,5 +615,11 @@ void StyleOverridePanel::rebuildProperties()
         props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour2, &undoManager), "Text Colour (On)"), "Choose the Text Colour for this " + componentTypeName + " when it's on");
     }
     
+    if (componentType == Ids::slider)
+    {
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::fillColour2, &undoManager), "Text Box Fill Colour"), "Choose the Fill Colour for this " + componentTypeName + "'s Text Box");
+        props.add(new ComponentBackgroundColourProperty(valueTree.getPropertyAsValue(Ids::lineColour2, &undoManager), "Text Box Text Colour"), "Choose the Text Colour for this " + componentTypeName + "'s Text Box");
+    }
+    
     propertyPanel.addProperties(props.components);
 }

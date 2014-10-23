@@ -203,7 +203,8 @@ void BCMLookAndFeel::initialise(bool cacheImages)
 {
     useImageCache = cacheImages;
 
-    rotaryBackground              = Image();
+    rotaryFillBackground          = Image();
+    rotaryOutlineBackground       = Image();
     rotaryBackgroundUseFillColour = true;
     textButtonUp                  = Image();
     textButtonDown                = Image();
@@ -227,7 +228,8 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
     linearVerticalBackground.copyFrom(parentLookAndFeel.linearVerticalBackground);
     linearHorizontalBackground.copyFrom(parentLookAndFeel.linearHorizontalBackground);
     
-    rotaryBackground               = parentLookAndFeel.rotaryBackground;
+    rotaryFillBackground           = parentLookAndFeel.rotaryFillBackground;
+    rotaryOutlineBackground        = parentLookAndFeel.rotaryOutlineBackground;
     rotaryBackgroundUseFillColour  = parentLookAndFeel.rotaryBackgroundUseFillColour;
     textButtonUp                   = parentLookAndFeel.textButtonUp;
     textButtonDown                 = parentLookAndFeel.textButtonDown;
@@ -343,7 +345,8 @@ void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStrip
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
-    overrideImageIfValid(rotaryBackground, xml.getStringAttribute("backgroundfilename", String::empty));
+    overrideImageIfValid(rotaryFillBackground,    xml.getStringAttribute("fillbackgroundfilename", String::empty));
+    overrideImageIfValid(rotaryOutlineBackground, xml.getStringAttribute("outlinebackgroundfilename", String::empty));
     rotaryBackgroundUseFillColour = xml.getBoolAttribute("backgroundusefillcolour", true);
     XmlElement* child = xml.getChildByName("image");
 
@@ -442,11 +445,17 @@ void BCMLookAndFeel::drawRotarySlider
 {
     if (rotary.numFrames > 0)
     {
-        // Draw background image
-        if (rotaryBackground.isValid())
+        // Draw background images
+        if (rotaryFillBackground.isValid())
         {
             g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
-            g.drawImageWithin(rotaryBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+            g.drawImageWithin(rotaryFillBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+        }
+
+        if (rotaryOutlineBackground.isValid())
+        {
+            g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
+            g.drawImageWithin(rotaryOutlineBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
         }
 
         // Draw filmstrip image

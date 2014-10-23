@@ -45,6 +45,8 @@ public:
 
     void copyItem();
     void pasteItem();
+    bool canPasteItem();
+
     void addItem();
     void addItemFromClipboard();
     void deleteSelectedItems();
