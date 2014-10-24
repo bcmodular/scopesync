@@ -205,6 +205,7 @@ void BCMLookAndFeel::initialise(bool cacheImages)
 
     rotaryFillBackground          = Image();
     rotaryOutlineBackground       = Image();
+    rotaryBackgroundFillBehind    = false;
     rotaryBackgroundUseFillColour = true;
     textButtonUp                  = Image();
     textButtonDown                = Image();
@@ -231,6 +232,7 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
     rotaryFillBackground           = parentLookAndFeel.rotaryFillBackground;
     rotaryOutlineBackground        = parentLookAndFeel.rotaryOutlineBackground;
     rotaryBackgroundUseFillColour  = parentLookAndFeel.rotaryBackgroundUseFillColour;
+    rotaryBackgroundFillBehind     = parentLookAndFeel.rotaryBackgroundFillBehind;
     textButtonUp                   = parentLookAndFeel.textButtonUp;
     textButtonDown                 = parentLookAndFeel.textButtonDown;
     textButtonOverUp               = parentLookAndFeel.textButtonOverUp;
@@ -347,6 +349,7 @@ void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
     overrideImageIfValid(rotaryFillBackground,    xml.getStringAttribute("fillbackgroundfilename", String::empty));
     overrideImageIfValid(rotaryOutlineBackground, xml.getStringAttribute("outlinebackgroundfilename", String::empty));
+    rotaryBackgroundFillBehind    = xml.getBoolAttribute("fillbackgroundbehind", false);
     rotaryBackgroundUseFillColour = xml.getBoolAttribute("backgroundusefillcolour", true);
     XmlElement* child = xml.getChildByName("image");
 
@@ -446,17 +449,18 @@ void BCMLookAndFeel::drawRotarySlider
     if (rotary.numFrames > 0)
     {
         // Draw background images
-        if (rotaryFillBackground.isValid())
+        if (rotaryBackgroundFillBehind)
         {
-            g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
-            g.drawImageWithin(rotaryFillBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+            drawRotaryFillBackground   (g, x, y, width, height, slider);
+            drawRotaryOutlineBackground(g, x, y, width, height, slider);
+        }
+        else
+        {
+            drawRotaryOutlineBackground(g, x, y, width, height, slider);
+            drawRotaryFillBackground   (g, x, y, width, height, slider);
         }
 
-        if (rotaryOutlineBackground.isValid())
-        {
-            g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
-            g.drawImageWithin(rotaryOutlineBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
-        }
+
 
         // Draw filmstrip image
         int   frameIndex = (int)(sliderPosProportional * (rotary.numFrames - 1));
@@ -469,7 +473,25 @@ void BCMLookAndFeel::drawRotarySlider
         // Invalid slider image, so just use the standard draw routine
         LookAndFeel_V3::drawRotarySlider(g, x, y, width, height, sliderPosProportional, rotaryStartAngle, rotaryEndAngle, slider);
     }
-};
+}
+
+void BCMLookAndFeel::drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider)
+{
+    if (rotaryFillBackground.isValid())
+    {
+        g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
+        g.drawImageWithin(rotaryFillBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+    }
+}
+
+void BCMLookAndFeel::drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider)
+{
+    if (rotaryOutlineBackground.isValid())
+    {
+        g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
+        g.drawImageWithin(rotaryOutlineBackground, x, y, width, height, RectanglePlacement::doNotResize, rotaryBackgroundUseFillColour);
+    }
+}
 
 void BCMLookAndFeel::drawLinearSliderThumb
 (

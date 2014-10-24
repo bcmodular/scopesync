@@ -202,9 +202,11 @@
 
 
 
-        <attribute name="fillbackgroundfilename" type="string"></attribute>
-        <attribute name="outlinebackgroundfilename" type="string"></attribute>
-    	<attribute name="backgroundusefillcolour" type="boolean"></attribute>
+    	<attribute name="fillbackgroundfilename" type="string"></attribute>
+    	<attribute name="outlinebackgroundfilename" type="string"></attribute>
+        <attribute name="fillbackgroundbehind" type="boolean"></attribute>
+        <attribute name="backgroundusefillcolour" type="boolean"></attribute>
+
     </complexType>
 
     <complexType name="sliderlinearimagestype">

@@ -88,6 +88,9 @@ public:
         Slider  &slider
     );
 
+    void drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
+    void drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
+
     // Callback for drawing a Linear Slider's thumb. Supports fixed images.
     void drawLinearSliderThumb
     (
@@ -165,6 +168,7 @@ private:
     FilmStripImage rotary;
     Image rotaryFillBackground;
     Image rotaryOutlineBackground;
+    bool  rotaryBackgroundFillBehind;
     bool  rotaryBackgroundUseFillColour;
     
     Image  linearVerticalThumb;
