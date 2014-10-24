@@ -68,7 +68,7 @@ public:
     bool replaceConfiguration(const String& newFileName);
 
     enum ParameterTarget { host, scopeLocal };
-    void addNewParameter(const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
+    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
 
     void deleteMapping(const Identifier& mappingType, 
                        ValueTree& mappingToDelete,

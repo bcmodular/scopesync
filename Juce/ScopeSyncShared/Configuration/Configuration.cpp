@@ -212,16 +212,15 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     return true;
 }
 
-void Configuration::addNewParameter(const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
+void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
 {
-    ValueTree newParameter;
-
     if (paramValues.isValid())
         newParameter = paramValues.createCopy();
     else
         newParameter = getDefaultParameter().createCopy();
 
     String parameterNameBase = newParameter.getProperty(Ids::name);
+
     if (parameterNameBase.isEmpty())
         parameterNameBase = getDefaultParameter().getProperty(Ids::name);
 

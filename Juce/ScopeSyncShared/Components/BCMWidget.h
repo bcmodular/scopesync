@@ -60,7 +60,10 @@ protected:
 
     virtual void overrideStyle();
     void clearStyleOverride();
-    
+    void copyStyleOverride();
+    void pasteStyleOverride();
+    bool canPasteStyleOverride();
+
     virtual void showPopupMenu();
 
     /* ================= Application Command Target overrides ================= */
@@ -107,6 +110,11 @@ private:
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
+    void deleteMappedParameter();
+    void copyParameter();
+    void pasteParameter();
+    bool canPasteParameter();
+    void addParameter(bool fromClipboard);
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

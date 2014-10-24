@@ -98,9 +98,9 @@ private:
 /* =========================================================================
  * ConfigurationManagerMain: Version to show in Callout box
  */
-class ConfigurationManagerCalloutMain : public  Component,
+class ConfigurationManagerCalloutMain : public Component,
                                         public Timer,
-                                        public  ApplicationCommandTarget
+                                        public ApplicationCommandTarget
 {
 public:
     ConfigurationManagerCalloutMain(ConfigurationManager& owner, ScopeSync& ss, int width, int height);

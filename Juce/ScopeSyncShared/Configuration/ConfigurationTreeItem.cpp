@@ -1263,7 +1263,9 @@ void ParameterRootItem::addParameter(const ValueTree& definition)
     else
         parameterTarget = Configuration::scopeLocal;
     
-    configurationManagerMain.getConfiguration().addNewParameter(definition, 0, parameterTarget, &undoManager);
+    ValueTree newParameter;
+
+    configurationManagerMain.getConfiguration().addNewParameter(newParameter, definition, 0, parameterTarget, &undoManager);
 }
 
 /* =========================================================================
@@ -1329,7 +1331,9 @@ void ParameterItem::insertParameterAt(const ValueTree& definition, int index)
     else
         parameterTarget = Configuration::scopeLocal;
     
-    configurationManagerMain.getConfiguration().addNewParameter(definition, index, parameterTarget, &undoManager);
+    ValueTree newParameter;
+
+    configurationManagerMain.getConfiguration().addNewParameter(newParameter, definition, index, parameterTarget, &undoManager);
 }
 
 void ParameterItem::copyItem()

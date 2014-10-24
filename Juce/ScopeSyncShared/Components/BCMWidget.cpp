@@ -31,6 +31,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Properties/WidgetProperties.h"
+#include "../Core/ScopeSyncApplication.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner)
     : scopeSyncGUI(owner), scopeSync(owner.getScopeSync()),
@@ -121,7 +122,9 @@ void BCMWidget::getAllCommands(Array<CommandID>& commands)
     if (!scopeSync.configurationIsReadOnly())
     {
         const CommandID ids[] = { CommandIDs::overrideStyle,
-                                  CommandIDs::clearStyleOverride
+                                  CommandIDs::clearStyleOverride,
+                                  CommandIDs::copyStyleOverride,
+                                  CommandIDs::pasteStyleOverride
                                 };
 
         commands.addArray (ids, numElementsInArray (ids));
@@ -149,6 +152,14 @@ void BCMWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& resu
         result.setInfo("Clear Style Override", "Clear a style override for the most recently selected widget", CommandCategories::general, !styleOverride.isValid());
         result.defaultKeypresses.add(KeyPress ('l', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
+    case CommandIDs::copyStyleOverride:
+        result.setInfo ("Copy Style Override", "Copies a Style Override to the clipboard", CommandCategories::configmgr, !styleOverride.isValid());
+        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::pasteStyleOverride:
+        result.setInfo ("Paste Style Override", "Sets up a Style Override with values from the clipboard", CommandCategories::configmgr, !canPasteStyleOverride());
+        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
     }
 }
 
@@ -160,6 +171,8 @@ bool BCMWidget::perform(const InvocationInfo& info)
     {
         case CommandIDs::overrideStyle:        overrideStyle(); break;
         case CommandIDs::clearStyleOverride:   clearStyleOverride(); break;
+        case CommandIDs::copyStyleOverride:    copyStyleOverride(); break;
+        case CommandIDs::pasteStyleOverride:   pasteStyleOverride(); break;
         default:                               return false;
     }
 
@@ -179,6 +192,9 @@ void BCMWidget::showPopupMenu()
     m.addSectionHeader(String(getComponentType()) + ": " + parentWidget->getName());
     m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Override Style");
     m.addCommandItem(commandManager, CommandIDs::clearStyleOverride, "Clear Style Override");
+    m.addSeparator();
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
+    m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }
@@ -197,6 +213,25 @@ void BCMWidget::clearStyleOverride()
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
+void BCMWidget::copyStyleOverride()
+{
+    StyleOverrideClipboard::getInstance()->copy(styleOverride);
+}
+
+void BCMWidget::pasteStyleOverride()
+{
+    if (!(styleOverride.isValid()))
+        scopeSyncGUI.getScopeSync().getConfiguration().addStyleOverride(getComponentType(), parentWidget->getName(), styleOverride, -1, &undoManager);
+    
+    StyleOverrideClipboard::getInstance()->paste(styleOverride, &undoManager);
+    scopeSyncGUI.getScopeSync().applyConfiguration();
+}
+
+bool BCMWidget::canPasteStyleOverride()
+{
+    return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty();
+}
+
 void BCMWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
     scopeSyncGUI.getScopeSync().applyConfiguration();
@@ -211,43 +246,61 @@ void BCMParameterWidget::getAllCommands(Array<CommandID>& commands)
 {
     if (!scopeSync.configurationIsReadOnly())
     {
-        const CommandID ids[] = { CommandIDs::deleteItems,
-                                  CommandIDs::editItem,
-                                  CommandIDs::editMappedItem,
+        const CommandID ids[] = { CommandIDs::addParameter,
+                                  CommandIDs::addParameterFromClipboard,
+                                  CommandIDs::deleteMapping,
+                                  CommandIDs::editMapping,
+                                  CommandIDs::copyParameter,
+                                  CommandIDs::pasteParameter,
+                                  CommandIDs::editParameter,
+                                  CommandIDs::deleteParameter,
                                   CommandIDs::overrideStyle,
-                                  CommandIDs::clearStyleOverride
+                                  CommandIDs::clearStyleOverride,
+                                  CommandIDs::copyStyleOverride,
+                                  CommandIDs::pasteStyleOverride
                                 };
 
         commands.addArray (ids, numElementsInArray (ids));
     }
-    
-    String commandIDList = String(commands[0]);
-
-    for (int i = 1; i < commands.size(); i++)
-        commandIDList += ", " + String(commands[i]);
-
-    //DBG("BCMParameterWidget::getAllCommands - current array: " + commandIDList);
-    
 }
 
 void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 {
-    //DBG("BCMParameterWidget::getCommandInfo - commandID: " + String(commandID));
-    
     switch (commandID)
     {
-    case CommandIDs::deleteItems:
-        result.setInfo("Delete", "Delete selected items", CommandCategories::configmgr, !mapsToParameter);
+    case CommandIDs::addParameter:
+        result.setInfo("Add parameter", "Adds a new parameter", CommandCategories::general, mapsToParameter);
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::addParameterFromClipboard:
+        result.setInfo("Add parameter from clipboard", "Adds a new parameter using the definition stored in the clipboard", CommandCategories::general, !(!mapsToParameter && canPasteParameter()));
+        result.defaultKeypresses.add(KeyPress ('n', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::deleteMapping:
+        result.setInfo("Delete", "Delete mapping", CommandCategories::general, !mapsToParameter);
         result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, 0, 0));
         result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, 0, 0));
         break;
-    case CommandIDs::editItem:
-        result.setInfo("Edit Item", "Edit the most recently selected item", CommandCategories::general, 0);
+    case CommandIDs::editMapping:
+        result.setInfo("Edit Mapping", "Edit mapping", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::editMappedItem:
-        result.setInfo("Edit Mapped Item", "Edit item mapped to the most recently selected item", CommandCategories::general, !mapsToParameter);
+    case CommandIDs::editParameter:
+        result.setInfo("Edit Parameter", "Edit parameter mapped to this widget", CommandCategories::general, !mapsToParameter);
         result.defaultKeypresses.add(KeyPress ('e', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::deleteParameter:
+        result.setInfo("Delete Parameter", "Delete parameter mapped to this widget", CommandCategories::general, !mapsToParameter);
+        result.defaultKeypresses.add (KeyPress (KeyPress::deleteKey, ModifierKeys::commandModifier, 0));
+        result.defaultKeypresses.add (KeyPress (KeyPress::backspaceKey, ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::copyParameter:
+        result.setInfo ("Copy parameter", "Copies a parameter to the clipboard", CommandCategories::general, !mapsToParameter);
+        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::pasteParameter:
+        result.setInfo ("Paste parameter", "Overwrites a parameter with values from the clipboard", CommandCategories::general, !canPasteParameter());
+        result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
         break;
     default: return BCMWidget::getCommandInfo(commandID, result);
     }
@@ -259,10 +312,15 @@ bool BCMParameterWidget::perform(const InvocationInfo& info)
    
     switch (info.commandID)
     {
-        case CommandIDs::deleteItems:    deleteMapping(); break;
-        case CommandIDs::editItem:       editMapping(); break;
-        case CommandIDs::editMappedItem: editMappedParameter(); break;
-        default:                         BCMWidget::perform(info); break;
+        case CommandIDs::addParameter:              addParameter(false); break;
+        case CommandIDs::addParameterFromClipboard: addParameter(true); break;
+        case CommandIDs::deleteMapping:             deleteMapping(); break;
+        case CommandIDs::editMapping:               editMapping(); break;
+        case CommandIDs::editParameter:             editMappedParameter(); break;
+        case CommandIDs::deleteParameter:           deleteMappedParameter(); break;
+        case CommandIDs::copyParameter:             copyParameter(); break;
+        case CommandIDs::pasteParameter:            pasteParameter(); break;
+        default:                                    BCMWidget::perform(info); break;
     }
 
     return true;
@@ -274,13 +332,22 @@ void BCMParameterWidget::showPopupMenu()
 
     PopupMenu m;
     m.addSectionHeader(String(getComponentType()) + ": " + parentWidget->getName());
-    m.addCommandItem(commandManager, CommandIDs::editItem, "Edit Parameter Mapping");
-    m.addCommandItem(commandManager, CommandIDs::editMappedItem, "Edit Mapped Parameter");
+    m.addCommandItem(commandManager, CommandIDs::addParameter, "Add Parameter");
+    m.addCommandItem(commandManager, CommandIDs::addParameterFromClipboard, "Add Parameter from Clipboard");
+    m.addCommandItem(commandManager, CommandIDs::editParameter, "Edit Parameter");
+    m.addCommandItem(commandManager, CommandIDs::deleteParameter, "Delete Parameter");
     m.addSeparator();
-    m.addCommandItem(commandManager, CommandIDs::deleteItems, "Delete Parameter Mapping");
+    m.addCommandItem(commandManager, CommandIDs::copyParameter, "Copy Parameter");
+    m.addCommandItem(commandManager, CommandIDs::pasteParameter, "Paste Parameter");
+    m.addSeparator();
+    m.addCommandItem(commandManager, CommandIDs::editMapping, "Edit Mapping");
+    m.addCommandItem(commandManager, CommandIDs::deleteMapping, "Delete Mapping");
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Override Style");
     m.addCommandItem(commandManager, CommandIDs::clearStyleOverride, "Clear Style Override");
+    m.addSeparator();
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
+    m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }
@@ -327,8 +394,8 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
 
 void BCMParameterWidget::deleteMapping()
 {
-    scopeSyncGUI.getScopeSync().getConfiguration().deleteMapping(mappingComponentType, mapping, &undoManager);
-    scopeSyncGUI.getScopeSync().applyConfiguration();
+    scopeSync.getConfiguration().deleteMapping(mappingComponentType, mapping, &undoManager);
+    scopeSync.applyConfiguration();
 }
 
 void BCMParameterWidget::editMapping()
@@ -346,4 +413,46 @@ void BCMParameterWidget::editMappedParameter()
     configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
+}
+
+void BCMParameterWidget::deleteMappedParameter()
+{
+    parameter->getDefinition().getParent().removeChild(parameter->getDefinition(), &undoManager);
+    deleteMapping();
+}
+
+void BCMParameterWidget::copyParameter()
+{
+    ParameterClipboard::getInstance()->copy(parameter->getDefinition());
+}
+
+void BCMParameterWidget::pasteParameter()
+{
+    ParameterClipboard::getInstance()->paste(parameter->getDefinition(), &undoManager);
+    scopeSync.applyConfiguration();
+}
+
+bool BCMParameterWidget::canPasteParameter()
+{
+    return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
+}
+
+void BCMParameterWidget::addParameter(bool fromClipboard)
+{
+    ValueTree newParameter;
+    ValueTree definition;
+
+    if (fromClipboard)
+    {
+        definition = ValueTree(Ids::parameter);
+        ParameterClipboard::getInstance()->paste(definition, &undoManager);
+    }        
+
+    scopeSync.getConfiguration().addNewParameter(newParameter, definition, -1, Configuration::host, &undoManager);
+
+    ValueTree newMapping;
+    String parameterName = newParameter.getProperty(Ids::name);
+
+    scopeSync.getConfiguration().addNewMapping(getComponentType(), parentWidget->getName(), parameterName, newMapping, -1, &undoManager);
+    scopeSync.applyConfiguration();
 }

@@ -126,48 +126,57 @@ namespace CommandIDs
 {
     enum
     {
-        undo                     = 0x200100,
-        redo                     = 0x200110,
-        
-        saveConfig               = 0x200300,
-        saveConfigAs             = 0x200310,
-        applyConfigChanges       = 0x200320,
-        discardConfigChanges     = 0x200330,
-        closeConfig              = 0x200340,
-        focusOnPanel             = 0x200350,
-        showHideEditToolbar      = 0x200360,
-        
-        copyItem                 = 0x200400,
-        pasteItem                = 0x200410,
-        deleteItems              = 0x200420,
-        addItem                  = 0x200430,
-        addItemFromClipboard     = 0x200440,
-        
-        addSettings              = 0x200600,
-        removeSettings           = 0x200610,
-        autoFill                 = 0x200620,
-        moveUp                   = 0x200630,
-        moveDown                 = 0x200640,
-
-        editItem                 = 0x200700,
-        editMappedItem           = 0x200710,
-
-        overrideStyle            = 0x200720,
-        clearStyleOverride       = 0x200730,
-        copyStyleOverride        = 0x200740,
-        pasteStyleOverride       = 0x200750,
-
-        editLayoutLocations      = 0x200800,
-        addLayoutLocation        = 0x200810,
-        removeLayoutLocations    = 0x200820,
-        rebuildLayoutLibrary     = 0x200830,
-        chooseSelectedLayout     = 0x200840,
-
-        snapshot                 = 0x200900,
-        showUserSettings         = 0x200910,
-        showConfigurationManager = 0x200920,
-        chooseConfiguration      = 0x200930,
-        reloadSavedConfiguration = 0x200940
+        undo                      = 0x200100,
+        redo                      = 0x200110,
+                                  
+        saveConfig                = 0x200300,
+        saveConfigAs              = 0x200310,
+        applyConfigChanges        = 0x200320,
+        discardConfigChanges      = 0x200330,
+        closeConfig               = 0x200340,
+        focusOnPanel              = 0x200350,
+        showHideEditToolbar       = 0x200360,
+                                  
+        copyItem                  = 0x200400,
+        pasteItem                 = 0x200410,
+        deleteItems               = 0x200420,
+        addItem                   = 0x200430,
+        addItemFromClipboard      = 0x200440,
+                                  
+        addParameter              = 0x200500,
+        addParameterFromClipboard = 0x200510,
+        deleteMapping             = 0x200520,
+        editMapping               = 0x200530,
+        copyParameter             = 0x200540,
+        pasteParameter            = 0x200550,
+        editParameter             = 0x200560,
+        deleteParameter           = 0x200570,
+                                  
+        addSettings               = 0x200600,
+        removeSettings            = 0x200610,
+        autoFill                  = 0x200620,
+        moveUp                    = 0x200630,
+        moveDown                  = 0x200640,
+                                  
+        editItem                  = 0x200700,
+        editMappedItem            = 0x200710,
+                                  
+        overrideStyle             = 0x200720,
+        clearStyleOverride        = 0x200730,
+        copyStyleOverride         = 0x200740,
+        pasteStyleOverride        = 0x200750,
+                                  
+        editLayoutLocations       = 0x200800,
+        addLayoutLocation         = 0x200810,
+        removeLayoutLocations     = 0x200820,
+        rebuildLayoutLibrary      = 0x200830,
+        chooseSelectedLayout      = 0x200840,
+                                  
+        snapshot                  = 0x200900,
+        showUserSettings          = 0x200910,
+        showConfigurationManager  = 0x200920,
+        chooseConfiguration       = 0x200930,
+        reloadSavedConfiguration  = 0x200940
     };
 }
 
