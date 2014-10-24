@@ -71,6 +71,7 @@ public:
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
     static void reloadAllGUIs();
+    static void shutDownIfLastInstance();
     static const String& getScopeSyncCode(int scopeSync);
     static const String& getScopeLocalCode(int scopeLocal);
     static const StringArray& getScopeSyncCodes()  { return scopeSyncCodes; };

@@ -35,6 +35,8 @@
 #include "Global.h"
 #include <utility>
 #include "../Configuration/ConfigurationManager.h"
+#include "../Components/UserSettings.h"
+#include "../Resources/Icons.h"
 
 #ifndef __DLL_EFFECT__
     #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
@@ -166,6 +168,21 @@ void ScopeSync::reloadAllGUIs()
     for (int i = 0; i < scopeSyncInstances.size(); i++)
     {
         scopeSyncInstances[i]->setGUIReload(true);
+    }
+}
+
+void ScopeSync::shutDownIfLastInstance()
+{
+    if (getNumScopeSyncInstances() == 0)
+    {
+        StyleOverrideClipboard::deleteInstance();
+        ParameterClipboard::deleteInstance();
+        Icons::deleteInstance();
+        ImageLoader::deleteInstance();
+        UserSettings::deleteInstance();
+
+        if (ScopeSyncApplication::inScopeFXContext())
+            shutdownJuce_GUI();
     }
 }
 

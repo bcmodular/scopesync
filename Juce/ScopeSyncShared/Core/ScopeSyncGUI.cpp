@@ -217,12 +217,6 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     }
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
-    
-    if (scopeSync.getConfigurationManagerWindow() != nullptr)
-    {
-        scopeSync.hideConfigurationManager();
-        scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
-    }
 
     grabKeyboardFocus();
 }

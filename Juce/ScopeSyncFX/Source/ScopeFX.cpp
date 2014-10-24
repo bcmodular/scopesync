@@ -97,15 +97,7 @@ ScopeFX::~ScopeFX()
 
     DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
     
-    if (ScopeSync::getNumScopeSyncInstances() == 0)
-    {
-        ParameterClipboard::deleteInstance();
-        StyleOverrideClipboard::deleteInstance();
-        ImageLoader::deleteInstance();
-        UserSettings::deleteInstance();
-        Icons::deleteInstance();
-        shutdownJuce_GUI();
-    }
+    ScopeSync::shutDownIfLastInstance();
 }
    
 void ScopeFX::initValues()

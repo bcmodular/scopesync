@@ -53,13 +53,7 @@ PluginProcessor::~PluginProcessor()
     scopeSync->unload();
     scopeSync = nullptr;
 
-    if (ScopeSync::getNumScopeSyncInstances() == 0)
-    {
-        ParameterClipboard::deleteInstance();
-        Icons::deleteInstance();
-        ImageLoader::deleteInstance();
-        UserSettings::deleteInstance();
-    }
+    ScopeSync::shutDownIfLastInstance();
 }
 
 const String PluginProcessor::getName() const
