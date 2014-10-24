@@ -551,6 +551,9 @@ bool ScopeSync::processConfigurationChange()
 
     if (hasConfigurationUpdate(newFileName))
     {
+        if (configurationManagerWindow != nullptr)
+            hideConfigurationManager();
+            
         if (configuration->replaceConfiguration(newFileName))
         {
             applyConfiguration();
@@ -559,12 +562,6 @@ bool ScopeSync::processConfigurationChange()
         else
         {
             setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
-            
-            if (configurationManagerWindow != nullptr)
-            {
-                hideConfigurationManager();
-            }
-            
             return false;
         }
     }
