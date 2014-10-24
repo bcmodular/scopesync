@@ -169,7 +169,7 @@ private:
     Image rotaryFillBackground;
     Image rotaryOutlineBackground;
     bool  rotaryBackgroundFillBehind;
-    bool  rotaryBackgroundUseFillColour;
+    bool  rotaryBackgroundUseLnFColours;
     
     Image  linearVerticalThumb;
     Image  linearVerticalThumbMouseOver;
