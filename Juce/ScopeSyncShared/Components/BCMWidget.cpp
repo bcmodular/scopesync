@@ -453,6 +453,6 @@ void BCMParameterWidget::addParameter(bool fromClipboard)
     ValueTree newMapping;
     String parameterName = newParameter.getProperty(Ids::name);
 
-    scopeSync.getConfiguration().addNewMapping(getComponentType(), parentWidget->getName(), parameterName, newMapping, -1, &undoManager);
+    scopeSync.getConfiguration().addNewMapping(mappingComponentType, mappingComponentName, parameterName, newMapping, -1, &undoManager);
     scopeSync.applyConfiguration();
 }
