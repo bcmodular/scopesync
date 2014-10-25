@@ -164,6 +164,7 @@ namespace CommandIDs
         overrideStyle             = 0x200720,
         clearStyleOverride        = 0x200730,
         copyStyleOverride         = 0x200740,
+        copyStyleOverrideToAll    = 0x200745,
         pasteStyleOverride        = 0x200750,
                                   
         editLayoutLocations       = 0x200800,

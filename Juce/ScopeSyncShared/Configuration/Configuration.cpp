@@ -343,6 +343,15 @@ void Configuration::deleteStyleOverride(const Identifier& componentType,
     styleOverrideRoot.removeChild(styleOverrideRoot.indexOf(styleOverrideToDelete), um);
 }
 
+void Configuration::deleteAllStyleOverrides(const Identifier& componentType,
+                                            UndoManager* um)
+{
+    ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
+    
+    for (int i = styleOverrideRoot.getNumChildren() - 1; i >= 0 ; i--)
+        styleOverrideRoot.removeChild(styleOverrideRoot.getChild(i), um);
+}
+
 void Configuration::addStyleOverride(const Identifier& componentType,
                                      const String& componentName,
                                      ValueTree& newStyleOverride,
@@ -359,6 +368,23 @@ void Configuration::addStyleOverride(const Identifier& componentType,
 
     newStyleOverride.setProperty(Ids::name, componentName, um);
     styleOverrideRoot.addChild(newStyleOverride, targetIndex, um);
+}
+
+void Configuration::addStyleOverrideToAll(const Identifier& componentType,
+                                          ValueTree& newStyleOverride,
+                                          UndoManager* um)
+{
+    deleteAllStyleOverrides(componentType, um);
+
+    for (int i = 0; i < componentLookup.size(); i++)
+    {
+        if (componentLookup[i]->type == componentType && !componentLookup[i]->noStyleOverride)
+        {
+            DBG("Configuration::addStyleOverrideToAll - name: " + componentLookup[i]->name);
+            ValueTree styleOverride(newStyleOverride.createCopy());
+            addStyleOverride(componentType, componentLookup[i]->name, styleOverride, -1, um);
+        }
+    }
 }
 
 Result Configuration::saveDocument (const File& /* file */)

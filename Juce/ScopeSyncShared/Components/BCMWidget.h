@@ -61,6 +61,7 @@ protected:
     virtual void overrideStyle();
     void clearStyleOverride();
     void copyStyleOverride();
+    void copyStyleOverrideToAll();
     void pasteStyleOverride();
     bool canPasteStyleOverride();
 

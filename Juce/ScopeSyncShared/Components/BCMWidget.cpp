@@ -124,6 +124,7 @@ void BCMWidget::getAllCommands(Array<CommandID>& commands)
         const CommandID ids[] = { CommandIDs::overrideStyle,
                                   CommandIDs::clearStyleOverride,
                                   CommandIDs::copyStyleOverride,
+                                  CommandIDs::copyStyleOverrideToAll,
                                   CommandIDs::pasteStyleOverride
                                 };
 
@@ -156,6 +157,10 @@ void BCMWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& resu
         result.setInfo ("Copy Style Override", "Copies a Style Override to the clipboard", CommandCategories::configmgr, !styleOverride.isValid());
         result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
+    case CommandIDs::copyStyleOverrideToAll:
+        result.setInfo ("Copy Style Override To All", "Copies a Style Override to all widgets of this type", CommandCategories::configmgr, !styleOverride.isValid());
+        result.defaultKeypresses.add(KeyPress ('c', ModifierKeys::shiftModifier, 0));
+        break;
     case CommandIDs::pasteStyleOverride:
         result.setInfo ("Paste Style Override", "Sets up a Style Override with values from the clipboard", CommandCategories::configmgr, !canPasteStyleOverride());
         result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
@@ -169,11 +174,12 @@ bool BCMWidget::perform(const InvocationInfo& info)
    
     switch (info.commandID)
     {
-        case CommandIDs::overrideStyle:        overrideStyle(); break;
-        case CommandIDs::clearStyleOverride:   clearStyleOverride(); break;
-        case CommandIDs::copyStyleOverride:    copyStyleOverride(); break;
-        case CommandIDs::pasteStyleOverride:   pasteStyleOverride(); break;
-        default:                               return false;
+        case CommandIDs::overrideStyle:          overrideStyle(); break;
+        case CommandIDs::clearStyleOverride:     clearStyleOverride(); break;
+        case CommandIDs::copyStyleOverride:      copyStyleOverride(); break;
+        case CommandIDs::copyStyleOverrideToAll: copyStyleOverrideToAll(); break;
+        case CommandIDs::pasteStyleOverride:     pasteStyleOverride(); break;
+        default:                                 return false;
     }
 
     return true;
@@ -195,6 +201,7 @@ void BCMWidget::showPopupMenu()
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
     m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override To All" + String(getComponentType()) + "s");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }
@@ -209,13 +216,23 @@ void BCMWidget::overrideStyle()
 
 void BCMWidget::clearStyleOverride()
 {
-    scopeSyncGUI.getScopeSync().getConfiguration().deleteStyleOverride(getComponentType(), styleOverride, &undoManager);
-    scopeSyncGUI.getScopeSync().applyConfiguration();
+    scopeSync.getConfiguration().deleteStyleOverride(getComponentType(), styleOverride, &undoManager);
+    scopeSync.applyConfiguration();
 }
 
 void BCMWidget::copyStyleOverride()
 {
     StyleOverrideClipboard::getInstance()->copy(styleOverride);
+
+}
+
+void BCMWidget::copyStyleOverrideToAll()
+{
+    copyStyleOverride();
+    ValueTree styleOverrideCopy(styleOverride.createCopy());
+
+    scopeSync.getConfiguration().addStyleOverrideToAll(getComponentType(), styleOverrideCopy, &undoManager);
+    scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
 void BCMWidget::pasteStyleOverride()
@@ -257,6 +274,7 @@ void BCMParameterWidget::getAllCommands(Array<CommandID>& commands)
                                   CommandIDs::overrideStyle,
                                   CommandIDs::clearStyleOverride,
                                   CommandIDs::copyStyleOverride,
+                                  CommandIDs::copyStyleOverrideToAll,
                                   CommandIDs::pasteStyleOverride
                                 };
 
@@ -348,6 +366,7 @@ void BCMParameterWidget::showPopupMenu()
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
     m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override To All " + String(getComponentType()) + "s");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }

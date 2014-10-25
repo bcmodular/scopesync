@@ -94,11 +94,17 @@ public:
                              ValueTree& styleOverrideToDelete,
                              UndoManager* um);
 
+    void deleteAllStyleOverrides(const Identifier& componentType, UndoManager* um);
+    
     void addStyleOverride(const Identifier& componentType,
                           const String& componentName, 
                           ValueTree& newStyleOverride,
                           int targetIndex, 
                           UndoManager* um);
+
+    void addStyleOverrideToAll(const Identifier& componentType,
+                               ValueTree& newStyleOverride,
+                               UndoManager* um);
 
 private:
     ValueTree  configurationRoot;
