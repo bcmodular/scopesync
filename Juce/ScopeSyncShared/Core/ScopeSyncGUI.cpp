@@ -47,6 +47,7 @@
 #include "../Configuration/ConfigurationChooser.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
+ScopedPointer<TooltipWindow> ScopeSyncGUI::tooltipWindow;
 
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
@@ -203,7 +204,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
     int enableTooltipsUserSetting = UserSettings::getInstance()->getAppProperties()->getIntValue("enabletooltips", 0);
     
-    if ((enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
+    if ((tooltipWindow == nullptr && enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
     {
         tooltipWindow = new TooltipWindow();
         tooltipWindow->setLookAndFeel(defaultLookAndFeel);

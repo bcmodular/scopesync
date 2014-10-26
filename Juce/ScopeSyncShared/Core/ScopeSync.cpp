@@ -37,6 +37,7 @@
 #include "../Configuration/ConfigurationManager.h"
 #include "../Components/UserSettings.h"
 #include "../Resources/Icons.h"
+#include "../Core/ScopeSyncGUI.h"
 
 #ifndef __DLL_EFFECT__
     #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
@@ -180,6 +181,8 @@ void ScopeSync::shutDownIfLastInstance()
         Icons::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
+
+        ScopeSyncGUI::deleteTooltipWindow();
 
         if (ScopeSyncApplication::inScopeFXContext())
             shutdownJuce_GUI();

@@ -48,6 +48,7 @@ class TabProperties;
 class BCMParameter;
 class ConfigurationChooserWindow;
 #include "../Components/BCMSlider.h"
+#include "../Utils/BCMMisc.h"
 
 class ScopeSyncGUI : public Component,
                      public Timer,
@@ -70,6 +71,8 @@ public:
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
     Slider::SliderStyle getDefaultRotarySliderStyle();
 
+    static void deleteTooltipWindow() { tooltipWindow = nullptr; }
+    
     /* ====================== Public member variables ========================= */
     ScopedPointer<ComponentProperties>       defaultComponentProperties;
     ScopedPointer<SliderProperties>          defaultSliderProperties;
@@ -101,9 +104,9 @@ private:
     ScopedPointer<ConfigurationChooserWindow> configurationChooserWindow;
 
     
-    ScopeSync&                   scopeSync;
-    ValueTree                    deviceMapping;
-    ScopedPointer<TooltipWindow> tooltipWindow;
+    ScopeSync& scopeSync;
+    ValueTree  deviceMapping;
+    static ScopedPointer<TooltipWindow> tooltipWindow;
     
     static const int timerFrequency;
 
