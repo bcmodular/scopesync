@@ -107,6 +107,7 @@ void ScopeFX::initValues()
     requestWindowShow  = false;
     windowShown        = false;
     windowHandlerDelay = 0;
+    configurationUID   = 0;
 }
 
 void ScopeFX::timerCallback()
@@ -225,21 +226,21 @@ int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
     else
         requestWindowShow = true;
 
-    String newConfigurationFileName = asyncIn[INPAD_CONFIGFILE]->str;
+    int newConfigurationUID = asyncIn[INPAD_CONFIGUID]->itg;
 
-    if (!(newConfigurationFileName.equalsIgnoreCase(configurationFileName)))
+    if (newConfigurationUID != configurationUID)
     {
-        scopeSync->changeConfiguration(newConfigurationFileName, true);
-        configurationFileName = newConfigurationFileName;
+        scopeSync->changeConfiguration(newConfigurationUID);
+        configurationUID = newConfigurationUID;
     }
 
     positionX = asyncIn[INPAD_X]->itg;
     positionY = asyncIn[INPAD_Y]->itg;
-    //DBG("ScopeFX::async " + String(positionX) + ", " + String(positionY));
-
-    asyncOut[OUTPAD_SHOW].itg     = windowShown ? 1 : 0;
-    asyncOut[OUTPAD_X].itg        = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
-    asyncOut[OUTPAD_Y].itg        = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
+    
+    asyncOut[OUTPAD_SHOW].itg      = windowShown ? 1 : 0;
+    asyncOut[OUTPAD_X].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
+    asyncOut[OUTPAD_Y].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
+    asyncOut[OUTPAD_CONFIGUID].itg = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID() : configurationUID;
    
     return 0;
 }

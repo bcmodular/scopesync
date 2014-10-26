@@ -119,32 +119,34 @@ public:
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
     /* =================== Public Configuration Methods ====================== */
-    void            applyConfiguration();
-    void            saveConfiguration();
-    void            saveConfigurationAs(const String& fileName);
-    void            reloadSavedConfiguration();
-    bool            configurationHasUnsavedChanges();
-    Configuration&  getConfiguration() { return *configuration; };
-    ValueTree       getConfigurationRoot() { return configuration->getConfigurationRoot(); };
-    String          getConfigurationName(bool showUnsavedIndicator);
-    bool            configurationIsReadOnly();
-    const File&     getConfigurationFile() { return configuration->getFile(); };
-    const File&     getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); };
-    String          getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }
-    String          getLayoutDirectory() { return configuration->getLayoutDirectory(); };
-    bool            hasConfigurationUpdate(String& fileName);
-    void            changeConfiguration(const String& fileName, bool asyncLoad);
-    bool            processConfigurationChange();
-    ValueTree       getMapping() { return configuration->getMapping(); };
-    XmlElement&     getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
-    XmlElement*     getSystemLookAndFeels();
-    void            storeParameterValues();
-    void            storeParameterValues(XmlElement& parameterValues);
-    void            restoreParameterValues();
-    XmlElement&     getParameterValueStore() { return parameterValueStore; };
-    Value&          getSystemError();
-    Value&          getSystemErrorDetails();
-    void            setSystemError(const String& errorText, const String& errorDetailsText);
+    void           applyConfiguration();
+    void           saveConfiguration();
+    void           saveConfigurationAs(const String& fileName);
+    void           reloadSavedConfiguration();
+    bool           configurationHasUnsavedChanges();
+    Configuration& getConfiguration() { return *configuration; };
+    ValueTree      getConfigurationRoot() { return configuration->getConfigurationRoot(); };
+    String         getConfigurationName(bool showUnsavedIndicator);
+    bool           configurationIsReadOnly();
+    const File&    getConfigurationFile() { return configuration->getFile(); };
+    const File&    getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); }
+    String         getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }
+    int            getConfigurationUID() { return configuration->getConfigurationUID(); }
+    String         getLayoutDirectory() { return configuration->getLayoutDirectory(); };
+    bool           hasConfigurationUpdate(String& fileName);
+    void           changeConfiguration(const String& fileName);
+    void           changeConfiguration(int uid);
+    bool           processConfigurationChange();
+    ValueTree      getMapping() { return configuration->getMapping(); };
+    XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
+    XmlElement*    getSystemLookAndFeels();
+    void           storeParameterValues();
+    void           storeParameterValues(XmlElement& parameterValues);
+    void           restoreParameterValues();
+    XmlElement&    getParameterValueStore() { return parameterValueStore; };
+    Value&         getSystemError();
+    Value&         getSystemErrorDetails();
+    void           setSystemError(const String& errorText, const String& errorDetailsText);
      
 private:
 

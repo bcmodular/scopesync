@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration name="Sliders Demo" layoutName="Sliders Demo" layoutLibrarySet="ScopeSyncTutorials" ID="RmkmEB" librarySet="ScopeSyncTutorials"
-               author="ScopeSync" blurb="Demonstrates some of the ways to use Sliders in your Configurations.">
+               author="ScopeSync" blurb="Demonstrates some of the ways to use Sliders in your Configurations." UID="41318040">
   <hostParameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Osc2 Waveform" scopeSync="0" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"

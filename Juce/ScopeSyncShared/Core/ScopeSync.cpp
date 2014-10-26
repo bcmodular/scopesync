@@ -574,12 +574,18 @@ bool ScopeSync::processConfigurationChange()
     }
 }
 
-void ScopeSync::changeConfiguration(const String& fileName, bool asyncLoad)
+void ScopeSync::changeConfiguration(const String& fileName)
 {
     configurationChanges.add(fileName);
+    processConfigurationChange();
+}
 
-    if (!asyncLoad)
-        processConfigurationChange();
+void ScopeSync::changeConfiguration(int uid)
+{
+    String fileName = UserSettings::getInstance()->getConfigurationFilePathFromUID(uid);
+
+    if (fileName.isNotEmpty())
+        configurationChanges.add(fileName);
 }
 
 void ScopeSync::reloadLayout()

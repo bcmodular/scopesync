@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="No configuration loaded..." readOnly="true" ID="NqZmNe">
+<configuration name="No configuration loaded..." readOnly="true" ID="NqZmNe" UID="0">
   <hostParameters/>
   <scopeParameters>
     <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0" scopeRangeMax="2147483647"

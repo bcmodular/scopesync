@@ -132,10 +132,7 @@
           <bounds x="177" y="11" width="160" height="17"></bounds>
           <font bold="true" height="12"></font>
         </label>
-        <textbutton lfid="system:load_config_button" displaycontext="host" name="chooseconfiguration" tooltip="Load Configuration">
-          <bounds x="347" y="9" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:load_config_button" displaycontext="scope" name="LoadConfig" tooltip="Load Configuration">
+        <textbutton lfid="system:load_config_button" name="chooseconfiguration" tooltip="Load Configuration">
           <bounds x="347" y="9" width="21" height="21"></bounds>
         </textbutton>
         <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">

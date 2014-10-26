@@ -63,6 +63,8 @@ public:
     PropertiesFile& getConfigurationProperties();
     
     String getConfigurationDirectory();
+    int    getConfigurationUID();
+    int    generateConfigurationUID();
     String getLayoutDirectory() { return layoutDirectory; }
 
     bool replaceConfiguration(const String& newFileName);

@@ -258,7 +258,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             String configurationFilePath = root->getChildByName("configurationfilepath")->getAllSubText();
 
-            scopeSync->changeConfiguration(configurationFilePath, false);
+            scopeSync->changeConfiguration(configurationFilePath);
         }
     }
     else

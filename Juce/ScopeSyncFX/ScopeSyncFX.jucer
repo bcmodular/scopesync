@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.0"
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.1"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0">
+              jucerVersion="3.1.0" defines="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
@@ -183,11 +183,12 @@
             externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
-                       libraryPath="..\..\Include\SonicCore" useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_1"
+                       defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" libraryPath="..\..\Include\SonicCore"
+                       useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
                        headerPath="../../Include/SonicCore"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_1" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
                        libraryPath="..\..\Include\SonicCore" headerPath="../../Include/SonicCore"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
       </CONFIGURATIONS>
@@ -205,12 +206,12 @@
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug" headerPath="../../Include/SonicCore"
-                       libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
-                       postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_1"
+                       headerPath="../../Include/SonicCore" libraryPath="..\..\Include\SonicCore"
+                       defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
                        useRuntimeLibDLL="1"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync" headerPath="../../Include/SonicCore"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_1" headerPath="../../Include/SonicCore"
                        libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
       </CONFIGURATIONS>

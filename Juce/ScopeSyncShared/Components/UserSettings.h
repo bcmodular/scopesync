@@ -52,6 +52,7 @@ public:
     const ValueTree& getLayoutLibrary() { return layoutLibrary; }
     const ValueTree& getConfigurationLibrary() { return configurationLibrary; }
     void getConfigurationFromFilePath(const String& filePath, ValueTree& configuration);
+    String getConfigurationFilePathFromUID(int uid);
 
     void setLastTimeLayoutLoaded(const String& filePath);
     void setLastTimeConfigurationLoaded(const String& filePath);

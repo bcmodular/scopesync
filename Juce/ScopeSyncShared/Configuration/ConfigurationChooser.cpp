@@ -299,7 +299,7 @@ void ConfigurationChooser::backgroundClicked(const MouseEvent&)
 
 void ConfigurationChooser::cellDoubleClicked(int rowNumber, int /* columnId */, const MouseEvent& /* e */)
 {
-    scopeSync.changeConfiguration(viewTree.getChild(rowNumber).getProperty(Ids::filePath), false);
+    scopeSync.changeConfiguration(viewTree.getChild(rowNumber).getProperty(Ids::filePath).toString());
     closeWindow();
 }
 
@@ -350,7 +350,7 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
 
 void ConfigurationChooser::chooseSelectedConfiguration()
 {
-    scopeSync.changeConfiguration(viewTree.getChild(table.getSelectedRow()).getProperty(Ids::filePath), false);
+    scopeSync.changeConfiguration(viewTree.getChild(table.getSelectedRow()).getProperty(Ids::filePath).toString());
     closeWindow();
 }
 

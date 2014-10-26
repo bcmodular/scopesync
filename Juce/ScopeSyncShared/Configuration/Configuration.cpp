@@ -156,6 +156,30 @@ String Configuration::getConfigurationDirectory()
         return String::empty;
 }
 
+int Configuration::getConfigurationUID()
+{
+    if (configurationRoot.hasProperty(Ids::UID))
+        return configurationRoot.getProperty(Ids::UID);
+    else
+        return generateConfigurationUID();
+}
+
+int Configuration::generateConfigurationUID()
+{
+    int uid = 0;
+
+    String stringToHash = configurationRoot.getProperty(Ids::name);
+    stringToHash += configurationRoot.getProperty(Ids::librarySet).toString();
+    stringToHash += configurationRoot.getProperty(Ids::fileName).toString();
+    stringToHash += configurationRoot.getProperty(Ids::author).toString();
+
+    uid = stringToHash.hashCode();
+
+    configurationRoot.setProperty(Ids::UID, uid, nullptr);
+
+    return uid;
+}
+
 bool Configuration::replaceConfiguration(const String& newFileName)
 {
     bool offerCancel = false;
@@ -390,6 +414,8 @@ void Configuration::addStyleOverrideToAll(const Identifier& componentType,
 
 Result Configuration::saveDocument (const File& /* file */)
 {
+    generateConfigurationUID();
+
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
 
     if (outputXml->writeToFile(getFile(), String::empty, "UTF-8", 120))
@@ -753,7 +779,7 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
 const String Configuration::loaderConfiguration =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "\n"
-"<configuration name=\"No configuration loaded...\" readOnly=\"true\" ID=\"NqZmNe\">\n"
+"<configuration name=\"No configuration loaded...\" readOnly=\"true\" ID=\"NqZmNe\" UID=\"0\">\n"
 "  <hostParameters/>\n"
 "  <scopeParameters>\n"
 "    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeS"
@@ -829,12 +855,8 @@ const String Configuration::loaderLayout =
 "        <bounds x=\"177\" y=\"11\" width=\"160\" height=\"17\"></bounds>\n"
 "        <font bold=\"true\" height=\"12\"></font>\n"
 "      </label>\n"
-"      <textbutton lfid=\"system:load_config_button\" displaycontext=\"host\" name=\"chooseconfiguration\" "
-"tooltip=\"Load Configuration\">\n"
-"        <bounds x=\"347\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:load_config_button\" displaycontext=\"scope\" name=\"LoadConfig\" tooltip="
-"\"Load Configuration\">\n"
+"      <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Configur"
+"ation\">\n"
 "        <bounds x=\"347\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
 "      </textbutton>\n"
 "      <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text=\""

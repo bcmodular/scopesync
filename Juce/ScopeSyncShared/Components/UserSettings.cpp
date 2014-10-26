@@ -568,6 +568,21 @@ void UserSettings::getConfigurationFromFilePath(const String& filePath, ValueTre
     configuration = ValueTree();
 }
 
+String UserSettings::getConfigurationFilePathFromUID(int uid)
+{
+    for (int i = 0; i < configurationLibrary.getNumChildren(); i++)
+    {
+        ValueTree configuration = configurationLibrary.getChild(i);
+
+        if (int(configuration.getProperty(Ids::UID)) == uid)
+        {
+            return configuration.getProperty(Ids::filePath);
+        }
+    }
+
+    return String::empty;
+}
+
 void UserSettings::setLastTimeConfigurationLoaded(const String& filePath)
 {
     ValueTree configuration;

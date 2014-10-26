@@ -88,9 +88,9 @@ private:
     static const int numLocalValues;
 
     // Async values that are handled directly by ScopeFX
-    int    positionX;             // Horizontal location of window
-	int    positionY;             // Vertical location of window
-	String configurationFileName; // Path of configuration file
+    int positionX;        // Horizontal location of window
+	int positionY;        // Vertical location of window
+	int configurationUID; // UID of configuration file
 
     bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown

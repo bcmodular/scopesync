@@ -35,10 +35,11 @@ namespace ScopeFXParameterDefinitions {
     enum asyncInPads {
         INPAD_PARAMS,
         INPAD_LOCALS,
+        INPAD_FEEDBACK,
         INPAD_X,
 		INPAD_Y,
 		INPAD_SHOW,
-		INPAD_CONFIGFILE,
+		INPAD_CONFIGUID,
 		NUM_ASYNCINPADS
     };
 
@@ -70,6 +71,7 @@ namespace ScopeFXParameterDefinitions {
         OUTPAD_X,
 		OUTPAD_Y,
         OUTPAD_SHOW,
+		OUTPAD_CONFIGUID,
 		NUM_ASYNCOUTPADS
     };
 
@@ -84,10 +86,11 @@ namespace ScopeFXParameterDefinitions {
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 },  // INPAD_PARAMS
         { DTYPE_INT, FRAC_MIN, FRAC_MAX, 16 },   // INPAD_LOCALS
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 },  // INPAD_FEEDBACK
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_Y
 		{ DTYPE_INT, 0, 1 },                // INPAD_SHOW
-		{ DTYPE_STRING },                   // INPAD_CONFIGFILE
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_CONFIGFILE
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -238,6 +241,7 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_Y
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SHOW
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
         { DTYPE_INT | DTYPE_BLKSYNC, FRAC_MIN, FRAC_MAX },  // OUTPAD_DATA
         { DTYPE_INT | DTYPE_BLKSYNC, FRAC_MIN, FRAC_MAX },  // OUTPAD_DEST
     };
@@ -246,11 +250,13 @@ namespace ScopeFXParameterDefinitions {
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
         { "PI", "Parameter Inputs" },
         { "LI", "Local Inputs" },
+        { "FI", "Feedback Inputs" },
         { "X", "X position" },
         { "Y", "Y position" },
 		{ "show", "show window" },
-        { "cfg", "configuration file" },
+        { "cfg", "configuration uid" },
     };
+
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
 		{ "P1",   "Parameter Output 1" },
         { "P2",   "Parameter Output 2" },
@@ -399,6 +405,7 @@ namespace ScopeFXParameterDefinitions {
         { "X", "X position" },
         { "Y", "Y position" },
         { "show", "show window" },
+        { "cfg", "configuration uid" },
         { "data", "output data" },
         { "dest", "output destination" },
     };
@@ -416,8 +423,8 @@ namespace ScopeFXParameterDefinitions {
         outputPadTypes,    // PadType *typeOfOutPad;
         // 
         MODFLAG_HASASYNC,  // int32    flags;
-        "ScopeSync",       // char    *shortName;
-        "ScopeSync",       // char    *longName;
+        "ScopeSync 1.0.1", // char    *shortName;
+        "ScopeSync 1.0.1", // char    *longName;
         NULL,              // int32   *delay;      // internal delay of output pads relative to input
         //                 // this delay is not part of the effect but has to be
         //                 // compensated
