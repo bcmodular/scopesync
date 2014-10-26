@@ -29,7 +29,7 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
-#include "LayoutLocationEditor.h"
+#include "FileLocationEditor.h"
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -161,7 +161,7 @@ juce_ImplementSingleton(UserSettings)
  * UserSettings
  */
 UserSettings::UserSettings()
-: layoutLocationsButton("Layout Locations...")
+: fileLocationsButton("File Locations...")
 {
     commandManager = new ApplicationCommandManager();
 
@@ -180,21 +180,27 @@ UserSettings::UserSettings()
     globalProperties.setStorageParameters(options);
 
     // Build Layout Locations and Library trees
-    ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(Ids::layoutLocations.toString());
+    ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(Ids::fileLocations.toString());
     
     if (xml != nullptr)
     {
-        layoutLocations = ValueTree::fromXml(*xml);
+        fileLocations = ValueTree::fromXml(*xml);
 
         xml = getGlobalProperties()->getXmlValue(Ids::layoutLibrary.toString());
 
         if (xml != nullptr)
             layoutLibrary = ValueTree::fromXml(*xml);
-        else
-            rebuildLayoutLibrary();
+        
+        xml = getGlobalProperties()->getXmlValue(Ids::configurationLibrary.toString());
+        
+        if (xml != nullptr)
+            configurationLibrary = ValueTree::fromXml(*xml);
+        
+        if (!layoutLibrary.isValid() || !configurationLibrary.isValid())
+            rebuildFileLibrary();
     }
     else
-        initialiseLayoutLocations();
+        fileLocations = ValueTree(Ids::fileLocations);
 
     loadSwatchColours();
    
@@ -210,12 +216,12 @@ UserSettings::UserSettings()
     useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
     useImageCache.addListener(this);
 
-    layoutLocations.addListener(this);
+    fileLocations.addListener(this);
 
     setupPanel();
 
-    addAndMakeVisible(layoutLocationsButton);
-    layoutLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editLayoutLocations, true);
+    addAndMakeVisible(fileLocationsButton);
+    fileLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
     
     setSize (getLocalBounds().getWidth(), getLocalBounds().getHeight());
 
@@ -229,7 +235,7 @@ UserSettings::~UserSettings()
 
     saveSwatchColours();
 
-    layoutLocationEditorWindow = nullptr;
+    fileLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
     clearSingletonInstance();
 }
@@ -280,7 +286,7 @@ void UserSettings::resized()
     Rectangle<int> toolbarButtons = localBounds.removeFromTop(30);
     toolbarButtons.removeFromLeft(4);
 
-    layoutLocationsButton.setBounds(toolbarButtons.removeFromLeft(120));
+    fileLocationsButton.setBounds(toolbarButtons.removeFromLeft(120));
 
     localBounds.removeFromTop(5);
     propertyPanel.setBounds(localBounds);
@@ -316,7 +322,7 @@ void UserSettings::valueChanged(Value& valueThatChanged)
 
 void UserSettings::userTriedToCloseWindow()
 {
-    layoutLocationEditorWindow = nullptr;
+    fileLocationEditorWindow = nullptr;
     ScopeSync::reloadAllGUIs(); 
     removeFromDesktop();
 }
@@ -345,62 +351,50 @@ void UserSettings::show(int posX, int posY)
     
 void UserSettings::hide()
 {
-    layoutLocationEditorWindow = nullptr;
+    fileLocationEditorWindow = nullptr;
     removeFromDesktop();
 }
 
 void UserSettings::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
-    layoutLocationEditorWindow = nullptr;
+    fileLocationEditorWindow = nullptr;
 }
 
-void UserSettings::editLayoutLocations()
+void UserSettings::editFileLocations()
 {
-    if (layoutLocationEditorWindow == nullptr)
-        layoutLocationEditorWindow = new LayoutLocationEditorWindow
-                                            (
-                                            getScreenPosition().getX(), 
-                                            getScreenPosition().getY(), 
-                                            layoutLocations, commandManager, undoManager
-                                            );
+    if (fileLocationEditorWindow == nullptr)
+        fileLocationEditorWindow = new FileLocationEditorWindow
+                                       (
+                                       getScreenPosition().getX(), 
+                                       getScreenPosition().getY(), 
+                                       fileLocations, commandManager, undoManager
+                                       );
     
-    layoutLocationEditorWindow->addChangeListener(this);
-    layoutLocationEditorWindow->setVisible(true);
-    layoutLocationEditorWindow->setAlwaysOnTop(true);
-    layoutLocationEditorWindow->toFront(true);
+    fileLocationEditorWindow->addChangeListener(this);
+    fileLocationEditorWindow->setVisible(true);
+    fileLocationEditorWindow->setAlwaysOnTop(true);
+    fileLocationEditorWindow->toFront(true);
 }
 
-void UserSettings::updateLayoutLocations()
+void UserSettings::updateFileLocations()
 {
-    ScopedPointer<XmlElement> xml = layoutLocations.createXml();
-    getGlobalProperties()->setValue(Ids::layoutLocations.toString(), xml);
+    ScopedPointer<XmlElement> xml = fileLocations.createXml();
+    getGlobalProperties()->setValue(Ids::fileLocations.toString(), xml);
 
-    rebuildLayoutLibrary();
+    rebuildFileLibrary();
 }
 
-void UserSettings::initialiseLayoutLocations()
+void UserSettings::rebuildFileLibrary()
 {
-    if (!(layoutLocations.isValid()))
-        layoutLocations = ValueTree(Ids::layoutLocations);
-
-    ValueTree stockLayouts(Ids::location);
-    stockLayouts.setProperty(Ids::folder, "C:\\development\\github\\scopesync\\Layouts", &undoManager);
-
-    layoutLocations.addChild(stockLayouts, -1, &undoManager);
-
-    updateLayoutLocations();
-}
-
-void UserSettings::rebuildLayoutLibrary()
-{
-    if (!(layoutLocations.isValid()) || layoutLocations.getNumChildren() == 0)
-        initialiseLayoutLocations();
+    if (!(fileLocations.isValid()) || fileLocations.getNumChildren() == 0)
+        return;
 
     layoutLibrary = ValueTree(Ids::layoutLibrary);
+    configurationLibrary = ValueTree(Ids::configurationLibrary);
 
-    for (int i = 0; i < layoutLocations.getNumChildren(); i++)
+    for (int i = 0; i < fileLocations.getNumChildren(); i++)
     {
-        String locationFolder = layoutLocations.getChild(i).getProperty(Ids::folder);
+        String locationFolder = fileLocations.getChild(i).getProperty(Ids::folder);
 
         if (locationFolder.isEmpty() || !(File::isAbsolutePath(locationFolder)))
             continue;
@@ -410,62 +404,123 @@ void UserSettings::rebuildLayoutLibrary()
         if (!(location.isDirectory()))
             continue;
         
-        Array<File> layoutFiles;
-        location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
+        addLayoutsToLibrary(location);
+        addConfigurationsToLibrary(location);
+    }
 
-        for (int j = 0; j < layoutFiles.size(); j++)
-        {
-            ValueTree layout(Ids::layout);
+    flushLibraryToFile();
+}
+
+void UserSettings::flushLibraryToFile()
+{
+    ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
+    getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+
+    xml = configurationLibrary.createXml();
+    getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
+}
+
+void UserSettings::addLayoutsToLibrary(const File& location)
+{
+    Array<File> layoutFiles;
+    location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
+
+    for (int i = 0; i < layoutFiles.size(); i++)
+    {
+        ValueTree layout(Ids::layout);
             
-            XmlDocument               layoutDocument(layoutFiles[j]);
-            ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
+        XmlDocument               layoutDocument(layoutFiles[i]);
+        ScopedPointer<XmlElement> loadedLayoutXml = layoutDocument.getDocumentElement();
 
-            String layoutName;
-            XmlElement layoutXml("dummy");
+        String layoutName;
+        XmlElement layoutXml("dummy");
 
-            if (loadedLayoutXml != nullptr)
+        if (loadedLayoutXml != nullptr)
+        {
+            if (loadedLayoutXml->hasTagName(Ids::layout))
             {
-                if (loadedLayoutXml->hasTagName(Ids::layout))
+                // No XSD validation header
+                layoutXml = *loadedLayoutXml;
+                layoutName = layoutXml.getStringAttribute(Ids::name);
+            }
+            else
+            {
+                // Look for a layout element at the 2nd level down instead
+                XmlElement* subXml = loadedLayoutXml->getChildByName(Ids::layout);
+            
+                if (subXml != nullptr)
                 {
-                    // No XSD validation header
-                    layoutXml = *loadedLayoutXml;
+                    layoutXml = *subXml;
                     layoutName = layoutXml.getStringAttribute(Ids::name);
                 }
                 else
-                {
-                    // Look for a layout element at the 2nd level down instead
-                    XmlElement* subXml = loadedLayoutXml->getChildByName(Ids::layout);
-            
-                    if (subXml != nullptr)
-                    {
-                        layoutXml = *subXml;
-                        layoutName = layoutXml.getStringAttribute(Ids::name);
-                    }
-                }
-            }
-
-            if (layoutName.isNotEmpty())
-            {
-                layout.setProperty(Ids::name, layoutName, nullptr);
-                layout.setProperty(Ids::libraryset, layoutXml.getStringAttribute(Ids::libraryset), nullptr);
-                layout.setProperty(Ids::author, layoutXml.getStringAttribute(Ids::author), nullptr);
-                layout.setProperty(Ids::numbuttons, layoutXml.getIntAttribute(Ids::numbuttons), nullptr);
-                layout.setProperty(Ids::numencoders, layoutXml.getIntAttribute(Ids::numencoders), nullptr);
-                layout.setProperty(Ids::numfaders, layoutXml.getIntAttribute(Ids::numfaders), nullptr);
-                layout.setProperty(Ids::panelwidth, layoutXml.getIntAttribute(Ids::panelwidth), nullptr);
-                layout.setProperty(Ids::panelheight, layoutXml.getIntAttribute(Ids::panelheight), nullptr);
-                layout.setProperty(Ids::numparameters, layoutXml.getIntAttribute(Ids::numparameters), nullptr);
-                layout.setProperty(Ids::thumbnail, layoutXml.getStringAttribute(Ids::thumbnail), nullptr);
-                layout.setProperty(Ids::excludefromchooser, layoutXml.getBoolAttribute(Ids::excludefromchooser), nullptr);
-                layout.setProperty(Ids::blurb, layoutXml.getStringAttribute(Ids::blurb), nullptr);
-                layout.setProperty(Ids::filePath, layoutFiles[j].getFullPathName(), nullptr);
-                layoutLibrary.addChild(layout, -1, nullptr);
+                    continue;
             }
         }
-    }
 
-    ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
-    getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+        if (layoutName.isNotEmpty())
+        {
+            layout.setProperty(Ids::name, layoutName, nullptr);
+            layout.setProperty(Ids::librarySet, layoutXml.getStringAttribute(Ids::libraryset), nullptr);
+            layout.setProperty(Ids::author, layoutXml.getStringAttribute(Ids::author), nullptr);
+            layout.setProperty(Ids::numButtons, layoutXml.getIntAttribute(Ids::numbuttons), nullptr);
+            layout.setProperty(Ids::numEncoders, layoutXml.getIntAttribute(Ids::numencoders), nullptr);
+            layout.setProperty(Ids::numFaders, layoutXml.getIntAttribute(Ids::numfaders), nullptr);
+            layout.setProperty(Ids::panelWidth, layoutXml.getIntAttribute(Ids::panelwidth), nullptr);
+            layout.setProperty(Ids::panelHeight, layoutXml.getIntAttribute(Ids::panelheight), nullptr);
+            layout.setProperty(Ids::numParameters, layoutXml.getIntAttribute(Ids::numparameters), nullptr);
+            layout.setProperty(Ids::thumbnail, layoutXml.getStringAttribute(Ids::thumbnail), nullptr);
+            layout.setProperty(Ids::excludeFromChooser, layoutXml.getBoolAttribute(Ids::excludefromchooser, false), nullptr);
+            layout.setProperty(Ids::blurb, layoutXml.getStringAttribute(Ids::blurb), nullptr);
+            layout.setProperty(Ids::filePath, layoutFiles[i].getFullPathName(), nullptr);
+            layoutLibrary.addChild(layout, -1, nullptr);
+        }
+    }
+}
+
+void UserSettings::addConfigurationsToLibrary(const File& location)
+{
+    Array<File> configurationFiles;
+    location.findChildFiles(configurationFiles, File::findFiles, true, "*.configuration");
+
+    for (int i = 0; i < configurationFiles.size(); i++)
+    {
+        ValueTree configuration(Ids::configuration);
+            
+        XmlDocument               configurationDocument(configurationFiles[i]);
+        ScopedPointer<XmlElement> loadedConfigurationXml = configurationDocument.getDocumentElement();
+
+        String     configurationName;
+        XmlElement configurationXml("dummy");
+
+        if (loadedConfigurationXml != nullptr)
+        {
+            if (loadedConfigurationXml->hasTagName(Ids::configuration))
+            {
+                // No XSD validation header
+                configurationXml  = *loadedConfigurationXml;
+                configurationName = configurationXml.getStringAttribute(Ids::name);
+            }
+            else
+                continue;
+        }
+
+        if (configurationName.isNotEmpty())
+        {
+            configuration.setProperty(Ids::name, configurationName, nullptr);
+            configuration.setProperty(Ids::librarySet, configurationXml.getStringAttribute(Ids::librarySet), nullptr);
+            configuration.setProperty(Ids::author, configurationXml.getStringAttribute(Ids::author), nullptr);
+            configuration.setProperty(Ids::layoutName, configurationXml.getStringAttribute(Ids::layoutName), nullptr);
+            configuration.setProperty(Ids::layoutLibrarySet, configurationXml.getStringAttribute(Ids::layoutLibrarySet), nullptr);
+            configuration.setProperty(Ids::excludeFromChooser, configurationXml.getBoolAttribute(Ids::excludeFromChooser, false), nullptr);
+            configuration.setProperty(Ids::blurb, configurationXml.getStringAttribute(Ids::blurb), nullptr);
+            configuration.setProperty(Ids::ID, configurationXml.getStringAttribute(Ids::ID), nullptr);
+            configuration.setProperty(Ids::UID, configurationXml.getStringAttribute(Ids::UID), nullptr);
+            configuration.setProperty(Ids::filePath, configurationFiles[i].getFullPathName(), nullptr);
+            configuration.setProperty(Ids::fileName, configurationFiles[i].getFileName(), nullptr);
+            configurationLibrary.addChild(configuration, -1, nullptr);
+        }
+    }
 }
 
 String UserSettings::getLayoutFilename(const String& name, const String& librarySet)
@@ -475,13 +530,75 @@ String UserSettings::getLayoutFilename(const String& name, const String& library
         ValueTree layout = layoutLibrary.getChild(i);
 
         if (   layout.getProperty(Ids::name).toString().equalsIgnoreCase(name)
-            && layout.getProperty(Ids::libraryset).toString().equalsIgnoreCase(librarySet))
+            && layout.getProperty(Ids::librarySet).toString().equalsIgnoreCase(librarySet))
         {
             return layout.getProperty(Ids::filePath);
         }
     }
 
     return String::empty;
+}
+
+void UserSettings::setLastTimeLayoutLoaded(const String& filePath)
+{
+    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
+    {
+        ValueTree layout = layoutLibrary.getChild(i);
+
+        if (layout.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+        {
+            layout.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
+            break;
+        }
+    }
+
+    flushLibraryToFile();
+}
+
+void UserSettings::getConfigurationFromFilePath(const String& filePath, ValueTree& configuration)
+{
+    for (int i = 0; i < configurationLibrary.getNumChildren(); i++)
+    {
+        configuration = configurationLibrary.getChild(i);
+
+        if (configuration.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+            return;
+    }
+    
+    configuration = ValueTree();
+}
+
+void UserSettings::setLastTimeConfigurationLoaded(const String& filePath)
+{
+    ValueTree configuration;
+    getConfigurationFromFilePath(filePath, configuration);
+
+    if (configuration.isValid())
+    {
+        configuration.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
+        flushLibraryToFile();
+    }
+}
+
+void UserSettings::updateConfigurationLibraryEntry(const String& filePath, const ValueTree& sourceValueTree)
+{
+    ValueTree configuration;
+    getConfigurationFromFilePath(filePath, configuration);
+
+    if (configuration.isValid())
+    {
+        configuration.setProperty(Ids::name,               sourceValueTree.getProperty(Ids::name), nullptr);
+        configuration.setProperty(Ids::librarySet,         sourceValueTree.getProperty(Ids::librarySet), nullptr);
+        configuration.setProperty(Ids::author,             sourceValueTree.getProperty(Ids::author), nullptr);
+        configuration.setProperty(Ids::layoutName,         sourceValueTree.getProperty(Ids::layoutName), nullptr);
+        configuration.setProperty(Ids::layoutLibrarySet,   sourceValueTree.getProperty(Ids::layoutLibrarySet), nullptr);
+        configuration.setProperty(Ids::excludeFromChooser, sourceValueTree.getProperty(Ids::excludeFromChooser), nullptr);
+        configuration.setProperty(Ids::blurb,              sourceValueTree.getProperty(Ids::blurb), nullptr);
+        configuration.setProperty(Ids::ID,                 sourceValueTree.getProperty(Ids::ID), nullptr);
+        configuration.setProperty(Ids::UID,                sourceValueTree.getProperty(Ids::UID), nullptr);
+        
+        flushLibraryToFile();
+    }
 }
 
 void UserSettings::timerCallback()
@@ -491,7 +608,7 @@ void UserSettings::timerCallback()
 
 void UserSettings::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::editLayoutLocations };
+    const CommandID ids[] = { CommandIDs::editFileLocations };
 
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -500,9 +617,9 @@ void UserSettings::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
 {
     switch (commandID)
     {
-    case CommandIDs::editLayoutLocations:
-        result.setInfo("Layout Locations...", "Open Layout Locations edit window", CommandCategories::usersettings, 0);
-        result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
+    case CommandIDs::editFileLocations:
+        result.setInfo("File Locations...", "Open File Locations edit window", CommandCategories::usersettings, 0);
+        result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
         break;
     }
 }
@@ -511,7 +628,7 @@ bool UserSettings::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::editLayoutLocations:    editLayoutLocations(); break;
+        case CommandIDs::editFileLocations:    editFileLocations(); break;
         default:                               return false;
     }
 

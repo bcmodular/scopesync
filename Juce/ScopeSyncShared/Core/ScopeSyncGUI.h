@@ -46,11 +46,13 @@ class ComboBoxProperties;
 class TabbedComponentProperties;
 class TabProperties;
 class BCMParameter;
+class ConfigurationChooserWindow;
 #include "../Components/BCMSlider.h"
 
 class ScopeSyncGUI : public Component,
                      public Timer,
-                     public ApplicationCommandTarget               
+                     public ApplicationCommandTarget,
+                     public ChangeListener
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -96,6 +98,8 @@ private:
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;
     ScopedPointer<Label>        systemError;
+    ScopedPointer<ConfigurationChooserWindow> configurationChooserWindow;
+
     
     ScopeSync&                   scopeSync;
     ValueTree                    deviceMapping;
@@ -119,7 +123,8 @@ private:
     ApplicationCommandTarget* getNextCommandTarget() override;
     
     static void alertBoxResultChosen(int result, ScopeSyncGUI*);
-    
+    void changeListenerCallback(ChangeBroadcaster* source);
+
     void save();
     void saveAs();
     void undo();

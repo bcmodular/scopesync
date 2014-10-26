@@ -277,6 +277,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.cpp">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
@@ -352,7 +355,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\LayoutLocationEditor.cpp">
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp">
@@ -1437,6 +1440,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.h">
+      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
@@ -1524,7 +1530,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\LayoutLocationEditor.h">
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.h">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h">
@@ -2012,6 +2018,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\logging\juce_Logger.h">
       <Filter>Juce Modules\juce_core\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_CompilerSupport.h">
+      <Filter>Juce Modules\juce_core\system</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_PlatformDefs.h">
       <Filter>Juce Modules\juce_core\system</Filter>

@@ -44,6 +44,7 @@
 #include "../Properties/ComboBoxProperties.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Properties/TabProperties.h"
+#include "../Configuration/ConfigurationChooser.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 
@@ -77,16 +78,25 @@ void ScopeSyncGUI::showUserSettings()
 
 void ScopeSyncGUI::chooseConfiguration()
 {
-    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
+    if (configurationChooserWindow == nullptr)
+        configurationChooserWindow = new ConfigurationChooserWindow
+                                      (
+                                      getParentMonitorArea().getCentreX(), 
+                                      getParentMonitorArea().getCentreY(), 
+                                      UserSettings::getInstance()->getConfigurationLibrary(),
+                                      scopeSync,
+                                      scopeSync.getCommandManager()
+                                      );
     
-    FileChooser fileChooser("Please select the configuration file you want to load...",
-                            configurationFileDirectory,
-                            "*.configuration");
-    
-    if (fileChooser.browseForFileToOpen())
-    {
-        scopeSync.changeConfiguration(fileChooser.getResult().getFullPathName(), false);
-    }    
+    configurationChooserWindow->addChangeListener(this);
+    configurationChooserWindow->setVisible(true);
+    configurationChooserWindow->setAlwaysOnTop(true);
+    configurationChooserWindow->toFront(true);   
+}
+
+void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* /* source */)
+{ 
+    configurationChooserWindow = nullptr;
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)

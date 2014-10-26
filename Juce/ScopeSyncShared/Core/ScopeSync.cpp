@@ -637,6 +637,7 @@ void ScopeSync::applyConfiguration()
     else
         initialiseScopeParameters = true;
 
+    UserSettings::getInstance()->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(), getConfigurationRoot());
     setGUIReload(true);
 }
 

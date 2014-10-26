@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="Behringer BCF2000" layoutName="BCF2000" layoutLibrarySet="ScopeSync" ID="uA5T2G">
+<configuration name="Behringer BCF2000" layoutName="BCF2000" layoutLibrarySet="ScopeSync" ID="uA5T2G" librarySet="ScopeSync" author="ScopeSync"
+               blurb="Basic configuration for use with the Behringer BCF2000 layout. Set up with all 88 parameters already created.">
   <hostParameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Parameter 1" scopeSync="0" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"

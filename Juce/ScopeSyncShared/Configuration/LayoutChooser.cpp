@@ -91,8 +91,8 @@ public:
         }
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::libraryset, String::empty);
-            String secondString = second.getProperty(Ids::libraryset, String::empty);
+            String firstString  = first.getProperty(Ids::librarySet, String::empty);
+            String secondString = second.getProperty(Ids::librarySet, String::empty);
             result = firstString.compareNatural(secondString);
         }
         else if (columnId == 4)
@@ -103,32 +103,32 @@ public:
         }
         else if (columnId == 5)
         {
-            int firstPixelCount  = int(first.getProperty(Ids::panelwidth, 0))  * int(first.getProperty(Ids::panelheight, 0));
-            int secondPixelCount = int(second.getProperty(Ids::panelwidth, 0)) * int(second.getProperty(Ids::panelheight, 0));
+            int firstPixelCount  = int(first.getProperty(Ids::panelWidth, 0))  * int(first.getProperty(Ids::panelHeight, 0));
+            int secondPixelCount = int(second.getProperty(Ids::panelWidth, 0)) * int(second.getProperty(Ids::panelHeight, 0));
             result = (firstPixelCount < secondPixelCount) ? -1 : ((secondPixelCount < firstPixelCount) ? 1 : 0);
         }
         else if (columnId == 6)
         {
-            int firstCount  = first.getProperty(Ids::numencoders, 0);
-            int secondCount = second.getProperty(Ids::numencoders, 0);
+            int firstCount  = first.getProperty(Ids::numEncoders, 0);
+            int secondCount = second.getProperty(Ids::numEncoders, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
         else if (columnId == 7)
         {
-            int firstCount  = first.getProperty(Ids::numfaders, 0);
-            int secondCount = second.getProperty(Ids::numfaders, 0);
+            int firstCount  = first.getProperty(Ids::numFaders, 0);
+            int secondCount = second.getProperty(Ids::numFaders, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
         else if (columnId == 8)
         {
-            int firstCount  = first.getProperty(Ids::numbuttons, 0);
-            int secondCount = second.getProperty(Ids::numbuttons, 0);
+            int firstCount  = first.getProperty(Ids::numButtons, 0);
+            int secondCount = second.getProperty(Ids::numButtons, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
         else if (columnId == 9)
         {
-            int firstCount  = first.getProperty(Ids::numparameters, 0);
-            int secondCount = second.getProperty(Ids::numparameters, 0);
+            int firstCount  = first.getProperty(Ids::numParameters, 0);
+            int secondCount = second.getProperty(Ids::numParameters, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
 
@@ -209,7 +209,7 @@ void LayoutChooser::removeExcludedLayouts()
 {
     for (int i = 0; i < viewTree.getNumChildren(); i++)
     {
-        bool excludeFromChooser = viewTree.getChild(i).getProperty(Ids::excludefromchooser, false);
+        bool excludeFromChooser = viewTree.getChild(i).getProperty(Ids::excludeFromChooser, false);
         
         if (excludeFromChooser)
             viewTree.removeChild(i, nullptr);
@@ -221,7 +221,7 @@ void LayoutChooser::selectCurrentLayout()
     for (int i = 0; i < viewTree.getNumChildren(); i++)
     {
         String itemName       = viewTree.getChild(i).getProperty(Ids::name);
-        String itemLibrarySet = viewTree.getChild(i).getProperty(Ids::libraryset);
+        String itemLibrarySet = viewTree.getChild(i).getProperty(Ids::librarySet);
         
         if (itemName == name && itemLibrarySet == librarySet)
         {
@@ -279,15 +279,15 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
     {
         case 1: text = String::empty; break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
-        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::libraryset); break;
+        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
         case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
-        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::panelwidth).toString() 
+        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::panelWidth).toString() 
                        + "x" 
-                       + viewTree.getChild(rowNumber).getProperty(Ids::panelheight).toString(); break;
-        case 6: text = viewTree.getChild(rowNumber).getProperty(Ids::numencoders); break;
-        case 7: text = viewTree.getChild(rowNumber).getProperty(Ids::numfaders); break;
-        case 8: text = viewTree.getChild(rowNumber).getProperty(Ids::numbuttons); break;
-        case 9: text = viewTree.getChild(rowNumber).getProperty(Ids::numparameters); break;
+                       + viewTree.getChild(rowNumber).getProperty(Ids::panelHeight).toString(); break;
+        case 6: text = viewTree.getChild(rowNumber).getProperty(Ids::numEncoders); break;
+        case 7: text = viewTree.getChild(rowNumber).getProperty(Ids::numFaders); break;
+        case 8: text = viewTree.getChild(rowNumber).getProperty(Ids::numButtons); break;
+        case 9: text = viewTree.getChild(rowNumber).getProperty(Ids::numParameters); break;
     }
 
     g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
@@ -304,7 +304,7 @@ void LayoutChooser::backgroundClicked(const MouseEvent&)
 void LayoutChooser::cellDoubleClicked(int rowNumber, int /* columnId */, const MouseEvent& /* e */)
 {
     name       = viewTree.getChild(rowNumber).getProperty(Ids::name);
-    librarySet = viewTree.getChild(rowNumber).getProperty(Ids::libraryset);
+    librarySet = viewTree.getChild(rowNumber).getProperty(Ids::librarySet);
     
     closeWindow();
 }
@@ -368,7 +368,7 @@ bool LayoutChooser::perform(const InvocationInfo& info)
 void LayoutChooser::chooseSelectedLayout()
 {
     name       = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::name);
-    librarySet = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::libraryset);
+    librarySet = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::librarySet);
     
     closeWindow();
 }

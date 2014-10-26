@@ -163,7 +163,10 @@ void ConfigurationPanel::rebuildProperties()
     PropertyListBuilder props;
 
     props.clear();
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), "Name",            256, false),    "Name of Configuration");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name,       &undoManager), "Name",        256,  false), "Name of Configuration");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::librarySet, &undoManager), "Library Set", 256,  false), "Library Set for Configuration");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::author,     &undoManager), "Author",      256,  false), "Name of Configuration's creator");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::blurb,      &undoManager), "Blurb",       1024, true),  "Textual description of Configuration (shown in Chooser)");
     propertyPanel.addSection("Configuration Settings", props.components);
 
     props.clear();

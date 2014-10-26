@@ -1,5 +1,5 @@
 /**
- * Table for setting up layout locations
+ * Table for setting up file locations
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -24,36 +24,36 @@
  *  Jessica Brandt
  */
 
-#ifndef LAYOUTLOCATIONSEDITOR_H_INCLUDED
-#define LAYOUTLOCATIONSEDITOR_H_INCLUDED
+#ifndef FILELOCATIONSEDITOR_H_INCLUDED
+#define FILELOCATIONSEDITOR_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Core/Global.h"
 
-class LayoutLocationEditorWindow : public DocumentWindow,
-                                   public ChangeBroadcaster
+class FileLocationEditorWindow : public DocumentWindow,
+                                 public ChangeBroadcaster
 {
 public:
-    LayoutLocationEditorWindow(int posX, int posY,
-                               const ValueTree& vt, ApplicationCommandManager* acm, 
-                               UndoManager& um);
-    ~LayoutLocationEditorWindow();
+    FileLocationEditorWindow(int posX, int posY,
+                             const ValueTree& vt, ApplicationCommandManager* acm, 
+                             UndoManager& um);
+    ~FileLocationEditorWindow();
 
 private:
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LayoutLocationEditorWindow);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FileLocationEditorWindow);
 };
 
 
-class LayoutLocationEditor : public  Component,
-                             private TableListBoxModel,
-                             private ValueTree::Listener,
-                             public  ApplicationCommandTarget
+class FileLocationEditor : public  Component,
+                           private TableListBoxModel,
+                           private ValueTree::Listener,
+                           public  ApplicationCommandTarget
 {
 public:
-    LayoutLocationEditor(const ValueTree& vt, UndoManager& um, ApplicationCommandManager* acm);
-    ~LayoutLocationEditor();
+    FileLocationEditor(const ValueTree& vt, UndoManager& um, ApplicationCommandManager* acm);
+    ~FileLocationEditor();
 
     void paint(Graphics& g) override;
     void resized() override;
@@ -80,8 +80,8 @@ private:
     ValueTree      tree;
     UndoManager&   undoManager;
     ApplicationCommandManager* commandManager;
-    TextButton     addLayoutLocationButton;
-    TextButton     removeLayoutLocationButton;
+    TextButton     addFileLocationButton;
+    TextButton     removeFileLocationButton;
     TextButton     moveUpButton;
     TextButton     moveDownButton;
     TextButton     rebuildButton;
@@ -95,9 +95,9 @@ private:
     friend class ButtonComp;
 
     void textWasEdited();
-    void addLayoutLocation();
-    void removeLayoutLocations();
-    void moveLayoutLocations(bool moveUp);
+    void addFileLocation();
+    void removeFileLocations();
+    void moveFileLocations(bool moveUp);
 
     void undo();
     void redo();
@@ -108,7 +108,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LayoutLocationEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileLocationEditor)
 };
 
-#endif  // LAYOUTLOCATIONSEDITOR_H_INCLUDED
+#endif  // FILELOCATIONSEDITOR_H_INCLUDED

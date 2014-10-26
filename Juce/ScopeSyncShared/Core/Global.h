@@ -85,6 +85,7 @@ namespace Ids
     DECLARE_ID(radioGroup);
 
     DECLARE_ID(ID);
+    DECLARE_ID(UID);
     DECLARE_ID(clipboard);
     DECLARE_ID(parameterClipboard);
 
@@ -99,24 +100,39 @@ namespace Ids
     DECLARE_ID(tabs);
     DECLARE_ID(none);
 
-    DECLARE_ID(layoutLocations);
+    // File Library attributes
+    DECLARE_ID(fileLocations);
     DECLARE_ID(layoutLibrary);
-    DECLARE_ID(layoutName);
-    DECLARE_ID(layoutLibrarySet);
+    DECLARE_ID(configurationLibrary);
     DECLARE_ID(location);
 
-    DECLARE_ID(folder);
+    // Configuration XML top-level attribute names
+    DECLARE_ID(librarySet);
+    DECLARE_ID(layoutName);
+    DECLARE_ID(layoutLibrarySet);
+    DECLARE_ID(excludeFromChooser);
     DECLARE_ID(filePath);
+    DECLARE_ID(fileName);
+    DECLARE_ID(mruTime);
+    
+    // Layout XML top-level attribute names
+    DECLARE_ID(folder);
     DECLARE_ID(libraryset);
     DECLARE_ID(author);
-    DECLARE_ID(numbuttons);
-    DECLARE_ID(numencoders);
-    DECLARE_ID(numfaders);
-    DECLARE_ID(panelwidth);
-    DECLARE_ID(panelheight); 
-    DECLARE_ID(numparameters);
-    DECLARE_ID(thumbnail);
     DECLARE_ID(excludefromchooser);
+    DECLARE_ID(numbuttons);
+    DECLARE_ID(numButtons);
+    DECLARE_ID(numencoders);
+    DECLARE_ID(numEncoders);
+    DECLARE_ID(numfaders);
+    DECLARE_ID(numFaders);
+    DECLARE_ID(panelwidth);
+    DECLARE_ID(panelWidth);
+    DECLARE_ID(panelheight); 
+    DECLARE_ID(panelHeight); 
+    DECLARE_ID(numparameters);
+    DECLARE_ID(numParameters);
+    DECLARE_ID(thumbnail);
     DECLARE_ID(blurb);
 
     #undef DECLARE_ID
@@ -126,58 +142,59 @@ namespace CommandIDs
 {
     enum
     {
-        undo                      = 0x200100,
-        redo                      = 0x200110,
+        undo                        = 0x200100,
+        redo                        = 0x200110,
+                                    
+        saveConfig                  = 0x200300,
+        saveConfigAs                = 0x200310,
+        applyConfigChanges          = 0x200320,
+        discardConfigChanges        = 0x200330,
+        closeConfig                 = 0x200340,
+        focusOnPanel                = 0x200350,
+        showHideEditToolbar         = 0x200360,
                                   
-        saveConfig                = 0x200300,
-        saveConfigAs              = 0x200310,
-        applyConfigChanges        = 0x200320,
-        discardConfigChanges      = 0x200330,
-        closeConfig               = 0x200340,
-        focusOnPanel              = 0x200350,
-        showHideEditToolbar       = 0x200360,
+        copyItem                    = 0x200400,
+        pasteItem                   = 0x200410,
+        deleteItems                 = 0x200420,
+        addItem                     = 0x200430,
+        addItemFromClipboard        = 0x200440,
+                                    
+        addParameter                = 0x200500,
+        addParameterFromClipboard   = 0x200510,
+        deleteMapping               = 0x200520,
+        editMapping                 = 0x200530,
+        copyParameter               = 0x200540,
+        pasteParameter              = 0x200550,
+        editParameter               = 0x200560,
+        deleteParameter             = 0x200570,
+                                    
+        addSettings                 = 0x200600,
+        removeSettings              = 0x200610,
+        autoFill                    = 0x200620,
+        moveUp                      = 0x200630,
+        moveDown                    = 0x200640,
+                                    
+        editItem                    = 0x200700,
+        editMappedItem              = 0x200710,
+                                    
+        overrideStyle               = 0x200720,
+        clearStyleOverride          = 0x200730,
+        copyStyleOverride           = 0x200740,
+        copyStyleOverrideToAll      = 0x200745,
+        pasteStyleOverride          = 0x200750,
                                   
-        copyItem                  = 0x200400,
-        pasteItem                 = 0x200410,
-        deleteItems               = 0x200420,
-        addItem                   = 0x200430,
-        addItemFromClipboard      = 0x200440,
+        editFileLocations           = 0x200800,
+        addFileLocation             = 0x200810,
+        removeFileLocations         = 0x200820,
+        rebuildFileLibrary          = 0x200830,
+        chooseSelectedLayout        = 0x200840,
+        chooseSelectedConfiguration = 0x200850,
                                   
-        addParameter              = 0x200500,
-        addParameterFromClipboard = 0x200510,
-        deleteMapping             = 0x200520,
-        editMapping               = 0x200530,
-        copyParameter             = 0x200540,
-        pasteParameter            = 0x200550,
-        editParameter             = 0x200560,
-        deleteParameter           = 0x200570,
-                                  
-        addSettings               = 0x200600,
-        removeSettings            = 0x200610,
-        autoFill                  = 0x200620,
-        moveUp                    = 0x200630,
-        moveDown                  = 0x200640,
-                                  
-        editItem                  = 0x200700,
-        editMappedItem            = 0x200710,
-                                  
-        overrideStyle             = 0x200720,
-        clearStyleOverride        = 0x200730,
-        copyStyleOverride         = 0x200740,
-        copyStyleOverrideToAll    = 0x200745,
-        pasteStyleOverride        = 0x200750,
-                                  
-        editLayoutLocations       = 0x200800,
-        addLayoutLocation         = 0x200810,
-        removeLayoutLocations     = 0x200820,
-        rebuildLayoutLibrary      = 0x200830,
-        chooseSelectedLayout      = 0x200840,
-                                  
-        snapshot                  = 0x200900,
-        showUserSettings          = 0x200910,
-        showConfigurationManager  = 0x200920,
-        chooseConfiguration       = 0x200930,
-        reloadSavedConfiguration  = 0x200940
+        snapshot                    = 0x200900,
+        showUserSettings            = 0x200910,
+        showConfigurationManager    = 0x200920,
+        chooseConfiguration         = 0x200930,
+        reloadSavedConfiguration    = 0x200940
     };
 }
 

@@ -29,7 +29,8 @@
 #define USERSETTINGS_H_INCLUDED
 
 #include <JuceHeader.h>
-class LayoutLocationEditorWindow;
+
+class FileLocationEditorWindow;
 
 class UserSettings  : public  Component,
                       public  Value::Listener,
@@ -46,13 +47,19 @@ public:
     void hide();
 
     void   changeListenerCallback(ChangeBroadcaster* source);
-    void   initialiseLayoutLocations();
-    void   rebuildLayoutLibrary();
+    void   rebuildFileLibrary();
     String getLayoutFilename(const String& name, const String& librarySet);
     const ValueTree& getLayoutLibrary() { return layoutLibrary; }
+    const ValueTree& getConfigurationLibrary() { return configurationLibrary; }
+    void getConfigurationFromFilePath(const String& filePath, ValueTree& configuration);
+
+    void setLastTimeLayoutLoaded(const String& filePath);
+    void setLastTimeConfigurationLoaded(const String& filePath);
+    void updateConfigurationLibraryEntry(const String& filePath, const ValueTree& sourceValueTree);
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
+
     int  getPropertyIntValue(const String& propertyName, int defaultValue);
     void setPropertyIntValue(const String& propertyName, int newValue);
     bool getPropertyBoolValue(const String& propertyName, bool defaultValue);
@@ -74,36 +81,41 @@ public:
 
 private:
     ScopedPointer<ApplicationCommandManager> commandManager;
-    UndoManager               undoManager;
-    ApplicationProperties     appProperties;
-    ApplicationProperties     globalProperties;
-    PropertyPanel             propertyPanel;
-    TextButton                layoutLocationsButton;
-    ScopedPointer<LayoutLocationEditorWindow> layoutLocationEditorWindow;
+    UndoManager           undoManager;
+    ApplicationProperties appProperties;
+    ApplicationProperties globalProperties;
+    PropertyPanel         propertyPanel;
+    TextButton            fileLocationsButton;
+    ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
 
     Value     useImageCache;
     Value     tooltipDelayTime;
-    ValueTree layoutLocations;
+    ValueTree fileLocations;
     ValueTree layoutLibrary;
+    ValueTree configurationLibrary;
     
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
     void resized() override;
     
+    void flushLibraryToFile();
+
     void setupPanel();
-    void editLayoutLocations();
-    void updateLayoutLocations();
-    
+    void editFileLocations();
+    void updateFileLocations();
+    void addLayoutsToLibrary(const File& location);
+    void addConfigurationsToLibrary(const File& location);
+
     void timerCallback();
 
     void valueChanged(Value& valueThatChanged) override;
 
     // Overridden methods for ValueTree::Listener
-    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { updateLayoutLocations(); };
-    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { updateLayoutLocations(); };
-    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { updateLayoutLocations(); };
-    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { updateLayoutLocations(); };
-    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { updateLayoutLocations(); };
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { updateFileLocations(); };
+    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { updateFileLocations(); };
+    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { updateFileLocations(); };
+    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { updateFileLocations(); };
+    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { updateFileLocations(); };
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

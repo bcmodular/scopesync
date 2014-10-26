@@ -1,5 +1,5 @@
 /**
- * Table for setting up layout locations
+ * Table for setting up File locations
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -24,21 +24,21 @@
  *  Jessica Brandt
  */
 
-#include "LayoutLocationEditor.h"
+#include "FileLocationEditor.h"
 #include "../Core/Global.h"
 #include "UserSettings.h"
 
-LayoutLocationEditorWindow::LayoutLocationEditorWindow(int posX, int posY, 
-                                                       const ValueTree& vt, ApplicationCommandManager* acm, 
-                                                       UndoManager& um)
-    : DocumentWindow("Layout Locations",
+FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY, 
+                                                   const ValueTree& vt, ApplicationCommandManager* acm, 
+                                                   UndoManager& um)
+    : DocumentWindow("File Locations",
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
                      true)
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(new LayoutLocationEditor(vt, um, acm), true);
+    setContentOwned(new FileLocationEditor(vt, um, acm), true);
     
     restoreWindowPosition(posX, posY);
     
@@ -50,19 +50,19 @@ LayoutLocationEditorWindow::LayoutLocationEditorWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-LayoutLocationEditorWindow::~LayoutLocationEditorWindow() {}
+FileLocationEditorWindow::~FileLocationEditorWindow() {}
 
-void LayoutLocationEditorWindow::closeButtonPressed()
+void FileLocationEditorWindow::closeButtonPressed()
 {
     sendChangeMessage();
 }
 
-void LayoutLocationEditorWindow::restoreWindowPosition(int posX, int posY)
+void FileLocationEditorWindow::restoreWindowPosition(int posX, int posY)
 {
     setBounds(posX, posY, getWidth(), getHeight());
 }
 
-class LayoutLocationEditor::LabelComp : public Component
+class FileLocationEditor::LabelComp : public Component
 {
 public:
     LabelComp(Value& valueToEdit)
@@ -91,7 +91,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelComp)
 };
 
-class LayoutLocationEditor::ButtonComp : public Component,
+class FileLocationEditor::ButtonComp : public Component,
                                          public Button::Listener
 {
 public:
@@ -113,7 +113,7 @@ public:
     {
         String currentPath = value.toString();
 
-        FileChooser fileChooser("Please select the base folder for your layout location...", File(currentPath));
+        FileChooser fileChooser("Please select the base folder for your File location...", File(currentPath));
     
         if (fileChooser.browseForDirectory())
             value = fileChooser.getResult().getFullPathName();
@@ -130,17 +130,17 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ButtonComp)
 };
 
-LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm)
+FileLocationEditor::FileLocationEditor(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm)
     : tree(valueTree), undoManager(um), font(14.0f), commandManager(acm),
-      addLayoutLocationButton("Add"),
-      removeLayoutLocationButton("Remove"),
+      addFileLocationButton("Add"),
+      removeFileLocationButton("Remove"),
       moveUpButton("Move Up"),
       moveDownButton("Move Down"),
       rebuildButton("Rebuild library"),
       undoButton("Undo"),
       redoButton("Redo")
 {
-    DBG("LayoutLocationEditor::LayoutLocationEditor");
+    DBG("FileLocationEditor::FileLocationEditor");
     
     commandManager->registerAllCommandsForTarget(this);
 
@@ -160,11 +160,11 @@ LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManag
     
     tree.addListener(this);
 
-    addAndMakeVisible(addLayoutLocationButton);
-    addLayoutLocationButton.setCommandToTrigger(commandManager, CommandIDs::addLayoutLocation, true);
+    addAndMakeVisible(addFileLocationButton);
+    addFileLocationButton.setCommandToTrigger(commandManager, CommandIDs::addFileLocation, true);
     
-    addAndMakeVisible(removeLayoutLocationButton);
-    removeLayoutLocationButton.setCommandToTrigger(commandManager, CommandIDs::removeLayoutLocations, true);
+    addAndMakeVisible(removeFileLocationButton);
+    removeFileLocationButton.setCommandToTrigger(commandManager, CommandIDs::removeFileLocations, true);
     
     addAndMakeVisible(moveUpButton);
     moveUpButton.setCommandToTrigger(commandManager, CommandIDs::moveUp, true);
@@ -179,32 +179,31 @@ LayoutLocationEditor::LayoutLocationEditor(const ValueTree& valueTree, UndoManag
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
 
     addAndMakeVisible(rebuildButton);
-    rebuildButton.setCommandToTrigger(commandManager, CommandIDs::rebuildLayoutLibrary, true);
+    rebuildButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
 
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 600, 300);
-    //setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 }
 
-LayoutLocationEditor::~LayoutLocationEditor()
+FileLocationEditor::~FileLocationEditor()
 {
     removeKeyListener(commandManager->getKeyMappings());
     tree.removeListener(this);
 }
 
-void LayoutLocationEditor::paint(Graphics& g)
+void FileLocationEditor::paint(Graphics& g)
 {
     g.fillAll(Colours::darkgrey);
 }
     
-void LayoutLocationEditor::resized()
+void FileLocationEditor::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     Rectangle<int> buttonBar(localBounds.removeFromBottom(30).reduced(4, 4));
 
-    addLayoutLocationButton.setBounds(buttonBar.removeFromLeft(70));
-    removeLayoutLocationButton.setBounds(buttonBar.removeFromLeft(70));
+    addFileLocationButton.setBounds(buttonBar.removeFromLeft(70));
+    removeFileLocationButton.setBounds(buttonBar.removeFromLeft(70));
     buttonBar.removeFromLeft(20);
     moveUpButton.setBounds(buttonBar.removeFromLeft(70));
     moveDownButton.setBounds(buttonBar.removeFromLeft(70));
@@ -214,16 +213,15 @@ void LayoutLocationEditor::resized()
     undoButton.setBounds(buttonBar.removeFromLeft(70));
     redoButton.setBounds(buttonBar.removeFromLeft(70));
 
-    DBG("LayoutLocations::resized - Local Bounds: " + String(localBounds.getWidth()) + ", " + String(localBounds.getHeight()));
     table.setBounds(localBounds.reduced(4, 4));
 }
     
-int LayoutLocationEditor::getNumRows()
+int FileLocationEditor::getNumRows()
 {
     return tree.getNumChildren();
 }
 
-Component* LayoutLocationEditor::refreshComponentForCell(int rowNumber, int columnId, bool /* isRowSelected */, Component* existingComponentToUpdate)
+Component* FileLocationEditor::refreshComponentForCell(int rowNumber, int columnId, bool /* isRowSelected */, Component* existingComponentToUpdate)
 {
     Identifier propertyId;
 
@@ -262,13 +260,13 @@ Component* LayoutLocationEditor::refreshComponentForCell(int rowNumber, int colu
     }
 }
 
-void LayoutLocationEditor::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
+void FileLocationEditor::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
 {
     if (rowIsSelected)
         g.fillAll (findColour (TextEditor::highlightColourId));
 }
 
-void LayoutLocationEditor::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool /* rowIsSelected */)
+void FileLocationEditor::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool /* rowIsSelected */)
 {
     g.setColour(Colours::black);
     g.setFont(font);
@@ -284,48 +282,48 @@ void LayoutLocationEditor::paintCell(Graphics& g, int rowNumber, int columnId, i
     g.fillRect(width - 1, 0, 1, height);
 }
 
-void LayoutLocationEditor::backgroundClicked(const MouseEvent&)
+void FileLocationEditor::backgroundClicked(const MouseEvent&)
 {
     table.deselectAllRows();
 }
 
-void LayoutLocationEditor::deleteKeyPressed(int)
+void FileLocationEditor::deleteKeyPressed(int)
 {
-    removeLayoutLocations();
+    removeFileLocations();
 }
 
-void LayoutLocationEditor::getAllCommands(Array <CommandID>& commands)
+void FileLocationEditor::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::addLayoutLocation,
-                              CommandIDs::removeLayoutLocations,
+    const CommandID ids[] = { CommandIDs::addFileLocation,
+                              CommandIDs::removeFileLocations,
                               CommandIDs::moveUp,
                               CommandIDs::moveDown,
                               CommandIDs::undo,
                               CommandIDs::redo,
-                              CommandIDs::rebuildLayoutLibrary
+                              CommandIDs::rebuildFileLibrary
                             };
 
     commands.addArray(ids, numElementsInArray (ids));
 }
 
-void LayoutLocationEditor::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+void FileLocationEditor::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 {
     switch (commandID)
     {
-    case CommandIDs::addLayoutLocation:
-        result.setInfo("Add", "Add new Layout Location", CommandCategories::configmgr, 0);
+    case CommandIDs::addFileLocation:
+        result.setInfo("Add", "Add new File Location", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::removeLayoutLocations:
-        result.setInfo ("Remove", "Remove selected Layout Location", CommandCategories::configmgr, 0);
+    case CommandIDs::removeFileLocations:
+        result.setInfo ("Remove", "Remove selected File Location", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress(KeyPress::deleteKey));
         break;
     case CommandIDs::moveUp:
-        result.setInfo ("Move Up", "Move all selected Layout Locations up one position", CommandCategories::configmgr, 0);
+        result.setInfo ("Move Up", "Move all selected File Locations up one position", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress(KeyPress::upKey, ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::moveDown:
-        result.setInfo ("Move Down", "Move all selected Layout Locations down one position", CommandCategories::configmgr, 0);
+        result.setInfo ("Move Down", "Move all selected File Locations down one position", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress(KeyPress::downKey, ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::undo:
@@ -336,51 +334,51 @@ void LayoutLocationEditor::getCommandInfo(CommandID commandID, ApplicationComman
         result.setInfo("Redo", "Redo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
         break;
-    case CommandIDs::rebuildLayoutLibrary:
-        result.setInfo("Rebuild library", "Rebuild Layout Library", CommandCategories::configmgr, 0);
+    case CommandIDs::rebuildFileLibrary:
+        result.setInfo("Rebuild library", "Rebuild File Library", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     }
 }
 
-bool LayoutLocationEditor::perform(const InvocationInfo& info)
+bool FileLocationEditor::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::addLayoutLocation:     addLayoutLocation(); break;
-        case CommandIDs::removeLayoutLocations: removeLayoutLocations(); break;
-        case CommandIDs::moveUp:                moveLayoutLocations(true); break;
-        case CommandIDs::moveDown:              moveLayoutLocations(false); break;
-        case CommandIDs::undo:                  undo(); break;
-        case CommandIDs::redo:                  redo(); break;
-        case CommandIDs::rebuildLayoutLibrary:  UserSettings::getInstance()->rebuildLayoutLibrary(); break;
-        default:                                return false;
+        case CommandIDs::addFileLocation:     addFileLocation(); break;
+        case CommandIDs::removeFileLocations: removeFileLocations(); break;
+        case CommandIDs::moveUp:              moveFileLocations(true); break;
+        case CommandIDs::moveDown:            moveFileLocations(false); break;
+        case CommandIDs::undo:                undo(); break;
+        case CommandIDs::redo:                redo(); break;
+        case CommandIDs::rebuildFileLibrary:  UserSettings::getInstance()->rebuildFileLibrary(); break;
+        default:                              return false;
     }
 
     return true;
 }
 
-void LayoutLocationEditor::undo()
+void FileLocationEditor::undo()
 {
     undoManager.undo();
 }
 
-void LayoutLocationEditor::redo()
+void FileLocationEditor::redo()
 {
     undoManager.redo();
 }
 
-void LayoutLocationEditor::addLayoutLocation()
+void FileLocationEditor::addFileLocation()
 {
-    ValueTree newLayoutLocation(Ids::location);
+    ValueTree newFileLocation(Ids::location);
     String newLocationName;
 
-    newLayoutLocation.setProperty(Ids::folder, String::empty, &undoManager);
+    newFileLocation.setProperty(Ids::folder, String::empty, &undoManager);
 
-    tree.addChild(newLayoutLocation, -1, &undoManager);
+    tree.addChild(newFileLocation, -1, &undoManager);
 }
 
-void LayoutLocationEditor::removeLayoutLocations()
+void FileLocationEditor::removeFileLocations()
 {
     SparseSet<int> selectedRows(table.getSelectedRows());
     Array<int> itemsToRemove;
@@ -399,7 +397,7 @@ void LayoutLocationEditor::removeLayoutLocations()
     }
 }
 
-void LayoutLocationEditor::moveLayoutLocations(bool moveUp)
+void FileLocationEditor::moveFileLocations(bool moveUp)
 {
     SparseSet<int> selectedRows(table.getSelectedRows());
     Array<int> itemsToMove;
@@ -440,7 +438,7 @@ void LayoutLocationEditor::moveLayoutLocations(bool moveUp)
     }  
 }
 
-ApplicationCommandTarget* LayoutLocationEditor::getNextCommandTarget()
+ApplicationCommandTarget* FileLocationEditor::getNextCommandTarget()
 {
     return nullptr;
 }

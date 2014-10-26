@@ -259,6 +259,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
@@ -284,7 +285,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\LayoutLocationEditor.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp"/>
@@ -1233,6 +1234,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
@@ -1262,7 +1264,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\LayoutLocationEditor.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h"/>
@@ -1425,6 +1427,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\streams\juce_SubregionStream.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\logging\juce_FileLogger.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\logging\juce_Logger.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_CompilerSupport.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_PlatformDefs.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_StandardHeader.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_core\system\juce_SystemStats.h"/>

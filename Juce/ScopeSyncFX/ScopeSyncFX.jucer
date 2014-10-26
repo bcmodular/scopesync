@@ -6,6 +6,10 @@
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
+        <FILE id="DKwYDd" name="ConfigurationChooser.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationChooser.cpp"/>
+        <FILE id="K77kdA" name="ConfigurationChooser.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Configuration/ConfigurationChooser.h"/>
         <FILE id="DjSbPW" name="LayoutChooser.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Configuration/LayoutChooser.cpp"/>
         <FILE id="s1Ma96" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/LayoutChooser.h"/>
@@ -99,10 +103,10 @@
               file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
       </GROUP>
       <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
-        <FILE id="omqKmC" name="LayoutLocationEditor.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Components/LayoutLocationEditor.cpp"/>
-        <FILE id="zVQ8xj" name="LayoutLocationEditor.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Components/LayoutLocationEditor.h"/>
+        <FILE id="z5wGOF" name="FileLocationEditor.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Components/FileLocationEditor.cpp"/>
+        <FILE id="aQuZTi" name="FileLocationEditor.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Components/FileLocationEditor.h"/>
         <FILE id="LFmhts" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMWidget.cpp"/>
         <FILE id="lxa9us" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMWidget.h"/>
         <FILE id="WqAQsV" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>

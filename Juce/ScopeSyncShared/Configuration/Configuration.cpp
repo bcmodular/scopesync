@@ -191,6 +191,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
                 if (result.wasOk())
                 {
                     lastFailedFile = File();
+                    UserSettings::getInstance()->setLastTimeConfigurationLoaded(newFileName);
                     return true;
                 }
                 else
