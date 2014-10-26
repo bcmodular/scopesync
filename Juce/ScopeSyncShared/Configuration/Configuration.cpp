@@ -779,7 +779,8 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
 const String Configuration::loaderConfiguration =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "\n"
-"<configuration name=\"No configuration loaded...\" readOnly=\"true\" ID=\"NqZmNe\" UID=\"0\">\n"
+"<configuration name=\"No configuration loaded...\" readOnly=\"true\" excludeFromChooser=\"true\" ID=\"NqZmN"
+"e\" UID=\"0\">\n"
 "  <hostParameters/>\n"
 "  <scopeParameters>\n"
 "    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeS"

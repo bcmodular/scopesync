@@ -189,6 +189,7 @@ namespace CommandIDs
         rebuildFileLibrary          = 0x200830,
         chooseSelectedLayout        = 0x200840,
         chooseSelectedConfiguration = 0x200850,
+        unloadConfiguration         = 0x200860,
                                   
         snapshot                    = 0x200900,
         showUserSettings            = 0x200910,

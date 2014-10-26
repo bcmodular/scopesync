@@ -671,9 +671,6 @@ void ScopeSync::saveConfigurationAs(const String& fileName)
         configuration->setLastFailedFile(configuration->getFile());
         configuration->setFile(File(fileName));
         saveConfiguration();
-
-        if (ScopeSyncApplication::inScopeFXContext())
-            AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon, "Reminder!", "Don't forget to open your new Configuration File now it's been saved, so it can be stored in your Scope device");
     }
 }
 

@@ -91,6 +91,8 @@ private:
     ScopeSync&   scopeSync;
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
+    TextButton   rebuildLibraryButton;
+    TextButton   unloadConfigButton;
     Label        blurb;
     Label        fileNameLabel;
     
@@ -98,6 +100,9 @@ private:
     void closeWindow();
     void removeExcludedConfigurations();
     void selectCurrentConfiguration(const String& filePath);
+
+    void rebuildFileLibrary();
+    void unloadConfiguration();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

@@ -154,6 +154,8 @@ ConfigurationChooser::ConfigurationChooser(const ValueTree& valueTree,
       font(14.0f), 
       commandManager(acm),
       chooseButton("Choose Configuration"),
+      rebuildLibraryButton("Rebuild Library"),
+      unloadConfigButton("Unload Configuration"),
       blurb(String::empty),
       fileNameLabel(String::empty),
       scopeSync(ss)
@@ -168,6 +170,12 @@ ConfigurationChooser::ConfigurationChooser(const ValueTree& valueTree,
     chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedConfiguration, true);
     addAndMakeVisible(chooseButton);
 
+    rebuildLibraryButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
+    addAndMakeVisible(rebuildLibraryButton);
+
+    unloadConfigButton.setCommandToTrigger(commandManager, CommandIDs::unloadConfiguration, true);
+    addAndMakeVisible(unloadConfigButton);
+    
     blurb.setJustificationType(Justification::topLeft);
     blurb.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(blurb);
@@ -241,8 +249,11 @@ void ConfigurationChooser::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     Rectangle<int> headerBounds(localBounds.removeFromTop(100));
+    Rectangle<int> buttonBar(headerBounds.removeFromBottom(30));
     
-    chooseButton.setBounds(headerBounds.removeFromBottom(30).removeFromLeft(140).reduced(3, 3));
+    chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    unloadConfigButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     fileNameLabel.setBounds(headerBounds.removeFromTop(20).reduced(2, 2));
@@ -316,7 +327,9 @@ void ConfigurationChooser::selectedRowsChanged(int lastRowSelected)
 
 void ConfigurationChooser::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = {CommandIDs::chooseSelectedConfiguration};
+    const CommandID ids[] = {CommandIDs::chooseSelectedConfiguration,
+                             CommandIDs::rebuildFileLibrary,
+                             CommandIDs::unloadConfiguration};
     
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -328,6 +341,14 @@ void ConfigurationChooser::getCommandInfo(CommandID commandID, ApplicationComman
     case CommandIDs::chooseSelectedConfiguration:
         result.setInfo("Choose Selected Configuration", "Changes the loaded Configuration", CommandCategories::configmgr, !table.getNumSelectedRows());
         result.defaultKeypresses.add(KeyPress(KeyPress::returnKey));
+        break;
+    case CommandIDs::rebuildFileLibrary:
+        result.setInfo("Rebuild library", "Rebuild File Library", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
+    case CommandIDs::unloadConfiguration:
+        result.setInfo("Unload Configuration", "Reverts to the loader configuration", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('u', ModifierKeys::commandModifier, 0));
         break;
     }
 }
@@ -342,7 +363,9 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
     switch (info.commandID)
     {
         case CommandIDs::chooseSelectedConfiguration:  chooseSelectedConfiguration(); break;
-        default:                                return false;
+        case CommandIDs::rebuildFileLibrary:           rebuildFileLibrary(); break;
+        case CommandIDs::unloadConfiguration:          unloadConfiguration(); break;
+        default:                                       return false;
     }
 
     return true;
@@ -358,6 +381,22 @@ void ConfigurationChooser::closeWindow()
 {
     ConfigurationChooserWindow* window = (ConfigurationChooserWindow*)getParentComponent();
     window->sendChangeMessage();
+}
+
+void ConfigurationChooser::rebuildFileLibrary()
+{
+    viewTree.removeListener(this);
+    UserSettings::getInstance()->rebuildFileLibrary();
+    viewTree = tree.createCopy();
+    removeExcludedConfigurations();
+    viewTree.addListener(this);
+    table.updateContent();
+}
+
+void ConfigurationChooser::unloadConfiguration()
+{
+    scopeSync.changeConfiguration(0);
+    closeWindow();
 }
 
 ApplicationCommandTarget* ConfigurationChooser::getNextCommandTarget()
