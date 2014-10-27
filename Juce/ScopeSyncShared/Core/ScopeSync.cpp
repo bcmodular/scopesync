@@ -747,29 +747,37 @@ StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType)
 
 void ScopeSync::storeParameterValues()
 {
-    Array<float> currentParameterValues;
     int numHostParameters = hostParameters.size();
+    
+    if (numHostParameters > 0)
+    {
+        Array<float> currentParameterValues;
+    
+        for (int i = 0; i < numHostParameters; i++)
+            currentParameterValues.set(i, getParameterHostValue(i));
 
-    for (int i = 0; i < numHostParameters; i++)
-        currentParameterValues.set(i, getParameterHostValue(i));
+        parameterValueStore = XmlElement("parametervalues");
+        parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, numHostParameters)));
 
-    parameterValueStore = XmlElement("parametervalues");
-    parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, numHostParameters)));
-
-    DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+        //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+    }
+    else
+    {
+        //DBG("ScopeSync::storeParameterValues - leaving storage alone, as we don't have any host parameters");
+    }
 }
 
 void ScopeSync::storeParameterValues(XmlElement& parameterValues)
 {
     parameterValueStore = XmlElement(parameterValues);
     
-    DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+    //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
 }
 
 void ScopeSync::restoreParameterValues()
 {
     Array<float> parameterValues;
-    int numHostParameters = hostParameters.size();
+    int numHostParameters = getNumParametersForHost();
 
     String floatCSV = parameterValueStore.getAllSubText();
     int numParametersToRead = jmin(numHostParameters, stringToFloatArray(floatCSV, parameterValues, numHostParameters));
@@ -779,7 +787,7 @@ void ScopeSync::restoreParameterValues()
         setParameterFromHost(i, parameterValues[i]);
     }
 
-    DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
+    //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 }
 
 const String ScopeSync::systemLookAndFeels =
