@@ -451,6 +451,10 @@ void ScopeSync::getParameterNameForHost(int hostIdx, String& parameterName)
         String shortDesc;
         hostParameters[hostIdx]->getDescriptions(shortDesc, parameterName);
     }
+    else
+    {
+        parameterName = "Dummy Param";
+    }
 }
 
 void ScopeSync::getParameterText(int hostIdx, String& parameterText)
