@@ -55,7 +55,10 @@ ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-ConfigurationChooserWindow::~ConfigurationChooserWindow() {}
+ConfigurationChooserWindow::~ConfigurationChooserWindow()
+{
+    UserSettings::getInstance()->hideFileLocationsWindow();
+}
 
 void ConfigurationChooserWindow::closeButtonPressed()
 {

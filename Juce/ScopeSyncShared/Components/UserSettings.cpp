@@ -468,6 +468,9 @@ void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,
 {
     ValueTree configurationLibrary = getConfigurationLibrary();
     updateConfigurationLibraryEntry(filePath, fileName, sourceValueTree, configurationLibrary);
+
+    ScopedPointer<XmlElement> xml = configurationLibrary.createXml();
+    getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
 }
 
 void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,

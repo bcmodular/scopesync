@@ -55,7 +55,10 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-LayoutChooserWindow::~LayoutChooserWindow() {}
+LayoutChooserWindow::~LayoutChooserWindow()
+{
+    UserSettings::getInstance()->hideFileLocationsWindow();
+}
 
 void LayoutChooserWindow::closeButtonPressed()
 {

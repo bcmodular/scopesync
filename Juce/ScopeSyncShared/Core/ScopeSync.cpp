@@ -683,6 +683,7 @@ void ScopeSync::saveConfigurationAs(const String& fileName)
 void ScopeSync::reloadSavedConfiguration()
 {
     configuration->loadFrom(configuration->getFile(), true);
+    configuration->setMissingDefaultValues();
     applyConfiguration();
     undoManager.clearUndoHistory();
 }

@@ -37,6 +37,8 @@ public:
     // Overridden methods for FileBasedDocument
     String getDocumentTitle() override;
     Result loadDocument(const File& file) override;
+    void   setMissingDefaultValues();
+
     Result saveDocument(const File& file) override;
     File   getLastDocumentOpened() override;
     void   setLastDocumentOpened(const File& file) override;
@@ -138,8 +140,6 @@ private:
     void        loadLoaderLayout();
     XmlElement& loadLayoutXml(String& errorText, String& errorDetails);
     
-    void        setMissingDefaultValues();
-
     class ComponentLookupItem
     {
     public:

@@ -56,6 +56,9 @@ Configuration::~Configuration()
 
 void Configuration::setMissingDefaultValues()
 {
+    // Make sure we have a correct UID for this Configuration
+    generateConfigurationUID();
+
     if (!(configurationRoot.hasProperty(Ids::ID)))
         configurationRoot.setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
 
@@ -140,11 +143,6 @@ Result Configuration::loadDocument(const File& file)
     
     layoutLoaded = false;
 
-    setChangedFlag(false);
-    
-    setMissingDefaultValues();
-
-    DBG("Needs Saving: " + String(hasChangedSinceSaved()));
     return Result::ok();
 }
 
@@ -175,7 +173,10 @@ int Configuration::generateConfigurationUID()
 
     uid = stringToHash.hashCode();
     
-    configurationRoot.setProperty(Ids::UID, uid, nullptr);
+    int currentUID = configurationRoot.getProperty(Ids::UID);
+
+    if (currentUID != uid)
+        configurationRoot.setProperty(Ids::UID, uid, nullptr);
 
     return uid;
 }
@@ -216,6 +217,8 @@ bool Configuration::replaceConfiguration(const String& newFileName)
                 {
                     lastFailedFile = File();
                     UserSettings::getInstance()->setLastTimeConfigurationLoaded(newFileName);
+                    setMissingDefaultValues();
+    
                     return true;
                 }
                 else
@@ -415,6 +418,7 @@ void Configuration::addStyleOverrideToAll(const Identifier& componentType,
 Result Configuration::saveDocument (const File& /* file */)
 {
     generateConfigurationUID();
+    UserSettings::getInstance()->updateConfigurationLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), configurationRoot);
 
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
 
