@@ -297,7 +297,7 @@ void UserSettings::valueChanged(Value& valueThatChanged)
 
 void UserSettings::userTriedToCloseWindow()
 {
-    fileLocationEditorWindow = nullptr;
+    hideFileLocationsWindow();
     ScopeSync::reloadAllGUIs(); 
     removeFromDesktop();
 }
@@ -326,19 +326,13 @@ void UserSettings::show(int posX, int posY)
     
 void UserSettings::hide()
 {
-    fileLocationEditorWindow = nullptr;
+    hideFileLocationsWindow();
     removeFromDesktop();
 }
 
 void UserSettings::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
-    if (fileLocationEditorWindow->locationsHaveChanged())
-    {
-        ValueTree fileLocations = fileLocationEditorWindow->getFileLocations();
-        updateFileLocations(fileLocations);
-    }
-
-    fileLocationEditorWindow = nullptr;
+    hideFileLocationsWindow();
 }
 
 ValueTree UserSettings::getFileLocations()
@@ -520,20 +514,28 @@ ValueTree UserSettings::getValueTreeFromGlobalProperties(const String& valueTree
     
 }   
 
-void UserSettings::editFileLocations()
+void UserSettings::editFileLocations(int posX, int posY, ChangeListener* listener)
 {
     if (fileLocationEditorWindow == nullptr)
-        fileLocationEditorWindow = new FileLocationEditorWindow
-                                       (
-                                       getScreenPosition().getX(), 
-                                       getScreenPosition().getY(), 
-                                       commandManager, undoManager
-                                       );
-    
-    fileLocationEditorWindow->addChangeListener(this);
+        fileLocationEditorWindow = new FileLocationEditorWindow(posX, posY, commandManager, undoManager);
+
+    if (listener != nullptr)
+        fileLocationEditorWindow->addChangeListener(listener);
+
     fileLocationEditorWindow->setVisible(true);
     fileLocationEditorWindow->setAlwaysOnTop(true);
     fileLocationEditorWindow->toFront(true);
+}
+
+void UserSettings::hideFileLocationsWindow()
+{
+    if (fileLocationEditorWindow != nullptr && fileLocationEditorWindow->locationsHaveChanged())
+    {
+        ValueTree fileLocations = fileLocationEditorWindow->getFileLocations();
+        updateFileLocations(fileLocations);
+    }
+
+    fileLocationEditorWindow = nullptr;
 }
 
 void UserSettings::updateFileLocations(const ValueTree& fileLocations)
@@ -818,7 +820,7 @@ bool UserSettings::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::editFileLocations:    editFileLocations(); break;
+        case CommandIDs::editFileLocations:    editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
         default:                               return false;
     }
 

@@ -55,7 +55,8 @@ private:
 class LayoutChooser : public  Component,
                       private TableListBoxModel,
                       private ValueTree::Listener,
-                      public  ApplicationCommandTarget
+                      public  ApplicationCommandTarget,
+                      public  ChangeListener
 {
 public:
     LayoutChooser(const Value& layoutName,
@@ -63,6 +64,8 @@ public:
                   ApplicationCommandManager* acm);
     ~LayoutChooser();
 
+    void changeListenerCallback(ChangeBroadcaster* source);
+   
     void paint(Graphics& g) override;
     void resized() override;
     
@@ -92,6 +95,7 @@ private:
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
     TextButton   rebuildLibraryButton;
+    TextButton   editLocationsButton;
     Label        blurb;
 
     Image  thumbImage;

@@ -28,6 +28,7 @@
 #include "../Resources/ImageLoader.h"
 #include "../Components/UserSettings.h"
 #include "../Core/ScopeSync.h"
+#include "../Components/FileLocationEditor.h"
 
 /* =========================================================================
  * ConfigurationChooserWindow
@@ -152,6 +153,7 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
       chooseButton("Choose Configuration"),
       rebuildLibraryButton("Rebuild Library"),
       unloadConfigButton("Unload Configuration"),
+      editLocationsButton("File Locations..."),
       blurb(String::empty),
       fileNameLabel(String::empty),
       scopeSync(ss)
@@ -168,6 +170,9 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
 
     unloadConfigButton.setCommandToTrigger(commandManager, CommandIDs::unloadConfiguration, true);
     addAndMakeVisible(unloadConfigButton);
+    
+    editLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
+    addAndMakeVisible(editLocationsButton);
     
     blurb.setJustificationType(Justification::topLeft);
     blurb.setMinimumHorizontalScale(1.0f);
@@ -211,6 +216,12 @@ ConfigurationChooser::~ConfigurationChooser()
     viewTree.removeListener(this);
 }
 
+void ConfigurationChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+{
+    UserSettings::getInstance()->hideFileLocationsWindow();
+    attachToTree();
+}
+
 void ConfigurationChooser::removeExcludedConfigurations()
 {
     for (int i = 0; i < viewTree.getNumChildren(); i++)
@@ -247,6 +258,7 @@ void ConfigurationChooser::resized()
     chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     unloadConfigButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    editLocationsButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     fileNameLabel.setBounds(headerBounds.removeFromTop(20).reduced(2, 2));
@@ -322,7 +334,8 @@ void ConfigurationChooser::getAllCommands(Array <CommandID>& commands)
 {
     const CommandID ids[] = {CommandIDs::chooseSelectedConfiguration,
                              CommandIDs::rebuildFileLibrary,
-                             CommandIDs::unloadConfiguration};
+                             CommandIDs::unloadConfiguration,
+                             CommandIDs::editFileLocations};
     
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -343,6 +356,10 @@ void ConfigurationChooser::getCommandInfo(CommandID commandID, ApplicationComman
         result.setInfo("Unload Configuration", "Reverts to the loader configuration", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('u', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::editFileLocations:
+        result.setInfo("File Locations...", "Open File Locations edit window", CommandCategories::usersettings, 0);
+        result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -358,6 +375,7 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
         case CommandIDs::chooseSelectedConfiguration:  chooseSelectedConfiguration(); break;
         case CommandIDs::rebuildFileLibrary:           rebuildFileLibrary(); break;
         case CommandIDs::unloadConfiguration:          unloadConfiguration(); break;
+        case CommandIDs::editFileLocations:            UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
         default:                                       return false;
     }
 

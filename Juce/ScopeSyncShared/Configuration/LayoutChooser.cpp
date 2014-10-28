@@ -27,6 +27,7 @@
 #include "LayoutChooser.h"
 #include "../Resources/ImageLoader.h"
 #include "../Components/UserSettings.h"
+#include "../Components/FileLocationEditor.h"
 
 /* =========================================================================
  * LayoutChooserWindow
@@ -166,6 +167,7 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
       commandManager(acm),
       chooseButton("Choose Layout"),
       rebuildLibraryButton("Rebuild Library"),
+      editLocationsButton("File Locations..."),
       blurb(String::empty)
 {
     useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
@@ -180,6 +182,9 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
     rebuildLibraryButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
     addAndMakeVisible(rebuildLibraryButton);
 
+    editLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
+    addAndMakeVisible(editLocationsButton);
+    
     blurb.setJustificationType(Justification::topLeft);
     addAndMakeVisible(blurb);
 
@@ -219,6 +224,12 @@ LayoutChooser::~LayoutChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
+}
+
+void LayoutChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+{
+    UserSettings::getInstance()->hideFileLocationsWindow();
+    attachToTree();
 }
 
 void LayoutChooser::removeExcludedLayouts()
@@ -264,6 +275,7 @@ void LayoutChooser::resized()
 
     chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    editLocationsButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     blurb.setBounds(headerBounds.reduced(4, 4));
@@ -354,7 +366,8 @@ void LayoutChooser::selectedRowsChanged(int lastRowSelected)
 void LayoutChooser::getAllCommands(Array <CommandID>& commands)
 {
     const CommandID ids[] = {CommandIDs::chooseSelectedLayout,
-                             CommandIDs::rebuildFileLibrary
+                             CommandIDs::rebuildFileLibrary,
+                             CommandIDs::editFileLocations
                              };
     
     commands.addArray(ids, numElementsInArray (ids));
@@ -372,6 +385,10 @@ void LayoutChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
         result.setInfo("Rebuild library", "Rebuild File Library", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
+    case CommandIDs::editFileLocations:
+        result.setInfo("File Locations...", "Open File Locations edit window", CommandCategories::usersettings, 0);
+        result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -386,6 +403,7 @@ bool LayoutChooser::perform(const InvocationInfo& info)
     {
         case CommandIDs::chooseSelectedLayout:  chooseSelectedLayout(); break;
         case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
+        case CommandIDs::editFileLocations:     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
         default:                                return false;
     }
 
@@ -413,6 +431,10 @@ void LayoutChooser::attachToTree()
     tree = UserSettings::getInstance()->getLayoutLibrary();
     viewTree = tree.createCopy();
     
+    ScopedPointer<XmlElement> xml(viewTree.createXml());
+
+    DBG("LayoutChooser::attachToTree - new tree: " + xml->createDocument(String::empty));
+
     LayoutSorter sorter(10, false);
     viewTree.sort(sorter, nullptr, true);
     

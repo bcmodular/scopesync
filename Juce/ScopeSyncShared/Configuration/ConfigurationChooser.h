@@ -55,13 +55,16 @@ private:
 class ConfigurationChooser : public  Component,
                              private TableListBoxModel,
                              private ValueTree::Listener,
-                             public  ApplicationCommandTarget
+                             public  ApplicationCommandTarget,
+                             public  ChangeListener
 {
 public:
     ConfigurationChooser(ScopeSync& ss,
                          ApplicationCommandManager* acm);
     ~ConfigurationChooser();
 
+    void changeListenerCallback(ChangeBroadcaster* source) override;
+   
     void paint(Graphics& g) override;
     void resized() override;
     
@@ -91,6 +94,7 @@ private:
     TextButton   chooseButton;
     TextButton   rebuildLibraryButton;
     TextButton   unloadConfigButton;
+    TextButton   editLocationsButton;
     Label        blurb;
     Label        fileNameLabel;
     

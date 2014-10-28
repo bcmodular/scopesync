@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="Testing Configuration" layoutName="test" layoutLibrarySet="ScopeSync" ID="uA5T2G">
+<configuration name="Testing Configuration" layoutName="test" layoutLibrarySet="ScopeSync" ID="uA5T2G" UID="1423109568">
   <hostParameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Parameter 1" scopeSync="0" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"

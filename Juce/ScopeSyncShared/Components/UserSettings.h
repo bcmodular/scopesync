@@ -55,7 +55,8 @@ public:
     ValueTree getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary);
     String    getConfigurationFilePathFromUID(int uid);
     
-    void editFileLocations();
+    void editFileLocations(int posX, int posY, ChangeListener* listener);
+    void hideFileLocationsWindow();
     
     void setLastTimeLayoutLoaded(const String& filePath);
     void setLastTimeConfigurationLoaded(const String& filePath);

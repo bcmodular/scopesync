@@ -74,7 +74,12 @@ public:
     void       deleteKeyPressed(int) override;
 
     // Overridden methods for ValueTree::Listener
-    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override
+    { 
+        table.updateContent(); 
+        locationsChanged = true;
+    };
+
     void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
     void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { table.updateContent(); };
     void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { table.updateContent(); };
@@ -89,8 +94,8 @@ private:
     Label          sizeWarning;
     TextButton     addFileLocationButton;
     TextButton     removeFileLocationButton;
-    TextButton     moveUpButton;
-    TextButton     moveDownButton;
+    //TextButton     moveUpButton;
+    //TextButton     moveDownButton;
     TextButton     rebuildButton;
     TextButton     undoButton;
     TextButton     redoButton;
@@ -106,7 +111,7 @@ private:
     void textWasEdited();
     void addFileLocation();
     void removeFileLocations();
-    void moveFileLocations(bool moveUp);
+    //void moveFileLocations(bool moveUp);
     void rebuildFileLibrary();
 
     void undo();

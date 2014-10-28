@@ -94,9 +94,12 @@ void ScopeSyncGUI::chooseConfiguration()
     configurationChooserWindow->toFront(true);   
 }
 
-void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* /* source */)
+void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
 { 
-    configurationChooserWindow = nullptr;
+    if (source == configurationChooserWindow)
+        configurationChooserWindow = nullptr;
+    else
+        UserSettings::getInstance()->hideFileLocationsWindow();
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)
@@ -520,11 +523,13 @@ void ScopeSyncGUI::alertBoxReloadConfirm(int result, ScopeSyncGUI* scopeSyncGUI)
     }
 }
 
-void ScopeSyncGUI::alertBoxLaunchLocationEditor(int result, ScopeSyncGUI* /* scopeSyncGUI */)
+void ScopeSyncGUI::alertBoxLaunchLocationEditor(int result, ScopeSyncGUI* scopeSyncGUI)
 {
     if (result)
     {
-        UserSettings::getInstance()->editFileLocations();    
+        UserSettings::getInstance()->editFileLocations(scopeSyncGUI->getParentMonitorArea().getCentreX(),
+                                                       scopeSyncGUI->getParentMonitorArea().getCentreY(), 
+                                                       scopeSyncGUI);    
     }
 }
 
