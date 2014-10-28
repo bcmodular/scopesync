@@ -29,7 +29,7 @@
 #include "UserSettings.h"
 
 FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY, 
-                                                   const ValueTree& vt, ApplicationCommandManager* acm, 
+                                                   ApplicationCommandManager* acm, 
                                                    UndoManager& um)
     : DocumentWindow("File Locations",
                      Colour::greyLevel(0.6f),
@@ -38,7 +38,7 @@ FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY,
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(new FileLocationEditor(vt, um, acm), true);
+    setContentOwned(new FileLocationEditor(um, acm), true);
     
     restoreWindowPosition(posX, posY);
     
@@ -51,6 +51,18 @@ FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY,
 }
 
 FileLocationEditorWindow::~FileLocationEditorWindow() {}
+
+ValueTree FileLocationEditorWindow::getFileLocations()
+{
+    FileLocationEditor* fileLocationEditor = dynamic_cast<FileLocationEditor*>(getContentComponent());
+    return fileLocationEditor->getFileLocations();
+}
+
+bool FileLocationEditorWindow::locationsHaveChanged()
+{
+    FileLocationEditor* fileLocationEditor = dynamic_cast<FileLocationEditor*>(getContentComponent());
+    return fileLocationEditor->locationsHaveChanged();
+}
 
 void FileLocationEditorWindow::closeButtonPressed()
 {
@@ -116,7 +128,10 @@ public:
         FileChooser fileChooser("Please select the base folder for your File location...", File(currentPath));
     
         if (fileChooser.browseForDirectory())
-            value = fileChooser.getResult().getFullPathName();
+        {
+            File result = fileChooser.getResult();
+            value = result.getFullPathName();
+        }
     }
 
     void setButtonValue(Value& valueToReferTo)
@@ -126,22 +141,26 @@ public:
 
 private:
     TextButton textButton;
-    Value value;
+    Value      value;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ButtonComp)
 };
 
-FileLocationEditor::FileLocationEditor(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm)
-    : tree(valueTree), undoManager(um), font(14.0f), commandManager(acm),
+FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm)
+    : undoManager(um), font(14.0f), commandManager(acm),
       addFileLocationButton("Add"),
       removeFileLocationButton("Remove"),
       moveUpButton("Move Up"),
       moveDownButton("Move Down"),
       rebuildButton("Rebuild library"),
       undoButton("Undo"),
-      redoButton("Redo")
+      redoButton("Redo"),
+      sizeWarning("Size Warning")
 {
     DBG("FileLocationEditor::FileLocationEditor");
-    
+    locationsChanged = false;
+
+    tree = UserSettings::getInstance()->getFileLocations();
     commandManager->registerAllCommandsForTarget(this);
 
     addAndMakeVisible(table);
@@ -181,6 +200,13 @@ FileLocationEditor::FileLocationEditor(const ValueTree& valueTree, UndoManager& 
     addAndMakeVisible(rebuildButton);
     rebuildButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
 
+    sizeWarning.setText("Note: Only the first 100,000 files in a location are read in a library rebuild, so make sure not to add very large directories",
+                        dontSendNotification);
+    sizeWarning.setColour(Label::textColourId, Colours::white);
+    sizeWarning.setJustificationType(Justification::topLeft);
+    sizeWarning.setMinimumHorizontalScale(1.0f);
+    addAndMakeVisible(sizeWarning);
+    
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 600, 300);
@@ -192,6 +218,11 @@ FileLocationEditor::~FileLocationEditor()
     tree.removeListener(this);
 }
 
+ValueTree FileLocationEditor::getFileLocations()
+{
+    return tree;
+}
+
 void FileLocationEditor::paint(Graphics& g)
 {
     g.fillAll(Colours::darkgrey);
@@ -200,6 +231,9 @@ void FileLocationEditor::paint(Graphics& g)
 void FileLocationEditor::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
+
+    sizeWarning.setBounds(localBounds.removeFromBottom(50).reduced(4, 4));
+
     Rectangle<int> buttonBar(localBounds.removeFromBottom(30).reduced(4, 4));
 
     addFileLocationButton.setBounds(buttonBar.removeFromLeft(70));
@@ -351,7 +385,7 @@ bool FileLocationEditor::perform(const InvocationInfo& info)
         case CommandIDs::moveDown:            moveFileLocations(false); break;
         case CommandIDs::undo:                undo(); break;
         case CommandIDs::redo:                redo(); break;
-        case CommandIDs::rebuildFileLibrary:  UserSettings::getInstance()->rebuildFileLibrary(); break;
+        case CommandIDs::rebuildFileLibrary:  rebuildFileLibrary(); break;
         default:                              return false;
     }
 
@@ -376,6 +410,7 @@ void FileLocationEditor::addFileLocation()
     newFileLocation.setProperty(Ids::folder, String::empty, &undoManager);
 
     tree.addChild(newFileLocation, -1, &undoManager);
+    locationsChanged = true;
 }
 
 void FileLocationEditor::removeFileLocations()
@@ -395,6 +430,8 @@ void FileLocationEditor::removeFileLocations()
     {
         tree.removeChild(itemsToRemove[i], &undoManager);
     }
+
+    locationsChanged = true;
 }
 
 void FileLocationEditor::moveFileLocations(bool moveUp)
@@ -435,7 +472,15 @@ void FileLocationEditor::moveFileLocations(bool moveUp)
             tree.moveChild(currentIndex, newIndex, &undoManager);
             table.selectRow(newIndex, false, false);
         }
-    }  
+    }
+    
+    locationsChanged = true;
+}
+
+void FileLocationEditor::rebuildFileLibrary()
+{
+    UserSettings::getInstance()->updateFileLocations(tree);
+    locationsChanged = false;
 }
 
 ApplicationCommandTarget* FileLocationEditor::getNextCommandTarget()

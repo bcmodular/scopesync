@@ -34,9 +34,12 @@ class FileLocationEditorWindow : public DocumentWindow,
 {
 public:
     FileLocationEditorWindow(int posX, int posY,
-                             const ValueTree& vt, ApplicationCommandManager* acm, 
+                             ApplicationCommandManager* acm, 
                              UndoManager& um);
     ~FileLocationEditorWindow();
+
+    ValueTree getFileLocations();
+    bool      locationsHaveChanged();
 
 private:
     void closeButtonPressed() override;
@@ -52,8 +55,11 @@ class FileLocationEditor : public  Component,
                            public  ApplicationCommandTarget
 {
 public:
-    FileLocationEditor(const ValueTree& vt, UndoManager& um, ApplicationCommandManager* acm);
+    FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm);
     ~FileLocationEditor();
+
+    ValueTree getFileLocations();
+    bool      locationsHaveChanged() { return locationsChanged; }
 
     void paint(Graphics& g) override;
     void resized() override;
@@ -80,6 +86,7 @@ private:
     ValueTree      tree;
     UndoManager&   undoManager;
     ApplicationCommandManager* commandManager;
+    Label          sizeWarning;
     TextButton     addFileLocationButton;
     TextButton     removeFileLocationButton;
     TextButton     moveUpButton;
@@ -87,6 +94,8 @@ private:
     TextButton     rebuildButton;
     TextButton     undoButton;
     TextButton     redoButton;
+
+    bool           locationsChanged;
     
     class LabelComp;
     friend class LabelComp;
@@ -98,6 +107,7 @@ private:
     void addFileLocation();
     void removeFileLocations();
     void moveFileLocations(bool moveUp);
+    void rebuildFileLibrary();
 
     void undo();
     void redo();

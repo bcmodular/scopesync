@@ -180,6 +180,9 @@ void ConfigurationPanel::changeListenerCallback(ChangeBroadcaster* /* source */)
 { 
     layoutChooserWindow = nullptr;
     rebuildProperties();
+    String newLayoutFilePath = UserSettings::getInstance()->getLayoutFilename(valueTree.getProperty(Ids::layoutName),
+                                                                              valueTree.getProperty(Ids::layoutLibrarySet));
+    UserSettings::getInstance()->setLastTimeLayoutLoaded(newLayoutFilePath);
 }
 
 void ConfigurationPanel::chooseLayout()
@@ -187,9 +190,8 @@ void ConfigurationPanel::chooseLayout()
     if (layoutChooserWindow == nullptr)
         layoutChooserWindow = new LayoutChooserWindow
                                       (
-                                      getScreenPosition().getX(), 
-                                      getScreenPosition().getY(), 
-                                      UserSettings::getInstance()->getLayoutLibrary(),
+                                      getParentMonitorArea().getCentreX(), 
+                                      getParentMonitorArea().getCentreY(), 
                                       layoutName,
                                       layoutLibrarySet,
                                       commandManager

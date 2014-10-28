@@ -179,29 +179,6 @@ UserSettings::UserSettings()
     options.folderName          = "ScopeSync";
     globalProperties.setStorageParameters(options);
 
-    // Build Layout Locations and Library trees
-    ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(Ids::fileLocations.toString());
-    
-    if (xml != nullptr)
-    {
-        fileLocations = ValueTree::fromXml(*xml);
-
-        xml = getGlobalProperties()->getXmlValue(Ids::layoutLibrary.toString());
-
-        if (xml != nullptr)
-            layoutLibrary = ValueTree::fromXml(*xml);
-        
-        xml = getGlobalProperties()->getXmlValue(Ids::configurationLibrary.toString());
-        
-        if (xml != nullptr)
-            configurationLibrary = ValueTree::fromXml(*xml);
-        
-        if (!layoutLibrary.isValid() || !configurationLibrary.isValid())
-            rebuildFileLibrary();
-    }
-    else
-        fileLocations = ValueTree(Ids::fileLocations);
-
     loadSwatchColours();
    
     addAndMakeVisible(propertyPanel);
@@ -215,8 +192,6 @@ UserSettings::UserSettings()
 
     useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
     useImageCache.addListener(this);
-
-    fileLocations.addListener(this);
 
     setupPanel();
 
@@ -357,8 +332,193 @@ void UserSettings::hide()
 
 void UserSettings::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
+    if (fileLocationEditorWindow->locationsHaveChanged())
+    {
+        ValueTree fileLocations = fileLocationEditorWindow->getFileLocations();
+        updateFileLocations(fileLocations);
+    }
+
     fileLocationEditorWindow = nullptr;
 }
+
+ValueTree UserSettings::getFileLocations()
+{
+    return getValueTreeFromGlobalProperties("fileLocations");
+}
+
+ValueTree UserSettings::getLayoutLibrary()
+{
+    return getValueTreeFromGlobalProperties("layoutLibrary");
+}
+
+ValueTree UserSettings::getConfigurationLibrary()
+{
+    return getValueTreeFromGlobalProperties("configurationLibrary");
+}
+
+ValueTree UserSettings::getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary)
+{
+    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
+    {
+        ValueTree layout = layoutLibrary.getChild(i);
+
+        if (layout.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+            return layout;
+    }
+    
+    return ValueTree();
+}
+
+String UserSettings::getLayoutFilename(const String& name, const String& librarySet)
+{
+    ValueTree layoutLibrary = getLayoutLibrary();
+
+    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
+    {
+        ValueTree layout = layoutLibrary.getChild(i);
+
+        if (   layout.getProperty(Ids::name).toString().equalsIgnoreCase(name)
+            && layout.getProperty(Ids::librarySet).toString().equalsIgnoreCase(librarySet))
+        {
+            return layout.getProperty(Ids::filePath);
+        }
+    }
+
+    return String::empty;
+}
+
+ValueTree UserSettings::getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary)
+{
+    for (int i = 0; i < configurationLibrary.getNumChildren(); i++)
+    {
+        ValueTree configuration = configurationLibrary.getChild(i);
+
+        if (configuration.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+            return configuration;
+    }
+    
+    return ValueTree();
+}
+
+String UserSettings::getConfigurationFilePathFromUID(int uid)
+{
+    for (int i = 0; i < getConfigurationLibrary().getNumChildren(); i++)
+    {
+        ValueTree configuration = getConfigurationLibrary().getChild(i);
+
+        if (int(configuration.getProperty(Ids::UID)) == uid)
+            return configuration.getProperty(Ids::filePath);
+    }
+
+    return String::empty;
+}
+
+void UserSettings::setLastTimeLayoutLoaded(const String& filePath)
+{
+    ValueTree layoutLibrary = getLayoutLibrary();
+    ValueTree layout = getLayoutFromFilePath(filePath, layoutLibrary);
+
+    if (layout.isValid())
+    {
+        layout.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
+        
+        ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
+        getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+    }
+}
+
+void UserSettings::setLastTimeConfigurationLoaded(const String& filePath)
+{
+    ValueTree configurationLibrary = getConfigurationLibrary();
+    ValueTree configuration = getConfigurationFromFilePath(filePath, configurationLibrary);
+
+    if (configuration.isValid())
+    {
+        configuration.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
+        
+        ScopedPointer<XmlElement> xml = configurationLibrary.createXml();
+        getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
+    }
+}
+
+void UserSettings::updateLayoutLibraryEntry(const String&     filePath,
+                                            const XmlElement& sourceXmlElement,
+                                            ValueTree&        layoutLibrary)
+{
+    ValueTree layout = getLayoutFromFilePath(filePath, layoutLibrary);
+
+    if (!layout.isValid())
+    {
+        layout = ValueTree(Ids::layout);
+        layoutLibrary.addChild(layout, -1, nullptr);
+    }
+
+    layout.setProperty(Ids::name,               sourceXmlElement.getStringAttribute(Ids::name), nullptr);
+    layout.setProperty(Ids::librarySet,         sourceXmlElement.getStringAttribute(Ids::libraryset), nullptr);
+    layout.setProperty(Ids::author,             sourceXmlElement.getStringAttribute(Ids::author), nullptr);
+    layout.setProperty(Ids::numButtons,         sourceXmlElement.getIntAttribute(Ids::numbuttons), nullptr);
+    layout.setProperty(Ids::numEncoders,        sourceXmlElement.getIntAttribute(Ids::numencoders), nullptr);
+    layout.setProperty(Ids::numFaders,          sourceXmlElement.getIntAttribute(Ids::numfaders), nullptr);
+    layout.setProperty(Ids::panelWidth,         sourceXmlElement.getIntAttribute(Ids::panelwidth), nullptr);
+    layout.setProperty(Ids::panelHeight,        sourceXmlElement.getIntAttribute(Ids::panelheight), nullptr);
+    layout.setProperty(Ids::numParameters,      sourceXmlElement.getIntAttribute(Ids::numparameters), nullptr);
+    layout.setProperty(Ids::thumbnail,          sourceXmlElement.getStringAttribute(Ids::thumbnail), nullptr);
+    layout.setProperty(Ids::excludeFromChooser, sourceXmlElement.getBoolAttribute(Ids::excludefromchooser, false), nullptr);
+    layout.setProperty(Ids::blurb,              sourceXmlElement.getStringAttribute(Ids::blurb), nullptr);
+    layout.setProperty(Ids::filePath,           filePath, nullptr);
+}
+
+void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,
+                                                   const String&    fileName,
+                                                   const ValueTree& sourceValueTree)
+{
+    ValueTree configurationLibrary = getConfigurationLibrary();
+    updateConfigurationLibraryEntry(filePath, fileName, sourceValueTree, configurationLibrary);
+}
+
+void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,
+                                                   const String&    fileName,
+                                                   const ValueTree& sourceValueTree,
+                                                   ValueTree&       configurationLibrary)
+{
+    ValueTree configuration = getConfigurationFromFilePath(filePath, configurationLibrary);
+
+    if (!configuration.isValid())
+    {
+        configuration = ValueTree(Ids::configuration);
+        configurationLibrary.addChild(configuration, -1, nullptr);
+    }
+
+    configuration.setProperty(Ids::name,               sourceValueTree.getProperty(Ids::name), nullptr);
+    configuration.setProperty(Ids::librarySet,         sourceValueTree.getProperty(Ids::librarySet), nullptr);
+    configuration.setProperty(Ids::author,             sourceValueTree.getProperty(Ids::author), nullptr);
+    configuration.setProperty(Ids::layoutName,         sourceValueTree.getProperty(Ids::layoutName), nullptr);
+    configuration.setProperty(Ids::layoutLibrarySet,   sourceValueTree.getProperty(Ids::layoutLibrarySet), nullptr);
+    configuration.setProperty(Ids::excludeFromChooser, sourceValueTree.getProperty(Ids::excludeFromChooser), nullptr);
+    configuration.setProperty(Ids::blurb,              sourceValueTree.getProperty(Ids::blurb), nullptr);
+    configuration.setProperty(Ids::ID,                 sourceValueTree.getProperty(Ids::ID), nullptr);
+    configuration.setProperty(Ids::UID,                sourceValueTree.getProperty(Ids::UID), nullptr);
+    configuration.setProperty(Ids::filePath,           filePath, nullptr);
+    configuration.setProperty(Ids::fileName,           fileName, nullptr);
+}
+
+ValueTree UserSettings::getValueTreeFromGlobalProperties(const String& valueTreeToGet)
+{
+    ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(valueTreeToGet);
+    
+    if (xml != nullptr)
+        return ValueTree::fromXml(*xml);
+    else
+    {
+        ValueTree newTree(valueTreeToGet);
+        
+        ScopedPointer<XmlElement> xml = newTree.createXml();
+        getGlobalProperties()->setValue(valueTreeToGet, xml);
+
+        return newTree;
+    }
+    
+}   
 
 void UserSettings::editFileLocations()
 {
@@ -367,7 +527,7 @@ void UserSettings::editFileLocations()
                                        (
                                        getScreenPosition().getX(), 
                                        getScreenPosition().getY(), 
-                                       fileLocations, commandManager, undoManager
+                                       commandManager, undoManager
                                        );
     
     fileLocationEditorWindow->addChangeListener(this);
@@ -376,24 +536,45 @@ void UserSettings::editFileLocations()
     fileLocationEditorWindow->toFront(true);
 }
 
-void UserSettings::updateFileLocations()
+void UserSettings::updateFileLocations(const ValueTree& fileLocations)
 {
-    ScopedPointer<XmlElement> xml = fileLocations.createXml();
-    getGlobalProperties()->setValue(Ids::fileLocations.toString(), xml);
+    if (fileLocations.isValid())
+    {
+        ScopedPointer<XmlElement> xml = fileLocations.createXml();
+        getGlobalProperties()->setValue(Ids::fileLocations.toString(), xml);
 
-    rebuildFileLibrary();
+        RebuildFileLibrary rebuild(fileLocations);
+        rebuild.runThread();
+    }
 }
 
 void UserSettings::rebuildFileLibrary()
 {
+    ValueTree fileLocations = getFileLocations();
+    
+    RebuildFileLibrary rebuild(fileLocations);
+    rebuild.runThread();
+}
+    
+void UserSettings::RebuildFileLibrary::run()
+{
+    setStatusMessage("Searching for files in library locations...");
+
     if (!(fileLocations.isValid()) || fileLocations.getNumChildren() == 0)
         return;
 
-    layoutLibrary = ValueTree(Ids::layoutLibrary);
-    configurationLibrary = ValueTree(Ids::configurationLibrary);
+    Array<File> layoutFiles;
+    Array<File> configurationFiles;
+        
+    int numLocations = fileLocations.getNumChildren();
 
-    for (int i = 0; i < fileLocations.getNumChildren(); i++)
+    for (int i = 0; i < numLocations; i++)
     {
+        if (threadShouldExit())
+            break;
+        
+        setProgress((i + 0.5) / (double)(numLocations - 1));
+        
         String locationFolder = fileLocations.getChild(i).getProperty(Ids::folder);
 
         if (locationFolder.isEmpty() || !(File::isAbsolutePath(locationFolder)))
@@ -404,29 +585,101 @@ void UserSettings::rebuildFileLibrary()
         if (!(location.isDirectory()))
             continue;
         
-        addLayoutsToLibrary(location);
-        addConfigurationsToLibrary(location);
+        setStatusMessage("Searching for layouts in library locations..." + newLine + newLine + location.getFullPathName());
+
+        int total = 0;
+
+        for (DirectoryIterator di(location, true); di.next();)
+        {
+            if (threadShouldExit())
+                break;
+        
+            File newFile = di.getFile();
+            
+            if (newFile.hasFileExtension("layout"))
+                layoutFiles.add(newFile);
+
+            if (total < 100000)
+                ++total;
+            else
+                break;
+        }
+
+        //location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
+        
+        setProgress((i + 1) / (double)(numLocations - 1));
+        
+        setStatusMessage("Searching for configurations in library locations..." + newLine + newLine + location.getFullPathName());
+
+        total = 0;
+
+        for (DirectoryIterator di(location, true); di.next();)
+        {
+            if (threadShouldExit())
+            break;
+        
+            File newFile = di.getFile();
+            
+            if (newFile.hasFileExtension("configuration"))
+                configurationFiles.add(newFile);
+
+            if (total < 100000)
+                ++total;
+            else
+                break;
+        }
+        
+        //location.findChildFiles(configurationFiles, File::findFiles, true, "*.configuration");
+    }
+    
+    updateLayoutLibrary(layoutFiles);
+    updateConfigurationLibrary(configurationFiles);
+}
+
+void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& layoutFiles)
+{
+    setStatusMessage("Removing Layouts that no longer exist...");
+    setProgress(0.0f);
+        
+    ValueTree layoutLibrary = UserSettings::getInstance()->getLayoutLibrary();
+
+        // Firstly trim entries that no longer have files
+    for (int i = layoutLibrary.getNumChildren() - 1; i >= 0 ; i--)
+    {
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(layoutLibrary.getNumChildren() - 1));
+        
+        ValueTree layout   = layoutLibrary.getChild(i);
+        String    filePath = layout.getProperty(Ids::filePath);
+
+        bool fileFound = false;
+       
+        for (int j = 0; j < layoutFiles.size(); j++)
+        {
+            if (layoutFiles[j].getFullPathName().equalsIgnoreCase(filePath))
+            {
+                fileFound = true;
+                break;
+            }
+        }
+        
+        if (!fileFound)
+            layoutLibrary.removeChild(i, nullptr);
     }
 
-    flushLibraryToFile();
-}
+    setStatusMessage("Updating Layouts...");
+    setProgress(0.0f);
 
-void UserSettings::flushLibraryToFile()
-{
-    ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
-    getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
-
-    xml = configurationLibrary.createXml();
-    getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
-}
-
-void UserSettings::addLayoutsToLibrary(const File& location)
-{
-    Array<File> layoutFiles;
-    location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
-
+    // Then update information for existing entries, or add new ones
     for (int i = 0; i < layoutFiles.size(); i++)
     {
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(layoutFiles.size() - 1));
+        
         ValueTree layout(Ids::layout);
             
         XmlDocument               layoutDocument(layoutFiles[i]);
@@ -459,161 +712,83 @@ void UserSettings::addLayoutsToLibrary(const File& location)
         }
 
         if (layoutName.isNotEmpty())
-        {
-            layout.setProperty(Ids::name, layoutName, nullptr);
-            layout.setProperty(Ids::librarySet, layoutXml.getStringAttribute(Ids::libraryset), nullptr);
-            layout.setProperty(Ids::author, layoutXml.getStringAttribute(Ids::author), nullptr);
-            layout.setProperty(Ids::numButtons, layoutXml.getIntAttribute(Ids::numbuttons), nullptr);
-            layout.setProperty(Ids::numEncoders, layoutXml.getIntAttribute(Ids::numencoders), nullptr);
-            layout.setProperty(Ids::numFaders, layoutXml.getIntAttribute(Ids::numfaders), nullptr);
-            layout.setProperty(Ids::panelWidth, layoutXml.getIntAttribute(Ids::panelwidth), nullptr);
-            layout.setProperty(Ids::panelHeight, layoutXml.getIntAttribute(Ids::panelheight), nullptr);
-            layout.setProperty(Ids::numParameters, layoutXml.getIntAttribute(Ids::numparameters), nullptr);
-            layout.setProperty(Ids::thumbnail, layoutXml.getStringAttribute(Ids::thumbnail), nullptr);
-            layout.setProperty(Ids::excludeFromChooser, layoutXml.getBoolAttribute(Ids::excludefromchooser, false), nullptr);
-            layout.setProperty(Ids::blurb, layoutXml.getStringAttribute(Ids::blurb), nullptr);
-            layout.setProperty(Ids::filePath, layoutFiles[i].getFullPathName(), nullptr);
-            layoutLibrary.addChild(layout, -1, nullptr);
-        }
+            UserSettings::getInstance()->updateLayoutLibraryEntry(layoutFiles[i].getFullPathName(), layoutXml, layoutLibrary);
     }
+
+    ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
+    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
 }
 
-void UserSettings::addConfigurationsToLibrary(const File& location)
+void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<File>& configurationFiles)
 {
-    Array<File> configurationFiles;
-    location.findChildFiles(configurationFiles, File::findFiles, true, "*.configuration");
+    setStatusMessage("Removing Configurations that no longer exist...");
+    setProgress(0.0f);
 
+    ValueTree configurationLibrary = UserSettings::getInstance()->getConfigurationLibrary();
+
+    // Firstly trim entries that no longer have files
+    for (int i = configurationLibrary.getNumChildren() - 1; i >= 0 ; i--)
+    {
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(configurationLibrary.getNumChildren() - 1));
+        
+        ValueTree configuration = configurationLibrary.getChild(i);
+        String    filePath      = configuration.getProperty(Ids::filePath);
+
+        bool fileFound = false;
+       
+        for (int j = 0; j < configurationFiles.size(); j++)
+        {
+            if (configurationFiles[j].getFullPathName().equalsIgnoreCase(filePath))
+            {
+                fileFound = true;
+                break;
+            }
+        }
+        
+        if (!fileFound)
+            configurationLibrary.removeChild(i, nullptr);
+    }
+
+    setStatusMessage("Updating Configurations...");
+    setProgress(0.0f);
+
+    // Then update information for existing entries, or add new ones
     for (int i = 0; i < configurationFiles.size(); i++)
     {
-        ValueTree configuration(Ids::configuration);
-            
-        XmlDocument               configurationDocument(configurationFiles[i]);
-        ScopedPointer<XmlElement> loadedConfigurationXml = configurationDocument.getDocumentElement();
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(configurationFiles.size() - 1));
+        
+        ScopedPointer<XmlElement> loadedConfigurationXml(XmlDocument::parse(configurationFiles[i]));
 
-        String     configurationName;
-        XmlElement configurationXml("dummy");
-
-        if (loadedConfigurationXml != nullptr)
+        if (loadedConfigurationXml == nullptr || !(loadedConfigurationXml->hasTagName(Ids::configuration)))
         {
-            if (loadedConfigurationXml->hasTagName(Ids::configuration))
-            {
-                // No XSD validation header
-                configurationXml  = *loadedConfigurationXml;
-                configurationName = configurationXml.getStringAttribute(Ids::name);
-            }
-            else
-                continue;
+            DBG("UserSettings::updateConfigurationLibrary - Not a valid ScopeSync Configuration: " + configurationFiles[i].getFullPathName());
+            continue;
         }
+        
+        ValueTree configuration(ValueTree::fromXml(*loadedConfigurationXml));
+
+        if (!configuration.hasType(Ids::configuration))
+        {
+            DBG("UserSettings::updateConfigurationLibrary - The document contains errors and couldn't be parsed: " + configurationFiles[i].getFullPathName());
+            continue;
+        }
+        
+        String configurationName = configuration.getProperty(Ids::name);
 
         if (configurationName.isNotEmpty())
-        {
-            configuration.setProperty(Ids::name, configurationName, nullptr);
-            configuration.setProperty(Ids::librarySet, configurationXml.getStringAttribute(Ids::librarySet), nullptr);
-            configuration.setProperty(Ids::author, configurationXml.getStringAttribute(Ids::author), nullptr);
-            configuration.setProperty(Ids::layoutName, configurationXml.getStringAttribute(Ids::layoutName), nullptr);
-            configuration.setProperty(Ids::layoutLibrarySet, configurationXml.getStringAttribute(Ids::layoutLibrarySet), nullptr);
-            configuration.setProperty(Ids::excludeFromChooser, configurationXml.getBoolAttribute(Ids::excludeFromChooser, false), nullptr);
-            configuration.setProperty(Ids::blurb, configurationXml.getStringAttribute(Ids::blurb), nullptr);
-            configuration.setProperty(Ids::ID, configurationXml.getStringAttribute(Ids::ID), nullptr);
-            configuration.setProperty(Ids::UID, configurationXml.getStringAttribute(Ids::UID), nullptr);
-            configuration.setProperty(Ids::filePath, configurationFiles[i].getFullPathName(), nullptr);
-            configuration.setProperty(Ids::fileName, configurationFiles[i].getFileName(), nullptr);
-            configurationLibrary.addChild(configuration, -1, nullptr);
-        }
-    }
-}
-
-String UserSettings::getLayoutFilename(const String& name, const String& librarySet)
-{
-    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
-    {
-        ValueTree layout = layoutLibrary.getChild(i);
-
-        if (   layout.getProperty(Ids::name).toString().equalsIgnoreCase(name)
-            && layout.getProperty(Ids::librarySet).toString().equalsIgnoreCase(librarySet))
-        {
-            return layout.getProperty(Ids::filePath);
-        }
+            UserSettings::getInstance()->updateConfigurationLibraryEntry(configurationFiles[i].getFullPathName(),
+                                                                         configurationFiles[i].getFileName(),
+                                                                         configuration, configurationLibrary);
     }
 
-    return String::empty;
-}
-
-void UserSettings::setLastTimeLayoutLoaded(const String& filePath)
-{
-    for (int i = 0; i < layoutLibrary.getNumChildren(); i++)
-    {
-        ValueTree layout = layoutLibrary.getChild(i);
-
-        if (layout.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
-        {
-            layout.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
-            break;
-        }
-    }
-
-    flushLibraryToFile();
-}
-
-void UserSettings::getConfigurationFromFilePath(const String& filePath, ValueTree& configuration)
-{
-    for (int i = 0; i < configurationLibrary.getNumChildren(); i++)
-    {
-        configuration = configurationLibrary.getChild(i);
-
-        if (configuration.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
-            return;
-    }
-    
-    configuration = ValueTree();
-}
-
-String UserSettings::getConfigurationFilePathFromUID(int uid)
-{
-    for (int i = 0; i < configurationLibrary.getNumChildren(); i++)
-    {
-        ValueTree configuration = configurationLibrary.getChild(i);
-
-        if (int(configuration.getProperty(Ids::UID)) == uid)
-        {
-            return configuration.getProperty(Ids::filePath);
-        }
-    }
-
-    return String::empty;
-}
-
-void UserSettings::setLastTimeConfigurationLoaded(const String& filePath)
-{
-    ValueTree configuration;
-    getConfigurationFromFilePath(filePath, configuration);
-
-    if (configuration.isValid())
-    {
-        configuration.setProperty(Ids::mruTime, Time::getCurrentTime().formatted("%Y-%m-%d %H:%M:%S"), nullptr);
-        flushLibraryToFile();
-    }
-}
-
-void UserSettings::updateConfigurationLibraryEntry(const String& filePath, const ValueTree& sourceValueTree)
-{
-    ValueTree configuration;
-    getConfigurationFromFilePath(filePath, configuration);
-
-    if (configuration.isValid())
-    {
-        configuration.setProperty(Ids::name,               sourceValueTree.getProperty(Ids::name), nullptr);
-        configuration.setProperty(Ids::librarySet,         sourceValueTree.getProperty(Ids::librarySet), nullptr);
-        configuration.setProperty(Ids::author,             sourceValueTree.getProperty(Ids::author), nullptr);
-        configuration.setProperty(Ids::layoutName,         sourceValueTree.getProperty(Ids::layoutName), nullptr);
-        configuration.setProperty(Ids::layoutLibrarySet,   sourceValueTree.getProperty(Ids::layoutLibrarySet), nullptr);
-        configuration.setProperty(Ids::excludeFromChooser, sourceValueTree.getProperty(Ids::excludeFromChooser), nullptr);
-        configuration.setProperty(Ids::blurb,              sourceValueTree.getProperty(Ids::blurb), nullptr);
-        configuration.setProperty(Ids::ID,                 sourceValueTree.getProperty(Ids::ID), nullptr);
-        configuration.setProperty(Ids::UID,                sourceValueTree.getProperty(Ids::UID), nullptr);
-        
-        flushLibraryToFile();
-    }
+    ScopedPointer<XmlElement> xml = configurationLibrary.createXml();
+    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
 }
 
 void UserSettings::timerCallback()

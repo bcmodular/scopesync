@@ -33,7 +33,6 @@
  * ConfigurationChooserWindow
  */
 ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY, 
-                                                       const ValueTree& vt,
                                                        ScopeSync& ss,
                                                        ApplicationCommandManager* acm)
     : DocumentWindow("Configuration Chooser",
@@ -43,7 +42,7 @@ ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY,
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(new ConfigurationChooser(vt, ss, acm), true);
+    setContentOwned(new ConfigurationChooser(ss, acm), true);
     
     restoreWindowPosition(posX, posY);
     
@@ -146,12 +145,9 @@ private:
 /* =========================================================================
  * ConfigurationChooser
  */
-ConfigurationChooser::ConfigurationChooser(const ValueTree& valueTree,
-                                           ScopeSync& ss,
+ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
                                            ApplicationCommandManager* acm)
-    : viewTree(valueTree.createCopy()), 
-      tree(valueTree), 
-      font(14.0f), 
+    : font(14.0f), 
       commandManager(acm),
       chooseButton("Choose Configuration"),
       rebuildLibraryButton("Rebuild Library"),
@@ -160,10 +156,7 @@ ConfigurationChooser::ConfigurationChooser(const ValueTree& valueTree,
       fileNameLabel(String::empty),
       scopeSync(ss)
 {
-    removeExcludedConfigurations();
-    
-    ConfigurationSorter sorter(8, false);
-    viewTree.sort(sorter, nullptr, true);
+    attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
 
@@ -385,10 +378,22 @@ void ConfigurationChooser::closeWindow()
 
 void ConfigurationChooser::rebuildFileLibrary()
 {
-    viewTree.removeListener(this);
     UserSettings::getInstance()->rebuildFileLibrary();
+    attachToTree();
+}
+
+void ConfigurationChooser::attachToTree()
+{
+    viewTree.removeListener(this);
+    
+    tree = UserSettings::getInstance()->getConfigurationLibrary();
     viewTree = tree.createCopy();
+    
     removeExcludedConfigurations();
+    
+    ConfigurationSorter sorter(8, false);
+    viewTree.sort(sorter, nullptr, true);
+    
     viewTree.addListener(this);
     table.updateContent();
 }

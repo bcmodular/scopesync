@@ -84,7 +84,6 @@ void ScopeSyncGUI::chooseConfiguration()
                                       (
                                       getParentMonitorArea().getCentreX(), 
                                       getParentMonitorArea().getCentreY(), 
-                                      UserSettings::getInstance()->getConfigurationLibrary(),
                                       scopeSync,
                                       scopeSync.getCommandManager()
                                       );
@@ -513,11 +512,19 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
 
 ApplicationCommandTarget* ScopeSyncGUI::getNextCommandTarget() { return nullptr; }
 
-void ScopeSyncGUI::alertBoxResultChosen(int result, ScopeSyncGUI* scopeSyncGUI)
+void ScopeSyncGUI::alertBoxReloadConfirm(int result, ScopeSyncGUI* scopeSyncGUI)
 {
     if (result)
     {
         scopeSyncGUI->getScopeSync().reloadSavedConfiguration();
+    }
+}
+
+void ScopeSyncGUI::alertBoxLaunchLocationEditor(int result, ScopeSyncGUI* /* scopeSyncGUI */)
+{
+    if (result)
+    {
+        UserSettings::getInstance()->editFileLocations();    
     }
 }
 
@@ -539,6 +546,20 @@ void ScopeSyncGUI::saveAs()
     {
         scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
         scopeSync.applyConfiguration();
+
+        UserSettings::getInstance()->rebuildFileLibrary();
+
+        int uid = scopeSync.getConfiguration().getConfigurationUID();
+
+        if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
+            AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
+                                         "Check locations",
+                                         "Your new Configuration was not automatically added to the library. You probably need to add a new location."
+                                         + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
+                                         String::empty,
+                                         String::empty,
+                                         this,
+                                         ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, this));
     }
 }
 
@@ -573,7 +594,7 @@ void ScopeSyncGUI::reloadSavedConfiguration()
                                      String::empty,
                                      String::empty,
                                      this,
-                                     ModalCallbackFunction::forComponent(alertBoxResultChosen, this));
+                                     ModalCallbackFunction::forComponent(alertBoxReloadConfirm, this));
     else
         scopeSync.reloadSavedConfiguration();
 }

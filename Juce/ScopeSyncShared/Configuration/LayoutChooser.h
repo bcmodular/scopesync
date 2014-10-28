@@ -37,7 +37,6 @@ class LayoutChooserWindow : public DocumentWindow,
 {
 public:
     LayoutChooserWindow(int posX, int posY,
-                        const ValueTree& vt, 
                         const Value& layoutName,
                         const Value& layoutLocation,
                         ApplicationCommandManager* acm);
@@ -59,9 +58,8 @@ class LayoutChooser : public  Component,
                       public  ApplicationCommandTarget
 {
 public:
-    LayoutChooser(const ValueTree& vt,
-                  const Value&     layoutName,
-                  const Value&     layoutLocation,
+    LayoutChooser(const Value& layoutName,
+                  const Value& layoutLocation,
                   ApplicationCommandManager* acm);
     ~LayoutChooser();
 
@@ -93,12 +91,15 @@ private:
     Value        librarySet;
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
+    TextButton   rebuildLibraryButton;
     Label        blurb;
 
     Image  thumbImage;
     bool   useImageCache;
 
     void chooseSelectedLayout();
+    void rebuildFileLibrary();
+    void attachToTree();
     void closeWindow();
     void removeExcludedLayouts();
     void selectCurrentLayout();

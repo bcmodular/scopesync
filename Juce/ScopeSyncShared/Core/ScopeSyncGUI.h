@@ -125,7 +125,9 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
     
-    static void alertBoxResultChosen(int result, ScopeSyncGUI*);
+    static void alertBoxReloadConfirm(int result, ScopeSyncGUI*);
+    static void alertBoxLaunchLocationEditor(int result, ScopeSyncGUI*);
+
     void changeListenerCallback(ChangeBroadcaster* source);
 
     void save();

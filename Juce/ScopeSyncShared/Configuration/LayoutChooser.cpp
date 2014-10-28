@@ -32,7 +32,6 @@
  * LayoutChooserWindow
  */
 LayoutChooserWindow::LayoutChooserWindow(int posX, int posY, 
-                                         const ValueTree& vt,
                                          const Value& layoutName,
                                          const Value& layoutLibrarySet,
                                          ApplicationCommandManager* acm)
@@ -43,7 +42,7 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
 {
     setUsingNativeTitleBar (true);
     
-    setContentOwned(new LayoutChooser(vt, layoutName, layoutLibrarySet, acm), true);
+    setContentOwned(new LayoutChooser(layoutName, layoutLibrarySet, acm), true);
     
     restoreWindowPosition(posX, posY);
     
@@ -64,7 +63,7 @@ void LayoutChooserWindow::closeButtonPressed()
 
 void LayoutChooserWindow::restoreWindowPosition(int posX, int posY)
 {
-    setBounds(posX, posY, getWidth(), getHeight());
+    setCentrePosition(posX, posY);
 }
 
 /* =========================================================================
@@ -83,55 +82,70 @@ public:
     {
         int result = 0;
 
+        // Sort by name
         if (columnId == 2)
         {
             String firstString  = first.getProperty(Ids::name, String::empty);
             String secondString = second.getProperty(Ids::name, String::empty);
             result = firstString.compareNatural(secondString);
         }
+        // Sort by librarySet
         else if (columnId == 3)
         {
             String firstString  = first.getProperty(Ids::librarySet, String::empty);
             String secondString = second.getProperty(Ids::librarySet, String::empty);
             result = firstString.compareNatural(secondString);
         }
+        // Sort by author
         else if (columnId == 4)
         {
             String firstString  = first.getProperty(Ids::author, String::empty);
             String secondString = second.getProperty(Ids::author, String::empty);
             result = firstString.compareNatural(secondString);
         }
+        // Sort by panelWidth
         else if (columnId == 5)
         {
             int firstPixelCount  = int(first.getProperty(Ids::panelWidth, 0))  * int(first.getProperty(Ids::panelHeight, 0));
             int secondPixelCount = int(second.getProperty(Ids::panelWidth, 0)) * int(second.getProperty(Ids::panelHeight, 0));
             result = (firstPixelCount < secondPixelCount) ? -1 : ((secondPixelCount < firstPixelCount) ? 1 : 0);
         }
+        // Sort by numEncoders
         else if (columnId == 6)
         {
             int firstCount  = first.getProperty(Ids::numEncoders, 0);
             int secondCount = second.getProperty(Ids::numEncoders, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
+        // Sort by numFaders
         else if (columnId == 7)
         {
             int firstCount  = first.getProperty(Ids::numFaders, 0);
             int secondCount = second.getProperty(Ids::numFaders, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
+        // Sort by numButtons
         else if (columnId == 8)
         {
             int firstCount  = first.getProperty(Ids::numButtons, 0);
             int secondCount = second.getProperty(Ids::numButtons, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
+        // Sort by numParameters
         else if (columnId == 9)
         {
             int firstCount  = first.getProperty(Ids::numParameters, 0);
             int secondCount = second.getProperty(Ids::numParameters, 0);
             result = (firstCount < secondCount) ? -1 : ((secondCount < firstCount) ? 1 : 0);
         }
-
+        // Sort by mruTime
+        else if (columnId == 10)
+        {
+            String firstString  = first.getProperty(Ids::mruTime, String::empty);
+            String secondString = second.getProperty(Ids::mruTime, String::empty);
+            result = firstString.compareNatural(secondString);
+        }
+        
         return direction * result;
     }
 
@@ -145,25 +159,26 @@ private:
 /* =========================================================================
  * LayoutChooser
  */
-LayoutChooser::LayoutChooser(const ValueTree& valueTree,
-                             const Value& layoutName,
+LayoutChooser::LayoutChooser(const Value& layoutName,
                              const Value& layoutLibrarySet,
                              ApplicationCommandManager* acm)
-    : viewTree(valueTree.createCopy()), 
-      tree(valueTree), 
-      font(14.0f), 
+    : font(14.0f), 
       commandManager(acm),
       chooseButton("Choose Layout"),
+      rebuildLibraryButton("Rebuild Library"),
       blurb(String::empty)
 {
     useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
-    removeExcludedLayouts();
+    attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
 
     chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedLayout, true);
     addAndMakeVisible(chooseButton);
+
+    rebuildLibraryButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
+    addAndMakeVisible(rebuildLibraryButton);
 
     blurb.setJustificationType(Justification::topLeft);
     addAndMakeVisible(blurb);
@@ -175,16 +190,17 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness (4);
     
-    table.getHeader().addColumn(String::empty, 1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Name",        2, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Library Set", 3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Author",      4, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Dimensions",  5, 80,  40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Encoders",    6, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Faders",      7, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Buttons",     8, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Parameters",  9, 50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-        
+    table.getHeader().addColumn(String::empty, 1,  10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Name",        2,  120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Library Set", 3,  120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Author",      4,  100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Dimensions",  5,  80,  40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Encoders",    6,  50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Faders",      7,  50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Buttons",     8,  50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Parameters",  9,  50,  30, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Last Used",   10, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    
     table.getHeader().setStretchToFitActive(true);
     
     name.referTo(layoutName);
@@ -196,7 +212,7 @@ LayoutChooser::LayoutChooser(const ValueTree& valueTree,
 
     addKeyListener(commandManager->getKeyMappings());
 
-    setBounds(0, 0, 750, 600);
+    setBounds(0, 0, 1000, 600);
 }
 
 LayoutChooser::~LayoutChooser()
@@ -242,9 +258,12 @@ void LayoutChooser::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     Rectangle<int> headerBounds(localBounds.removeFromTop(140));
+    Rectangle<int> buttonBar(headerBounds.removeFromBottom(30));
+    
     Rectangle<int> headerLeftSection(headerBounds.removeFromLeft(200).removeFromBottom(30));
 
-    chooseButton.setBounds(headerLeftSection.reduced(20, 3));
+    chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     blurb.setBounds(headerBounds.reduced(4, 4));
@@ -277,17 +296,18 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
 
     switch (columnId)
     {
-        case 1: text = String::empty; break;
-        case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
-        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
-        case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
-        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::panelWidth).toString() 
-                       + "x" 
-                       + viewTree.getChild(rowNumber).getProperty(Ids::panelHeight).toString(); break;
-        case 6: text = viewTree.getChild(rowNumber).getProperty(Ids::numEncoders); break;
-        case 7: text = viewTree.getChild(rowNumber).getProperty(Ids::numFaders); break;
-        case 8: text = viewTree.getChild(rowNumber).getProperty(Ids::numButtons); break;
-        case 9: text = viewTree.getChild(rowNumber).getProperty(Ids::numParameters); break;
+        case 1:  text = String::empty; break;
+        case 2:  text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
+        case 3:  text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
+        case 4:  text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
+        case 5:  text = viewTree.getChild(rowNumber).getProperty(Ids::panelWidth).toString() 
+                        + "x" 
+                        + viewTree.getChild(rowNumber).getProperty(Ids::panelHeight).toString(); break;
+        case 6:  text = viewTree.getChild(rowNumber).getProperty(Ids::numEncoders); break;
+        case 7:  text = viewTree.getChild(rowNumber).getProperty(Ids::numFaders); break;
+        case 8:  text = viewTree.getChild(rowNumber).getProperty(Ids::numButtons); break;
+        case 9:  text = viewTree.getChild(rowNumber).getProperty(Ids::numParameters); break;
+        case 10: text = viewTree.getChild(rowNumber).getProperty(Ids::mruTime); break;
     }
 
     g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
@@ -333,7 +353,9 @@ void LayoutChooser::selectedRowsChanged(int lastRowSelected)
 
 void LayoutChooser::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = {CommandIDs::chooseSelectedLayout};
+    const CommandID ids[] = {CommandIDs::chooseSelectedLayout,
+                             CommandIDs::rebuildFileLibrary
+                             };
     
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -345,6 +367,10 @@ void LayoutChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
     case CommandIDs::chooseSelectedLayout:
         result.setInfo("Choose Selected Layout", "Changes the layout in the current Configuration to the one currently select", CommandCategories::configmgr, !table.getNumSelectedRows());
         result.defaultKeypresses.add(KeyPress(KeyPress::returnKey));
+        break;
+    case CommandIDs::rebuildFileLibrary:
+        result.setInfo("Rebuild library", "Rebuild File Library", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
         break;
     }
 }
@@ -359,6 +385,7 @@ bool LayoutChooser::perform(const InvocationInfo& info)
     switch (info.commandID)
     {
         case CommandIDs::chooseSelectedLayout:  chooseSelectedLayout(); break;
+        case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
         default:                                return false;
     }
 
@@ -371,6 +398,26 @@ void LayoutChooser::chooseSelectedLayout()
     librarySet = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::librarySet);
     
     closeWindow();
+}
+
+void LayoutChooser::rebuildFileLibrary()
+{
+    UserSettings::getInstance()->rebuildFileLibrary();
+    attachToTree();
+}
+
+void LayoutChooser::attachToTree()
+{
+    viewTree.removeListener(this);
+    
+    tree = UserSettings::getInstance()->getLayoutLibrary();
+    viewTree = tree.createCopy();
+    
+    LayoutSorter sorter(10, false);
+    viewTree.sort(sorter, nullptr, true);
+    
+    viewTree.addListener(this);
+    table.updateContent();
 }
 
 void LayoutChooser::closeWindow()

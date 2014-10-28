@@ -34,7 +34,6 @@ class FileLocationEditorWindow;
 
 class UserSettings  : public  Component,
                       public  Value::Listener,
-                      private ValueTree::Listener,
                       public  ApplicationCommandTarget,
                       public  Timer,
                       public  ChangeListener
@@ -46,17 +45,26 @@ public:
     void show(int posX, int posY);
     void hide();
 
-    void   changeListenerCallback(ChangeBroadcaster* source);
-    void   rebuildFileLibrary();
-    String getLayoutFilename(const String& name, const String& librarySet);
-    const ValueTree& getLayoutLibrary() { return layoutLibrary; }
-    const ValueTree& getConfigurationLibrary() { return configurationLibrary; }
-    void getConfigurationFromFilePath(const String& filePath, ValueTree& configuration);
-    String getConfigurationFilePathFromUID(int uid);
-
+    void      changeListenerCallback(ChangeBroadcaster* source);
+   
+    ValueTree getFileLocations();
+    ValueTree getLayoutLibrary();
+    ValueTree getConfigurationLibrary();
+    ValueTree getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary);
+    String    getLayoutFilename(const String& name, const String& librarySet);
+    ValueTree getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary);
+    String    getConfigurationFilePathFromUID(int uid);
+    
+    void editFileLocations();
+    
     void setLastTimeLayoutLoaded(const String& filePath);
     void setLastTimeConfigurationLoaded(const String& filePath);
-    void updateConfigurationLibraryEntry(const String& filePath, const ValueTree& sourceValueTree);
+    void rebuildFileLibrary();
+    void updateFileLocations(const ValueTree& fileLocations);
+    
+    void updateConfigurationLibraryEntry(const String&    filePath,
+                                         const String&    fileName,
+                                         const ValueTree& sourceValueTree);
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
@@ -91,32 +99,26 @@ private:
 
     Value     useImageCache;
     Value     tooltipDelayTime;
-    ValueTree fileLocations;
-    ValueTree layoutLibrary;
-    ValueTree configurationLibrary;
     
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
     void resized() override;
     
-    void flushLibraryToFile();
-
+    ValueTree getValueTreeFromGlobalProperties(const String& valueTreeToGet);
+    
     void setupPanel();
-    void editFileLocations();
-    void updateFileLocations();
-    void addLayoutsToLibrary(const File& location);
-    void addConfigurationsToLibrary(const File& location);
+    
+    void updateLayoutLibraryEntry(const String&     filePath,
+                                  const XmlElement& sourceXmlElement,
+                                  ValueTree&        layoutLibrary);
+    void updateConfigurationLibraryEntry(const String&    filePath,
+                                         const String&    fileName,
+                                         const ValueTree& sourceValueTree,
+                                               ValueTree& configurationLibrary);
 
     void timerCallback();
 
     void valueChanged(Value& valueThatChanged) override;
-
-    // Overridden methods for ValueTree::Listener
-    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { updateFileLocations(); };
-    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { updateFileLocations(); };
-    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { updateFileLocations(); };
-    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { updateFileLocations(); };
-    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { updateFileLocations(); };
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -126,6 +128,23 @@ private:
 
     void loadSwatchColours();
     void saveSwatchColours();
+
+    class RebuildFileLibrary : public ThreadWithProgressWindow
+    {
+    public:
+        RebuildFileLibrary(const ValueTree& locations)
+            : ThreadWithProgressWindow("Rebuilding Library...", true, true),
+              fileLocations(locations)
+        {}
+
+        void run();
+
+    private:
+        void updateLayoutLibrary(const Array<File>& layoutFiles);
+        void updateConfigurationLibrary(const Array<File>& configurationFiles);
+    
+        ValueTree fileLocations;
+    };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)
 };

@@ -170,11 +170,11 @@ int Configuration::generateConfigurationUID()
 
     String stringToHash = configurationRoot.getProperty(Ids::name);
     stringToHash += configurationRoot.getProperty(Ids::librarySet).toString();
-    stringToHash += configurationRoot.getProperty(Ids::fileName).toString();
+    stringToHash += getFile().getFileName();
     stringToHash += configurationRoot.getProperty(Ids::author).toString();
 
     uid = stringToHash.hashCode();
-
+    
     configurationRoot.setProperty(Ids::UID, uid, nullptr);
 
     return uid;

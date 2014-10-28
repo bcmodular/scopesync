@@ -38,7 +38,6 @@ class ConfigurationChooserWindow : public DocumentWindow,
 {
 public:
     ConfigurationChooserWindow(int posX, int posY,
-                               const ValueTree& vt, 
                                ScopeSync& ss,
                                ApplicationCommandManager* acm);
     ~ConfigurationChooserWindow();
@@ -59,8 +58,7 @@ class ConfigurationChooser : public  Component,
                              public  ApplicationCommandTarget
 {
 public:
-    ConfigurationChooser(const ValueTree& vt,
-                         ScopeSync& ss,
+    ConfigurationChooser(ScopeSync& ss,
                          ApplicationCommandManager* acm);
     ~ConfigurationChooser();
 
@@ -102,6 +100,7 @@ private:
     void selectCurrentConfiguration(const String& filePath);
 
     void rebuildFileLibrary();
+    void attachToTree();
     void unloadConfiguration();
 
     /* ================= Application Command Target overrides ================= */
