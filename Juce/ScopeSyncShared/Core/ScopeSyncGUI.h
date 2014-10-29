@@ -47,6 +47,7 @@ class TabbedComponentProperties;
 class TabProperties;
 class BCMParameter;
 class ConfigurationChooserWindow;
+class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
 #include "../Utils/BCMMisc.h"
 
@@ -102,7 +103,7 @@ private:
     Array<BCMTabbedComponent*>  tabbedComponents;
     ScopedPointer<Label>        systemError;
     ScopedPointer<ConfigurationChooserWindow> configurationChooserWindow;
-
+    ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
     
     ScopeSync& scopeSync;
     ValueTree  deviceMapping;
@@ -130,6 +131,7 @@ private:
 
     void changeListenerCallback(ChangeBroadcaster* source);
 
+    void addConfig();
     void save();
     void saveAs();
     void undo();

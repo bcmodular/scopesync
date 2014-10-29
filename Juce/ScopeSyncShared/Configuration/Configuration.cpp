@@ -27,10 +27,166 @@
 #include "Configuration.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
+#include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
 #include "../Utils/BCMMath.h"
 #include "../Components/UserSettings.h"
+#include "../Configuration/ConfigurationPanel.h"
 
+/* =========================================================================
+ * NewConfigurationWindow
+ */
+NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
+                                               ScopeSync& ss,
+                                               const File& file,
+                                               ApplicationCommandManager* acm)
+    : DocumentWindow("New Configuration",
+                     Colour::greyLevel(0.6f),
+                     DocumentWindow::allButtons,
+                     true),
+      newFile(file)
+{
+    cancelled = true;
+
+    setUsingNativeTitleBar (true);
+    
+    settings = ValueTree(Ids::configuration);
+
+    setContentOwned(new NewConfigurationEditor(ss, settings, file.getFullPathName(), acm), true);
+    
+    restoreWindowPosition(posX, posY);
+    
+    setVisible(true);
+    setResizable(true, false);
+
+    setWantsKeyboardFocus (false);
+
+    setResizeLimits(400, 200, 32000, 32000);
+}
+
+NewConfigurationWindow::~NewConfigurationWindow() {}
+
+void NewConfigurationWindow::addConfiguration()
+{
+    cancelled = false;
+    sendChangeMessage();
+}
+
+void NewConfigurationWindow::cancel() { sendChangeMessage(); }
+
+void NewConfigurationWindow::closeButtonPressed() { sendChangeMessage(); }
+
+void NewConfigurationWindow::restoreWindowPosition(int posX, int posY)
+{
+    setCentrePosition(posX, posY);
+}
+
+/* =========================================================================
+ * NewConfigurationEditor
+ */
+NewConfigurationEditor::NewConfigurationEditor(ScopeSync& ss,
+                                               ValueTree& settings,
+                                               const String& filePath,
+                                               ApplicationCommandManager* acm)
+    : commandManager(acm),
+      addButton("Add Configuration"),
+      cancelButton("Cancel"),
+      filePathLabel("File Path"),
+      panel(settings, ss.getUndoManager(), ss, acm)
+{
+    commandManager->registerAllCommandsForTarget(this);
+
+    addButton.setCommandToTrigger(commandManager, CommandIDs::addConfig, true);
+    addAndMakeVisible(addButton);
+
+    cancelButton.setCommandToTrigger(commandManager, CommandIDs::cancel, true);
+    addAndMakeVisible(cancelButton);
+
+    filePathLabel.setText(filePath, dontSendNotification);
+    filePathLabel.setColour(Label::textColourId, Colours::white);
+    addAndMakeVisible(filePathLabel);
+
+    addAndMakeVisible(panel);
+
+    addKeyListener(commandManager->getKeyMappings());
+
+    setBounds(0, 0, 600, 400);
+}
+
+NewConfigurationEditor::~NewConfigurationEditor() {}
+
+void NewConfigurationEditor::paint(Graphics& g)
+{
+    g.fillAll(Colours::darkgrey);
+}
+    
+void NewConfigurationEditor::resized()
+{
+    Rectangle<int> localBounds(getLocalBounds());
+    Rectangle<int> buttonBar(localBounds.removeFromBottom(30));
+    
+    addButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    cancelButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    filePathLabel.setBounds(localBounds.removeFromBottom(30).reduced(3, 3));
+    panel.setBounds(localBounds.reduced(4, 4));
+}
+
+void NewConfigurationEditor::addConfiguration()
+{
+    NewConfigurationWindow* parent = dynamic_cast<NewConfigurationWindow*>(getParentComponent());
+    parent->addConfiguration();
+}
+
+void NewConfigurationEditor::cancel()
+{
+    NewConfigurationWindow* parent = dynamic_cast<NewConfigurationWindow*>(getParentComponent());
+    parent->cancel();
+}
+
+void NewConfigurationEditor::getAllCommands(Array <CommandID>& commands)
+{
+    const CommandID ids[] = {CommandIDs::addConfig,
+                             CommandIDs::cancel
+                             };
+    
+    commands.addArray(ids, numElementsInArray (ids));
+}
+
+void NewConfigurationEditor::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+{
+    switch (commandID)
+    {
+    case CommandIDs::addConfig:
+        result.setInfo("Add Configuration", "Create a new Configuration", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::cancel:
+        result.setInfo("Cancel", "Cancel current action", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
+        break;
+    }
+}
+
+bool NewConfigurationEditor::perform(const InvocationInfo& info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::addConfig:  addConfiguration(); break;
+        case CommandIDs::cancel:     cancel(); break;
+        default:                     return false;
+    }
+
+    return true;
+}
+
+ApplicationCommandTarget* NewConfigurationEditor::getNextCommandTarget()
+{
+    return nullptr;
+}
+
+/* =========================================================================
+ * Configuration
+ */
 Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                       String ("*") + configurationFileExtension,
                                                       "Choose a Configuration file to load",
@@ -179,6 +335,21 @@ int Configuration::generateConfigurationUID()
         configurationRoot.setProperty(Ids::UID, uid, nullptr);
 
     return uid;
+}
+
+void Configuration::createConfiguration(const File& newFile, const ValueTree& initialSettings)
+{
+    if (saveIfNeededAndUserAgrees(true) == savedOk)
+    {
+        setFile(newFile);
+        lastFailedFile = File();
+
+        configurationRoot = initialSettings;
+        
+        setMissingDefaultValues();
+
+        layoutLoaded = false;
+    }
 }
 
 bool Configuration::replaceConfiguration(const String& newFileName)

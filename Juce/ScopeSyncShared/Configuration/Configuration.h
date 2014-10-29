@@ -27,7 +27,76 @@
 #ifndef CONFIGURATION_H_INCLUDED
 #define CONFIGURATION_H_INCLUDED
 #include <JuceHeader.h>
+#include "../Configuration/ConfigurationPanel.h"
 
+class ScopeSync;
+
+/* =========================================================================
+ * NewConfigurationWindow: Container Window for NewConfigurationEditor
+ */
+class NewConfigurationWindow : public DocumentWindow,
+                               public ChangeBroadcaster
+{
+public:
+    NewConfigurationWindow(int posX, int posY,
+                           ScopeSync& ss,
+                           const File& file,
+                           ApplicationCommandManager* acm);
+    ~NewConfigurationWindow();
+
+    void addConfiguration();
+    void cancel();
+    bool isCancelled() { return cancelled; }
+    ValueTree getSettings() { return settings; }
+    File      getNewFile() { return newFile; }
+
+private:
+    File      newFile;
+    ValueTree settings;
+    bool      cancelled;
+
+    void closeButtonPressed() override;
+    void restoreWindowPosition(int posX, int posY);
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewConfigurationWindow);
+};
+
+/* =========================================================================
+ * NewConfigurationEditor: Dialog for setting up a new Configuration
+ */
+class NewConfigurationEditor : public Component,
+                               public ApplicationCommandTarget
+{
+public:
+    NewConfigurationEditor(ScopeSync& ss, ValueTree& settings,
+                           const String& filePath, ApplicationCommandManager* acm);
+    ~NewConfigurationEditor();
+
+    void paint(Graphics& g) override;
+    void resized() override;
+
+private:
+    ConfigurationPanel panel;
+    ApplicationCommandManager* commandManager;
+    Label        filePathLabel;
+    TextButton   addButton;
+    TextButton   cancelButton;
+
+    void addConfiguration();
+    void cancel();
+    
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewConfigurationEditor);
+};
+
+/* =========================================================================
+ * Configuration
+ */
 class Configuration : public FileBasedDocument, public ValueTree::Listener
 {
 public:
@@ -68,6 +137,8 @@ public:
     int    getConfigurationUID();
     int    generateConfigurationUID();
     String getLayoutDirectory() { return layoutDirectory; }
+
+    void createConfiguration(const File& filePath, const ValueTree& initialSettings);
 
     bool replaceConfiguration(const String& newFileName);
 

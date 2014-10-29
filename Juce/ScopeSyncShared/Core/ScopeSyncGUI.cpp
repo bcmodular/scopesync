@@ -98,6 +98,20 @@ void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
 { 
     if (source == configurationChooserWindow)
         configurationChooserWindow = nullptr;
+    else if (source == addConfigurationWindow)
+    {
+        if (addConfigurationWindow->isCancelled())
+            addConfigurationWindow = nullptr;
+        else
+        {
+            File newFile = addConfigurationWindow->getNewFile();
+            ValueTree settings = addConfigurationWindow->getSettings();
+
+            scopeSync.getConfiguration().createConfiguration(newFile, settings);
+            addConfigurationWindow = nullptr;
+            scopeSync.applyConfiguration();
+        }
+    }
     else
         UserSettings::getInstance()->hideFileLocationsWindow();
 }
@@ -419,7 +433,8 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
 {
     if (!scopeSync.configurationIsReadOnly())
     {
-        const CommandID ids[] = { CommandIDs::saveConfig,
+        const CommandID ids[] = { CommandIDs::addConfig,
+                                  CommandIDs::saveConfig,
                                   CommandIDs::saveConfigAs,
                                   CommandIDs::undo,
                                   CommandIDs::redo,
@@ -457,6 +472,10 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
     case CommandIDs::redo:
         result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(scopeSync.getUndoManager().canRedo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::addConfig:
+        result.setInfo("Add Configuration", "Create a new Configuration", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:
         result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
@@ -499,6 +518,7 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
     {
         case CommandIDs::undo:                     undo(); break;
         case CommandIDs::redo:                     redo(); break;
+        case CommandIDs::addConfig:                addConfig(); break;
         case CommandIDs::saveConfig:               save(); break;
         case CommandIDs::saveConfigAs:             saveAs(); break;
         case CommandIDs::showHideEditToolbar:      mainComponent->showHideEditToolbar(); break;
@@ -531,6 +551,38 @@ void ScopeSyncGUI::alertBoxLaunchLocationEditor(int result, ScopeSyncGUI* scopeS
                                                        scopeSyncGUI->getParentMonitorArea().getCentreY(), 
                                                        scopeSyncGUI);    
     }
+}
+
+void ScopeSyncGUI::addConfig()
+{
+    FileChooser fileChooser("New Configuration File...",
+                            File::nonexistent,
+                            "*.configuration");
+    
+    File newFile;
+
+    if (fileChooser.browseForFileToSave(true))
+    {
+        newFile = fileChooser.getResult();
+    }
+    else
+    {
+        return;
+    }
+
+    addConfigurationWindow = new NewConfigurationWindow
+                                 (
+                                 getParentMonitorArea().getCentreX(), 
+                                 getParentMonitorArea().getCentreY(), 
+                                 scopeSync,
+                                 newFile,
+                                 scopeSync.getCommandManager()
+                                 );
+    
+    addConfigurationWindow->addChangeListener(this);
+    addConfigurationWindow->setVisible(true);
+    addConfigurationWindow->setAlwaysOnTop(true);
+    addConfigurationWindow->toFront(true);
 }
 
 void ScopeSyncGUI::save()

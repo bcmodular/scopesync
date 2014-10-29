@@ -144,6 +144,7 @@ namespace CommandIDs
     {
         undo                        = 0x200100,
         redo                        = 0x200110,
+        cancel                      = 0x200120,
                                     
         saveConfig                  = 0x200300,
         saveConfigAs                = 0x200310,
@@ -152,6 +153,7 @@ namespace CommandIDs
         closeConfig                 = 0x200340,
         focusOnPanel                = 0x200350,
         showHideEditToolbar         = 0x200360,
+        addConfig                   = 0x200370,
                                   
         copyItem                    = 0x200400,
         pasteItem                   = 0x200410,
