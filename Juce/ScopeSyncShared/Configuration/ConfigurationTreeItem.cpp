@@ -1164,7 +1164,7 @@ void ConfigurationItem::cancelDelayedSelectionTimer()
 void ConfigurationItem::changePanel()
 {
     if (tree.hasType(Ids::configuration))
-        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager));
+        configurationManagerMain.changePanel(new ConfigurationPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager, false));
     else
         configurationManagerMain.changePanel(new EmptyPanel(tree, undoManager, configurationManagerMain.getScopeSync(), commandManager));
 }

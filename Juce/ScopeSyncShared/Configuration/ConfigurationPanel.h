@@ -87,7 +87,7 @@ class ConfigurationPanel : public BasePanel,
                            public ChangeListener
 {
 public:
-    ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
+    ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool newConfiguration);
     ~ConfigurationPanel();
     void chooseLayout();
     
@@ -97,6 +97,7 @@ protected:
 private:
     Value layoutName;
     Value layoutLibrarySet;
+    bool  isNewConfiguration;
 
     void changeListenerCallback(ChangeBroadcaster* /* source */);
     

@@ -421,7 +421,7 @@ void ConfigurationChooser::attachToTree()
 
 void ConfigurationChooser::unloadConfiguration()
 {
-    scopeSync.changeConfiguration(0);
+    scopeSync.unloadConfiguration();
     closeWindow();
 }
 

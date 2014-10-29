@@ -100,6 +100,8 @@ namespace Ids
     DECLARE_ID(tabs);
     DECLARE_ID(none);
 
+    DECLARE_ID(includeScopeLocal);
+
     // File Library attributes
     DECLARE_ID(fileLocations);
     DECLARE_ID(layoutLibrary);

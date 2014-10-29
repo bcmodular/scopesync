@@ -47,13 +47,14 @@ public:
     void addConfiguration();
     void cancel();
     bool isCancelled() { return cancelled; }
-    ValueTree getSettings() { return settings; }
+    ValueTree getSettings();
     File      getNewFile() { return newFile; }
 
 private:
     File      newFile;
     ValueTree settings;
     bool      cancelled;
+    Configuration& configuration;
 
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
@@ -138,8 +139,9 @@ public:
     int    generateConfigurationUID();
     String getLayoutDirectory() { return layoutDirectory; }
 
-    void createConfiguration(const File& filePath, const ValueTree& initialSettings);
-
+    void      createConfiguration(const File& filePath, const ValueTree& initialSettings);
+    ValueTree getEmptyConfiguration(bool includeScopeLocal);
+    
     bool replaceConfiguration(const String& newFileName);
 
     enum ParameterTarget { host, scopeLocal };
@@ -203,7 +205,8 @@ private:
     bool       layoutLoaded;
     
     static const char*  configurationFileExtension;
-    static const String loaderConfiguration;
+    static const String emptyConfiguration;
+    static const String emptyWithScopeLocalConfiguration;
     static const String loaderLayout;
 
     void        setupConfigurationProperties();

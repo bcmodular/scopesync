@@ -44,7 +44,8 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
                      true),
-      newFile(file)
+      newFile(file),
+      configuration(ss.getConfiguration())
 {
     cancelled = true;
 
@@ -72,6 +73,18 @@ void NewConfigurationWindow::addConfiguration()
     sendChangeMessage();
 }
 
+ValueTree NewConfigurationWindow::getSettings()
+{
+    bool includeScopeLocal = settings.getProperty(Ids::includeScopeLocal, true);
+
+    ValueTree newSettings = configuration.getEmptyConfiguration(includeScopeLocal);
+
+    newSettings.copyPropertiesFrom(settings, nullptr);
+    newSettings.removeProperty(Ids::includeScopeLocal, nullptr);
+
+    return newSettings;
+}
+
 void NewConfigurationWindow::cancel() { sendChangeMessage(); }
 
 void NewConfigurationWindow::closeButtonPressed() { sendChangeMessage(); }
@@ -92,7 +105,7 @@ NewConfigurationEditor::NewConfigurationEditor(ScopeSync& ss,
       addButton("Add Configuration"),
       cancelButton("Cancel"),
       filePathLabel("File Path"),
-      panel(settings, ss.getUndoManager(), ss, acm)
+      panel(settings, ss.getUndoManager(), ss, acm, true)
 {
     commandManager->registerAllCommandsForTarget(this);
 
@@ -242,10 +255,29 @@ const char* Configuration::configurationFileExtension = ".configuration";
 
 void Configuration::loadLoaderConfiguration()
 {
-    ScopedPointer<XmlElement> xml(XmlDocument::parse(loaderConfiguration));
+    ScopedPointer<XmlElement> xml(XmlDocument::parse(emptyWithScopeLocalConfiguration));
 
     ValueTree newTree (ValueTree::fromXml(*xml));
+    newTree.setProperty(Ids::name, "No configuration loaded...", nullptr);
+    newTree.setProperty(Ids::readOnly, true, nullptr);
+    newTree.setProperty(Ids::excludeFromChooser, true, nullptr);
+    newTree.setProperty(Ids::UID, 0, nullptr);
+
     loaderConfigurationRoot = newTree;
+}
+
+ValueTree Configuration::getEmptyConfiguration(bool includeScopeLocal)
+{
+    String xmlToParse;
+
+    if (includeScopeLocal)
+        xmlToParse = emptyWithScopeLocalConfiguration;
+    else
+        xmlToParse = emptyConfiguration;
+
+    ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
+
+    return ValueTree::fromXml(*xml);
 }
 
 void Configuration::loadLoaderLayout()
@@ -354,14 +386,9 @@ void Configuration::createConfiguration(const File& newFile, const ValueTree& in
 
 bool Configuration::replaceConfiguration(const String& newFileName)
 {
-    bool offerCancel = false;
-
-    if (ScopeSyncApplication::inPluginContext())
-        offerCancel = true;
-
     if (!(File::isAbsolutePath(newFileName)))
     {
-        if (saveIfNeededAndUserAgrees(offerCancel) == savedOk)
+        if (saveIfNeededAndUserAgrees(true) == savedOk)
         {
             setChangedFlag(false);
             layoutXml = loaderLayoutXml;
@@ -380,7 +407,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     
         if (newFile.existsAsFile())
         {
-            if (saveIfNeededAndUserAgrees(offerCancel) == savedOk)
+            if (saveIfNeededAndUserAgrees(true) == savedOk)
             {
                 Result result = loadFrom(newFile, false);
 
@@ -951,11 +978,25 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
     return componentStyleOverrides.getChildWithProperty(Ids::name, componentName);
 }
 
-const String Configuration::loaderConfiguration =
+const String Configuration::emptyConfiguration =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "\n"
-"<configuration name=\"No configuration loaded...\" readOnly=\"true\" excludeFromChooser=\"true\" ID=\"NqZmN"
-"e\" UID=\"0\">\n"
+"<configuration>\n"
+"  <hostParameters/>\n"
+"  <scopeParameters/>\n"
+"  <mapping>\n"
+"    <textButtons/>\n"
+"    <sliders/>\n"
+"    <labels/>\n"
+"    <comboBoxes/>\n"
+"    <tabbedComponents/>\n"
+"  </mapping>\n"
+"</configuration>\n";
+
+const String Configuration::emptyWithScopeLocalConfiguration =
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"\n"
+"<configuration>\n"
 "  <hostParameters/>\n"
 "  <scopeParameters>\n"
 "    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeS"

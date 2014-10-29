@@ -135,9 +135,7 @@ void ScopeSync::showConfigurationManager(int posX, int posY)
         configurationManagerWindow = new ConfigurationManagerWindow(*this, posX, posY);
         
         if (ScopeSyncApplication::inScopeFXContext())
-        {
             configurationManagerWindow->setAlwaysOnTop(true);
-        }
     }
 
     configurationManagerWindow->toFront(true);
@@ -590,6 +588,12 @@ void ScopeSync::changeConfiguration(int uid)
 
     if (fileName.isNotEmpty())
         configurationChanges.add(fileName);
+}
+
+void ScopeSync::unloadConfiguration()
+{
+    configuration->replaceConfiguration(String::empty);
+    applyConfiguration();
 }
 
 void ScopeSync::reloadLayout()

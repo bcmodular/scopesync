@@ -90,7 +90,10 @@ void ScopeSyncGUI::chooseConfiguration()
     
     configurationChooserWindow->addChangeListener(this);
     configurationChooserWindow->setVisible(true);
-    configurationChooserWindow->setAlwaysOnTop(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        configurationChooserWindow->setAlwaysOnTop(true);
+    
     configurationChooserWindow->toFront(true);   
 }
 
@@ -587,7 +590,10 @@ void ScopeSyncGUI::addConfig()
     
     addConfigurationWindow->addChangeListener(this);
     addConfigurationWindow->setVisible(true);
-    addConfigurationWindow->setAlwaysOnTop(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        addConfigurationWindow->setAlwaysOnTop(true);
+
     addConfigurationWindow->toFront(true);
 }
 

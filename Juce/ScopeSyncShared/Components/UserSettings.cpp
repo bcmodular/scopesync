@@ -320,7 +320,10 @@ void UserSettings::show(int posX, int posY)
     setBounds(posX, posY, 600, 350);
     
     addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, nullptr);
-    setAlwaysOnTop(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        setAlwaysOnTop(true);
+
     toFront(true);
 }
     
@@ -526,7 +529,10 @@ void UserSettings::editFileLocations(int posX, int posY, ChangeListener* listene
         fileLocationEditorWindow->addChangeListener(listener);
 
     fileLocationEditorWindow->setVisible(true);
-    fileLocationEditorWindow->setAlwaysOnTop(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        fileLocationEditorWindow->setAlwaysOnTop(true);
+    
     fileLocationEditorWindow->toFront(true);
 }
 
