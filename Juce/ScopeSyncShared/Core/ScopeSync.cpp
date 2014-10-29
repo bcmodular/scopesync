@@ -584,10 +584,13 @@ void ScopeSync::changeConfiguration(const String& fileName)
 
 void ScopeSync::changeConfiguration(int uid)
 {
-    String fileName = UserSettings::getInstance()->getConfigurationFilePathFromUID(uid);
+    if (uid != 0)
+    {
+        String fileName = UserSettings::getInstance()->getConfigurationFilePathFromUID(uid);
 
-    if (fileName.isNotEmpty())
-        configurationChanges.add(fileName);
+        if (fileName.isNotEmpty())
+            configurationChanges.add(fileName);
+    }
 }
 
 void ScopeSync::unloadConfiguration()
