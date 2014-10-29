@@ -134,6 +134,7 @@ private:
     void addConfig();
     void save();
     void saveAs();
+    void checkNewConfigIsInLocation();
     void undo();
     void redo();
     void snapshot();

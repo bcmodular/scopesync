@@ -106,10 +106,16 @@ void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
         {
             File newFile = addConfigurationWindow->getNewFile();
             ValueTree settings = addConfigurationWindow->getSettings();
-
-            scopeSync.getConfiguration().createConfiguration(newFile, settings);
+            
             addConfigurationWindow = nullptr;
+            
+            scopeSync.getConfiguration().createConfiguration(newFile, settings);
+            scopeSync.getConfiguration().save(true, true);
             scopeSync.applyConfiguration();
+
+            UserSettings::getInstance()->rebuildFileLibrary();
+
+            checkNewConfigIsInLocation();
         }
     }
     else
@@ -606,18 +612,23 @@ void ScopeSyncGUI::saveAs()
 
         UserSettings::getInstance()->rebuildFileLibrary();
 
-        int uid = scopeSync.getConfiguration().getConfigurationUID();
-
-        if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
-            AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
-                                         "Check locations",
-                                         "Your new Configuration was not automatically added to the library. You probably need to add a new location."
-                                         + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
-                                         String::empty,
-                                         String::empty,
-                                         this,
-                                         ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, this));
+        checkNewConfigIsInLocation();
     }
+}
+
+void ScopeSyncGUI::checkNewConfigIsInLocation()
+{
+    int uid = scopeSync.getConfiguration().getConfigurationUID();
+
+    if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
+        AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
+                                    "Check locations",
+                                    "Your new Configuration was not automatically added to the library. You probably need to add a new location."
+                                    + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
+                                    String::empty,
+                                    String::empty,
+                                    this,
+                                    ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, this));
 }
 
 void ScopeSyncGUI::undo()
