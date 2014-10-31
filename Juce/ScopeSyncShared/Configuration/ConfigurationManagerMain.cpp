@@ -38,9 +38,10 @@
 /* =========================================================================
  * ConfigurationManagerMain
  */
-ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner, ScopeSync& ss) 
-    : configurationManager(owner),
-      scopeSync(ss),
+ConfigurationManagerMain::ConfigurationManagerMain(ScopeSync& ss, ConfigurationManagerWindow& parent) 
+    : scopeSync(ss),
+      parentWindow(parent),
+      addButton("New"),
       saveButton("Save"),
       saveAsButton("Save As..."),
       applyChangesButton("Apply Changes"),
@@ -48,7 +49,7 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner, 
       undoButton("Undo"),
       redoButton("Redo")
 {
-    commandManager = configurationManager.getCommandManager();
+    commandManager = scopeSync.getCommandManager();
     
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
     lookAndFeel.setColour(TreeView::linesColourId,                  Colours::white);
@@ -63,6 +64,10 @@ ConfigurationManagerMain::ConfigurationManagerMain(ConfigurationManager& owner, 
     fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
+
+    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack);
+    addButton.setCommandToTrigger(commandManager, CommandIDs::addConfig, true);
+    addAndMakeVisible(addButton);
 
     setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
     saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
@@ -144,7 +149,8 @@ void ConfigurationManagerMain::updateConfigurationFileName()
 
 void ConfigurationManagerMain::getAllCommands (Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::saveConfig,
+    const CommandID ids[] = { CommandIDs::addConfig,
+                              CommandIDs::saveConfig,
                               CommandIDs::saveConfigAs,
                               CommandIDs::applyConfigChanges,
                               CommandIDs::discardConfigChanges,
@@ -173,6 +179,10 @@ void ConfigurationManagerMain::getCommandInfo (CommandID commandID, ApplicationC
     case CommandIDs::redo:
         result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(undoManager.canRedo()));
         result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::addConfig:
+        result.setInfo("Add Configuration", "Create a new Configuration", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::saveConfig:
         result.setInfo("Save Configuration", "Save Configuration", CommandCategories::configmgr, !(scopeSync.getConfiguration().hasChangedSinceSaved()));
@@ -229,10 +239,11 @@ bool ConfigurationManagerMain::perform(const InvocationInfo& info)
     {
         case CommandIDs::undo:                 undo(); break;
         case CommandIDs::redo:                 redo(); break;
-        case CommandIDs::saveConfig:           configurationManager.save(); break;
-        case CommandIDs::saveConfigAs:         configurationManager.saveAs(); break;
+        case CommandIDs::addConfig:            parentWindow.addConfig(); break;
+        case CommandIDs::saveConfig:           parentWindow.save(); break;
+        case CommandIDs::saveConfigAs:         parentWindow.saveAs(); break;
         case CommandIDs::applyConfigChanges:   scopeSync.applyConfiguration(); break;
-        case CommandIDs::discardConfigChanges: configurationManager.reloadConfiguration(); break;
+        case CommandIDs::discardConfigChanges: parentWindow.reloadConfiguration(); break;
         case CommandIDs::closeConfig:          scopeSync.hideConfigurationManager(); break;
         case CommandIDs::focusOnPanel:         panel->grabKeyboardFocus(); break;
         case CommandIDs::copyItem:             treeView->copyItem(); break;
@@ -288,6 +299,7 @@ void ConfigurationManagerMain::resized()
     
     Rectangle<int> toolbar(localBounds.removeFromTop(40).reduced(8, 8));
     
+    addButton.setBounds(toolbar.removeFromLeft(40));
     saveButton.setBounds(toolbar.removeFromLeft(40));
     saveAsButton.setBounds(toolbar.removeFromLeft(40));
     toolbar.removeFromLeft(16);
@@ -314,8 +326,8 @@ void ConfigurationManagerMain::paint(Graphics& g)
     g.fillRect(0, 0, getWidth(), 40);
     g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 94, 8);
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 188, 8);
+    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 134, 8);
+    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 228, 8);
 }
 
 void ConfigurationManagerMain::paintOverChildren(Graphics& g)
@@ -342,19 +354,17 @@ void ConfigurationManagerMain::timerCallback()
  * ConfigurationManagerCalloutMain
  */
 ConfigurationManagerCalloutMain::ConfigurationManagerCalloutMain(
-    ConfigurationManager& owner,
     ScopeSync& ss,
     int width,
     int height)
-    : configurationManager(owner),
-      scopeSync(ss),
+    : scopeSync(ss),
       undoManager(ss.getUndoManager())
 {
     numActions = 0;
     
     setLookAndFeel(&lookAndFeel);
 
-    commandManager = configurationManager.getCommandManager();
+    commandManager = scopeSync.getCommandManager();
     commandManager->registerAllCommandsForTarget(this);
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     

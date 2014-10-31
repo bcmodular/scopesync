@@ -213,7 +213,7 @@ private:
         Rectangle<int> toolbar(getLocalBounds().reduced(4, 4));
     
         toolbar.removeFromLeft(8);
-        addButton.setBounds(toolbar.removeFromLeft(20));
+        addButton.setBounds(toolbar.removeFromLeft(20).reduced(2, 2));
         toolbar.removeFromLeft(6);
         saveButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(6);
@@ -228,7 +228,7 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 91, 8);
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)

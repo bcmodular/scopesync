@@ -55,7 +55,8 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 
-class ScopeSync
+class ScopeSync : public ChangeListener,
+                  public ChangeBroadcaster
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -121,7 +122,8 @@ public:
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
     void           saveConfiguration();
-    void           saveConfigurationAs(const String& fileName);
+    bool           saveConfigurationAs();
+    void           addConfiguration(Rectangle<int> windowPosition);
     void           reloadSavedConfiguration();
     bool           configurationHasUnsavedChanges();
     Configuration& getConfiguration() { return *configuration; };
@@ -147,7 +149,9 @@ public:
     Value&         getSystemError();
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
-     
+    static void    checkNewConfigIsInLocation(Configuration& configuration, Component* component, ChangeListener* changeListener);
+    static void    alertBoxLaunchLocationEditor(int result, Component* component, ChangeListener* changeListener);
+ 
 private:
 
     /* ========================== Initialisation ============================== */
@@ -161,7 +165,7 @@ private:
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
-    
+    void changeListenerCallback(ChangeBroadcaster* source);
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
@@ -190,7 +194,8 @@ private:
     static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;
-
+    ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
+    
     BigInteger changingParams;
     
     CriticalSection flagLock;

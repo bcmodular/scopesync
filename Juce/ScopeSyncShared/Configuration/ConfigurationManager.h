@@ -55,33 +55,10 @@ private:
 };
 
 /* =========================================================================
- * ConfigurationManager: Controller for the Config Mgr
- */
-class ConfigurationManager
-{
-public:
-    ConfigurationManager(ScopeSync& owner);
-    ~ConfigurationManager();
-
-    ApplicationCommandManager* getCommandManager() { return commandManager; };
-    Configuration&             getConfiguration() { return scopeSync.getConfiguration(); };
-    ScopeSync&                 getScopeSync() { return scopeSync; };
-
-    void save();
-    void saveAs();
-    void reloadConfiguration();
-
-private:
-    ScopeSync&                 scopeSync;
-    ApplicationCommandManager* commandManager;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
-};
-
-/* =========================================================================
  * ConfigurationManagerWindow: Parent window for the Config Mgr
  */
-class ConfigurationManagerWindow : public DocumentWindow
+class ConfigurationManagerWindow : public DocumentWindow,
+                                   public ChangeListener
 {
 public:
     ConfigurationManagerWindow(ScopeSync& owner, int posX, int posY);
@@ -93,18 +70,22 @@ public:
     void createFileMenu(PopupMenu& menu);
     void createEditMenu(PopupMenu& menu);
 
+    void addConfig();
     void save();
     void saveAndClose();
     void saveAs();
     void unload();
+    void refreshContent();
     void reloadConfiguration();
+    void restoreWindowPosition();
 
 private:
     ApplicationCommandManager*               commandManager;
-    ConfigurationManager                     configurationManager;
+    ScopeSync&                               scopeSync;
     ConfigurationManagerMain*                configurationManagerMain;
     ScopedPointer<ConfigurationMenuBarModel> menuModel;
     
+    void changeListenerCallback(ChangeBroadcaster* source) override;
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
@@ -137,7 +118,6 @@ private:
     ScopeSync&                 scopeSync;
     UndoManager&               undoManager;
     ApplicationCommandManager* commandManager;
-    ConfigurationManager       configurationManager;
     ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;
 
     void paint(Graphics& g) override;

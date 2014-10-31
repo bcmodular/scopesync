@@ -209,6 +209,7 @@ private:
     static const String emptyWithScopeLocalConfiguration;
     static const String loaderLayout;
 
+    void        setConfigurationRoot(const ValueTree& newRoot);
     void        setupConfigurationProperties();
     void        loadLoaderConfiguration();
     void        loadLoaderLayout();

@@ -36,6 +36,7 @@
 
 #include <JuceHeader.h>
 class ScopeSync;
+class Configuration;
 class BCMComponent;
 class BCMTabbedComponent;
 class ComponentProperties;
@@ -71,7 +72,7 @@ public:
     ScopeSync& getScopeSync() const { return scopeSync; };
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
     Slider::SliderStyle getDefaultRotarySliderStyle();
-
+    
     static void deleteTooltipWindow() { tooltipWindow = nullptr; }
     
     /* ====================== Public member variables ========================= */
@@ -127,14 +128,12 @@ private:
     ApplicationCommandTarget* getNextCommandTarget() override;
     
     static void alertBoxReloadConfirm(int result, ScopeSyncGUI*);
-    static void alertBoxLaunchLocationEditor(int result, ScopeSyncGUI*);
 
-    void changeListenerCallback(ChangeBroadcaster* source);
+    void changeListenerCallback(ChangeBroadcaster* source) override;
 
     void addConfig();
     void save();
     void saveAs();
-    void checkNewConfigIsInLocation();
     void undo();
     void redo();
     void snapshot();

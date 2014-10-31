@@ -556,12 +556,16 @@ bool ScopeSync::processConfigurationChange()
 
     if (hasConfigurationUpdate(newFileName))
     {
-        if (configurationManagerWindow != nullptr)
-            hideConfigurationManager();
-            
         if (configuration->replaceConfiguration(newFileName))
         {
             applyConfiguration();
+
+            if (configurationManagerWindow != nullptr)
+            {
+                configurationManagerWindow->refreshContent();
+                configurationManagerWindow->restoreWindowPosition();
+            }
+        
             return true;
         }
         else
@@ -677,13 +681,114 @@ void ScopeSync::saveConfiguration()
     configuration->save(true, true);
 }
 
-void ScopeSync::saveConfigurationAs(const String& fileName)
+bool ScopeSync::saveConfigurationAs()
 {
-    if (File::isAbsolutePath(fileName))
+    File configurationFileDirectory = getConfigurationDirectory();
+    
+    FileChooser fileChooser("Save Configuration File As...",
+                            configurationFileDirectory,
+                            "*.configuration");
+    
+    if (fileChooser.browseForFileToSave(true))
     {
-        configuration->setLastFailedFile(configuration->getFile());
-        configuration->setFile(File(fileName));
-        saveConfiguration();
+        String fileName = fileChooser.getResult().getFullPathName();
+
+        if (File::isAbsolutePath(fileName))
+        {
+            configuration->setLastFailedFile(configuration->getFile());
+            configuration->setFile(File(fileName));
+            getConfigurationRoot().setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
+            saveConfiguration();
+        }
+
+        applyConfiguration();
+
+        UserSettings::getInstance()->rebuildFileLibrary();
+
+        return true;
+    }
+    else
+        return false;
+}
+
+void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
+{
+    FileChooser fileChooser("New Configuration File...",
+                            File::nonexistent,
+                            "*.configuration");
+    
+    File newFile;
+
+    if (fileChooser.browseForFileToSave(true))
+    {
+        newFile = fileChooser.getResult();
+    }
+    else
+    {
+        return;
+    }
+
+    addConfigurationWindow = new NewConfigurationWindow
+                                 (
+                                 windowPosition.getCentreX(), 
+                                 windowPosition.getCentreY(), 
+                                 *this,
+                                 newFile,
+                                 commandManager
+                                 );
+    
+    addConfigurationWindow->addChangeListener(this);
+    addConfigurationWindow->setVisible(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        addConfigurationWindow->setAlwaysOnTop(true);
+
+    addConfigurationWindow->toFront(true);
+}
+
+void ScopeSync::changeListenerCallback(ChangeBroadcaster* /* source */)
+{ 
+    if (addConfigurationWindow->isCancelled())
+        addConfigurationWindow = nullptr;
+    else
+    {
+        File newFile = addConfigurationWindow->getNewFile();
+        ValueTree settings = addConfigurationWindow->getSettings();
+            
+        addConfigurationWindow = nullptr;
+            
+        configuration->createConfiguration(newFile, settings);
+        configuration->save(true, true);
+        applyConfiguration();
+
+        UserSettings::getInstance()->rebuildFileLibrary();
+
+        sendChangeMessage();
+    }
+}
+
+void ScopeSync::checkNewConfigIsInLocation(Configuration& configuration, Component* component, ChangeListener* changeListener)
+{
+    int uid = configuration.getConfigurationUID();
+
+    if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
+        AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
+                                    "Check locations",
+                                    "Your new Configuration was not automatically added to the library. You probably need to add a new location."
+                                    + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
+                                    String::empty,
+                                    String::empty,
+                                    component,
+                                    ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, component, changeListener));
+}
+
+void ScopeSync::alertBoxLaunchLocationEditor(int result, Component* component, ChangeListener* changeListener)
+{
+    if (result)
+    {
+        UserSettings::getInstance()->editFileLocations(component->getParentMonitorArea().getCentreX(),
+                                                       component->getParentMonitorArea().getCentreY(), 
+                                                       changeListener);    
     }
 }
 

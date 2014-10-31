@@ -52,45 +52,6 @@ PopupMenu ConfigurationMenuBarModel::getMenuForIndex (int /*topLevelMenuIndex*/,
 }
 
 /* =========================================================================
- * ConfigurationManager
- */
-ConfigurationManager::ConfigurationManager(ScopeSync& owner)
-    : scopeSync(owner)
-{
-    commandManager = scopeSync.getCommandManager();
-
-    // Make sure the Application Command Manager uses the standard algorithm
-    // to choose its target (overriden by callouts)
-    commandManager->setFirstCommandTarget(nullptr);
-}
-
-ConfigurationManager::~ConfigurationManager() {}
-
-void ConfigurationManager::save()
-{
-    scopeSync.saveConfiguration();
-}
-
-void ConfigurationManager::saveAs()
-{
-    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
-    
-    FileChooser fileChooser("Save Configuration File As...",
-                            configurationFileDirectory,
-                            "*.configuration");
-    
-    if (fileChooser.browseForFileToSave(true))
-    {
-        scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
-    }
-}
-
-void ConfigurationManager::reloadConfiguration()
-{
-    scopeSync.reloadSavedConfiguration();
-}
-
-/* =========================================================================
  * ConfigurationManagerWindow
  */
 ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int posX, int posY)
@@ -98,12 +59,13 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
                      true),
-      configurationManager(owner)
+      scopeSync(owner)
 {
     commandManager = owner.getCommandManager();
     setUsingNativeTitleBar (true);
     
-    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(configurationManager, owner), true);
+    configurationManagerMain = nullptr;
+    refreshContent();
     
     menuModel = new ConfigurationMenuBarModel(*this);
     setMenuBar(menuModel);
@@ -140,6 +102,7 @@ void ConfigurationManagerWindow::createMenu(PopupMenu& menu, const String& menuN
 
 void ConfigurationManagerWindow::createFileMenu(PopupMenu& menu)
 {
+    menu.addCommandItem(commandManager, CommandIDs::addConfig);
     menu.addCommandItem(commandManager, CommandIDs::saveConfig);
     menu.addCommandItem(commandManager, CommandIDs::saveConfigAs);
     menu.addSeparator();
@@ -158,18 +121,43 @@ void ConfigurationManagerWindow::createEditMenu(PopupMenu& menu)
 void ConfigurationManagerWindow::closeButtonPressed()
 {
     unload();
-    configurationManager.getScopeSync().applyConfiguration();
-    configurationManager.getScopeSync().hideConfigurationManager();
+    scopeSync.applyConfiguration();
+    scopeSync.hideConfigurationManager();
+}
+
+void ConfigurationManagerWindow::addConfig()
+{
+    if (configurationManagerMain != nullptr)
+        configurationManagerMain->unload();
+
+    scopeSync.removeAllChangeListeners();
+    scopeSync.addChangeListener(this);
+    scopeSync.addConfiguration(getParentMonitorArea());
+}
+
+void ConfigurationManagerWindow::changeListenerCallback(ChangeBroadcaster* source)
+{ 
+    if (source == &scopeSync)
+    {
+        // This is the callback for when a new configuration has been added
+        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
+        refreshContent();
+    }
+    else
+    {
+        // This is for when the File Locations window calls back on close
+        UserSettings::getInstance()->hideFileLocationsWindow();
+    }
 }
 
 void ConfigurationManagerWindow::save()
 {
-    configurationManager.save();
+    scopeSync.saveConfiguration();
 }
 
 void ConfigurationManagerWindow::unload()
 {
-    configurationManager.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
+    scopeSync.getConfiguration().getConfigurationProperties().setValue("lastConfigMgrPos", getWindowStateAsString());
 
     if (configurationManagerMain != nullptr)
         configurationManagerMain->unload();
@@ -181,23 +169,32 @@ void ConfigurationManagerWindow::unload()
 
 void ConfigurationManagerWindow::saveAs()
 {
-    configurationManager.saveAs();
-    configurationManagerMain->updateConfigurationFileName();
+    if (configurationManagerMain != nullptr)
+        configurationManagerMain->unload();
+
+    if (scopeSync.saveConfigurationAs())
+        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
+
+    refreshContent();
 }
 
 void ConfigurationManagerWindow::reloadConfiguration()
 {
-    configurationManager.reloadConfiguration();
-    configurationManagerMain->unload();
+    scopeSync.reloadSavedConfiguration();
+    refreshContent();
+}
+
+void ConfigurationManagerWindow::refreshContent()
+{
     clearContentComponent();
-    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(configurationManager, configurationManager.getScopeSync()), true);
+    setContentOwned(configurationManagerMain = new ConfigurationManagerMain(scopeSync, *this), true);
 }
 
 void ConfigurationManagerWindow::restoreWindowPosition(int posX, int posY)
 {
     String windowState;
 
-    windowState = configurationManager.getConfiguration().getConfigurationProperties().getValue("lastConfigMgrPos");
+    windowState = scopeSync.getConfiguration().getConfigurationProperties().getValue("lastConfigMgrPos");
 
     if (windowState.isEmpty())
         setBounds(posX, posY, getWidth(), getHeight());
@@ -205,17 +202,27 @@ void ConfigurationManagerWindow::restoreWindowPosition(int posX, int posY)
         restoreWindowStateFromString(windowState);
 }
 
+void ConfigurationManagerWindow::restoreWindowPosition()
+{
+    String windowState;
+
+    windowState = scopeSync.getConfiguration().getConfigurationProperties().getValue("lastConfigMgrPos");
+
+    if (windowState.isNotEmpty())
+        restoreWindowStateFromString(windowState);
+}
+
 /* =========================================================================
  * ConfigurationManagerCallout
  */
 ConfigurationManagerCallout::ConfigurationManagerCallout(ScopeSync& owner, int width, int height)
-    : configurationManager(owner), scopeSync(owner), undoManager(owner.getUndoManager())
+    : scopeSync(owner), undoManager(owner.getUndoManager())
 {
     commandManager = owner.getCommandManager();
     
     undoManager.beginNewTransaction();
         
-    configurationManagerCalloutMain = new ConfigurationManagerCalloutMain(configurationManager, owner, width, height);
+    configurationManagerCalloutMain = new ConfigurationManagerCalloutMain(owner, width, height);
     addAndMakeVisible(configurationManagerCalloutMain);
     
     setOpaque(true);
@@ -235,7 +242,7 @@ ConfigurationManagerCallout::~ConfigurationManagerCallout()
 void ConfigurationManagerCallout::setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName)
 {
     if (!(mapping.isValid()))
-         configurationManager.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &undoManager);
+         scopeSync.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &undoManager);
 
     MappingPanel* panelToShow;
 
@@ -262,7 +269,7 @@ void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree&        styleO
 {
     if (!(styleOverride.isValid()))
     {
-        configurationManager.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
+        scopeSync.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
         styleOverride.setProperty(Ids::fillColour,  fillColour, &undoManager);
         styleOverride.setProperty(Ids::lineColour,  lineColour, &undoManager);
         styleOverride.setProperty(Ids::fillColour2, fillColour2, &undoManager);

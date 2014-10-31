@@ -44,7 +44,7 @@ class ConfigurationManagerMain : public  Component,
                                  private Timer
 {
 public:
-    ConfigurationManagerMain(ConfigurationManager& owner, ScopeSync& ss);
+    ConfigurationManagerMain(ScopeSync& ss, ConfigurationManagerWindow& parent);
     ~ConfigurationManagerMain();
 
     void updateConfigurationFileName();
@@ -57,12 +57,13 @@ public:
     void changePanel(Component* newComponent);
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
-    Configuration&             getConfiguration()  { return configurationManager.getConfiguration(); };
+    Configuration&             getConfiguration()  { return scopeSync.getConfiguration(); };
     ScopeSync&                 getScopeSync()      { return scopeSync; };
 
 private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
+    ImageButton                addButton;
     ImageButton                saveButton;
     ImageButton                saveAsButton;
     ImageButton                applyChangesButton;
@@ -74,10 +75,10 @@ private:
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
     
-    ScopeSync&                 scopeSync;
-    ApplicationCommandManager* commandManager;
-    ConfigurationManager&      configurationManager;
-    UndoManager                undoManager;
+    ScopeSync&                  scopeSync;
+    ApplicationCommandManager*  commandManager;
+    UndoManager                 undoManager;
+    ConfigurationManagerWindow& parentWindow;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -88,6 +89,7 @@ private:
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
+    
     void undo();
     void redo();
     bool canPasteItem();
@@ -96,14 +98,14 @@ private:
 };
 
 /* =========================================================================
- * ConfigurationManagerMain: Version to show in Callout box
+ * ConfigurationManagerCalloutMain: Version to show in Callout box
  */
 class ConfigurationManagerCalloutMain : public Component,
                                         public Timer,
                                         public ApplicationCommandTarget
 {
 public:
-    ConfigurationManagerCalloutMain(ConfigurationManager& owner, ScopeSync& ss, int width, int height);
+    ConfigurationManagerCalloutMain(ScopeSync& ss, int width, int height);
     ~ConfigurationManagerCalloutMain();
 
     void paint(Graphics& g) override;
@@ -120,7 +122,6 @@ private:
     ScopeSync&                   scopeSync;
     UndoManager&                 undoManager;
     ApplicationCommandManager*   commandManager;
-    ConfigurationManager&        configurationManager;
     
     int numActions;
 

@@ -210,7 +210,7 @@ Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
 {
     lastFailedFile = File();
     loadLoaderConfiguration();
-    configurationRoot = loaderConfigurationRoot;
+    setConfigurationRoot(loaderConfigurationRoot);
     loadLoaderLayout();
     layoutXml = loaderLayoutXml;
     layoutLoaded = true;
@@ -222,6 +222,12 @@ Configuration::~Configuration()
 {
     configurationRoot.removeListener(this);
 };
+
+void Configuration::setConfigurationRoot(const ValueTree& newRoot)
+{
+    configurationRoot = newRoot;
+    setupConfigurationProperties();
+}
 
 void Configuration::setMissingDefaultValues()
 {
@@ -309,9 +315,6 @@ void Configuration::setupConfigurationProperties()
 
 PropertiesFile& Configuration::getConfigurationProperties()
 {
-    if (properties == nullptr)
-        setupConfigurationProperties();
-
     return *properties;
 }
 
@@ -327,7 +330,7 @@ Result Configuration::loadDocument(const File& file)
     if (!newTree.hasType(Ids::configuration))
         return Result::fail("The document contains errors and couldn't be parsed");
 
-    configurationRoot = newTree;
+    setConfigurationRoot(newTree);
     
     layoutLoaded = false;
 
@@ -376,7 +379,7 @@ void Configuration::createConfiguration(const File& newFile, const ValueTree& in
         setFile(newFile);
         lastFailedFile = File();
 
-        configurationRoot = initialSettings;
+        setConfigurationRoot(initialSettings);
         
         setMissingDefaultValues();
 

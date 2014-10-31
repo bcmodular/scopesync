@@ -101,25 +101,9 @@ void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
 { 
     if (source == configurationChooserWindow)
         configurationChooserWindow = nullptr;
-    else if (source == addConfigurationWindow)
+    else if (source == &scopeSync)
     {
-        if (addConfigurationWindow->isCancelled())
-            addConfigurationWindow = nullptr;
-        else
-        {
-            File newFile = addConfigurationWindow->getNewFile();
-            ValueTree settings = addConfigurationWindow->getSettings();
-            
-            addConfigurationWindow = nullptr;
-            
-            scopeSync.getConfiguration().createConfiguration(newFile, settings);
-            scopeSync.getConfiguration().save(true, true);
-            scopeSync.applyConfiguration();
-
-            UserSettings::getInstance()->rebuildFileLibrary();
-
-            checkNewConfigIsInLocation();
-        }
+        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
     }
     else
         UserSettings::getInstance()->hideFileLocationsWindow();
@@ -552,49 +536,11 @@ void ScopeSyncGUI::alertBoxReloadConfirm(int result, ScopeSyncGUI* scopeSyncGUI)
     }
 }
 
-void ScopeSyncGUI::alertBoxLaunchLocationEditor(int result, ScopeSyncGUI* scopeSyncGUI)
-{
-    if (result)
-    {
-        UserSettings::getInstance()->editFileLocations(scopeSyncGUI->getParentMonitorArea().getCentreX(),
-                                                       scopeSyncGUI->getParentMonitorArea().getCentreY(), 
-                                                       scopeSyncGUI);    
-    }
-}
-
 void ScopeSyncGUI::addConfig()
 {
-    FileChooser fileChooser("New Configuration File...",
-                            File::nonexistent,
-                            "*.configuration");
-    
-    File newFile;
-
-    if (fileChooser.browseForFileToSave(true))
-    {
-        newFile = fileChooser.getResult();
-    }
-    else
-    {
-        return;
-    }
-
-    addConfigurationWindow = new NewConfigurationWindow
-                                 (
-                                 getParentMonitorArea().getCentreX(), 
-                                 getParentMonitorArea().getCentreY(), 
-                                 scopeSync,
-                                 newFile,
-                                 scopeSync.getCommandManager()
-                                 );
-    
-    addConfigurationWindow->addChangeListener(this);
-    addConfigurationWindow->setVisible(true);
-    
-    if (ScopeSyncApplication::inScopeFXContext())
-        addConfigurationWindow->setAlwaysOnTop(true);
-
-    addConfigurationWindow->toFront(true);
+    scopeSync.removeAllChangeListeners();
+    scopeSync.addChangeListener(this);
+    scopeSync.addConfiguration(getParentMonitorArea());
 }
 
 void ScopeSyncGUI::save()
@@ -605,36 +551,8 @@ void ScopeSyncGUI::save()
 
 void ScopeSyncGUI::saveAs()
 {
-    File configurationFileDirectory = scopeSync.getConfigurationDirectory();
-    
-    FileChooser fileChooser("Save Configuration File As...",
-                            configurationFileDirectory,
-                            "*.configuration");
-    
-    if (fileChooser.browseForFileToSave(true))
-    {
-        scopeSync.saveConfigurationAs(fileChooser.getResult().getFullPathName());
-        scopeSync.applyConfiguration();
-
-        UserSettings::getInstance()->rebuildFileLibrary();
-
-        checkNewConfigIsInLocation();
-    }
-}
-
-void ScopeSyncGUI::checkNewConfigIsInLocation()
-{
-    int uid = scopeSync.getConfiguration().getConfigurationUID();
-
-    if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
-        AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
-                                    "Check locations",
-                                    "Your new Configuration was not automatically added to the library. You probably need to add a new location."
-                                    + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
-                                    String::empty,
-                                    String::empty,
-                                    this,
-                                    ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, this));
+    if (scopeSync.saveConfigurationAs())
+        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
 }
 
 void ScopeSyncGUI::undo()
