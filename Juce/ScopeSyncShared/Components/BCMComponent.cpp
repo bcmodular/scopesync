@@ -162,7 +162,6 @@ class BCMComponent::EditToolbar : public Component
 public:
     EditToolbar(ScopeSync& ss, int width, int height)    
     : scopeSync(ss),
-      addButton("New"),
       saveButton("Save"),
       saveAsButton("Save As..."),
       undoButton("Undo"),
@@ -170,10 +169,6 @@ public:
     {
         commandManager = scopeSync.getCommandManager();
         
-        setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack);
-        addButton.setCommandToTrigger(commandManager, CommandIDs::addConfig, true);
-        addAndMakeVisible(addButton);
-
         setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
         saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
         addAndMakeVisible(saveButton);
@@ -201,7 +196,6 @@ private:
     ScopeSync&                 scopeSync;
     ApplicationCommandManager* commandManager;
     
-    ImageButton addButton;
     ImageButton saveButton;
     ImageButton saveAsButton;
     ImageButton undoButton;
@@ -213,8 +207,6 @@ private:
         Rectangle<int> toolbar(getLocalBounds().reduced(4, 4));
     
         toolbar.removeFromLeft(8);
-        addButton.setBounds(toolbar.removeFromLeft(20).reduced(2, 2));
-        toolbar.removeFromLeft(6);
         saveButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(6);
         saveAsButton.setBounds(toolbar.removeFromLeft(20));
@@ -228,7 +220,7 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 91, 8);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
@@ -301,14 +293,14 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
         {
             editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
         
-            Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(226);
+            Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
         
             bool showEditToolbar = scopeSync.shouldShowEditToolbar();
             DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
             
             if (!showEditToolbar)
             {
-                editToolbarBounds.translate(-146, 0);
+                editToolbarBounds.translate(-120, 0);
             }
         
             editToolbar->setBounds(editToolbarBounds);
@@ -594,13 +586,13 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
 
 void BCMComponent::showHideEditToolbar()
 {
-    Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(226));
+    Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
     
     bool showEditToolbar = scopeSync.shouldShowEditToolbar();
     DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String(showEditToolbar));
         
     if (showEditToolbar)
-        editToolbarBounds.translate(-146, 0);
+        editToolbarBounds.translate(-120, 0);
     
     Desktop::getInstance().getAnimator().animateComponent(editToolbar, editToolbarBounds, 1.0f, 300, true, 1.0f, 1.0f);
     

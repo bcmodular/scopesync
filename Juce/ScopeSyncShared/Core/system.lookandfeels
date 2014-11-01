@@ -17,6 +17,12 @@
       <textbutton upfilename="loadConfigButtonOff" downfilename="loadConfigButtonOn" mouseoverupfilename="loadConfigButtonOver" mouseoverdownfilename="loadConfigButtonOn"></textbutton>
     </images>
   </lookandfeel>
+  <lookandfeel id="system:new_config_button" parentid="system:default">
+    <appliesto componenttype="none" />
+    <images>
+      <textbutton upfilename="newConfigOff" downfilename="newConfigOn" mouseoverupfilename="newConfigOver" mouseoverdownfilename="newConfigOn"></textbutton>
+    </images>
+  </lookandfeel>
   <lookandfeel id="system:reload_button" parentid="system:default">
     <appliesto componenttype="none" />
     <images>

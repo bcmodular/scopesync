@@ -443,7 +443,8 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
     }
     else
     {
-        const CommandID ids[] = { CommandIDs::snapshot,
+        const CommandID ids[] = { CommandIDs::addConfig,
+                                  CommandIDs::snapshot,
                                   CommandIDs::showUserSettings,
                                   CommandIDs::chooseConfiguration
                                 };

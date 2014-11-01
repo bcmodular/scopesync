@@ -58,6 +58,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         commandToTrigger = CommandIDs::showUserSettings;
     else if (getName().equalsIgnoreCase("showconfigurationmanager"))
         commandToTrigger = CommandIDs::showConfigurationManager;
+    else if (getName().equalsIgnoreCase("newconfiguration"))
+        commandToTrigger = CommandIDs::addConfig;
     else if (getName().equalsIgnoreCase("chooseconfiguration"))
         commandToTrigger = CommandIDs::chooseConfiguration;
     else if (getName().equalsIgnoreCase("reloadconfiguration"))
@@ -231,11 +233,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setTooltip (tooltip);
     setButtonText(buttonText);
     setRadioGroupId(radioGroupId);
-
-    if (scopeSync.configurationIsReadOnly() && getName().equalsIgnoreCase("showconfigurationmanager"))
-    {
-        setVisible(false);
-    }
 }
 
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };
