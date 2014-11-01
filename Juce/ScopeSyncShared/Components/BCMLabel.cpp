@@ -135,7 +135,7 @@ void BCMLabel::overrideStyle()
     String lineColourString = findColour(Label::textColourId).toString();
     
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 85);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::label, getName(), fillColourString, lineColourString);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::label, getName(), widgetTemplateId, fillColourString, lineColourString);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

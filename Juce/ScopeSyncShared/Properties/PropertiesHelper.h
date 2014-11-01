@@ -165,7 +165,7 @@ namespace PropertiesHelper
 
     inline void getMappingParentFromXml(XmlElement& xml, Identifier& componentType, String& componentName)
     {
-        String componentTypeString = xml.getStringAttribute("componenttype");
+        String componentTypeString = xml.getStringAttribute("componenttype", componentType.toString());
 
              if (componentTypeString.equalsIgnoreCase("slider"))          componentType = Ids::slider;
         else if (componentTypeString.equalsIgnoreCase("label"))           componentType = Ids::label;
@@ -173,7 +173,7 @@ namespace PropertiesHelper
         else if (componentTypeString.equalsIgnoreCase("tabbedcomponent")) componentType = Ids::tabbedComponent;
         else if (componentTypeString.equalsIgnoreCase("textbutton"))      componentType = Ids::textButton;
 
-        componentName = xml.getStringAttribute("componentname");
+        componentName = xml.getStringAttribute("componentname", componentName);
     }
 };
 

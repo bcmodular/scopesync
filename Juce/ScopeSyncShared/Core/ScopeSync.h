@@ -69,6 +69,8 @@ public:
     ~ScopeSync();
     void unload();
 
+    static const String scopeSyncVersionString;
+
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
     static void reloadAllGUIs();

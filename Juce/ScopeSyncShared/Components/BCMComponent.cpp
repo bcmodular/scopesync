@@ -754,7 +754,7 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 void BCMComponent::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), backgroundColour);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), widgetTemplateId, backgroundColour);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

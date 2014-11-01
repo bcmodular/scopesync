@@ -64,6 +64,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         commandToTrigger = CommandIDs::chooseConfiguration;
     else if (getName().equalsIgnoreCase("reloadconfiguration"))
         commandToTrigger = CommandIDs::reloadSavedConfiguration;
+    else if (getName().equalsIgnoreCase("showaboutbox"))
+        commandToTrigger = CommandIDs::showAboutBox;
     
     if (commandToTrigger != 0)
     {
@@ -422,7 +424,7 @@ void BCMTextButton::overrideStyle()
     String lineColour2String = findColour(TextButton::textColourOnId).toString();
     
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::textButton, getName(), fillColourString, lineColourString, fillColour2String, lineColour2String);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::textButton, getName(), widgetTemplateId, fillColourString, lineColourString, fillColour2String, lineColour2String);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

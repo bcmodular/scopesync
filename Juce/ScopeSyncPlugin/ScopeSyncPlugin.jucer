@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="0.1.1"
-              bundleIdentifier="com.bcmodular.ScopeSync" includeBinaryInAppConfig="1"
+<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="1.0.1"
+              bundleIdentifier="uk.co.bcmodular.scopesync" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="0" buildRTAS="0" buildAAX="0"
               pluginName="ScopeSync" pluginDesc="ScopeSync" pluginManufacturer="bcmodular"
               pluginManufacturerWebsite="www.yourcompany.com" pluginManufacturerEmail="support@yourcompany.com"
@@ -10,8 +10,8 @@
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
               pluginAUExportPrefix="ScopeSyncAU" pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
               pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.0"
-              companyName="BC Modular" companyWebsite="http://www.bcmodular.co.uk"
-              companyEmail="support@bcmodular.co.uk">
+              companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
+              companyEmail="support@scopesync.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
     <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
       <FILE id="q3zjIJ" name="ConfigurationChooser.cpp" compile="1" resource="0"

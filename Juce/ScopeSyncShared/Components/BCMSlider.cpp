@@ -328,7 +328,7 @@ void BCMSlider::overrideStyle()
     lineColour2String = findColour(Slider::textBoxTextColourId).toString();
 
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), fillColourString, lineColourString);
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
 }

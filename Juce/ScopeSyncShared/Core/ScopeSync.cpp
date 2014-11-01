@@ -46,6 +46,7 @@
 #endif // __DLL_EFFECT__
 
 const int ScopeSync::minHostParameters = 128;
+const String ScopeSync::scopeSyncVersionString = "0.4.0-Prerelease";
 
 const StringArray ScopeSync::scopeSyncCodes = StringArray::fromTokens(
 "A1,A2,A3,A4,A5,A6,A7,A8,\

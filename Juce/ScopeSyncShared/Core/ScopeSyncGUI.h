@@ -106,6 +106,8 @@ public:
     Settings settings;
 
 private:
+    class AboutBox;
+
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;
@@ -149,6 +151,7 @@ private:
     void snapshot();
     void showConfigurationManager();
     void reloadSavedConfiguration();
+    void showAboutBox();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };

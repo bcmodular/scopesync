@@ -49,6 +49,49 @@
 const int ScopeSyncGUI::timerFrequency = 100;
 ScopedPointer<TooltipWindow> ScopeSyncGUI::tooltipWindow;
 
+class ScopeSyncGUI::AboutBox : public Component
+{
+public:
+    AboutBox()
+    {
+        scopeSyncVersion.setText("ScopeSync version: " + ScopeSync::scopeSyncVersionString, dontSendNotification);
+
+        String moduleVersionText = "Module version: ";
+        moduleVersionText += ProjectInfo::versionString;
+        moduleVersion.setText(moduleVersionText, dontSendNotification);
+
+        String creditsText = "Authors and Contributors:";
+        creditsText += newLine + "Will Ellis";
+        creditsText += newLine + "Simon Russell";
+        creditsText += newLine + "Jessica Brandt";
+        credits.setText(creditsText, dontSendNotification);
+
+        scopeSyncLink.setURL(URL("http:://www.scopesync.co.uk"));
+        scopeSyncLink.setButtonText("ScopeSync Website");
+        setSize(500, 500);
+    }
+    
+    ~AboutBox() {};
+
+    void resized()
+    {
+        Rectangle<int> localBounds = getLocalBounds();
+
+        localBounds.removeFromTop(100);
+        scopeSyncVersion.setBounds(localBounds.removeFromTop(50));
+        moduleVersion.setBounds(localBounds.removeFromTop(50));
+        localBounds.removeFromTop(100);
+        credits.setBounds(localBounds.removeFromTop(150));
+        scopeSyncLink.setBounds(localBounds.removeFromTop(50));
+    }
+
+private:
+    Label           scopeSyncVersion;
+    Label           moduleVersion;
+    Label           credits;
+    HyperlinkButton scopeSyncLink;
+};
+
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
     setWantsKeyboardFocus(true);
@@ -472,7 +515,8 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
                                   CommandIDs::showUserSettings,
                                   CommandIDs::showConfigurationManager,
                                   CommandIDs::chooseConfiguration,
-                                  CommandIDs::reloadSavedConfiguration
+                                  CommandIDs::reloadSavedConfiguration,
+                                  CommandIDs::showAboutBox
                                 };
 
         commands.addArray (ids, numElementsInArray(ids));
@@ -482,7 +526,8 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
         const CommandID ids[] = { CommandIDs::addConfig,
                                   CommandIDs::snapshot,
                                   CommandIDs::showUserSettings,
-                                  CommandIDs::chooseConfiguration
+                                  CommandIDs::chooseConfiguration,
+                                  CommandIDs::showAboutBox
                                 };
 
         commands.addArray (ids, numElementsInArray(ids));
@@ -539,6 +584,10 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.setInfo("Reload Saved Configuration", "Reloads the most recently saved version of the current Configuration. This will discard all unsaved changes and wipe the undo history.", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('r', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::showAboutBox:
+        result.setInfo("Show About Box", "Shows the About Box", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('h', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -557,6 +606,7 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
         case CommandIDs::showConfigurationManager: showConfigurationManager(); break;
         case CommandIDs::chooseConfiguration:      chooseConfiguration(); break;
         case CommandIDs::reloadSavedConfiguration: reloadSavedConfiguration(); break;
+        case CommandIDs::showAboutBox:             showAboutBox(); break;
         default:                                   return false;
     }
 
@@ -626,4 +676,10 @@ void ScopeSyncGUI::reloadSavedConfiguration()
                                      ModalCallbackFunction::forComponent(alertBoxReloadConfirm, this));
     else
         scopeSync.reloadSavedConfiguration();
+}
+
+void ScopeSyncGUI::showAboutBox()
+{
+    AboutBox* aboutBox = new AboutBox();
+    CallOutBox::launchAsynchronously(aboutBox, getScreenBounds(), nullptr);
 }

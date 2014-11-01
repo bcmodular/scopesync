@@ -140,10 +140,10 @@
  #define JucePlugin_Manufacturer           "bcmodular"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "http://www.bcmodular.co.uk"
+ #define JucePlugin_ManufacturerWebsite    "http://www.scopesync.co.uk"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      "support@bcmodular.co.uk"
+ #define JucePlugin_ManufacturerEmail      "support@scopesync.co.uk"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
  #define JucePlugin_ManufacturerCode       'bcmd'
@@ -176,13 +176,13 @@
  #define JucePlugin_EditorRequiresKeyboardFocus  1
 #endif
 #ifndef  JucePlugin_Version
- #define JucePlugin_Version                0.1.1
+ #define JucePlugin_Version                1.0.1
 #endif
 #ifndef  JucePlugin_VersionCode
- #define JucePlugin_VersionCode            0x101
+ #define JucePlugin_VersionCode            0x10001
 #endif
 #ifndef  JucePlugin_VersionString
- #define JucePlugin_VersionString          "0.1.1"
+ #define JucePlugin_VersionString          "1.0.1"
 #endif
 #ifndef  JucePlugin_VSTUniqueID
  #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
@@ -206,7 +206,7 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.bcmodular.ScopeSync
+ #define JucePlugin_CFBundleIdentifier     uk.co.bcmodular.scopesync
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_None

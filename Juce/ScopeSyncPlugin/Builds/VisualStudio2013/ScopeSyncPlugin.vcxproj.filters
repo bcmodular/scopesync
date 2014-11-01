@@ -2127,6 +2127,9 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_MessageManager.h">
       <Filter>Juce Modules\juce_events\messages</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_MountedVolumeListChangeDetector.h">
+      <Filter>Juce Modules\juce_events\messages</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_NotificationType.h">
       <Filter>Juce Modules\juce_events\messages</Filter>
     </ClInclude>

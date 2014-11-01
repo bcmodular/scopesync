@@ -148,6 +148,7 @@ namespace CommandIDs
         undo                        = 0x200100,
         redo                        = 0x200110,
         cancel                      = 0x200120,
+        showAboutBox                = 0x200130,
                                     
         saveConfig                  = 0x200300,
         saveConfigAs                = 0x200310,
