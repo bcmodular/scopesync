@@ -52,6 +52,38 @@ class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
 #include "../Utils/BCMMisc.h"
 
+class AboutBoxWindow : public DocumentWindow
+{
+public:
+    AboutBoxWindow();
+    ~AboutBoxWindow();
+    
+    void closeButtonPressed() override;
+    
+    juce_DeclareSingleton (AboutBoxWindow, false)
+
+private:
+
+    class AboutBox : public Component
+    {
+    public:
+        AboutBox();
+    
+        void paint(Graphics& g) override;
+        void resized() override;
+
+    private:
+        Label           scopeSyncVersion;
+        Label           moduleVersion;
+        Label           credits;
+        HyperlinkButton scopeSyncLink;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutBox)
+    };
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutBoxWindow)
+};
+
 class ScopeSyncGUI : public Component,
                      public Timer,
                      public ApplicationCommandTarget,
@@ -106,8 +138,7 @@ public:
     Settings settings;
 
 private:
-    class AboutBox;
-
+    
     /* ===================== Private member variables ========================= */
     ScopedPointer<BCMComponent> mainComponent;
     Array<BCMTabbedComponent*>  tabbedComponents;

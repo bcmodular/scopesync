@@ -180,6 +180,7 @@ void ScopeSync::shutDownIfLastInstance()
         Icons::deleteInstance();
         ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
+        AboutBoxWindow::deleteInstance();
 
         ScopeSyncGUI::deleteTooltipWindow();
 

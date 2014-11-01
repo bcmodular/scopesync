@@ -45,52 +45,80 @@
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Properties/TabProperties.h"
 #include "../Configuration/ConfigurationChooser.h"
+#include "../Resources/ImageLoader.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 ScopedPointer<TooltipWindow> ScopeSyncGUI::tooltipWindow;
 
-class ScopeSyncGUI::AboutBox : public Component
+juce_ImplementSingleton(AboutBoxWindow)
+
+AboutBoxWindow::AboutBoxWindow()
+    : DocumentWindow ("About", Colour::fromString("ff2e2e2e"), closeButton, true)
 {
-public:
-    AboutBox()
-    {
-        scopeSyncVersion.setText("ScopeSync version: " + ScopeSync::scopeSyncVersionString, dontSendNotification);
-
-        String moduleVersionText = "Module version: ";
-        moduleVersionText += ProjectInfo::versionString;
-        moduleVersion.setText(moduleVersionText, dontSendNotification);
-
-        String creditsText = "Authors and Contributors:";
-        creditsText += newLine + "Will Ellis";
-        creditsText += newLine + "Simon Russell";
-        creditsText += newLine + "Jessica Brandt";
-        credits.setText(creditsText, dontSendNotification);
-
-        scopeSyncLink.setURL(URL("http:://www.scopesync.co.uk"));
-        scopeSyncLink.setButtonText("ScopeSync Website");
-        setSize(500, 500);
-    }
+    setContentOwned(new AboutBox(), true);
+    setVisible(true);
+    setResizable(false, false);
+}
     
-    ~AboutBox() {};
+void AboutBoxWindow::closeButtonPressed()
+{
+    setVisible(false);
+}
 
-    void resized()
-    {
-        Rectangle<int> localBounds = getLocalBounds();
+AboutBoxWindow::~AboutBoxWindow()
+{ 
+    clearSingletonInstance(); 
+}
 
-        localBounds.removeFromTop(100);
-        scopeSyncVersion.setBounds(localBounds.removeFromTop(50));
-        moduleVersion.setBounds(localBounds.removeFromTop(50));
-        localBounds.removeFromTop(100);
-        credits.setBounds(localBounds.removeFromTop(150));
-        scopeSyncLink.setBounds(localBounds.removeFromTop(50));
-    }
+AboutBoxWindow::AboutBox::AboutBox()
+{
+    scopeSyncVersion.setText("ScopeSync version: " + ScopeSync::scopeSyncVersionString, dontSendNotification);
+    scopeSyncVersion.setColour(Label::textColourId, Colours::lightgrey);
+    scopeSyncVersion.setJustificationType(Justification::centred);
+    addAndMakeVisible(scopeSyncVersion);
+            
+    String moduleVersionText = "Module version: ";
+    moduleVersionText += ProjectInfo::versionString;
+    moduleVersion.setText(moduleVersionText, dontSendNotification);
+    moduleVersion.setColour(Label::textColourId, Colours::lightgrey);
+    moduleVersion.setJustificationType(Justification::centred);
+    addAndMakeVisible(moduleVersion);
+            
+    String creditsText = "Authors and Contributors:";
+    creditsText += newLine + "Will Ellis";
+    creditsText += newLine + "Simon Russell";
+    creditsText += newLine + "Jessica Brandt";
+    credits.setText(creditsText, dontSendNotification);
+    credits.setJustificationType(Justification::centred);
+    credits.setColour(Label::textColourId, Colours::lightgrey);
+    addAndMakeVisible(credits);
+            
+    scopeSyncLink.setURL(URL("http://www.scopesync.co.uk"));
+    scopeSyncLink.setButtonText("ScopeSync Website");
+    scopeSyncLink.setColour(HyperlinkButton::textColourId, Colours::lightgrey);
+    addAndMakeVisible(scopeSyncLink);
 
-private:
-    Label           scopeSyncVersion;
-    Label           moduleVersion;
-    Label           credits;
-    HyperlinkButton scopeSyncLink;
-};
+    setSize(300, 200);
+}
+    
+void AboutBoxWindow::AboutBox::paint(Graphics& g)
+{
+    Image scopeSyncImage = ImageLoader::getInstance()->loadImage("scopeSyncLogo",  true, String::empty);
+    g.drawImageWithin(scopeSyncImage, 0, 0, getWidth(), 40, RectanglePlacement::doNotResize);
+}
+
+void AboutBoxWindow::AboutBox::resized()
+{
+    Rectangle<int> localBounds = getLocalBounds();
+
+    localBounds.removeFromTop(40);
+    scopeSyncVersion.setBounds(localBounds.removeFromTop(20));
+    moduleVersion.setBounds(localBounds.removeFromTop(20));
+    localBounds.removeFromTop(10);
+    credits.setBounds(localBounds.removeFromTop(70));
+    localBounds.removeFromBottom(5);
+    scopeSyncLink.setBounds(localBounds.removeFromBottom(25));
+}
 
 ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
 {
@@ -680,6 +708,8 @@ void ScopeSyncGUI::reloadSavedConfiguration()
 
 void ScopeSyncGUI::showAboutBox()
 {
-    AboutBox* aboutBox = new AboutBox();
-    CallOutBox::launchAsynchronously(aboutBox, getScreenBounds(), nullptr);
+    AboutBoxWindow* dw = AboutBoxWindow::getInstance();
+    dw->setVisible(true);
+    dw->toFront(true);
+    dw->setCentrePosition(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }

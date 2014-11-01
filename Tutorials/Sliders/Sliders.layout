@@ -144,8 +144,11 @@
         <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
           <bounds x="425" y="9" width="21" height="21"></bounds>
         </textbutton>
-        <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+        <textbutton lfid="system:about_box" name="showaboutbox" id="showaboutbox" text="" tooltip="Show About Box">
           <bounds relativerectangle="right - 32, 9, parent.width - 1, top + 21"></bounds>
+        </textbutton>
+        <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+          <bounds relativerectangle="right - 32, showaboutbox.top, showaboutbox.left - 5, top + 21"></bounds>
         </textbutton>
         <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
           <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
