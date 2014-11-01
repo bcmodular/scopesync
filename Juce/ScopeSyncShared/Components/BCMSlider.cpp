@@ -327,7 +327,7 @@ void BCMSlider::overrideStyle()
     fillColour2String = findColour(Slider::textBoxBackgroundColourId).toString();
     lineColour2String = findColour(Slider::textBoxTextColourId).toString();
 
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 165);
     configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
@@ -337,7 +337,9 @@ void BCMSlider::applyLookAndFeel(bool noStyleOverride)
 {
     BCMWidget::applyLookAndFeel(noStyleOverride);
 
-    if (!noStyleOverride)
+    bool useColourOverrides = styleOverride.getProperty(Ids::useColourOverrides);
+
+    if (!noStyleOverride && useColourOverrides)
     {
         String fillColourString  = styleOverride.getProperty(Ids::fillColour);
         String lineColourString  = styleOverride.getProperty(Ids::lineColour);

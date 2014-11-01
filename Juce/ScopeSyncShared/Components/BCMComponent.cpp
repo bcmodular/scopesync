@@ -273,7 +273,10 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     applyWidgetProperties(properties);
     layoutDirectory = layoutDir;
 
-    backgroundColour = styleOverride.getProperty(Ids::fillColour, properties.backgroundColour);
+    if (styleOverride.isValid() && styleOverride.getProperty(Ids::useColourOverrides, true))
+        backgroundColour = styleOverride.getProperty(Ids::fillColour, properties.backgroundColour);
+    else
+        backgroundColour = properties.backgroundColour;
     
     if (properties.backgroundImageFileName.isNotEmpty())
     {
@@ -753,7 +756,7 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
 void BCMComponent::overrideStyle()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 60);
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 95);
     configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), widgetTemplateId, backgroundColour);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);

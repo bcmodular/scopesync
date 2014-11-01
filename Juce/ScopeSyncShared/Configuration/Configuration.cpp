@@ -604,6 +604,7 @@ void Configuration::addStyleOverride(const Identifier& componentType,
 
     newStyleOverride.setProperty(Ids::name,             componentName, um);
     newStyleOverride.setProperty(Ids::widgetTemplateId, widgetTemplateId, um);
+    newStyleOverride.setProperty(Ids::useColourOverrides, true, um);
     styleOverrideRoot.addChild(newStyleOverride, targetIndex, um);
 }
 

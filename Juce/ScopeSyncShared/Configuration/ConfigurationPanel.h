@@ -189,10 +189,12 @@ private:
 /* =========================================================================
  * StyleOverridePanel: Edit Panel for Style Overrides
  */
-class StyleOverridePanel : public BasePanel
+class StyleOverridePanel : public BasePanel,
+                           public Value::Listener
 {
 public:
     StyleOverridePanel(ValueTree& styleOverride, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, const Identifier& compType, bool calloutView = false);
+    ~StyleOverridePanel();
 
 protected:
     virtual void rebuildProperties() override;
@@ -200,7 +202,10 @@ protected:
 private:
     Identifier componentType;
     bool       showComponent;
+    Value      useColourOverrides;
     
+    void valueChanged(Value& valueThatChanged) override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverridePanel)
 };
 

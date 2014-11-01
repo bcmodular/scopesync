@@ -92,6 +92,7 @@ namespace Ids
     DECLARE_ID(styleOverrides);
     DECLARE_ID(widgetTemplateId);
     DECLARE_ID(lookAndFeelId);
+    DECLARE_ID(useColourOverrides);
     DECLARE_ID(fillColour);
     DECLARE_ID(lineColour);
     DECLARE_ID(fillColour2);

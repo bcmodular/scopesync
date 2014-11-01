@@ -148,7 +148,7 @@ void BCMWidget::getCommandInfo(CommandID commandID, ApplicationCommandInfo& resu
     switch (commandID)
     {
     case CommandIDs::overrideStyle:
-        result.setInfo("Override Style", "Override the style of the most recently selected widget", CommandCategories::general, 0);
+        result.setInfo("Set Style Override", "Override the style of the most recently selected widget", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('l', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::clearStyleOverride:
@@ -210,7 +210,7 @@ void BCMWidget::showPopupMenu()
 
     PopupMenu m;
     m.addSectionHeader(headerText);
-    m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Override Style");
+    m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Set Style Override");
     m.addCommandItem(commandManager, CommandIDs::clearStyleOverride, "Clear Style Override");
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
@@ -222,7 +222,7 @@ void BCMWidget::showPopupMenu()
 
 void BCMWidget::overrideStyle()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 34);
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 65);
     configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), widgetTemplateId);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
@@ -392,7 +392,7 @@ void BCMParameterWidget::showPopupMenu()
     m.addCommandItem(commandManager, CommandIDs::editMapping, "Edit Mapping");
     m.addCommandItem(commandManager, CommandIDs::deleteMapping, "Delete Mapping");
     m.addSeparator();
-    m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Override Style");
+    m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Set Style Override");
     m.addCommandItem(commandManager, CommandIDs::clearStyleOverride, "Clear Style Override");
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");

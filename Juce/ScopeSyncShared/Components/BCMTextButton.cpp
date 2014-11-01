@@ -394,7 +394,9 @@ void BCMTextButton::applyLookAndFeel(bool noStyleOverride)
 {
     BCMWidget::applyLookAndFeel(noStyleOverride);
 
-    if (!noStyleOverride)
+    bool useColourOverrides = styleOverride.getProperty(Ids::useColourOverrides);
+
+    if (!noStyleOverride && useColourOverrides)
     {
         String fillColourString  = styleOverride.getProperty(Ids::fillColour);
         String lineColourString  = styleOverride.getProperty(Ids::lineColour);
@@ -423,7 +425,7 @@ void BCMTextButton::overrideStyle()
     String fillColour2String = findColour(TextButton::buttonOnColourId).toString();
     String lineColour2String = findColour(TextButton::textColourOnId).toString();
     
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 135);
+    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 165);
     configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::textButton, getName(), widgetTemplateId, fillColourString, lineColourString, fillColour2String, lineColour2String);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
