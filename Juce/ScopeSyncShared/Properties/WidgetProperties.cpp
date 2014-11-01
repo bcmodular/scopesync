@@ -57,6 +57,7 @@ void WidgetProperties::initialiseWidget()
     bounds.x             = 0;
     bounds.y             = 0;
     bcmLookAndFeelId     = String::empty;
+    widgetTemplateId     = String::empty;
     mappingParentType    = Identifier();
     mappingParent        = String::empty;
     noStyleOverride      = false;
@@ -71,6 +72,7 @@ void WidgetProperties::copyWidgetProperties(const WidgetProperties& parentWidget
     bounds.width      = parentWidgetProperties.bounds.width;
     bounds.height     = parentWidgetProperties.bounds.height;
     bcmLookAndFeelId  = parentWidgetProperties.bcmLookAndFeelId;
+    widgetTemplateId  = parentWidgetProperties.widgetTemplateId;
     mappingParentType = parentWidgetProperties.mappingParentType;
     mappingParent     = parentWidgetProperties.mappingParent;
     noStyleOverride   = parentWidgetProperties.noStyleOverride;
@@ -91,4 +93,5 @@ void WidgetProperties::setWidgetValuesFromXML(const XmlElement& widgetXML)
 
     noStyleOverride  = widgetXML.getBoolAttribute("nostyleoverride", noStyleOverride);
     bcmLookAndFeelId = widgetXML.getStringAttribute("lfid", bcmLookAndFeelId);
+    widgetTemplateId = widgetXML.getStringAttribute("wtid", widgetTemplateId);
 };

@@ -113,6 +113,8 @@ private:
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)
     bool showInThisContext(XmlElement& xml);
 
+    void getParentProperties(XmlElement& widgetXML);
+
     // Create a new BCMSlider
     void setupSlider(XmlElement& sliderXML);
     

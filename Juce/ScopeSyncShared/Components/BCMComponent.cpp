@@ -251,7 +251,24 @@ BCMComponent::~BCMComponent()
 void BCMComponent::applyProperties(XmlElement& componentXML, const String& layoutDir)
 {
     // Firstly set up properties for this Component
-    ComponentProperties properties(componentXML, *(scopeSyncGUI.defaultComponentProperties));
+
+    ComponentProperties* parentProperties = scopeSyncGUI.defaultComponentProperties;
+        
+    String widgetTemplateId = componentXML.getStringAttribute("wtid");
+
+    if (widgetTemplateId.isNotEmpty())
+    {
+        for (int i = 0; i < scopeSyncGUI.componentTemplates.size(); i++)
+        {
+            if (scopeSyncGUI.componentTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+            {
+                parentProperties = scopeSyncGUI.componentTemplates[i];
+                break;
+            }
+        }
+    }
+
+    ComponentProperties properties(componentXML, *parentProperties);
     
     applyWidgetProperties(properties);
     layoutDirectory = layoutDir;
@@ -428,7 +445,7 @@ void BCMComponent::setupSubComponent(XmlElement& subComponentXML)
     {
         BCMComponent* subComponent;
         
-        String name = getName() + ":" + String(subComponents.size());
+        String name = subComponentXML.getStringAttribute("name", getName() + ":" + String(subComponents.size()));
 
         addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, name));
 
@@ -441,7 +458,24 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
 {
     if (showInThisContext(tabbedComponentXML))
     {
-        TabbedComponentProperties tabbedComponentProperties(tabbedComponentXML, *(scopeSyncGUI.defaultTabbedComponentProperties));
+        TabbedComponentProperties* parentProperties = scopeSyncGUI.defaultTabbedComponentProperties;
+        
+        String widgetTemplateId = tabbedComponentXML.getStringAttribute("wtid");
+
+        if (widgetTemplateId.isNotEmpty())
+        {
+            for (int i = 0; i < scopeSyncGUI.tabbedComponentTemplates.size(); i++)
+            {
+                if (scopeSyncGUI.tabbedComponentTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                {
+                    parentProperties = scopeSyncGUI.tabbedComponentTemplates[i];
+                    break;
+                }
+            }
+        }
+
+        TabbedComponentProperties tabbedComponentProperties(tabbedComponentXML, *parentProperties);
+        
         BCMTabbedComponent*       tabbedComponent;
 
         // Setup Tabbed Component object
@@ -495,7 +529,23 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
 {
     if (showInThisContext(sliderXML))
     {
-        SliderProperties sliderProperties(scopeSyncGUI, sliderXML, *(scopeSyncGUI.defaultSliderProperties));
+        SliderProperties* parentProperties = scopeSyncGUI.defaultSliderProperties;
+        
+        String widgetTemplateId = sliderXML.getStringAttribute("wtid");
+
+        if (widgetTemplateId.isNotEmpty())
+        {
+            for (int i = 0; i < scopeSyncGUI.sliderTemplates.size(); i++)
+            {
+                if (scopeSyncGUI.sliderTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                {
+                    parentProperties = scopeSyncGUI.sliderTemplates[i];
+                    break;
+                }
+            }
+        }
+
+        SliderProperties sliderProperties(scopeSyncGUI, sliderXML, *parentProperties);
         BCMSlider*       slider;
 
         // Setup slider object
@@ -511,7 +561,23 @@ void BCMComponent::setupLabel(XmlElement& labelXML)
 {
     if (showInThisContext(labelXML))
     {
-        LabelProperties labelProperties(labelXML, *(scopeSyncGUI.defaultLabelProperties));
+        LabelProperties* parentProperties = scopeSyncGUI.defaultLabelProperties;
+        
+        String widgetTemplateId = labelXML.getStringAttribute("wtid");
+
+        if (widgetTemplateId.isNotEmpty())
+        {
+            for (int i = 0; i < scopeSyncGUI.labelTemplates.size(); i++)
+            {
+                if (scopeSyncGUI.labelTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                {
+                    parentProperties = scopeSyncGUI.labelTemplates[i];
+                    break;
+                }
+            }
+        }
+
+        LabelProperties labelProperties(labelXML, *parentProperties);
         BCMLabel* label;
 
         String labelName = labelProperties.name;
@@ -529,7 +595,23 @@ void BCMComponent::setupTextButton(XmlElement& textButtonXML)
 {
     if (showInThisContext(textButtonXML))
     {
-        TextButtonProperties textButtonProperties(textButtonXML, *(scopeSyncGUI.defaultTextButtonProperties));
+        TextButtonProperties* parentProperties = scopeSyncGUI.defaultTextButtonProperties;
+        
+        String widgetTemplateId = textButtonXML.getStringAttribute("wtid");
+
+        if (widgetTemplateId.isNotEmpty())
+        {
+            for (int i = 0; i < scopeSyncGUI.textButtonTemplates.size(); i++)
+            {
+                if (scopeSyncGUI.textButtonTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                {
+                    parentProperties = scopeSyncGUI.textButtonTemplates[i];
+                    break;
+                }
+            }
+        }
+
+        TextButtonProperties textButtonProperties(textButtonXML, *parentProperties);
         BCMTextButton* textButton;
     
         addAndMakeVisible (textButton = new BCMTextButton(scopeSyncGUI, textButtonProperties.name));
@@ -543,7 +625,23 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
 {
     if (showInThisContext(comboBoxXML))
     {
-        ComboBoxProperties comboBoxProperties(comboBoxXML, *(scopeSyncGUI.defaultComboBoxProperties));
+        ComboBoxProperties* parentProperties = scopeSyncGUI.defaultComboBoxProperties;
+        
+        String widgetTemplateId = comboBoxXML.getStringAttribute("wtid");
+
+        if (widgetTemplateId.isNotEmpty())
+        {
+            for (int i = 0; i < scopeSyncGUI.comboBoxTemplates.size(); i++)
+            {
+                if (scopeSyncGUI.comboBoxTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                {
+                    parentProperties = scopeSyncGUI.comboBoxTemplates[i];
+                    break;
+                }
+            }
+        }
+
+        ComboBoxProperties comboBoxProperties(comboBoxXML, *parentProperties);
         BCMComboBox* comboBox;
 
         addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties.name, scopeSyncGUI));

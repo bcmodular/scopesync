@@ -226,6 +226,11 @@ void ScopeSyncGUI::createGUI(bool forceReload)
         tooltipWindow->setMillisecondsBeforeTipAppears(settings.tooltipDelayTime);
     }
 
+    child = layoutXml.getChildByName("widgettemplates");
+
+    if (child)
+        setupWidgetTemplates(*child);
+
     child = layoutXml.getChildByName("component");
 
     if (child)
@@ -297,6 +302,37 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
         // DBG("ScopeSyncGUI::setupLookAndFeel: Must supply an id for a LookAndFeel tag");
     }
     return;
+}
+
+void ScopeSyncGUI::clearWidgetTemplates()
+{
+    componentTemplates.clear();
+    sliderTemplates.clear();
+    labelTemplates.clear();
+    textButtonTemplates.clear();
+    comboBoxTemplates.clear();
+    tabbedComponentTemplates.clear();
+}
+
+void ScopeSyncGUI::setupWidgetTemplates(XmlElement& widgetTemplatesXML)
+{
+    clearWidgetTemplates();
+
+    forEachXmlChildElement(widgetTemplatesXML, child)
+    {
+        if (child->hasTagName("slider"))
+            sliderTemplates.add(new SliderProperties(*this, *child, *defaultSliderProperties));
+        else if (child->hasTagName("label"))
+            labelTemplates.add(new LabelProperties(*child, *defaultLabelProperties));
+        else if (child->hasTagName("textbutton"))
+            textButtonTemplates.add(new TextButtonProperties(*child, *defaultTextButtonProperties));
+        else if (child->hasTagName("combobox"))
+            comboBoxTemplates.add(new ComboBoxProperties(*child, *defaultComboBoxProperties));
+        else if (child->hasTagName("component"))
+            componentTemplates.add(new ComponentProperties(*child, *defaultComponentProperties));
+        else if (child->hasTagName("tabbedcomponent"))
+            tabbedComponentTemplates.add(new TabbedComponentProperties(*child, *defaultTabbedComponentProperties));
+    }
 }
 
 void ScopeSyncGUI::setupDefaults(XmlElement& defaultsXML)

@@ -84,6 +84,13 @@ public:
     ScopedPointer<TabbedComponentProperties> defaultTabbedComponentProperties;
     ScopedPointer<TabProperties>             defaultTabProperties;
 
+    OwnedArray<ComponentProperties>          componentTemplates;
+    OwnedArray<SliderProperties>             sliderTemplates;
+    OwnedArray<LabelProperties>              labelTemplates;
+    OwnedArray<TextButtonProperties>         textButtonTemplates;
+    OwnedArray<ComboBoxProperties>           comboBoxTemplates;
+    OwnedArray<TabbedComponentProperties>    tabbedComponentTemplates;
+    
     class Settings
     {
     public:
@@ -117,6 +124,9 @@ private:
     void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache);
     void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
     void setupDefaults(XmlElement& defaultsXML);
+    void clearWidgetTemplates();
+    void resetWidgetTemplates();
+    void setupWidgetTemplates(XmlElement& widgetTemplatesXML);
     void readSettingsXml(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback();

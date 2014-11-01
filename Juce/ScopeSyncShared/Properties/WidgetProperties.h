@@ -49,6 +49,7 @@ public:
     String             id;
     BCMComponentBounds bounds;
     String             bcmLookAndFeelId;
+    String             widgetTemplateId;
     Identifier         mappingParentType;
     String             mappingParent;  
     bool               noStyleOverride;
