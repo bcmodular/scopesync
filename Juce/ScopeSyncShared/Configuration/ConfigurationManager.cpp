@@ -262,6 +262,7 @@ void ConfigurationManagerCallout::setParameterPanel(ValueTree& parameter, BCMPar
 void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree&        styleOverride, 
                                                         const Identifier& componentType, 
                                                         const String&     componentName, 
+                                                        const String&     widgetTemplateId, 
                                                         const String&     fillColour,
                                                         const String&     lineColour,
                                                         const String&     fillColour2,
@@ -269,7 +270,7 @@ void ConfigurationManagerCallout::setStyleOverridePanel(ValueTree&        styleO
 {
     if (!(styleOverride.isValid()))
     {
-        scopeSync.getConfiguration().addStyleOverride(componentType, componentName, styleOverride, -1, &undoManager);
+        scopeSync.getConfiguration().addStyleOverride(componentType, componentName, widgetTemplateId, styleOverride, -1, &undoManager);
         styleOverride.setProperty(Ids::fillColour,  fillColour, &undoManager);
         styleOverride.setProperty(Ids::lineColour,  lineColour, &undoManager);
         styleOverride.setProperty(Ids::fillColour2, fillColour2, &undoManager);

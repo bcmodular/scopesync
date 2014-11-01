@@ -171,17 +171,19 @@ public:
                              ValueTree& styleOverrideToDelete,
                              UndoManager* um);
 
-    void deleteAllStyleOverrides(const Identifier& componentType, UndoManager* um);
+    void deleteAllStyleOverrides(const Identifier& componentType, const String& widgetTemplateId, UndoManager* um);
     
     void addStyleOverride(const Identifier& componentType,
-                          const String& componentName, 
-                          ValueTree& newStyleOverride,
-                          int targetIndex, 
-                          UndoManager* um);
+                          const String&     componentName, 
+                          const String&     widgetTemplateId,
+                          ValueTree&        newStyleOverride,
+                          int               targetIndex, 
+                          UndoManager*      um);
 
     void addStyleOverrideToAll(const Identifier& componentType,
-                               ValueTree& newStyleOverride,
-                               UndoManager* um);
+                               const String&     widgetTemplateId,
+                               ValueTree&        newStyleOverride,
+                               UndoManager*      um);
 
 private:
     ValueTree  configurationRoot;
@@ -218,12 +220,16 @@ private:
     class ComponentLookupItem
     {
     public:
-        ComponentLookupItem(const String& componentName, const Identifier& componentType, bool noStyleOverrideFlag)
-            : name(componentName), type(componentType), noStyleOverride(noStyleOverrideFlag) {}
+        ComponentLookupItem(const String& componentName, 
+                            const Identifier& componentType, 
+                            bool noStyleOverrideFlag,
+                            const String& wtid)
+            : name(componentName), type(componentType), noStyleOverride(noStyleOverrideFlag), widgetTemplateId(wtid) {}
 
         String     name;
         Identifier type;
         bool       noStyleOverride;
+        String     widgetTemplateId;
     };
 
     class ComponentLookupSorter

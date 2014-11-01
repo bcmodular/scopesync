@@ -225,7 +225,9 @@ Configuration::~Configuration()
 
 void Configuration::setConfigurationRoot(const ValueTree& newRoot)
 {
+    configurationRoot.removeListener(this);
     configurationRoot = newRoot;
+    configurationRoot.addListener(this);
     setupConfigurationProperties();
 }
 
@@ -573,19 +575,24 @@ void Configuration::deleteStyleOverride(const Identifier& componentType,
 }
 
 void Configuration::deleteAllStyleOverrides(const Identifier& componentType,
+                                            const String& widgetTemplateId,
                                             UndoManager* um)
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
     for (int i = styleOverrideRoot.getNumChildren() - 1; i >= 0 ; i--)
-        styleOverrideRoot.removeChild(styleOverrideRoot.getChild(i), um);
+    {
+        if (styleOverrideRoot.getChild(i).getProperty(Ids::widgetTemplateId).toString().equalsIgnoreCase(widgetTemplateId))
+            styleOverrideRoot.removeChild(styleOverrideRoot.getChild(i), um);
+    }
 }
 
 void Configuration::addStyleOverride(const Identifier& componentType,
-                                     const String& componentName,
-                                     ValueTree& newStyleOverride,
-                                     int targetIndex,
-                                     UndoManager* um)
+                                     const String&     componentName,
+                                     const String&     widgetTemplateId,
+                                     ValueTree&        newStyleOverride,
+                                     int               targetIndex,
+                                     UndoManager*      um)
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
@@ -595,23 +602,27 @@ void Configuration::addStyleOverride(const Identifier& componentType,
         newStyleOverride.setProperty(Ids::lookAndFeelId, String::empty, um);
     }
 
-    newStyleOverride.setProperty(Ids::name, componentName, um);
+    newStyleOverride.setProperty(Ids::name,             componentName, um);
+    newStyleOverride.setProperty(Ids::widgetTemplateId, widgetTemplateId, um);
     styleOverrideRoot.addChild(newStyleOverride, targetIndex, um);
 }
 
 void Configuration::addStyleOverrideToAll(const Identifier& componentType,
-                                          ValueTree& newStyleOverride,
-                                          UndoManager* um)
+                                          const String& widgetTemplateId,
+                                          ValueTree&    newStyleOverride,
+                                          UndoManager*  um)
 {
-    deleteAllStyleOverrides(componentType, um);
+    deleteAllStyleOverrides(componentType, widgetTemplateId, um);
 
     for (int i = 0; i < componentLookup.size(); i++)
     {
-        if (componentLookup[i]->type == componentType && !componentLookup[i]->noStyleOverride)
+        if (   !componentLookup[i]->noStyleOverride
+            && componentLookup[i]->type == componentType
+            && componentLookup[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
         {
-            DBG("Configuration::addStyleOverrideToAll - name: " + componentLookup[i]->name);
+            DBG("Configuration::addStyleOverrideToAll - name: " + componentLookup[i]->name + ", wtid: " + widgetTemplateId);
             ValueTree styleOverride(newStyleOverride.createCopy());
-            addStyleOverride(componentType, componentLookup[i]->name, styleOverride, -1, um);
+            addStyleOverride(componentType, componentLookup[i]->name, widgetTemplateId, styleOverride, -1, um);
         }
     }
 }
@@ -702,6 +713,23 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
             skewFactor = (float)(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
 
         treeWhosePropertyHasChanged.setProperty(Ids::uiSkewFactor, skewFactor, nullptr);
+    }
+    else if (property == Ids::name && treeWhosePropertyHasChanged.getParent().getParent().hasType(Ids::styleOverrides))
+    {
+        String     componentName = treeWhosePropertyHasChanged.getProperty(Ids::name);
+        Identifier componentType = treeWhosePropertyHasChanged.getType();
+        DBG("Configuration::valueTreePropertyChanged - Style Override's Component Name has changed to: " + componentName);
+
+        for (int i = 0; i < componentLookup.size(); i++)
+        {
+            if (   componentLookup[i]->name == componentName
+                && componentLookup[i]->type == componentType)
+            {
+                String widgetTemplateId = componentLookup[i]->widgetTemplateId;
+                treeWhosePropertyHasChanged.setProperty(Ids::widgetTemplateId, widgetTemplateId, nullptr);
+                DBG("Configuration::valueTreePropertyChanged - Updated widgetTemplateId to: " + widgetTemplateId);
+            }
+        }
     }
 
     changed();
@@ -851,9 +879,10 @@ void Configuration::getComponentNamesFromXml(XmlElement& xml)
 {
     forEachXmlChildElement(xml, child)
     {
-        String componentName   = child->getStringAttribute("name", String::empty);
-        String componentType   = child->getTagName();
-        bool   noStyleOverride = child->getBoolAttribute("nostyleoverride", false);
+        String componentName    = child->getStringAttribute("name", String::empty);
+        String componentType    = child->getTagName();
+        bool   noStyleOverride  = child->getBoolAttribute("nostyleoverride", false);
+        String widgetTemplateId = child->getStringAttribute("wtid", String::empty);
         
         if (componentName.isNotEmpty() 
             && 
@@ -866,7 +895,7 @@ void Configuration::getComponentNamesFromXml(XmlElement& xml)
             &&
             !componentInLookup(getComponentTypeId(componentType), componentName))
         {
-            ComponentLookupItem* cli = new ComponentLookupItem(componentName, getComponentTypeId(componentType), noStyleOverride);
+            ComponentLookupItem* cli = new ComponentLookupItem(componentName, getComponentTypeId(componentType), noStyleOverride, widgetTemplateId);
             componentLookup.add(cli);
 
             if (componentType.equalsIgnoreCase("tabbedcomponent") || componentType.equalsIgnoreCase("component"))

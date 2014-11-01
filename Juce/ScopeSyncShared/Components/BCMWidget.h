@@ -52,6 +52,7 @@ protected:
     Component*         parentWidget;
     ValueTree          styleOverride;
     String             bcmLookAndFeelId;
+    String             widgetTemplateId;
 
     virtual const Identifier getComponentType() const = 0;
 

@@ -1495,7 +1495,7 @@ void StyleOverrideRootItem::addGenericStyleOverride(const Identifier& componentT
     storeSelectionOnAdd();
     
     ValueTree newStyleOverride;
-    configuration.addStyleOverride(componentType, String::empty, newStyleOverride, 0, &undoManager);
+    configuration.addStyleOverride(componentType, String::empty, String::empty, newStyleOverride, 0, &undoManager);
 }
 
 void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& componentType)
@@ -1509,7 +1509,7 @@ void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& compon
     }
     
     storeSelectionOnAdd();
-    configuration.addStyleOverride(componentType, String::empty, styleOverride, 0, &undoManager);
+    configuration.addStyleOverride(componentType, String::empty, String::empty, styleOverride, 0, &undoManager);
 }
 
 /* =========================================================================
@@ -1556,7 +1556,7 @@ void StyleOverrideItem::addItem()
     storeSelectionOnAdd();
 
     ValueTree newStyleOverride;
-    configuration.addStyleOverride(tree.getType(), String::empty, newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+    configuration.addStyleOverride(tree.getType(), String::empty, String::empty, newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 void StyleOverrideItem::addItemFromClipboard()
@@ -1570,7 +1570,7 @@ void StyleOverrideItem::addItemFromClipboard()
     }
     
     storeSelectionOnAdd();
-    configuration.addStyleOverride(tree.getType(), String::empty, styleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+    configuration.addStyleOverride(tree.getType(), String::empty, String::empty, styleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 void StyleOverrideItem::copyItem()

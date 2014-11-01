@@ -109,6 +109,7 @@ public:
     void setStyleOverridePanel(ValueTree& styleOverride,
                                const Identifier& componentType, 
                                const String& componentName, 
+                               const String& widgetTemplateId, 
                                const String& fillColour  = String::empty,
                                const String& lineColour  = String::empty,
                                const String& fillColour2 = String::empty,

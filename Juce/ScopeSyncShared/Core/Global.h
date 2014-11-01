@@ -90,6 +90,7 @@ namespace Ids
     DECLARE_ID(parameterClipboard);
 
     DECLARE_ID(styleOverrides);
+    DECLARE_ID(widgetTemplateId);
     DECLARE_ID(lookAndFeelId);
     DECLARE_ID(fillColour);
     DECLARE_ID(lineColour);

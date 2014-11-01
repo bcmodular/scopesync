@@ -60,6 +60,8 @@ void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
 
     bcmLookAndFeelId = properties.bcmLookAndFeelId;
     applyLookAndFeel(properties.noStyleOverride);
+    
+    widgetTemplateId = properties.widgetTemplateId;
 }
 
 void BCMWidget::applyBounds()
@@ -194,14 +196,26 @@ void BCMWidget::showPopupMenu()
 {
     commandManager->setFirstCommandTarget(this);
 
+    String headerText = getComponentType();
+
+    if (widgetTemplateId.isNotEmpty())
+        headerText += " (" + widgetTemplateId + ")";
+
+    headerText += ": " + parentWidget->getName();
+
+    String copyToText = String(getComponentType()) + "s";
+
+    if (widgetTemplateId.isNotEmpty())
+        copyToText = widgetTemplateId + " " + copyToText;
+
     PopupMenu m;
-    m.addSectionHeader(String(getComponentType()) + ": " + parentWidget->getName());
+    m.addSectionHeader(headerText);
     m.addCommandItem(commandManager, CommandIDs::overrideStyle, "Override Style");
     m.addCommandItem(commandManager, CommandIDs::clearStyleOverride, "Clear Style Override");
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
     m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
-    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override To All" + String(getComponentType()) + "s");
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override to all " + copyToText);
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }
@@ -209,7 +223,7 @@ void BCMWidget::showPopupMenu()
 void BCMWidget::overrideStyle()
 {
     ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 34);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName());
+    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), widgetTemplateId);
     configurationManagerCallout->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
 }
@@ -231,14 +245,19 @@ void BCMWidget::copyStyleOverrideToAll()
     copyStyleOverride();
     ValueTree styleOverrideCopy(styleOverride.createCopy());
 
-    scopeSync.getConfiguration().addStyleOverrideToAll(getComponentType(), styleOverrideCopy, &undoManager);
+    scopeSync.getConfiguration().addStyleOverrideToAll(getComponentType(), widgetTemplateId, styleOverrideCopy, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
 void BCMWidget::pasteStyleOverride()
 {
     if (!(styleOverride.isValid()))
-        scopeSyncGUI.getScopeSync().getConfiguration().addStyleOverride(getComponentType(), parentWidget->getName(), styleOverride, -1, &undoManager);
+        scopeSyncGUI.getScopeSync().getConfiguration().addStyleOverride(getComponentType(), 
+                                                                        parentWidget->getName(), 
+                                                                        widgetTemplateId, 
+                                                                        styleOverride, 
+                                                                        -1, 
+                                                                        &undoManager);
     
     StyleOverrideClipboard::getInstance()->paste(styleOverride, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
@@ -348,8 +367,20 @@ void BCMParameterWidget::showPopupMenu()
 {
     commandManager->setFirstCommandTarget(this);
 
+    String headerText = getComponentType();
+
+    if (widgetTemplateId.isNotEmpty())
+        headerText += " (" + widgetTemplateId + ")";
+
+    headerText += ": " + parentWidget->getName();
+
+    String copyToText = String(getComponentType()) + "s";
+
+    if (widgetTemplateId.isNotEmpty())
+        copyToText = widgetTemplateId + " " + copyToText;
+
     PopupMenu m;
-    m.addSectionHeader(String(getComponentType()) + ": " + parentWidget->getName());
+    m.addSectionHeader(headerText);
     m.addCommandItem(commandManager, CommandIDs::addParameter, "Add Parameter");
     m.addCommandItem(commandManager, CommandIDs::addParameterFromClipboard, "Add Parameter from Clipboard");
     m.addCommandItem(commandManager, CommandIDs::editParameter, "Edit Parameter");
@@ -366,7 +397,7 @@ void BCMParameterWidget::showPopupMenu()
     m.addSeparator();
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
     m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
-    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override To All " + String(getComponentType()) + "s");
+    m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override to all " + copyToText);
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }

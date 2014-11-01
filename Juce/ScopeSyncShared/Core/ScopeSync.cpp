@@ -559,13 +559,6 @@ bool ScopeSync::processConfigurationChange()
         if (configuration->replaceConfiguration(newFileName))
         {
             applyConfiguration();
-
-            if (configurationManagerWindow != nullptr)
-            {
-                configurationManagerWindow->refreshContent();
-                configurationManagerWindow->restoreWindowPosition();
-            }
-        
             return true;
         }
         else
@@ -665,6 +658,12 @@ void ScopeSync::applyConfiguration()
                                                                  getConfigurationFile().getFileName(),
                                                                  getConfigurationRoot());
     setGUIReload(true);
+
+    if (configurationManagerWindow != nullptr)
+    {
+        configurationManagerWindow->refreshContent();
+        configurationManagerWindow->restoreWindowPosition();
+    }    
 }
 
 void ScopeSync::setGUIEnabled(bool shouldBeEnabled)
