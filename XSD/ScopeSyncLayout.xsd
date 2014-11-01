@@ -2,8 +2,8 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout">
 
     <complexType name="mappingparenttype">
-        <attribute name="componenttype" type="tns:componenttypetype" use="required"></attribute>
-        <attribute name="componentname" type="string" use="required"></attribute>
+        <attribute name="componenttype" type="tns:componenttypetype" use="optional"></attribute>
+        <attribute name="componentname" type="string" use="optional"></attribute>
     </complexType>
     
     <simpleType name="componenttypetype">
