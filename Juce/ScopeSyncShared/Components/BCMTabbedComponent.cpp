@@ -65,7 +65,7 @@ const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabb
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {
-    setCurrentTabIndex(value.getValue(), true);
+    setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
 }
 
 void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String& newCurrentTabName)
