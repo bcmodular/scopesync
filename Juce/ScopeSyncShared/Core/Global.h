@@ -34,6 +34,8 @@ namespace Ids
     #define DECLARE_ID(name) const Identifier name (#name)
 
     DECLARE_ID(configuration);
+    DECLARE_ID(presets);
+    DECLARE_ID(preset);
     DECLARE_ID(name);
     DECLARE_ID(readOnly);
     DECLARE_ID(layoutFilename);
@@ -108,6 +110,7 @@ namespace Ids
     DECLARE_ID(fileLocations);
     DECLARE_ID(layoutLibrary);
     DECLARE_ID(configurationLibrary);
+    DECLARE_ID(presetLibrary);
     DECLARE_ID(location);
 
     // Configuration XML top-level attribute names
@@ -139,6 +142,12 @@ namespace Ids
     DECLARE_ID(thumbnail);
     DECLARE_ID(blurb);
 
+    // Preset XML top-level attribute names
+    DECLARE_ID(presetFile);
+    DECLARE_ID(presetFileName);
+    DECLARE_ID(presetFileLibrarySet);
+    DECLARE_ID(presetFileAuthor);
+    DECLARE_ID(presetFileBlurb);
     #undef DECLARE_ID
 }
 
@@ -174,7 +183,8 @@ namespace CommandIDs
         pasteParameter              = 0x200550,
         editParameter               = 0x200560,
         deleteParameter             = 0x200570,
-                                    
+        chooseSelectedPreset        = 0x200580,
+
         addSettings                 = 0x200600,
         removeSettings              = 0x200610,
         autoFill                    = 0x200620,
@@ -202,7 +212,14 @@ namespace CommandIDs
         showUserSettings            = 0x200910,
         showConfigurationManager    = 0x200920,
         chooseConfiguration         = 0x200930,
-        reloadSavedConfiguration    = 0x200940
+        reloadSavedConfiguration    = 0x200940,
+
+        addPresetFile               = 0x201000,
+        savePresetFile              = 0x201010,
+        savePresetFileAs            = 0x201020,
+        applyPresetFileChanges      = 0x201030,
+        discardPresetFileChanges    = 0x201040,
+        closePresetFile             = 0x201050,
     };
 }
 

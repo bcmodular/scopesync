@@ -35,7 +35,7 @@
 #include "Global.h"
 #include <utility>
 #include "../Configuration/ConfigurationManager.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "../Resources/Icons.h"
 #include "../Core/ScopeSyncGUI.h"
 
@@ -109,6 +109,7 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
+    UserSettings::getInstance()->removeChangeListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
 }
@@ -787,9 +788,9 @@ void ScopeSync::alertBoxLaunchLocationEditor(int result, Component* component, C
 {
     if (result)
     {
+        UserSettings::getInstance()->addChangeListener(changeListener);
         UserSettings::getInstance()->editFileLocations(component->getParentMonitorArea().getCentreX(),
-                                                       component->getParentMonitorArea().getCentreY(), 
-                                                       changeListener);    
+                                                       component->getParentMonitorArea().getCentreY());    
     }
 }
 

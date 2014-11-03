@@ -5,6 +5,12 @@
     <Filter Include="ScopeSyncPlugin">
       <UniqueIdentifier>{8948AE92-7D00-F19D-249D-935E801772F7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScopeSyncPlugin\Presets">
+      <UniqueIdentifier>{C5DF6702-5ED8-5515-EABA-B4B91184D0B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncPlugin\Windows">
+      <UniqueIdentifier>{C2AAF191-595D-2D37-B4CC-812D3B5A3928}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ScopeSyncPlugin\Configuration">
       <UniqueIdentifier>{9B80E441-F201-6DDA-1D9C-A0D99F46A42D}</UniqueIdentifier>
     </Filter>
@@ -277,16 +283,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.cpp">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetItem.cpp">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetFile.cpp">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.cpp">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.cpp">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.cpp">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\UserSettings.cpp">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp">
@@ -296,9 +317,6 @@
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp">
@@ -315,6 +333,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp">
       <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.cpp">
+      <Filter>ScopeSyncPlugin\Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp">
       <Filter>ScopeSyncPlugin\Utils</Filter>
@@ -355,9 +376,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.cpp">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
@@ -389,9 +407,6 @@
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.cpp">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\UserSettings.cpp">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp">
@@ -1440,16 +1455,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.h">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetItem.h">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetFile.h">
+      <Filter>ScopeSyncPlugin\Presets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.h">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.h">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.h">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\UserSettings.h">
+      <Filter>ScopeSyncPlugin\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h">
@@ -1459,9 +1489,6 @@
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h">
-      <Filter>ScopeSyncPlugin\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h">
       <Filter>ScopeSyncPlugin\Configuration</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h">
@@ -1478,6 +1505,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h">
       <Filter>ScopeSyncPlugin\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.h">
+      <Filter>ScopeSyncPlugin\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h">
       <Filter>ScopeSyncPlugin\Utils</Filter>
@@ -1530,9 +1560,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h">
       <Filter>ScopeSyncPlugin\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.h">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
@@ -1567,9 +1594,6 @@
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.h">
-      <Filter>ScopeSyncPlugin\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\UserSettings.h">
       <Filter>ScopeSyncPlugin\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h">

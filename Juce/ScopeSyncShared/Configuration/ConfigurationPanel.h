@@ -42,7 +42,7 @@ class ScopeSync;
 class BasePanel : public Component
 {
 public:
-    BasePanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
+    BasePanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm);
     ~BasePanel();
 
     void focusGained(FocusChangeType cause) override;
@@ -51,8 +51,6 @@ protected:
     ValueTree      valueTree;
     PropertyPanel  propertyPanel;
     UndoManager&   undoManager;
-    ScopeSync&     scopeSync;
-    Configuration& configuration;
     ApplicationCommandManager* commandManager;
     virtual void rebuildProperties() {};
     
@@ -70,7 +68,7 @@ private:
 class EmptyPanel : public BasePanel
 {
 public:
-    EmptyPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm);
+    EmptyPanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm);
     ~EmptyPanel();
 
 private:
@@ -95,9 +93,10 @@ protected:
     void rebuildProperties() override;
 
 private:
-    Value layoutName;
-    Value layoutLibrarySet;
-    bool  isNewConfiguration;
+    Configuration& configuration;
+    Value          layoutName;
+    Value          layoutLibrarySet;
+    bool           isNewConfiguration;
 
     void changeListenerCallback(ChangeBroadcaster* /* source */);
     
@@ -120,9 +119,14 @@ public:
 
     void paintOverChildren(Graphics& g);
     void childBoundsChanged(Component* child) override;
-    void setParameterUIRanges(double min, double max, double reset);
+    
+    static void setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree);
+    static void createDescriptionProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType);
+    static void createScopeProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
+    static void createUIProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
 
 private:
+    Configuration& configuration;
     ScopedPointer<SettingsTable> settingsTable;
     Value valueType;
     bool  calloutView;
@@ -133,9 +137,6 @@ private:
     BCMParameter::ParameterType parameterType;
 
     void rebuildProperties() override;
-    void createDescriptionProperties(PropertyListBuilder& propertyPanel);
-    void createScopeProperties(PropertyListBuilder& propertyPanel);
-    void createUIProperties(PropertyListBuilder& propertyPanel);
     
     void createSettingsTable();
    
@@ -156,11 +157,13 @@ public:
     ~MappingPanel();
 
 protected:
+    Configuration& configuration;
+    
     void rebuildProperties() override;
 
 private:
-    Identifier componentType;
-    bool       showComponent;
+    Identifier     componentType;
+    bool           showComponent;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MappingPanel)
 };
@@ -200,6 +203,9 @@ protected:
     virtual void rebuildProperties() override;
 
 private:
+    ScopeSync&     scopeSync;
+    Configuration& configuration;
+    
     Identifier componentType;
     bool       showComponent;
     Value      useColourOverrides;

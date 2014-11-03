@@ -150,8 +150,8 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     : undoManager(um), font(14.0f), commandManager(acm),
       addFileLocationButton("Add"),
       removeFileLocationButton("Remove"),
-      //moveUpButton("Move Up"),
-      //moveDownButton("Move Down"),
+      moveUpButton("Move Up"),
+      moveDownButton("Move Down"),
       rebuildButton("Rebuild library"),
       undoButton("Undo"),
       redoButton("Redo"),
@@ -185,11 +185,11 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     addAndMakeVisible(removeFileLocationButton);
     removeFileLocationButton.setCommandToTrigger(commandManager, CommandIDs::removeFileLocations, true);
     
-    //addAndMakeVisible(moveUpButton);
-    //moveUpButton.setCommandToTrigger(commandManager, CommandIDs::moveUp, true);
-    //
-    //addAndMakeVisible(moveDownButton);
-    //moveDownButton.setCommandToTrigger(commandManager, CommandIDs::moveDown, true);
+    addAndMakeVisible(moveUpButton);
+    moveUpButton.setCommandToTrigger(commandManager, CommandIDs::moveUp, true);
+    
+    addAndMakeVisible(moveDownButton);
+    moveDownButton.setCommandToTrigger(commandManager, CommandIDs::moveDown, true);
 
     addAndMakeVisible(undoButton);
     undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
@@ -238,9 +238,9 @@ void FileLocationEditor::resized()
 
     addFileLocationButton.setBounds(buttonBar.removeFromLeft(70));
     removeFileLocationButton.setBounds(buttonBar.removeFromLeft(70));
-    //buttonBar.removeFromLeft(20);
-    //moveUpButton.setBounds(buttonBar.removeFromLeft(70));
-    //moveDownButton.setBounds(buttonBar.removeFromLeft(70));
+    buttonBar.removeFromLeft(20);
+    moveUpButton.setBounds(buttonBar.removeFromLeft(70));
+    moveDownButton.setBounds(buttonBar.removeFromLeft(70));
     buttonBar.removeFromLeft(20);
     rebuildButton.setBounds(buttonBar.removeFromLeft(90));
     buttonBar.removeFromLeft(20);
@@ -330,8 +330,8 @@ void FileLocationEditor::getAllCommands(Array <CommandID>& commands)
 {
     const CommandID ids[] = { CommandIDs::addFileLocation,
                               CommandIDs::removeFileLocations,
-                              //CommandIDs::moveUp,
-                              //CommandIDs::moveDown,
+                              CommandIDs::moveUp,
+                              CommandIDs::moveDown,
                               CommandIDs::undo,
                               CommandIDs::redo,
                               CommandIDs::rebuildFileLibrary
@@ -352,14 +352,14 @@ void FileLocationEditor::getCommandInfo(CommandID commandID, ApplicationCommandI
         result.setInfo ("Remove", "Remove selected File Location", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress(KeyPress::deleteKey));
         break;
-    //case CommandIDs::moveUp:
-    //    result.setInfo ("Move Up", "Move all selected File Locations up one position", CommandCategories::configmgr, 0);
-    //    result.defaultKeypresses.add(KeyPress(KeyPress::upKey, ModifierKeys::commandModifier, 0));
-    //    break;
-    //case CommandIDs::moveDown:
-    //    result.setInfo ("Move Down", "Move all selected File Locations down one position", CommandCategories::configmgr, 0);
-    //    result.defaultKeypresses.add(KeyPress(KeyPress::downKey, ModifierKeys::commandModifier, 0));
-    //    break;
+    case CommandIDs::moveUp:
+        result.setInfo ("Move Up", "Move all selected File Locations up one position", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress(KeyPress::upKey, ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::moveDown:
+        result.setInfo ("Move Down", "Move all selected File Locations down one position", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress(KeyPress::downKey, ModifierKeys::commandModifier, 0));
+        break;
     case CommandIDs::undo:
         result.setInfo("Undo", "Undo latest change", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
@@ -381,8 +381,8 @@ bool FileLocationEditor::perform(const InvocationInfo& info)
     {
         case CommandIDs::addFileLocation:     addFileLocation(); break;
         case CommandIDs::removeFileLocations: removeFileLocations(); break;
-        //case CommandIDs::moveUp:              moveFileLocations(true); break;
-        //case CommandIDs::moveDown:            moveFileLocations(false); break;
+        case CommandIDs::moveUp:              moveFileLocations(true); break;
+        case CommandIDs::moveDown:            moveFileLocations(false); break;
         case CommandIDs::undo:                undo(); break;
         case CommandIDs::redo:                redo(); break;
         case CommandIDs::rebuildFileLibrary:  rebuildFileLibrary(); break;
@@ -444,48 +444,48 @@ void FileLocationEditor::removeFileLocations()
     locationsChanged = true;
 }
 
-//void FileLocationEditor::moveFileLocations(bool moveUp)
-//{
-//    SparseSet<int> selectedRows(table.getSelectedRows());
-//    Array<int> itemsToMove;
-//    
-//    for (int i = 0; i < selectedRows.size(); i++)
-//    {
-//        itemsToMove.add(selectedRows[i]);
-//    }
-//
-//    DefaultElementComparator<int> sorter;
-//    itemsToMove.sort(sorter);
-//    
-//    if (moveUp)
-//    {
-//        for (int i = 0; i < itemsToMove.size(); i++)
-//        {
-//            int currentIndex = itemsToMove[i];
-//            int newIndex     = jmax(itemsToMove[i] - 1, 0);
-//
-//            table.deselectRow(currentIndex);
-//
-//            tree.moveChild(currentIndex, newIndex, &undoManager);
-//            table.selectRow(newIndex, false, false);
-//        }
-//    }
-//    else
-//    {
-//        for (int i = itemsToMove.size() - 1; i > -1; i--)
-//        {
-//            int currentIndex = itemsToMove[i];
-//            int newIndex     = jmin(itemsToMove[i] + 1, tree.getNumChildren());
-//            
-//            table.deselectRow(currentIndex);
-//
-//            tree.moveChild(currentIndex, newIndex, &undoManager);
-//            table.selectRow(newIndex, false, false);
-//        }
-//    }
-//    
-//    locationsChanged = true;
-//}
+void FileLocationEditor::moveFileLocations(bool moveUp)
+{
+    SparseSet<int> selectedRows(table.getSelectedRows());
+    Array<int> itemsToMove;
+    
+    for (int i = 0; i < selectedRows.size(); i++)
+    {
+        itemsToMove.add(selectedRows[i]);
+    }
+
+    DefaultElementComparator<int> sorter;
+    itemsToMove.sort(sorter);
+    
+    if (moveUp)
+    {
+        for (int i = 0; i < itemsToMove.size(); i++)
+        {
+            int currentIndex = itemsToMove[i];
+            int newIndex     = jmax(itemsToMove[i] - 1, 0);
+
+            table.deselectRow(currentIndex);
+
+            tree.moveChild(currentIndex, newIndex, &undoManager);
+            table.selectRow(newIndex, false, false);
+        }
+    }
+    else
+    {
+        for (int i = itemsToMove.size() - 1; i > -1; i--)
+        {
+            int currentIndex = itemsToMove[i];
+            int newIndex     = jmin(itemsToMove[i] + 1, tree.getNumChildren());
+            
+            table.deselectRow(currentIndex);
+
+            tree.moveChild(currentIndex, newIndex, &undoManager);
+            table.selectRow(newIndex, false, false);
+        }
+    }
+    
+    locationsChanged = true;
+}
 
 void FileLocationEditor::rebuildFileLibrary()
 {

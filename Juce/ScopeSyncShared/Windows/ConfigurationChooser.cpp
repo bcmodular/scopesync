@@ -26,9 +26,9 @@
 
 #include "ConfigurationChooser.h"
 #include "../Resources/ImageLoader.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
-#include "../Components/FileLocationEditor.h"
+#include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
  * ConfigurationChooserWindow
@@ -55,10 +55,7 @@ ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-ConfigurationChooserWindow::~ConfigurationChooserWindow()
-{
-    UserSettings::getInstance()->hideFileLocationsWindow();
-}
+ConfigurationChooserWindow::~ConfigurationChooserWindow() {}
 
 void ConfigurationChooserWindow::closeButtonPressed()
 {
@@ -217,17 +214,18 @@ ConfigurationChooser::~ConfigurationChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
+    UserSettings::getInstance()->removeChangeListener(this);
 }
 
 void ConfigurationChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
-    UserSettings::getInstance()->hideFileLocationsWindow();
+    DBG("ConfigurationChooser::changeListenerCallback");
     attachToTree();
 }
 
 void ConfigurationChooser::removeExcludedConfigurations()
 {
-    for (int i = 0; i < viewTree.getNumChildren(); i++)
+    for (int i = viewTree.getNumChildren() - 1; i >= 0; i--)
     {
         bool excludeFromChooser = viewTree.getChild(i).getProperty(Ids::excludeFromChooser, false);
         
@@ -378,11 +376,17 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
         case CommandIDs::chooseSelectedConfiguration:  chooseSelectedConfiguration(); break;
         case CommandIDs::rebuildFileLibrary:           rebuildFileLibrary(); break;
         case CommandIDs::unloadConfiguration:          unloadConfiguration(); break;
-        case CommandIDs::editFileLocations:            UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
+        case CommandIDs::editFileLocations:            editFileLocations(); break;
         default:                                       return false;
     }
 
     return true;
+}
+
+void ConfigurationChooser::editFileLocations()
+{
+    UserSettings::getInstance()->addChangeListener(this);
+    UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void ConfigurationChooser::chooseSelectedConfiguration()
@@ -399,8 +403,8 @@ void ConfigurationChooser::closeWindow()
 
 void ConfigurationChooser::rebuildFileLibrary()
 {
+    UserSettings::getInstance()->addChangeListener(this);
     UserSettings::getInstance()->rebuildFileLibrary();
-    attachToTree();
 }
 
 void ConfigurationChooser::attachToTree()

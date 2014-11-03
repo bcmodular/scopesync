@@ -32,8 +32,8 @@
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
-#include "LayoutChooser.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/LayoutChooser.h"
+#include "../Windows/UserSettings.h"
 
 //==============================================================================
 class ComponentBackgroundColourProperty : public  ColourPropertyComponent,
@@ -70,8 +70,8 @@ protected:
 /* =========================================================================
  * BasePanel
  */
-BasePanel::BasePanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm)
-    : valueTree(node), undoManager(um), scopeSync(ss), configuration(ss.getConfiguration()), commandManager(acm)
+BasePanel::BasePanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm)
+    : valueTree(node), undoManager(um), commandManager(acm)
 {
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
@@ -114,8 +114,8 @@ void BasePanel::focusGained(FocusChangeType /* cause */)
 /* =========================================================================
  * EmptyPanel
  */
-EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm)
-    : BasePanel(node, um, ss, acm)
+EmptyPanel::EmptyPanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm)
+    : BasePanel(node, um, acm)
 {
     propertyPanel.setVisible(false);
 }
@@ -146,7 +146,7 @@ private:
  * ConfigurationPanel
  */
 ConfigurationPanel::ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool newConfiguration)
-    : BasePanel(node, um, ss, acm), isNewConfiguration(newConfiguration)
+    : BasePanel(node, um, acm), isNewConfiguration(newConfiguration), configuration(ss.getConfiguration())
 {
     rebuildProperties();
 }
@@ -221,7 +221,7 @@ void ConfigurationPanel::chooseLayout()
 ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
                                BCMParameter::ParameterType paramType, ScopeSync& ss,
                                ApplicationCommandManager* acm, bool showCalloutView)
-    : BasePanel(parameter, um, ss, acm), parameterType(paramType), calloutView(showCalloutView)
+    : BasePanel(parameter, um, acm), parameterType(paramType), calloutView(showCalloutView), configuration(ss.getConfiguration())
 {
     // Listen for changes to the valueType, to decide whether or not to show
     // the SettingsTable
@@ -244,17 +244,17 @@ void ParameterPanel::rebuildProperties()
     propertyPanel.clear();
 
     PropertyListBuilder props;
-    createDescriptionProperties(props);
+    createDescriptionProperties(props, undoManager, valueTree, parameterType);
     propertyPanel.addSection("Main Properties", props.components, true);
 
-    createScopeProperties(props);
+    createScopeProperties(props, undoManager, valueTree, valueType.getValue());
     propertyPanel.addSection("Scope Properties", props.components, true);
     
-    createUIProperties(props);
+    createUIProperties(props, undoManager, valueTree, valueType.getValue());
     propertyPanel.addSection("UI Properties", props.components, true);
 }
 
-void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
+void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType)
 {
     props.clear();
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),             "Name", 256, false),              "Mapping name for parameter");
@@ -283,24 +283,24 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props)
     }
 }
 
-void ParameterPanel::createScopeProperties(PropertyListBuilder& props)
+void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)
 {
     props.clear();
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
     props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
     
-    if (int(valueType.getValue()) == 0)
+    if (valueType == 0)
     {
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters)");
         props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
     }
 }
 
-void ParameterPanel::createUIProperties(PropertyListBuilder& props)
+void ParameterPanel::createUIProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)
 {
     props.clear();
     
-    if (int(valueType.getValue()) == 0)
+    if (valueType == 0)
     {
         props.add(new TextPropertyComponent   (valueTree.getPropertyAsValue(Ids::uiSuffix,        &undoManager), "UI Suffix", 32, false),  "Text to display after value in the User Interface, e.g. Hz, %");
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMin,      &undoManager), "Min UI Value"),          "Minimum User Interface Value (Float)");
@@ -310,7 +310,7 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props)
     }
     
     String valIntTooltip;
-    if (int(valueType.getValue()) == 0)
+    if (valueType == 0)
         valIntTooltip = "Step between consecutive User Interface values";
     else
         valIntTooltip = "Step between consecutive User Interface values (use 1 to snap to discrete values, or a smaller number to allow smooth scrolling)";
@@ -374,7 +374,7 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     {
         resizerBar = nullptr;
         settingsTable = nullptr;
-        setParameterUIRanges(0, 100, 0);
+        setParameterUIRanges(0, 100, 0, undoManager, valueTree);
         rebuildProperties();
         resized();
     }
@@ -386,11 +386,11 @@ void ParameterPanel::valueChanged(Value& valueThatChanged)
     }
 }
 
-void ParameterPanel::setParameterUIRanges(double min, double max, double reset)
+void ParameterPanel::setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree)
 {
-    valueTree.setProperty(Ids::uiRangeMin,      min,      &undoManager);
-    valueTree.setProperty(Ids::uiRangeMax,      max,      &undoManager);
-    valueTree.setProperty(Ids::uiResetValue,    reset,    &undoManager);
+    valueTree.setProperty(Ids::uiRangeMin,   min,   &undoManager);
+    valueTree.setProperty(Ids::uiRangeMax,   max,   &undoManager);
+    valueTree.setProperty(Ids::uiResetValue, reset, &undoManager);
 }
 
 void ParameterPanel::createSettingsTable()
@@ -418,13 +418,13 @@ void ParameterPanel::createSettingsTable()
     ValueTree settings = valueTree.getOrCreateChildWithName(Ids::settings, &undoManager);
     
     int maxValue = jmax(settings.getNumChildren() - 1, 1);
-    setParameterUIRanges(0, maxValue, 0);
+    setParameterUIRanges(0, maxValue, 0, undoManager, valueTree);
 
     // Reset Skew values to default to save confusion
     valueTree.setProperty(Ids::uiSkewMidpoint, String::empty, &undoManager);
     valueTree.setProperty(Ids::scopeDBRef, 0.0f, &undoManager);
 
-    settingsTable = new SettingsTable(settings, undoManager, configuration, commandManager, valueTree);
+    settingsTable = new SettingsTable(settings, undoManager, commandManager, valueTree);
     settingsTable->setBounds(0, 0, getWidth(), lastSettingsTableHeight);
     addAndMakeVisible(settingsTable);
 
@@ -439,7 +439,8 @@ void ParameterPanel::createSettingsTable()
 MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, 
                            ScopeSync& ss, ApplicationCommandManager* acm, 
                            const Identifier& compType, bool calloutView)
-    : BasePanel(mapping, um, ss, acm), componentType(compType), showComponent(!calloutView)
+    : BasePanel(mapping, um, acm), componentType(compType), 
+      showComponent(!calloutView), configuration(ss.getConfiguration())
 {
     rebuildProperties();
 }
@@ -558,10 +559,11 @@ StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um,
                                        ScopeSync& ss, ApplicationCommandManager* acm, 
                                        const Identifier& compType,
                                        bool calloutView)
-    : BasePanel(mapping, um, ss, acm), 
+    : BasePanel(mapping, um, acm), 
       componentType(compType), 
       showComponent(!calloutView),
-      useColourOverrides(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager))
+      useColourOverrides(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager)),
+      scopeSync(ss), configuration(ss.getConfiguration())
 {
     useColourOverrides.addListener(this);
     rebuildProperties();

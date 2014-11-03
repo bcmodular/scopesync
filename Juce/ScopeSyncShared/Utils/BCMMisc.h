@@ -28,7 +28,7 @@
 #define BCMMISC_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID();
 

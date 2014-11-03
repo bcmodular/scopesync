@@ -34,7 +34,7 @@ class BCMParameter
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType      {hostParameter, scopeLocal};
+    enum ParameterType      {hostParameter, scopeLocal, preset};
     enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     
     BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType);

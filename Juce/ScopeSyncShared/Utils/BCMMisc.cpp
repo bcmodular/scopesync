@@ -25,6 +25,8 @@
  */
 
 #include "BCMMisc.h"
+#include "../Resources/Icons.h"
+#include "../Core/Global.h"
 
 String createAlphaNumericUID()
 {

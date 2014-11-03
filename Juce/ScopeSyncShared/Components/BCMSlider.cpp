@@ -34,7 +34,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
 #include "../Core/Global.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationManager.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
@@ -327,10 +327,10 @@ void BCMSlider::overrideStyle()
     fillColour2String = findColour(Slider::textBoxBackgroundColourId).toString();
     lineColour2String = findColour(Slider::textBoxTextColourId).toString();
 
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 165);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString);
-    configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 165);
+    configurationManagerCalloutWindow->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString);
+    configurationManagerCalloutWindow->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, getScreenBounds(), nullptr);
 }
 
 void BCMSlider::applyLookAndFeel(bool noStyleOverride)

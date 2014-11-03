@@ -94,8 +94,8 @@ private:
     Label          sizeWarning;
     TextButton     addFileLocationButton;
     TextButton     removeFileLocationButton;
-    //TextButton     moveUpButton;
-    //TextButton     moveDownButton;
+    TextButton     moveUpButton;
+    TextButton     moveDownButton;
     TextButton     rebuildButton;
     TextButton     undoButton;
     TextButton     redoButton;
@@ -111,7 +111,7 @@ private:
     void textWasEdited();
     void addFileLocation();
     void removeFileLocations();
-    //void moveFileLocations(bool moveUp);
+    void moveFileLocations(bool moveUp);
     void rebuildFileLibrary();
 
     void undo();

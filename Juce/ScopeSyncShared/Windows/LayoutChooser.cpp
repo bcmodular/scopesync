@@ -26,8 +26,8 @@
 
 #include "LayoutChooser.h"
 #include "../Resources/ImageLoader.h"
-#include "../Components/UserSettings.h"
-#include "../Components/FileLocationEditor.h"
+#include "../Windows/UserSettings.h"
+#include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
  * LayoutChooserWindow
@@ -55,10 +55,7 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-LayoutChooserWindow::~LayoutChooserWindow()
-{
-    UserSettings::getInstance()->hideFileLocationsWindow();
-}
+LayoutChooserWindow::~LayoutChooserWindow() {}
 
 void LayoutChooserWindow::closeButtonPressed()
 {
@@ -227,11 +224,11 @@ LayoutChooser::~LayoutChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
+    UserSettings::getInstance()->removeChangeListener(this);
 }
 
 void LayoutChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
-    UserSettings::getInstance()->hideFileLocationsWindow();
     attachToTree();
 }
 
@@ -406,11 +403,18 @@ bool LayoutChooser::perform(const InvocationInfo& info)
     {
         case CommandIDs::chooseSelectedLayout:  chooseSelectedLayout(); break;
         case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
-        case CommandIDs::editFileLocations:     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
+        case CommandIDs::editFileLocations:     editFileLocations(); break;
         default:                                return false;
     }
 
     return true;
+}
+
+
+void LayoutChooser::editFileLocations()
+{
+    UserSettings::getInstance()->addChangeListener(this);
+    UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void LayoutChooser::chooseSelectedLayout()

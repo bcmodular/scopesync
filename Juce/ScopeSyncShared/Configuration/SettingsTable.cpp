@@ -25,7 +25,7 @@
  */
 
 #include "SettingsTable.h"
-#include "ConfigurationManagerMain.h"
+#include "ConfigurationManager.h"
 #include "ConfigurationPanel.h"
 #include "../Core/Global.h"
 
@@ -99,9 +99,9 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelComp)
 };
 
-SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Configuration& config, ApplicationCommandManager* acm,
+SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm,
                              ValueTree& param)
-    : tree(valueTree), undoManager(um), font(14.0f), configuration(config), commandManager(acm),
+    : tree(valueTree), undoManager(um), font(14.0f), commandManager(acm),
       numSettingsTextLabel(String::empty, "Num to add:"),
       addSettingsButton("Add"),
       removeSettingsButton("Remove"),
@@ -361,10 +361,8 @@ void SettingsTable::removeSettings()
 
 void SettingsTable::updateParameterRanges()
 {
-    ParameterPanel* panel = dynamic_cast<ParameterPanel*>(getParentComponent());
-
     int maxValue = jmax(tree.getNumChildren() - 1, 1);
-    panel->setParameterUIRanges(0, maxValue, 0);
+    ParameterPanel::setParameterUIRanges(0, maxValue, 0, undoManager, tree);
 }
 
 void SettingsTable::autoFill()

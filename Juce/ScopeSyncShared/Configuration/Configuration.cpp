@@ -30,7 +30,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
 #include "../Utils/BCMMath.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
@@ -443,6 +443,50 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     return true;
 }
 
+void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager)
+{
+    String parameterNameBase = parameter.getProperty(Ids::name);
+
+    if (parameterNameBase.isEmpty())
+        parameterNameBase = getDefaultParameter().getProperty(Ids::name);
+
+    String parameterName;
+    int    settingNum = 1;
+    
+    for (;;)
+    {
+        parameterName = parameterNameBase + String(settingNum);
+        
+        if (parameterNameExists(parameterName))
+        {
+            settingNum++;
+            continue;
+        }
+        else
+        {
+            String newShortDescription = parameter.getProperty(Ids::shortDescription).toString();
+            
+            if (newShortDescription.isEmpty())
+                newShortDescription = getDefaultParameter().getProperty(Ids::shortDescription);
+
+            newShortDescription += " " + String(settingNum);
+
+            String newFullDescription  = parameter.getProperty(Ids::fullDescription).toString();
+            
+            if (newFullDescription.isEmpty())
+                newFullDescription = getDefaultParameter().getProperty(Ids::fullDescription);
+
+            newFullDescription +=  " " + String(settingNum);
+
+            parameter.setProperty(Ids::name,             parameterName,       undoManager);
+            parameter.setProperty(Ids::shortDescription, newShortDescription, undoManager);
+            parameter.setProperty(Ids::fullDescription,  newShortDescription, undoManager);
+
+            break;
+        }
+    }
+}
+
 void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
 {
     if (paramValues.isValid())
@@ -450,57 +494,52 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
     else
         newParameter = getDefaultParameter().createCopy();
 
-    String parameterNameBase = newParameter.getProperty(Ids::name);
+    generateUniqueParameterNames(newParameter, um);
 
-    if (parameterNameBase.isEmpty())
-        parameterNameBase = getDefaultParameter().getProperty(Ids::name);
-
-    String newParameterName;
-    int settingNum = 1;
-    
-    for (;;)
-    {
-        newParameterName = parameterNameBase + String(settingNum);
-        
-        if (parameterNameExists(newParameterName))
-        {
-            settingNum++;
-            continue;
-        }
-        else
-        {
-            String newShortDescription = newParameter.getProperty(Ids::shortDescription).toString();
-            
-            if (newShortDescription.isEmpty())
-                newShortDescription = getDefaultParameter().getProperty(Ids::shortDescription);
-
-            newShortDescription += " " + String(settingNum);
-
-            String newFullDescription  = newParameter.getProperty(Ids::fullDescription).toString();
-            
-            if (newFullDescription.isEmpty())
-                newFullDescription = getDefaultParameter().getProperty(Ids::fullDescription);
-
-            newFullDescription +=  " " + String(settingNum);
-
-            newParameter.setProperty(Ids::name,             newParameterName, um);
-            newParameter.setProperty(Ids::shortDescription, newShortDescription, um);
-            newParameter.setProperty(Ids::fullDescription,  newShortDescription, um);
-
-            newParameter.setProperty(Ids::scopeSync,  -1, um);
-            newParameter.setProperty(Ids::scopeLocal, -1, um);
-
-            break;
-        }
-    }
+    newParameter.setProperty(Ids::scopeSync,  -1, um);
+    newParameter.setProperty(Ids::scopeLocal, -1, um);
 
     if (parameterTarget == host)
-    {
         getHostParameters().addChild(newParameter, targetIndex, um);
+    else
+        getScopeParameters().addChild(newParameter, targetIndex, um);
+}
+
+void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager)
+{
+    String name       = parameter.getProperty(Ids::name);
+    String shortDesc  = parameter.getProperty(Ids::shortDescription);
+    String fullDesc   = parameter.getProperty(Ids::fullDescription);
+    int    scopeSync  = parameter.getProperty(Ids::scopeSync);
+    int    scopeLocal = parameter.getProperty(Ids::scopeLocal);
+
+    parameter.copyPropertiesFrom(preset, undoManager);
+    parameter.removeProperty(Ids::presetFileName, undoManager);
+    parameter.removeProperty(Ids::presetFileLibrarySet, undoManager);
+    parameter.removeProperty(Ids::presetFileAuthor, undoManager);
+    parameter.removeProperty(Ids::presetFileBlurb, undoManager);
+    parameter.removeProperty(Ids::filePath, undoManager);
+    parameter.removeProperty(Ids::fileName, undoManager);
+
+    parameter.removeAllChildren(undoManager);
+
+    ValueTree settings = preset.getChildWithName(Ids::settings).createCopy();
+        
+    if (settings.isValid())
+        parameter.addChild(settings, -1, undoManager);
+
+    parameter.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
+    parameter.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+
+    if (!overwriteNames)
+    {
+        parameter.setProperty(Ids::name,             name,       undoManager);
+        parameter.setProperty(Ids::shortDescription, shortDesc,  undoManager);
+        parameter.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
     }
     else
     {
-        getScopeParameters().addChild(newParameter, targetIndex, um);
+        generateUniqueParameterNames(parameter, undoManager);
     }
 }
 

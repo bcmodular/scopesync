@@ -37,7 +37,7 @@
 #include "../Components/BCMRectangle.h"
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 #include "../Properties/TabbedComponentProperties.h"
@@ -756,10 +756,10 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
 void BCMComponent::overrideStyle()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 95);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, Ids::component, getName(), widgetTemplateId, backgroundColour);
-    configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, getScreenBounds(), nullptr);
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 95);
+    configurationManagerCalloutWindow->setStyleOverridePanel(styleOverride, Ids::component, getName(), widgetTemplateId, backgroundColour);
+    configurationManagerCalloutWindow->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, getScreenBounds(), nullptr);
 }
 
 void BCMComponent::mouseDown(const MouseEvent& event)

@@ -333,9 +333,18 @@ void UserSettings::hide()
     removeFromDesktop();
 }
 
-void UserSettings::changeListenerCallback(ChangeBroadcaster* /* source */)
+void UserSettings::changeListenerCallback(ChangeBroadcaster* source)
 {
-    hideFileLocationsWindow();
+    if (source == fileLocationEditorWindow)
+    {
+        DBG("UserSettings::changeListenerCallback - source: fileLocationEditorWindow");
+        hideFileLocationsWindow();
+    }
+    else
+    {
+        DBG("UserSettings::changeListenerCallback - source: unknown");
+        sendChangeMessage();
+    }
 }
 
 ValueTree UserSettings::getFileLocations()
@@ -351,6 +360,11 @@ ValueTree UserSettings::getLayoutLibrary()
 ValueTree UserSettings::getConfigurationLibrary()
 {
     return getValueTreeFromGlobalProperties("configurationLibrary");
+}
+
+ValueTree UserSettings::getPresetLibrary()
+{
+    return getValueTreeFromGlobalProperties("presetLibrary");
 }
 
 ValueTree UserSettings::getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary)
@@ -408,6 +422,35 @@ String UserSettings::getConfigurationFilePathFromUID(int uid)
     }
 
     return String::empty;
+}
+
+ValueTree UserSettings::getPresetFileFromFilePath(const String& filePath, const ValueTree& presetLibrary)
+{
+    for (int i = 0; i < presetLibrary.getNumChildren(); i++)
+    {
+        ValueTree presetFile = presetLibrary.getChild(i);
+
+        if (   presetFile.hasType(Ids::presetFile) 
+            && presetFile.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+            return presetFile;
+    }
+    
+    return ValueTree();
+}
+
+ValueTree UserSettings::getPresetFromNameAndFilePath(const String& name, const String& filePath, const ValueTree& presetLibrary)
+{
+    for (int i = 0; i < presetLibrary.getNumChildren(); i++)
+    {
+        ValueTree preset = presetLibrary.getChild(i);
+
+        if (   preset.hasType(Ids::preset)
+            && preset.getProperty(Ids::name).toString().equalsIgnoreCase(name)
+            && preset.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+            return preset;
+    }
+    
+    return ValueTree();
 }
 
 void UserSettings::setLastTimeLayoutLoaded(const String& filePath)
@@ -502,6 +545,84 @@ void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,
     configuration.setProperty(Ids::fileName,           fileName, nullptr);
 }
 
+void UserSettings::updatePresetLibraryEntry(const String&    filePath,
+                                            const String&    fileName,
+                                            const ValueTree& sourceValueTree,
+                                                  ValueTree& presetLibrary)
+{
+    ValueTree presetFile = getPresetFileFromFilePath(filePath, presetLibrary);
+
+    if (!presetFile.isValid())
+    {
+        presetFile = ValueTree(Ids::presetFile);
+        presetLibrary.addChild(presetFile, -1, nullptr);
+    }
+
+    presetFile.setProperty(Ids::name,       sourceValueTree.getProperty(Ids::name), nullptr);
+    presetFile.setProperty(Ids::librarySet, sourceValueTree.getProperty(Ids::librarySet), nullptr);
+    presetFile.setProperty(Ids::author,     sourceValueTree.getProperty(Ids::author), nullptr);
+    presetFile.setProperty(Ids::blurb,      sourceValueTree.getProperty(Ids::blurb), nullptr);
+    presetFile.setProperty(Ids::filePath,   filePath, nullptr);
+    presetFile.setProperty(Ids::fileName,   fileName, nullptr);
+
+    updatePresets(filePath, fileName, sourceValueTree, presetLibrary);
+}
+
+void UserSettings::updatePresets(const String&    filePath,
+                                 const String&    fileName,
+                                 const ValueTree& sourceValueTree,
+                                       ValueTree& presetLibrary)
+{
+    // Firstly trim Presets that no longer exist in this file
+    for (int i = presetLibrary.getNumChildren() - 1; i >= 0 ; i--)
+    {
+        ValueTree presetLibraryItem = presetLibrary.getChild(i);
+
+        if (   presetLibraryItem.hasType(Ids::preset) 
+            && presetLibraryItem.getProperty(Ids::filePath).toString().equalsIgnoreCase(filePath))
+        {
+            String presetName = presetLibraryItem.getProperty(Ids::name);
+
+            if (sourceValueTree.getChildWithProperty(Ids::name, presetName).isValid())
+                continue;
+            else
+                presetLibrary.removeChild(i, nullptr);
+        }
+        else
+            continue;
+    }
+
+    // Now update/add the set of Presets from this file
+    for (int i = 0; i < sourceValueTree.getNumChildren(); i++)
+    {
+        ValueTree sourceItem = sourceValueTree.getChild(i);
+        String presetName    = sourceItem.getProperty(Ids::name);
+        
+        ValueTree preset = getPresetFromNameAndFilePath(presetName, filePath, presetLibrary);
+        
+        if (!preset.isValid())
+        {
+            preset = ValueTree(Ids::preset);
+            presetLibrary.addChild(preset, -1, nullptr);
+        }
+
+        preset.copyPropertiesFrom(sourceItem, nullptr);
+        
+        ValueTree settings = sourceItem.getChildWithName(Ids::settings);
+        preset.removeAllChildren(nullptr);
+
+        if (settings.isValid())
+            preset.addChild(settings.createCopy(), -1, nullptr);
+
+        preset.setProperty(Ids::presetFileName, sourceValueTree.getProperty(Ids::name), nullptr);
+        preset.setProperty(Ids::presetFileLibrarySet, sourceValueTree.getProperty(Ids::librarySet), nullptr);
+        preset.setProperty(Ids::presetFileAuthor, sourceValueTree.getProperty(Ids::author), nullptr);
+        preset.setProperty(Ids::presetFileBlurb, sourceValueTree.getProperty(Ids::blurb), nullptr);
+        preset.setProperty(Ids::filePath, filePath, nullptr);
+        preset.setProperty(Ids::fileName, fileName, nullptr);
+    }
+}
+
 ValueTree UserSettings::getValueTreeFromGlobalProperties(const String& valueTreeToGet)
 {
     ScopedPointer<XmlElement> xml = getGlobalProperties()->getXmlValue(valueTreeToGet);
@@ -516,18 +637,16 @@ ValueTree UserSettings::getValueTreeFromGlobalProperties(const String& valueTree
         getGlobalProperties()->setValue(valueTreeToGet, xml);
 
         return newTree;
-    }
-    
+    }  
 }   
 
-void UserSettings::editFileLocations(int posX, int posY, ChangeListener* listener)
+void UserSettings::editFileLocations(int posX, int posY)
 {
     if (fileLocationEditorWindow == nullptr)
         fileLocationEditorWindow = new FileLocationEditorWindow(posX, posY, commandManager, undoManager);
 
-    if (listener != nullptr)
-        fileLocationEditorWindow->addChangeListener(listener);
-
+    fileLocationEditorWindow->addChangeListener(this);
+    
     fileLocationEditorWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -555,6 +674,8 @@ void UserSettings::updateFileLocations(const ValueTree& fileLocations)
         getGlobalProperties()->setValue(Ids::fileLocations.toString(), xml);
 
         RebuildFileLibrary rebuild(fileLocations);
+        rebuild.addChangeListener(this);
+
         rebuild.runThread();
     }
 }
@@ -564,11 +685,15 @@ void UserSettings::rebuildFileLibrary()
     ValueTree fileLocations = getFileLocations();
     
     RebuildFileLibrary rebuild(fileLocations);
+    rebuild.addChangeListener(this);
+
     rebuild.runThread();
 }
     
 void UserSettings::RebuildFileLibrary::run()
 {
+    DBG("UserSettings::RebuildFileLibrary::run");
+
     setStatusMessage("Searching for files in library locations...");
 
     if (!(fileLocations.isValid()) || fileLocations.getNumChildren() == 0)
@@ -576,6 +701,7 @@ void UserSettings::RebuildFileLibrary::run()
 
     Array<File> layoutFiles;
     Array<File> configurationFiles;
+    Array<File> presetFiles;
         
     int numLocations = fileLocations.getNumChildren();
 
@@ -584,7 +710,7 @@ void UserSettings::RebuildFileLibrary::run()
         if (threadShouldExit())
             break;
         
-        setProgress((i + 0.5) / (double)(numLocations - 1));
+        setProgress((i + 1) / (double)(numLocations - 1));
         
         String locationFolder = fileLocations.getChild(i).getProperty(Ids::folder);
 
@@ -596,7 +722,7 @@ void UserSettings::RebuildFileLibrary::run()
         if (!(location.isDirectory()))
             continue;
         
-        setStatusMessage("Searching for layouts in library locations..." + newLine + newLine + location.getFullPathName());
+        setStatusMessage("Searching for files in library locations..." + newLine + newLine + location.getFullPathName());
 
         int total = 0;
 
@@ -609,42 +735,51 @@ void UserSettings::RebuildFileLibrary::run()
             
             if (newFile.hasFileExtension("layout"))
                 layoutFiles.add(newFile);
-
-            if (total < 100000)
-                ++total;
-            else
-                break;
-        }
-
-        //location.findChildFiles(layoutFiles, File::findFiles, true, "*.layout");
-        
-        setProgress((i + 1) / (double)(numLocations - 1));
-        
-        setStatusMessage("Searching for configurations in library locations..." + newLine + newLine + location.getFullPathName());
-
-        total = 0;
-
-        for (DirectoryIterator di(location, true); di.next();)
-        {
-            if (threadShouldExit())
-            break;
-        
-            File newFile = di.getFile();
-            
-            if (newFile.hasFileExtension("configuration"))
+            else if (newFile.hasFileExtension("configuration"))
                 configurationFiles.add(newFile);
+            else if (newFile.hasFileExtension("presets"))
+                presetFiles.add(newFile);
 
             if (total < 100000)
                 ++total;
             else
                 break;
         }
-        
-        //location.findChildFiles(configurationFiles, File::findFiles, true, "*.configuration");
     }
     
     updateLayoutLibrary(layoutFiles);
     updateConfigurationLibrary(configurationFiles);
+    updatePresetLibrary(presetFiles);
+
+    sendChangeMessage();
+}
+
+void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim)
+{
+    for (int i = libraryToTrim.getNumChildren() - 1; i >= 0 ; i--)
+    {
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(libraryToTrim.getNumChildren() - 1));
+        
+        ValueTree libraryItem = libraryToTrim.getChild(i);
+        String    filePath    = libraryItem.getProperty(Ids::filePath);
+
+        bool fileFound = false;
+       
+        for (int j = 0; j < activeFiles.size(); j++)
+        {
+            if (activeFiles[j].getFullPathName().equalsIgnoreCase(filePath))
+            {
+                fileFound = true;
+                break;
+            }
+        }
+        
+        if (!fileFound)
+            libraryToTrim.removeChild(i, nullptr);
+    }
 }
 
 void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& layoutFiles)
@@ -654,31 +789,7 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
         
     ValueTree layoutLibrary = UserSettings::getInstance()->getLayoutLibrary();
 
-        // Firstly trim entries that no longer have files
-    for (int i = layoutLibrary.getNumChildren() - 1; i >= 0 ; i--)
-    {
-        if (threadShouldExit())
-            break;
-        
-        setProgress(i / (double)(layoutLibrary.getNumChildren() - 1));
-        
-        ValueTree layout   = layoutLibrary.getChild(i);
-        String    filePath = layout.getProperty(Ids::filePath);
-
-        bool fileFound = false;
-       
-        for (int j = 0; j < layoutFiles.size(); j++)
-        {
-            if (layoutFiles[j].getFullPathName().equalsIgnoreCase(filePath))
-            {
-                fileFound = true;
-                break;
-            }
-        }
-        
-        if (!fileFound)
-            layoutLibrary.removeChild(i, nullptr);
-    }
+    trimMissingFiles(layoutFiles, layoutLibrary);
 
     setStatusMessage("Updating Layouts...");
     setProgress(0.0f);
@@ -737,31 +848,7 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
 
     ValueTree configurationLibrary = UserSettings::getInstance()->getConfigurationLibrary();
 
-    // Firstly trim entries that no longer have files
-    for (int i = configurationLibrary.getNumChildren() - 1; i >= 0 ; i--)
-    {
-        if (threadShouldExit())
-            break;
-        
-        setProgress(i / (double)(configurationLibrary.getNumChildren() - 1));
-        
-        ValueTree configuration = configurationLibrary.getChild(i);
-        String    filePath      = configuration.getProperty(Ids::filePath);
-
-        bool fileFound = false;
-       
-        for (int j = 0; j < configurationFiles.size(); j++)
-        {
-            if (configurationFiles[j].getFullPathName().equalsIgnoreCase(filePath))
-            {
-                fileFound = true;
-                break;
-            }
-        }
-        
-        if (!fileFound)
-            configurationLibrary.removeChild(i, nullptr);
-    }
+    trimMissingFiles(configurationFiles, configurationLibrary);
 
     setStatusMessage("Updating Configurations...");
     setProgress(0.0f);
@@ -802,6 +889,54 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
     UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
 }
 
+void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& presetFiles)
+{
+    setStatusMessage("Removing Preset Files that no longer exist...");
+    setProgress(0.0f);
+
+    ValueTree presetLibrary = UserSettings::getInstance()->getPresetLibrary();
+
+    trimMissingFiles(presetFiles, presetLibrary);
+
+    setStatusMessage("Updating Presets...");
+    setProgress(0.0f);
+
+    // Then update information for existing entries, or add new ones
+    for (int i = 0; i < presetFiles.size(); i++)
+    {
+        if (threadShouldExit())
+            break;
+        
+        setProgress(i / (double)(presetFiles.size() - 1));
+        
+        ScopedPointer<XmlElement> loadedPresetFileXml(XmlDocument::parse(presetFiles[i]));
+
+        if (loadedPresetFileXml == nullptr || !(loadedPresetFileXml->hasTagName(Ids::presets)))
+        {
+            DBG("UserSettings::updatePresetLibrary - Not a valid ScopeSync Preset File: " + presetFiles[i].getFullPathName());
+            continue;
+        }
+        
+        ValueTree presetFile(ValueTree::fromXml(*loadedPresetFileXml));
+
+        if (!presetFile.hasType(Ids::presets))
+        {
+            DBG("UserSettings::updatePresetLibrary - The document contains errors and couldn't be parsed: " + presetFiles[i].getFullPathName());
+            continue;
+        }
+        
+        String presetFileName = presetFile.getProperty(Ids::name);
+
+        if (presetFileName.isNotEmpty())
+            UserSettings::getInstance()->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
+                                                                  presetFiles[i].getFileName(),
+                                                                  presetFile, presetLibrary);
+    }
+
+    ScopedPointer<XmlElement> xml = presetLibrary.createXml();
+    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
+}
+
 void UserSettings::timerCallback()
 {
     undoManager.beginNewTransaction();
@@ -829,7 +964,7 @@ bool UserSettings::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::editFileLocations:    editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY(), this); break;
+        case CommandIDs::editFileLocations:    editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
         default:                               return false;
     }
 

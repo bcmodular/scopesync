@@ -145,12 +145,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetFile.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\UserSettings.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp"/>
@@ -169,7 +173,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp"/>
@@ -181,9 +184,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMSlider.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\UserSettings.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFX.cpp"/>
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
@@ -1062,12 +1065,16 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetItem.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetFile.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\UserSettings.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h"/>
@@ -1087,7 +1094,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h"/>
@@ -1100,11 +1106,11 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMSlider.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\UserSettings.h"/>
     <ClInclude Include="..\..\Include\SonicCore\effclass.h"/>
     <ClInclude Include="..\..\Source\ScopeFX.h"/>
     <ClInclude Include="..\..\Source\ScopeFXGUI.h"/>
     <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
@@ -1263,6 +1269,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_Message.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_MessageListener.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_MessageManager.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_MountedVolumeListChangeDetector.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\messages\juce_NotificationType.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\timers\juce_MultiTimer.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_events\timers\juce_Timer.h"/>

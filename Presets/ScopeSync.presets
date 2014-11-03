@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<presets name="ScopeSync" blurb="ScopeSync Stock Presets" librarySet="ScopeSync" author="ScopeSync">
+    <preset name="Default" shortDescription="Def" fullDescription="Default" scopeRangeMin="0" scopeRangeMax="2147483647"
+                   scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+                   uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <preset name="On/Off" shortDescription="On/Off" fullDescription="On/Off" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
+      <settings>
+        <setting name="OFF" value="0" intValue="0"/>
+        <setting name="ON" value="1" intValue="2147483647"/>
+      </settings>
+    </preset>
+</presets>
+    

@@ -222,10 +222,10 @@ void BCMWidget::showPopupMenu()
 
 void BCMWidget::overrideStyle()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 65);
-    configurationManagerCallout->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), widgetTemplateId);
-    configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 65);
+    configurationManagerCalloutWindow->setStyleOverridePanel(styleOverride, getComponentType(), parentWidget->getName(), widgetTemplateId);
+    configurationManagerCalloutWindow->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMWidget::clearStyleOverride()
@@ -450,19 +450,19 @@ void BCMParameterWidget::deleteMapping()
 
 void BCMParameterWidget::editMapping()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 400, 34);
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 400, 34);
     DBG("BCMParameterWidget::editMapping from component: " + parentWidget->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
-    configurationManagerCallout->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
-    configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
+    configurationManagerCalloutWindow->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
+    configurationManagerCalloutWindow->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMParameterWidget::editMappedParameter()
 {
-    ConfigurationManagerCallout* configurationManagerCallout = new ConfigurationManagerCallout(scopeSyncGUI.getScopeSync(), 550, 700);
-    configurationManagerCallout->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
-    configurationManagerCallout->addChangeListener(this);
-    CallOutBox::launchAsynchronously(configurationManagerCallout, parentWidget->getScreenBounds(), nullptr);
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 700);
+    configurationManagerCalloutWindow->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    configurationManagerCalloutWindow->addChangeListener(this);
+    CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, parentWidget->getScreenBounds(), nullptr);
 }
 
 void BCMParameterWidget::deleteMappedParameter()

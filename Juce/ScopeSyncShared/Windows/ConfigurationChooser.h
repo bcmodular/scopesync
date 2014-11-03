@@ -98,6 +98,7 @@ private:
     Label        blurb;
     Label        fileNameLabel;
     
+    void editFileLocations();
     void chooseSelectedConfiguration();
     void closeWindow();
     void removeExcludedConfigurations();

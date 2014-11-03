@@ -146,6 +146,7 @@ public:
 
     enum ParameterTarget { host, scopeLocal };
     void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
+    void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager);
 
     void deleteMapping(const Identifier& mappingType, 
                        ValueTree& mappingToDelete,
@@ -254,6 +255,7 @@ private:
 
     static ValueTree getDefaultParameter();
     bool             parameterNameExists(const String& parameterName);
+    void             generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };

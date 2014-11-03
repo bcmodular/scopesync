@@ -36,7 +36,7 @@
 #include "PluginGUI.h"
 #include "../../ScopeSyncShared/Resources/ImageLoader.h"
 #include "../../ScopeSyncShared/Resources/Icons.h"
-#include "../../ScopeSyncShared/Components/UserSettings.h"
+#include "../../ScopeSyncShared/Windows/UserSettings.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
 const int PluginProcessor::timerInterval   = 20;

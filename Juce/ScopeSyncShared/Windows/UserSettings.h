@@ -36,7 +36,8 @@ class UserSettings  : public  Component,
                       public  Value::Listener,
                       public  ApplicationCommandTarget,
                       public  Timer,
-                      public  ChangeListener
+                      public  ChangeListener,
+                      public  ChangeBroadcaster
 {
 public:
     UserSettings ();
@@ -50,12 +51,16 @@ public:
     ValueTree getFileLocations();
     ValueTree getLayoutLibrary();
     ValueTree getConfigurationLibrary();
+    ValueTree getPresetLibrary();
     ValueTree getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary);
     String    getLayoutFilename(const String& name, const String& librarySet);
     ValueTree getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary);
     String    getConfigurationFilePathFromUID(int uid);
+    ValueTree getPresetFileFromFilePath(const String& filePath, const ValueTree& presetLibrary);
+    ValueTree getPresetFromNameAndFilePath(const String& name, const String& filePath, const ValueTree& presetLibrary);
     
-    void editFileLocations(int posX, int posY, ChangeListener* listener);
+    void editFileLocations(int posX, int posY);
+    void removeWindowListener(ChangeListener* listener);
     void hideFileLocationsWindow();
     
     void setLastTimeLayoutLoaded(const String& filePath);
@@ -97,7 +102,7 @@ private:
     PropertyPanel         propertyPanel;
     TextButton            fileLocationsButton;
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
-
+    
     Value     useImageCache;
     Value     tooltipDelayTime;
     
@@ -116,6 +121,14 @@ private:
                                          const String&    fileName,
                                          const ValueTree& sourceValueTree,
                                                ValueTree& configurationLibrary);
+    void updatePresetLibraryEntry(const String&    filePath,
+                                  const String&    fileName,
+                                  const ValueTree& sourceValueTree,
+                                        ValueTree& presetLibrary);
+    void updatePresets(const String&    filePath,
+                       const String&    fileName,
+                       const ValueTree& sourceValueTree,
+                             ValueTree& presetLibrary);
 
     void timerCallback();
 
@@ -130,7 +143,8 @@ private:
     void loadSwatchColours();
     void saveSwatchColours();
 
-    class RebuildFileLibrary : public ThreadWithProgressWindow
+    class RebuildFileLibrary : public ThreadWithProgressWindow,
+                               public ChangeBroadcaster
     {
     public:
         RebuildFileLibrary(const ValueTree& locations)
@@ -141,10 +155,14 @@ private:
         void run();
 
     private:
+        ValueTree fileLocations;
+    
         void updateLayoutLibrary(const Array<File>& layoutFiles);
         void updateConfigurationLibrary(const Array<File>& configurationFiles);
-    
-        ValueTree fileLocations;
+        void updatePresetLibrary(const Array<File>& presetFiles);
+        void trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim);
+        
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RebuildFileLibrary)
     };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UserSettings)

@@ -55,7 +55,7 @@ public:
     //void setName(const String& newName) { name = newName; }
 
     // Callback for when the value of a mapped parameter changes
-    void valueChanged(Value& value);
+    void valueChanged(Value& value) override;
 
     void currentTabChanged(int newCurrentTabIndex, const String &newCurrentTabName);
     void popupMenuClickOnTab(int tabIndex, const String& tabName);

@@ -30,7 +30,7 @@
 #include "ScopeSync.h"
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
-#include "../Components/UserSettings.h"
+#include "../Windows/UserSettings.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "../Components/BCMLookAndFeel.h"
@@ -44,7 +44,7 @@
 #include "../Properties/ComboBoxProperties.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Properties/TabProperties.h"
-#include "../Configuration/ConfigurationChooser.h"
+#include "../Windows/ConfigurationChooser.h"
 #include "../Resources/ImageLoader.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
@@ -176,8 +176,6 @@ void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
     {
         ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
     }
-    else
-        UserSettings::getInstance()->hideFileLocationsWindow();
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)

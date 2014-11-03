@@ -13,21 +13,38 @@
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
+    <GROUP id="{5DDFDA23-4E61-4495-F913-536F2D9C1306}" name="Presets">
+      <FILE id="ENmiOS" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSyncShared/Presets/PresetItem.cpp"/>
+      <FILE id="pANVkJ" name="PresetItem.h" compile="0" resource="0" file="../ScopeSyncShared/Presets/PresetItem.h"/>
+      <FILE id="chrLNd" name="PresetManager.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Presets/PresetManager.cpp"/>
+      <FILE id="TDrBBz" name="PresetManager.h" compile="0" resource="0" file="../ScopeSyncShared/Presets/PresetManager.h"/>
+      <FILE id="Cd5M5I" name="PresetFile.cpp" compile="1" resource="0" file="../ScopeSyncShared/Presets/PresetFile.cpp"/>
+      <FILE id="DpLMwZ" name="PresetFile.h" compile="0" resource="0" file="../ScopeSyncShared/Presets/PresetFile.h"/>
+    </GROUP>
+    <GROUP id="{66C9BDB0-55B6-90E8-B66A-D0AE298BAD02}" name="Windows">
+      <FILE id="T3iUM9" name="PresetChooser.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/PresetChooser.cpp"/>
+      <FILE id="jCTyE7" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Windows/PresetChooser.h"/>
+      <FILE id="YRvG1R" name="ConfigurationChooser.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/ConfigurationChooser.cpp"/>
+      <FILE id="kWcXUQ" name="ConfigurationChooser.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Windows/ConfigurationChooser.h"/>
+      <FILE id="L94KKf" name="FileLocationEditor.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/FileLocationEditor.cpp"/>
+      <FILE id="DZAuuZ" name="FileLocationEditor.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Windows/FileLocationEditor.h"/>
+      <FILE id="X4Y3ud" name="LayoutChooser.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/LayoutChooser.cpp"/>
+      <FILE id="mOUfA5" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Windows/LayoutChooser.h"/>
+      <FILE id="QZrot7" name="UserSettings.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/UserSettings.cpp"/>
+      <FILE id="SNqqL3" name="UserSettings.h" compile="0" resource="0" file="../ScopeSyncShared/Windows/UserSettings.h"/>
+    </GROUP>
     <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
-      <FILE id="q3zjIJ" name="ConfigurationChooser.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationChooser.cpp"/>
-      <FILE id="DoS1Og" name="ConfigurationChooser.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationChooser.h"/>
-      <FILE id="AaQSpb" name="LayoutChooser.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Configuration/LayoutChooser.cpp"/>
-      <FILE id="GunUQI" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/LayoutChooser.h"/>
       <FILE id="avXY6h" name="SettingsTable.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/SettingsTable.cpp"/>
       <FILE id="ABl7zA" name="SettingsTable.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/SettingsTable.h"/>
-      <FILE id="XvY8mq" name="ConfigurationManagerMain.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.cpp"/>
-      <FILE id="DEM3Zy" name="ConfigurationManagerMain.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationManagerMain.h"/>
       <FILE id="L8VFLV" name="Configuration.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/Configuration.cpp"/>
       <FILE id="nuI5Qc" name="Configuration.h" compile="0" resource="0" file="../ScopeSyncShared/Configuration/Configuration.h"/>
@@ -39,10 +56,6 @@
             file="../ScopeSyncShared/Configuration/ConfigurationPanel.cpp"/>
       <FILE id="RF2zkj" name="ConfigurationPanel.h" compile="0" resource="0"
             file="../ScopeSyncShared/Configuration/ConfigurationPanel.h"/>
-      <FILE id="oipRtQ" name="ConfigurationTree.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationTree.cpp"/>
-      <FILE id="qhX2j2" name="ConfigurationTree.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Configuration/ConfigurationTree.h"/>
       <FILE id="L0FMMi" name="ConfigurationTreeItem.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Configuration/ConfigurationTreeItem.cpp"/>
       <FILE id="AKG3Tn" name="ConfigurationTreeItem.h" compile="0" resource="0"
@@ -62,6 +75,8 @@
             file="../ScopeSyncShared/Resources/ImageResources.h"/>
     </GROUP>
     <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
+      <FILE id="D4WMKO" name="BCMTreeView.cpp" compile="1" resource="0" file="../ScopeSyncShared/Utils/BCMTreeView.cpp"/>
+      <FILE id="WYyqL5" name="BCMTreeView.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMTreeView.h"/>
       <FILE id="BXtaZn" name="BCMMisc.cpp" compile="1" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.cpp"/>
       <FILE id="HfxhCA" name="BCMMisc.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMisc.h"/>
       <FILE id="Z61VsF" name="BCMXml.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMXml.h"/>
@@ -118,10 +133,6 @@
       <FILE id="NrgnLB" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSyncShared/Core/ScopeSyncGUI.h"/>
     </GROUP>
     <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
-      <FILE id="cUBBVP" name="FileLocationEditor.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Components/FileLocationEditor.cpp"/>
-      <FILE id="uYbbjm" name="FileLocationEditor.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Components/FileLocationEditor.h"/>
       <FILE id="TY4E9p" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMWidget.cpp"/>
       <FILE id="MwfKqv" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMWidget.h"/>
       <FILE id="ZXOXJx" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSyncShared/Components/BCMGraphic.cpp"/>
@@ -153,9 +164,6 @@
       <FILE id="LDAiy9" name="BCMTextButton.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Components/BCMTextButton.cpp"/>
       <FILE id="W41IGk" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMTextButton.h"/>
-      <FILE id="CRuwjJ" name="UserSettings.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Components/UserSettings.cpp"/>
-      <FILE id="qfi109" name="UserSettings.h" compile="0" resource="0" file="../ScopeSyncShared/Components/UserSettings.h"/>
     </GROUP>
     <GROUP id="{A150B2E7-7C76-DAE0-FC32-F9929B5D5083}" name="Comms">
       <FILE id="IpOlz9" name="ScopeSyncAudio.cpp" compile="1" resource="0"

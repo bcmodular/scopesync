@@ -1,5 +1,5 @@
 /**
- * Table for choosing a Layout to use with a Configuration
+ * Table for choosing a Preset
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -24,59 +24,39 @@
  *  Jessica Brandt
  */
 
-#ifndef LAYOUTCHOOSER_H_INCLUDED
-#define LAYOUTCHOOSER_H_INCLUDED
+#ifndef PRESETCHOOSER_H_INCLUDED
+#define PRESETCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+class ScopeSync;
 
 /* =========================================================================
- * LayoutChooserWindow: Parent Window for Layout Chooser
+ * PresetChooser: Table view for selecting a Preset
  */
-class LayoutChooserWindow : public DocumentWindow,
-                            public ChangeBroadcaster
-{
-public:
-    LayoutChooserWindow(int posX, int posY,
-                        const Value& layoutName,
-                        const Value& layoutLocation,
-                        ApplicationCommandManager* acm);
-    ~LayoutChooserWindow();
-
-private:
-    void closeButtonPressed() override;
-    void restoreWindowPosition(int posX, int posY);
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LayoutChooserWindow);
-};
-
-/* =========================================================================
- * LayoutChooser: Table view for selecting a layout to use with a configuration
- */
-class LayoutChooser : public  Component,
+class PresetChooser : public  Component,
                       private TableListBoxModel,
                       private ValueTree::Listener,
                       public  ApplicationCommandTarget,
-                      public  ChangeListener
+                      public  ChangeListener,
+                      public  ChangeBroadcaster
 {
 public:
-    LayoutChooser(const Value& layoutName,
-                  const Value& layoutLocation,
-                  ApplicationCommandManager* acm);
-    ~LayoutChooser();
+    PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommandManager* acm, UndoManager& um);
+    ~PresetChooser();
 
-    void changeListenerCallback(ChangeBroadcaster* source);
+    void changeListenerCallback(ChangeBroadcaster* source) override;
    
     void paint(Graphics& g) override;
     void resized() override;
     
-    int        getNumRows();
-    void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
-    void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-    void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
-    void       selectedRowsChanged(int lastRowSelected) override;
-    void       backgroundClicked(const MouseEvent&) override;
-    void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
-    void       returnKeyPressed(int lastRowSelected);
+    int  getNumRows();
+    void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
+    void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
+    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    void selectedRowsChanged(int lastRowSelected) override;
+    void backgroundClicked(const MouseEvent&) override;
+    void cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
+    void returnKeyPressed(int lastRowSelected);
     
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
@@ -90,31 +70,30 @@ private:
     Font         font;
     ValueTree    tree;
     ValueTree    viewTree;
-    Value        name;
-    Value        librarySet;
+    ScopeSync&   scopeSync;
+    UndoManager& undoManager;
+    ValueTree    parameter;
     ApplicationCommandManager* commandManager;
     TextButton   chooseButton;
     TextButton   rebuildLibraryButton;
     TextButton   editLocationsButton;
     Label        blurb;
-
-    Image  thumbImage;
-    bool   useImageCache;
-
-    void chooseSelectedLayout();
+    Label        fileNameLabel;
+    
+    void editFileLocations();
+    void chooseSelectedPreset();
+    
     void rebuildFileLibrary();
+    void removePresetFileEntries();
     void attachToTree();
-    void closeWindow();
-    void removeExcludedLayouts();
-    void selectCurrentLayout();
-
+    
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LayoutChooser)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PresetChooser)
 };
 
-#endif  // LAYOUTCHOOSER_H_INCLUDED
+#endif  // PRESETCHOOSER_H_INCLUDED

@@ -259,19 +259,24 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetFile.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\UserSettings.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
@@ -285,7 +290,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp"/>
@@ -297,7 +301,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMSlider.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\UserSettings.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\Source\PluginGUI.cpp"/>
@@ -1234,19 +1237,24 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\LayoutChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetItem.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetFile.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\UserSettings.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManagerMain.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTree.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
@@ -1264,7 +1272,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\FileLocationEditor.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h"/>
@@ -1277,7 +1284,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMSlider.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\UserSettings.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\Source\PluginGUI.h"/>

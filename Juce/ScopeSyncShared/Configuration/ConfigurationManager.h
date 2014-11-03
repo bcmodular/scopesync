@@ -33,8 +33,119 @@
 #include "../Configuration/ConfigurationPanel.h"
 
 class PropertyListBuilder;
-class ConfigurationManagerMain;
-class ConfigurationManagerWindow;
+class BCMTreeView;
+class ScopeSync;
+
+/* =========================================================================
+ * ConfigurationManager: Regular version to display in Config Mgr window
+ */
+class ConfigurationManager : public  Component,
+                             public  ApplicationCommandTarget,
+                             private Timer,
+                             public  ChangeListener
+{
+public:
+    ConfigurationManager(ScopeSync& ss, ConfigurationManagerWindow& parent);
+    ~ConfigurationManager();
+
+    void paint(Graphics& g) override;
+    void paintOverChildren (Graphics&) override;
+    void resized() override;
+    void childBoundsChanged(Component* child) override;
+    void saveTreeViewState();
+    void unload();
+    void changePanel(Component* newComponent);
+    Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree, BCMParameter::ParameterType);
+    static Component* createParameterPanelComponent(ValueTree& tree, 
+                                                    BCMParameter::ParameterType parameterType,
+                                                    ScopeSync& scopeSync, 
+                                                    UndoManager& undoManager, 
+                                                    ApplicationCommandManager* commandManager,
+                                                    ChangeListener* listener);
+    ApplicationCommandManager* getCommandManager() { return commandManager; };
+    Configuration&             getConfiguration()  { return scopeSync.getConfiguration(); };
+    ScopeSync&                 getScopeSync()      { return scopeSync; };
+
+private:
+    LookAndFeel_V3             lookAndFeel;
+    Label                      fileNameLabel;
+    ImageButton                addButton;
+    ImageButton                saveButton;
+    ImageButton                saveAsButton;
+    ImageButton                applyChangesButton;
+    ImageButton                discardChangesButton;
+    ImageButton                undoButton;
+    ImageButton                redoButton;
+    ScopedPointer<BCMTreeView> treeView;
+    ScopedPointer<Component>   panel;
+    ScopedPointer<ResizableEdgeComponent> resizerBar;
+    ComponentBoundsConstrainer treeSizeConstrainer;
+    
+    ScopeSync&                  scopeSync;
+    ApplicationCommandManager*  commandManager;
+    UndoManager                 undoManager;
+    ConfigurationManagerWindow& parentWindow;
+    
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+
+    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+
+    void timerCallback() override;
+    void changeListenerCallback(ChangeBroadcaster* source) override;
+    
+    void undo();
+    void redo();
+    bool canPasteItem();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
+};
+
+/* =========================================================================
+ * ConfigurationManagerCallout: Version to show in Callout box
+ */
+class ConfigurationManagerCallout : public Component,
+                                    public Timer,
+                                    public ApplicationCommandTarget,
+                                    public ChangeListener
+{
+public:
+    ConfigurationManagerCallout(ScopeSync& ss, int width, int height);
+    ~ConfigurationManagerCallout();
+
+    void paint(Graphics& g) override;
+    void resized() override;
+    void changePanel(Component* newComponent);
+
+    void timerCallback() override;
+    int  getNumActions() { return numActions; }
+
+private:
+    LookAndFeel_V3             lookAndFeel;
+    ScopedPointer<Component>   panel;
+    
+    ScopeSync&                 scopeSync;
+    UndoManager&               undoManager;
+    ApplicationCommandManager* commandManager;
+    
+    int numActions;
+
+    /* ================= Application Command Target overrides ================= */
+    void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+    ApplicationCommandTarget* getNextCommandTarget();
+
+    void changeListenerCallback(ChangeBroadcaster* source) override;
+    
+    void undo();
+    void redo();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCallout);
+};
 
 /* =========================================================================
  * ConfigurationMenuBarModel: Sets up the menu bar for the Config Mgr
@@ -72,7 +183,6 @@ public:
 
     void addConfig();
     void save();
-    void saveAndClose();
     void saveAs();
     void unload();
     void refreshContent();
@@ -82,7 +192,7 @@ public:
 private:
     ApplicationCommandManager*               commandManager;
     ScopeSync&                               scopeSync;
-    ConfigurationManagerMain*                configurationManagerMain;
+    ConfigurationManager*                    configurationManager;
     ScopedPointer<ConfigurationMenuBarModel> menuModel;
     
     void changeListenerCallback(ChangeBroadcaster* source) override;
@@ -93,16 +203,15 @@ private:
 };
 
 /* =========================================================================
- * ConfigurationManagerCallout: Mini-version of the Config Mgr for a call-out box
+ * ConfigurationManagerCalloutWindow: Mini-version of the Config Mgr for a
+ *                                    call-out box
  */
-class ConfigurationManagerCalloutMain;
-
-class ConfigurationManagerCallout : public Component,
-                                    public ChangeBroadcaster
+class ConfigurationManagerCalloutWindow : public Component,
+                                          public ChangeBroadcaster
 {
 public:
-    ConfigurationManagerCallout(ScopeSync& owner, int width, int height);
-    ~ConfigurationManagerCallout();
+    ConfigurationManagerCalloutWindow(ScopeSync& owner, int width, int height);
+    ~ConfigurationManagerCalloutWindow();
 
     void setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName);
     void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
@@ -119,11 +228,11 @@ private:
     ScopeSync&                 scopeSync;
     UndoManager&               undoManager;
     ApplicationCommandManager* commandManager;
-    ScopedPointer<ConfigurationManagerCalloutMain>  configurationManagerCalloutMain;
+    ScopedPointer<ConfigurationManagerCallout>  configurationManagerCallout;
 
     void paint(Graphics& g) override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCallout);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManagerCalloutWindow);
 };
 
 #endif  // CONFIGURATIONMANAGER_H_INCLUDED

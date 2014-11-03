@@ -1,5 +1,5 @@
 /**
- * Settings Table, used within the Parameter Configuration Panels
+ * Table for choosing a Layout to use with a Configuration
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -24,36 +24,60 @@
  *  Jessica Brandt
  */
 
-#ifndef SETTINGSTABLE_H_INCLUDED
-#define SETTINGSTABLE_H_INCLUDED
-#include <JuceHeader.h>
-#include "ConfigurationManager.h"
+#ifndef LAYOUTCHOOSER_H_INCLUDED
+#define LAYOUTCHOOSER_H_INCLUDED
+
 #include "../Core/Global.h"
 
 /* =========================================================================
- * SettingsTable: TableListBox for managing Parameter Settings
+ * LayoutChooserWindow: Parent Window for Layout Chooser
  */
-class SettingsTable : public  Component,
-                      private TableListBoxModel,
-                      private ValueTree::Listener,
-                      public  ApplicationCommandTarget
+class LayoutChooserWindow : public DocumentWindow,
+                            public ChangeBroadcaster
 {
 public:
-    SettingsTable(const ValueTree& vt, UndoManager& um, ApplicationCommandManager* acm,
-                  ValueTree& parameter);
-    ~SettingsTable();
+    LayoutChooserWindow(int posX, int posY,
+                        const Value& layoutName,
+                        const Value& layoutLocation,
+                        ApplicationCommandManager* acm);
+    ~LayoutChooserWindow();
 
-    void       resized() override;
+private:
+    void closeButtonPressed() override;
+    void restoreWindowPosition(int posX, int posY);
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LayoutChooserWindow);
+};
+
+/* =========================================================================
+ * LayoutChooser: Table view for selecting a layout to use with a configuration
+ */
+class LayoutChooser : public  Component,
+                      private TableListBoxModel,
+                      private ValueTree::Listener,
+                      public  ApplicationCommandTarget,
+                      public  ChangeListener
+{
+public:
+    LayoutChooser(const Value& layoutName,
+                  const Value& layoutLocation,
+                  ApplicationCommandManager* acm);
+    ~LayoutChooser();
+
+    void changeListenerCallback(ChangeBroadcaster* source);
+   
+    void paint(Graphics& g) override;
+    void resized() override;
     
     int        getNumRows();
     void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-    Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
     void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void       selectedRowsChanged(int lastRowSelected) override;
     void       backgroundClicked(const MouseEvent&) override;
-    void       deleteKeyPressed(int) override;
-
+    void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
+    void       returnKeyPressed(int lastRowSelected);
+    
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
     void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
@@ -62,31 +86,28 @@ public:
     void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
 
 private:
-    TableListBox   table;
-    Font           font;
-    ValueTree      tree;
-    UndoManager&   undoManager;
+    TableListBox table;
+    Font         font;
+    ValueTree    tree;
+    ValueTree    viewTree;
+    Value        name;
+    Value        librarySet;
     ApplicationCommandManager* commandManager;
-    Label          numSettingsTextLabel;
-    Label          numSettingsToAddLabel;
-    TextButton     addSettingsButton;
-    TextButton     removeSettingsButton;
-    TextButton     autoFillValuesButton;
-    TextButton     moveUpButton;
-    TextButton     moveDownButton;
+    TextButton   chooseButton;
+    TextButton   rebuildLibraryButton;
+    TextButton   editLocationsButton;
+    Label        blurb;
 
-    Value        numSettingsToAdd;
-    ValueTree    parameter;
+    Image  thumbImage;
+    bool   useImageCache;
 
-    class LabelComp;
-    friend class LabelComp;
-
-    void textWasEdited();
-    void addSettings();
-    void removeSettings();
-    void updateParameterRanges();
-    void autoFill();
-    void moveSettings(bool moveUp);
+    void editFileLocations();
+    void chooseSelectedLayout();
+    void rebuildFileLibrary();
+    void attachToTree();
+    void closeWindow();
+    void removeExcludedLayouts();
+    void selectCurrentLayout();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -94,7 +115,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget();
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsTable)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LayoutChooser)
 };
 
-#endif  // SETTINGSTABLE_H_INCLUDED
+#endif  // LAYOUTCHOOSER_H_INCLUDED
