@@ -53,7 +53,10 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
 
     if (mapsToParameter)
+    {
         parameter->mapToUIValue(parameterValue);
+        parameterValue.addListener(this);
+    }
 
     barProperties.set("showdropshadow", properties.showDropShadow);
 }
