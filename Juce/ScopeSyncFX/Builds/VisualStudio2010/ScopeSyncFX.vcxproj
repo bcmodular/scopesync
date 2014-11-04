@@ -140,6 +140,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetItem.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetFile.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.cpp"/>
@@ -1060,6 +1061,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetItem.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetFile.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.h"/>

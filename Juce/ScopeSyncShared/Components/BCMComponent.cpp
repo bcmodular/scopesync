@@ -80,9 +80,9 @@ public:
         systemErrorDetailsButton.addListener(this);
 
         closeButton.setImages(true, false, false,
-            ImageLoader::getInstance()->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            ImageLoader::getInstance()->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
+            ImageLoader::getInstance()->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
+            ImageLoader::getInstance()->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
 
         addAndMakeVisible(closeButton);
         closeButton.addListener(this);
@@ -185,7 +185,7 @@ public:
         redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
         addAndMakeVisible(redoButton);
 
-        setButtonImages(editToolbarShowButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
+        setButtonImages(editToolbarShowButton, "toolbarOff", "toolbarOver", "toolbarOn", Colours::transparentBlack);
         editToolbarShowButton.setCommandToTrigger(commandManager, CommandIDs::showHideEditToolbar, true);
         addAndMakeVisible(editToolbarShowButton);
 
@@ -221,6 +221,9 @@ private:
     void paint(Graphics& g) override
     {
         g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
+        
+        g.setColour(Colours::darkgrey.darker(0.5f));
+        g.drawRect(getLocalBounds().removeFromLeft(127).reduced(0, 4), 1.5f);
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
@@ -645,13 +648,12 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
         }
 
         ComboBoxProperties comboBoxProperties(comboBoxXML, *parentProperties);
-        BCMComboBox* comboBox;
-
-        addAndMakeVisible (comboBox = new BCMComboBox(comboBoxProperties.name, scopeSyncGUI));
-        comboBox->addListener(this);
-    
+        BCMComboBox* comboBox = new BCMComboBox(comboBoxProperties.name, scopeSyncGUI);
         comboBox->applyProperties(comboBoxProperties);
+        comboBox->addListener(this);
         comboBoxes.add(comboBox);
+    
+        addAndMakeVisible(comboBox);
     }
 }
 

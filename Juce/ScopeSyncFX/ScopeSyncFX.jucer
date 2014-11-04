@@ -15,6 +15,10 @@
         <FILE id="WhhHcE" name="PresetManager.h" compile="0" resource="0" file="../ScopeSyncShared/Presets/PresetManager.h"/>
       </GROUP>
       <GROUP id="{B9DB3447-CCFA-BE90-D842-742CAC387F61}" name="Windows">
+        <FILE id="oFCGdL" name="PresetFileChooser.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Windows/PresetFileChooser.cpp"/>
+        <FILE id="u3IJeB" name="PresetFileChooser.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Windows/PresetFileChooser.h"/>
         <FILE id="ckL9wY" name="PresetChooser.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Windows/PresetChooser.cpp"/>
         <FILE id="e9RlNk" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Windows/PresetChooser.h"/>

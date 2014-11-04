@@ -1,5 +1,5 @@
 /**
- * Table for choosing a Preset
+ * Table for choosing a Preset File
  *
  *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
  *
@@ -24,19 +24,19 @@
  *  Jessica Brandt
  */
 
-#include "PresetChooser.h"
+#include "PresetFileChooser.h"
 #include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
 #include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
- * PresetSorter - A comparator used to sort our data when the user clicks a column header
+ * PresetFileSorter - A comparator used to sort our data when the user clicks a column header
  */
-class PresetSorter
+class PresetFileSorter 
 {
 public:
-    PresetSorter (const int columnIdToSort, bool forwards)
+    PresetFileSorter (const int columnIdToSort, bool forwards)
         : columnId(columnIdToSort),
           direction (forwards ? 1 : -1)
     {
@@ -53,28 +53,28 @@ public:
             String secondString = second.getProperty(Ids::name, String::empty);
             result = firstString.compareNatural(secondString);
         }
-        // Sort by presetFileName
+        // Sort by librarySet
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::presetFileName, String::empty);
-            String secondString = second.getProperty(Ids::presetFileName, String::empty);
+            String firstString  = first.getProperty(Ids::librarySet, String::empty);
+            String secondString = second.getProperty(Ids::librarySet, String::empty);
             result = firstString.compareNatural(secondString);
         }
-        // Sort by presetFileLibrarySet
+        // Sort by author
         else if (columnId == 4)
         {
-            String firstString  = first.getProperty(Ids::presetFileLibrarySet, String::empty);
-            String secondString = second.getProperty(Ids::presetFileLibrarySet, String::empty);
+            String firstString  = first.getProperty(Ids::author, String::empty);
+            String secondString = second.getProperty(Ids::author, String::empty);
             result = firstString.compareNatural(secondString);
         }
-        // Sort by presetFileAuthor
-        else if (columnId == 4)
+        // Sort by fileName
+        else if (columnId == 5)
         {
-            String firstString  = first.getProperty(Ids::presetFileAuthor, String::empty);
-            String secondString = second.getProperty(Ids::presetFileAuthor, String::empty);
+            String firstString  = first.getProperty(Ids::fileName, String::empty);
+            String secondString = second.getProperty(Ids::fileName, String::empty);
             result = firstString.compareNatural(secondString);
         }
-
+        
         return direction * result;
     }
 
@@ -82,19 +82,18 @@ private:
     int columnId;
     int direction;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PresetSorter)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PresetFileSorter)
 };
 
 /* =========================================================================
- * PresetChooser
+ * PresetFileChooser
  */
-PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommandManager* acm, UndoManager& um)
+PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um)
     : undoManager(um),
-      parameter(param),
-      scopeSync(ss),
+      presetFile(pf),
       font(14.0f), 
       commandManager(acm),
-      chooseButton("Choose Preset"),
+      chooseButton("Choose Preset File"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
       blurb(String::empty),
@@ -104,7 +103,7 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
 
     commandManager->registerAllCommandsForTarget(this);
 
-    chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedPreset, true);
+    chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedPresetFile, true);
     addAndMakeVisible(chooseButton);
 
     rebuildLibraryButton.setCommandToTrigger(commandManager, CommandIDs::rebuildFileLibrary, true);
@@ -131,9 +130,9 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
     
     table.getHeader().addColumn(String::empty,        1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Name",               2, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Preset File",        3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Library Set",        4, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn("Author",             5, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Library Set",        3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("Author",             4, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn("File name",          5, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
         
     table.getHeader().setStretchToFitActive(true);
     
@@ -144,24 +143,24 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
     setBounds(0, 0, 1000, 600);
 }
 
-PresetChooser::~PresetChooser()
+PresetFileChooser::~PresetFileChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
     UserSettings::getInstance()->removeChangeListener(this);
 }
 
-void PresetChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+void PresetFileChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
     attachToTree();
 }
 
-void PresetChooser::paint(Graphics& g)
+void PresetFileChooser::paint(Graphics& g)
 {
     g.fillAll(Colours::lightgrey);
 }
     
-void PresetChooser::resized()
+void PresetFileChooser::resized()
 {
     Rectangle<int> localBounds(getLocalBounds());
     Rectangle<int> headerBounds(localBounds.removeFromTop(100));
@@ -177,24 +176,24 @@ void PresetChooser::resized()
     table.setBounds(localBounds.reduced(2, 2));
 }
     
-int PresetChooser::getNumRows()
+int PresetFileChooser::getNumRows()
 {
     return viewTree.getNumChildren();
 }
 
-void PresetChooser::sortOrderChanged(int newSortColumnId, bool isForwards)
+void PresetFileChooser::sortOrderChanged(int newSortColumnId, bool isForwards)
 {
-    PresetSorter sorter(newSortColumnId, isForwards);
+    PresetFileSorter sorter(newSortColumnId, isForwards);
     viewTree.sort(sorter, nullptr, true);
 }
 
-void PresetChooser::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
+void PresetFileChooser::paintRowBackground(Graphics& g, int /* rowNumber */, int /* width */, int /* height */, bool rowIsSelected)
 {
     if (rowIsSelected)
         g.fillAll (findColour(TextEditor::highlightColourId));
 }
 
-void PresetChooser::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool /* rowIsSelected */)
+void PresetFileChooser::paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool /* rowIsSelected */)
 {
     g.setColour(Colours::black);
     g.setFont(font);
@@ -205,9 +204,9 @@ void PresetChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
     {
         case 1: text = String::empty; break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
-        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::presetFileName); break;
-        case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::presetFileLibrarySet); break;
-        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::presetFileAuthor); break;
+        case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
+        case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
+        case 5: text = viewTree.getChild(rowNumber).getProperty(Ids::fileName); break;
     }
 
     g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
@@ -216,17 +215,17 @@ void PresetChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
     g.fillRect(width - 1, 0, 1, height);
 }
 
-void PresetChooser::backgroundClicked(const MouseEvent&)
+void PresetFileChooser::backgroundClicked(const MouseEvent&)
 {
     table.deselectAllRows();
 }
 
-void PresetChooser::cellDoubleClicked(int /* rowNumber */, int /* columnId */, const MouseEvent& /* e */)
+void PresetFileChooser::cellDoubleClicked(int /* rowNumber */, int /* columnId */, const MouseEvent& /* e */)
 {
-    chooseSelectedPreset();
+    chooseSelectedPresetFile();
 }
 
-void PresetChooser::selectedRowsChanged(int lastRowSelected)
+void PresetFileChooser::selectedRowsChanged(int lastRowSelected)
 {
     blurb.setText(viewTree.getChild(lastRowSelected).getProperty(Ids::blurb), dontSendNotification);
     
@@ -237,7 +236,7 @@ void PresetChooser::selectedRowsChanged(int lastRowSelected)
     commandManager->commandStatusChanged();
 }
 
-void PresetChooser::getAllCommands(Array <CommandID>& commands)
+void PresetFileChooser::getAllCommands(Array <CommandID>& commands)
 {
     const CommandID ids[] = {CommandIDs::chooseSelectedPreset,
                              CommandIDs::rebuildFileLibrary,
@@ -246,12 +245,12 @@ void PresetChooser::getAllCommands(Array <CommandID>& commands)
     commands.addArray(ids, numElementsInArray (ids));
 }
 
-void PresetChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
+void PresetFileChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 {
     switch (commandID)
     {
-    case CommandIDs::chooseSelectedPreset:
-        result.setInfo("Choose Selected Preset", "Applies selected Preset to Parameter", CommandCategories::configmgr, !table.getNumSelectedRows());
+    case CommandIDs::chooseSelectedPresetFile:
+        result.setInfo("Choose Preset File", "Loads selected Preset File for editing", CommandCategories::configmgr, !table.getNumSelectedRows());
         result.defaultKeypresses.add(KeyPress(KeyPress::returnKey));
         break;
     case CommandIDs::rebuildFileLibrary:
@@ -265,16 +264,16 @@ void PresetChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
     }
 }
 
-void PresetChooser::returnKeyPressed(int /* lastRowSelected */)
+void PresetFileChooser::returnKeyPressed(int /* lastRowSelected */)
 {
-    chooseSelectedPreset();
+    chooseSelectedPresetFile();
 }
 
-bool PresetChooser::perform(const InvocationInfo& info)
+bool PresetFileChooser::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::chooseSelectedPreset:  chooseSelectedPreset(); break;
+        case CommandIDs::chooseSelectedPreset:  chooseSelectedPresetFile(); break;
         case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
         case CommandIDs::editFileLocations:     editFileLocations(); break;
         default:                                return false;
@@ -283,56 +282,56 @@ bool PresetChooser::perform(const InvocationInfo& info)
     return true;
 }
 
-void PresetChooser::editFileLocations()
+void PresetFileChooser::editFileLocations()
 {
     UserSettings::getInstance()->addChangeListener(this);
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
-void PresetChooser::chooseSelectedPreset()
+void PresetFileChooser::chooseSelectedPresetFile()
 {
     int selectedRow = table.getSelectedRow();
     
     if (selectedRow > -1)
     {
-        scopeSync.getConfiguration().updateParameterFromPreset(parameter, viewTree.getChild(selectedRow), false, &undoManager);
+        presetFile = File(viewTree.getChild(selectedRow).getProperty(Ids::filePath));
         sendChangeMessage();
     }
 }
 
-void PresetChooser::rebuildFileLibrary()
+void PresetFileChooser::rebuildFileLibrary()
 {
     UserSettings::getInstance()->rebuildFileLibrary();
     attachToTree();
 }
 
 
-void PresetChooser::removePresetFileEntries()
+void PresetFileChooser::removePresetEntries()
 {
     for (int i = viewTree.getNumChildren() - 1; i >= 0; i--)
     {
-        if (viewTree.getChild(i).hasType(Ids::presetFile))
+        if (viewTree.getChild(i).hasType(Ids::preset))
             viewTree.removeChild(i, nullptr);
     }
 }
 
-void PresetChooser::attachToTree()
+void PresetFileChooser::attachToTree()
 {
     viewTree.removeListener(this);
     
     tree = UserSettings::getInstance()->getPresetLibrary();
     viewTree = tree.createCopy();
     
-    removePresetFileEntries();
+    removePresetEntries();
     
-    PresetSorter sorter(2, false);
+    PresetFileSorter sorter(2, false);
     viewTree.sort(sorter, nullptr, true);
     
     viewTree.addListener(this);
     table.updateContent();
 }
 
-ApplicationCommandTarget* PresetChooser::getNextCommandTarget()
+ApplicationCommandTarget* PresetFileChooser::getNextCommandTarget()
 {
     return nullptr;
 }

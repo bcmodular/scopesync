@@ -651,7 +651,11 @@ Font BCMLookAndFeel::getComboBoxFont (ComboBox& box)
     BCMComboBox* bcmComboBox = dynamic_cast<BCMComboBox*>(&box);
     
     if (bcmComboBox)
-        return Font (jmin (bcmComboBox->fontHeight, box.getHeight() * 0.85f), bcmComboBox->fontStyleFlags);
+    {
+        float fontHeight = jmin (bcmComboBox->fontHeight, bcmComboBox->getHeight() * 0.85f);
+
+        return Font (fontHeight, bcmComboBox->fontStyleFlags);
+    }
     else
         return Font (jmin (15.0f, box.getHeight() * 0.85f));
 }
@@ -662,7 +666,10 @@ Label* BCMLookAndFeel::createComboBoxTextBox(ComboBox& comboBox)
     BCMComboBox* bcmComboBox = dynamic_cast<BCMComboBox*>(&comboBox);
     
     if (bcmComboBox)
-        label->setFont(Font(bcmComboBox->fontHeight, bcmComboBox->fontStyleFlags));
+    {
+        float fontHeight = jmin (bcmComboBox->fontHeight, bcmComboBox->getHeight() * 0.85f);
+        label->setFont(Font(fontHeight, bcmComboBox->fontStyleFlags));
+    }
 
     return label;
 }

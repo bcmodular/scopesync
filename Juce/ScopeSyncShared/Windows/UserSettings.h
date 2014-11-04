@@ -31,6 +31,7 @@
 #include <JuceHeader.h>
 
 class FileLocationEditorWindow;
+class PresetManagerWindow;
 
 class UserSettings  : public  Component,
                       public  Value::Listener,
@@ -60,8 +61,10 @@ public:
     ValueTree getPresetFromNameAndFilePath(const String& name, const String& filePath, const ValueTree& presetLibrary);
     
     void editFileLocations(int posX, int posY);
-    void removeWindowListener(ChangeListener* listener);
     void hideFileLocationsWindow();
+    
+    void showPresetManagerWindow(int posX, int posY);
+    void hidePresetManagerWindow();
     
     void setLastTimeLayoutLoaded(const String& filePath);
     void setLastTimeConfigurationLoaded(const String& filePath);
@@ -102,6 +105,7 @@ private:
     PropertyPanel         propertyPanel;
     TextButton            fileLocationsButton;
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
+    ScopedPointer<PresetManagerWindow>      presetManagerWindow;
     
     Value     useImageCache;
     Value     tooltipDelayTime;

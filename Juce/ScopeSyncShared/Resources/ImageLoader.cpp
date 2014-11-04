@@ -48,6 +48,8 @@ void ImageLoader::loadImageResources()
 {
     // ScopeSync Logo
     addImageResource("scopeSyncLogo", ImageResources::scopesync_logo_png, ImageResources::scopesync_logo_pngSize);
+    addImageResource("scopeSyncLogoOff", ImageResources::scopesync_logo_off_png, ImageResources::scopesync_logo_off_pngSize);
+    addImageResource("scopeSyncLogoOn", ImageResources::scopesync_logo_on_png, ImageResources::scopesync_logo_on_pngSize);
     
     // Load Config buttons
     addImageResource("loadConfigButtonOff",  ImageResources::load_config_button_off_png,  ImageResources::load_config_button_off_pngSize);
@@ -141,6 +143,11 @@ void ImageLoader::loadImageResources()
     addImageResource("helpOff",  ImageResources::help_button_off_png,  ImageResources::help_button_off_pngSize);
     addImageResource("helpOn",   ImageResources::help_button_on_png,   ImageResources::help_button_on_pngSize);
     addImageResource("helpOver", ImageResources::help_button_over_png, ImageResources::help_button_over_pngSize);
+
+    // Toolbar buttons
+    addImageResource("toolbarOff",  ImageResources::toolbar_button_off_png,  ImageResources::toolbar_button_off_pngSize);
+    addImageResource("toolbarOn",   ImageResources::toolbar_button_on_png,   ImageResources::toolbar_button_on_pngSize);
+    addImageResource("toolbarOver", ImageResources::toolbar_button_over_png, ImageResources::toolbar_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)

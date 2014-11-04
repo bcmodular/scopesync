@@ -265,6 +265,9 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp">
       <Filter>ScopeSyncFX\Source\Presets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.cpp">
+      <Filter>ScopeSyncFX\Source\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp">
       <Filter>ScopeSyncFX\Source\Windows</Filter>
     </ClCompile>
@@ -1352,6 +1355,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h">
       <Filter>ScopeSyncFX\Source\Presets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.h">
+      <Filter>ScopeSyncFX\Source\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h">
       <Filter>ScopeSyncFX\Source\Windows</Filter>

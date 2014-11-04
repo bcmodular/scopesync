@@ -13,13 +13,14 @@
 #include "PresetItem.h"
 #include "../Utils/BCMTreeView.h"
 #include "../Resources/ImageLoader.h"
+#include "../Windows/PresetFileChooser.h"
+#include "../Windows/UserSettings.h"
 
 /* =========================================================================
  * PresetManager
  */
-PresetManager::PresetManager(PresetFile& pf, PresetManagerWindow& parent) 
-    : presetFile(pf),
-      parentWindow(parent),
+PresetManager::PresetManager(File& pf, PresetManagerWindow& parent) 
+    : parentWindow(parent),
       addButton("New"),
       saveButton("Save"),
       saveAsButton("Save As..."),
@@ -28,6 +29,17 @@ PresetManager::PresetManager(PresetFile& pf, PresetManagerWindow& parent)
       undoButton("Undo"),
       redoButton("Redo")
 {
+    presetFile = new PresetFile();
+
+    Result result = presetFile->loadDocument(pf);
+
+    if (result.wasOk())
+    {
+        AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "Problem loading Preset File: " + result.getErrorMessage());
+        sendChangeMessage();
+        return;
+    }
+
     commandManager = parentWindow.getCommandManager();
     
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
@@ -38,8 +50,8 @@ PresetManager::PresetManager(PresetFile& pf, PresetManagerWindow& parent)
 
     commandManager->registerAllCommandsForTarget(this);
     
-    fileNameLabel.setText("File path: " + presetFile.getFile().getFullPathName(), dontSendNotification);
-    fileNameLabel.setTooltip(presetFile.getFile().getFullPathName());
+    fileNameLabel.setText("File path: " + presetFile->getFile().getFullPathName(), dontSendNotification);
+    fileNameLabel.setTooltip(presetFile->getFile().getFullPathName());
     fileNameLabel.setColour(Label::textColourId, Colours::lightgrey);
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
@@ -75,10 +87,10 @@ PresetManager::PresetManager(PresetFile& pf, PresetManagerWindow& parent)
     treeSizeConstrainer.setMinimumWidth(200);
     treeSizeConstrainer.setMaximumWidth(700);
 
-    PresetRootItem* rootItem = new PresetRootItem(presetFile, *this, presetFile.getPresetFileRoot(), undoManager);
-    treeView = new BCMTreeView(undoManager, rootItem, presetFile.getPresetProperties());
+    PresetRootItem* rootItem = new PresetRootItem(*presetFile, *this, presetFile->getPresetFileRoot(), undoManager);
+    treeView = new BCMTreeView(undoManager, rootItem, presetFile->getPresetProperties());
 
-    int lastTreeWidth = presetFile.getPresetProperties().getIntValue("lastPresetTreeWidth", 300);
+    int lastTreeWidth = presetFile->getPresetProperties().getIntValue("lastPresetTreeWidth", 300);
     treeView->setBounds(0, 0, lastTreeWidth, getHeight());
     addAndMakeVisible(treeView);
     
@@ -86,8 +98,8 @@ PresetManager::PresetManager(PresetFile& pf, PresetManagerWindow& parent)
                                                                ResizableEdgeComponent::rightEdge));
     resizerBar->setAlwaysOnTop (true);
 
-    int lastConfigMgrWidth  = presetFile.getPresetProperties().getIntValue("lastPresetMgrWidth", 600);
-    int lastConfigMgrHeight = presetFile.getPresetProperties().getIntValue("lastPresetMgrHeight", 500);
+    int lastConfigMgrWidth  = presetFile->getPresetProperties().getIntValue("lastPresetMgrWidth", 600);
+    int lastConfigMgrHeight = presetFile->getPresetProperties().getIntValue("lastPresetMgrHeight", 500);
     setSize(lastConfigMgrWidth, lastConfigMgrHeight);
     
     startTimer(500);
@@ -117,9 +129,9 @@ void PresetManager::unload()
 {
     stopTimer();
     saveTreeViewState();
-    presetFile.getPresetProperties().setValue("lastPresetMgrWidth", getWidth());
-    presetFile.getPresetProperties().setValue("lastPresetMgrHeight", getHeight());
-    presetFile.getPresetProperties().setValue("lastPresetTreeWidth", treeView->getWidth());
+    presetFile->getPresetProperties().setValue("lastPresetMgrWidth", getWidth());
+    presetFile->getPresetProperties().setValue("lastPresetMgrHeight", getHeight());
+    presetFile->getPresetProperties().setValue("lastPresetTreeWidth", treeView->getWidth());
 }
 
 void PresetManager::getAllCommands (Array <CommandID>& commands)
@@ -160,7 +172,7 @@ void PresetManager::getCommandInfo (CommandID commandID, ApplicationCommandInfo&
         result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::savePresetFile:
-        result.setInfo("Save Preset File", "Save Preset File", CommandCategories::configmgr, !(presetFile.hasChangedSinceSaved()));
+        result.setInfo("Save Preset File", "Save Preset File", CommandCategories::configmgr, !(presetFile->hasChangedSinceSaved()));
         result.defaultKeypresses.add(KeyPress ('s', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::savePresetFileAs:
@@ -172,7 +184,7 @@ void PresetManager::getCommandInfo (CommandID commandID, ApplicationCommandInfo&
         result.defaultKeypresses.add(KeyPress (KeyPress::returnKey, ModifierKeys::altModifier, 0));
         break;
     case CommandIDs::discardPresetFileChanges:
-        result.setInfo("Discard Preset File Changes", "Discards all unsaved changes to the current Preset File and rebuilds Preset Library", CommandCategories::configmgr, !(presetFile.hasChangedSinceSaved()));
+        result.setInfo("Discard Preset File Changes", "Discards all unsaved changes to the current Preset File and rebuilds Preset Library", CommandCategories::configmgr, !(presetFile->hasChangedSinceSaved()));
         result.defaultKeypresses.add(KeyPress ('d', ModifierKeys::commandModifier, 0));
         break;
     case CommandIDs::closePresetFile:
@@ -349,22 +361,17 @@ PopupMenu PresetMenuBarModel::getMenuForIndex (int /*topLevelMenuIndex*/, const 
 /* =========================================================================
  * ConfigurationManagerWindow
  */
-PresetManagerWindow::PresetManagerWindow(const String& fileName, ApplicationCommandManager* acm, int posX, int posY)
+PresetManagerWindow::PresetManagerWindow(ApplicationCommandManager* acm, UndoManager& um, int posX, int posY)
     : DocumentWindow("Parameter Preset Manager",
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
-                     true)
+                     true),
+      undoManager(um)
 {
     commandManager = acm;
     setUsingNativeTitleBar (true);
     
-    if (!setupPresetFile(fileName))
-    {
-        sendChangeMessage();
-        return;
-    }
-
-    refreshContent();
+    showPresetFileChooser();
     
     menuModel = new PresetMenuBarModel(*this);
     setMenuBar(menuModel);
@@ -384,47 +391,23 @@ PresetManagerWindow::PresetManagerWindow(const String& fileName, ApplicationComm
 PresetManagerWindow::~PresetManagerWindow()
 {
     unload();
+    UserSettings::getInstance()->removeChangeListener(this);
 }
 
-bool PresetManagerWindow::setupPresetFile(const String& fileName)
+void PresetManagerWindow::showPresetFileChooser()
 {
-    //if (fileName.isEmpty())
-    //{
-    //    FileChooser fileChooser("New Configuration File...",
-    //                        File::nonexistent,
-    //                        "*.configuration");
-    //
-    //    File newFile;
-    //
-    //    if (fileChooser.browseForFileToSave(true))
-    //    {
-    //        newFile = fileChooser.getResult();
-    //    }
-    //    else
-    //    {
-    //        return;
-    //    }
-    //
-    //    addConfigurationWindow = new NewConfigurationWindow
-    //                                 (
-    //                                 windowPosition.getCentreX(), 
-    //                                 windowPosition.getCentreY(), 
-    //                                 *this,
-    //                                 newFile,
-    //                                 commandManager
-    //                                 );
-    //
-    //    addConfigurationWindow->addChangeListener(this);
-    //    addConfigurationWindow->setVisible(true);
-    //
-    //    if (ScopeSyncApplication::inScopeFXContext())
-    //        addConfigurationWindow->setAlwaysOnTop(true);
-    //
-    //    addConfigurationWindow->toFront(true);
-    //}
-    //
-    //return false;
-    return false;
+    clearContentComponent();
+
+    presetFileChooser = new PresetFileChooser(presetFile, commandManager, undoManager);
+    setContentOwned(presetFileChooser, true);
+}
+
+void PresetManagerWindow::showPresetManager()
+{
+    clearContentComponent();
+
+    presetManager = new PresetManager(presetFile, *this);
+    setContentOwned(presetManager, true);
 }
 
 StringArray PresetManagerWindow::getMenuNames()
@@ -482,13 +465,11 @@ void PresetManagerWindow::unload()
 
 void PresetManagerWindow::saveAs()
 {
-    refreshContent();
+    showPresetManager();
 }
 
-void PresetManagerWindow::refreshContent()
+void PresetManagerWindow::changeListenerCallback(ChangeBroadcaster* source)
 {
-    clearContentComponent();
-    setContentOwned(presetManager = new PresetManager(*presetFile, *this), true);
 }
 
 void PresetManagerWindow::restoreWindowPosition(int posX, int posY)
@@ -519,7 +500,11 @@ void PresetManagerWindow::discardChanges()
 
 void PresetManagerWindow::updatePresetLibrary()
 {
+    UserSettings::getInstance()->addChangeListener(this);
+    UserSettings::getInstance()->rebuildFileLibrary();
 }
+
 void PresetManagerWindow::hidePresetManager()
 {
+    sendChangeMessage();
 }

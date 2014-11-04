@@ -15,16 +15,18 @@
 class PresetFile;
 class BCMTreeView;
 class PresetManagerWindow;
+class PresetFileChooser;
 
 /* =========================================================================
  * PresetManager: Regular version to display in Preset Manager window
  */
 class PresetManager : public  Component,
                       public  ApplicationCommandTarget,
-                      private Timer
+                      private Timer,
+                      public  ChangeBroadcaster
 {
 public:
-    PresetManager(PresetFile& pf, PresetManagerWindow& parent);
+    PresetManager(File& pf, PresetManagerWindow& parent);
     ~PresetManager();
 
     void paint(Graphics& g) override;
@@ -36,7 +38,7 @@ public:
     void changePanel(Component* newComponent);
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
-    PresetFile&                getPresetFile()     { return presetFile; };
+    PresetFile&                getPresetFile()     { return *presetFile; };
     
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -53,7 +55,7 @@ private:
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
     
-    PresetFile&                 presetFile;
+    ScopedPointer<PresetFile>   presetFile;
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
     PresetManagerWindow&        parentWindow;
@@ -97,10 +99,11 @@ private:
  * PresetManagerWindow: Parent window for the Config Mgr
  */
 class PresetManagerWindow : public DocumentWindow,
-                            public ChangeBroadcaster
+                            public ChangeBroadcaster,
+                            public ChangeListener
 {
 public:
-    PresetManagerWindow(const String& fileName, ApplicationCommandManager* acm, int posX, int posY);
+    PresetManagerWindow(ApplicationCommandManager* acm, UndoManager& um, int posX, int posY);
     ~PresetManagerWindow();
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
@@ -113,22 +116,27 @@ public:
     void save();
     void saveAs();
     void unload();
-    void refreshContent();
     void discardChanges();
     void restoreWindowPosition();
     void updatePresetLibrary();
     void hidePresetManager();
 
+    // Need to implement this...
+    bool presetsHaveChanged() {return true;}
+
 private:
     ApplicationCommandManager*         commandManager;
-    ScopedPointer<PresetFile>          presetFile;
-    ScopedPointer<PresetManager>       presetManager;
-//    ScopedPointer<NewPresetFileEditor> newPresetFileEditor;
+    UndoManager&                       undoManager;
+    File                               presetFile;
+    PresetFileChooser*                 presetFileChooser;
+    PresetManager*                     presetManager;
     ScopedPointer<PresetMenuBarModel>  menuModel;
     
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
-    bool setupPresetFile(const String& fileName);
+    void showPresetFileChooser();
+    void showPresetManager();
+    void changeListenerCallback(ChangeBroadcaster* source) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetManagerWindow);
 };

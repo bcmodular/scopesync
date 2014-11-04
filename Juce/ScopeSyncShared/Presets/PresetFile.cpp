@@ -336,11 +336,12 @@ ApplicationCommandTarget* NewPresetFileEditor::getNextCommandTarget()
 /* =========================================================================
  * PresetFile
  */
-PresetFile::PresetFile(): FileBasedDocument(presetFileFileExtension,
-                                                String ("*") + presetFileFileExtension,
-                                                "Choose a Preset File to load",
-                                                "Save Preset File"),
-                                            presetFileRoot(Ids::presets)
+PresetFile::PresetFile()
+    : FileBasedDocument(presetFileFileExtension,
+                        String ("*") + presetFileFileExtension,
+                        "Choose a Preset File to load",
+                        "Save Preset File"),
+    presetFileRoot(Ids::presets)
 {
     setPresetFileRoot(presetFileRoot);
     setChangedFlag(false);

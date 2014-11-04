@@ -63,13 +63,13 @@ namespace ImageResources
     const int           load_config_button_over_pngSize = 672;
 
     extern const char*  newconfig_button_off_png;
-    const int           newconfig_button_off_pngSize = 424;
+    const int           newconfig_button_off_pngSize = 3057;
 
     extern const char*  newconfig_button_on_png;
-    const int           newconfig_button_on_pngSize = 386;
+    const int           newconfig_button_on_pngSize = 3030;
 
     extern const char*  newconfig_button_over_png;
-    const int           newconfig_button_over_pngSize = 424;
+    const int           newconfig_button_over_pngSize = 3052;
 
     extern const char*  paste_button_off_png;
     const int           paste_button_off_pngSize = 533;
@@ -146,6 +146,12 @@ namespace ImageResources
     extern const char*  scopesync_logo_png;
     const int           scopesync_logo_pngSize = 4151;
 
+    extern const char*  scopesync_logo_off_png;
+    const int           scopesync_logo_off_pngSize = 4114;
+
+    extern const char*  scopesync_logo_on_png;
+    const int           scopesync_logo_on_pngSize = 4137;
+
     extern const char*  settings_button_off_png;
     const int           settings_button_off_pngSize = 1027;
 
@@ -163,6 +169,15 @@ namespace ImageResources
 
     extern const char*  snapshot_button_over_png;
     const int           snapshot_button_over_pngSize = 1202;
+
+    extern const char*  toolbar_button_off_png;
+    const int           toolbar_button_off_pngSize = 3108;
+
+    extern const char*  toolbar_button_on_png;
+    const int           toolbar_button_on_pngSize = 3065;
+
+    extern const char*  toolbar_button_over_png;
+    const int           toolbar_button_over_pngSize = 3104;
 
     extern const char*  undo_button_off_png;
     const int           undo_button_off_pngSize = 900;

@@ -30,6 +30,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
 #include "FileLocationEditor.h"
+#include "../Presets/PresetManager.h"
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -664,6 +665,31 @@ void UserSettings::hideFileLocationsWindow()
     }
 
     fileLocationEditorWindow = nullptr;
+}
+
+void UserSettings::showPresetManagerWindow(int posX, int posY)
+{
+    if (presetManagerWindow == nullptr)
+        presetManagerWindow = new PresetManagerWindow(commandManager, undoManager, posX, posY);
+
+    presetManagerWindow->addChangeListener(this);
+    
+    presetManagerWindow->setVisible(true);
+    
+    if (ScopeSyncApplication::inScopeFXContext())
+        presetManagerWindow->setAlwaysOnTop(true);
+    
+    presetManagerWindow->toFront(true);
+}
+
+void UserSettings::hidePresetManagerWindow()
+{
+    if (presetManagerWindow != nullptr && presetManagerWindow->presetsHaveChanged())
+    {
+        rebuildFileLibrary();
+    }
+
+    presetManagerWindow = nullptr;
 }
 
 void UserSettings::updateFileLocations(const ValueTree& fileLocations)

@@ -65,6 +65,12 @@
       <textbutton upfilename="showconfigurationmanagerOff" downfilename="showconfigurationmanagerOn" mouseoverupfilename="showconfigurationmanagerOver" mouseoverdownfilename="showconfigurationmanagerOn"></textbutton>
     </images>
   </lookandfeel>
+  <lookandfeel id="system:scopesynclogo_button" parentid="system:default">
+    <appliesto componenttype="none" />
+    <images>
+      <textbutton upfilename="scopeSyncLogoOff" downfilename="scopeSyncLogoOn" mouseoverupfilename="scopeSyncLogoOn" mouseoverdownfilename="scopeSyncLogoOn"></textbutton>
+    </images>
+  </lookandfeel>
   <lookandfeel id="system:configname">
     <appliesto componenttype="none" />
     <colours>

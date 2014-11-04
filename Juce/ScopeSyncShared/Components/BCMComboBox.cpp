@@ -99,23 +99,15 @@ const Identifier BCMComboBox::getComponentType() const { return Ids::comboBox; }
 void BCMComboBox::mouseDown(const MouseEvent& event)
 {
     if (event.mods.isPopupMenu())
-    {
         showPopupMenu();
-    }
     else
-    {
         ComboBox::mouseDown(event);
-    }
 }
 
 void BCMComboBox::valueChanged(Value& value)
 {
     if (value.refersToSameSourceAs(parameterValue))
-    {
         setSelectedItemIndex(roundDoubleToInt(value.getValue()), juce::dontSendNotification);
-    }
     else
-    {
         ComboBox::valueChanged(value);
-    }
 }

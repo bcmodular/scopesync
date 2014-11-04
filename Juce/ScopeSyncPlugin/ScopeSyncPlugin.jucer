@@ -23,6 +23,10 @@
       <FILE id="DpLMwZ" name="PresetFile.h" compile="0" resource="0" file="../ScopeSyncShared/Presets/PresetFile.h"/>
     </GROUP>
     <GROUP id="{66C9BDB0-55B6-90E8-B66A-D0AE298BAD02}" name="Windows">
+      <FILE id="fp4WJm" name="PresetFileChooser.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Windows/PresetFileChooser.cpp"/>
+      <FILE id="HiouAz" name="PresetFileChooser.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Windows/PresetFileChooser.h"/>
       <FILE id="T3iUM9" name="PresetChooser.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Windows/PresetChooser.cpp"/>
       <FILE id="jCTyE7" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSyncShared/Windows/PresetChooser.h"/>
