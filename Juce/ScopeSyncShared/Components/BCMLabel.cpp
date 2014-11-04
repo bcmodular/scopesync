@@ -111,7 +111,7 @@ void BCMLabel::mouseDown(const MouseEvent& event)
 
 void BCMLabel::applyLookAndFeel(bool noStyleOverride)
 {
-    DBG("BCMLabel::applyLookAndFeel - " + getName());
+    //DBG("BCMLabel::applyLookAndFeel - " + getName());
 
     BCMWidget::applyLookAndFeel(noStyleOverride);
 

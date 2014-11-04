@@ -62,6 +62,8 @@ public:
         : systemErrorDetailsButton(),
           closeButton()
     {
+        showDetails = errorDetails.isNotEmpty();
+
         systemErrorLabel.setColour(Label::textColourId, Colour::fromString("ffa7aaae"));
         systemErrorLabel.setColour(Label::backgroundColourId, Colour::fromString("ff000000"));
         systemErrorLabel.setColour(Label::outlineColourId, Colour::fromString("ffa7aaae"));
@@ -102,7 +104,9 @@ public:
     {
         systemErrorLabel.setText(errorText, dontSendNotification);
         details = errorDetails;
-        systemErrorDetailsButton.setVisible(details.isNotEmpty());
+
+        showDetails = details.isNotEmpty();
+        systemErrorDetailsButton.setVisible(showDetails);
     }
 
 private:
@@ -110,13 +114,17 @@ private:
     Label       systemErrorLabel;
     ImageButton systemErrorDetailsButton;
     ImageButton closeButton;
+    bool        showDetails;
 
     void resized() override
     {
         Rectangle<int> localBounds(getLocalBounds().reduced(8, 8));
     
-        systemErrorDetailsButton.setBounds(localBounds.removeFromRight(18));
         closeButton.setBounds(localBounds.removeFromRight(18));
+        
+        if (showDetails)
+            systemErrorDetailsButton.setBounds(localBounds.removeFromRight(18));
+
         systemErrorLabel.setBounds(localBounds.reduced(0, 2));
     }
 
@@ -223,7 +231,7 @@ private:
         g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
         
         g.setColour(Colours::darkgrey.darker(0.5f));
-        g.drawRect(getLocalBounds().removeFromLeft(127).reduced(0, 4), 1.5f);
+        g.drawRect(getLocalBounds().removeFromLeft(127).reduced(0, 4));
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
