@@ -29,14 +29,17 @@ PresetManager::PresetManager(File& pf, PresetManagerWindow& parent)
       undoButton("Undo"),
       redoButton("Redo")
 {
+    initialised = false;
+
     presetFile = new PresetFile();
 
     Result result = presetFile->loadDocument(pf);
 
     if (result.wasOk())
     {
+        setSize(100,100);
         AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Error", "Problem loading Preset File: " + result.getErrorMessage());
-        sendChangeMessage();
+        parentWindow.showPresetFileChooser();
         return;
     }
 
@@ -100,6 +103,8 @@ PresetManager::PresetManager(File& pf, PresetManagerWindow& parent)
 
     int lastConfigMgrWidth  = presetFile->getPresetProperties().getIntValue("lastPresetMgrWidth", 600);
     int lastConfigMgrHeight = presetFile->getPresetProperties().getIntValue("lastPresetMgrHeight", 500);
+    
+    initialised = true;
     setSize(lastConfigMgrWidth, lastConfigMgrHeight);
     
     startTimer(500);
@@ -282,54 +287,63 @@ void PresetManager::saveTreeViewState()
 
 void PresetManager::resized()
 {
-    Rectangle<int> localBounds(getLocalBounds());
+    if (initialised)
+    {
+        Rectangle<int> localBounds(getLocalBounds());
     
-    Rectangle<int> toolbar(localBounds.removeFromTop(40).reduced(8, 8));
+        Rectangle<int> toolbar(localBounds.removeFromTop(40).reduced(8, 8));
     
-    addButton.setBounds(toolbar.removeFromLeft(40));
-    saveButton.setBounds(toolbar.removeFromLeft(40));
-    saveAsButton.setBounds(toolbar.removeFromLeft(40));
-    toolbar.removeFromLeft(16);
-    applyChangesButton.setBounds(toolbar.removeFromLeft(40));
-    discardChangesButton.setBounds(toolbar.removeFromLeft(40));
-    toolbar.removeFromLeft(16);
-    undoButton.setBounds(toolbar.removeFromLeft(40));
-    redoButton.setBounds(toolbar.removeFromLeft(40));
+        addButton.setBounds(toolbar.removeFromLeft(40));
+        saveButton.setBounds(toolbar.removeFromLeft(40));
+        saveAsButton.setBounds(toolbar.removeFromLeft(40));
+        toolbar.removeFromLeft(16);
+        applyChangesButton.setBounds(toolbar.removeFromLeft(40));
+        discardChangesButton.setBounds(toolbar.removeFromLeft(40));
+        toolbar.removeFromLeft(16);
+        undoButton.setBounds(toolbar.removeFromLeft(40));
+        redoButton.setBounds(toolbar.removeFromLeft(40));
     
-    fileNameLabel.setBounds(localBounds.removeFromBottom(40).reduced(8, 8));
+        fileNameLabel.setBounds(localBounds.removeFromBottom(40).reduced(8, 8));
     
-    treeView->setBounds(localBounds.removeFromLeft(treeView->getWidth()));
-    resizerBar->setBounds(localBounds.withWidth(4));
+        treeView->setBounds(localBounds.removeFromLeft(treeView->getWidth()));
+        resizerBar->setBounds(localBounds.withWidth(4));
     
-    if (panel != nullptr)
-        panel->setBounds(localBounds);
+        if (panel != nullptr)
+            panel->setBounds(localBounds);
+    }
 }
 
 void PresetManager::paint(Graphics& g)
 {
     g.fillAll (Colour (0xff434343));
 
-    g.setColour(Colours::darkgrey);
-    g.fillRect(0, 0, getWidth(), 40);
-    g.fillRect(0, 0, getWidth(), getHeight() - 40);
+    if (initialised)
+    {
+        g.setColour(Colours::darkgrey);
+        g.fillRect(0, 0, getWidth(), 40);
+        g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 134, 8);
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 228, 8);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 134, 8);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 228, 8);
+    }
 }
 
 void PresetManager::paintOverChildren(Graphics& g)
 {
-    const int shadowSize = 15;
+    if (initialised)
+    {
+        const int shadowSize = 15;
     
-    const int resizerX = resizerBar->getX();
+        const int resizerX = resizerBar->getX();
 
-    ColourGradient resizerCG (Colours::black.withAlpha (0.25f), (float) resizerX, 0,
-                              Colours::transparentBlack,        (float) (resizerX - shadowSize), 0, false);
-    resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
-    resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
+        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), (float) resizerX, 0,
+                                  Colours::transparentBlack,        (float) (resizerX - shadowSize), 0, false);
+        resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
+        resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
-    g.setGradientFill(resizerCG);
-    g.fillRect (resizerX - shadowSize, resizerBar->getY(), shadowSize, resizerBar->getHeight());
+        g.setGradientFill(resizerCG);
+        g.fillRect (resizerX - shadowSize, resizerBar->getY(), shadowSize, resizerBar->getHeight());
+    }
 }
 
 void PresetManager::timerCallback()
@@ -398,7 +412,7 @@ void PresetManagerWindow::showPresetFileChooser()
 {
     clearContentComponent();
 
-    presetFileChooser = new PresetFileChooser(presetFile, commandManager, undoManager);
+    presetFileChooser = new PresetFileChooser(presetFile, commandManager, undoManager, *this);
     setContentOwned(presetFileChooser, true);
 }
 
@@ -420,7 +434,7 @@ void PresetManagerWindow::createMenu(PopupMenu& menu, const String& menuName)
 {
          if (menuName == "File") createFileMenu(menu);
     else if (menuName == "Edit") createEditMenu(menu);
-    else                    jassertfalse; // names have changed?
+    else                         jassertfalse; // names have changed?
 }
 
 void PresetManagerWindow::createFileMenu(PopupMenu& menu)
@@ -468,7 +482,7 @@ void PresetManagerWindow::saveAs()
     showPresetManager();
 }
 
-void PresetManagerWindow::changeListenerCallback(ChangeBroadcaster* source)
+void PresetManagerWindow::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
 }
 

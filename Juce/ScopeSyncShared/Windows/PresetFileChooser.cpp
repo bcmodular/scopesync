@@ -29,6 +29,7 @@
 #include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
 #include "../Windows/FileLocationEditor.h"
+#include "../Presets/PresetManager.h"
 
 /* =========================================================================
  * PresetFileSorter - A comparator used to sort our data when the user clicks a column header
@@ -88,8 +89,9 @@ private:
 /* =========================================================================
  * PresetFileChooser
  */
-PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um)
-    : undoManager(um),
+PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um, PresetManagerWindow& parent)
+    : parentWindow(parent),
+      undoManager(um),
       presetFile(pf),
       font(14.0f), 
       commandManager(acm),
@@ -238,7 +240,7 @@ void PresetFileChooser::selectedRowsChanged(int lastRowSelected)
 
 void PresetFileChooser::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = {CommandIDs::chooseSelectedPreset,
+    const CommandID ids[] = {CommandIDs::chooseSelectedPresetFile,
                              CommandIDs::rebuildFileLibrary,
                              CommandIDs::editFileLocations};
     
@@ -273,10 +275,10 @@ bool PresetFileChooser::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
-        case CommandIDs::chooseSelectedPreset:  chooseSelectedPresetFile(); break;
-        case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
-        case CommandIDs::editFileLocations:     editFileLocations(); break;
-        default:                                return false;
+        case CommandIDs::chooseSelectedPresetFile:  chooseSelectedPresetFile(); break;
+        case CommandIDs::rebuildFileLibrary:        rebuildFileLibrary(); break;
+        case CommandIDs::editFileLocations:         editFileLocations(); break;
+        default:                                    return false;
     }
 
     return true;
@@ -295,7 +297,7 @@ void PresetFileChooser::chooseSelectedPresetFile()
     if (selectedRow > -1)
     {
         presetFile = File(viewTree.getChild(selectedRow).getProperty(Ids::filePath));
-        sendChangeMessage();
+        parentWindow.showPresetManager();
     }
 }
 

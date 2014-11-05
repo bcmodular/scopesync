@@ -157,7 +157,7 @@ Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree,
     return tabbedComponent;
 }
 
-void ConfigurationManager::changeListenerCallback(ChangeBroadcaster* source)
+void ConfigurationManager::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
     TabbedComponent* tabbedComponentPanel = dynamic_cast<TabbedComponent*>(panel.get());
     
@@ -716,7 +716,7 @@ void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, cons
 
 void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
 {
-    configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, BCMParameter::hostParameter, scopeSync, undoManager, commandManager, configurationManagerCallout));
+    configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, paramType, scopeSync, undoManager, commandManager, configurationManagerCallout));
 }
 
 void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&        styleOverride, 

@@ -223,15 +223,13 @@ private:
         toolbar.removeFromLeft(6);
         redoButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(6);
-        editToolbarShowButton.setBounds(toolbar.removeFromLeft(10));
+        editToolbarShowButton.setBounds(toolbar.removeFromLeft(17));
     }
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);
-        
-        g.setColour(Colours::darkgrey.darker(0.5f));
-        g.drawRect(getLocalBounds().removeFromLeft(127).reduced(0, 4));
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("toolbarBevel", true, String::empty), 0, 7);
+        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);       
     }
 
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)

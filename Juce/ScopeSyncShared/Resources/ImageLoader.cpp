@@ -145,9 +145,10 @@ void ImageLoader::loadImageResources()
     addImageResource("helpOver", ImageResources::help_button_over_png, ImageResources::help_button_over_pngSize);
 
     // Toolbar buttons
-    addImageResource("toolbarOff",  ImageResources::toolbar_button_off_png,  ImageResources::toolbar_button_off_pngSize);
-    addImageResource("toolbarOn",   ImageResources::toolbar_button_on_png,   ImageResources::toolbar_button_on_pngSize);
-    addImageResource("toolbarOver", ImageResources::toolbar_button_over_png, ImageResources::toolbar_button_over_pngSize);
+    addImageResource("toolbarBevel", ImageResources::toolbar_bevel_png,       ImageResources::toolbar_bevel_pngSize);
+    addImageResource("toolbarOff",   ImageResources::toolbar_button_off_png,  ImageResources::toolbar_button_off_pngSize);
+    addImageResource("toolbarOn",    ImageResources::toolbar_button_on_png,   ImageResources::toolbar_button_on_pngSize);
+    addImageResource("toolbarOver",  ImageResources::toolbar_button_over_png, ImageResources::toolbar_button_over_pngSize);
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)

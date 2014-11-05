@@ -29,6 +29,7 @@
 
 #include "../Core/Global.h"
 class ScopeSync;
+class PresetManagerWindow;
 
 /* =========================================================================
  * PresetFileChooser: Table view for selecting a Preset
@@ -41,7 +42,7 @@ class PresetFileChooser : public  Component,
                           public  ChangeBroadcaster
 {
 public:
-    PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um);
+    PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um, PresetManagerWindow& parent);
     ~PresetFileChooser();
 
     void changeListenerCallback(ChangeBroadcaster* source) override;
@@ -78,6 +79,7 @@ private:
     TextButton   editLocationsButton;
     Label        blurb;
     Label        fileNameLabel;
+    PresetManagerWindow& parentWindow;
     
     void editFileLocations();
     void chooseSelectedPresetFile();

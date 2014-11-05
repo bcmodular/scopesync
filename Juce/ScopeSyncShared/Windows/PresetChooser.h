@@ -77,12 +77,14 @@ private:
     TextButton   chooseButton;
     TextButton   rebuildLibraryButton;
     TextButton   editLocationsButton;
+    TextButton   presetManagerButton;
     Label        blurb;
     Label        fileNameLabel;
     
     void editFileLocations();
     void chooseSelectedPreset();
-    
+    void showPresetManager();
+
     void rebuildFileLibrary();
     void removePresetFileEntries();
     void attachToTree();

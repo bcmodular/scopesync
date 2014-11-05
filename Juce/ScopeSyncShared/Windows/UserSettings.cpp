@@ -341,9 +341,10 @@ void UserSettings::changeListenerCallback(ChangeBroadcaster* source)
         DBG("UserSettings::changeListenerCallback - source: fileLocationEditorWindow");
         hideFileLocationsWindow();
     }
-    else
+    else if (source == presetManagerWindow)
     {
-        DBG("UserSettings::changeListenerCallback - source: unknown");
+        DBG("UserSettings::changeListenerCallback - source: presetManagerWindow");
+        hidePresetManagerWindow();
         sendChangeMessage();
     }
 }

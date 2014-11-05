@@ -59,6 +59,8 @@ private:
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
     PresetManagerWindow&        parentWindow;
+
+    bool initialised;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -121,8 +123,16 @@ public:
     void updatePresetLibrary();
     void hidePresetManager();
 
+    void showPresetFileChooser();
+    void showPresetManager();
+    
     // Need to implement this...
     bool presetsHaveChanged() {return true;}
+
+    enum PresetManagerAction { hideManager, showPreset, showPresetFiles};
+
+    PresetManagerAction getNextAction() { return nextAction; }
+    void setNextAction(PresetManagerAction action) { nextAction = action; }
 
 private:
     ApplicationCommandManager*         commandManager;
@@ -131,11 +141,10 @@ private:
     PresetFileChooser*                 presetFileChooser;
     PresetManager*                     presetManager;
     ScopedPointer<PresetMenuBarModel>  menuModel;
+    PresetManagerAction                nextAction;
     
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
-    void showPresetFileChooser();
-    void showPresetManager();
     void changeListenerCallback(ChangeBroadcaster* source) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetManagerWindow);

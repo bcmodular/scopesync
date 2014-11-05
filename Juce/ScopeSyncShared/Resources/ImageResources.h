@@ -170,14 +170,17 @@ namespace ImageResources
     extern const char*  snapshot_button_over_png;
     const int           snapshot_button_over_pngSize = 1202;
 
+    extern const char*  toolbar_bevel_png;
+    const int           toolbar_bevel_pngSize = 2938;
+
     extern const char*  toolbar_button_off_png;
-    const int           toolbar_button_off_pngSize = 3108;
+    const int           toolbar_button_off_pngSize = 3377;
 
     extern const char*  toolbar_button_on_png;
-    const int           toolbar_button_on_pngSize = 3065;
+    const int           toolbar_button_on_pngSize = 3377;
 
     extern const char*  toolbar_button_over_png;
-    const int           toolbar_button_over_pngSize = 3104;
+    const int           toolbar_button_over_pngSize = 3377;
 
     extern const char*  undo_button_off_png;
     const int           undo_button_off_pngSize = 900;

@@ -97,6 +97,7 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
       chooseButton("Choose Preset"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
+      presetManagerButton("Preset Manager..."),
       blurb(String::empty),
       fileNameLabel(String::empty)
 {
@@ -112,6 +113,9 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
 
     editLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
     addAndMakeVisible(editLocationsButton);
+    
+    presetManagerButton.setCommandToTrigger(commandManager, CommandIDs::showPresetManager, true);
+    addAndMakeVisible(presetManagerButton);
     
     blurb.setJustificationType(Justification::topLeft);
     blurb.setMinimumHorizontalScale(1.0f);
@@ -170,6 +174,7 @@ void PresetChooser::resized()
     chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     editLocationsButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
+    presetManagerButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     headerBounds.removeFromLeft(4);
     headerBounds.removeFromTop(10);
     fileNameLabel.setBounds(headerBounds.removeFromTop(20).reduced(2, 2));
@@ -241,7 +246,8 @@ void PresetChooser::getAllCommands(Array <CommandID>& commands)
 {
     const CommandID ids[] = {CommandIDs::chooseSelectedPreset,
                              CommandIDs::rebuildFileLibrary,
-                             CommandIDs::editFileLocations};
+                             CommandIDs::editFileLocations,
+                             CommandIDs::showPresetManager};
     
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -262,6 +268,10 @@ void PresetChooser::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
         result.setInfo("File Locations...", "Open File Locations edit window", CommandCategories::usersettings, 0);
         result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::showPresetManager:
+        result.setInfo("Preset Manager...", "Open Preset Manager window", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress('p', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -277,10 +287,17 @@ bool PresetChooser::perform(const InvocationInfo& info)
         case CommandIDs::chooseSelectedPreset:  chooseSelectedPreset(); break;
         case CommandIDs::rebuildFileLibrary:    rebuildFileLibrary(); break;
         case CommandIDs::editFileLocations:     editFileLocations(); break;
+        case CommandIDs::showPresetManager:     showPresetManager(); break;
         default:                                return false;
     }
 
     return true;
+}
+
+void PresetChooser::showPresetManager()
+{
+    UserSettings::getInstance()->addChangeListener(this);
+    UserSettings::getInstance()->showPresetManagerWindow(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void PresetChooser::editFileLocations()
