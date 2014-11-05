@@ -71,7 +71,7 @@ public:
         systemErrorLabel.setJustificationType(Justification::centred);
         addAndMakeVisible(systemErrorLabel);
         
-        systemErrorDetailsButton.setImages(true, false, false,
+        systemErrorDetailsButton.setImages(false, true, true,
             ImageLoader::getInstance()->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
             ImageLoader::getInstance()->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
             ImageLoader::getInstance()->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
@@ -81,7 +81,7 @@ public:
         systemErrorDetailsButton.setVisible(details.isNotEmpty());
         systemErrorDetailsButton.addListener(this);
 
-        closeButton.setImages(true, false, false,
+        closeButton.setImages(false, true, true,
             ImageLoader::getInstance()->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
             ImageLoader::getInstance()->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
             ImageLoader::getInstance()->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
@@ -116,14 +116,27 @@ private:
     ImageButton closeButton;
     bool        showDetails;
 
+    void paint(Graphics& g) override
+    {
+        Rectangle<int> localBounds(getLocalBounds().reduced(8, 8));
+
+        g.setColour(Colour::fromString("ffa7aaae"));
+        g.drawRect(localBounds.removeFromRight(18).reduced(0, 2));
+
+        if (showDetails)
+            g.drawRect(localBounds.removeFromRight(18).reduced(0, 2));
+    }
+
     void resized() override
     {
         Rectangle<int> localBounds(getLocalBounds().reduced(8, 8));
     
-        closeButton.setBounds(localBounds.removeFromRight(18));
+        Rectangle<int> closeButtonBounds(localBounds.removeFromRight(18).reduced(4, 4));
+        
+        closeButton.setBounds(closeButtonBounds);
         
         if (showDetails)
-            systemErrorDetailsButton.setBounds(localBounds.removeFromRight(18));
+            systemErrorDetailsButton.setBounds(localBounds.removeFromRight(18).reduced(0, 4));
 
         systemErrorLabel.setBounds(localBounds.reduced(0, 2));
     }
