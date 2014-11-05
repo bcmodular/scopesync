@@ -56,6 +56,7 @@ private:
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
 
     static const int timerInterval;
+    bool initialising;
     void paint(Graphics& g);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginGUI)

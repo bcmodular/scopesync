@@ -36,6 +36,8 @@ const int PluginGUI::timerInterval = 200;
 PluginGUI::PluginGUI (PluginProcessor* owner)
     : AudioProcessorEditor(owner)
 {
+    initialising = true;
+
     scopeSyncGUI = new ScopeSyncGUI(owner->getScopeSync());
     
     int width  = jmax(scopeSyncGUI->getWidth(), 100);
@@ -79,10 +81,12 @@ void PluginGUI::timerCallback()
         sizeChanged = true;
     }
 
-    if (sizeChanged)
+    if (sizeChanged || initialising)
     {
         DBG("PluginGUI::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
         setSize(newWidth, newHeight);
+        grabKeyboardFocus();
+        initialising = false;
     }
 }
 
