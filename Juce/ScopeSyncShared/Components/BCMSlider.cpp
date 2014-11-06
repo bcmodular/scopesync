@@ -280,7 +280,7 @@ bool BCMSlider::getEncoderSnap(bool encoderSnap)
 
 bool BCMSlider::isRotary() const
 {
-    DBG("BCMSlider::isRotary - slider style: " + String(getSliderStyle()));
+    //DBG("BCMSlider::isRotary - slider style: " + String(getSliderStyle()));
 
     return getSliderStyle() == Rotary
         || getSliderStyle() == RotaryHorizontalDrag
@@ -290,7 +290,7 @@ bool BCMSlider::isRotary() const
 
 bool BCMSlider::isLinearBar() const
 {
-    DBG("BCMSlider::isLinearBar - slider style: " + String(getSliderStyle()));
+    //DBG("BCMSlider::isLinearBar - slider style: " + String(getSliderStyle()));
 
     return getSliderStyle() == LinearBar
         || getSliderStyle() == LinearBarVertical;
@@ -323,12 +323,12 @@ void BCMSlider::overrideStyle()
         fillColourString = findColour(Slider::thumbColourId).toString();
         lineColourString = findColour(Slider::trackColourId).toString();
     }
-
+    
     fillColour2String = findColour(Slider::textBoxBackgroundColourId).toString();
     lineColour2String = findColour(Slider::textBoxTextColourId).toString();
 
     ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 165);
-    configurationManagerCalloutWindow->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString);
+    configurationManagerCalloutWindow->setStyleOverridePanel(styleOverride, Ids::slider, getName(), widgetTemplateId, fillColourString, lineColourString, fillColour2String, lineColour2String);
     configurationManagerCalloutWindow->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, getScreenBounds(), nullptr);
 }

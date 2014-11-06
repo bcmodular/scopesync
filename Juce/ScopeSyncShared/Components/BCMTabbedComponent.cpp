@@ -56,6 +56,8 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     {
         parameter->mapToUIValue(parameterValue);
         parameterValue.addListener(this);
+        DBG("BCMTabbedComponent::applyProperties: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
+        setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), true);
     }
 
     barProperties.set("showdropshadow", properties.showDropShadow);
