@@ -73,6 +73,7 @@ void ScopeFXGUI::refreshWindow()
     {
         DBG("ScopeFXGUI::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
         setSize(newWidth, newHeight);
+        grabKeyboardFocus();
         firstTimeShow = false;
     }
 
