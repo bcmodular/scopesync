@@ -501,20 +501,21 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
 
         TabbedComponentProperties tabbedComponentProperties(tabbedComponentXML, *parentProperties);
         
-        BCMTabbedComponent*       tabbedComponent;
-
         // Setup Tabbed Component object
-        addAndMakeVisible(tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation, scopeSyncGUI));
+        BCMTabbedComponent* tabbedComponent = new BCMTabbedComponent(tabbedComponentProperties.tabBarOrientation, scopeSyncGUI);
 
-        tabbedComponent->applyProperties(tabbedComponentProperties);
-
-        scopeSyncGUI.addTabbedComponent(tabbedComponent);
-        tabbedComponents.add(tabbedComponent);
-    
         forEachXmlChildElementWithTagName(tabbedComponentXML, child, "tab")
         {
             setupTab(*child, *tabbedComponent);
         }
+
+        tabbedComponent->applyProperties(tabbedComponentProperties);
+        tabbedComponent->attachToParameter();
+
+        scopeSyncGUI.addTabbedComponent(tabbedComponent);
+        tabbedComponents.add(tabbedComponent);
+
+        addAndMakeVisible(tabbedComponent);
     }
 }
 

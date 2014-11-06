@@ -48,17 +48,13 @@ public:
     void applyProperties(TabbedComponentProperties& properties);
     const Identifier getComponentType() const override;
 
-    // Returns the name of a BCMTabbedComponent
-    //const String& getName() { return name; }
-    
-    // Sets the name of a BCMTabbedComponent
-    //void setName(const String& newName) { name = newName; }
-
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value) override;
 
     void currentTabChanged(int newCurrentTabIndex, const String &newCurrentTabName);
     void popupMenuClickOnTab(int tabIndex, const String& tabName);
+
+    void attachToParameter();
 
     // Indicates whether Tabs should show a drop-shadow
     bool shouldShowDropShadow() { return showDropShadow; }

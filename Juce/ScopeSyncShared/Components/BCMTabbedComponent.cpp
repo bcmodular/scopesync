@@ -52,14 +52,6 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
     
     setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
 
-    if (mapsToParameter)
-    {
-        parameter->mapToUIValue(parameterValue);
-        parameterValue.addListener(this);
-        DBG("BCMTabbedComponent::applyProperties: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
-        setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), true);
-    }
-
     barProperties.set("showdropshadow", properties.showDropShadow);
 }
 
@@ -67,15 +59,31 @@ const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabb
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {
+    DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundDoubleToInt(value.getValue())));
+
     setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
 }
 
 void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String& newCurrentTabName)
 {
+    DBG("BCMTabbedComponent::currentTabChanged: new tab: " + String(newCurrentTabIndex) + " - " + newCurrentTabName);
+    
     (void)newCurrentTabName;
 
     if (parameter != nullptr)
         scopeSyncGUI.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
+}
+
+void BCMTabbedComponent::attachToParameter()
+{
+    if (mapsToParameter)
+    {
+        parameter->mapToUIValue(parameterValue);
+        parameterValue.addListener(this);
+    }
+
+    DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
+    setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), false);
 }
 
 void BCMTabbedComponent::popupMenuClickOnTab(int /* tabIndex */, const String& /* tabName */)

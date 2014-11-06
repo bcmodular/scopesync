@@ -450,7 +450,12 @@ void BCMParameterWidget::deleteMapping()
 
 void BCMParameterWidget::editMapping()
 {
-    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 400, 34);
+    int calloutHeight = 34;
+
+    if (mappingComponentType == Ids::textButton)
+        calloutHeight = 134;
+
+    ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 400, calloutHeight);
     DBG("BCMParameterWidget::editMapping from component: " + parentWidget->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
     configurationManagerCalloutWindow->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
     configurationManagerCalloutWindow->addChangeListener(this);
