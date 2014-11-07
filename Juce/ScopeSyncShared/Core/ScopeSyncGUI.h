@@ -86,8 +86,7 @@ private:
 
 class ScopeSyncGUI : public Component,
                      public Timer,
-                     public ApplicationCommandTarget,
-                     public ChangeListener
+                     public ApplicationCommandTarget
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -106,6 +105,7 @@ public:
     Slider::SliderStyle getDefaultRotarySliderStyle();
     
     static void deleteTooltipWindow() { tooltipWindow = nullptr; }
+    void hideConfigurationChooserWindow();
     
     /* ====================== Public member variables ========================= */
     ScopedPointer<ComponentProperties>       defaultComponentProperties;
@@ -144,7 +144,6 @@ private:
     Array<BCMTabbedComponent*>  tabbedComponents;
     ScopedPointer<Label>        systemError;
     ScopedPointer<ConfigurationChooserWindow> configurationChooserWindow;
-    ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
     
     ScopeSync& scopeSync;
     ValueTree  deviceMapping;
@@ -171,8 +170,6 @@ private:
     ApplicationCommandTarget* getNextCommandTarget() override;
     
     static void alertBoxReloadConfirm(int result, ScopeSyncGUI*);
-
-    void changeListenerCallback(ChangeBroadcaster* source) override;
 
     void addConfig();
     void save();

@@ -17,62 +17,6 @@
 #include "../Configuration/SettingsTable.h"
 
 /* =========================================================================
- * NewPresetFileWindow
- */
-NewPresetFileWindow::NewPresetFileWindow(int posX, int posY,
-                                         PresetFile& pf,
-                                         UndoManager& um,
-                                         const File& file,
-                                         ApplicationCommandManager* acm)
-    : DocumentWindow("New Preset File",
-                     Colour::greyLevel(0.6f),
-                     DocumentWindow::allButtons,
-                     true),
-      newFile(file),
-      presetFile(pf),
-      undoManager(um)
-{
-    cancelled = true;
-
-    setUsingNativeTitleBar (true);
-    
-    settings = ValueTree(Ids::presets);
-
-    setContentOwned(new NewPresetFileEditor(settings, um, file.getFullPathName(), acm), true);
-    
-    restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
-    setResizable(true, false);
-
-    setWantsKeyboardFocus (false);
-
-    setResizeLimits(400, 200, 32000, 32000);
-}
-
-NewPresetFileWindow::~NewPresetFileWindow() {}
-
-void NewPresetFileWindow::addPresetFile()
-{
-    cancelled = false;
-    sendChangeMessage();
-}
-
-ValueTree NewPresetFileWindow::getSettings()
-{
-    return settings;
-}
-
-void NewPresetFileWindow::cancel() { sendChangeMessage(); }
-
-void NewPresetFileWindow::closeButtonPressed() { sendChangeMessage(); }
-
-void NewPresetFileWindow::restoreWindowPosition(int posX, int posY)
-{
-    setCentrePosition(posX, posY);
-}
-
-/* =========================================================================
  * PresetFilePanel
  */
 PresetFilePanel::PresetFilePanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm)
@@ -230,110 +174,6 @@ void PresetPanel::createSettingsTable()
 }
 
 /* =========================================================================
- * NewPresetFileEditor
- */
-NewPresetFileEditor::NewPresetFileEditor(ValueTree& settings,
-                                         UndoManager& um,
-                                         const String& filePath,
-                                         ApplicationCommandManager* acm)
-    : commandManager(acm),
-      addButton("Add Preset File"),
-      cancelButton("Cancel"),
-      filePathLabel("File Path"),
-      panel(settings, um, acm),
-      undoManager(um)
-{
-    commandManager->registerAllCommandsForTarget(this);
-
-    addButton.setCommandToTrigger(commandManager, CommandIDs::addConfig, true);
-    addAndMakeVisible(addButton);
-
-    cancelButton.setCommandToTrigger(commandManager, CommandIDs::cancel, true);
-    addAndMakeVisible(cancelButton);
-
-    filePathLabel.setText(filePath, dontSendNotification);
-    filePathLabel.setColour(Label::textColourId, Colours::white);
-    addAndMakeVisible(filePathLabel);
-
-    addAndMakeVisible(panel);
-
-    addKeyListener(commandManager->getKeyMappings());
-
-    setBounds(0, 0, 600, 400);
-}
-
-NewPresetFileEditor::~NewPresetFileEditor() {}
-
-void NewPresetFileEditor::paint(Graphics& g)
-{
-    g.fillAll(Colours::darkgrey);
-}
-    
-void NewPresetFileEditor::resized()
-{
-    Rectangle<int> localBounds(getLocalBounds());
-    Rectangle<int> buttonBar(localBounds.removeFromBottom(30));
-    
-    addButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
-    cancelButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
-    filePathLabel.setBounds(localBounds.removeFromBottom(30).reduced(3, 3));
-    panel.setBounds(localBounds.reduced(4, 4));
-}
-
-void NewPresetFileEditor::addPresetFile()
-{
-    NewPresetFileWindow* parent = static_cast<NewPresetFileWindow*>(getParentComponent());
-    parent->addPresetFile();
-}
-
-void NewPresetFileEditor::cancel()
-{
-    NewPresetFileWindow* parent = static_cast<NewPresetFileWindow*>(getParentComponent());
-    parent->cancel();
-}
-
-void NewPresetFileEditor::getAllCommands(Array <CommandID>& commands)
-{
-    const CommandID ids[] = {CommandIDs::addPresetFile,
-                             CommandIDs::cancel
-                             };
-    
-    commands.addArray(ids, numElementsInArray (ids));
-}
-
-void NewPresetFileEditor::getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
-{
-    switch (commandID)
-    {
-    case CommandIDs::addPresetFile:
-        result.setInfo("Add Preset File", "Create a new Preset File", CommandCategories::general, 0);
-        result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
-        break;
-    case CommandIDs::cancel:
-        result.setInfo("Cancel", "Cancel current action", CommandCategories::general, 0);
-        result.defaultKeypresses.add(KeyPress ('q', ModifierKeys::commandModifier, 0));
-        break;
-    }
-}
-
-bool NewPresetFileEditor::perform(const InvocationInfo& info)
-{
-    switch (info.commandID)
-    {
-        case CommandIDs::addPresetFile: addPresetFile(); break;
-        case CommandIDs::cancel:        cancel(); break;
-        default:                        return false;
-    }
-
-    return true;
-}
-
-ApplicationCommandTarget* NewPresetFileEditor::getNextCommandTarget()
-{
-    return nullptr;
-}
-
-/* =========================================================================
  * PresetFile
  */
 PresetFile::PresetFile()
@@ -403,15 +243,14 @@ Result PresetFile::loadDocument(const File& file)
     return Result::ok();
 }
 
-void PresetFile::createPresetFile(const File& newFile)
+void PresetFile::createPresetFile()
 {
-    if (saveIfNeededAndUserAgrees(true) == savedOk)
-    {
-        setFile(newFile);
+    setFile(File());
         
-        ValueTree presetFile(Ids::presets);
-        setPresetFileRoot(presetFile);
-    }
+    ValueTree emptyTree(Ids::presets);
+    setPresetFileRoot(emptyTree);
+
+    save(true, true);
 }
 
 void PresetFile::addNewPreset(ValueTree& newPreset, const ValueTree& presetValues, int targetIndex, UndoManager* um)
@@ -440,24 +279,7 @@ void PresetFile::addNewPreset(ValueTree& newPreset, const ValueTree& presetValue
         }
         else
         {
-            String newShortDescription = newPreset.getProperty(Ids::shortDescription).toString();
-            
-            if (newShortDescription.isEmpty())
-                newShortDescription = getDefaultPreset().getProperty(Ids::shortDescription);
-
-            newShortDescription += " " + String(settingNum);
-
-            String newFullDescription  = newPreset.getProperty(Ids::fullDescription).toString();
-            
-            if (newFullDescription.isEmpty())
-                newFullDescription = getDefaultPreset().getProperty(Ids::fullDescription);
-
-            newFullDescription +=  " " + String(settingNum);
-
-            newPreset.setProperty(Ids::name,             newPresetName, um);
-            newPreset.setProperty(Ids::shortDescription, newShortDescription, um);
-            newPreset.setProperty(Ids::fullDescription,  newShortDescription, um);
-
+            newPreset.setProperty(Ids::name, newPresetName, um);
             break;
         }
     }
@@ -467,12 +289,9 @@ void PresetFile::addNewPreset(ValueTree& newPreset, const ValueTree& presetValue
 
 ValueTree PresetFile::getDefaultPreset()
 {
-    ValueTree defaultPreset(Ids::parameter);
-    defaultPreset.setProperty(Ids::name,             "PARAM",       nullptr);
-    defaultPreset.setProperty(Ids::shortDescription, "Param",       nullptr);
-    defaultPreset.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultPreset.setProperty(Ids::scopeSync,        -1,            nullptr);
-    defaultPreset.setProperty(Ids::scopeLocal,       -1,            nullptr);
+    ValueTree defaultPreset(Ids::preset);
+    defaultPreset.setProperty(Ids::name,             "Preset ",     nullptr);
+    defaultPreset.setProperty(Ids::blurb,            String::empty, nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMinFlt, 0,             nullptr);
@@ -500,7 +319,7 @@ bool PresetFile::presetNameExists(const String& presetName)
 
 Result PresetFile::saveDocument (const File& /* file */)
 {
-    //UserSettings::getInstance()->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
+    UserSettings::getInstance()->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
 
     ScopedPointer<XmlElement> outputXml = presetFileRoot.createXml();
 

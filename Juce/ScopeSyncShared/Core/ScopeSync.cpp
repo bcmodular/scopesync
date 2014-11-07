@@ -109,7 +109,7 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
-    UserSettings::getInstance()->removeChangeListener(this);        
+    UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
 }
@@ -705,7 +705,8 @@ bool ScopeSync::saveConfigurationAs()
 
         applyConfiguration();
 
-        UserSettings::getInstance()->rebuildFileLibrary();
+        UserSettings::getInstance()->addActionListener(this);
+        UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
 
         return true;
     }
@@ -715,6 +716,8 @@ bool ScopeSync::saveConfigurationAs()
 
 void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
 {
+    newConfigWindowPosition = windowPosition;
+
     FileChooser fileChooser("New Configuration File...",
                             File::nonexistent,
                             "*.configuration");
@@ -732,14 +735,13 @@ void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
 
     addConfigurationWindow = new NewConfigurationWindow
                                  (
-                                 windowPosition.getCentreX(), 
-                                 windowPosition.getCentreY(), 
+                                 newConfigWindowPosition.getCentreX(), 
+                                 newConfigWindowPosition.getCentreY(), 
                                  *this,
                                  newFile,
                                  commandManager
                                  );
     
-    addConfigurationWindow->addChangeListener(this);
     addConfigurationWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -748,49 +750,70 @@ void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
     addConfigurationWindow->toFront(true);
 }
 
-void ScopeSync::changeListenerCallback(ChangeBroadcaster* /* source */)
+void ScopeSync::hideAddConfigurationWindow()
+{
+    addConfigurationWindow = nullptr;
+}
+
+void ScopeSync::addConfiguration(File newFile, ValueTree newSettings)
 { 
-    if (addConfigurationWindow->isCancelled())
-        addConfigurationWindow = nullptr;
-    else
+    configuration->createConfiguration(newFile, newSettings);
+    configuration->save(true, true);
+    applyConfiguration();
+
+    // Rebuild the library, so we can check whether the new configuration
+    // was put into a File Location. We will get an action callback
+    // once the rebuild is complete
+    UserSettings::getInstance()->addActionListener(this);
+    UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
+}
+
+void ScopeSync::actionListenerCallback(const String& message)
+{
+    if (message == "configurationlibraryupdated")
     {
-        File newFile = addConfigurationWindow->getNewFile();
-        ValueTree settings = addConfigurationWindow->getSettings();
+        if (newConfigIsInLocation())
+        {
+            UserSettings::getInstance()->removeActionListener(this);
             
-        addConfigurationWindow = nullptr;
-            
-        configuration->createConfiguration(newFile, settings);
-        configuration->save(true, true);
-        applyConfiguration();
-
-        UserSettings::getInstance()->rebuildFileLibrary();
-
-        sendChangeMessage();
+            if (configurationManagerWindow != nullptr)
+                configurationManagerWindow->refreshContent();
+        }
     }
 }
 
-void ScopeSync::checkNewConfigIsInLocation(Configuration& configuration, Component* component, ChangeListener* changeListener)
+bool ScopeSync::newConfigIsInLocation()
 {
-    int uid = configuration.getConfigurationUID();
+    int uid = configuration->getConfigurationUID();
 
     if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
+    {
         AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
                                     "Check locations",
                                     "Your new Configuration was not automatically added to the library. You probably need to add a new location."
                                     + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
                                     String::empty,
                                     String::empty,
-                                    component,
-                                    ModalCallbackFunction::forComponent(alertBoxLaunchLocationEditor, component, changeListener));
+                                    nullptr,
+                                    ModalCallbackFunction::withParam(alertBoxLaunchLocationEditor, newConfigWindowPosition, this));
+        return false;
+    }
+
+    return true;
 }
 
-void ScopeSync::alertBoxLaunchLocationEditor(int result, Component* component, ChangeListener* changeListener)
+void ScopeSync::alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync)
 {
     if (result)
     {
-        UserSettings::getInstance()->addChangeListener(changeListener);
-        UserSettings::getInstance()->editFileLocations(component->getParentMonitorArea().getCentreX(),
-                                                       component->getParentMonitorArea().getCentreY());    
+        // User clicked OK, so launch the location editor
+        UserSettings::getInstance()->editFileLocations(newConfigWindowPosition.getCentreX(),
+                                                       newConfigWindowPosition.getCentreY());    
+    }
+    else
+    {
+        // User clicked cancel, so we just give up for now
+        UserSettings::getInstance()->removeActionListener(scopeSync);
     }
 }
 
@@ -1003,7 +1026,7 @@ const String ScopeSync::systemLookAndFeels =
 "  <lookandfeel id=\"system:configname\">\n"
 "    <appliesto componenttype=\"none\" />\n"
 "    <colours>\n"
-"      <label textcolourid=\"ffa7aaae\" outlinecolourid=\"ffa7aaae\"></label>\n"
+"      <label textcolourid=\"90ffffff\" outlinecolourid=\"90ffffff\"></label>\n"
 "    </colours>\n"
 "  </lookandfeel>\n"
 "</lookandfeels>\n";

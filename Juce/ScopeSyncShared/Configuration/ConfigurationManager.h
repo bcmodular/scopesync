@@ -168,8 +168,7 @@ private:
 /* =========================================================================
  * ConfigurationManagerWindow: Parent window for the Config Mgr
  */
-class ConfigurationManagerWindow : public DocumentWindow,
-                                   public ChangeListener
+class ConfigurationManagerWindow : public DocumentWindow
 {
 public:
     ConfigurationManagerWindow(ScopeSync& owner, int posX, int posY);
@@ -195,7 +194,6 @@ private:
     ConfigurationManager*                    configurationManager;
     ScopedPointer<ConfigurationMenuBarModel> menuModel;
     
-    void changeListenerCallback(ChangeBroadcaster* source) override;
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 

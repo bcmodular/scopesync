@@ -12,10 +12,11 @@
 #define PRESETMANAGER_H_INCLUDED
 
 #include <JuceHeader.h>
-class PresetFile;
+#include "PresetFile.h"
 class BCMTreeView;
 class PresetManagerWindow;
 class PresetFileChooser;
+class PresetFile;
 
 /* =========================================================================
  * PresetManager: Regular version to display in Preset Manager window
@@ -23,10 +24,10 @@ class PresetFileChooser;
 class PresetManager : public  Component,
                       public  ApplicationCommandTarget,
                       private Timer,
-                      public  ChangeBroadcaster
+                      public  ActionListener
 {
 public:
-    PresetManager(File& pf, PresetManagerWindow& parent);
+    PresetManager(PresetManagerWindow& parent);
     ~PresetManager();
 
     void paint(Graphics& g) override;
@@ -38,12 +39,12 @@ public:
     void changePanel(Component* newComponent);
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
-    PresetFile&                getPresetFile()     { return *presetFile; };
-    
+
 private:
     LookAndFeel_V3             lookAndFeel;
     Label                      fileNameLabel;
     ImageButton                addButton;
+    ImageButton                openButton;
     ImageButton                saveButton;
     ImageButton                saveAsButton;
     ImageButton                applyChangesButton;
@@ -54,8 +55,8 @@ private:
     ScopedPointer<Component>   panel;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
+    PresetFile&                presetFile;
     
-    ScopedPointer<PresetFile>   presetFile;
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
     PresetManagerWindow&        parentWindow;
@@ -71,7 +72,16 @@ private:
     void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
+    void actionListenerCallback(const String& message) override;
     
+    void copyItem();
+    void pasteItem();
+    void deleteItems();
+    void addItem();
+    void addItemFromClipboard();
+
+    void save();
+    void saveAs();
     void undo();
     void redo();
     bool canPasteItem();
@@ -101,11 +111,13 @@ private:
  * PresetManagerWindow: Parent window for the Config Mgr
  */
 class PresetManagerWindow : public DocumentWindow,
-                            public ChangeBroadcaster,
-                            public ChangeListener
+                            public ActionListener
 {
 public:
-    PresetManagerWindow(ApplicationCommandManager* acm, UndoManager& um, int posX, int posY);
+    PresetManagerWindow(const String& filePath,
+                        ApplicationCommandManager* acm, 
+                        UndoManager& um, 
+                        int posX, int posY);
     ~PresetManagerWindow();
 
     ApplicationCommandManager* getCommandManager() { return commandManager; };
@@ -115,8 +127,6 @@ public:
     void createEditMenu(PopupMenu& menu);
 
     void addPresetFile();
-    void save();
-    void saveAs();
     void unload();
     void discardChanges();
     void restoreWindowPosition();
@@ -126,26 +136,30 @@ public:
     void showPresetFileChooser();
     void showPresetManager();
     
-    // Need to implement this...
-    bool presetsHaveChanged() {return true;}
+    void incrNumActions() { numActions += 1; }
 
-    enum PresetManagerAction { hideManager, showPreset, showPresetFiles};
+    bool presetsHaveChanged();
 
-    PresetManagerAction getNextAction() { return nextAction; }
-    void setNextAction(PresetManagerAction action) { nextAction = action; }
+    PresetFile& getPresetFile() { return presetFile; }
 
 private:
     ApplicationCommandManager*         commandManager;
     UndoManager&                       undoManager;
-    File                               presetFile;
+    PresetFile                         presetFile;
     PresetFileChooser*                 presetFileChooser;
     PresetManager*                     presetManager;
     ScopedPointer<PresetMenuBarModel>  menuModel;
-    PresetManagerAction                nextAction;
-    
+    File                               newPresetFile;
+
+    int numActions;
+
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
-    void changeListenerCallback(ChangeBroadcaster* source) override;
+
+    void actionListenerCallback(const String& message);
+    bool newPresetFileIsInLocation();
+
+    static void alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, PresetManagerWindow* pmw);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetManagerWindow);
 };

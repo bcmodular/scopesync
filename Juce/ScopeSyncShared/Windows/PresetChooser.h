@@ -37,14 +37,14 @@ class PresetChooser : public  Component,
                       private TableListBoxModel,
                       private ValueTree::Listener,
                       public  ApplicationCommandTarget,
-                      public  ChangeListener,
+                      public  ActionListener,
                       public  ChangeBroadcaster
 {
 public:
     PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommandManager* acm, UndoManager& um);
     ~PresetChooser();
 
-    void changeListenerCallback(ChangeBroadcaster* source) override;
+    void actionListenerCallback(const String& message) override;
    
     void paint(Graphics& g) override;
     void resized() override;

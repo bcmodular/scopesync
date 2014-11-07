@@ -185,9 +185,13 @@ void ConfigurationPanel::rebuildProperties()
 
 }
 
-void ConfigurationPanel::changeListenerCallback(ChangeBroadcaster* /* source */)
-{ 
+void ConfigurationPanel::hideLayoutChooser()
+{
     layoutChooserWindow = nullptr;
+}
+
+void ConfigurationPanel::updateLayout()
+{ 
     rebuildProperties();
     String newLayoutFilePath = UserSettings::getInstance()->getLayoutFilename(valueTree.getProperty(Ids::layoutName),
                                                                               valueTree.getProperty(Ids::layoutLibrarySet));
@@ -203,10 +207,10 @@ void ConfigurationPanel::chooseLayout()
                                       getParentMonitorArea().getCentreY(), 
                                       layoutName,
                                       layoutLibrarySet,
+                                      *this,
                                       commandManager
                                       );
     
-    layoutChooserWindow->addChangeListener(this);
     layoutChooserWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -257,9 +261,23 @@ void ParameterPanel::rebuildProperties()
 void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType)
 {
     props.clear();
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager),             "Name", 256, false),              "Mapping name for parameter");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, &undoManager), "Short Description", 256, false), "Short Description of parameter");
-    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, &undoManager),  "Full Description", 256, false),  "Full Description of parameter");
+
+    String nameTooltip("Mapping name for parameter");
+
+    if (parameterType == BCMParameter::preset)
+        nameTooltip = "Name of Preset";
+
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), "Name", 256, false), nameTooltip);
+    
+    if (parameterType != BCMParameter::preset)
+    {
+        props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, &undoManager), "Short Description", 256, false), "Short Description of parameter");
+        props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, &undoManager),  "Full Description", 256, false),  "Full Description of parameter");
+    }
+    else
+    {
+        props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::blurb, &undoManager), "Blurb", 1024, true), "Textual description of Preset (shown in Chooser)");
+    }
 
     if (parameterType == BCMParameter::hostParameter)
     {

@@ -15,7 +15,8 @@ struct Icon;
 class BCMTreeItem;
 
 class BCMTreeView : public Component,
-                    public DragAndDropContainer
+                    public DragAndDropContainer,
+                    public Timer
 {
 public:
     BCMTreeView(UndoManager& um, BCMTreeItem* root, PropertiesFile& properties);
@@ -49,6 +50,8 @@ private:
     PropertiesFile& properties;
 
     int storedRow;
+
+    void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMTreeView);
 };

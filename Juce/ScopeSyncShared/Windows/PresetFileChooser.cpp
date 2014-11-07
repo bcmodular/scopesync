@@ -95,15 +95,20 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
       presetFile(pf),
       font(14.0f), 
       commandManager(acm),
+      addButton("New Preset File"),
       chooseButton("Choose Preset File"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
       blurb(String::empty),
       fileNameLabel(String::empty)
 {
+    UserSettings::getInstance()->addActionListener(this);
     attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
+
+    addButton.setCommandToTrigger(commandManager, CommandIDs::addPresetFile, true);
+    addAndMakeVisible(addButton);
 
     chooseButton.setCommandToTrigger(commandManager, CommandIDs::chooseSelectedPresetFile, true);
     addAndMakeVisible(chooseButton);
@@ -121,6 +126,8 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     fileNameLabel.setJustificationType(Justification::topLeft);
     fileNameLabel.setFont(Font(12.0f, Font::bold));
+    fileNameLabel.setText("Choose a Preset File from the list below...", dontSendNotification);
+    fileNameLabel.setTooltip(String::empty);
     addAndMakeVisible(fileNameLabel);
 
     addAndMakeVisible(table);
@@ -149,12 +156,13 @@ PresetFileChooser::~PresetFileChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeChangeListener(this);
+    UserSettings::getInstance()->removeActionListener(this);
 }
 
-void PresetFileChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+void PresetFileChooser::actionListenerCallback(const String& message)
 {
-    attachToTree();
+    if (message == "presetlibraryupdated")
+        attachToTree();
 }
 
 void PresetFileChooser::paint(Graphics& g)
@@ -168,6 +176,7 @@ void PresetFileChooser::resized()
     Rectangle<int> headerBounds(localBounds.removeFromTop(100));
     Rectangle<int> buttonBar(headerBounds.removeFromBottom(30));
     
+    addButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     chooseButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     rebuildLibraryButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
     editLocationsButton.setBounds(buttonBar.removeFromLeft(140).reduced(3, 3));
@@ -231,16 +240,25 @@ void PresetFileChooser::selectedRowsChanged(int lastRowSelected)
 {
     blurb.setText(viewTree.getChild(lastRowSelected).getProperty(Ids::blurb), dontSendNotification);
     
-    String filePath = viewTree.getChild(lastRowSelected).getProperty(Ids::filePath).toString();
-    fileNameLabel.setText("File path: " + filePath, dontSendNotification);
-    fileNameLabel.setTooltip(filePath);
-    
+    if (lastRowSelected > -1)
+    {
+        String filePath = viewTree.getChild(lastRowSelected).getProperty(Ids::filePath).toString();
+        fileNameLabel.setText("File path: " + filePath, dontSendNotification);
+        fileNameLabel.setTooltip(filePath);
+    }
+    else
+    {
+        fileNameLabel.setText("Choose a Preset File from the list below...", dontSendNotification);
+        fileNameLabel.setTooltip(String::empty);
+    }
+
     commandManager->commandStatusChanged();
 }
 
 void PresetFileChooser::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = {CommandIDs::chooseSelectedPresetFile,
+    const CommandID ids[] = {CommandIDs::addPresetFile,
+                             CommandIDs::chooseSelectedPresetFile,
                              CommandIDs::rebuildFileLibrary,
                              CommandIDs::editFileLocations};
     
@@ -251,6 +269,10 @@ void PresetFileChooser::getCommandInfo(CommandID commandID, ApplicationCommandIn
 {
     switch (commandID)
     {
+    case CommandIDs::addPresetFile:
+        result.setInfo("Add Preset File", "Create a new Preset File", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('w', ModifierKeys::commandModifier, 0));
+        break;
     case CommandIDs::chooseSelectedPresetFile:
         result.setInfo("Choose Preset File", "Loads selected Preset File for editing", CommandCategories::configmgr, !table.getNumSelectedRows());
         result.defaultKeypresses.add(KeyPress(KeyPress::returnKey));
@@ -275,6 +297,7 @@ bool PresetFileChooser::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
+        case CommandIDs::addPresetFile:             parentWindow.addPresetFile(); break;
         case CommandIDs::chooseSelectedPresetFile:  chooseSelectedPresetFile(); break;
         case CommandIDs::rebuildFileLibrary:        rebuildFileLibrary(); break;
         case CommandIDs::editFileLocations:         editFileLocations(); break;
@@ -286,7 +309,6 @@ bool PresetFileChooser::perform(const InvocationInfo& info)
 
 void PresetFileChooser::editFileLocations()
 {
-    UserSettings::getInstance()->addChangeListener(this);
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
@@ -303,8 +325,7 @@ void PresetFileChooser::chooseSelectedPresetFile()
 
 void PresetFileChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary();
-    attachToTree();
+    UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
 }
 
 

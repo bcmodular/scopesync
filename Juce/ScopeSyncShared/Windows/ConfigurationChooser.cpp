@@ -28,6 +28,7 @@
 #include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
+#include "../Core/ScopeSyncGUI.h"
 #include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
@@ -35,11 +36,13 @@
  */
 ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY, 
                                                        ScopeSync& ss,
+                                                       ScopeSyncGUI& ssg,
                                                        ApplicationCommandManager* acm)
     : DocumentWindow("Configuration Chooser",
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
-                     true)
+                     true),
+      scopeSyncGUI(ssg)
 {
     setUsingNativeTitleBar (true);
     
@@ -59,7 +62,12 @@ ConfigurationChooserWindow::~ConfigurationChooserWindow() {}
 
 void ConfigurationChooserWindow::closeButtonPressed()
 {
-    sendChangeMessage();
+    closeWindow();
+}
+
+void ConfigurationChooserWindow::closeWindow()
+{
+    scopeSyncGUI.hideConfigurationChooserWindow();
 }
 
 void ConfigurationChooserWindow::restoreWindowPosition(int posX, int posY)
@@ -158,6 +166,7 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
       fileNameLabel(String::empty),
       scopeSync(ss)
 {
+    UserSettings::getInstance()->addActionListener(this);
     attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
@@ -214,13 +223,15 @@ ConfigurationChooser::~ConfigurationChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeChangeListener(this);
+    UserSettings::getInstance()->removeActionListener(this);
 }
 
-void ConfigurationChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+void ConfigurationChooser::actionListenerCallback(const String& message)
 {
-    DBG("ConfigurationChooser::changeListenerCallback");
-    attachToTree();
+    DBG("ConfigurationChooser::actionListenerCallback");
+    
+    if (message == "configurationlibraryupdated")
+        attachToTree();
 }
 
 void ConfigurationChooser::removeExcludedConfigurations()
@@ -385,7 +396,7 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
 
 void ConfigurationChooser::editFileLocations()
 {
-    UserSettings::getInstance()->addChangeListener(this);
+    UserSettings::getInstance()->addActionListener(this);
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
@@ -398,13 +409,12 @@ void ConfigurationChooser::chooseSelectedConfiguration()
 void ConfigurationChooser::closeWindow()
 {
     ConfigurationChooserWindow* window = (ConfigurationChooserWindow*)getParentComponent();
-    window->sendChangeMessage();
+    window->closeWindow();
 }
 
 void ConfigurationChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->addChangeListener(this);
-    UserSettings::getInstance()->rebuildFileLibrary();
+    UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
 }
 
 void ConfigurationChooser::attachToTree()

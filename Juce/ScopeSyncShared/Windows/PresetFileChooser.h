@@ -38,14 +38,13 @@ class PresetFileChooser : public  Component,
                           private TableListBoxModel,
                           private ValueTree::Listener,
                           public  ApplicationCommandTarget,
-                          public  ChangeListener,
-                          public  ChangeBroadcaster
+                          public  ActionListener
 {
 public:
     PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um, PresetManagerWindow& parent);
     ~PresetFileChooser();
 
-    void changeListenerCallback(ChangeBroadcaster* source) override;
+    void actionListenerCallback(const String& message) override;
    
     void paint(Graphics& g) override;
     void resized() override;
@@ -74,6 +73,7 @@ private:
     UndoManager& undoManager;
     File&        presetFile;
     ApplicationCommandManager* commandManager;
+    TextButton   addButton;
     TextButton   chooseButton;
     TextButton   rebuildLibraryButton;
     TextButton   editLocationsButton;

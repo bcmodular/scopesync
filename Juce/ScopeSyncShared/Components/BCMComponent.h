@@ -79,8 +79,7 @@ public:
     // Callback for when ComboBox's value has been changed
     void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
 
-    // Callback for when the SystemErrorBar's closeButton is clicked
-    void changeListenerCallback(ChangeBroadcaster* source) override;
+    void hideSystemErrorBar();
 
     // Callback for when the systemerror values change
     void valueChanged(Value& valueThatChanged) override;

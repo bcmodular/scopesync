@@ -81,13 +81,15 @@ class LayoutChooserWindow;
 /* =========================================================================
  * ConfigurationPanel: Edit Panel for Configuration
  */
-class ConfigurationPanel : public BasePanel,
-                           public ChangeListener
+class ConfigurationPanel : public BasePanel
 {
 public:
     ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool newConfiguration);
     ~ConfigurationPanel();
     void chooseLayout();
+    
+    void updateLayout();
+    void hideLayoutChooser();
     
 protected:
     void rebuildProperties() override;
@@ -98,7 +100,6 @@ private:
     Value          layoutLibrarySet;
     bool           isNewConfiguration;
 
-    void changeListenerCallback(ChangeBroadcaster* /* source */);
     
     ScopedPointer<LayoutChooserWindow> layoutChooserWindow;
 

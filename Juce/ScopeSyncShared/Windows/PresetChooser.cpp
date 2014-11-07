@@ -68,7 +68,7 @@ public:
             result = firstString.compareNatural(secondString);
         }
         // Sort by presetFileAuthor
-        else if (columnId == 4)
+        else if (columnId == 5)
         {
             String firstString  = first.getProperty(Ids::presetFileAuthor, String::empty);
             String secondString = second.getProperty(Ids::presetFileAuthor, String::empty);
@@ -101,6 +101,7 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
       blurb(String::empty),
       fileNameLabel(String::empty)
 {
+    UserSettings::getInstance()->addActionListener(this);
     attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
@@ -124,6 +125,8 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     fileNameLabel.setJustificationType(Justification::topLeft);
     fileNameLabel.setFont(Font(12.0f, Font::bold));
+    fileNameLabel.setText("Choose a Preset from the list below...", dontSendNotification);
+    fileNameLabel.setTooltip(String::empty);
     addAndMakeVisible(fileNameLabel);
 
     addAndMakeVisible(table);
@@ -152,12 +155,13 @@ PresetChooser::~PresetChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeChangeListener(this);
+    UserSettings::getInstance()->removeActionListener(this);
 }
 
-void PresetChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+void PresetChooser::actionListenerCallback(const String& message)
 {
-    attachToTree();
+    if (message == "presetlibraryupdated")
+        attachToTree();
 }
 
 void PresetChooser::paint(Graphics& g)
@@ -235,9 +239,17 @@ void PresetChooser::selectedRowsChanged(int lastRowSelected)
 {
     blurb.setText(viewTree.getChild(lastRowSelected).getProperty(Ids::blurb), dontSendNotification);
     
-    String filePath = viewTree.getChild(lastRowSelected).getProperty(Ids::filePath).toString();
-    fileNameLabel.setText("File path: " + filePath, dontSendNotification);
-    fileNameLabel.setTooltip(filePath);
+    if (lastRowSelected > -1)
+    {
+        String filePath = viewTree.getChild(lastRowSelected).getProperty(Ids::filePath).toString();
+        fileNameLabel.setText("File path: " + filePath, dontSendNotification);
+        fileNameLabel.setTooltip(filePath);
+    }
+    else
+    {
+        fileNameLabel.setText("Choose a Preset from the list below...", dontSendNotification);
+        fileNameLabel.setTooltip(String::empty);
+    }
     
     commandManager->commandStatusChanged();
 }
@@ -296,13 +308,18 @@ bool PresetChooser::perform(const InvocationInfo& info)
 
 void PresetChooser::showPresetManager()
 {
-    UserSettings::getInstance()->addChangeListener(this);
-    UserSettings::getInstance()->showPresetManagerWindow(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    String filePath;
+    
+    int selectedRow = table.getSelectedRow();
+    
+    if (selectedRow > -1)
+        filePath = viewTree.getChild(selectedRow).getProperty(Ids::filePath);
+    
+    UserSettings::getInstance()->showPresetManagerWindow(filePath, getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void PresetChooser::editFileLocations()
 {
-    UserSettings::getInstance()->addChangeListener(this);
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
@@ -319,7 +336,7 @@ void PresetChooser::chooseSelectedPreset()
 
 void PresetChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary();
+    UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
     attachToTree();
 }
 
@@ -342,7 +359,7 @@ void PresetChooser::attachToTree()
     
     removePresetFileEntries();
     
-    PresetSorter sorter(2, false);
+    PresetSorter sorter(2, true);
     viewTree.sort(sorter, nullptr, true);
     
     viewTree.addListener(this);

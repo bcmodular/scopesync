@@ -45,6 +45,7 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
                      DocumentWindow::allButtons,
                      true),
       newFile(file),
+      scopeSync(ss),
       configuration(ss.getConfiguration())
 {
     cancelled = true;
@@ -69,25 +70,19 @@ NewConfigurationWindow::~NewConfigurationWindow() {}
 
 void NewConfigurationWindow::addConfiguration()
 {
-    cancelled = false;
-    sendChangeMessage();
-}
-
-ValueTree NewConfigurationWindow::getSettings()
-{
     bool includeScopeLocal = settings.getProperty(Ids::includeScopeLocal, true);
 
     ValueTree newSettings = configuration.getEmptyConfiguration(includeScopeLocal);
-
     newSettings.copyPropertiesFrom(settings, nullptr);
     newSettings.removeProperty(Ids::includeScopeLocal, nullptr);
 
-    return newSettings;
+    scopeSync.addConfiguration(File(newFile), newSettings);
+    scopeSync.hideAddConfigurationWindow();
 }
 
-void NewConfigurationWindow::cancel() { sendChangeMessage(); }
+void NewConfigurationWindow::cancel() { scopeSync.hideAddConfigurationWindow(); }
 
-void NewConfigurationWindow::closeButtonPressed() { sendChangeMessage(); }
+void NewConfigurationWindow::closeButtonPressed() { addConfiguration(); }
 
 void NewConfigurationWindow::restoreWindowPosition(int posX, int posY)
 {

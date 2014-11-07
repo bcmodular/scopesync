@@ -37,8 +37,7 @@ class UserSettings  : public  Component,
                       public  Value::Listener,
                       public  ApplicationCommandTarget,
                       public  Timer,
-                      public  ChangeListener,
-                      public  ChangeBroadcaster
+                      public  ActionBroadcaster
 {
 public:
     UserSettings ();
@@ -47,8 +46,6 @@ public:
     void show(int posX, int posY);
     void hide();
 
-    void      changeListenerCallback(ChangeBroadcaster* source);
-   
     ValueTree getFileLocations();
     ValueTree getLayoutLibrary();
     ValueTree getConfigurationLibrary();
@@ -63,17 +60,21 @@ public:
     void editFileLocations(int posX, int posY);
     void hideFileLocationsWindow();
     
-    void showPresetManagerWindow(int posX, int posY);
+    void showPresetManagerWindow(const String& filePath, int posX, int posY);
     void hidePresetManagerWindow();
     
     void setLastTimeLayoutLoaded(const String& filePath);
     void setLastTimeConfigurationLoaded(const String& filePath);
-    void rebuildFileLibrary();
+    void rebuildFileLibrary(bool scanConfigurations = true, bool scanLayouts = true, bool scanPresets = true);
     void updateFileLocations(const ValueTree& fileLocations);
     
     void updateConfigurationLibraryEntry(const String&    filePath,
                                          const String&    fileName,
                                          const ValueTree& sourceValueTree);
+
+    void updatePresetLibraryEntry(const String&    filePath,
+                                  const String&    fileName,
+                                  const ValueTree& sourceValueTree);
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
@@ -104,6 +105,7 @@ private:
     ApplicationProperties globalProperties;
     PropertyPanel         propertyPanel;
     TextButton            fileLocationsButton;
+    TextButton            presetManagerButton;
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
     ScopedPointer<PresetManagerWindow>      presetManagerWindow;
     
@@ -147,19 +149,28 @@ private:
     void loadSwatchColours();
     void saveSwatchColours();
 
-    class RebuildFileLibrary : public ThreadWithProgressWindow,
-                               public ChangeBroadcaster
+    class RebuildFileLibrary : public ThreadWithProgressWindow
     {
     public:
-        RebuildFileLibrary(const ValueTree& locations)
+        RebuildFileLibrary(const ValueTree& locations, 
+                           bool scanConfigurations = true, 
+                           bool scanLayouts = true, 
+                           bool scanPresets = true)
             : ThreadWithProgressWindow("Rebuilding Library...", true, true),
-              fileLocations(locations)
+              fileLocations(locations),
+              rebuildConfigurations(scanConfigurations),
+              rebuildLayouts(scanLayouts),
+              rebuildPresets(scanPresets)
         {}
 
         void run();
 
     private:
         ValueTree fileLocations;
+
+        bool rebuildConfigurations;
+        bool rebuildLayouts;
+        bool rebuildPresets;
     
         void updateLayoutLibrary(const Array<File>& layoutFiles);
         void updateConfigurationLibrary(const Array<File>& configurationFiles);

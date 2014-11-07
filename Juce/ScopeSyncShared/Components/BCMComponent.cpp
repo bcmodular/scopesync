@@ -54,12 +54,12 @@
  * SystemErrorBar
  */
 class BCMComponent::SystemErrorBar : public Component,
-                                     public Button::Listener,
-                                     public ChangeBroadcaster
+                                     public Button::Listener
 {
 public:
-    SystemErrorBar(const String& errorText, const String& errorDetails, int width, int height)
-        : systemErrorDetailsButton(),
+    SystemErrorBar(BCMComponent& parent, const String& errorText, const String& errorDetails, int width, int height)
+        : parentComponent(parent),
+          systemErrorDetailsButton(),
           closeButton()
     {
         showDetails = errorDetails.isNotEmpty();
@@ -97,7 +97,7 @@ public:
         if (buttonThatWasClicked == &systemErrorDetailsButton)
             showSystemErrorDetails();
         else if (buttonThatWasClicked == &closeButton)
-            hideSystemError();
+            parentComponent.hideSystemErrorBar();
     }
 
     void setErrorText(const String& errorText, const String& errorDetails)
@@ -110,11 +110,12 @@ public:
     }
 
 private:
-    String      details;
-    Label       systemErrorLabel;
-    ImageButton systemErrorDetailsButton;
-    ImageButton closeButton;
-    bool        showDetails;
+    BCMComponent& parentComponent;
+    String        details;
+    Label         systemErrorLabel;
+    ImageButton   systemErrorDetailsButton;
+    ImageButton   closeButton;
+    bool          showDetails;
 
     void paint(Graphics& g) override
     {
@@ -167,11 +168,6 @@ private:
     {
         SystemErrorDetailsCallout* errorDetailsBox = new SystemErrorDetailsCallout(details, *this);
         CallOutBox::launchAsynchronously(errorDetailsBox, systemErrorDetailsButton.getScreenBounds(), nullptr);
-    }
-
-    void hideSystemError()
-    {
-        sendChangeMessage();
     }
 };
 
@@ -351,11 +347,10 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
 
         if (scopeSync.getSystemError().toString().isNotEmpty())
         {
-            systemErrorBar = new SystemErrorBar(scopeSync.getSystemError().toString(), 
+            systemErrorBar = new SystemErrorBar(*this, scopeSync.getSystemError().toString(), 
                                                 scopeSync.getSystemErrorDetails().toString(), 
                                                 componentBounds.width, 40);
             systemErrorBar->setBounds(getLocalBounds().removeFromBottom(40));
-            systemErrorBar->addChangeListener(this);
             addAndMakeVisible(systemErrorBar);
         }
     }
@@ -725,12 +720,9 @@ void BCMComponent::showHideEditToolbar()
     DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String(showEditToolbar));
 }
 
-void BCMComponent::changeListenerCallback(ChangeBroadcaster* source)
+void BCMComponent::hideSystemErrorBar()
 {
-    if (source == systemErrorBar)
-        systemErrorBar = nullptr;
-    else
-        BCMWidget::changeListenerCallback(source);
+    systemErrorBar = nullptr;    
 }
 
 void BCMComponent::valueChanged(Value& valueThatChanged)
@@ -741,11 +733,10 @@ void BCMComponent::valueChanged(Value& valueThatChanged)
         {
             if (valueThatChanged.toString().isNotEmpty())
             {
-                systemErrorBar = new SystemErrorBar(valueThatChanged.toString(), 
+                systemErrorBar = new SystemErrorBar(*this, valueThatChanged.toString(), 
                                                     scopeSync.getSystemErrorDetails().toString(), 
                                                     componentBounds.width, 40);
                 systemErrorBar->setBounds(getLocalBounds().removeFromBottom(40));
-                systemErrorBar->addChangeListener(this);
                 addAndMakeVisible(systemErrorBar);
             }
         }

@@ -221,7 +221,8 @@ namespace CommandIDs
         discardPresetFileChanges    = 0x201040,
         closePresetFile             = 0x201050,
         chooseSelectedPresetFile    = 0x201060,
-        showPresetManager           = 0x201070
+        showPresetManager           = 0x201070,
+        choosePresetFile            = 0x201080
     };
 }
 

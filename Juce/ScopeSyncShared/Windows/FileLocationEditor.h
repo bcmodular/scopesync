@@ -29,8 +29,7 @@
 #include <JuceHeader.h>
 #include "../Core/Global.h"
 
-class FileLocationEditorWindow : public DocumentWindow,
-                                 public ChangeBroadcaster
+class FileLocationEditorWindow : public DocumentWindow
 {
 public:
     FileLocationEditorWindow(int posX, int posY,

@@ -55,7 +55,6 @@ private:
 String PresetItem::getDisplayName() const 
 {
     String displayName = tree[Ids::name].toString();
-    displayName += " (" + tree[Ids::fullDescription].toString() + ")";
     
     return displayName;
 }
@@ -162,8 +161,8 @@ bool PresetRootItem::isInterestedInDragSource(const DragAndDropTarget::SourceDet
 void PresetRootItem::showPopupMenu()
 {
     PopupMenu m;
-    m.addCommandItem(commandManager, CommandIDs::addItem, "Add Parameter");
-    m.addCommandItem(commandManager, CommandIDs::addItemFromClipboard, "Add Parameter from clipboard");
+    m.addCommandItem(commandManager, CommandIDs::addItem, "Add Preset");
+    m.addCommandItem(commandManager, CommandIDs::addItemFromClipboard, "Add Preset from clipboard");
     
     m.showMenuAsync (PopupMenu::Options(), nullptr);
 }
@@ -179,7 +178,7 @@ void PresetRootItem::refreshSubItems()
         ValueTree child = tree.getChild(i);
 
         if (child.hasType(Ids::preset))
-            addSubItem (new PresetItem(presetFile, presetManager, tree, undoManager));
+            addSubItem (new PresetItem(presetFile, presetManager, child, undoManager));
     }
 }
 

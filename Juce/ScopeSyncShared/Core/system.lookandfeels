@@ -74,7 +74,7 @@
   <lookandfeel id="system:configname">
     <appliesto componenttype="none" />
     <colours>
-      <label textcolourid="ffa7aaae" outlinecolourid="ffa7aaae"></label>
+      <label textcolourid="90ffffff" outlinecolourid="90ffffff"></label>
     </colours>
   </lookandfeel>
 </lookandfeels>

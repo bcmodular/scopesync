@@ -28,6 +28,7 @@
 #include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Windows/FileLocationEditor.h"
+#include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
  * LayoutChooserWindow
@@ -35,11 +36,13 @@
 LayoutChooserWindow::LayoutChooserWindow(int posX, int posY, 
                                          const Value& layoutName,
                                          const Value& layoutLibrarySet,
+                                         ConfigurationPanel& cp,
                                          ApplicationCommandManager* acm)
     : DocumentWindow("Layout Chooser",
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
-                     true)
+                     true),
+      configurationPanel(cp)
 {
     setUsingNativeTitleBar (true);
     
@@ -57,9 +60,15 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
 
 LayoutChooserWindow::~LayoutChooserWindow() {}
 
+void LayoutChooserWindow::closeWindow()
+{
+    configurationPanel.updateLayout();
+    configurationPanel.hideLayoutChooser();
+}
+
 void LayoutChooserWindow::closeButtonPressed()
 {
-    sendChangeMessage();
+    closeWindow();
 }
 
 void LayoutChooserWindow::restoreWindowPosition(int posX, int posY)
@@ -170,6 +179,8 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
       editLocationsButton("File Locations..."),
       blurb(String::empty)
 {
+    UserSettings::getInstance()->addActionListener(this);
+    
     useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
     attachToTree();
@@ -224,12 +235,13 @@ LayoutChooser::~LayoutChooser()
 {
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeChangeListener(this);
+    UserSettings::getInstance()->removeActionListener(this);
 }
 
-void LayoutChooser::changeListenerCallback(ChangeBroadcaster* /* source */)
+void LayoutChooser::actionListenerCallback(const String& message)
 {
-    attachToTree();
+    if (message == "layoutlibraryupdated")
+        attachToTree();
 }
 
 void LayoutChooser::removeExcludedLayouts()
@@ -413,7 +425,6 @@ bool LayoutChooser::perform(const InvocationInfo& info)
 
 void LayoutChooser::editFileLocations()
 {
-    UserSettings::getInstance()->addChangeListener(this);
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
@@ -427,7 +438,7 @@ void LayoutChooser::chooseSelectedLayout()
 
 void LayoutChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary();
+    UserSettings::getInstance()->rebuildFileLibrary(false, true, false);
     attachToTree();
 }
 
@@ -452,7 +463,7 @@ void LayoutChooser::attachToTree()
 void LayoutChooser::closeWindow()
 {
     LayoutChooserWindow* window = (LayoutChooserWindow*)getParentComponent();
-    window->sendChangeMessage();
+    window->closeWindow();
 }
 
 ApplicationCommandTarget* LayoutChooser::getNextCommandTarget()

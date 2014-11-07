@@ -156,10 +156,10 @@ void ScopeSyncGUI::chooseConfiguration()
                                       getParentMonitorArea().getCentreX(), 
                                       getParentMonitorArea().getCentreY(), 
                                       scopeSync,
+                                      *this,
                                       scopeSync.getCommandManager()
                                       );
     
-    configurationChooserWindow->addChangeListener(this);
     configurationChooserWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -168,14 +168,9 @@ void ScopeSyncGUI::chooseConfiguration()
     configurationChooserWindow->toFront(true);   
 }
 
-void ScopeSyncGUI::changeListenerCallback(ChangeBroadcaster* source)
+void ScopeSyncGUI::hideConfigurationChooserWindow()
 { 
-    if (source == configurationChooserWindow)
-        configurationChooserWindow = nullptr;
-    else if (source == &scopeSync)
-    {
-        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
-    }
+    configurationChooserWindow = nullptr;
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)
@@ -651,8 +646,6 @@ void ScopeSyncGUI::alertBoxReloadConfirm(int result, ScopeSyncGUI* scopeSyncGUI)
 
 void ScopeSyncGUI::addConfig()
 {
-    scopeSync.removeAllChangeListeners();
-    scopeSync.addChangeListener(this);
     scopeSync.addConfiguration(getParentMonitorArea());
 }
 
@@ -664,8 +657,7 @@ void ScopeSyncGUI::save()
 
 void ScopeSyncGUI::saveAs()
 {
-    if (scopeSync.saveConfigurationAs())
-        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
+    scopeSync.saveConfigurationAs();
 }
 
 void ScopeSyncGUI::undo()

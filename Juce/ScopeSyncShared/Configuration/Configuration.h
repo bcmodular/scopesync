@@ -34,8 +34,7 @@ class ScopeSync;
 /* =========================================================================
  * NewConfigurationWindow: Container Window for NewConfigurationEditor
  */
-class NewConfigurationWindow : public DocumentWindow,
-                               public ChangeBroadcaster
+class NewConfigurationWindow : public DocumentWindow
 {
 public:
     NewConfigurationWindow(int posX, int posY,
@@ -46,14 +45,12 @@ public:
 
     void addConfiguration();
     void cancel();
-    bool isCancelled() { return cancelled; }
-    ValueTree getSettings();
-    File      getNewFile() { return newFile; }
 
 private:
-    File      newFile;
-    ValueTree settings;
-    bool      cancelled;
+    ScopeSync&     scopeSync;
+    File           newFile;
+    ValueTree      settings;
+    bool           cancelled;
     Configuration& configuration;
 
     void closeButtonPressed() override;

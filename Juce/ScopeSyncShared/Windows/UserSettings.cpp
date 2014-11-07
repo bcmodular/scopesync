@@ -162,7 +162,9 @@ juce_ImplementSingleton(UserSettings)
  * UserSettings
  */
 UserSettings::UserSettings()
-: fileLocationsButton("File Locations...")
+    : fileLocationsButton("File Locations..."),
+      presetManagerButton("Preset Manager...")
+      
 {
     commandManager = new ApplicationCommandManager();
 
@@ -199,6 +201,9 @@ UserSettings::UserSettings()
     addAndMakeVisible(fileLocationsButton);
     fileLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
     
+    addAndMakeVisible(presetManagerButton);
+    presetManagerButton.setCommandToTrigger(commandManager, CommandIDs::showPresetManager, true);
+    
     setSize (getLocalBounds().getWidth(), getLocalBounds().getHeight());
 
     startTimer(500);
@@ -211,6 +216,7 @@ UserSettings::~UserSettings()
 
     saveSwatchColours();
 
+    presetManagerWindow = nullptr;
     fileLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
     clearSingletonInstance();
@@ -259,10 +265,11 @@ void UserSettings::resized()
     localBounds.removeFromRight(8);
     localBounds.removeFromTop(8);
 
-    Rectangle<int> toolbarButtons = localBounds.removeFromTop(30);
+    Rectangle<int> toolbarButtons = localBounds.removeFromTop(40);
     toolbarButtons.removeFromLeft(4);
 
-    fileLocationsButton.setBounds(toolbarButtons.removeFromLeft(120));
+    fileLocationsButton.setBounds(toolbarButtons.removeFromLeft(140).reduced(4, 4));
+    presetManagerButton.setBounds(toolbarButtons.removeFromLeft(140).reduced(4, 4));
 
     localBounds.removeFromTop(5);
     propertyPanel.setBounds(localBounds);
@@ -332,21 +339,6 @@ void UserSettings::hide()
 {
     hideFileLocationsWindow();
     removeFromDesktop();
-}
-
-void UserSettings::changeListenerCallback(ChangeBroadcaster* source)
-{
-    if (source == fileLocationEditorWindow)
-    {
-        DBG("UserSettings::changeListenerCallback - source: fileLocationEditorWindow");
-        hideFileLocationsWindow();
-    }
-    else if (source == presetManagerWindow)
-    {
-        DBG("UserSettings::changeListenerCallback - source: presetManagerWindow");
-        hidePresetManagerWindow();
-        sendChangeMessage();
-    }
 }
 
 ValueTree UserSettings::getFileLocations()
@@ -549,6 +541,18 @@ void UserSettings::updateConfigurationLibraryEntry(const String&    filePath,
 
 void UserSettings::updatePresetLibraryEntry(const String&    filePath,
                                             const String&    fileName,
+                                            const ValueTree& sourceValueTree)
+{
+    ValueTree presetLibrary = getPresetLibrary();
+    updatePresetLibraryEntry(filePath, fileName, sourceValueTree, presetLibrary);
+
+    ScopedPointer<XmlElement> xml = presetLibrary.createXml();
+    getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
+
+}
+
+void UserSettings::updatePresetLibraryEntry(const String&    filePath,
+                                            const String&    fileName,
                                             const ValueTree& sourceValueTree,
                                                   ValueTree& presetLibrary)
 {
@@ -647,8 +651,6 @@ void UserSettings::editFileLocations(int posX, int posY)
     if (fileLocationEditorWindow == nullptr)
         fileLocationEditorWindow = new FileLocationEditorWindow(posX, posY, commandManager, undoManager);
 
-    fileLocationEditorWindow->addChangeListener(this);
-    
     fileLocationEditorWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -668,13 +670,11 @@ void UserSettings::hideFileLocationsWindow()
     fileLocationEditorWindow = nullptr;
 }
 
-void UserSettings::showPresetManagerWindow(int posX, int posY)
+void UserSettings::showPresetManagerWindow(const String& filePath, int posX, int posY)
 {
     if (presetManagerWindow == nullptr)
-        presetManagerWindow = new PresetManagerWindow(commandManager, undoManager, posX, posY);
+        presetManagerWindow = new PresetManagerWindow(filePath, commandManager, undoManager, posX, posY);
 
-    presetManagerWindow->addChangeListener(this);
-    
     presetManagerWindow->setVisible(true);
     
     if (ScopeSyncApplication::inScopeFXContext())
@@ -687,7 +687,7 @@ void UserSettings::hidePresetManagerWindow()
 {
     if (presetManagerWindow != nullptr && presetManagerWindow->presetsHaveChanged())
     {
-        rebuildFileLibrary();
+        rebuildFileLibrary(false, false, true);
     }
 
     presetManagerWindow = nullptr;
@@ -701,19 +701,16 @@ void UserSettings::updateFileLocations(const ValueTree& fileLocations)
         getGlobalProperties()->setValue(Ids::fileLocations.toString(), xml);
 
         RebuildFileLibrary rebuild(fileLocations);
-        rebuild.addChangeListener(this);
-
+    
         rebuild.runThread();
     }
 }
 
-void UserSettings::rebuildFileLibrary()
+void UserSettings::rebuildFileLibrary(bool scanConfigurations, bool scanLayouts, bool scanPresets)
 {
     ValueTree fileLocations = getFileLocations();
+    RebuildFileLibrary rebuild(fileLocations, scanConfigurations, scanLayouts, scanPresets);
     
-    RebuildFileLibrary rebuild(fileLocations);
-    rebuild.addChangeListener(this);
-
     rebuild.runThread();
 }
     
@@ -760,11 +757,11 @@ void UserSettings::RebuildFileLibrary::run()
         
             File newFile = di.getFile();
             
-            if (newFile.hasFileExtension("layout"))
+            if (rebuildLayouts && newFile.hasFileExtension("layout"))
                 layoutFiles.add(newFile);
-            else if (newFile.hasFileExtension("configuration"))
+            else if (rebuildConfigurations && newFile.hasFileExtension("configuration"))
                 configurationFiles.add(newFile);
-            else if (newFile.hasFileExtension("presets"))
+            else if (rebuildPresets && newFile.hasFileExtension("presets"))
                 presetFiles.add(newFile);
 
             if (total < 100000)
@@ -774,11 +771,23 @@ void UserSettings::RebuildFileLibrary::run()
         }
     }
     
-    updateLayoutLibrary(layoutFiles);
-    updateConfigurationLibrary(configurationFiles);
-    updatePresetLibrary(presetFiles);
+    if (rebuildLayouts)
+    {
+        updateLayoutLibrary(layoutFiles);
+        UserSettings::getInstance()->sendActionMessage("layoutlibraryupdated");
+    }
 
-    sendChangeMessage();
+    if (rebuildConfigurations)
+    {
+        updateConfigurationLibrary(configurationFiles);
+        UserSettings::getInstance()->sendActionMessage("configurationlibraryupdated");
+    }
+
+    if (rebuildPresets)
+    {
+        updatePresetLibrary(presetFiles);
+        UserSettings::getInstance()->sendActionMessage("presetlibraryupdated");
+    }
 }
 
 void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim)
@@ -952,9 +961,9 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
             continue;
         }
         
-        String presetFileName = presetFile.getProperty(Ids::name);
-
-        if (presetFileName.isNotEmpty())
+        //String presetFileName = presetFile.getProperty(Ids::name);
+        //
+        //if (presetFileName.isNotEmpty())
             UserSettings::getInstance()->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
                                                                   presetFiles[i].getFileName(),
                                                                   presetFile, presetLibrary);
@@ -971,7 +980,8 @@ void UserSettings::timerCallback()
 
 void UserSettings::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::editFileLocations };
+    const CommandID ids[] = { CommandIDs::editFileLocations,
+                              CommandIDs::showPresetManager};
 
     commands.addArray(ids, numElementsInArray (ids));
 }
@@ -984,6 +994,10 @@ void UserSettings::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.setInfo("File Locations...", "Open File Locations edit window", CommandCategories::usersettings, 0);
         result.defaultKeypresses.add(KeyPress('f', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::showPresetManager:
+        result.setInfo("Preset Manager...", "Open Preset Manager window", CommandCategories::configmgr, 0);
+        result.defaultKeypresses.add(KeyPress('p', ModifierKeys::commandModifier, 0));
+        break;
     }
 }
 
@@ -992,6 +1006,7 @@ bool UserSettings::perform(const InvocationInfo& info)
     switch (info.commandID)
     {
         case CommandIDs::editFileLocations:    editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
+        case CommandIDs::showPresetManager:    showPresetManagerWindow(String::empty, getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
         default:                               return false;
     }
 

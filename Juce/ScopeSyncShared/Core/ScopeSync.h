@@ -55,8 +55,7 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 
-class ScopeSync : public ChangeListener,
-                  public ChangeBroadcaster
+class ScopeSync : public ActionListener
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -151,9 +150,12 @@ public:
     Value&         getSystemError();
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
-    static void    checkNewConfigIsInLocation(Configuration& configuration, Component* component, ChangeListener* changeListener);
-    static void    alertBoxLaunchLocationEditor(int result, Component* component, ChangeListener* changeListener);
- 
+    bool           newConfigIsInLocation();
+    static void    alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync);
+    void           addConfiguration(File newFile, ValueTree newSettings);
+    void           hideAddConfigurationWindow();
+    void           actionListenerCallback(const String& message) override;
+
 private:
 
     /* ========================== Initialisation ============================== */
@@ -167,7 +169,7 @@ private:
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
-    void changeListenerCallback(ChangeBroadcaster* source);
+    
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
@@ -198,6 +200,8 @@ private:
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
     
+    Rectangle<int> newConfigWindowPosition;
+
     BigInteger changingParams;
     
     CriticalSection flagLock;

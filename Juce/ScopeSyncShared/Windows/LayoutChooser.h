@@ -28,21 +28,26 @@
 #define LAYOUTCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+class ConfigurationPanel;
 
 /* =========================================================================
  * LayoutChooserWindow: Parent Window for Layout Chooser
  */
-class LayoutChooserWindow : public DocumentWindow,
-                            public ChangeBroadcaster
+class LayoutChooserWindow : public DocumentWindow
 {
 public:
     LayoutChooserWindow(int posX, int posY,
                         const Value& layoutName,
                         const Value& layoutLocation,
+                        ConfigurationPanel& cp,
                         ApplicationCommandManager* acm);
     ~LayoutChooserWindow();
 
+    void closeWindow();
+
 private:
+    ConfigurationPanel& configurationPanel;
+
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
@@ -56,7 +61,7 @@ class LayoutChooser : public  Component,
                       private TableListBoxModel,
                       private ValueTree::Listener,
                       public  ApplicationCommandTarget,
-                      public  ChangeListener
+                      public  ActionListener
 {
 public:
     LayoutChooser(const Value& layoutName,
@@ -64,7 +69,7 @@ public:
                   ApplicationCommandManager* acm);
     ~LayoutChooser();
 
-    void changeListenerCallback(ChangeBroadcaster* source);
+    void actionListenerCallback(const String& message);
    
     void paint(Graphics& g) override;
     void resized() override;

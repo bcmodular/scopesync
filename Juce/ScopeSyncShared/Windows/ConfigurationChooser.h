@@ -29,20 +29,25 @@
 
 #include "../Core/Global.h"
 class ScopeSync;
+class ScopeSyncGUI;
 
 /* =========================================================================
  * ConfigurationChooserWindow: Parent Window for Configuration Chooser
  */
-class ConfigurationChooserWindow : public DocumentWindow,
-                                   public ChangeBroadcaster
+class ConfigurationChooserWindow : public DocumentWindow
 {
 public:
     ConfigurationChooserWindow(int posX, int posY,
                                ScopeSync& ss,
+                               ScopeSyncGUI& ssg,
                                ApplicationCommandManager* acm);
     ~ConfigurationChooserWindow();
 
+    void closeWindow();
+
 private:
+    ScopeSyncGUI& scopeSyncGUI;
+
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
@@ -56,14 +61,14 @@ class ConfigurationChooser : public  Component,
                              private TableListBoxModel,
                              private ValueTree::Listener,
                              public  ApplicationCommandTarget,
-                             public  ChangeListener
+                             public  ActionListener
 {
 public:
     ConfigurationChooser(ScopeSync& ss,
                          ApplicationCommandManager* acm);
     ~ConfigurationChooser();
 
-    void changeListenerCallback(ChangeBroadcaster* source) override;
+    void actionListenerCallback(const String& message) override;
    
     void paint(Graphics& g) override;
     void resized() override;

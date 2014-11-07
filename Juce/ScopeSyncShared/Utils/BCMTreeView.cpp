@@ -31,11 +31,22 @@ BCMTreeView::BCMTreeView(UndoManager& um, BCMTreeItem* root, PropertiesFile& pro
 
     tree.setColour(TreeView::backgroundColourId, Colours::darkgrey);
     tree.getViewport()->setScrollBarsShown(true, true, true, true);
+
+    if (tree.getNumSelectedItems() == 0)
+        rootItem->setSelected(true, true, dontSendNotification);
+
+    startTimer(200);
 }
 
 BCMTreeView::~BCMTreeView()
 {
     tree.setRootItem(nullptr);
+}
+
+void BCMTreeView::timerCallback()
+{
+    stopTimer();
+    changePanel();
 }
 
 void BCMTreeView::paint(Graphics& g)

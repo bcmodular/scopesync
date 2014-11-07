@@ -595,19 +595,7 @@ void ConfigurationManagerWindow::addConfig()
     if (configurationManager != nullptr)
         configurationManager->unload();
 
-    scopeSync.removeAllChangeListeners();
-    scopeSync.addChangeListener(this);
     scopeSync.addConfiguration(getParentMonitorArea());
-}
-
-void ConfigurationManagerWindow::changeListenerCallback(ChangeBroadcaster* source)
-{ 
-    if (source == &scopeSync)
-    {
-        // This is the callback for when a new configuration has been added
-        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
-        refreshContent();
-    }
 }
 
 void ConfigurationManagerWindow::save()
@@ -632,10 +620,7 @@ void ConfigurationManagerWindow::saveAs()
     if (configurationManager != nullptr)
         configurationManager->unload();
 
-    if (scopeSync.saveConfigurationAs())
-        ScopeSync::checkNewConfigIsInLocation(scopeSync.getConfiguration(), this, this);
-
-    refreshContent();
+    scopeSync.saveConfigurationAs();
 }
 
 void ConfigurationManagerWindow::reloadConfiguration()

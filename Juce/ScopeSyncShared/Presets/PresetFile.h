@@ -18,39 +18,6 @@ class ScopeSync;
 class PresetFile;
 
 /* =========================================================================
- * NewPresetFileWindow: Container Window for NewPresetFileEditor
- */
-class NewPresetFileWindow : public DocumentWindow,
-                            public ChangeBroadcaster
-{
-public:
-    NewPresetFileWindow(int posX, int posY,
-                        PresetFile& pf,
-                        UndoManager& um,
-                        const File& file,
-                        ApplicationCommandManager* acm);
-    ~NewPresetFileWindow();
-
-    void addPresetFile();
-    void cancel();
-    bool isCancelled() { return cancelled; }
-    ValueTree getSettings();
-    File      getNewFile() { return newFile; }
-
-private:
-    File         newFile;
-    ValueTree    settings;
-    bool         cancelled;
-    PresetFile&  presetFile;
-    UndoManager& undoManager;
-                                         
-    void closeButtonPressed() override;
-    void restoreWindowPosition(int posX, int posY);
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewPresetFileWindow);
-};
-
-/* =========================================================================
  * PresetFilePanel: Edit Panel for Preset Files
  */
 class PresetFilePanel : public BasePanel
@@ -99,40 +66,6 @@ private:
 };
 
 /* =========================================================================
- * NewPresetFileEditor: Dialog for setting up a new Preset File
- */
-class NewPresetFileEditor : public Component,
-                            public ApplicationCommandTarget
-{
-public:
-    NewPresetFileEditor(ValueTree&    settings, UndoManager& um,
-                        const String& filePath, ApplicationCommandManager* acm);
-    ~NewPresetFileEditor();
-
-    void paint(Graphics& g) override;
-    void resized() override;
-
-private:
-    PresetFilePanel panel;
-    ApplicationCommandManager* commandManager;
-    UndoManager& undoManager;
-    Label        filePathLabel;
-    TextButton   addButton;
-    TextButton   cancelButton;
-
-    void addPresetFile();
-    void cancel();
-    
-    /* ================= Application Command Target overrides ================= */
-    void getAllCommands(Array<CommandID>& commands) override;
-    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewPresetFileEditor);
-};
-
-/* =========================================================================
  * PresetFile
  */
 class PresetFile : public FileBasedDocument, public ValueTree::Listener
@@ -164,7 +97,7 @@ public:
     
     PropertiesFile& getPresetProperties();
     
-    void createPresetFile(const File& filePath);
+    void createPresetFile();
 
     void addNewPreset(ValueTree& newPreset, const ValueTree& presetValues, int targetIndex, UndoManager* um);
 

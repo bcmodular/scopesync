@@ -882,7 +882,7 @@ private:
 };
 
 /* =========================================================================
- * ConfigurationTreeItem
+ * ConfigurationItem
  */
 ConfigurationItem::ConfigurationItem(ConfigurationManager& cm, const ValueTree& v, UndoManager& um)
     : BCMTreeItem(v, um, cm.getCommandManager()),

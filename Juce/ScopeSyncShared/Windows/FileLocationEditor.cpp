@@ -66,7 +66,7 @@ bool FileLocationEditorWindow::locationsHaveChanged()
 
 void FileLocationEditorWindow::closeButtonPressed()
 {
-    sendChangeMessage();
+    UserSettings::getInstance()->hideFileLocationsWindow();
 }
 
 void FileLocationEditorWindow::restoreWindowPosition(int posX, int posY)
