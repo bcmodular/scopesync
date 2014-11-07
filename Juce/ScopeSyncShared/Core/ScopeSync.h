@@ -143,6 +143,8 @@ public:
     ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
+    XmlElement*    getStandardContent(const String& contentToShow);
+
     void           storeParameterValues();
     void           storeParameterValues(XmlElement& parameterValues);
     void           restoreParameterValues();
@@ -220,10 +222,11 @@ private:
     
     static const int minHostParameters;       // Minimum parameter count to return to host
     
-    static const String systemParameterTypes; // XML configuration for the default parameter types
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
-    static const String loaderConfiguration;  // XML configuration for the loader
     
+    static const String standardHeaderContent; // Standard XML content for the ScopeSync layout header
+    static const String standardSliderLnFs;    // Standard Slider LnFs for ScopeSync templates
+
     static const StringArray scopeSyncCodes;  // Array of ScopeSync codes for looking up during configuration
     static const StringArray scopeLocalCodes; // Array of ScopeLocal codes for looking up during configuration
     

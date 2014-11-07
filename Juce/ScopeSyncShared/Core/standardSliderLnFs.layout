@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<lookandfeels>
+  <lookandfeel id="JUCE knob">
+    <colours>
+      <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="ff0084ff" rotaryslideroutlinecolourid="ff212121" textboxbackgroundcolourid="00b8bbbf" textboxoutlinecolourid="00ffffff" textboxtextcolourid="ff000000" textboxhighlightcolourid="ff2d3035"></slider>
+      <texteditor backgroundcolourid="ffffffff" textcolourid="ffffffff" highlightcolourid="ff2d3035" highlightedtextcolourid="ffffffff" outlinecolourid="7f000000" focusedoutlinecolourid="7f2d3035" shadowcolourid="ff000000"></texteditor>
+    </colours>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1A - White with LED surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Surround.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/surround_knob_line.png">
+          <image filename="gfx/Knob1a_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1A - Black with LED surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Surround.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/surround_knob_line.png">
+          <image filename="gfx/Knob1a_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1B - White with bipolar LED surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Surround.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/surround_knob_line.png">
+          <image filename="gfx/Knob1b_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1B - Black with bipolar LED surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Surround.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/surround_knob_line.png">
+          <image filename="gfx/Knob1b_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - White with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob1c_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - White with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob1c_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - White with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob1c_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - White with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob1c_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - White with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob1c_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - Black with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob1c_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - Black with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob1c_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - Black with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob1c_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - Black with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob1c_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1C - Black with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob1c_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - White with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob1d_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - White with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob1d_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - White with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob1d_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - White with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob1d_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - White with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob1d_white.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - Black with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob1d_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - Black with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob1d_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - Black with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob1d_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - Black with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob1d_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1D - Black with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob1d_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1E - Black with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob1e_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1E - Black with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob1e_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1E - Black with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob1e_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1E - Black with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob1e_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 1E - Black with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob1e_black.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 2A - Large Black knob with Coloured Cap" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="">
+          <image filename="gfx/Knob2a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <colours>
+      <label textcolourid="fffa56c9"></label>
+    </colours>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 2B - Large Black knob with Metallic Cap" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="">
+          <image filename="gfx/Knob2b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <colours>
+      <label textcolourid="fffa56c9"></label>
+    </colours>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3A - Small Black knob with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob3a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3A - Small Black knob with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob3a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3A - Small Black knob with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround2.png">
+          <image filename="gfx/Knob3a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3A - Small Black knob with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround4.png">
+          <image filename="gfx/Knob3a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3A - Small Black knob with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob3a_matte.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3B - Small Black knob with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob3b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3B - Small Black knob with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob3b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3B - Small Black knob with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround2.png">
+          <image filename="gfx/Knob3b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3B - Small Black knob with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround4.png">
+          <image filename="gfx/Knob3b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 3B - Small Black knob with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob3b_metallic.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 4 - Black knob with dotted surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/dotted_surround.png">
+          <image filename="gfx/Knob4.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 4 - Black knob with lined surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/lined_surround1.png">
+          <image filename="gfx/Knob4.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 4 - Black knob with numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround1.png">
+          <image filename="gfx/Knob4.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 4 - Black knob with alt numbered surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/numbered_surround3.png">
+          <image filename="gfx/Knob4.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+  <lookandfeel id="Knob 4 - Black knob with Bipolar surround" parentid="JUCE knob">
+    <images>
+      <slider>
+        <rotary fillbackgroundfilename="gfx/Knob1_Cap.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/Bipolar-surround1.png">
+          <image filename="gfx/Knob4.png" numframes="63" ishorizontal="false" />
+        </rotary>
+      </slider>
+    </images>
+    <appliesto componenttype="slider" />
+  </lookandfeel>
+</lookandfeels>

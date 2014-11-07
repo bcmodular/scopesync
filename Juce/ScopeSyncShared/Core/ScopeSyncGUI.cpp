@@ -315,12 +315,22 @@ void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageC
     forEachXmlChildElement(lookAndFeelsXML, child)
     {
         if (child->hasTagName("lookandfeel"))
-        {
             setupLookAndFeel(*child, useImageCache);
-        }
+        else if (child->hasTagName("standardcontent"))
+            setupStandardLookAndFeels(*child, useImageCache);
     }
 
     return;
+}
+
+void ScopeSyncGUI::setupStandardLookAndFeels(XmlElement& xml, bool useImageCache)
+{
+    String lookAndFeelSet = xml.getStringAttribute("type");
+
+    ScopedPointer<XmlElement> standardLookAndFeels = scopeSync.getStandardContent(lookAndFeelSet);
+
+    if (standardLookAndFeels != nullptr)
+        setupLookAndFeels(*standardLookAndFeels, useImageCache);
 }
 
 void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache)

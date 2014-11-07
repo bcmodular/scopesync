@@ -40,67 +40,7 @@
     <component backgroundcolour="ff2d3035" lfid="default">
       <bounds x="0" y="0" width="674" height="732" />
       <!--Header Section-->
-      <component id="header">
-        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
-        <label lfid="system:configname" name="configurationname" text="Current Configuration">
-          <bounds x="177" y="11" width="160" height="17"></bounds>
-          <font bold="true" height="12"></font>
-        </label>
-        <textbutton lfid="system:scopesynclogo_button" name="showaboutbox" id="showaboutbox" text="" tooltip="Show About Box">
-          <bounds relativerectangle="13, 11, left + 151, top + 21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:new_config_button" name="newconfiguration" tooltip="New Configuration">
-          <bounds x="347" y="9" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:load_config_button" name="chooseconfiguration" tooltip="Load Configuration">
-          <bounds x="373" y="9" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
-          <bounds x="399" y="9" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" id="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
-          <bounds x="425" y="9" width="21" height="21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
-          <bounds relativerectangle="right - 32, showconfigurationmanager.top, parent.width - 1, top + 21"></bounds>
-        </textbutton>
-        <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
-          <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
-        </textbutton>
-        <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
-        <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
-          <bounds relativerectangle="right - 58, 6, parent.width - 70, top + 32"></bounds>
-          <tabbar orientation="right" depth="0"></tabbar>
-          <tab idx="1" name="DISCONNECTED">
-            <component>
-              <!--No Controls-->
-            </component>
-          </tab>
-          <tab idx="2" name="CONNECTED">
-            <component>
-              <textbutton lfid="system:patch_button" name="PatchWindow">
-                <bounds x="0" y="2" width="27" height="21"></bounds>
-              </textbutton>
-              <textbutton lfid="system:presets_button" name="PresetList">
-                <bounds x="33" y="2" width="19" height="21"></bounds>
-              </textbutton>
-            </component>
-          </tab>
-        </tabbedcomponent>
-        <component displaycontext="scope" backgroundcolour="00000000">
-          <bounds relativerectangle="right - 2, 0, parent.width - 132, top + 2"></bounds>
-          <!--CP<->Host Disconnected-->
-          <textbutton name="CPHost-Disconnected" nostyleoverride="true">
-            <bounds x="3" y="3" width="1" height="1"></bounds>
-            <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
-          </textbutton>
-          <!--CP<->Host Connected-->
-          <textbutton name="CPHost-Connected" nostyleoverride="true">
-            <bounds x="3" y="3" width="1" height="1"></bounds>
-            <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
-          </textbutton>
-        </component>
-      </component>
+      <standardcontent type="header" />
       <component id="maincomp">
         <bounds relativerectangle="0, header.bottom, parent.width, parent.height"></bounds>
         <tabbedcomponent name="testtabbedcomponent" id="tabbedcomp">

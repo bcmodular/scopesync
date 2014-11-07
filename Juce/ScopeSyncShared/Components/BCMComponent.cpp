@@ -313,17 +313,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     }
 
     // Then loop through child component elements
-    forEachXmlChildElement(componentXML, child)
-    {
-             if (child->hasTagName("component"))       setupSubComponent(*child);
-        else if (child->hasTagName("slider"))          setupSlider(*child);
-        else if (child->hasTagName("label"))           setupLabel(*child);
-        else if (child->hasTagName("textbutton"))      setupTextButton(*child);
-        else if (child->hasTagName("tabbedcomponent")) setupTabbedComponent(*child);
-        else if (child->hasTagName("combobox"))        setupComboBox(*child);
-        else if (child->hasTagName("rectangle"))       graphics.add(new BCMRectangle(*child));
-        else if (child->hasTagName("image"))           graphics.add(new BCMImage(*child));
-    }
+    setupContent(componentXML);
 
     if (mainComponent)
     {
@@ -353,6 +343,35 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
             systemErrorBar->setBounds(getLocalBounds().removeFromBottom(40));
             addAndMakeVisible(systemErrorBar);
         }
+    }
+}
+
+void BCMComponent::setupContent(XmlElement& xml)
+{
+    forEachXmlChildElement(xml, child)
+    {
+             if (child->hasTagName("component"))       setupSubComponent(*child);
+        else if (child->hasTagName("slider"))          setupSlider(*child);
+        else if (child->hasTagName("label"))           setupLabel(*child);
+        else if (child->hasTagName("textbutton"))      setupTextButton(*child);
+        else if (child->hasTagName("tabbedcomponent")) setupTabbedComponent(*child);
+        else if (child->hasTagName("combobox"))        setupComboBox(*child);
+        else if (child->hasTagName("rectangle"))       graphics.add(new BCMRectangle(*child));
+        else if (child->hasTagName("image"))           graphics.add(new BCMImage(*child));
+        else if (child->hasTagName("standardcontent")) setupStandardContent(*child);
+    }
+}
+
+void BCMComponent::setupStandardContent(XmlElement& contentXML)
+{
+    if (showInThisContext(contentXML))
+    {
+        String contentToShow = contentXML.getStringAttribute("type");
+
+        ScopedPointer<XmlElement> standardContent = scopeSync.getStandardContent(contentToShow);
+
+        if (standardContent != nullptr)
+            setupContent(*standardContent);
     }
 }
 

@@ -114,6 +114,13 @@ private:
 
     void getParentProperties(XmlElement& widgetXML);
 
+    // Loop through children of this component, creating widgets
+    void setupContent(XmlElement& xml);
+
+    // Parse any <standardcontent> elements and substitute in from
+    // the built-in content
+    void setupStandardContent(XmlElement& contentXML);
+
     // Create a new BCMSlider
     void setupSlider(XmlElement& sliderXML);
     
