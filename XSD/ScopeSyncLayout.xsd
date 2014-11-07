@@ -20,7 +20,8 @@
 
     <complexType name="lookandfeelstype">
         <choice minOccurs="0" maxOccurs="unbounded">
-            <element name="lookandfeel" type="tns:lookandfeeltype"></element>
+        	<element name="lookandfeel" type="tns:lookandfeeltype"></element>
+        	<element name="standardcontent" type="tns:standardlnfcontent"></element>
         </choice>
     </complexType>
     
@@ -74,8 +75,9 @@
 			<element name="combobox" type="tns:comboboxtype"></element>
 			<element name="rectangle" type="tns:rectangletype"></element>
 			<element name="image" type="tns:imagetype"></element>
+			<element name="standardcontent" type="tns:standardcomponentcontentype"></element>
 		</choice>
-        <attribute name="name" type="string"></attribute>
+		<attribute name="name" type="string"></attribute>
         <attribute name="id" type="string"></attribute>
 		<attribute name="backgroundcolour" type="tns:colouridtype"></attribute>
 		<attribute name="backgroundimage" type="string"></attribute>
@@ -661,5 +663,25 @@
     	<attribute name="mouseoverfilename" type="string"></attribute>
     	<attribute name="numframes" type="int"></attribute>
     	<attribute name="ishorizontal" type="boolean"></attribute>
+    </complexType>
+
+    <complexType name="standardlnfcontent">
+    	<attribute name="type">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="scopesyncsliderlnfs"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="standardcomponentcontentype">
+    	<attribute name="type">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="header"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
     </complexType>
 </schema>
