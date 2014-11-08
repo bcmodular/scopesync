@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration name="Template 16" layoutName="16x1_Template_A" layoutLibrarySet="Templates" ID="dY2smP" author="ScopeSync" librarySet="Templates"
+               UID="-1021107765" blurb="Template configuration with 16 parameters.">
+  <hostParameters>
+    <parameter name="PARAM1" shortDescription="Param 01" fullDescription="Parameter 1" scopeSync="0" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM2" shortDescription="Param 02" fullDescription="Parameter 2" scopeSync="1" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="50" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM3" shortDescription="Param 03" fullDescription="Parameter 3" scopeSync="2" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM4" shortDescription="Param 04" fullDescription="Parameter 4" scopeSync="3" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM5" shortDescription="Param 05" fullDescription="Parameter 5" scopeSync="4" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM6" shortDescription="Param 06" fullDescription="Parameter 6" scopeSync="5" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM7" shortDescription="Param 07" fullDescription="Parameter 7" scopeSync="6" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM8" shortDescription="Param 08" fullDescription="Parameter 8" scopeSync="7" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM9" shortDescription="Param 09" fullDescription="Parameter 9" scopeSync="8" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
+               uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM10" shortDescription="Param 10" fullDescription="Parameter 10" scopeSync="9" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM11" shortDescription="Param 11" fullDescription="Parameter 11" scopeSync="10" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM12" shortDescription="Param 12" fullDescription="Parameter 12" scopeSync="11" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM13" shortDescription="Param 13" fullDescription="Parameter 13" scopeSync="12" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM14" shortDescription="Param 14" fullDescription="Parameter 14" scopeSync="13" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM15" shortDescription="Param 15" fullDescription="Parameter 15" scopeSync="14" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+    <parameter name="PARAM16" shortDescription="Param 16" fullDescription="Parameter 16" scopeSync="15" scopeLocal="-1" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="0.0001" uiSuffix=""/>
+  </hostParameters>
+  <scopeParameters>
+    <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings>
+        <setting name="DISCONNECTED" value="0" intValue="0"/>
+        <setting name="CONNECTED" value="1" intValue="2147483647"/>
+      </settings>
+    </parameter>
+    <parameter name="PatchWindow" shortDescription="PatchWindow" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings>
+        <setting name="OFF" value="0" intValue="0"/>
+        <setting name="ON" value="1" intValue="2147483647"/>
+      </settings>
+    </parameter>
+    <parameter name="PresetList" shortDescription="PresetList" fullDescription="Open Preset List" scopeSync="-1" scopeLocal="14" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings>
+        <setting name="OFF" value="0" intValue="0"/>
+        <setting name="ON" value="1" intValue="2147483647"/>
+      </settings>
+    </parameter>
+    <parameter name="LoadConfig" shortDescription="LoadConfig" fullDescription="Load Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
+               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings>
+        <setting name="OFF" value="0" intValue="0"/>
+        <setting name="ON" value="1" intValue="2147483647"/>
+      </settings>
+    </parameter>
+  </scopeParameters>
+  <mapping>
+    <sliders>
+      <slider name="S1" mapTo="PARAM1"/>
+      <slider name="S2" mapTo="PARAM2"/>
+      <slider name="S3" mapTo="PARAM3"/>
+      <slider name="S4" mapTo="PARAM4"/>
+      <slider name="S5" mapTo="PARAM5"/>
+      <slider name="S6" mapTo="PARAM6"/>
+      <slider name="S7" mapTo="PARAM7"/>
+      <slider name="S8" mapTo="PARAM8"/>
+      <slider name="S9" mapTo="PARAM9"/>
+      <slider name="S10" mapTo="PARAM10"/>
+      <slider name="S11" mapTo="PARAM11"/>
+      <slider name="S12" mapTo="PARAM12"/>
+      <slider name="S13" mapTo="PARAM13"/>
+      <slider name="S14" mapTo="PARAM14"/>
+      <slider name="S15" mapTo="PARAM15"/>
+      <slider name="S16" mapTo="PARAM16"/>
+    </sliders>
+    <textButtons>
+      <textButton name="CPHost-Disconnected" mapTo="CPHost" settingDown="DISCONNECTED" type="1" radioGroup=""/>
+      <textButton name="CPHost-Connected" mapTo="CPHost" settingDown="CONNECTED" type="1" radioGroup=""/>
+      <textButton name="PatchWindow" mapTo="PatchWindow" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
+      <textButton name="PresetList" mapTo="PresetList" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
+      <textButton name="LoadConfig" mapTo="LoadConfig" settingDown="ON" type="0" radioGroup=""/>
+    </textButtons>
+    <labels/>
+    <comboBoxes/>
+    <tabbedComponents/>
+  </mapping>
+  <styleOverrides>
+    <components>
+      <component name="background" lookAndFeelId="default" fillColour="ffff0000"/>
+      <component lookAndFeelId="" name="MainComp:2:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:3:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:4:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:5:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:6:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:7:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:8:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+      <component lookAndFeelId="" name="MainComp:9:0" widgetTemplateId="7fffffff" fillColour="7fffffff" lineColour="" fillColour2="" lineColour2=""/>
+    </components>
+    <sliders>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S1" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S2" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S3" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S4" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S5" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S6" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S7" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S8" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S9" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S10" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S11" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S12" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S13" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S14" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S15" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+      <slider lookAndFeelId="Knob 1A - White with LED surround" name="S16" fillColour="ffa1b3bc" lineColour="ff212121" fillColour2="" lineColour2="ff000000"
+              widgetTemplateId="" useColourOverrides="1"/>
+    </sliders>
+    <textButtons>
+      <textButton name="snapshot" lookAndFeelId=""/>
+    </textButtons>
+    <labels>
+      <label lookAndFeelId="" name="L1" widgetTemplateId="0" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L2" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L3" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L4" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L5" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L6" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L7" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L8" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L9" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L10" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L11" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L12" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L13" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L14" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L15" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+      <label lookAndFeelId="" name="L16" widgetTemplateId="ParamName" fillColour="0" lineColour="ff000000" fillColour2="" lineColour2=""/>
+    </labels>
+    <comboBoxes/>
+    <tabbedComponents/>
+    <tabs/>
+  </styleOverrides>
+</configuration>

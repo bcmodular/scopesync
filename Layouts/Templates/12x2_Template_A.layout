@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
+  <layout name="12x2_Template_A" libraryset="Templates" author="ScopeSync" numbuttons="0" numencoders="24" numfaders="0" numparameters="24" panelwidth="882" panelheight="285" thumbnail="gfx/TemplateA_thumb.png" blurb="A template with two rows of twelve rotary controls. &#xD;&#xA;&#xD;&#xA;Parameter name and value are positioned above the encoder. Parameter Name label runs behind the encoder value for easy colour coding of parameters via style overrides. ScopeSync code is shown to the left of the control.">
+    <lookandfeels>
+      <lookandfeel id="Default">
+        <images>
+          <slider>
+            <rotary fillbackgroundfilename="gfx/Knob1_Surround.png" backgrounduselnfcolours="true" outlinebackgroundfilename="gfx/surround_knob_line.png">
+              <image filename="gfx/Knob1a_white.png" numframes="63" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+        <appliesto componenttype="none" />
+        <colours>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="ffacb2b5" rotaryslideroutlinecolourid="ff212121" textboxbackgroundcolourid="00b8bbbf" textboxoutlinecolourid="00ffffff" textboxtextcolourid="ff000000" textboxhighlightcolourid="ff2d3035"></slider>
+          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"></label>
+          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae" buttononcolourid="ffffffff"></textbutton>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
+          <texteditor backgroundcolourid="ffffffff" textcolourid="ffffffff" highlightcolourid="ff2d3035" highlightedtextcolourid="ffffffff" outlinecolourid="7f000000" focusedoutlinecolourid="7f2d3035" shadowcolourid="ff000000"></texteditor>
+          <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="7f000000" buttoncolourid="7f000000" arrowcolourid="ff2d3035" />
+        </colours>
+      </lookandfeel>
+      <standardcontent type="scopesyncsliderlnfs" />
+      <lookandfeel id="Hide Control">
+        <colours>
+          <slider backgroundcolourid="00000000" thumbcolourid="00000000" trackcolourid="00000000" rotarysliderfillcolourid="00000000" rotaryslideroutlinecolourid="00000000" textboxbackgroundcolourid="00000000" textboxoutlinecolourid="00000000" textboxtextcolourid="00000000" textboxhighlightcolourid="00000000"></slider>
+          <label backgroundcolourid="00000000" textcolourid="00000000" outlinecolourid="00000000"></label>
+          <textbutton textcolouroffid="00000000" textcolouronid="00000000" buttoncolourid="00000000" buttononcolourid="00000000"></textbutton>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
+          <texteditor backgroundcolourid="00000000" textcolourid="00000000" highlightcolourid="00000000" highlightedtextcolourid="00000000" outlinecolourid="00000000" focusedoutlinecolourid="00000000" shadowcolourid="00000000"></texteditor>
+          <combobox backgroundcolourid="00000000" textcolourid="00000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="00000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary fillbackgroundfilename="" backgrounduselnfcolours="false" outlinebackgroundfilename="">
+              <image filename="gfx/transparent1px.png" numframes="1" ishorizontal="false" />
+            </rotary>
+            <linearhorizontal thumbfilename="" thumbmouseoverfilename="" thumbborder="3">
+              <backgroundimage filename="" numframes="1" ishorizontal="false" />
+            </linearhorizontal>
+            <linearvertical thumbfilename="" thumbmouseoverfilename="" thumbborder="3">
+              <backgroundimage filename="" numframes="1" ishorizontal="false" />
+            </linearvertical>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="nostyle">
+        <images>
+          <slider>
+            <rotary fillbackgroundfilename="gfx/data_wheel_back.png" backgrounduselnfcolours="true" outlinebackgroundfilename="">
+              <image filename="gfx/data_wheel.png" numframes="31" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+        <colours>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"></slider>
+          <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
+        </colours>
+        <appliesto componenttype="none" />
+      </lookandfeel>
+      <lookandfeel id="datawheel" parentid="nostyle">
+        <images>
+          <slider>
+            <rotary fillbackgroundfilename="gfx/data_wheel_back.png" backgrounduselnfcolours="true" outlinebackgroundfilename="">
+              <image filename="gfx/data_wheel.png" numframes="31" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+        <colours>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"></slider>
+          <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
+        </colours>
+        <appliesto componenttype="none" />
+      </lookandfeel>
+      <lookandfeel id="default label">
+        <colours>
+          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"></label>
+        </colours>
+        <appliesto componenttype="label" />
+      </lookandfeel>
+      <lookandfeel id="default textbutton">
+        <colours>
+          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae" buttononcolourid="ffffffff"></textbutton>
+        </colours>
+        <appliesto componenttype="textbutton" />
+      </lookandfeel>
+      <lookandfeel id="default tabbed component">
+        <colours>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
+        </colours>
+        <appliesto componenttype="tabbedcomponent" />
+      </lookandfeel>
+      <lookandfeel id="default combobox">
+        <colours>
+          <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="7f000000" buttoncolourid="7f000000" arrowcolourid="ff2d3035" />
+        </colours>
+        <appliesto componenttype="none" />
+      </lookandfeel>
+    </lookandfeels>
+    <defaults>
+      <slider style="rotaryverticaldrag">
+        <bounds x="14" y="22" width="61" height="82" />
+        <range min="0" max="100" int="0.0001"></range>
+        <textbox position="above" readonly="false" width="65" height="14">
+          <font height="12"></font>
+        </textbox>
+      </slider>
+      <textbutton name="defaultbutton" tooltip="defaultbutton tooltip">
+        <bounds x="499" y="274" width="70" height="20" />
+      </textbutton>
+      <combobox name="defaultcombobox" tooltip="defaultcombobox tooltip" editabletext="false" nothingselectedtext="-- Select item --" nochoicestext="-- No choices --">
+        <justification horizontallycentred="true" />
+        <bounds x="0" y="0" width="150" height="24" />
+      </combobox>
+    </defaults>
+    <widgettemplates>
+      <label name="ScopeSync Label" parametertextdisplay="scopecode" text="Untitled" wtid="ScopeSync">
+        <bounds x="18" y="39" width="24" height="10" />
+        <font height="10" bold="false"></font>
+        <justification left="true" />
+        <mappingparent componenttype="slider" />
+      </label>
+      <label name="ParamName Label" text="Untitled" wtid="ParamName">
+        <bounds x="18" y="10" width="71" height="26" />
+        <font height="12"></font>
+        <justification horizontallycentred="true" top="true" />
+        <mappingparent componenttype="slider" />
+      </label>
+    </widgettemplates>
+    <!--Main Component-->
+    <component backgroundcolour="ff1f262b" lfid="default">
+      <bounds x="0" y="0" width="882" height="285" />
+      <!--Header Section-->
+      <component>
+        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
+        <standardcontent type="header" />
+      </component>
+      <!--Background-->
+      <component backgroundcolour="ffd3d3d3" backgroundimage="">
+        <bounds relativerectangle="right - parent.width, 40, parent.width, parent.height-40" />
+      </component>
+      <!--Controls 01-12-->
+      <component nostyleoverride="true">
+        <bounds x="5" y="38" width="872" height="100" />
+        <component backgroundcolour="7fffffff" backgroundimage="">
+          <bounds relativerectangle="10, 10, parent.width-10, top+26" />
+        </component>
+        <label name="L1" wtid="ParamName">
+          <mappingparent componentname="S1" />
+          <bounds x="10" />
+        </label>
+        <label name="LS1" wtid="ScopeSync">
+          <mappingparent componentname="S1" />
+          <bounds x="5" />
+        </label>
+        <slider name="S1">
+          <bounds x="15" />
+        </slider>
+        <label name="L2" wtid="ParamName">
+          <mappingparent componentname="S2" />
+          <bounds x="81" />
+        </label>
+        <label name="LS2" wtid="ScopeSync">
+          <mappingparent componentname="S2" />
+          <bounds x="76" />
+        </label>
+        <slider name="S2">
+          <bounds x="86" />
+        </slider>
+        <label name="L3" wtid="ParamName">
+          <mappingparent componentname="S3" />
+          <bounds x="152" />
+        </label>
+        <label name="LS3" wtid="ScopeSync">
+          <mappingparent componentname="S3" />
+          <bounds x="147" />
+        </label>
+        <slider name="S3">
+          <bounds x="157" />
+        </slider>
+        <label name="L4" wtid="ParamName">
+          <mappingparent componentname="S4" />
+          <bounds x="223" />
+        </label>
+        <label name="LS4" wtid="ScopeSync">
+          <mappingparent componentname="S4" />
+          <bounds x="218" />
+        </label>
+        <slider name="S4">
+          <bounds x="228" />
+        </slider>
+        <label name="L5" wtid="ParamName">
+          <mappingparent componentname="S5" />
+          <bounds x="294" />
+        </label>
+        <label name="LS5" wtid="ScopeSync">
+          <mappingparent componentname="S5" />
+          <bounds x="289" />
+        </label>
+        <slider name="S5">
+          <bounds x="299" />
+        </slider>
+        <label name="L6" wtid="ParamName">
+          <mappingparent componentname="S6" />
+          <bounds x="365" />
+        </label>
+        <label name="LS6" wtid="ScopeSync">
+          <mappingparent componentname="S6" />
+          <bounds x="360" />
+        </label>
+        <slider name="S6">
+          <bounds x="370" />
+        </slider>
+        <label name="L7" wtid="ParamName">
+          <mappingparent componentname="S7" />
+          <bounds x="436" />
+        </label>
+        <label name="LS7" wtid="ScopeSync">
+          <mappingparent componentname="S7" />
+          <bounds x="431" />
+        </label>
+        <slider name="S7">
+          <bounds x="441" />
+        </slider>
+        <label name="L8" wtid="ParamName">
+          <mappingparent componentname="S8" />
+          <bounds x="507" />
+        </label>
+        <label name="LS8" wtid="ScopeSync">
+          <mappingparent componentname="S8" />
+          <bounds x="502" />
+        </label>
+        <slider name="S8">
+          <bounds x="512" />
+        </slider>
+        <label name="L9" wtid="ParamName">
+          <mappingparent componentname="S9" />
+          <bounds x="578" />
+        </label>
+        <label name="LS9" wtid="ScopeSync">
+          <mappingparent componentname="S9" />
+          <bounds x="573" />
+        </label>
+        <slider name="S9">
+          <bounds x="583" />
+        </slider>
+        <label name="L10" wtid="ParamName">
+          <mappingparent componentname="S10" />
+          <bounds x="649" />
+        </label>
+        <label name="LS10" wtid="ScopeSync">
+          <mappingparent componentname="S10" />
+          <bounds x="644" />
+        </label>
+        <slider name="S10">
+          <bounds x="654" />
+        </slider>
+        <label name="L11" wtid="ParamName">
+          <mappingparent componentname="S11" />
+          <bounds x="720" />
+        </label>
+        <label name="LS11" wtid="ScopeSync">
+          <mappingparent componentname="S11" />
+          <bounds x="715" />
+        </label>
+        <slider name="S11">
+          <bounds x="725" />
+        </slider>
+        <label name="L12" wtid="ParamName">
+          <mappingparent componentname="S12" />
+          <bounds x="791" />
+        </label>
+        <label name="LS12" wtid="ScopeSync">
+          <mappingparent componentname="S12" />
+          <bounds x="786" />
+        </label>
+        <slider name="S12">
+          <bounds x="796" />
+        </slider>
+      </component>
+      <!--Controls 13-24-->
+      <component nostyleoverride="true">
+        <bounds x="5" y="138" width="872" height="100" />
+        <component backgroundcolour="7fffffff" backgroundimage="">
+          <bounds relativerectangle="10, 10, parent.width-10, top+26" />
+        </component>
+        <label name="L13" wtid="ParamName">
+          <mappingparent componentname="S13" />
+          <bounds x="10" />
+        </label>
+        <label name="LS13" wtid="ScopeSync">
+          <mappingparent componentname="S13" />
+          <bounds x="5" />
+        </label>
+        <slider name="S13">
+          <bounds x="15" />
+        </slider>
+        <label name="L14" wtid="ParamName">
+          <mappingparent componentname="S14" />
+          <bounds x="81" />
+        </label>
+        <label name="LS14" wtid="ScopeSync">
+          <mappingparent componentname="S14" />
+          <bounds x="76" />
+        </label>
+        <slider name="S14">
+          <bounds x="86" />
+        </slider>
+        <label name="L15" wtid="ParamName">
+          <mappingparent componentname="S15" />
+          <bounds x="152" />
+        </label>
+        <label name="LS15" wtid="ScopeSync">
+          <mappingparent componentname="S15" />
+          <bounds x="147" />
+        </label>
+        <slider name="S15">
+          <bounds x="157" />
+        </slider>
+        <label name="L16" wtid="ParamName">
+          <mappingparent componentname="S16" />
+          <bounds x="223" />
+        </label>
+        <label name="LS16" wtid="ScopeSync">
+          <mappingparent componentname="S16" />
+          <bounds x="218" />
+        </label>
+        <slider name="S16">
+          <bounds x="228" />
+        </slider>
+        <label name="L17" wtid="ParamName">
+          <mappingparent componentname="S17" />
+          <bounds x="294" />
+        </label>
+        <label name="LS17" wtid="ScopeSync">
+          <mappingparent componentname="S17" />
+          <bounds x="289" />
+        </label>
+        <slider name="S17">
+          <bounds x="299" />
+        </slider>
+        <label name="L18" wtid="ParamName">
+          <mappingparent componentname="S18" />
+          <bounds x="365" />
+        </label>
+        <label name="LS18" wtid="ScopeSync">
+          <mappingparent componentname="S18" />
+          <bounds x="360" />
+        </label>
+        <slider name="S18">
+          <bounds x="370" />
+        </slider>
+        <label name="L19" wtid="ParamName">
+          <mappingparent componentname="S19" />
+          <bounds x="436" />
+        </label>
+        <label name="LS19" wtid="ScopeSync">
+          <mappingparent componentname="S19" />
+          <bounds x="431" />
+        </label>
+        <slider name="S19">
+          <bounds x="441" />
+        </slider>
+        <label name="L20" wtid="ParamName">
+          <mappingparent componentname="S20" />
+          <bounds x="507" />
+        </label>
+        <label name="LS20" wtid="ScopeSync">
+          <mappingparent componentname="S20" />
+          <bounds x="502" />
+        </label>
+        <slider name="S20">
+          <bounds x="512" />
+        </slider>
+        <label name="L21" wtid="ParamName">
+          <mappingparent componentname="S21" />
+          <bounds x="578" />
+        </label>
+        <label name="LS21" wtid="ScopeSync">
+          <mappingparent componentname="S21" />
+          <bounds x="573" />
+        </label>
+        <slider name="S21">
+          <bounds x="583" />
+        </slider>
+        <label name="L22" wtid="ParamName">
+          <mappingparent componentname="S22" />
+          <bounds x="649" />
+        </label>
+        <label name="LS22" wtid="ScopeSync">
+          <mappingparent componentname="S22" />
+          <bounds x="644" />
+        </label>
+        <slider name="S22">
+          <bounds x="654" />
+        </slider>
+        <label name="L23" wtid="ParamName">
+          <mappingparent componentname="S23" />
+          <bounds x="720" />
+        </label>
+        <label name="LS23" wtid="ScopeSync">
+          <mappingparent componentname="S23" />
+          <bounds x="715" />
+        </label>
+        <slider name="S23">
+          <bounds x="725" />
+        </slider>
+        <label name="L24" wtid="ParamName">
+          <mappingparent componentname="S24" />
+          <bounds x="791" />
+        </label>
+        <label name="LS24" wtid="ScopeSync">
+          <mappingparent componentname="S24" />
+          <bounds x="786" />
+        </label>
+        <slider name="S24">
+          <bounds x="796" />
+        </slider>
+      </component>
+    </component>
+  </layout>
+</tns:ScopeSyncLayout>
