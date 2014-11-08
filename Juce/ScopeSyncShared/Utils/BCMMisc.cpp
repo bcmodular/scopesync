@@ -25,6 +25,7 @@
  */
 
 #include "BCMMisc.h"
+#include "BCMMath.h"
 #include "../Resources/Icons.h"
 #include "../Core/Global.h"
 
@@ -200,7 +201,15 @@ void FltProperty::labelTextChanged(Label* labelThatHasChanged)
     String errorText;
     
     if (newText.isNotEmpty())
-        newText = String(newText.getDoubleValue());
+    {
+        double newDouble    = newText.getDoubleValue();
+        double roundedValue = roundDouble(newDouble);
+        
+        if (abs(newDouble - roundedValue) < FLT_EPSILON)
+            newText = String(roundToInt(newDouble));
+        else
+            newText = String(newDouble);
+    }
     else if (!allowedToBeBlank)
         errorText = "Must provide a valid floating point value";
     

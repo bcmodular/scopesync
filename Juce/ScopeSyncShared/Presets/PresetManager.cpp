@@ -458,7 +458,8 @@ PresetManagerWindow::PresetManagerWindow(const String& filePath,
                      DocumentWindow::allButtons,
                      true),
       undoManager(um),
-      numActions(0)
+      numActions(0),
+      offerToSaveOnExit(true)
 {
     commandManager = acm;
     setUsingNativeTitleBar (true);
@@ -574,8 +575,7 @@ void PresetManagerWindow::closeButtonPressed()
 {
     if (presetFile.saveIfNeededAndUserAgrees(true) == FileBasedDocument::savedOk)
     {
-        unload();
-        hidePresetManager();
+        hidePresetManager(false);
     }
 }
 
@@ -641,12 +641,11 @@ void PresetManagerWindow::alertBoxLaunchLocationEditor(int result, Rectangle<int
 
 void PresetManagerWindow::unload()
 {
-    presetFile.saveIfNeededAndUserAgrees(false);
+    if (offerToSaveOnExit)
+        presetFile.saveIfNeededAndUserAgrees(false);
 
     clearContentComponent();
-
     removeKeyListener(commandManager->getKeyMappings());
-    
     setMenuBar(nullptr);
 }
 
@@ -683,7 +682,9 @@ void PresetManagerWindow::updatePresetLibrary()
     UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
 }
 
-void PresetManagerWindow::hidePresetManager()
+void PresetManagerWindow::hidePresetManager(bool offerToSave)
 {
+    offerToSaveOnExit = offerToSave;
+
     UserSettings::getInstance()->hidePresetManagerWindow();
 }

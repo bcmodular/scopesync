@@ -131,7 +131,7 @@ public:
     void discardChanges();
     void restoreWindowPosition();
     void updatePresetLibrary();
-    void hidePresetManager();
+    void hidePresetManager(bool offerToSave = true);
 
     void showPresetFileChooser();
     void showPresetManager();
@@ -150,6 +150,7 @@ private:
     PresetManager*                     presetManager;
     ScopedPointer<PresetMenuBarModel>  menuModel;
     File                               newPresetFile;
+    bool                               offerToSaveOnExit;
 
     int numActions;
 

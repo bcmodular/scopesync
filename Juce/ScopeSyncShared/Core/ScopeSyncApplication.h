@@ -76,6 +76,8 @@ public:
     juce_DeclareSingleton(ParameterClipboard, false)
 
 private:
+    void pastePreset(ValueTree& target, UndoManager* undoManager);
+    void pasteParameter(ValueTree& target, UndoManager* undoManager);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterClipboard)
 };

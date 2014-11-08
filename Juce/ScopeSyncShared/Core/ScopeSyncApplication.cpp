@@ -59,27 +59,72 @@ void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
 {
     if (clipboardIsNotEmpty())
     {
-        String name       = target.getProperty(Ids::name);
-        String shortDesc  = target.getProperty(Ids::shortDescription);
-        String fullDesc   = target.getProperty(Ids::fullDescription);
-        int    scopeSync  = target.getProperty(Ids::scopeSync);
-        int    scopeLocal = target.getProperty(Ids::scopeLocal);
-
-        target.copyPropertiesFrom(clipboard, undoManager);
-
-        target.removeAllChildren(undoManager);
-
-        ValueTree settings = clipboard.getChildWithName(Ids::settings).createCopy();
-        
-        if (settings.isValid())
-            target.addChild(settings, -1, undoManager);
-
-        target.setProperty(Ids::name,             name,       undoManager);
-        target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
-        target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
-        target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
-        target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+        if (target.hasType(Ids::preset))
+            pastePreset(target, undoManager);
+        else
+            pasteParameter(target, undoManager);
     }
+}
+
+void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoManager)
+{
+    // Backup the parameter's identifying values
+    String name       = target.getProperty(Ids::name);
+    String shortDesc  = target.getProperty(Ids::shortDescription);
+    String fullDesc   = target.getProperty(Ids::fullDescription);
+    int    scopeSync  = target.getProperty(Ids::scopeSync);
+    int    scopeLocal = target.getProperty(Ids::scopeLocal);
+
+    target.copyPropertiesFrom(clipboard, undoManager);
+
+    // Get rid of any stray Preset properties
+    target.removeProperty(Ids::blurb, undoManager);
+    target.removeProperty(Ids::presetFileName, undoManager);
+    target.removeProperty(Ids::presetFileLibrarySet, undoManager);
+    target.removeProperty(Ids::presetFileAuthor, undoManager);
+    target.removeProperty(Ids::presetFileBlurb, undoManager);
+    target.removeProperty(Ids::filePath, undoManager);
+    target.removeProperty(Ids::fileName, undoManager);
+
+    target.removeAllChildren(undoManager);
+
+    ValueTree settings = clipboard.getChildWithName(Ids::settings).createCopy();
+        
+    if (settings.isValid())
+        target.addChild(settings, -1, undoManager);
+
+    // Restore the parameter's identifying values
+    target.setProperty(Ids::name,             name,       undoManager);
+    target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
+    target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
+    target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
+    target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+}
+
+void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager)
+{
+    // Backup the Preset's identifying values
+    String name  = target.getProperty(Ids::name);
+    String blurb = target.getProperty(Ids::blurb);
+    
+    target.copyPropertiesFrom(clipboard, undoManager);
+
+    // Get rid of any stray Parameter properties
+    target.removeProperty(Ids::shortDescription, undoManager);
+    target.removeProperty(Ids::fullDescription, undoManager);
+    target.removeProperty(Ids::scopeSync, undoManager);
+    target.removeProperty(Ids::scopeLocal, undoManager);
+
+    target.removeAllChildren(undoManager);
+
+    ValueTree settings = clipboard.getChildWithName(Ids::settings).createCopy();
+        
+    if (settings.isValid())
+        target.addChild(settings, -1, undoManager);
+
+    // Restore the parameter's identifying values
+    target.setProperty(Ids::name,  name,  undoManager);
+    target.setProperty(Ids::blurb, blurb, undoManager);
 }
 
 juce_ImplementSingleton (StyleOverrideClipboard)

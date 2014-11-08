@@ -49,7 +49,8 @@ ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWi
       redoButton("Redo")
 {
     commandManager = scopeSync.getCommandManager();
-    
+    commandManager->setFirstCommandTarget(nullptr);
+
     lookAndFeel.setColour(TreeView::backgroundColourId,             Colours::darkgrey);
     lookAndFeel.setColour(TreeView::linesColourId,                  Colours::white);
     lookAndFeel.setColour(TreeView::dragAndDropIndicatorColourId,   Colours::red);
@@ -392,6 +393,8 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(
     setLookAndFeel(&lookAndFeel);
 
     commandManager = scopeSync.getCommandManager();
+    commandManager->setFirstCommandTarget(nullptr);
+
     commandManager->registerAllCommandsForTarget(this);
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
     
@@ -663,7 +666,7 @@ void ConfigurationManagerWindow::restoreWindowPosition()
 ConfigurationManagerCalloutWindow::ConfigurationManagerCalloutWindow(ScopeSync& owner, int width, int height)
     : scopeSync(owner), undoManager(owner.getUndoManager())
 {
-    commandManager = owner.getCommandManager();
+    commandManager = scopeSync.getCommandManager();
     
     undoManager.beginNewTransaction();
         
@@ -704,7 +707,7 @@ void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter, 
     configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, paramType, scopeSync, undoManager, commandManager, configurationManagerCallout));
 }
 
-void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&        styleOverride, 
+void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&  styleOverride, 
                                                         const Identifier& componentType, 
                                                         const String&     componentName, 
                                                         const String&     widgetTemplateId, 

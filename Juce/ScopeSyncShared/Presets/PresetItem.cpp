@@ -93,7 +93,7 @@ void PresetItem::addItemFromClipboard()
     
     if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
     {
-        definition = ValueTree(Ids::parameter);
+        definition = ValueTree(Ids::preset);
         ParameterClipboard::getInstance()->paste(definition, nullptr);
     }
     

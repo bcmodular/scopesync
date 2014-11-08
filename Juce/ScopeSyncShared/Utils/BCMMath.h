@@ -72,7 +72,7 @@ namespace BCMMath
             return 0;
     }
 
-	inline double roundDouble(float num)
+	inline double roundDouble(double num)
     {
 		return (num > 0.0) ? floor(num + 0.5) : ceil(num - 0.5);
 	}
