@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<presets name="BCM Presets" librarySet="BC Modular" author="ScopeSync" blurb="A set of presets for use with BC Modular modules">
+  <preset name="0-100%" blurb="Versatile preset for controlling volume/depth type parameters. Covers full positive (unipolar) range."
+          scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="50"
+          uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="1" uiSuffix="%" uiSkewMidpoint="50"/>
+  <preset name="31-bit Val" blurb="Full unipolar range of 0-2147483647.&#10;N.B. - Labelled 32-bit Val in the BCM Encoder Factory 0.96b bank. "
+          scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="1073741824"
+          uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="1073741824"/>
+  <preset name="dB (0)" blurb="For use with 0dB level controls." scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="1" valueType="0" uiResetValue="-24" uiSkewFactor="5.0347" skewUIOnly="0" uiRangeMin="-186.6"
+          uiRangeMax="0" uiRangeInterval="0.01" uiSuffix=" dB" uiSkewMidpoint="-24" shortDescription="" fullDescription="" scopeSync="0"
+          scopeLocal="0"/>
+  <preset name="dB (12)" blurb="For use with +12dB gain controls." scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0.25" valueType="0" uiResetValue="0" uiSkewFactor="5.0347" skewUIOnly="0" uiRangeMin="-174.6"
+          uiRangeMax="12" uiRangeInterval="0.01" uiSuffix=" dB" uiSkewMidpoint="-12" shortDescription="" fullDescription="" scopeSync="0"
+          scopeLocal="0"/>
+  <preset name="dB (24)" blurb="For use with +24dB gain controls." scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0.0625" valueType="0" uiResetValue="0" uiSkewFactor="5.01734" skewUIOnly="0" uiRangeMin="-162"
+          uiRangeMax="24" uiRangeInterval="0.01" uiSuffix=" dB" uiSkewMidpoint="0" shortDescription="" fullDescription="" scopeSync="0"
+          scopeLocal="0"/>
+  <preset name="Freq (Hz)" blurb="Full 0-24000Hz frequency range." scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="12000" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000"
+          uiRangeInterval="0.01" uiSuffix=" Hz" uiSkewMidpoint="12000"/>
+  <preset name="Freq (kHz)" blurb="Full 0-24kHz frequency range." scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="12" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="24"
+          uiRangeInterval="0.1" uiSuffix=" kHz" uiSkewMidpoint="12" shortDescription="" fullDescription="" scopeSync="0" scopeLocal="0"/>
+  <preset name="MIDI cc Val" blurb="Full 31-bit unipolar value range displayed as 7-bit (0-127) values for MIDI control change reference purpose."
+          scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="64"
+          uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix=""/>
+  <preset name="Time (ms)" blurb="A linear time control in milliseconds covering a 0-5 second range." scopeRangeMin="0" scopeRangeMax="240000"
+          scopeRangeMinFlt="0" scopeRangeMaxFlt="0.000111759" scopeDBRef="0" valueType="0" uiResetValue="2500" uiSkewFactor="1" skewUIOnly="0"
+          uiRangeMin="0" uiRangeMax="5000" uiRangeInterval="0.01" uiSuffix=" ms" uiSkewMidpoint=""/>
+  <preset name="Time (s)" blurb="A linear time control in seconds covering a 0-5 second range." scopeRangeMin="0" scopeRangeMax="240000"
+          scopeRangeMinFlt="0" scopeRangeMaxFlt="0.000111759" scopeDBRef="0" valueType="0" uiResetValue="2.5" uiSkewFactor="1" skewUIOnly="0"
+          uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.001" uiSuffix=" s"/>
+  <preset name="16-Way Switch" blurb="Unipolar range divided into 16 discrete values" scopeRangeMin="0" scopeRangeMax="2147483647"
+          scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0"
+          uiRangeMax="15" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="15" uiResetValue="0">
+      <setting name="1" intValue="0"/>
+      <setting name="2" intValue="143165576" value="0.0666667"/>
+      <setting name="3" intValue="286331153" value="0.133333"/>
+      <setting name="4" intValue="429496729" value="0.2"/>
+      <setting name="5" intValue="572662306" value="0.266667"/>
+      <setting name="6" intValue="715827882" value="0.333333"/>
+      <setting name="7" intValue="858993459" value="0.4"/>
+      <setting name="8" intValue="1002159035" value="0.466667"/>
+      <setting name="9" intValue="1145324612" value="0.533333"/>
+      <setting name="10" intValue="1288490188" value="0.6"/>
+      <setting name="11" intValue="1431655765" value="0.666667"/>
+      <setting name="12" intValue="1574821341" value="0.733333"/>
+      <setting name="13" intValue="1717986918" value="0.8"/>
+      <setting name="14" intValue="1861152494" value="0.866667"/>
+      <setting name="15" intValue="2004318071" value="0.933333"/>
+      <setting name="16" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="2-Way Switch" blurb="Unipolar range divided into 2 discrete values" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="1"
+          uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="1" uiResetValue="0">
+      <setting name="1" intValue="0"/>
+      <setting name="2" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="3-Way Switch" blurb="Unipolar range divided into 3 discrete values" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="2"
+          uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="2" uiResetValue="0">
+      <setting name="New Setting 1" intValue="0"/>
+      <setting name="New Setting 2" intValue="1073741824" value="0.5"/>
+      <setting name="New Setting 3" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="4-Way Switch" blurb="Unipolar range divided into 4 discrete values" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="3"
+          uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="3" uiResetValue="0">
+      <setting name="New Setting 1" intValue="0"/>
+      <setting name="New Setting 2" intValue="715827882" value="0.333333"/>
+      <setting name="New Setting 3" intValue="1431655765" value="0.666667"/>
+      <setting name="New Setting 4" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="Curve Table" blurb="Selects between available curves on MVC &amp; Control Curve modules" scopeRangeMin="0" scopeRangeMax="2147483647"
+          scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0"
+          uiRangeMax="6" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="6" uiResetValue="0">
+      <setting name="Linear" intValue="0"/>
+      <setting name="Inv Linear" intValue="357913941" value="0.166667"/>
+      <setting name="Fixed" intValue="715827882" value="0.333333"/>
+      <setting name="Exponential" intValue="1073741824" value="0.5"/>
+      <setting name="Inv Exp." intValue="1431655765" value="0.666667"/>
+      <setting name="Logarithmic" intValue="1789569706" value="0.833333"/>
+      <setting name="Inv Log." intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="Default Toggle On" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0"
+          valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="0.0001"
+          uiSuffix="" blurb="On/Off Switch" uiSkewMidpoint="">
+    <settings>
+      <setting name="OFF" value="0" intValue="0"/>
+      <setting name="ON" value="1" intValue="2147483647"/>
+    </settings>
+  </preset>
+  <preset name="Dynamics Ratio" blurb="For use with Dynamics modules" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="15"
+          uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="15" uiResetValue="0">
+      <setting name="1.0:1" intValue="0"/>
+      <setting name="1.1:1" intValue="143165576" value="0.0666667"/>
+      <setting name="1.3:1" intValue="286331153" value="0.133333"/>
+      <setting name="1.5:1" intValue="429496729" value="0.2"/>
+      <setting name="1.7:1" intValue="572662306" value="0.266667"/>
+      <setting name="2.0:1" intValue="715827882" value="0.333333"/>
+      <setting name="2.5:1" intValue="858993459" value="0.4"/>
+      <setting name="3.0:1" intValue="1002159035" value="0.466667"/>
+      <setting name="3.5:1" intValue="1145324612" value="0.533333"/>
+      <setting name="4.0:1" intValue="1288490188" value="0.6"/>
+      <setting name="5.0:1" intValue="1431655765" value="0.666667"/>
+      <setting name="6.0:1" intValue="1574821341" value="0.733333"/>
+      <setting name="8.0:1" intValue="1717986918" value="0.8"/>
+      <setting name="10.0:1" intValue="1861152494" value="0.866667"/>
+      <setting name="20.0:1" intValue="2004318071" value="0.933333"/>
+      <setting name="inf:1" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="Formant" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1"
+          uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="9" uiRangeInterval="0.0001" uiSuffix="" blurb="Frequency Select for Formant Filter module"
+          uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="9" uiResetValue="0">
+      <setting name="A" intValue="0"/>
+      <setting name="E" intValue="238609294" value="0.111111"/>
+      <setting name="I" intValue="477218588" value="0.222222"/>
+      <setting name="O" intValue="715827882" value="0.333333"/>
+      <setting name="U" intValue="954437176" value="0.444444"/>
+      <setting name="Y" intValue="1193046471" value="0.555556"/>
+      <setting name="AA" intValue="1431655765" value="0.666667"/>
+      <setting name="AE" intValue="1670265059" value="0.777778"/>
+      <setting name="OE" intValue="1908874353" value="0.888889"/>
+      <setting name="UE" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="IF Condition" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0"
+          valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="2" uiRangeInterval="0.0001" uiSuffix=""
+          blurb="provides Less than / Equal to / More than settings for Conditional Send and IF modules" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="2" uiResetValue="0">
+      <setting name="&lt;" intValue="0"/>
+      <setting name="=" intValue="1073741824" value="0.5"/>
+      <setting name="&gt;" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="LFO Wave" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1"
+          uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="" blurb="Selects between Sine, Square, Saw Up, Saw Dn, Triangle &amp; Random waveforms on Multi LFO modules."
+          uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="5" uiResetValue="0">
+      <setting name="Sine" intValue="0"/>
+      <setting name="Square" intValue="429496729" value="0.2"/>
+      <setting name="Saw Up" intValue="858993459" value="0.4"/>
+      <setting name="Saw Dn" intValue="1288490188" value="0.6"/>
+      <setting name="Triangle" intValue="1717986918" value="0.8"/>
+      <setting name="Random" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="MIDI Channel" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0"
+          valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="16" uiRangeInterval="0.0001" uiSuffix=""
+          blurb="MIDI channel selection." uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="16" uiResetValue="0">
+      <setting name="Omni" intValue="2147483647" value="1"/>
+      <setting name="1" intValue="0" value="0"/>
+      <setting name="2" intValue="134217728" value="0.0625"/>
+      <setting name="3" intValue="268435456" value="0.125"/>
+      <setting name="4" intValue="402653184" value="0.1875"/>
+      <setting name="5" intValue="536870912" value="0.25"/>
+      <setting name="6" intValue="671088640" value="0.3125"/>
+      <setting name="7" intValue="805306368" value="0.375"/>
+      <setting name="8" intValue="939524096" value="0.4375"/>
+      <setting name="9" intValue="1073741824" value="0.5"/>
+      <setting name="10" intValue="1207959551" value="0.5625"/>
+      <setting name="11" intValue="1342177279" value="0.625"/>
+      <setting name="12" intValue="1476395007" value="0.6875"/>
+      <setting name="13" intValue="1610612735" value="0.75"/>
+      <setting name="14" intValue="1744830463" value="0.8125"/>
+      <setting name="15" intValue="1879048191" value="0.875"/>
+      <setting name="16" intValue="2013265919" value="0.9375"/>
+    </settings>
+  </preset>
+  <preset name="MIDI Message Type" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0"
+          valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="7" uiRangeInterval="0.0001" uiSuffix=""
+          blurb="Selects output message type for Multi-Mo module." uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="7" uiResetValue="0">
+      <setting name="NoteOff" intValue="0"/>
+      <setting name="NoteOn" intValue="306783378" value="0.142857"/>
+      <setting name="PolyAT" intValue="613566756" value="0.285714"/>
+      <setting name="CC" intValue="920350134" value="0.428571"/>
+      <setting name="Program" intValue="1227133513" value="0.571429"/>
+      <setting name="ChanAT" intValue="1533916891" value="0.714286"/>
+      <setting name="PitchBend" intValue="1840700269" value="0.857143"/>
+      <setting name="System" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="MultimodeOsc Wave" blurb="Selects between Sine, Triangle, SawUp, SawDn, Square and Input" scopeRangeMin="0" scopeRangeMax="2147483647"
+          scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0"
+          uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="5" uiResetValue="0">
+      <setting name="Sine" intValue="0"/>
+      <setting name="Triangle" intValue="429496729" value="0.2"/>
+      <setting name="SawUp" intValue="858993459" value="0.4"/>
+      <setting name="SawDn" intValue="1288490188" value="0.6"/>
+      <setting name="Square" intValue="1717986918" value="0.8"/>
+      <setting name="Input" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+  <preset name="Number of Voices" blurb="Sets voice count on compatible CLM modules" scopeRangeMin="-1" scopeRangeMax="24" scopeRangeMinFlt="-4.65661e-010"
+          scopeRangeMaxFlt="1.11759e-008" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0"
+          uiRangeMax="25" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="25" uiResetValue="0">
+      <setting name="Parent" intValue="-1" value="-4.65661e-010"/>
+      <setting name="Off DSP" intValue="0"/>
+      <setting name="1" intValue="1" value="4.65661e-010"/>
+      <setting name="2" intValue="2" value="9.31323e-010"/>
+      <setting name="3" intValue="3" value="1.39698e-009"/>
+      <setting name="4" intValue="4" value="1.86265e-009"/>
+      <setting name="5" intValue="5" value="2.32831e-009"/>
+      <setting name="6" intValue="6" value="2.79397e-009"/>
+      <setting name="7" intValue="7" value="3.25963e-009"/>
+      <setting name="8" intValue="8" value="3.72529e-009"/>
+      <setting name="9" intValue="9" value="4.19095e-009"/>
+      <setting name="10" intValue="10" value="4.65661e-009"/>
+      <setting name="11" intValue="11" value="5.12227e-009"/>
+      <setting name="12" intValue="12" value="5.58794e-009"/>
+      <setting name="13" intValue="13" value="6.0536e-009"/>
+      <setting name="14" intValue="14" value="6.51926e-009"/>
+      <setting name="15" intValue="15" value="6.98492e-009"/>
+      <setting name="16" intValue="16" value="7.45058e-009"/>
+      <setting name="17" intValue="17" value="7.91624e-009"/>
+      <setting name="18" intValue="18" value="8.3819e-009"/>
+      <setting name="19" intValue="19" value="8.84756e-009"/>
+      <setting name="20" intValue="20" value="9.31323e-009"/>
+      <setting name="21" intValue="21" value="9.77889e-009"/>
+      <setting name="22" intValue="22" value="1.02445e-008"/>
+      <setting name="23" intValue="23" value="1.07102e-008"/>
+      <setting name="24" intValue="24" value="1.11759e-008"/>
+    </settings>
+  </preset>
+  <preset name="Route" blurb="Selects routing for Route switch modules" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
+          scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="6"
+          uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+    <settings uiRangeMin="0" uiSkewFactor="1" uiRangeMax="6" uiResetValue="0">
+      <setting name="Off" intValue="0"/>
+      <setting name="A - A" intValue="357913941" value="0.166667"/>
+      <setting name="B - B" intValue="715827882" value="0.333333"/>
+      <setting name="Cross" intValue="1073741824" value="0.5"/>
+      <setting name="A - B" intValue="1431655765" value="0.666667"/>
+      <setting name="B - A" intValue="1789569706" value="0.833333"/>
+      <setting name="Thru" intValue="2147483647" value="1"/>
+    </settings>
+  </preset>
+</presets>
