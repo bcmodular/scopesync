@@ -87,7 +87,7 @@ private:
     float convertScopeIntToHostValue(int paramIdx, int value);
     float convertHostToScopeFltValue(int paramIdx, float value);
     int   convertHostToScopeIntValue(int paramIdx, float value);
-    int   findNearestParameterSetting(const ValueTree& settings, float value);
+    int   findNearestParameterSetting(int value);
     
     /* ===================== Private member variables ========================= */
     ParameterType type;

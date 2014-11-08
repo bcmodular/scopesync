@@ -222,24 +222,52 @@ float BCMParameter::getHostValue()
 
 float BCMParameter::getScopeFltValue()
 {
-    float minScopeValue = definition.getProperty(Ids::scopeRangeMinFlt);
-    float maxScopeValue = definition.getProperty(Ids::scopeRangeMaxFlt);
+    int parameterValueType = definition.getProperty(Ids::valueType);
 
-    double valueToScale = linearNormalisedValue.getValue();
-
-    double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-    if (ref != 0.0f)
+    if (parameterValueType == discrete)
     {
-        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
-        
-        valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
-    }
+        int minScopeIntValue;
+        int maxScopeIntValue;
 
-    float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale);
-    // DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
-    return scopeValue;
+        getScopeRanges(minScopeIntValue, maxScopeIntValue);
+
+        int intValue = 0;
+        
+        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
+
+        if (paramSettings.isValid())
+        {
+            int settingIdx = roundDoubleToInt(uiValue.getValue());
+        
+            if (settingIdx < paramSettings.getNumChildren())
+                intValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
+        }
+        
+        float scopeValue = (float)scaleDouble(minScopeIntValue, maxScopeIntValue, 0.0f, 1.0f, intValue);
+
+        return scopeValue;
+    }
+    else
+    {
+        float minScopeFltValue = definition.getProperty(Ids::scopeRangeMinFlt);
+        float maxScopeFltValue = definition.getProperty(Ids::scopeRangeMaxFlt);
+
+        double valueToScale = linearNormalisedValue.getValue();
+
+        double ref        = definition.getProperty(Ids::scopeDBRef);
+        
+        if (ref != 0.0f)
+        {
+            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
+        
+            valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
+        }
+
+        float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeFltValue, maxScopeFltValue, valueToScale);
+        // DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
+        return scopeValue;
+    }
 }
 
 void BCMParameter::getScopeRanges(int& min, int& max)
@@ -250,26 +278,47 @@ void BCMParameter::getScopeRanges(int& min, int& max)
 
 int BCMParameter::getScopeIntValue()
 {
-    int minScopeValue;
-    int maxScopeValue;
+    int minScopeIntValue;
+    int maxScopeIntValue;
 
-    getScopeRanges(minScopeValue, maxScopeValue);
+    getScopeRanges(minScopeIntValue, maxScopeIntValue);
 
-    double valueToScale = linearNormalisedValue.getValue();
+    int parameterValueType = definition.getProperty(Ids::valueType);
 
-    double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-    if (ref != 0.0f)
+    if (parameterValueType == discrete)
     {
-        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
+        int intValue = 0;
+        
+        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
 
-        valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
+        if (paramSettings.isValid())
+        {
+            int settingIdx = roundDoubleToInt(uiValue.getValue());
+        
+            if (settingIdx < paramSettings.getNumChildren())
+                intValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
+        }
+        
+        return intValue;
     }
+    else
+    {
+        double valueToScale = linearNormalisedValue.getValue();
 
-    int scopeValue = roundDoubleToInt(scaleDouble(0.0f, 1.0f, minScopeValue, maxScopeValue, valueToScale));
+        double ref        = definition.getProperty(Ids::scopeDBRef);
+        
+        if (ref != 0.0f)
+        {
+            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
 
-    return scopeValue;
+            valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
+        }
+
+        int scopeValue = roundDoubleToInt(scaleDouble(0.0f, 1.0f, minScopeIntValue, maxScopeIntValue, valueToScale));
+
+        return scopeValue;
+    }
 }
     
 double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedValue)
@@ -293,34 +342,27 @@ void BCMParameter::setHostValue(float newValue)
 
 void BCMParameter::setScopeFltValue(float newValue)
 {
-    float minScopeValue = definition.getProperty(Ids::scopeRangeMinFlt);
-    float maxScopeValue = definition.getProperty(Ids::scopeRangeMaxFlt);
+    float minScopeFltValue = definition.getProperty(Ids::scopeRangeMinFlt);
+    float maxScopeFltValue = definition.getProperty(Ids::scopeRangeMaxFlt);
+    
+    int parameterValueType = definition.getProperty(Ids::valueType);
 
-    linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
-
-    double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-    if (ref != 0.0f)
+    if (parameterValueType == discrete)
     {
-        double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-        double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
-            
-        linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+        int minScopeIntValue;
+        int maxScopeIntValue;
+
+        getScopeRanges(minScopeIntValue, maxScopeIntValue);
+
+        int intValue   = roundDoubleToInt(scaleDouble(minScopeFltValue, maxScopeFltValue, minScopeIntValue, maxScopeIntValue, newValue));
+        int newSetting = findNearestParameterSetting(intValue);
+        uiValue.setValue(newSetting);
+
+        setUIValue(uiValue.getValue());
     }
-
-    uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
-    DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
-}
-
-void BCMParameter::setScopeIntValue(int newValue)
-{
-    if (!affectedByUI)
+    else
     {
-        int minScopeValue;
-        int maxScopeValue;
-
-        getScopeRanges(minScopeValue, maxScopeValue);
-        linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+        linearNormalisedValue = scaleDouble(minScopeFltValue, maxScopeFltValue, 0.0f, 1.0f, newValue);
 
         double ref        = definition.getProperty(Ids::scopeDBRef);
         
@@ -332,7 +374,46 @@ void BCMParameter::setScopeIntValue(int newValue)
             linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
         }
 
-        uiValue.setValue(convertLinearNormalisedToUIValue(linearNormalisedValue.getValue()));
+        uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
+    }
+
+    DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+}
+
+void BCMParameter::setScopeIntValue(int newValue)
+{
+    if (!affectedByUI)
+    {
+        int parameterValueType = definition.getProperty(Ids::valueType);
+
+        if (parameterValueType == discrete)
+        {
+            int newSetting = findNearestParameterSetting(newValue);
+            uiValue.setValue(newSetting);
+
+            setUIValue(uiValue.getValue());
+        }
+        else
+        {
+            int minScopeValue;
+            int maxScopeValue;
+
+            getScopeRanges(minScopeValue, maxScopeValue);
+            linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+
+            double ref        = definition.getProperty(Ids::scopeDBRef);
+        
+            if (ref != 0.0f)
+            {
+                double uiMinValue = definition.getProperty(Ids::uiRangeMin);
+                double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
+            
+                linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+            }
+
+            uiValue.setValue(convertLinearNormalisedToUIValue(linearNormalisedValue.getValue()));
+        }
+        
         DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
     }
     else
@@ -392,4 +473,33 @@ double BCMParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, d
         else
             return 0;
     }
+}
+
+int BCMParameter::findNearestParameterSetting(int value)
+{
+    ValueTree settings = definition.getChildWithName(Ids::settings);
+
+    int nearestItem = 0;
+    int smallestGap = INT_MAX;
+
+    for (int i = 0; i < settings.getNumChildren(); i++)
+    {
+        int settingValue = settings.getChild(i).getProperty(Ids::intValue);
+        int gap = abs(value - settingValue);
+
+        if (gap == 0)
+        {
+            DBG("BCMParameter::findNearestParameterSetting - Found 'exact' match for setting: " + String(settings.getChild(i).getProperty(Ids::name)));
+
+            nearestItem = i;
+            break;
+        }
+        else if (gap < smallestGap)
+        {
+            smallestGap = gap;
+            nearestItem = i;
+        }
+    }
+
+    return nearestItem;
 }
