@@ -45,7 +45,7 @@ Source: "..\VST Plugin\ScopeSyncVST-x64.vst3"; DestDir: "{cf}\VST3\{#AppName}"; 
 ; Place all x86 files here, first one should be marked 'solidbreak'
 ; Place all common files here, first one should be marked 'solidbreak'
 Source: "..\Scope DLL\*"; DestDir: "{code:GetScopeDir}\App\Dll"; Flags: solidbreak; Components: ScopeDLL
-Source: "..\BC Modular Module\*"; DestDir: "{code:GetScopeDir}\Modular Modules\{#AppName}"; Components: BCMod
+Source: "..\BC Modular Module\*"; DestDir: "{code:GetModularDir}"; Components: BCMod
 Source: "..\VST Plugin\ScopeSyncVST.dll"; DestDir: "{code:GetVST2Dir}\{#AppName}"; Components:VSTPlugin\32VST2
 Source: "..\VST Plugin\ScopeSyncVST.vst3"; DestDir: "{cf32}\{#AppName}"; Components:VSTPlugin\32VST3
 Source: "..\Configurations\*"; DestDir: "{app}\Configurations"; Flags: recursesubdirs; Components: Configurations
@@ -154,7 +154,7 @@ begin
 
   if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'ModularDir', ModularDir)) then
   begin
-    ModularDir := ExpandConstant('{pf}\Scope PCI\Modular Modules');
+    ModularDir := ExpandConstant('{pf}\Scope PCI\Modular Modules\ScopeSync');
   end; 
 
   if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'AbletonUserLibDir', AbletonUserLibDir)) then
