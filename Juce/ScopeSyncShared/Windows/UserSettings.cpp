@@ -720,7 +720,7 @@ void UserSettings::RebuildFileLibrary::run()
 
     setStatusMessage("Searching for files in library locations...");
 
-    if (!(fileLocations.isValid()) || fileLocations.getNumChildren() == 0)
+    if (!fileLocations.isValid())
         return;
 
     Array<File> layoutFiles;
@@ -1022,40 +1022,38 @@ void UserSettings::loadSwatchColours()
 {
     swatchColours.clear();
 
-    const Colour colours[] =
-    {
-        Colours::blue,
-        Colours::grey,
-        Colours::green,
-        Colours::red,
-        Colours::yellow,
-        Colours::aliceblue,
-        Colours::antiquewhite,
-        Colours::aqua,
-        Colours::aquamarine,
-        Colours::azure,
-        Colours::beige,
-        Colours::bisque,
-        Colours::blanchedalmond,
-        Colours::blueviolet,
-        Colours::brown,
-        Colours::burlywood,
-        Colours::cadetblue,
-        Colours::chartreuse,
-        Colours::chocolate,
-        Colours::coral,
-        Colours::cornflowerblue,
-        Colours::cornsilk,
-        Colours::crimson,
-        Colours::cyan
-    };
+    const StringArray colours = StringArray::fromTokens(
+        "ff434343,\
+         ffd3d3d3,\
+         ffff0000,\
+         ff39f868,\
+         ff0080ff,\
+         fff0f8ff,\
+         ffffeb00,\
+         ff1f262b,\
+         ffc1c0bc,\
+         ffa19566,\
+         fff5f5dc,\
+         ff28a547,\
+         ffffb900,\
+         ff293239,\
+         ffd9e0e2,\
+         ffdeb887,\
+         ff5f9ea0,\
+         ff7fff00,\
+         ffd2691e,\
+         ffff7f50,\
+         ff6495ed,\
+         ffff1038,\
+         ffdc143c,\
+         ff628099", ",","");
 
     const int numSwatchColours = 24;
     PropertiesFile* props = getGlobalProperties();
 
     for (int i = 0; i < numSwatchColours; ++i)
         swatchColours.add(Colour::fromString(props->getValue("swatchColour" + String(i),
-                                                               colours[i].toString())));
+                                                               colours[i])));
 }
 
 void UserSettings::saveSwatchColours()
