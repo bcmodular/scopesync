@@ -788,6 +788,8 @@ void UserSettings::RebuildFileLibrary::run()
         updatePresetLibrary(presetFiles);
         UserSettings::getInstance()->sendActionMessage("presetlibraryupdated");
     }
+
+    UserSettings::getInstance()->getGlobalProperties()->saveIfNeeded();
 }
 
 void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim)
@@ -1024,27 +1026,27 @@ void UserSettings::loadSwatchColours()
 
     const StringArray colours = StringArray::fromTokens(
         "ff434343,\
+         ffff9933,\
+         ff708090,\
          ffd3d3d3,\
-         ffff0000,\
-         ff39f868,\
          ff0080ff,\
-         fff0f8ff,\
-         ffffeb00,\
+         ff82e580,\
+         ffffef2d,\
          ff1f262b,\
-         ffc1c0bc,\
-         ffa19566,\
-         fff5f5dc,\
+         ff555555,\
+         fff0f8ff,\
+         ffb2c8ce,\
          ff28a547,\
-         ffffb900,\
-         ff293239,\
+         ff425142,\
+         ff9b73ff,\
          ffd9e0e2,\
-         ffdeb887,\
+         fff4fead,\
          ff5f9ea0,\
-         ff7fff00,\
+         ffa19566,\
          ffd2691e,\
          ffff7f50,\
          ff6495ed,\
-         ffff1038,\
+         ff0e1e60,\
          ffdc143c,\
          ff628099", ",","");
 
