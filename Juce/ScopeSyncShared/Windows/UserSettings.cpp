@@ -708,6 +708,8 @@ void UserSettings::updateFileLocations(const ValueTree& fileLocations)
 
 void UserSettings::rebuildFileLibrary(bool scanConfigurations, bool scanLayouts, bool scanPresets)
 {
+    getGlobalProperties()->reload();
+
     ValueTree fileLocations = getFileLocations();
     RebuildFileLibrary rebuild(fileLocations, scanConfigurations, scanLayouts, scanPresets);
     

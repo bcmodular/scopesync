@@ -231,7 +231,7 @@ private:
         undoButton.setBounds(toolbar.removeFromLeft(20));
         toolbar.removeFromLeft(6);
         redoButton.setBounds(toolbar.removeFromLeft(20));
-        toolbar.removeFromLeft(6);
+        toolbar.removeFromLeft(7);
         editToolbarShowButton.setBounds(toolbar.removeFromLeft(17));
     }
 
