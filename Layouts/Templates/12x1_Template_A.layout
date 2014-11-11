@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-  <layout name="12x1_Template_A" libraryset="Templates" author="ScopeSync" numbuttons="0" numencoders="12" numfaders="0" numparameters="12" panelwidth="882" panelheight="185" thumbnail="gfx/TemplateA_thumb.png" blurb="A template with a single row of twelve rotary controls. &#xD;&#xA;&#xD;&#xA;Parameter name and value are positioned above the encoder. Parameter Name label runs behind the encoder value for easy colour coding of parameters via style overrides. ScopeSync code is shown to the left of the control.">
+  <layout name="12x1_Template_A" libraryset="Templates" author="ScopeSync" numbuttons="0" numencoders="12" numfaders="0" numparameters="12" panelwidth="882" panelheight="185" thumbnail="gfx/TemplateA_thumb.png" blurb="A template with a single row of twelve rotary controls. &#xD;&#xA;&#xD;&#xA;Parameter name and value are positioned above the encoder. ScopeSync code is shown to the left of the control.">
     <lookandfeels>
       <lookandfeel id="Default">
         <images>
@@ -102,9 +102,9 @@
     </lookandfeels>
     <defaults>
       <slider style="rotaryverticaldrag">
-        <bounds x="14" y="22" width="61" height="82" />
+        <bounds x="14" y="23" width="71" height="82" />
         <range min="0" max="100" int="0.0001"></range>
-        <textbox position="above" readonly="false" width="65" height="14">
+        <textbox position="above" readonly="false" width="71" height="13">
           <font height="12"></font>
         </textbox>
       </slider>
@@ -124,7 +124,7 @@
         <mappingparent componenttype="slider" />
       </label>
       <label name="ParamName Label" text="Untitled" wtid="ParamName">
-        <bounds x="18" y="10" width="71" height="26" />
+        <bounds x="18" y="10" width="71" height="13" />
         <font height="12"></font>
         <justification horizontallycentred="true" top="true" />
         <mappingparent componenttype="slider" />
@@ -157,7 +157,7 @@
           <bounds x="5" />
         </label>
         <slider name="S1">
-          <bounds x="15" />
+          <bounds x="10" />
         </slider>
         <label name="L2" wtid="ParamName">
           <mappingparent componentname="S2" />
@@ -168,7 +168,7 @@
           <bounds x="76" />
         </label>
         <slider name="S2">
-          <bounds x="86" />
+          <bounds x="81" />
         </slider>
         <label name="L3" wtid="ParamName">
           <mappingparent componentname="S3" />
@@ -179,7 +179,7 @@
           <bounds x="147" />
         </label>
         <slider name="S3">
-          <bounds x="157" />
+          <bounds x="152" />
         </slider>
         <label name="L4" wtid="ParamName">
           <mappingparent componentname="S4" />
@@ -190,7 +190,7 @@
           <bounds x="218" />
         </label>
         <slider name="S4">
-          <bounds x="228" />
+          <bounds x="223" />
         </slider>
         <label name="L5" wtid="ParamName">
           <mappingparent componentname="S5" />
@@ -201,7 +201,7 @@
           <bounds x="289" />
         </label>
         <slider name="S5">
-          <bounds x="299" />
+          <bounds x="294" />
         </slider>
         <label name="L6" wtid="ParamName">
           <mappingparent componentname="S6" />
@@ -212,7 +212,7 @@
           <bounds x="360" />
         </label>
         <slider name="S6">
-          <bounds x="370" />
+          <bounds x="365" />
         </slider>
         <label name="L7" wtid="ParamName">
           <mappingparent componentname="S7" />
@@ -223,7 +223,7 @@
           <bounds x="431" />
         </label>
         <slider name="S7">
-          <bounds x="441" />
+          <bounds x="436" />
         </slider>
         <label name="L8" wtid="ParamName">
           <mappingparent componentname="S8" />
@@ -234,7 +234,7 @@
           <bounds x="502" />
         </label>
         <slider name="S8">
-          <bounds x="512" />
+          <bounds x="507" />
         </slider>
         <label name="L9" wtid="ParamName">
           <mappingparent componentname="S9" />
@@ -245,7 +245,7 @@
           <bounds x="573" />
         </label>
         <slider name="S9">
-          <bounds x="583" />
+          <bounds x="578" />
         </slider>
         <label name="L10" wtid="ParamName">
           <mappingparent componentname="S10" />
@@ -256,7 +256,7 @@
           <bounds x="644" />
         </label>
         <slider name="S10">
-          <bounds x="654" />
+          <bounds x="649" />
         </slider>
         <label name="L11" wtid="ParamName">
           <mappingparent componentname="S11" />
@@ -267,7 +267,7 @@
           <bounds x="715" />
         </label>
         <slider name="S11">
-          <bounds x="725" />
+          <bounds x="720" />
         </slider>
         <label name="L12" wtid="ParamName">
           <mappingparent componentname="S12" />
@@ -278,7 +278,7 @@
           <bounds x="786" />
         </label>
         <slider name="S12">
-          <bounds x="796" />
+          <bounds x="791" />
         </slider>
       </component>
     </component>
