@@ -386,22 +386,9 @@ void ParameterPanel::resized()
     propertyPanel.setBounds(localBounds);
 }
 
-void ParameterPanel::valueChanged(Value& valueThatChanged)
+void ParameterPanel::valueChanged(Value& /* valueThatChanged */)
 {
-    if (int(valueThatChanged.getValue()) == 0)
-    {
-        resizerBar = nullptr;
-        settingsTable = nullptr;
-        setParameterUIRanges(0, 100, 0, undoManager, valueTree);
-        rebuildProperties();
-        resized();
-    }
-    else
-    {
-        rebuildProperties();
-        createSettingsTable();
-        resized();
-    }
+	rebuild();
 }
 
 void ParameterPanel::setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree)
@@ -449,6 +436,24 @@ void ParameterPanel::createSettingsTable()
     addAndMakeVisible(resizerBar = new ResizableEdgeComponent(settingsTable, &settingsTableConstrainer,
                                                                 ResizableEdgeComponent::topEdge));
     resizerBar->setAlwaysOnTop (true);
+}
+
+void ParameterPanel::rebuild()
+{
+	if (int(valueType.getValue()) == 0)
+	{
+		resizerBar = nullptr;
+		settingsTable = nullptr;
+		setParameterUIRanges(0, 100, 0, undoManager, valueTree);
+		rebuildProperties();
+		resized();
+	}
+	else
+	{
+		rebuildProperties();
+		createSettingsTable();
+		resized();
+	}
 }
 
 /* =========================================================================

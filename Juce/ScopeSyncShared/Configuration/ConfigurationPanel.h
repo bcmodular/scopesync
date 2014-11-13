@@ -126,6 +126,8 @@ public:
     static void createScopeProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
     static void createUIProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
 
+	void rebuild();
+
 private:
     Configuration& configuration;
     ScopedPointer<SettingsTable> settingsTable;

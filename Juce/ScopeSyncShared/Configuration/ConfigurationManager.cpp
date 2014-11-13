@@ -162,8 +162,13 @@ void ConfigurationManager::changeListenerCallback(ChangeBroadcaster* /* source *
 {
     TabbedComponent* tabbedComponentPanel = dynamic_cast<TabbedComponent*>(panel.get());
     
-    if (tabbedComponentPanel != nullptr)
-        tabbedComponentPanel->setCurrentTabIndex(0, false);
+	if (tabbedComponentPanel != nullptr)
+	{
+		tabbedComponentPanel->setCurrentTabIndex(0, false);
+
+		ParameterPanel* parameterPanel = dynamic_cast<ParameterPanel*>(tabbedComponentPanel->getTabContentComponent(0));
+		parameterPanel->rebuild();
+	}
 }
 
 void ConfigurationManager::unload()
@@ -495,8 +500,13 @@ void ConfigurationManagerCallout::changeListenerCallback(ChangeBroadcaster* /* s
 {
     TabbedComponent* tabbedComponentPanel = dynamic_cast<TabbedComponent*>(panel.get());
     
-    if (tabbedComponentPanel != nullptr)
-        tabbedComponentPanel->setCurrentTabIndex(0, false);
+	if (tabbedComponentPanel != nullptr)
+	{
+		tabbedComponentPanel->setCurrentTabIndex(0, false);
+
+		ParameterPanel* parameterPanel = dynamic_cast<ParameterPanel*>(tabbedComponentPanel->getTabContentComponent(0));
+		parameterPanel->rebuild();
+	}
 }
 
 /* =========================================================================
