@@ -104,6 +104,8 @@ private:
     Label        fileNameLabel;
     
     void editFileLocations();
+    void chooseConfiguration(const String& newFileName);
+    static void alertBoxReloadConfirm(int result, ConfigurationChooser* configurationChooser);
     void chooseSelectedConfiguration();
     void closeWindow();
     void removeExcludedConfigurations();

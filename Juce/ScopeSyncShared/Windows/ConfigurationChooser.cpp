@@ -327,8 +327,9 @@ void ConfigurationChooser::backgroundClicked(const MouseEvent&)
 
 void ConfigurationChooser::cellDoubleClicked(int rowNumber, int /* columnId */, const MouseEvent& /* e */)
 {
-    scopeSync.changeConfiguration(viewTree.getChild(rowNumber).getProperty(Ids::filePath).toString());
-    closeWindow();
+    String newFileName = viewTree.getChild(rowNumber).getProperty(Ids::filePath).toString();
+
+    chooseConfiguration(newFileName);
 }
 
 void ConfigurationChooser::selectedRowsChanged(int lastRowSelected)
@@ -400,10 +401,45 @@ void ConfigurationChooser::editFileLocations()
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
+void ConfigurationChooser::chooseConfiguration(const String& newFileName)
+{
+    if (scopeSync.getConfigurationFile().getFullPathName().equalsIgnoreCase(newFileName))
+    {
+        if (scopeSync.configurationHasUnsavedChanges())
+        {
+            AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+                                         "Are you sure?",
+                                         "There are unsaved changes. This will discard them and clear the undo history.",
+                                         String::empty,
+                                         String::empty,
+                                         this,
+                                         ModalCallbackFunction::forComponent(alertBoxReloadConfirm, this));
+
+            return;
+        }
+        else
+            scopeSync.reloadSavedConfiguration();
+    }
+    else
+        scopeSync.changeConfiguration(newFileName);
+
+    closeWindow();
+}
+
+void ConfigurationChooser::alertBoxReloadConfirm(int result, ConfigurationChooser* configurationChooser)
+{
+    if (result)
+    {
+        configurationChooser->scopeSync.reloadSavedConfiguration();
+        configurationChooser->closeWindow();
+    }
+}
+
 void ConfigurationChooser::chooseSelectedConfiguration()
 {
-    scopeSync.changeConfiguration(viewTree.getChild(table.getSelectedRow()).getProperty(Ids::filePath).toString());
-    closeWindow();
+    String newFileName = viewTree.getChild(table.getSelectedRow()).getProperty(Ids::filePath).toString();
+
+    chooseConfiguration(newFileName);
 }
 
 void ConfigurationChooser::closeWindow()
