@@ -320,7 +320,22 @@ int BCMParameter::getScopeIntValue()
         return scopeValue;
     }
 }
-    
+
+bool BCMParameter::isDiscrete()
+{
+    int parameterValueType = definition.getProperty(Ids::valueType);
+
+    if (parameterValueType == discrete)
+    {
+        ValueTree parameterSettings = definition.getChildWithName(Ids::settings);
+
+        if (parameterSettings.isValid() && parameterSettings.getNumChildren() > 0)
+            return true;
+    }
+
+    return false;
+}
+
 double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedValue)
 {
     double minUIValue;

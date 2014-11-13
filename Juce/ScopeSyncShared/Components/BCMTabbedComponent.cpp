@@ -76,7 +76,7 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
 
 void BCMTabbedComponent::attachToParameter()
 {
-    if (mapsToParameter)
+    if (mapsToParameter && parameter->isDiscrete())
     {
         parameter->mapToUIValue(parameterValue);
         parameterValue.addListener(this);

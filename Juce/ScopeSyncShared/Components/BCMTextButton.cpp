@@ -110,7 +110,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
     setupMapping(Ids::textButton, getName(), properties.mappingParentType, properties.mappingParent);
     
-    if (mapsToParameter)
+    if (mapsToParameter && parameter->isDiscrete())
     {
         // DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         
@@ -130,105 +130,102 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         if (mappingType != toggle)
             setTriggeredOnMouseDown(true);
                 
-        if (settings.isValid())
+        int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
+        int maxSettingIdx       = settings.getNumChildren() - 1;
+
+        if (mapping.getProperty(Ids::radioGroup).isInt())
         {
-            int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
-            int maxSettingIdx       = settings.getNumChildren() - 1;
-
-            if (mapping.getProperty(Ids::radioGroup).isInt())
-            {
-                radioGroupId = mapping.getProperty(Ids::radioGroup);
-                // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
-            }
+            radioGroupId = mapping.getProperty(Ids::radioGroup);
+            // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
+        }
                 
-            // Set up the button display type and the initial button text
-            displayType = (DisplayType)(int(mapping.getProperty(Ids::displayType)));
+        // Set up the button display type and the initial button text
+        displayType = (DisplayType)(int(mapping.getProperty(Ids::displayType)));
             
-            if (displayType == downSetting)
-                buttonText  = mapping.getProperty(Ids::settingDown);
-            else if (displayType == custom)
-                buttonText  = mapping.getProperty(Ids::customDisplay);
-            else
-                buttonText = settings.getChild(currentSettingIdx).getProperty(Ids::name, "__NO_NAME__");
+        if (displayType == downSetting)
+            buttonText  = mapping.getProperty(Ids::settingDown);
+        else if (displayType == custom)
+            buttonText  = mapping.getProperty(Ids::customDisplay);
+        else
+            buttonText = settings.getChild(currentSettingIdx).getProperty(Ids::name, "__NO_NAME__");
             
-            if (mappingType == toggle || mappingType == noToggle)
+        if (mappingType == toggle || mappingType == noToggle)
+        {
+            String settingDown = mapping.getProperty(Ids::settingDown);
+            String settingUp   = mapping.getProperty(Ids::settingUp);
+
+            for (int i = 0; i < settings.getNumChildren(); i++)
             {
-                String settingDown = mapping.getProperty(Ids::settingDown);
-                String settingUp   = mapping.getProperty(Ids::settingUp);
+                ValueTree setting = settings.getChild(i);
+                String    settingName = setting.getProperty(Ids::name, "__NO_NAME__");
 
-                for (int i = 0; i < settings.getNumChildren(); i++)
+                if (settingName == settingDown)
                 {
-                    ValueTree setting = settings.getChild(i);
-                    String    settingName = setting.getProperty(Ids::name, "__NO_NAME__");
-
-                    if (settingName == settingDown)
-                    {
-                        downSettingIdx = i;
-                        // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - down: " + settingDown);
-                    }
-                    else if (settingName == settingUp)
-                    {
-                        upSettingIdx = i;
-                        // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - up: " + settingUp);
-                    }
+                    downSettingIdx = i;
+                    // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - down: " + settingDown);
                 }
-
-                if (mappingType == toggle)
+                else if (settingName == settingUp)
                 {
-                    setClickingTogglesState(true);
+                    upSettingIdx = i;
+                    // DBG("BCMTextButton::applyProperties - Found mapped parameter settings - up: " + settingUp);
+                }
+            }
 
-                    if (currentSettingIdx == downSettingIdx)
-                    {
-                        setToggleState(true, dontSendNotification);
+            if (mappingType == toggle)
+            {
+                setClickingTogglesState(true);
+
+                if (currentSettingIdx == downSettingIdx)
+                {
+                    setToggleState(true, dontSendNotification);
                         
-                        if (mapsToTabs)
-                            switchToTabs();
-                    }
+                    if (mapsToTabs)
+                        switchToTabs();
                 }
             }
-            else
-            {
-                if (mappingType == inc)
-                {
-                    if (currentSettingIdx == maxSettingIdx)
-                        downSettingIdx = currentSettingIdx;
-                    else
-                        downSettingIdx = currentSettingIdx + 1;                    
-                }
-                else if (mappingType == incWrap)
-                {
-                    if (currentSettingIdx == maxSettingIdx)
-                        downSettingIdx = 0;
-                    else
-                        downSettingIdx = currentSettingIdx + 1;  
-                }
-                else if (mappingType == dec)
-                {
-                    if (currentSettingIdx == 0)
-                        downSettingIdx = 0;
-                    else
-                        downSettingIdx = currentSettingIdx - 1;  
-                }
-                else if (mappingType == decWrap)
-                {
-                    if (currentSettingIdx == 0)
-                        downSettingIdx = maxSettingIdx;
-                    else
-                        downSettingIdx = currentSettingIdx - 1;  
-                }
-
-                String settingDown = mapping.getProperty(Ids::settingDown);
-                
-            }
-
-            parameterValue.addListener(this);
         }
         else
         {
-            buttonText = "MAP ERROR";
-            // DBG("BCMTextButton::BCMTextButton - No values");
-            mapsToParameter = false;
+            if (mappingType == inc)
+            {
+                if (currentSettingIdx == maxSettingIdx)
+                    downSettingIdx = currentSettingIdx;
+                else
+                    downSettingIdx = currentSettingIdx + 1;                    
+            }
+            else if (mappingType == incWrap)
+            {
+                if (currentSettingIdx == maxSettingIdx)
+                    downSettingIdx = 0;
+                else
+                    downSettingIdx = currentSettingIdx + 1;  
+            }
+            else if (mappingType == dec)
+            {
+                if (currentSettingIdx == 0)
+                    downSettingIdx = 0;
+                else
+                    downSettingIdx = currentSettingIdx - 1;  
+            }
+            else if (mappingType == decWrap)
+            {
+                if (currentSettingIdx == 0)
+                    downSettingIdx = maxSettingIdx;
+                else
+                    downSettingIdx = currentSettingIdx - 1;  
+            }
+
+            String settingDown = mapping.getProperty(Ids::settingDown);
+                
         }
+
+        parameterValue.addListener(this);
+    }
+    else
+    {
+        buttonText = "MAP ERROR";
+        // DBG("BCMTextButton::BCMTextButton - No values");
+        mapsToParameter = false;
     }
 
     url = properties.url;

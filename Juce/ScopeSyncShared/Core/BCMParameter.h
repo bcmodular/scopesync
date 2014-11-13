@@ -60,6 +60,8 @@ public:
     float getHostValue();
     float getScopeFltValue();
     int   getScopeIntValue();
+
+    bool isDiscrete();
     
     void setHostValue(float newValue);
     void setScopeFltValue(float newValue);

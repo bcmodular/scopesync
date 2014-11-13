@@ -98,12 +98,12 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         String uiSuffix = String::empty;
         parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
 
-        ValueTree parameterSettings;
-        parameter->getSettings(parameterSettings);
-
-        if (parameterSettings.isValid() && parameterSettings.getNumChildren() > 0)
+        if (parameter->isDiscrete())
         {
             // We have discrete settings for the mapped parameter, so configure these
+            ValueTree parameterSettings;
+            parameter->getSettings(parameterSettings);
+
             settingsNames.clear();
 
             for (int i = 0; i < parameterSettings.getNumChildren(); i++)

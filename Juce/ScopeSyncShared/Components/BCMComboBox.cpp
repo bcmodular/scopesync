@@ -60,36 +60,31 @@ void BCMComboBox::applyProperties(ComboBoxProperties& properties)
     
     setupMapping(Ids::comboBox, getName(), properties.mappingParentType, properties.mappingParent);
 
-    if (mapsToParameter)
+    if (mapsToParameter && parameter->isDiscrete())
     {
         ValueTree parameterSettings;
         parameter->getSettings(parameterSettings);
 
-        if (parameterSettings.isValid())
-        {
-            clear(juce::dontSendNotification);
+        clear(juce::dontSendNotification);
             
-            parameter->mapToUIValue(parameterValue);
-            parameterValue.addListener(this);
+        parameter->mapToUIValue(parameterValue);
+        parameterValue.addListener(this);
             
-            String shortDesc;
-            parameter->getDescriptions(shortDesc, tooltip);
+        String shortDesc;
+        parameter->getDescriptions(shortDesc, tooltip);
 
-            for (int i = 0; i < parameterSettings.getNumChildren(); i++)
-            {
-                ValueTree parameterSetting = parameterSettings.getChild(i);
-                String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
-
-                addItem(settingName, i + 1);
-            }
-            
-            setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
-        }
-        else
+        for (int i = 0; i < parameterSettings.getNumChildren(); i++)
         {
-            mapsToParameter = false;
+            ValueTree parameterSetting = parameterSettings.getChild(i);
+            String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
+
+            addItem(settingName, i + 1);
         }
+            
+        setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
     }
+    else
+        mapsToParameter = false;
     
     setTooltip(tooltip);
 }
