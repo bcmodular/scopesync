@@ -210,12 +210,42 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 600, 300);
+
+	startTimer(100);
 }
 
 FileLocationEditor::~FileLocationEditor()
 {
     removeKeyListener(commandManager->getKeyMappings());
     tree.removeListener(this);
+}
+
+void FileLocationEditor::timerCallback()
+{
+#if JUCE_WINDOWS
+	String stockFileName = WindowsRegistry::getValue("HKEY_CURRENT_USER\\Software\\ScopeSync\\InstallLocation");
+
+	if (stockFileName.isNotEmpty() && tree.getNumChildren() == 0)
+	{
+		AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
+			"Add stock location?",
+			"Would you like to add the stock library location (" + stockFileName + ")?",
+			String::empty,
+			String::empty,
+			this,
+			ModalCallbackFunction::forComponent(alertBoxAddStockLocationConfirm, this, stockFileName));
+	}
+#endif
+
+	stopTimer();
+}
+
+void FileLocationEditor::alertBoxAddStockLocationConfirm(int result,
+														 FileLocationEditor* fileLocationEditor, 
+														 String stockFileName)
+{
+	if (result)
+		fileLocationEditor->addFileLocation(stockFileName);
 }
 
 ValueTree FileLocationEditor::getFileLocations()
@@ -404,23 +434,24 @@ void FileLocationEditor::redo()
 
 void FileLocationEditor::addFileLocation()
 {
-    ValueTree newFileLocation(Ids::location);
-    String newLocationName;
+	FileChooser fileChooser("Please select the base folder for your File location...");
 
-    newFileLocation.setProperty(Ids::folder, String::empty, &undoManager);
+	if (fileChooser.browseForDirectory())
+	{
+		String result = fileChooser.getResult().getFullPathName();
+		addFileLocation(result);
+	}
+}
 
-    tree.addChild(newFileLocation, -1, &undoManager);
-    locationsChanged = true;
-     
-    FileChooser fileChooser("Please select the base folder for your File location...");
-    
-    if (fileChooser.browseForDirectory())
-    {
-        File result = fileChooser.getResult();
-        newFileLocation.setProperty(Ids::folder, result.getFullPathName(), &undoManager);
-    }
-    else
-        tree.removeChild(tree.indexOf(newFileLocation), &undoManager);
+void FileLocationEditor::addFileLocation(const String& newFileLocation)
+{
+	ValueTree newLocation(Ids::location);
+	String newLocationName;
+
+	newLocation.setProperty(Ids::folder, newFileLocation, &undoManager);
+
+	tree.addChild(newLocation, -1, &undoManager);
+	locationsChanged = true;
 }
 
 void FileLocationEditor::removeFileLocations()

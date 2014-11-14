@@ -72,6 +72,8 @@ Name: "VSTPlugin\32VST3"; Description: "32-bit VST3 Plugin (Experimental)"
 Name: "VSTPlugin\64VST3"; Description: "64-bit VST3 Plugin (Experimental)"; Check: Is64BitInstallMode
 Name: "M4L"; Description: "Max For Live Patches"; Types: full
 
+[Registry]
+Root: HKCU; Subkey: "Software\ScopeSync"; ValueType: string; ValueName: "InstallLocation"; ValueData: "{app}"
 [Code]
 // global vars
 var
@@ -83,7 +85,8 @@ var
   AdditionalDirPage1ID: Integer;
   AdditionalDirPage2: TInputDirWizardPage;  
   AdditionalDirPage2ID: Integer;
-  function GetScopeDir(Param: String): String;
+
+function GetScopeDir(Param: String): String;
 var
   ScopeDir: String;
 begin

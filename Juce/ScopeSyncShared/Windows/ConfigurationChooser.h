@@ -61,7 +61,8 @@ class ConfigurationChooser : public  Component,
                              private TableListBoxModel,
                              private ValueTree::Listener,
                              public  ApplicationCommandTarget,
-                             public  ActionListener
+                             public  ActionListener,
+							 private Timer
 {
 public:
     ConfigurationChooser(ScopeSync& ss,
@@ -114,6 +115,8 @@ private:
     void rebuildFileLibrary();
     void attachToTree();
     void unloadConfiguration();
+
+	void timerCallback() override;
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

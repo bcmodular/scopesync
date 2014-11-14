@@ -49,40 +49,44 @@ private:
 
 
 class FileLocationEditor : public  Component,
-                           private TableListBoxModel,
-                           private ValueTree::Listener,
-                           public  ApplicationCommandTarget
+	private TableListBoxModel,
+	private ValueTree::Listener,
+	public  ApplicationCommandTarget,
+	private Timer
 {
 public:
-    FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm);
-    ~FileLocationEditor();
+	FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm);
+	~FileLocationEditor();
 
-    ValueTree getFileLocations();
-    bool      locationsHaveChanged() { return locationsChanged; }
+	ValueTree getFileLocations();
+	bool      locationsHaveChanged() { return locationsChanged; }
 
-    void paint(Graphics& g) override;
-    void resized() override;
-    
-    int        getNumRows();
-    void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
-    void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-    Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
-    void       sortOrderChanged(int /* newSortColumnId */, bool /* isForwards */) override {};
-    void       selectedRowsChanged(int /* lastRowSelected */) override {};
-    void       backgroundClicked(const MouseEvent&) override;
-    void       deleteKeyPressed(int) override;
+	void paint(Graphics& g) override;
+	void resized() override;
 
-    // Overridden methods for ValueTree::Listener
-    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override
-    { 
-        table.updateContent(); 
-        locationsChanged = true;
-    };
+	int        getNumRows();
+	void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
+	void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
+	Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
+	void       sortOrderChanged(int /* newSortColumnId */, bool /* isForwards */) override {};
+	void       selectedRowsChanged(int /* lastRowSelected */) override {};
+	void       backgroundClicked(const MouseEvent&) override;
+	void       deleteKeyPressed(int) override;
 
-    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
-    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { table.updateContent(); };
-    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { table.updateContent(); };
-    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
+	// Overridden methods for ValueTree::Listener
+	void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override
+	{
+		table.updateContent();
+		locationsChanged = true;
+	};
+
+	void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
+	void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { table.updateContent(); };
+	void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */) override { table.updateContent(); };
+	void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
+
+	UndoManager& getUndoManager() { return undoManager; }
+	void addFileLocation(const String& newFileLocation);
 
 private:
     TableListBox   table;
@@ -107,14 +111,20 @@ private:
     class ButtonComp;
     friend class ButtonComp;
 
+	static void alertBoxAddStockLocationConfirm(int result,
+												FileLocationEditor* fileLocationEditor,
+												String stockFileName);
+
     void textWasEdited();
     void addFileLocation();
-    void removeFileLocations();
+	void removeFileLocations();
     void moveFileLocations(bool moveUp);
     void rebuildFileLibrary();
 
     void undo();
     void redo();
+
+	void timerCallback() override;
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;

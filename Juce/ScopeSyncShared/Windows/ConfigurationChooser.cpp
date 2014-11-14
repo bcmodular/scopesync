@@ -217,6 +217,8 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 1000, 600);
+
+	startTimer(100);
 }
 
 ConfigurationChooser::~ConfigurationChooser()
@@ -224,6 +226,14 @@ ConfigurationChooser::~ConfigurationChooser()
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
     UserSettings::getInstance()->removeActionListener(this);
+}
+
+void ConfigurationChooser::timerCallback()
+{
+	if (viewTree.getNumChildren() == 0)
+		editFileLocations();
+	
+	stopTimer();
 }
 
 void ConfigurationChooser::actionListenerCallback(const String& message)
