@@ -229,13 +229,26 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 1000, 600);
+
+	startTimer(100);
 }
 
 LayoutChooser::~LayoutChooser()
 {
-    removeKeyListener(commandManager->getKeyMappings());
+	stopTimer();
+	removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
     UserSettings::getInstance()->removeActionListener(this);
+}
+
+void LayoutChooser::timerCallback()
+{
+	stopTimer();
+
+	if (viewTree.getNumChildren() == 0)
+		editFileLocations();
+	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+		rebuildFileLibrary();
 }
 
 void LayoutChooser::actionListenerCallback(const String& message)

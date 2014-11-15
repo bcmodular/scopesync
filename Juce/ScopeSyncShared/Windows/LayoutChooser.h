@@ -61,7 +61,8 @@ class LayoutChooser : public  Component,
                       private TableListBoxModel,
                       private ValueTree::Listener,
                       public  ApplicationCommandTarget,
-                      public  ActionListener
+					  public  ActionListener,
+					  private Timer
 {
 public:
     LayoutChooser(const Value& layoutName,
@@ -83,7 +84,9 @@ public:
     void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
     void       returnKeyPressed(int lastRowSelected);
     
-    // Overridden methods for ValueTree::Listener
+	void timerCallback() override;
+
+	// Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
     void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
     void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */) override { table.updateContent(); };

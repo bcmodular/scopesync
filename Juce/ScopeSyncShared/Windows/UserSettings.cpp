@@ -196,6 +196,9 @@ UserSettings::UserSettings()
     useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
     useImageCache.addListener(this);
 
+	autoRebuildLibrary.setValue(getPropertyBoolValue("autorebuildlibrary", false));
+	autoRebuildLibrary.addListener(this);
+
     setupPanel();
 
     addAndMakeVisible(fileLocationsButton);
@@ -204,7 +207,7 @@ UserSettings::UserSettings()
     addAndMakeVisible(presetManagerButton);
     presetManagerButton.setCommandToTrigger(commandManager, CommandIDs::showPresetManager, true);
     
-    setSize (getLocalBounds().getWidth(), getLocalBounds().getHeight());
+    setSize(getLocalBounds().getWidth(), getLocalBounds().getHeight());
 
     startTimer(500);
 }
@@ -243,6 +246,7 @@ void UserSettings::setupPanel()
 
     props.clear();
     props.add(new BooleanPropertyComponent(useImageCache, "Image Cache", "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
+	props.add(new BooleanPropertyComponent(autoRebuildLibrary, "Automatically Rebuild Library", "Enabled"), "Automatically rebuild the relevant library on opening a Chooser window. Depending on size of library, enabling this may cause a performance problem.");
 
     propertyPanel.addSection("Expert Settings", props.components, false);
 }
@@ -272,7 +276,7 @@ void UserSettings::resized()
     presetManagerButton.setBounds(toolbarButtons.removeFromLeft(140).reduced(4, 4));
 
     localBounds.removeFromTop(5);
-    propertyPanel.setBounds(localBounds);
+    propertyPanel.setBounds(localBounds.reduced(4, 4));
 }
 
 int UserSettings::getPropertyIntValue(const String& propertyName, int defaultValue)
@@ -301,6 +305,8 @@ void UserSettings::valueChanged(Value& valueThatChanged)
         setPropertyIntValue("tooltipdelaytime", valueThatChanged.getValue());
     else if (valueThatChanged.refersToSameSourceAs(useImageCache))
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
+		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
 }
 
 void UserSettings::userTriedToCloseWindow()

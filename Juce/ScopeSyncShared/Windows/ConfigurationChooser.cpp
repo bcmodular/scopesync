@@ -223,6 +223,7 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
 
 ConfigurationChooser::~ConfigurationChooser()
 {
+	stopTimer();
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
     UserSettings::getInstance()->removeActionListener(this);
@@ -230,10 +231,12 @@ ConfigurationChooser::~ConfigurationChooser()
 
 void ConfigurationChooser::timerCallback()
 {
+	stopTimer();
+
 	if (viewTree.getNumChildren() == 0)
 		editFileLocations();
-	
-	stopTimer();
+	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+		rebuildFileLibrary();
 }
 
 void ConfigurationChooser::actionListenerCallback(const String& message)

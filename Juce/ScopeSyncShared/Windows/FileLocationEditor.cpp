@@ -216,12 +216,15 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
 
 FileLocationEditor::~FileLocationEditor()
 {
+	stopTimer();
     removeKeyListener(commandManager->getKeyMappings());
     tree.removeListener(this);
 }
 
 void FileLocationEditor::timerCallback()
 {
+	stopTimer();
+
 #if JUCE_WINDOWS
 	String stockFileName = WindowsRegistry::getValue("HKEY_CURRENT_USER\\Software\\ScopeSync\\InstallLocation");
 
@@ -236,8 +239,6 @@ void FileLocationEditor::timerCallback()
 			ModalCallbackFunction::forComponent(alertBoxAddStockLocationConfirm, this, stockFileName));
 	}
 #endif
-
-	stopTimer();
 }
 
 void FileLocationEditor::alertBoxAddStockLocationConfirm(int result,

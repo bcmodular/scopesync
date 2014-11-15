@@ -149,13 +149,26 @@ PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommand
     addKeyListener(commandManager->getKeyMappings());
 
     setBounds(0, 0, 1000, 600);
+
+	startTimer(100);
 }
 
 PresetChooser::~PresetChooser()
 {
-    removeKeyListener(commandManager->getKeyMappings());
+	stopTimer();
+	removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
     UserSettings::getInstance()->removeActionListener(this);
+}
+
+void PresetChooser::timerCallback()
+{
+	stopTimer();
+
+	if (viewTree.getNumChildren() == 0)
+		editFileLocations();
+	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+		rebuildFileLibrary();
 }
 
 void PresetChooser::actionListenerCallback(const String& message)
