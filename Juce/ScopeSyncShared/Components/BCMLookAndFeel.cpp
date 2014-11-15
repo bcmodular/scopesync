@@ -30,6 +30,7 @@
 #include "BCMLookAndFeel.h"
 #include "BCMSlider.h"
 #include "BCMComboBox.h"
+#include "BCMLabel.h"
 #include "../Properties/PropertiesHelper.h"
 #include "../Utils/BCMMath.h"
 #include "../Core/ScopeSyncGUI.h"
@@ -687,6 +688,41 @@ void BCMLookAndFeel::drawCallOutBoxBackground(CallOutBox& /* box */, Graphics& g
 
     g.setColour(Colours::white.withAlpha(1.0f));
     g.strokePath(path, PathStrokeType(2.0f));
+}
+
+void BCMLookAndFeel::drawLabel(Graphics& g, Label& label)
+{
+	BCMLabel* bcmLabel = dynamic_cast<BCMLabel*>(&label);
+
+	if (bcmLabel != nullptr && bcmLabel->getMaxTextLines() > 0)
+	{
+		g.fillAll(label.findColour(Label::backgroundColourId));
+
+		if (!label.isBeingEdited())
+		{
+			const float alpha = label.isEnabled() ? 1.0f : 0.5f;
+			const Font font(getLabelFont(label));
+
+			g.setColour(label.findColour(Label::textColourId).withMultipliedAlpha(alpha));
+			g.setFont(font);
+
+			Rectangle<int> textArea(label.getBorderSize().subtractedFrom(label.getLocalBounds()));
+
+			g.drawFittedText(label.getText(), textArea, label.getJustificationType(),
+				bcmLabel->getMaxTextLines(),
+				label.getMinimumHorizontalScale());
+
+			g.setColour(label.findColour(Label::outlineColourId).withMultipliedAlpha(alpha));
+		}
+		else if (label.isEnabled())
+		{
+			g.setColour(label.findColour(Label::outlineColourId));
+		}
+
+		g.drawRect(label.getLocalBounds());
+	}
+	else
+		LookAndFeel_V2::drawLabel(g, label);
 }
 
 int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType)

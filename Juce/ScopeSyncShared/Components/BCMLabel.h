@@ -45,11 +45,15 @@ public:
     void applyProperties(LabelProperties& properties);
     const Identifier getComponentType() const override;
 
+	int getMaxTextLines() { return maxTextLines; }
+
 protected:
     void applyLookAndFeel(bool noStyleOverride) override;
 
 private:
-    void mouseDown(const MouseEvent& event) override;
+    int maxTextLines;
+
+	void mouseDown(const MouseEvent& event) override;
     
     // Open the specific Style Override Panel for labels as appropriate
     void overrideStyle() override;

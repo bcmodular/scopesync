@@ -52,6 +52,7 @@ public:
     Font::FontStyleFlags fontStyleFlags;
     Justification::Flags justificationFlags;
     ParameterTextDisplay parameterTextDisplay;
+	int                  maxTextLines;
 
 private:
     void initialise();

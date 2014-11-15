@@ -56,6 +56,7 @@ void LabelProperties::initialise()
     fontStyleFlags       = Font::plain;
     justificationFlags   = Justification::centred;
     parameterTextDisplay = shortDescription;
+	maxTextLines         = 0;
 };
 
 void LabelProperties::copyProperties(const LabelProperties& parentLabelProperties)
@@ -65,6 +66,7 @@ void LabelProperties::copyProperties(const LabelProperties& parentLabelPropertie
     fontStyleFlags       = parentLabelProperties.fontStyleFlags;
     justificationFlags   = parentLabelProperties.justificationFlags;
     parameterTextDisplay = parentLabelProperties.parameterTextDisplay;
+	maxTextLines		 = parentLabelProperties.maxTextLines;
 };
 
 void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
@@ -80,6 +82,8 @@ void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
         getJustificationFlagsFromXml(*justificationXml, justificationFlags);
 
     getParameterTextDisplayFromXml(labelXML, parameterTextDisplay);
+
+	maxTextLines = labelXML.getIntAttribute("maxtextlines", maxTextLines);
 };
 
 void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& parameterTextDisplay)

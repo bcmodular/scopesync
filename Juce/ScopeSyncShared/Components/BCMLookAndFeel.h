@@ -153,6 +153,9 @@ public:
     // Callback for drawing a CallOutBox's background. Overridden to fix performance issue on Windows 8
     void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
 
+	// Callback for drawing a Label. Overridden to allow restricted number of lines of text
+	void drawLabel(Graphics&, Label&) override;
+
     // Returns a result to indicate whether the BCMLookAndFeel applies to the supplied Component Type
     // 0: Doesn't apply, 1: Applies specifically, 2: Applies generally
     int  appliesToComponentType(const Identifier& componentType);

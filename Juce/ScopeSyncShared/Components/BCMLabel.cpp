@@ -48,19 +48,17 @@ void BCMLabel::applyProperties(LabelProperties& properties)
 {
     applyWidgetProperties(properties);
     
+	maxTextLines = properties.maxTextLines;
+
     String labelText = getText();
     String tooltip   = getText();
     
     mapsToParameter = false;
     
     if (getName().equalsIgnoreCase("configurationfilepath"))
-    {
         labelText = scopeSyncGUI.getScopeSync().getConfigurationFile().getFullPathName();
-    }
     else if (getName().equalsIgnoreCase("configurationname"))
-    {
         labelText = scopeSyncGUI.getScopeSync().getConfigurationName(true);
-    }
     else
     {
         setupMapping(Ids::label, getName(), properties.mappingParentType, properties.mappingParent);
