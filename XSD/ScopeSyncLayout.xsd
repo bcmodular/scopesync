@@ -333,6 +333,7 @@
     		type="tns:parametertextdisplaytype">
     	</attribute>
     	<attribute name="nostyleoverride" type="boolean"></attribute>
+    	<attribute name="maxtextlines" type="int"></attribute>
     </complexType>
 
     <complexType name="fonttype">
