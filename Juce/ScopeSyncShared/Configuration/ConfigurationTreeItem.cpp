@@ -153,7 +153,7 @@ public:
 
     void changePanel() override
     {
-        configurationManager.changePanel(configurationManager.createParameterPanelComponent(tree, BCMParameter::hostParameter));
+        configurationManager.changePanel(configurationManager.createParameterPanelComponent(tree, BCMParameter::scopeLocal));
     }
 
 private:    

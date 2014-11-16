@@ -419,8 +419,11 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
         // DBG("BCMParameterWidget::setupMapping - Using direct mapping: " + String(componentType) + "/" + componentName);
         if (parameter != nullptr)
             mapsToParameter = true;
-
-        return;
+		
+		if (ScopeSyncApplication::inPluginContext() && parameter->getParameterType() == BCMParameter::scopeLocal)
+			parentWidget->setVisible(false);
+        
+		return;
     }
     
     if (mappingParentType.isValid() && mappingParent.isNotEmpty())
@@ -435,6 +438,10 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
         if (parameter != nullptr)
         {
             mapsToParameter = true;
+
+			if (ScopeSyncApplication::inPluginContext() && parameter->getParameterType() == BCMParameter::scopeLocal)
+				parentWidget->setVisible(false);
+
             return;
         }
     }

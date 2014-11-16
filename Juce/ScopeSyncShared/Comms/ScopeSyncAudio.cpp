@@ -137,7 +137,7 @@ void ScopeSyncAudio::processBlock(AudioSampleBuffer& buffer)
 
 void ScopeSyncAudio::setControlValue(int index, float ctrlValue)
 {
-    if (index != -1)
+    if (index != -1 && index < numControls)
         controls[index]->setValue(ctrlValue, true, false);
     else
         DBG("ScopeSyncAudio::setControlValue - value sent for invalid index: " + String(index));

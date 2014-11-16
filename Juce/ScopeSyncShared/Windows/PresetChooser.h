@@ -38,8 +38,7 @@ class PresetChooser : public  Component,
                       private ValueTree::Listener,
                       public  ApplicationCommandTarget,
                       public  ActionListener,
-					  public  ChangeBroadcaster,
-					  private Timer
+					  public  ChangeBroadcaster
 {
 public:
     PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommandManager* acm, UndoManager& um);
@@ -90,8 +89,6 @@ private:
     void removePresetFileEntries();
     void attachToTree();
     
-	void timerCallback() override;
-
 	/* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;

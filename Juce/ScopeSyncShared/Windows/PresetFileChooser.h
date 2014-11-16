@@ -38,7 +38,8 @@ class PresetFileChooser : public  Component,
                           private TableListBoxModel,
                           private ValueTree::Listener,
                           public  ApplicationCommandTarget,
-                          public  ActionListener
+                          public  ActionListener,
+						  private Timer
 {
 public:
     PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um, PresetManagerWindow& parent);
@@ -88,7 +89,9 @@ private:
     void removePresetEntries();
     void attachToTree();
     
-    /* ================= Application Command Target overrides ================= */
+    void timerCallback() override;
+
+	/* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
