@@ -429,7 +429,7 @@ void ParameterPanel::createSettingsTable()
     valueTree.setProperty(Ids::uiSkewMidpoint, String::empty, &undoManager);
     valueTree.setProperty(Ids::scopeDBRef, 0.0f, &undoManager);
 
-    settingsTable = new SettingsTable(settings, undoManager, commandManager, valueTree);
+    settingsTable = new SettingsTable(settings, undoManager, commandManager, valueTree, commandManager->getFirstCommandTarget(CommandIDs::addConfig));
     settingsTable->setBounds(0, 0, getWidth(), lastSettingsTableHeight);
     addAndMakeVisible(settingsTable);
 

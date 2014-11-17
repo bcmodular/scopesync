@@ -40,7 +40,7 @@ class SettingsTable : public  Component,
 {
 public:
     SettingsTable(const ValueTree& vt, UndoManager& um, ApplicationCommandManager* acm,
-                  ValueTree& parameter);
+                  ValueTree& parameter, ApplicationCommandTarget* act);
     ~SettingsTable();
 
     void       resized() override;
@@ -77,12 +77,16 @@ private:
 
     Value        numSettingsToAdd;
     ValueTree    parameter;
+	ApplicationCommandTarget* parentCommandTarget;
 
     class LabelComp;
     friend class LabelComp;
 
     void textWasEdited();
-    void addSettings();
+    
+	void undo();
+	void redo();
+	void addSettings();
     void removeSettings();
     void updateParameterRanges();
     void autoFill();

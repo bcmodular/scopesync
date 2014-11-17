@@ -100,7 +100,7 @@ private:
 };
 
 SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm,
-                             ValueTree& param)
+                             ValueTree& param, ApplicationCommandTarget* act)
     : tree(valueTree), undoManager(um), font(14.0f), commandManager(acm),
       numSettingsTextLabel(String::empty, "Num to add:"),
       addSettingsButton("Add"),
@@ -108,7 +108,8 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Applic
       autoFillValuesButton("Auto-fill"),
       moveUpButton("Move Up"),
       moveDownButton("Move Down"),
-      parameter(param)
+      parameter(param),
+	  parentCommandTarget(act)
 {
     commandManager->registerAllCommandsForTarget(this);
 
@@ -150,11 +151,14 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Applic
 
     addAndMakeVisible(moveDownButton);
     moveDownButton.setCommandToTrigger(commandManager, CommandIDs::moveDown, true);
+
+	addKeyListener(commandManager->getKeyMappings());
 }
 
 SettingsTable::~SettingsTable()
 {
     tree.removeListener(this);
+	removeKeyListener(commandManager->getKeyMappings());
 }
 
 void SettingsTable::resized()
@@ -255,7 +259,9 @@ void SettingsTable::deleteKeyPressed(int)
 
 void SettingsTable::getAllCommands(Array <CommandID>& commands)
 {
-    const CommandID ids[] = { CommandIDs::addSettings,
+    const CommandID ids[] = { CommandIDs::undo,
+                              CommandIDs::redo,
+                              CommandIDs::addSettings,
                               CommandIDs::removeSettings,
                               CommandIDs::autoFill,
                               CommandIDs::moveUp,
@@ -269,6 +275,14 @@ void SettingsTable::getCommandInfo(CommandID commandID, ApplicationCommandInfo& 
 {
     switch (commandID)
     {
+    case CommandIDs::undo:
+        result.setInfo("Undo", "Undo latest change", CommandCategories::general, !(undoManager.canUndo()));
+        result.defaultKeypresses.add(KeyPress ('z', ModifierKeys::commandModifier, 0));
+        break;
+    case CommandIDs::redo:
+        result.setInfo("Redo", "Redo latest change", CommandCategories::general, !(undoManager.canRedo()));
+        result.defaultKeypresses.add(KeyPress ('y', ModifierKeys::commandModifier, 0));
+        break;
     case CommandIDs::addSettings:
         result.setInfo("Add", "Add new Settings", CommandCategories::configmgr, 0);
         result.defaultKeypresses.add(KeyPress('n', ModifierKeys::commandModifier, 0));
@@ -296,6 +310,8 @@ bool SettingsTable::perform(const InvocationInfo& info)
 {
     switch (info.commandID)
     {
+        case CommandIDs::undo:                 undo(); break;
+        case CommandIDs::redo:                 redo(); break;
         case CommandIDs::addSettings:          addSettings(); break;
         case CommandIDs::removeSettings:       removeSettings(); break;
         case CommandIDs::autoFill:             autoFill(); break;
@@ -305,6 +321,16 @@ bool SettingsTable::perform(const InvocationInfo& info)
     }
 
     return true;
+}
+
+void SettingsTable::undo()
+{
+    undoManager.undo();
+}
+
+void SettingsTable::redo()
+{
+    undoManager.redo();
 }
 
 void SettingsTable::addSettings()
@@ -336,6 +362,7 @@ void SettingsTable::addSettings()
     }
 
     updateParameterRanges();
+	commandManager->commandStatusChanged();
 }
 
 void SettingsTable::removeSettings()
@@ -357,6 +384,7 @@ void SettingsTable::removeSettings()
     }
     
     updateParameterRanges();
+	commandManager->commandStatusChanged();
 }
 
 void SettingsTable::updateParameterRanges()
@@ -377,6 +405,8 @@ void SettingsTable::autoFill()
 
         tree.getChild(i).setProperty(Ids::intValue, newValue, &undoManager);
     }
+
+	commandManager->commandStatusChanged();
 }
 
 void SettingsTable::moveSettings(bool moveUp)
@@ -418,9 +448,11 @@ void SettingsTable::moveSettings(bool moveUp)
             table.selectRow(newIndex, false, false);
         }
     }  
+
+	commandManager->commandStatusChanged();
 }
 
 ApplicationCommandTarget* SettingsTable::getNextCommandTarget()
 {
-    return nullptr;
+    return parentCommandTarget;
 }

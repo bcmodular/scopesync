@@ -111,6 +111,8 @@ ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWi
     int lastConfigMgrHeight = scopeSync.getConfiguration().getConfigurationProperties().getIntValue("lastConfigMgrHeight", 500);
     setSize(lastConfigMgrWidth, lastConfigMgrHeight);
     
+	addKeyListener(commandManager->getKeyMappings());
+
     startTimer(500);
 }
 
@@ -125,6 +127,7 @@ void ConfigurationManager::setButtonImages(ImageButton& button, const String& no
 ConfigurationManager::~ConfigurationManager()
 {
     stopTimer();
+	removeKeyListener(commandManager->getKeyMappings());
 }
 
 void ConfigurationManager::changePanel(Component* newComponent)
@@ -639,13 +642,13 @@ void ConfigurationManagerWindow::saveAs()
 void ConfigurationManagerWindow::reloadConfiguration()
 {
     scopeSync.reloadSavedConfiguration();
-    refreshContent();
 }
 
 void ConfigurationManagerWindow::refreshContent()
 {
     clearContentComponent();
     setContentOwned(configurationManager = new ConfigurationManager(scopeSync, *this), true);
+	commandManager->commandStatusChanged();
 }
 
 void ConfigurationManagerWindow::restoreWindowPosition(int posX, int posY)
