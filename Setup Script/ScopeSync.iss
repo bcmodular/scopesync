@@ -8,7 +8,7 @@
 
 [Setup]
 AppName={#AppName}
-AppVersion=0.4.0
+AppVersion=0.4.2
 DefaultDirName={pf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#AppName}.ico
@@ -237,4 +237,95 @@ begin
     Result := not (IsComponentSelected('VSTPlugin\32VST2') or IsComponentSelected('VSTPlugin\64VST2'))
   else if PageID = AdditionalDirPage2ID then
     Result := not IsComponentSelected('M4L');
+end;
+
+procedure DecodeVersion (verstr: String; var verint: array of Integer);
+var
+  i,p: Integer; s: string;
+begin
+  // initialize array
+  verint := [0,0,0,0];
+  i := 0;
+  while ((Length(verstr) > 0) and (i < 4)) do
+  begin
+    p := pos ('.', verstr);
+    if p > 0 then
+    begin
+      if p = 1 then s:= '0' else s:= Copy (verstr, 1, p - 1);
+      verint[i] := StrToInt(s);
+      i := i + 1;
+      verstr := Copy (verstr, p+1, Length(verstr));
+    end
+    else
+    begin
+      verint[i] := StrToInt (verstr);
+      verstr := '';
+    end;
+  end;
+
+end;
+
+function CompareVersion (ver1, ver2: String) : Integer;
+var
+  verint1, verint2: array of Integer;
+  i: integer;
+begin
+
+  SetArrayLength (verint1, 4);
+  DecodeVersion (ver1, verint1);
+
+  SetArrayLength (verint2, 4);
+  DecodeVersion (ver2, verint2);
+
+  Result := 0; i := 0;
+  while ((Result = 0) and ( i < 4 )) do
+  begin
+    if verint1[i] > verint2[i] then
+      Result := 1
+    else
+      if verint1[i] < verint2[i] then
+        Result := -1
+      else
+        Result := 0;
+    i := i + 1;
+  end;
+
+end;
+
+procedure CheckJava();
+var
+  ErrorCode: Integer;
+  JavaVer : String;
+  Result1 : Boolean;
+begin
+  if IsComponentSelected('M4L') then
+  begin
+    RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVer);
+    
+    if Length( JavaVer ) > 0 then
+    begin
+      if CompareVersion(JavaVer,'1.6') >= 0 then
+      begin
+        exit;
+      end;
+    end;
+    
+    Result1 := MsgBox('The Max For Live component requires Java Runtime Environment v1.6 or newer to run. Please download and install the latest JRE.' + #13 + #10 + 'Do you want to download it now?',
+        mbConfirmation, MB_YESNO) = idYes;
+    
+    if Result1 = true then
+    begin
+      ShellExecAsOriginalUser('open',
+        'http://www.java.com/getjava/',
+        '','',SW_SHOWNORMAL,ewNoWait,ErrorCode);
+    end;
+  end;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssPostInstall then
+  begin
+    CheckJava();
+  end;
 end;
