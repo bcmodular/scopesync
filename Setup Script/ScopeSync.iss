@@ -54,6 +54,7 @@ Source: "..\Presets\*"; DestDir: "{app}\Presets"; Flags: ignoreversion recursesu
 Source: "..\Tutorials\*"; DestDir: "{app}\Tutorials"; Flags: ignoreversion recursesubdirs; Components: Tutorials
 Source: "..\Max For Live\ScopeSync\*"; DestDir: "{code:GetAbletonUserLibDir}\{#AppName}"; Flags: ignoreversion; Components: M4L
 Source: "..\Max Package\*"; DestDir: "{code:GetMaxDir}\Packages"; Flags: ignoreversion recursesubdirs; Components: M4L
+Source: "..\MS\vcredist_x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
@@ -72,8 +73,12 @@ Name: "VSTPlugin\32VST3"; Description: "32-bit VST3 Plugin (Experimental)"
 Name: "VSTPlugin\64VST3"; Description: "64-bit VST3 Plugin (Experimental)"; Check: Is64BitInstallMode
 Name: "M4L"; Description: "Max For Live Patches"; Types: full
 
+[Run]
+Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Installing 2010 RunTime...
+
 [Registry]
 Root: HKCU; Subkey: "Software\ScopeSync"; ValueType: string; ValueName: "InstallLocation"; ValueData: "{app}"
+
 [Code]
 // global vars
 var
