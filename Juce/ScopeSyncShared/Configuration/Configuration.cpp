@@ -508,7 +508,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     int    scopeSync  = parameter.getProperty(Ids::scopeSync);
     int    scopeLocal = parameter.getProperty(Ids::scopeLocal);
 
-    parameter.copyPropertiesFrom(preset, undoManager);
+	parameter.copyPropertiesFrom(preset, undoManager);
     parameter.removeProperty(Ids::presetFileName, undoManager);
     parameter.removeProperty(Ids::presetFileLibrarySet, undoManager);
     parameter.removeProperty(Ids::presetFileAuthor, undoManager);

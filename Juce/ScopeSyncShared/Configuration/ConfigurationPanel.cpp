@@ -388,6 +388,9 @@ void ParameterPanel::resized()
 
 void ParameterPanel::valueChanged(Value& /* valueThatChanged */)
 {
+	if (int(valueType.getValue()) == 0)
+		setParameterUIRanges(0, 100, 0, undoManager, valueTree);
+	
 	rebuild();
 }
 
@@ -444,7 +447,6 @@ void ParameterPanel::rebuild()
 	{
 		resizerBar = nullptr;
 		settingsTable = nullptr;
-		setParameterUIRanges(0, 100, 0, undoManager, valueTree);
 		rebuildProperties();
 		resized();
 	}
