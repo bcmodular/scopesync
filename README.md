@@ -1,8 +1,9 @@
 ScopeSync
 =========
 ### Welcome to ScopeSync.
-ScopeSync is a framework for building devices for the Sonic|Core Scope system.
+ScopeSync is an Open Source framework that lets users easily build rich user interfaces for Sonic|Core Scope devices.
 - Simple template language for building device User Interfaces
+- GUI-based Configuration Manager
 - High resolution control system for linking DAWs to Scope
 - Scope Modular module allowing custom UIs to control user patches
 - Tools for Scope SDK users to plug ScopeSync UIs into their custom devices
