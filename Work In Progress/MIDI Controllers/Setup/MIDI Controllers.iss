@@ -12,8 +12,8 @@ AppVersion=0.42b
 DefaultDirName={pf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#AppName}.ico
-AppPublisher=ScopeSync
-AppPublisherURL=http://www.scopesync.co.uk/
+AppPublisher=BC Modular
+AppPublisherURL=http://www.bcmodular.co.uk/
 AppCopyright=Copyright (C) 2014 BC Modular
 AppContact=
 AppSupportURL=http://bcmodular.co.uk/forum/
@@ -58,7 +58,7 @@ var
   SSDir: String;
 begin
   SSDir := DirPage.Values[0];
-  RegWriteStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'Software\ScopeSync', SSDir);
+  RegWriteStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'Software\BCModular\ScopeSync', SSDir);
   { Return the selected SSDir }
   Result := SSDir;
 end;
@@ -67,7 +67,7 @@ procedure InitializeWizard;
 var
   SSDir: String;
 begin
-  if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'Software\ScopeSync', SSDir)) then
+  if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'Software\BCModular\ScopeSync', SSDir)) then
   begin
     SSDir := ExpandConstant('{pf}\ScopeSync');
   end;
