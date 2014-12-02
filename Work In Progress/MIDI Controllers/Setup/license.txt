@@ -1,0 +1,6 @@
+ (C) Copyright 2014 BC Modular (http://www.bcmodular.co.uk/)
+
+You are installing the ScopeSync MIDI Controllers Package v0.4b
+
+The contents of this package are released under Creative Commons 4.0
+<http://creativecommons.org/licenses/by-sa/4.0/>
