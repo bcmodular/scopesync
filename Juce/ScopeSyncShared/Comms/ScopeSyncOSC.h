@@ -54,21 +54,6 @@ class ScopeSyncOSCMessageListener : public MessageListener
 	}
 };
 
-class ScopeSyncOSCMessageLogger : public MessageListener
-{
-	virtual void logOSCMessage(String message) = 0;
-
-	void handleMessage(const Message& message) override
-	{
-		const ScopeSyncOSCMessage& oscMessage = dynamic_cast<const ScopeSyncOSCMessage&>(message);
-    
-		if (oscMessage.isIncoming)
-			logOSCMessage("<-" + String(oscMessage.packet.Contents()));
-		else 
-			logOSCMessage("-> " + String(oscMessage.packet.Contents()));
-	}
-};
-
 class ScopeSyncOSCServer : public Thread
 {
 	static const int bufferSize = 4098;
@@ -97,14 +82,9 @@ public:
 	// UDP Sender
 	bool sendMessage(osc::OutboundPacketStream stream);
 
-	// Logger
-	void setLogger(ScopeSyncOSCMessageLogger* newLogger) { logger = newLogger; }
-	void removeLogger() { logger = nullptr; }
-
 private:
-	ScopeSyncOSCMessageListener* listener;
-	ScopeSyncOSCMessageLogger*   logger;
-
+	ScopeSyncOSCMessageListener*  listener;
+	
 	int							  receivePortNumber;
 	ScopedPointer<DatagramSocket> receiveDatagramSocket;
 

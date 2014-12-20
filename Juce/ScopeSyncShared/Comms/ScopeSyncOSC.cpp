@@ -30,7 +30,6 @@ ScopeSyncOSCServer::ScopeSyncOSCServer(ScopeSyncOSCMessageListener* listener)
     : Thread("OscServer"),
 	  listener(listener)
 {
-	logger            = nullptr;
 	receivePortNumber = 8050;
 	remoteHostname    = "localhost";
 	remotePortNumber  = 9050;
@@ -166,9 +165,6 @@ void ScopeSyncOSCServer::run()
 						return;
 					}
 
-					if (logger != nullptr) 
-						logger->postMessage(new ScopeSyncOSCMessage(packet));
-					
 					listener->postMessage(new ScopeSyncOSCMessage(packet));
 				}
 			} 

@@ -153,14 +153,39 @@ void ScopeSync::handleOSCMessage(osc::ReceivedPacket packet)
 
 	try
 	{
-		if (String(oscMessage.AddressPattern()) == "/A1")
-		{
-			// example #1 -- argument stream interface
-			osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
-			osc::int32 a1;
-			args >> a1 >> osc::EndMessage;
+		String addressPattern(oscMessage.AddressPattern());
 
-            DBG("ScopeSync::handleOSCMessage - received '/A1' message with arguments: " + String(a1));                              
+		if (addressPattern.startsWith("/paramnum"))
+		{
+			int paramIdx = addressPattern.getTrailingIntValue();
+
+			osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
+			float value;
+			args >> value >> osc::EndMessage;
+
+            DBG("ScopeSync::handleOSCMessage - received OSC message for parameter: " + String(paramIdx) + " with value: " + String(value)); 
+
+			BCMParameter* parameter;
+
+			if (paramIdx >= 0 && paramIdx < ScopeSyncApplication::numScopeSyncParameters)
+			{
+				parameter = hostParameters[paramIdx];
+			}
+			else
+			{
+				DBG("ScopeSync::handleOSCMessage - received OSC message for out-of-range parameter");
+				return;
+			}
+
+			if (parameter != nullptr)
+			{
+				parameter->setUIValue(value);
+			}
+			else
+			{
+				DBG("ScopeSync::handleOSCMessage - received OSC message for invalid parameter");
+				return;
+			}
 		}
 		else
 		{
