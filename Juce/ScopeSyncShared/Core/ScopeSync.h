@@ -45,6 +45,8 @@ class Configuration;
 class ConfigurationManagerWindow;
 
 #include "../Comms/ScopeSyncAudio.h"
+#include "../Comms/ScopeSyncOSC.h"
+
 #include "BCMParameter.h"
 
 #ifdef __DLL_EFFECT__
@@ -55,7 +57,8 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 
-class ScopeSync : public ActionListener
+class ScopeSync : public ActionListener,
+				  public ScopeSyncOSCMessageListener
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -162,6 +165,7 @@ private:
 
     /* ========================== Initialisation ============================== */
     void initialise();
+	void initialiseOSCServer();
     void resetScopeCodeIndexes();
     void initCommandManager();
     
@@ -171,6 +175,8 @@ private:
     void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
+
+	void handleOSCMessage(osc::ReceivedPacket packet) override;
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
@@ -201,6 +207,7 @@ private:
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
+	ScopedPointer<ScopeSyncOSCServer> oscServer;
     
     Rectangle<int> newConfigWindowPosition;
 

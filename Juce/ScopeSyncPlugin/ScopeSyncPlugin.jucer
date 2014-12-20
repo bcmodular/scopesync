@@ -9,7 +9,7 @@
               pluginIsSynth="0" pluginWantsMidiIn="1" pluginProducesMidiOut="1"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
               pluginAUExportPrefix="ScopeSyncAU" pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.0"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.1"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncPlugin">
@@ -170,6 +170,9 @@
       <FILE id="W41IGk" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSyncShared/Components/BCMTextButton.h"/>
     </GROUP>
     <GROUP id="{A150B2E7-7C76-DAE0-FC32-F9929B5D5083}" name="Comms">
+      <FILE id="mFNWgt" name="ScopeSyncOSC.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Comms/ScopeSyncOSC.cpp"/>
+      <FILE id="VIajQF" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSyncShared/Comms/ScopeSyncOSC.h"/>
       <FILE id="IpOlz9" name="ScopeSyncAudio.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Comms/ScopeSyncAudio.cpp"/>
       <FILE id="QOU80j" name="ScopeSyncAudio.h" compile="0" resource="0"
@@ -190,7 +193,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2013 targetFolder="Builds/VisualStudio2013" vstFolder="../../../../SDKs/vstsdk2.4"
-            vst3Folder="../../../../SDKs/VST3SDK" externalLibraries="" extraDefs=""
+            vst3Folder="../../../../SDKs/VST3SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
@@ -218,6 +221,8 @@
         <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="danlin_fontawesome" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2013>
     <VS2010 targetFolder="Builds/VisualStudio2010" vstFolder="../../../../SDKs/vstsdk2.4"
@@ -245,10 +250,14 @@
         <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="danlin_fontawesome" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2010>
   </EXPORTFORMATS>
   <MODULES>
+    <MODULES id="danlin_fontawesome" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="danlin_oscpack" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>

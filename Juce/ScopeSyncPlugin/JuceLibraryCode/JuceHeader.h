@@ -14,6 +14,8 @@
 #define __APPHEADERFILE_AORKSY__
 
 #include "AppConfig.h"
+#include "modules/danlin_fontawesome/danlin_fontawesome.h"
+#include "modules/danlin_oscpack/danlin_oscpack.h"
 #include "modules/juce_audio_basics/juce_audio_basics.h"
 #include "modules/juce_audio_plugin_client/juce_audio_plugin_client.h"
 #include "modules/juce_audio_processors/juce_audio_processors.h"

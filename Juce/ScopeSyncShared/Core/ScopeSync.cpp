@@ -109,6 +109,7 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
+	oscServer = nullptr;
     UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -116,6 +117,8 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+	initialiseOSCServer();
+
     showEditToolbar = false;
     initCommandManager();
 
@@ -123,6 +126,51 @@ void ScopeSync::initialise()
 
     configuration = new Configuration();
     applyConfiguration();
+}
+
+void ScopeSync::initialiseOSCServer()
+{
+	oscServer = new ScopeSyncOSCServer(this);
+    // listen on port 
+    oscServer->setLocalPortNumber(8000);
+    // start listening
+    oscServer->listen();
+    // set remote hostname
+    oscServer->setRemoteHostname("192.168.0.237");
+    // set remote port (send to listening port)
+    oscServer->setRemotePortNumber(9000);
+}
+
+void ScopeSync::handleOSCMessage(osc::ReceivedPacket packet)
+{
+    if (!packet.IsMessage())
+	{
+		DBG("ScopeSync::handleOSCMessage - packet isn't an OSC Message");
+		return;
+	}
+
+	osc::ReceivedMessage oscMessage(packet);
+
+	try
+	{
+		if (String(oscMessage.AddressPattern()) == "/A1")
+		{
+			// example #1 -- argument stream interface
+			osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
+			osc::int32 a1;
+			args >> a1 >> osc::EndMessage;
+
+            DBG("ScopeSync::handleOSCMessage - received '/A1' message with arguments: " + String(a1));                              
+		}
+		else
+		{
+            DBG("ScopeSync::handleOSCMessage - received other OSC message");                              
+		}
+	}
+	catch(osc::Exception& e)
+	{
+		DBG("ScopeSync::handleOSCMessage - error while parsing message: " + String(oscMessage.AddressPattern()) + ": " + String(e.what()));
+    }
 }
 
 void ScopeSync::initCommandManager()
