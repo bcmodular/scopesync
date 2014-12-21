@@ -199,7 +199,10 @@ UserSettings::UserSettings()
 	autoRebuildLibrary.setValue(getPropertyBoolValue("autorebuildlibrary", false));
 	autoRebuildLibrary.addListener(this);
 
-    setupPanel();
+    useOSC.setValue(getPropertyBoolValue("useosc", false));
+	useOSC.addListener(this);
+
+	setupPanel();
 
     addAndMakeVisible(fileLocationsButton);
     fileLocationsButton.setCommandToTrigger(commandManager, CommandIDs::editFileLocations, true);
@@ -245,8 +248,9 @@ void UserSettings::setupPanel()
     propertyPanel.addSection("Encoder Settings", props.components, true);
 
     props.clear();
-    props.add(new BooleanPropertyComponent(useImageCache, "Image Cache", "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
-	props.add(new BooleanPropertyComponent(autoRebuildLibrary, "Automatically Rebuild Library", "Enabled"), "Automatically rebuild the relevant library on opening a Chooser window. Depending on size of library, enabling this may cause a performance problem.");
+    props.add(new BooleanPropertyComponent(useImageCache,      "Image Cache",                       "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
+	props.add(new BooleanPropertyComponent(autoRebuildLibrary, "Automatically Rebuild Library",     "Enabled"), "Automatically rebuild the relevant library on opening a Chooser window. Depending on size of library, enabling this may cause a performance problem.");
+	props.add(new BooleanPropertyComponent(useOSC,             "Enable OSC Support (Experimental)", "Enabled"), "Enable support for OSC communication between the plugin and Scope instances of ScopeSync, instead of using audio.");
 
     propertyPanel.addSection("Expert Settings", props.components, false);
 }
@@ -307,6 +311,8 @@ void UserSettings::valueChanged(Value& valueThatChanged)
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(useOSC))
+		setPropertyBoolValue("useosc", valueThatChanged.getValue());
 }
 
 void UserSettings::userTriedToCloseWindow()

@@ -30,15 +30,18 @@
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "ScopeSync.h"
+#include "../Windows/UserSettings.h"
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
-      affectedByUI(false)
+      affectedByUI(false),
+	  scopeSync(ss)
 {
     putValuesInRange(true);
     setNumDecimalPlaces();
+	uiValue.addListener(this);
 }
 
 void BCMParameter::setNumDecimalPlaces()
@@ -517,4 +520,12 @@ int BCMParameter::findNearestParameterSetting(int value)
     }
 
     return nearestItem;
+}
+
+void BCMParameter::valueChanged(Value& valueThatChanged)
+{
+	if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false) && valueThatChanged.refersToSameSourceAs(uiValue))
+	{
+		scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
+	}
 }

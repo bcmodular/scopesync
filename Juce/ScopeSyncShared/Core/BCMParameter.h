@@ -29,15 +29,16 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
+class ScopeSync;
 
-class BCMParameter
+class BCMParameter : public Value::Listener
 {
 public:
     /* ============================ Enumerations ============================== */
     enum ParameterType      {hostParameter, scopeLocal, preset};
     enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
     
-    BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType);
+    BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss);
     ~BCMParameter() { masterReference.clear(); };
 
     void          mapToUIValue(Value& valueToMapTo);
@@ -90,8 +91,11 @@ private:
     float convertHostToScopeFltValue(int paramIdx, float value);
     int   convertHostToScopeIntValue(int paramIdx, float value);
     int   findNearestParameterSetting(int value);
+
+	void  valueChanged(Value& valueThatChanged) override;
     
     /* ===================== Private member variables ========================= */
+	ScopeSync&    scopeSync;
     ParameterType type;
     ValueTree     definition;
     Value         uiValue;

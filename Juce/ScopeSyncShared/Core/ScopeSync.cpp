@@ -117,7 +117,8 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-	initialiseOSCServer();
+	if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false))
+		initialiseOSCServer();
 
     showEditToolbar = false;
     initCommandManager();
@@ -131,14 +132,10 @@ void ScopeSync::initialise()
 void ScopeSync::initialiseOSCServer()
 {
 	oscServer = new ScopeSyncOSCServer(this);
-    // listen on port 
-    oscServer->setLocalPortNumber(8000);
-    // start listening
+    oscServer->setLocalPortNumber(ScopeSyncApplication::oscListenPort);
     oscServer->listen();
-    // set remote hostname
-    oscServer->setRemoteHostname("192.168.0.237");
-    // set remote port (send to listening port)
-    oscServer->setRemotePortNumber(9000);
+    oscServer->setRemoteHostname("127.0.0.1");
+    oscServer->setRemotePortNumber(ScopeSyncApplication::oscSendPort);
 }
 
 void ScopeSync::handleOSCMessage(osc::ReceivedPacket packet)
@@ -196,6 +193,18 @@ void ScopeSync::handleOSCMessage(osc::ReceivedPacket packet)
 	{
 		DBG("ScopeSync::handleOSCMessage - error while parsing message: " + String(oscMessage.AddressPattern()) + ": " + String(e.what()));
     }
+}
+
+void ScopeSync::sendOSCParameterUpdate(int hostIdx, float uiValue)
+{
+	static const int bufferSize = 128;
+    String address = "/paramnum/" + String(hostIdx);
+    char buffer[bufferSize];
+    osc::OutboundPacketStream oscMessage(buffer, bufferSize);
+    oscMessage << osc::BeginMessage(address.toRawUTF8()) << uiValue << osc::EndMessage;
+
+	DBG("ScopeSync::sendOSCParameterUpdate - sending update: " + String(oscMessage.Data()));
+    oscServer->sendMessage(oscMessage);
 }
 
 void ScopeSync::initCommandManager()
@@ -428,7 +437,7 @@ void ScopeSync::sendToScopeSyncAudio(BCMParameter& parameter)
 {
     int scopeCode = parameter.getScopeCode();
 
-    if (scopeCode != -1)
+    if (!UserSettings::getInstance()->getPropertyBoolValue("useosc", false) && scopeCode != -1)
     {
         float newScopeValue = parameter.getScopeFltValue();
 
@@ -712,7 +721,7 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < hostParameterTree.getNumChildren(); i++)
     {
-        hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter));
+        hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this));
         
         int scopeSyncCode = hostParameters[i]->getScopeCode();
         // DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
@@ -726,7 +735,7 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < scopeLocalParameterTree.getNumChildren(); i++)
     {
-        scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal));
+        scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this));
         
         int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
         // DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));

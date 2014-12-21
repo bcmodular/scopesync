@@ -112,6 +112,7 @@ private:
     Value     useImageCache;
     Value     tooltipDelayTime;
 	Value     autoRebuildLibrary;
+	Value     useOSC;
     
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
