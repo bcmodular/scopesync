@@ -31,6 +31,7 @@
 class ScopeSync;
 
 #include <JuceHeader.h>
+#include "../Include/SonicCore/effclass.h"
 
 class ScopeSyncAsync {
 
@@ -41,7 +42,7 @@ public:
 
     // Processes an incoming array of Async values coming from Scope and passes
     // on any updates from the ScopeSync system
-    void handleUpdate(Array<int>& asyncValues, bool initialise);
+    void handleUpdate(int* asyncValues, bool initialise);
     
     // Generates a set of async entries that represents current values
     // for all controls
@@ -51,23 +52,18 @@ public:
     void getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
     
     // Passes on the contents of the queue of updates received from Scope
-    void getAsyncUpdatesArray(Array<std::pair<int, int>, CriticalSection>& asyncUpdateArray);
+    void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
 
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
     
 private:
-    static const int maxDeadTimeCounter;
-
     Array<int, CriticalSection> currentValues;
-    Array<int, CriticalSection> deadTimeCounters;
     
-    Array<std::pair<int,int>, CriticalSection> asyncUpdates;     // Updates received from the async input
-    Array<std::pair<int,int>, CriticalSection> scopeSyncUpdates; // Updates coming from within the ScopeSync code, most likely GUI for now
-    Array<std::pair<int,int>, CriticalSection> snapshot;         // Snapshot messages queued up to be sent
-
-    void decDeadTimeCounter(int index);
+    HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input
+	HashMap<int, int, DefaultHashFunctions, CriticalSection> scopeSyncUpdates; // Updates coming from within the ScopeSync code, e.g. GUI or OSC/MIDI changes
+    Array<std::pair<int,int>, CriticalSection> snapshot; // Snapshot messages queued up to be sent
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncAsync);
 };

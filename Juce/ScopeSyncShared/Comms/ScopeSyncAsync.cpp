@@ -30,72 +30,43 @@
 #include "../Core/Global.h"
 #include "../Core/ScopeSyncApplication.h"
 
-const int ScopeSyncAsync::maxDeadTimeCounter      = 4;
-
 ScopeSyncAsync::ScopeSyncAsync()
 {
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
-    {
         currentValues.add(0);
-        deadTimeCounters.add(0);
-    }
 }
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
 
-void ScopeSyncAsync::handleUpdate(Array<int>& asyncValues, bool initialise)
+void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 {
-    Array<int> receivedFromScopeSync;
-
-    int numScopeSyncUpdates = scopeSyncUpdates.size();
-
-    for (int i = numScopeSyncUpdates - 1; i >= 0; i--)
-    {
-        int scopeCode = scopeSyncUpdates[i].first;
-
-        if (receivedFromScopeSync.contains(scopeCode))
-        {
-            // Only interested in latest update for a given value
-            DBG("ScopeSyncAsync::handleUpdate - Trimming updates for parameter: " + String(scopeCode));
-            scopeSyncUpdates.remove(i);
-            continue;
-        }
-        
-        int newScopeSyncValue = scopeSyncUpdates[i].second;
-        asyncValues.set(scopeCode, newScopeSyncValue);
-        deadTimeCounters.set(scopeCode, maxDeadTimeCounter);
-
-        DBG("ScopeSyncAsync::handleUpdate - Received parameter update from ScopeSync - scopeCode:" + String(scopeCode) + ", value: " + String(newScopeSyncValue));
-            
-        receivedFromScopeSync.add(scopeCode);
-        scopeSyncUpdates.remove(i);
-    }
-
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
-        if (receivedFromScopeSync.contains(i) || deadTimeCounters[i] > 0)
+        if (scopeSyncUpdates.contains(i))
         {
-            // We've just (or recently) processed an update from ScopeSync for this
-            // value, so we're going to ignore any async updates for now.
-            currentValues.set(i, asyncValues[i]);
-            decDeadTimeCounter(i);
-            DBG("ScopeSyncAsync::handleUpdate - Ignoring Async update for (" + String(i) + "), new dead time counter: " + String(deadTimeCounters[i]));
-            continue;
+			// We have an update from the ScopeSync system, so let's process it
+			int newValue = scopeSyncUpdates[i];
+            
+			asyncValues[i] = newValue;
+			currentValues.set(i, newValue);
+            
+			continue;
         }
 
-        // Now check to see if this value has changed since last time we received
-        // an update
+        // There was no update from the ScopeSync system, so let's look to see whether the value
+		// has changed since last time
         int newValue = asyncValues[i];
         
         if (newValue != currentValues[i] || initialise)
         {
-            std::pair<int,int> controlUpdate = std::make_pair(i, newValue);
-            
+			// Value has changed, or we're initialising, so let's put it in the set to pass back to
+			// the ScopeSync system
             currentValues.set(i, newValue);
-            asyncValues.set(i, newValue);
-            asyncUpdates.add(controlUpdate);
+            asyncUpdates.set(i, newValue);
         }
     }
+
+	scopeSyncUpdates.clear();
 }
 
 void ScopeSyncAsync::createSnapshot()
@@ -123,19 +94,12 @@ void ScopeSyncAsync::getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int 
     }
 }
 
-void ScopeSyncAsync::getAsyncUpdatesArray(Array<std::pair<int, int>, CriticalSection>& asyncUpdateArray)
+void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap)
 {
-    asyncUpdateArray.swapWith(asyncUpdates);
+    targetHashMap.swapWith(asyncUpdates);
 }
 
 void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 {
-    std::pair<int,int> ctrlMessage = std::make_pair(scopeCode, newValue);
-    scopeSyncUpdates.add(ctrlMessage);
-}
-
-void ScopeSyncAsync::decDeadTimeCounter(int index)
-{
-    if (deadTimeCounters[index] > 0)
-        deadTimeCounters.set(index, deadTimeCounters[index] - 1);
+    scopeSyncUpdates.set(scopeCode, newValue);
 }

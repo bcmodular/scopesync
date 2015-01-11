@@ -14,6 +14,7 @@
 #define __APPHEADERFILE_JG4LCT__
 
 #include "AppConfig.h"
+#include "modules/danlin_oscpack/danlin_oscpack.h"
 #include "modules/juce_audio_basics/juce_audio_basics.h"
 #include "modules/juce_core/juce_core.h"
 #include "modules/juce_data_structures/juce_data_structures.h"
@@ -32,8 +33,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "ScopeSyncFX";
-    const char* const  versionString  = "1.0.1";
-    const int          versionNumber  = 0x10001;
+    const char* const  versionString  = "1.0.2";
+    const int          versionNumber  = 0x10002;
 }
 #endif
 

@@ -29,37 +29,12 @@
 
 #include <JuceHeader.h>
 
-class ScopeSyncOSCMessage : public Message
-{
-public:
-	ScopeSyncOSCMessage(osc::ReceivedPacket packet, bool isOutgoing = false)
-		: packet(packet), 
-		  isOutgoing(isOutgoing), 
-		  isIncoming(isOutgoing) {}
-	~ScopeSyncOSCMessage() {}
- 
-	osc::ReceivedPacket packet;
-	bool                isOutgoing;
-	bool                isIncoming;
-};
-
-class ScopeSyncOSCMessageListener : public MessageListener
-{
-	virtual void handleOSCMessage(osc::ReceivedPacket packet) = 0;
-
-	void handleMessage(const Message& message) override
-	{
-		const ScopeSyncOSCMessage& receivedOscMessage = dynamic_cast<const ScopeSyncOSCMessage&>(message);
-		handleOSCMessage(receivedOscMessage.packet);
-	}
-};
-
 class ScopeSyncOSCServer : public Thread
 {
 	static const int bufferSize = 4098;
 
 public:
-	ScopeSyncOSCServer(ScopeSyncOSCMessageListener *listener);
+	ScopeSyncOSCServer();
 	~ScopeSyncOSCServer();
 
 	// UDP Setup
@@ -82,9 +57,10 @@ public:
 	// UDP Sender
 	bool sendMessage(osc::OutboundPacketStream stream);
 
+	// Passes on the contents of the queue of updates received from the OSC Server
+    void getOSCUpdatesArray(HashMap<int, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray);
+
 private:
-	ScopeSyncOSCMessageListener*  listener;
-	
 	int							  receivePortNumber;
 	ScopedPointer<DatagramSocket> receiveDatagramSocket;
 
@@ -93,6 +69,8 @@ private:
 	ScopedPointer<DatagramSocket> remoteDatagramSocket;
 	bool					      remoteChanged;
 
+	HashMap<int, float, DefaultHashFunctions, CriticalSection> oscUpdates;       // Updates received from the OSC Server
+    
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncOSCServer)
 };
 

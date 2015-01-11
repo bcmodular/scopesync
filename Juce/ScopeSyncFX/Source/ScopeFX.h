@@ -48,14 +48,14 @@ public:
 
     // Process a set of Sync data coming in from Scope
     // and fill in outgoing streams as appropriate
-    int  syncBlock (PadData **asyncIn,  PadData *syncIn,
-                    PadData *asyncOut,  PadData *syncOut, 
-                    int off,            int cnt);
+    int  syncBlock (PadData** asyncIn,  PadData* syncIn,
+                    PadData*  asyncOut, PadData* syncOut, 
+                    int       off,      int      cnt);
 
     // Process new Async values coming in from Scope and pass on
     // updates from within ScopeSync
-    int  async (PadData **asyncIn, PadData *syncIn,
-                PadData *asyncOut, PadData *syncOut);
+    int  async (PadData** asyncIn,  PadData* syncIn,
+                PadData*  asyncOut, PadData* syncOut);
     
     // Hides the GUI window
     void hideWindow();
@@ -84,15 +84,13 @@ private:
 
     static const int windowHandlerDelayMax;
     static const int timerFrequency;
-    static const int numParameters;
-    static const int numLocalValues;
-
+    
     // Async values that are handled directly by ScopeFX
     int positionX;        // Horizontal location of window
 	int positionY;        // Vertical location of window
 	int configurationUID; // UID of configuration file
 
-    bool requestWindowShow; // Flag to indicate that window should be shown
+	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown
     
     int windowHandlerDelay; // Hack to avoid feedback loops when moving window around in Scope

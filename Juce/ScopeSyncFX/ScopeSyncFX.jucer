@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.1"
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.2"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0" defines="">
+              jucerVersion="3.1.1" defines="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{9A72096E-0E21-B6CC-11C5-DCAD6BB11A9E}" name="Presets">
@@ -71,6 +71,9 @@
         <FILE id="y2NF7z" name="FontResources.h" compile="0" resource="0" file="../ScopeSyncShared/Resources/FontResources.h"/>
       </GROUP>
       <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
+        <FILE id="GIqqIv" name="ScopeSyncOSC.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Comms/ScopeSyncOSC.cpp"/>
+        <FILE id="UUpwVN" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSyncShared/Comms/ScopeSyncOSC.h"/>
         <FILE id="UUomSl" name="ScopeSyncAsync.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.cpp"/>
         <FILE id="P4Xjre" name="ScopeSyncAsync.h" compile="0" resource="0"
@@ -191,16 +194,16 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2010 targetFolder="Builds/VisualStudio2010" extraDefs="JUCE_NO_COMPILER_THREAD_LOCAL=1"
+    <VS2010 targetFolder="Builds/VisualStudio2010" extraDefs="JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
             externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_1"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_2"
                        defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" libraryPath="..\..\Include\SonicCore"
                        useRuntimeLibDLL="1" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
                        headerPath="../../Include/SonicCore"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_1" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
                        libraryPath="..\..\Include\SonicCore" headerPath="../../Include/SonicCore"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
       </CONFIGURATIONS>
@@ -212,18 +215,19 @@
         <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2010>
-    <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1"
+    <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_1"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_2"
                        headerPath="../../Include/SonicCore" libraryPath="..\..\Include\SonicCore"
                        defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
                        useRuntimeLibDLL="1"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_1" headerPath="../../Include/SonicCore"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" headerPath="../../Include/SonicCore"
                        libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
       </CONFIGURATIONS>
@@ -235,10 +239,12 @@
         <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2013>
   </EXPORTFORMATS>
   <MODULES>
+    <MODULES id="danlin_oscpack" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>

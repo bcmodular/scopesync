@@ -32,6 +32,10 @@
 #include "ScopeSync.h"
 #include "../Windows/UserSettings.h"
 
+const int BCMParameter::deadTimeTimerInterval = 100;
+const int BCMParameter::maxAsyncDeadTime = 3;
+const int BCMParameter::maxOSCDeadTime   = 3;
+
 BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss)
     : type(parameterType),
       hostIdx(index),
@@ -39,10 +43,21 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterTy
       affectedByUI(false),
 	  scopeSync(ss)
 {
-    putValuesInRange(true);
+	oscDeadTimeCounter   = 0;
+	asyncDeadTimeCounter = 0;
+
+	startTimer(deadTimeTimerInterval);
+	
+	putValuesInRange(true);
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 }
+
+BCMParameter::~BCMParameter()
+{
+	masterReference.clear();
+	stopTimer();
+};
 
 void BCMParameter::setNumDecimalPlaces()
 {
@@ -64,6 +79,18 @@ void BCMParameter::setNumDecimalPlaces()
     }
 }
 
+void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue)
+{
+	linearNormalisedValue = newLinearNormalisedValue;
+	uiValue               = newUIValue;
+
+	if (updateSource == oscUpdate)
+		oscDeadTimeCounter = maxOSCDeadTime;
+
+	if (updateSource != asyncUpdate)
+		asyncDeadTimeCounter = maxAsyncDeadTime;
+}
+
 void BCMParameter::putValuesInRange(bool initialise)
 {
     // DBG("BCMParameter::putValuesInRange - " + String(getName()));
@@ -72,26 +99,30 @@ void BCMParameter::putValuesInRange(bool initialise)
     
     // DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
     
+	double newUIValue = 0.0f;
+
     if (initialise)
     {
         // DBG("BCMParameter::putValuesInRange - Initialise to: " + String(definition.getProperty(Ids::uiResetValue)));
-        uiValue.setValue(definition.getProperty(Ids::uiResetValue));
+        newUIValue = definition.getProperty(Ids::uiResetValue);
     }
     else
     {
         if (float(uiValue.getValue()) < uiMinValue)
         {
             // DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
-            uiValue.setValue(uiMinValue);
+            newUIValue = uiMinValue;
         }
         else if (float(uiValue.getValue()) > uiMaxValue)
         {
             // DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
-            uiValue.setValue(uiMaxValue);
+            newUIValue = uiMaxValue;
         }
     }
 
-    linearNormalisedValue = scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, uiValue.getValue());
+	double newLinearNormalisedValue = scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, newUIValue);
+
+	setParameterValues(internalUpdate, newLinearNormalisedValue, newUIValue);
 }
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo)
@@ -351,11 +382,26 @@ double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedVal
     return scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, linearNormalisedValue);
 }
 
+double BCMParameter::convertUIToLinearNormalisedValue(double newValue)
+{
+    double minUIValue;
+    double maxUIValue;
+    double uiInterval;
+    String uiSuffix;
+    
+    getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
+    
+    return scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
+}
+
 void BCMParameter::setHostValue(float newValue)
 {
-    linearNormalisedValue = skewHostValue(newValue, false);
-    uiValue               = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
-    DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+	double newLinearNormalisedValue = skewHostValue(newValue, false);
+    double newUIValue               = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
+    
+	setParameterValues(hostUpdate, newLinearNormalisedValue, newUIValue);
+    
+	DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setScopeFltValue(float newValue)
@@ -364,6 +410,9 @@ void BCMParameter::setScopeFltValue(float newValue)
     float maxScopeFltValue = definition.getProperty(Ids::scopeRangeMaxFlt);
     
     int parameterValueType = definition.getProperty(Ids::valueType);
+
+	double newUIValue = 0.0f;
+	double newLinearNormalisedValue = 0.0f;
 
     if (parameterValueType == discrete)
     {
@@ -374,13 +423,13 @@ void BCMParameter::setScopeFltValue(float newValue)
 
         int intValue   = roundDoubleToInt(scaleDouble(minScopeFltValue, maxScopeFltValue, minScopeIntValue, maxScopeIntValue, newValue));
         int newSetting = findNearestParameterSetting(intValue);
-        uiValue.setValue(newSetting);
-
-        setUIValue(uiValue.getValue());
+        
+		newUIValue = newSetting;
+		newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
     }
     else
     {
-        linearNormalisedValue = scaleDouble(minScopeFltValue, maxScopeFltValue, 0.0f, 1.0f, newValue);
+        newLinearNormalisedValue = scaleDouble(minScopeFltValue, maxScopeFltValue, 0.0f, 1.0f, newValue);
 
         double ref        = definition.getProperty(Ids::scopeDBRef);
         
@@ -389,27 +438,32 @@ void BCMParameter::setScopeFltValue(float newValue)
             double uiMinValue = definition.getProperty(Ids::uiRangeMin);
             double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
             
-            linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+            newLinearNormalisedValue = dbSkew(newLinearNormalisedValue, ref, uiMinValue, uiMaxValue, false);
         }
 
-        uiValue = convertLinearNormalisedToUIValue(linearNormalisedValue.getValue());
+        newUIValue = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
     }
+
+	setParameterValues(scopeAudioUpdate, newLinearNormalisedValue, newUIValue);
 
     DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setScopeIntValue(int newValue)
 {
-    if (!affectedByUI)
+	if (!affectedByUI && asyncDeadTimeCounter == 0)
     {
+		double newUIValue = 0.0f;
+		double newLinearNormalisedValue = 0.0f;
+
         int parameterValueType = definition.getProperty(Ids::valueType);
 
         if (parameterValueType == discrete)
         {
             int newSetting = findNearestParameterSetting(newValue);
-            uiValue.setValue(newSetting);
-
-            setUIValue(uiValue.getValue());
+            
+			newUIValue = newSetting;
+			newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
         }
         else
         {
@@ -417,7 +471,7 @@ void BCMParameter::setScopeIntValue(int newValue)
             int maxScopeValue;
 
             getScopeRanges(minScopeValue, maxScopeValue);
-            linearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
+            newLinearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
 
             double ref        = definition.getProperty(Ids::scopeDBRef);
         
@@ -426,33 +480,52 @@ void BCMParameter::setScopeIntValue(int newValue)
                 double uiMinValue = definition.getProperty(Ids::uiRangeMin);
                 double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
             
-                linearNormalisedValue = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, false);
+                newLinearNormalisedValue = dbSkew(newLinearNormalisedValue, ref, uiMinValue, uiMaxValue, false);
             }
 
-            uiValue.setValue(convertLinearNormalisedToUIValue(linearNormalisedValue.getValue()));
+            newUIValue = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
         }
         
+		setParameterValues(asyncUpdate, newLinearNormalisedValue, newUIValue);
+
         DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
     }
     else
     {
-        DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update: " + definition.getProperty(Ids::name).toString());
+        DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update, or still in async dead time: " + definition.getProperty(Ids::name).toString());
     }
 }
 
 void BCMParameter::setUIValue(float newValue)
 {
-    uiValue = newValue;
+	double newUIValue = newValue;
+    double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
 
-    double minUIValue;
-    double maxUIValue;
-    double uiInterval;
-    String uiSuffix;
-    
-    getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
-    
-    linearNormalisedValue = scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
+	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue);
     DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+}
+
+void BCMParameter::setOSCValue(float newValue)
+{
+	double newUIValue = newValue;
+    double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
+
+	setParameterValues(oscUpdate, newLinearNormalisedValue, newUIValue);
+	
+}
+
+void BCMParameter::timerCallback()
+{
+	decDeadTimes();
+}
+
+void BCMParameter::decDeadTimes()
+{
+	if (oscDeadTimeCounter > 0)
+        oscDeadTimeCounter--;
+
+	if (asyncDeadTimeCounter > 0)
+        asyncDeadTimeCounter--;
 }
 
 float BCMParameter::skewHostValue(float hostValue, bool invert)
@@ -524,7 +597,9 @@ int BCMParameter::findNearestParameterSetting(int value)
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {
-	if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false) && valueThatChanged.refersToSameSourceAs(uiValue))
+	if (   UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
+		&& oscDeadTimeCounter == 0
+		&& valueThatChanged.refersToSameSourceAs(uiValue))
 	{
 		scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
 	}

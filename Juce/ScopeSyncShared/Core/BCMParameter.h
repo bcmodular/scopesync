@@ -31,15 +31,17 @@
 #include <JuceHeader.h>
 class ScopeSync;
 
-class BCMParameter : public Value::Listener
+class BCMParameter : public Value::Listener,
+					 public Timer
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType      {hostParameter, scopeLocal, preset};
-    enum ParameterValueType {continuous, discrete}; // Possible types of Parameter Value
+    enum ParameterType         {hostParameter, scopeLocal, preset};
+    enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
+	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate, scopeAudioUpdate};
     
     BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss);
-    ~BCMParameter() { masterReference.clear(); };
+    ~BCMParameter();
 
     void          mapToUIValue(Value& valueToMapTo);
     void          setAffectedByUI(bool isAffected);
@@ -68,8 +70,8 @@ public:
     void setScopeFltValue(float newValue);
     void setScopeIntValue(int newValue);
     void setUIValue(float newValue);
+	void setOSCValue(float newValue);
 
-    
 private:
     WeakReference<BCMParameter>::Master masterReference;
     friend class WeakReference<BCMParameter>;
@@ -82,27 +84,33 @@ private:
     float  skewHostValue(float hostValue, bool invert);
     double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert);
     double convertLinearNormalisedToUIValue(double linearNormalisedValue);
+	double convertUIToLinearNormalisedValue(double newValue);
 
-    void  setParameterValues(int index, float newHostValue, float newUIValue);
-    float convertUIToHostValue(int paramIdx, float value);
-    float convertHostToUIValue(int paramIdx, float value);
-    float convertScopeFltToHostValue(int paramIdx, float value);
-    float convertScopeIntToHostValue(int paramIdx, int value);
-    float convertHostToScopeFltValue(int paramIdx, float value);
-    int   convertHostToScopeIntValue(int paramIdx, float value);
+    void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue);
     int   findNearestParameterSetting(int value);
 
 	void  valueChanged(Value& valueThatChanged) override;
+	void  timerCallback() override;
+
+	void  decDeadTimes();
     
     /* ===================== Private member variables ========================= */
-	ScopeSync&    scopeSync;
-    ParameterType type;
-    ValueTree     definition;
-    Value         uiValue;
-    Value         linearNormalisedValue;
-    bool          affectedByUI;
-    int           hostIdx;
-    int           numDecimalPlaces;
+	ScopeSync&       scopeSync;
+    ParameterType    type;
+    ValueTree        definition;
+    Value            uiValue;
+    Value            linearNormalisedValue;
+    bool             affectedByUI;
+    int              hostIdx;
+    int              numDecimalPlaces;
+	
+	int oscDeadTimeCounter;
+	int asyncDeadTimeCounter;
+
+	static const int deadTimeTimerInterval;
+	static const int maxOSCDeadTime;
+	static const int maxAsyncDeadTime;
+
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

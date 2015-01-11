@@ -226,7 +226,8 @@
       </MODULEPATHS>
     </VS2013>
     <VS2010 targetFolder="Builds/VisualStudio2010" vstFolder="../../../../SDKs/vstsdk2.4"
-            extraDefs="" externalLibraries="" extraLinkerFlags="" vst3Folder="../../../../SDKs/VST3SDK">
+            extraDefs="_CRT_SECURE_NO_DEPRECATE" externalLibraries="" extraLinkerFlags=""
+            vst3Folder="../../../../SDKs/VST3SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ScopeSyncVST-Debug"

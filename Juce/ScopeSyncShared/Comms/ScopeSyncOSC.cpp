@@ -26,9 +26,8 @@
 
 #include "ScopeSyncOSC.h"
 
-ScopeSyncOSCServer::ScopeSyncOSCServer(ScopeSyncOSCMessageListener* listener)
-    : Thread("OscServer"),
-	  listener(listener)
+ScopeSyncOSCServer::ScopeSyncOSCServer()
+    : Thread("OscServer")
 {
 	receivePortNumber = 8050;
 	remoteHostname    = "localhost";
@@ -155,17 +154,31 @@ void ScopeSyncOSCServer::run()
 			{
 				osc::ReceivedPacket packet((const char*)buffer.getData(), size);
 
-				if (listener != nullptr)
+				if (!packet.IsMessage())
 				{
-					MessageManagerLock mml(Thread::getCurrentThread());
+					DBG("ScopeSyncOSCServer::run - packet isn't an OSC Message");
+					return;
+				}
 
-					if (!mml.lockWasGained())
-					{
-						DBG("ScopeSyncOSCServer::run - another thread is trying to kill the OSC thread");
-						return;
-					}
+				osc::ReceivedMessage oscMessage(packet);
 
-					listener->postMessage(new ScopeSyncOSCMessage(packet));
+				String addressPattern(oscMessage.AddressPattern());
+
+				if (addressPattern.startsWith("/paramnum"))
+				{
+					int paramIdx = addressPattern.getTrailingIntValue();
+
+					osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
+					float value;
+					args >> value >> osc::EndMessage;
+
+					DBG("ScopeSyncOSCServer::run - received OSC message for parameter: " + String(paramIdx) + " with value: " + String(value)); 
+
+					oscUpdates.set(paramIdx, value);
+				}
+				else
+				{
+					DBG("ScopeSync::handleOSCMessage - received other OSC message");                              
 				}
 			} 
 			catch (osc::Exception& e)
@@ -200,4 +213,9 @@ bool ScopeSyncOSCServer::sendMessage(osc::OutboundPacketStream stream)
 	}
 
 	return false;
+}
+
+void ScopeSyncOSCServer::getOSCUpdatesArray(HashMap<int, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray)
+{
+	oscUpdateArray.swapWith(oscUpdates);
 }

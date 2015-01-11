@@ -34,11 +34,11 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSync-Debug_1_0_1</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSync-Debug_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);..\..\Include\SonicCore</LibraryPath>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSync_1_0_1</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSync_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);..\..\Include\SonicCore</LibraryPath>
   </PropertyGroup>
@@ -53,8 +53,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\JUCE\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;DEBUG;_DEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLLd.lib;JUCE_NO_COMPILER_THREAD_LOCAL=1;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.1;JUCE_APP_VERSION_HEX=0x10001;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\JUCE\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;DEBUG;_DEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLLd.lib;JUCE_NO_COMPILER_THREAD_LOCAL=1;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -69,11 +69,11 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\ScopeSync-Debug_1_0_1.dll</OutputFile>
+      <OutputFile>$(OutDir)\ScopeSync-Debug_1_0_2.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>libcmt.lib; msvcrt.lib;;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)\ScopeSync-Debug_1_0_1.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(IntDir)\ScopeSync-Debug_1_0_2.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
@@ -83,7 +83,7 @@
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>$(IntDir)\ScopeSync-Debug_1_0_1.bsc</OutputFile>
+      <OutputFile>$(IntDir)\ScopeSync-Debug_1_0_2.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
       <Command>copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;</Command>
@@ -99,8 +99,8 @@
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\JUCE\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;NDEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLL.lib;JUCE_NO_COMPILER_THREAD_LOCAL=1;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.1;JUCE_APP_VERSION_HEX=0x10001;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\JUCE\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_LIB;WIN32;_WINDOWS;NDEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLL.lib;JUCE_NO_COMPILER_THREAD_LOCAL=1;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -115,11 +115,11 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\ScopeSync_1_0_1.dll</OutputFile>
+      <OutputFile>$(OutDir)\ScopeSync_1_0_2.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)\ScopeSync_1_0_1.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(IntDir)\ScopeSync_1_0_2.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>
@@ -130,7 +130,7 @@
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>$(IntDir)\ScopeSync_1_0_1.bsc</OutputFile>
+      <OutputFile>$(IntDir)\ScopeSync_1_0_2.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent>
       <Command>xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;</Command>
@@ -155,6 +155,7 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
@@ -185,6 +186,18 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
+    <ClCompile Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1004,6 +1017,9 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\documents\juce_FileBasedDocument.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_AnimatedAppComponent.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_BubbleMessageComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1049,6 +1065,7 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.cpp"/>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_core\juce_core.cpp"/>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_data_structures\juce_data_structures.cpp"/>
@@ -1076,6 +1093,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
@@ -1113,6 +1131,13 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscException.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscHostEndianness.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.h"/>
+    <ClInclude Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>
@@ -1457,6 +1482,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\embedding\juce_ActiveXControlComponent.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\embedding\juce_NSViewComponent.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\embedding\juce_UIViewComponent.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_AnimatedAppComponent.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_AppleRemote.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_BubbleMessageComponent.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_ColourSelector.h"/>
@@ -1473,6 +1499,7 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\juce_module_info"/>
     <None Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\..\..\JUCE\modules\juce_core\juce_module_info"/>
     <None Include="..\..\..\..\..\JUCE\modules\juce_data_structures\juce_module_info"/>

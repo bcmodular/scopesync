@@ -40,8 +40,6 @@ const int ScopeFX::initPositionX           = 100;
 const int ScopeFX::initPositionY           = 100;
 const int ScopeFX::windowHandlerDelayMax   = 6;
 const int ScopeFX::timerFrequency          = 20;
-const int ScopeFX::numParameters           = 128;
-const int ScopeFX::numLocalValues          = 16;
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -194,32 +192,18 @@ void ScopeFX::hideWindow()
     windowHandlerDelay = windowHandlerDelayMax;
 }
 
-int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
-                   PadData *asyncOut, PadData * /*syncOut*/)
+int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
+                   PadData*  asyncOut, PadData* /*syncOut*/)
 {
-    int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
-    int* localArray     = (int*)asyncIn[INPAD_LOCALS]->itg;
-    
-    Array<int> asyncValues;
-    
-    if (parameterArray != nullptr)
-        for (int i = 0; i < numParameters; i++)
-            asyncValues.add(parameterArray[i]);
-    else
-        for (int i = 0; i < numParameters; i++)
-            asyncValues.add(0);
-    
-    if (localArray != nullptr)
-        for (int i = 0; i < numLocalValues; i++)
-            asyncValues.add(localArray[i]);
-    else        
-        for (int i = numParameters; i < numParameters + numLocalValues; i++)
-            asyncValues.add(0);
+	int asyncValues[ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters];
 
-    scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
+	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+		asyncValues[i] = asyncIn[i]->itg;
+	
+	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
-    for (int i = 0; i < numParameters + numLocalValues; i++)
-        asyncOut[i].itg = asyncValues[i];
+	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+		asyncOut[i].itg = asyncValues[i];
 
     if (asyncIn[INPAD_SHOW]->itg == 0)
         requestWindowShow = false;
@@ -245,8 +229,8 @@ int ScopeFX::async(PadData **asyncIn, PadData * /*syncIn*/,
     return 0;
 }
 
-int ScopeFX::syncBlock(PadData ** /*asyncIn*/, PadData * /*syncIn*/,
-                       PadData * /*asyncOut*/, PadData * syncOut, 
+int ScopeFX::syncBlock(PadData** /*asyncIn*/, PadData* /*syncIn*/,
+                       PadData* /*asyncOut*/, PadData* syncOut, 
                        int off,
                        int cnt)
 {
@@ -265,8 +249,6 @@ int ScopeFX::syncBlock(PadData ** /*asyncIn*/, PadData * /*syncIn*/,
             {
                 outData->itg = snapshotSubset[i].first;
                 outDest->itg = snapshotSubset[i].second;
-    
-                // DBG("ScopeFX::syncBlock - Read from snapshot: data: " + String(outData->itg) + ", dest: " + String(outDest->itg));
             }
             else
             {

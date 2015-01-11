@@ -22,6 +22,7 @@
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
+#define JUCE_MODULE_AVAILABLE_danlin_oscpack            1
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics         1
 #define JUCE_MODULE_AVAILABLE_juce_core                 1
 #define JUCE_MODULE_AVAILABLE_juce_data_structures      1

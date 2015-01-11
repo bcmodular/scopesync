@@ -51,6 +51,7 @@ class ConfigurationManagerWindow;
 
 #ifdef __DLL_EFFECT__
     #include "../Comms/ScopeSyncAsync.h"
+	#include "../Include/SonicCore/effclass.h"
 #endif // __DLL_EFFECT__
 
 #include <JuceHeader.h>
@@ -58,7 +59,7 @@ class ConfigurationManagerWindow;
 #include "../Configuration/Configuration.h"
 
 class ScopeSync : public ActionListener,
-				  public ScopeSyncOSCMessageListener
+	              public Timer
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -121,7 +122,7 @@ public:
     void   setParameterFromGUI(BCMParameter& parameter, float newValue);
     void   getParameterNameForHost(int hostIdx, String& parameterName);
     void   getParameterText(int hostIdx, String& parameterText);
-    void   handleScopeSyncAsyncUpdate(Array<int>& asyncValues);
+    void   handleScopeSyncAsyncUpdate(int* asyncValues);
     void   createSnapshot();
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
@@ -178,7 +179,8 @@ private:
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
 
-	void handleOSCMessage(osc::ReceivedPacket packet) override;
+	void timerCallback() override;
+	void handleOSCUpdates();
     
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
@@ -224,12 +226,16 @@ private:
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
-    Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
-    Array<std::pair<int,int>, CriticalSection>   asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    Array<String, CriticalSection>               configurationChanges;
+	Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
+    HashMap<int, int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
+    HashMap<int, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;    // Updates received from the OSC Server
+    
+	Array<String, CriticalSection>               configurationChanges;
     ScopedPointer<Configuration>                 configuration;
     
-    static const int minHostParameters;       // Minimum parameter count to return to host
+    static const int    oscHandlerTime;       // Number of ms between checks of the OSC Server update queue
+    
+	static const int    minHostParameters;       // Minimum parameter count to return to host
     
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
     
