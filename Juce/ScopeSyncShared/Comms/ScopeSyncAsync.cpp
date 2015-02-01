@@ -38,7 +38,7 @@ ScopeSyncAsync::ScopeSyncAsync()
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
 
-void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool processInput)
+void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 {
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
@@ -53,25 +53,17 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool proces
 			continue;
         }
 
-		if (!initialise && !processInput)
-		{
-			DBG("ScopeSyncAsync::handleUpdate - overwriting with previous value: " + String(currentValues[i]));
-			asyncValues[i] = currentValues[i];
-		}
-		else
-		{
-			// There was no update from the ScopeSync system, so let's look to see whether the value
-			// has changed since last time
-			int newValue = asyncValues[i];
+        // There was no update from the ScopeSync system, so let's look to see whether the value
+		// has changed since last time
+        int newValue = asyncValues[i];
         
-			if (newValue != currentValues[i] || initialise)
-			{
-				// Value has changed, or we're initialising, so let's put it in the set to pass back to
-				// the ScopeSync system
-				currentValues.set(i, newValue);
-				asyncUpdates.set(i, newValue);
-			}
-		}
+        if (newValue != currentValues[i] || initialise)
+        {
+			// Value has changed, or we're initialising, so let's put it in the set to pass back to
+			// the ScopeSync system
+            currentValues.set(i, newValue);
+            asyncUpdates.set(i, newValue);
+        }
     }
 
 	scopeSyncUpdates.clear();

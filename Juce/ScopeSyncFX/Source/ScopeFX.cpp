@@ -100,14 +100,12 @@ ScopeFX::~ScopeFX()
    
 void ScopeFX::initValues()
 {
-	asyncCounter        = 0;
-	processAsyncMessage = true;
-	positionX           = initPositionX;
-	positionY           = initPositionY;
-    requestWindowShow   = false;
-    windowShown         = false;
-    windowHandlerDelay  = 0;
-    configurationUID    = 0;
+	positionX          = initPositionX;
+	positionY          = initPositionY;
+    requestWindowShow  = false;
+    windowShown        = false;
+    windowHandlerDelay = 0;
+    configurationUID   = 0;
 }
 
 void ScopeFX::timerCallback()
@@ -202,23 +200,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
 		asyncValues[i] = asyncIn[i]->itg;
 	
-	if (asyncCounter == 0)
-	{
-		processAsyncMessage = true;
-		asyncCounter++;
-	}
-	else if (asyncCounter < 4)
-	{
-		processAsyncMessage = false;
-		asyncCounter++;
-	}
-	else
-	{
-		processAsyncMessage = false;
-		asyncCounter = 0;
-	}
-
-	scopeSync->handleScopeSyncAsyncUpdate(asyncValues, processAsyncMessage);
+	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
 		asyncOut[i].itg = asyncValues[i];
@@ -244,8 +226,6 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
     asyncOut[OUTPAD_Y].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
     asyncOut[OUTPAD_CONFIGUID].itg = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID() : configurationUID;
    
-	processAsyncMessage = !processAsyncMessage;
-
     return 0;
 }
 
