@@ -42,7 +42,7 @@ public:
 
     // Processes an incoming array of Async values coming from Scope and passes
     // on any updates from the ScopeSync system
-    void handleUpdate(int* asyncValues, bool initialise);
+    void handleUpdate(int* asyncValues, bool initialise, bool processInput);
     
     // Generates a set of async entries that represents current values
     // for all controls

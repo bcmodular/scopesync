@@ -90,9 +90,13 @@ private:
 	int positionY;        // Vertical location of window
 	int configurationUID; // UID of configuration file
 
-	bool requestWindowShow; // Flag to indicate that window should be shown
-    bool windowShown;       // Flag to indicate that window is currently being shown
-    
+	bool requestWindowShow;   // Flag to indicate that window should be shown
+    bool windowShown;         // Flag to indicate that window is currently being shown
+
+	int  asyncCounter;        // Counter as part of flip-flop avoidance solution!
+    bool processAsyncMessage; // Flag to indicate whether to process the current message
+						      // to avoid flip-flopping problems
+
     int windowHandlerDelay; // Hack to avoid feedback loops when moving window around in Scope
 
     ScopedPointer<ScopeFXGUI> scopeFXGUI;

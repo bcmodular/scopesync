@@ -122,7 +122,7 @@ public:
     void   setParameterFromGUI(BCMParameter& parameter, float newValue);
     void   getParameterNameForHost(int hostIdx, String& parameterName);
     void   getParameterText(int hostIdx, String& parameterText);
-    void   handleScopeSyncAsyncUpdate(int* asyncValues);
+    void   handleScopeSyncAsyncUpdate(int* asyncValues, bool processInput);
     void   createSnapshot();
     void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           

@@ -554,10 +554,10 @@ void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 #endif // __DLL_EFFECT__
 }
 
-void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
+void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues, bool processInput)
 {
 #ifdef __DLL_EFFECT__
-    scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters);
+    scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, processInput);
     initialiseScopeParameters = false;
 #else
     (void)asyncValues;
