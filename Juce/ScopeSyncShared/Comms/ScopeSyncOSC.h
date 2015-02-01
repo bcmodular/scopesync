@@ -28,11 +28,10 @@
 #define SCOPESYNCOSC_H_INCLUDED
 
 #include <JuceHeader.h>
+class ScopeSync;
 
 class ScopeSyncOSCServer : public Thread
 {
-	static const int bufferSize = 4098;
-
 public:
 	ScopeSyncOSCServer();
 	~ScopeSyncOSCServer();
@@ -58,9 +57,16 @@ public:
 	bool sendMessage(osc::OutboundPacketStream stream);
 
 	// Passes on the contents of the queue of updates received from the OSC Server
-    void getOSCUpdatesArray(HashMap<int, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray);
+    void getOSCUpdatesArray(ScopeSync* scopeSync, HashMap<String, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray);
+
+	void registerListener(ScopeSync* scopeSync);
+	void unregisterListener(ScopeSync* scopeSync);
+	
+	juce_DeclareSingleton (ScopeSyncOSCServer, false)
 
 private:
+	static const int bufferSize = 4098;
+
 	int							  receivePortNumber;
 	ScopedPointer<DatagramSocket> receiveDatagramSocket;
 
@@ -69,8 +75,9 @@ private:
 	ScopedPointer<DatagramSocket> remoteDatagramSocket;
 	bool					      remoteChanged;
 
-	HashMap<int, float, DefaultHashFunctions, CriticalSection> oscUpdates;       // Updates received from the OSC Server
-    
+	OwnedArray<HashMap<String, float, DefaultHashFunctions, CriticalSection>>           oscUpdatesArray; // Updates received from the OSC Server
+	HashMap<ScopeSync*, HashMap<String, float, DefaultHashFunctions, CriticalSection>*> oscUpdateLookup;
+
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncOSCServer)
 };
 

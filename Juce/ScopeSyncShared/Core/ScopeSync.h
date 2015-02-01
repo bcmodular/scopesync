@@ -76,7 +76,7 @@ public:
 
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
-    static void reloadAllGUIs();
+	static void reloadAllGUIs();
     static void shutDownIfLastInstance();
     static const String& getScopeSyncCode(int scopeSync);
     static const String& getScopeLocalCode(int scopeLocal);
@@ -211,8 +211,7 @@ private:
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
-	ScopedPointer<ScopeSyncOSCServer> oscServer;
-    
+	
     Rectangle<int> newConfigWindowPosition;
 
     BigInteger changingParams;
@@ -227,8 +226,8 @@ private:
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
 	Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
-    HashMap<int, int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    HashMap<int, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;    // Updates received from the OSC Server
+    HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
+    HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;    // Updates received from the OSC Server
     
 	Array<String, CriticalSection>               configurationChanges;
     ScopedPointer<Configuration>                 configuration;

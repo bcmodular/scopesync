@@ -111,8 +111,8 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 ScopeSync::~ScopeSync()
 {
 	stopTimer();
-	oscServer = nullptr;
-    UserSettings::getInstance()->removeActionListener(this);        
+	ScopeSyncOSCServer::getInstance()->unregisterListener(this);
+	UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
 }
@@ -129,14 +129,17 @@ void ScopeSync::initialise()
 
 	if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false))
 	{
-		initialiseOSCServer();
+		if (getNumScopeSyncInstances() == 1)
+			initialiseOSCServer();
+
+		ScopeSyncOSCServer::getInstance()->registerListener(this);
 		startTimer(oscHandlerTime);
 	}
 }
 
 void ScopeSync::initialiseOSCServer()
 {
-	oscServer = new ScopeSyncOSCServer();
+	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
     oscServer->setLocalPortNumber(ScopeSyncApplication::oscListenPort);
     oscServer->listen();
     oscServer->setRemoteHostname("127.0.0.1");
@@ -150,12 +153,53 @@ void ScopeSync::timerCallback()
 
 void ScopeSync::handleOSCUpdates()
 {
-	oscServer->getOSCUpdatesArray(oscControlUpdates);
+	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
+	oscServer->getOSCUpdatesArray(this, oscControlUpdates);
 
-    for (HashMap<int, float, DefaultHashFunctions, CriticalSection>::Iterator i(oscControlUpdates); i.next();)
+    for (HashMap<String, float, DefaultHashFunctions, CriticalSection>::Iterator i(oscControlUpdates); i.next();)
 	{
-    	int   paramIdx    = i.getKey();
-        float newOSCValue = i.getValue();
+    	String addressPattern = i.getKey();
+        float  newOSCValue    = i.getValue();
+
+		addressPattern = addressPattern.trimCharactersAtStart("/");
+
+		String configString = addressPattern.upToFirstOccurrenceOf("/", false, false);
+		
+		if (configString.isEmpty())
+		{
+			DBG("ScopeSync::handleOSCUpdates - no config reference found in OSC string");
+			continue;
+		}
+		
+		int configUID = configString.getIntValue();
+
+		if (configUID != getConfigurationUID())
+		{
+			DBG("ScopeSync::handleOSCUpdates - ignoring update as not for this configuration");
+			continue;
+		}
+
+		addressPattern = addressPattern.substring(configString.length() + 1);
+		
+		String oscUIDString = addressPattern.upToFirstOccurrenceOf("/", false, false);
+		
+		if (oscUIDString.isEmpty())
+		{
+			DBG("ScopeSync::handleOSCUpdates - no OSC UID found in OSC string");
+			continue;
+		}
+		
+		int oscUID = oscUIDString.getIntValue();
+
+		addressPattern = addressPattern.substring(oscUIDString.length() + 1);
+		
+		if (addressPattern.isEmpty())
+		{
+			DBG("ScopeSync::handleOSCUpdates - no param idx found in OSC string");
+			continue;
+		}
+		
+		int paramIdx = addressPattern.getIntValue();
 
         BCMParameter* parameter;
 
@@ -192,13 +236,13 @@ void ScopeSync::handleOSCUpdates()
 void ScopeSync::sendOSCParameterUpdate(int hostIdx, float uiValue)
 {
 	static const int bufferSize = 256;
-    String address = "/paramnum/" + String(hostIdx);
+    String address = "/" + String(getConfigurationUID()) + "/0/" + String(hostIdx);
     char buffer[bufferSize];
     osc::OutboundPacketStream oscMessage(buffer, bufferSize);
     oscMessage << osc::BeginMessage(address.toRawUTF8()) << uiValue << osc::EndMessage;
 
 	DBG("ScopeSync::sendOSCParameterUpdate - sending update: " + String(oscMessage.Data()));
-    oscServer->sendMessage(oscMessage);
+    ScopeSyncOSCServer::getInstance()->sendMessage(oscMessage);
 }
 
 void ScopeSync::initCommandManager()
@@ -252,6 +296,7 @@ void ScopeSync::shutDownIfLastInstance()
 {
     if (getNumScopeSyncInstances() == 0)
     {
+		ScopeSyncOSCServer::deleteInstance();
         StyleOverrideClipboard::deleteInstance();
         ParameterClipboard::deleteInstance();
         Icons::deleteInstance();

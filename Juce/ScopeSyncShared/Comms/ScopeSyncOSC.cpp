@@ -25,6 +25,9 @@
  */
 
 #include "ScopeSyncOSC.h"
+#include "..\Core\ScopeSync.h"
+
+juce_ImplementSingleton(ScopeSyncOSCServer)
 
 ScopeSyncOSCServer::ScopeSyncOSCServer()
     : Thread("OscServer")
@@ -164,17 +167,17 @@ void ScopeSyncOSCServer::run()
 
 				String addressPattern(oscMessage.AddressPattern());
 
-				if (addressPattern.startsWith("/paramnum"))
+				if (addressPattern.startsWith("/"))
 				{
-					int paramIdx = addressPattern.getTrailingIntValue();
-
 					osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
 					float value;
 					args >> value >> osc::EndMessage;
 
-					DBG("ScopeSyncOSCServer::run - received OSC message for parameter: " + String(paramIdx) + " with value: " + String(value)); 
+					DBG("ScopeSyncOSCServer::run - received OSC message with pattern: " + addressPattern + " and value: " + String(value)); 
 
-					oscUpdates.set(paramIdx, value);
+					// Add item to each of the listener's queues
+					for (int i = 0; i < oscUpdatesArray.size(); i++)
+						oscUpdatesArray[i]->set(addressPattern, value);
 				}
 				else
 				{
@@ -215,7 +218,20 @@ bool ScopeSyncOSCServer::sendMessage(osc::OutboundPacketStream stream)
 	return false;
 }
 
-void ScopeSyncOSCServer::getOSCUpdatesArray(HashMap<int, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray)
+void ScopeSyncOSCServer::getOSCUpdatesArray(ScopeSync* scopeSync, HashMap<String, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray)
 {
-	oscUpdateArray.swapWith(oscUpdates);
+	oscUpdateLookup[scopeSync]->swapWith(oscUpdateArray);
+}
+
+void ScopeSyncOSCServer::registerListener(ScopeSync* scopeSync)
+{
+	HashMap<String, float, DefaultHashFunctions, CriticalSection>* oscUpdates = new HashMap<String, float, DefaultHashFunctions, CriticalSection>();
+	oscUpdatesArray.add(oscUpdates);
+	oscUpdateLookup.set(scopeSync, oscUpdates);
+}
+
+void ScopeSyncOSCServer::unregisterListener(ScopeSync* scopeSync)
+{
+	oscUpdatesArray.removeObject(oscUpdateLookup[scopeSync]);
+	oscUpdateLookup.remove(scopeSync);
 }
