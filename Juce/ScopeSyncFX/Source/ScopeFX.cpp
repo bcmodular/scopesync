@@ -197,9 +197,10 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 {
 	int asyncValues[ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters];
 
-	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
-		asyncValues[i] = asyncIn[i]->itg;
-	
+	// Grab ScopeLocal values from input
+	for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
+		asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = asyncIn[i]->itg;
+
 	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
@@ -230,39 +231,11 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 }
 
 int ScopeFX::syncBlock(PadData** /*asyncIn*/, PadData* /*syncIn*/,
-                       PadData* /*asyncOut*/, PadData* syncOut, 
-                       int off,
-                       int cnt)
+                       PadData* /*asyncOut*/, PadData* /*syncOut*/, 
+                       int /*off*/,
+                       int /*cnt*/)
 {
-    PadData *outData = (PadData*)syncOut[OUTPAD_DATA].buf + off;
-    PadData *outDest = (PadData*)syncOut[OUTPAD_DEST].buf + off;
-    
-    if (outData && outDest)
-    {
-        Array<std::pair<int,int>> snapshotSubset;
-        
-        scopeSync->getSnapshot(snapshotSubset, cnt);
-    
-        for (int i = 0; i < cnt; i++, outData++, outDest++)
-        {
-            if (i < snapshotSubset.size())
-            {
-                outData->itg = snapshotSubset[i].first;
-                outDest->itg = snapshotSubset[i].second;
-            }
-            else
-            {
-                // Clear output buffer
-                outData->itg = 0;
-                outDest->itg = 0;
-            }
-        }
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
+	return -1;
 }
 
 Effect *newEffect()

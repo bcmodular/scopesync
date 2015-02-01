@@ -33,24 +33,23 @@ namespace ScopeFXParameterDefinitions {
 
     /** the async input numbers*/
     enum asyncInPads {
-        INPAD_PARAM_1,   INPAD_PARAM_2,   INPAD_PARAM_3,   INPAD_PARAM_4,   INPAD_PARAM_5,   INPAD_PARAM_6,   INPAD_PARAM_7,   INPAD_PARAM_8,
-        INPAD_PARAM_9,   INPAD_PARAM_10,  INPAD_PARAM_11,  INPAD_PARAM_12,  INPAD_PARAM_13,  INPAD_PARAM_14,  INPAD_PARAM_15,  INPAD_PARAM_16,
-        INPAD_PARAM_17,  INPAD_PARAM_18,  INPAD_PARAM_19,  INPAD_PARAM_20,  INPAD_PARAM_21,  INPAD_PARAM_22,  INPAD_PARAM_23,  INPAD_PARAM_24,
-        INPAD_PARAM_25,  INPAD_PARAM_26,  INPAD_PARAM_27,  INPAD_PARAM_28,  INPAD_PARAM_29,  INPAD_PARAM_30,  INPAD_PARAM_31,  INPAD_PARAM_32,
-        INPAD_PARAM_33,  INPAD_PARAM_34,  INPAD_PARAM_35,  INPAD_PARAM_36,  INPAD_PARAM_37,  INPAD_PARAM_38,  INPAD_PARAM_39,  INPAD_PARAM_40,
-        INPAD_PARAM_41,  INPAD_PARAM_42,  INPAD_PARAM_43,  INPAD_PARAM_44,  INPAD_PARAM_45,  INPAD_PARAM_46,  INPAD_PARAM_47,  INPAD_PARAM_48,
-        INPAD_PARAM_49,  INPAD_PARAM_50,  INPAD_PARAM_51,  INPAD_PARAM_52,  INPAD_PARAM_53,  INPAD_PARAM_54,  INPAD_PARAM_55,  INPAD_PARAM_56,
-        INPAD_PARAM_57,  INPAD_PARAM_58,  INPAD_PARAM_59,  INPAD_PARAM_60,  INPAD_PARAM_61,  INPAD_PARAM_62,  INPAD_PARAM_63,  INPAD_PARAM_64,
-        INPAD_PARAM_65,  INPAD_PARAM_66,  INPAD_PARAM_67,  INPAD_PARAM_68,  INPAD_PARAM_69,  INPAD_PARAM_70,  INPAD_PARAM_71,  INPAD_PARAM_72,
-        INPAD_PARAM_73,  INPAD_PARAM_74,  INPAD_PARAM_75,  INPAD_PARAM_76,  INPAD_PARAM_77,  INPAD_PARAM_78,  INPAD_PARAM_79,  INPAD_PARAM_80,
-        INPAD_PARAM_81,  INPAD_PARAM_82,  INPAD_PARAM_83,  INPAD_PARAM_84,  INPAD_PARAM_85,  INPAD_PARAM_86,  INPAD_PARAM_87,  INPAD_PARAM_88,
-        INPAD_PARAM_89,  INPAD_PARAM_90,  INPAD_PARAM_91,  INPAD_PARAM_92,  INPAD_PARAM_93,  INPAD_PARAM_94,  INPAD_PARAM_95,  INPAD_PARAM_96,
-        INPAD_PARAM_97,  INPAD_PARAM_98,  INPAD_PARAM_99,  INPAD_PARAM_100, INPAD_PARAM_101, INPAD_PARAM_102, INPAD_PARAM_103, INPAD_PARAM_104,
-        INPAD_PARAM_105, INPAD_PARAM_106, INPAD_PARAM_107, INPAD_PARAM_108, INPAD_PARAM_109, INPAD_PARAM_110, INPAD_PARAM_111, INPAD_PARAM_112,
-        INPAD_PARAM_113, INPAD_PARAM_114, INPAD_PARAM_115, INPAD_PARAM_116, INPAD_PARAM_117, INPAD_PARAM_118, INPAD_PARAM_119, INPAD_PARAM_120,
-        INPAD_PARAM_121, INPAD_PARAM_122, INPAD_PARAM_123, INPAD_PARAM_124, INPAD_PARAM_125, INPAD_PARAM_126, INPAD_PARAM_127, INPAD_PARAM_128,
-        INPAD_LOCAL_1,   INPAD_LOCAL_2,   INPAD_LOCAL_3,   INPAD_LOCAL_4,   INPAD_LOCAL_5,   INPAD_LOCAL_6,   INPAD_LOCAL_7,   INPAD_LOCAL_8,
-        INPAD_LOCAL_9,   INPAD_LOCAL_10,  INPAD_LOCAL_11,  INPAD_LOCAL_12,  INPAD_LOCAL_13,  INPAD_LOCAL_14,  INPAD_LOCAL_15,  INPAD_LOCAL_16,
+		INPAD_LOCAL_1,
+		INPAD_LOCAL_2,
+		INPAD_LOCAL_3,
+		INPAD_LOCAL_4,
+		INPAD_LOCAL_5,
+		INPAD_LOCAL_6,
+		INPAD_LOCAL_7,
+		INPAD_LOCAL_8,
+        INPAD_LOCAL_9,
+		INPAD_LOCAL_10,
+		INPAD_LOCAL_11,
+		INPAD_LOCAL_12, 
+		INPAD_LOCAL_13,
+		INPAD_LOCAL_14,  
+		INPAD_LOCAL_15,  
+		INPAD_LOCAL_16,
+		INPAD_FEEDBACK,
         INPAD_X,
 		INPAD_Y,
 		INPAD_SHOW,
@@ -93,163 +92,34 @@ namespace ScopeFXParameterDefinitions {
     };
 
     enum syncOutPads {
-        OUTPAD_DATA,
-        OUTPAD_DEST,
         NUM_SYNCOUTPADS
     };
 
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_1
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_2
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_3
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_4
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_5
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_6
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_7
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_8
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_9
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_10
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_11
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_12
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_13
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_14
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_15
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_16
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_17
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_18
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_19
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_20
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_21
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_22
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_23
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_24
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_25
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_26
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_27
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_28
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_29
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_30
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_31
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_32
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_33
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_34
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_35
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_36
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_37
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_38
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_39
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_40
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_41
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_42
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_43
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_44
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_45
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_46
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_47
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_48
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_49
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_50
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_51
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_52
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_53
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_54
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_55
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_56
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_57
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_58
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_59
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_60
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_61
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_62
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_63
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_64
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_65
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_66
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_67
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_68
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_69
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_70
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_71
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_72
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_73
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_74
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_75
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_76
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_77
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_78
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_79
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_80
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_81
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_82
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_83
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_84
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_85
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_86
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_87
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_88
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_89
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_90
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_91
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_92
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_93
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_94
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_95
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_96
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_97
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_98
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_99
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_100
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_101
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_102
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_103
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_104
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_105
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_106
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_107
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_108
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_109
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_110
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_111
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_112
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_113
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_114
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_115
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_116
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_117
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_118
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_119
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_120
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_121
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_122
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_123
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_124
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_125
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_126
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_127
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_PARAM_128
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_1
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_2
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_3
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_4
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_5
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_6
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_7
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_8
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_9
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_10
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_11
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_12
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_13
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_14
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_15
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_LOCAL_16
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_X
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_Y
-		{ DTYPE_INT, 0, 1 },                // INPAD_SHOW
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_CONFIGUID
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // INPAD_OSCUID
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_1
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_2
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_3
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_4
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_5
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_6
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_7
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_8
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_9
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_10
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_11
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_12
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_13
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_14
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_15
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_16
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 }, // INPAD_FEEDBACK
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_X
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_Y
+		{ DTYPE_INT, 0, 1 },                    // INPAD_SHOW
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -402,141 +272,11 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
-        { DTYPE_INT | DTYPE_BLKSYNC, FRAC_MIN, FRAC_MAX },  // OUTPAD_DATA
-        { DTYPE_INT | DTYPE_BLKSYNC, FRAC_MIN, FRAC_MAX },  // OUTPAD_DEST
     };
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ "P1",   "Parameter Input 1" },
-        { "P2",   "Parameter Input 2" },
-        { "P3",   "Parameter Input 3" },
-        { "P4",   "Parameter Input 4" },
-        { "P5",   "Parameter Input 5" },
-        { "P6",   "Parameter Input 6" },
-        { "P7",   "Parameter Input 7" },
-        { "P8",   "Parameter Input 8" },
-        { "P9",   "Parameter Input 9" },
-        { "P10",  "Parameter Input 10" },
-        { "P11",  "Parameter Input 11" },
-        { "P12",  "Parameter Input 12" },
-        { "P13",  "Parameter Input 13" },
-        { "P14",  "Parameter Input 14" },
-        { "P15",  "Parameter Input 15" },
-        { "P16",  "Parameter Input 16" },
-        { "P17",  "Parameter Input 17" },
-        { "P18",  "Parameter Input 18" },
-        { "P19",  "Parameter Input 19" },
-        { "P20",  "Parameter Input 20" },
-        { "P21",  "Parameter Input 21" },
-        { "P22",  "Parameter Input 22" },
-        { "P23",  "Parameter Input 23" },
-        { "P24",  "Parameter Input 24" },
-        { "P25",  "Parameter Input 25" },
-        { "P26",  "Parameter Input 26" },
-        { "P27",  "Parameter Input 27" },
-        { "P28",  "Parameter Input 28" },
-        { "P29",  "Parameter Input 29" },
-        { "P30",  "Parameter Input 30" },
-        { "P31",  "Parameter Input 31" },
-        { "P32",  "Parameter Input 32" },
-        { "P33",  "Parameter Input 33" },
-        { "P34",  "Parameter Input 34" },
-        { "P35",  "Parameter Input 35" },
-        { "P36",  "Parameter Input 36" },
-        { "P37",  "Parameter Input 37" },
-        { "P38",  "Parameter Input 38" },
-        { "P39",  "Parameter Input 39" },
-        { "P40",  "Parameter Input 40" },
-        { "P41",  "Parameter Input 41" },
-        { "P42",  "Parameter Input 42" },
-        { "P43",  "Parameter Input 43" },
-        { "P44",  "Parameter Input 44" },
-        { "P45",  "Parameter Input 45" },
-        { "P46",  "Parameter Input 46" },
-        { "P47",  "Parameter Input 47" },
-        { "P48",  "Parameter Input 48" },
-        { "P49",  "Parameter Input 49" },
-        { "P50",  "Parameter Input 50" },
-        { "P51",  "Parameter Input 51" },
-        { "P52",  "Parameter Input 52" },
-        { "P53",  "Parameter Input 53" },
-        { "P54",  "Parameter Input 54" },
-        { "P55",  "Parameter Input 55" },
-        { "P56",  "Parameter Input 56" },
-        { "P57",  "Parameter Input 57" },
-        { "P58",  "Parameter Input 58" },
-        { "P59",  "Parameter Input 59" },
-        { "P60",  "Parameter Input 60" },
-        { "P61",  "Parameter Input 61" },
-        { "P62",  "Parameter Input 62" },
-        { "P63",  "Parameter Input 63" },
-        { "P64",  "Parameter Input 64" },
-        { "P65",  "Parameter Input 65" },
-        { "P66",  "Parameter Input 66" },
-        { "P67",  "Parameter Input 67" },
-        { "P68",  "Parameter Input 68" },
-        { "P69",  "Parameter Input 69" },
-        { "P70",  "Parameter Input 70" },
-        { "P71",  "Parameter Input 71" },
-        { "P72",  "Parameter Input 72" },
-        { "P73",  "Parameter Input 73" },
-        { "P74",  "Parameter Input 74" },
-        { "P75",  "Parameter Input 75" },
-        { "P76",  "Parameter Input 76" },
-        { "P77",  "Parameter Input 77" },
-        { "P78",  "Parameter Input 78" },
-        { "P79",  "Parameter Input 79" },
-        { "P80",  "Parameter Input 80" },
-        { "P81",  "Parameter Input 81" },
-        { "P82",  "Parameter Input 82" },
-        { "P83",  "Parameter Input 83" },
-        { "P84",  "Parameter Input 84" },
-        { "P85",  "Parameter Input 85" },
-        { "P86",  "Parameter Input 86" },
-        { "P87",  "Parameter Input 87" },
-        { "P88",  "Parameter Input 88" },
-        { "P89",  "Parameter Input 89" },
-        { "P90",  "Parameter Input 90" },
-        { "P91",  "Parameter Input 91" },
-        { "P92",  "Parameter Input 92" },
-        { "P93",  "Parameter Input 93" },
-        { "P94",  "Parameter Input 94" },
-        { "P95",  "Parameter Input 95" },
-        { "P96",  "Parameter Input 96" },
-        { "P97",  "Parameter Input 97" },
-        { "P98",  "Parameter Input 98" },
-        { "P99",  "Parameter Input 99" },
-        { "P100", "Parameter Input 100" },
-        { "P101", "Parameter Input 101" },
-        { "P102", "Parameter Input 102" },
-        { "P103", "Parameter Input 103" },
-        { "P104", "Parameter Input 104" },
-        { "P105", "Parameter Input 105" },
-        { "P106", "Parameter Input 106" },
-        { "P107", "Parameter Input 107" },
-        { "P108", "Parameter Input 108" },
-        { "P109", "Parameter Input 109" },
-        { "P110", "Parameter Input 110" },
-        { "P111", "Parameter Input 111" },
-        { "P112", "Parameter Input 112" },
-        { "P113", "Parameter Input 113" },
-        { "P114", "Parameter Input 114" },
-        { "P115", "Parameter Input 115" },
-        { "P116", "Parameter Input 116" },
-        { "P117", "Parameter Input 117" },
-        { "P118", "Parameter Input 118" },
-        { "P119", "Parameter Input 119" },
-        { "P120", "Parameter Input 120" },
-        { "P121", "Parameter Input 121" },
-        { "P122", "Parameter Input 122" },
-        { "P123", "Parameter Input 123" },
-        { "P124", "Parameter Input 124" },
-        { "P125", "Parameter Input 125" },
-        { "P126", "Parameter Input 126" },
-        { "P127", "Parameter Input 127" },
-        { "P128", "Parameter Input 128" },
-        { "L1",   "Local Input 1" },
+		{ "L1",   "Local Input 1" },
         { "L2",   "Local Input 2" },
         { "L3",   "Local Input 3" },
         { "L4",   "Local Input 4" },
@@ -552,11 +292,12 @@ namespace ScopeFXParameterDefinitions {
         { "L14",  "Local Input 14" },
         { "L15",  "Local Input 15" },
         { "L16",  "Local Input 16" },
-        { "X", "X position" },
-        { "Y", "Y position" },
+        { "FI",   "Feedback Inputs" },
+		{ "X",    "X position" },
+        { "Y",    "Y position" },
 		{ "show", "show window" },
-        { "cfg", "configuration uid" },
-        { "osc", "osc uid" },
+        { "cfg",  "configuration uid" },
+        { "osc",  "osc uid" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -704,13 +445,11 @@ namespace ScopeFXParameterDefinitions {
         { "L14",  "Local Output 14" },
         { "L15",  "Local Output 15" },
         { "L16",  "Local Output 16" },
-        { "X", "X position" },
-        { "Y", "Y position" },
+        { "X",    "X position" },
+        { "Y",    "Y position" },
         { "show", "show window" },
-        { "cfg", "configuration uid" },
-        { "osc", "osc uid" },
-		{ "data", "output data" },
-        { "dest", "output destination" },
+        { "cfg",  "configuration uid" },
+        { "osc",  "osc uid" },
     };
 
     //--------------------------------------------------------------------------

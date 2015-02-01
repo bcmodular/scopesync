@@ -32,8 +32,8 @@
 
 namespace ScopeSyncApplication
 {
-    const int numScopeSyncParameters  = 8;
-    const int numScopeLocalParameters = 0;
+    const int numScopeSyncParameters  = 128;
+    const int numScopeLocalParameters = 16;
 
     /* ============================ Enumerations ============================== */
     enum AppContext { plugin, scopefx }; // Contexts under which the app may be running

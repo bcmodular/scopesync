@@ -49,21 +49,30 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
             
 			asyncValues[i] = newValue;
 			currentValues.set(i, newValue);
-            
+
 			continue;
         }
-
-        // There was no update from the ScopeSync system, so let's look to see whether the value
-		// has changed since last time
-        int newValue = asyncValues[i];
+		
+		if (i < ScopeSyncApplication::numScopeSyncParameters)
+		{
+			// For ScopeSync parameters, we don't have any async inputs, so just grab
+			// the current value
+			asyncValues[i] = currentValues[i];
+		}
+		else
+		{
+			// There was no update from the ScopeSync system, so let's look to see whether the value
+			// has changed since last time (only for ScopeLocal parameters)
+			int newValue = asyncValues[i];
         
-        if (newValue != currentValues[i] || initialise)
-        {
-			// Value has changed, or we're initialising, so let's put it in the set to pass back to
-			// the ScopeSync system
-            currentValues.set(i, newValue);
-            asyncUpdates.set(i, newValue);
-        }
+			if (newValue != currentValues[i] || initialise)
+			{
+				// Value has changed, or we're initialising, so let's put it in the set to pass back to
+				// the ScopeSync system
+				asyncUpdates.set(i, newValue);
+				currentValues.set(i, newValue);
+			}
+		}
     }
 
 	scopeSyncUpdates.clear();
