@@ -33,28 +33,13 @@ namespace ScopeFXParameterDefinitions {
 
     /** the async input numbers*/
     enum asyncInPads {
-		INPAD_LOCAL_1,
-		INPAD_LOCAL_2,
-		INPAD_LOCAL_3,
-		INPAD_LOCAL_4,
-		INPAD_LOCAL_5,
-		INPAD_LOCAL_6,
-		INPAD_LOCAL_7,
-		INPAD_LOCAL_8,
-        INPAD_LOCAL_9,
-		INPAD_LOCAL_10,
-		INPAD_LOCAL_11,
-		INPAD_LOCAL_12, 
-		INPAD_LOCAL_13,
-		INPAD_LOCAL_14,  
-		INPAD_LOCAL_15,  
-		INPAD_LOCAL_16,
-		INPAD_FEEDBACK,
+		INPAD_PARAMS,
+        INPAD_LOCALS,
+        INPAD_FEEDBACK,
         INPAD_X,
 		INPAD_Y,
 		INPAD_SHOW,
 		INPAD_CONFIGUID,
-		INPAD_OSCUID,
 		NUM_ASYNCINPADS
     };
 
@@ -87,7 +72,6 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_Y,
         OUTPAD_SHOW,
 		OUTPAD_CONFIGUID,
-		OUTPAD_OSCUID,
 		NUM_ASYNCOUTPADS
     };
 
@@ -98,28 +82,13 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_1
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_2
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_3
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_4
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_5
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_6
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_7
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_8
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_9
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_10
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_11
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_12
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_13
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_14
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_15
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_LOCAL_16
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 }, // INPAD_PARAMS
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, 16 },  // INPAD_LOCALS
         { DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 }, // INPAD_FEEDBACK
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_Y
 		{ DTYPE_INT, 0, 1 },                    // INPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -271,33 +240,17 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_Y
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
     };
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ "L1",   "Local Input 1" },
-        { "L2",   "Local Input 2" },
-        { "L3",   "Local Input 3" },
-        { "L4",   "Local Input 4" },
-        { "L5",   "Local Input 5" },
-        { "L6",   "Local Input 6" },
-        { "L7",   "Local Input 7" },
-        { "L8",   "Local Input 8" },
-        { "L9",   "Local Input 9" },
-        { "L10",  "Local Input 10" },
-        { "L11",  "Local Input 11" },
-        { "L12",  "Local Input 12" },
-        { "L13",  "Local Input 13" },
-        { "L14",  "Local Input 14" },
-        { "L15",  "Local Input 15" },
-        { "L16",  "Local Input 16" },
+		{ "PI",   "Parameter Inputs" },
+        { "LI",   "Local Inputs" },
         { "FI",   "Feedback Inputs" },
-		{ "X",    "X position" },
+        { "X",    "X position" },
         { "Y",    "Y position" },
 		{ "show", "show window" },
         { "cfg",  "configuration uid" },
-        { "osc",  "osc uid" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -449,7 +402,6 @@ namespace ScopeFXParameterDefinitions {
         { "Y",    "Y position" },
         { "show", "show window" },
         { "cfg",  "configuration uid" },
-        { "osc",  "osc uid" },
     };
 
     //--------------------------------------------------------------------------

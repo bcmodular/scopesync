@@ -32,6 +32,8 @@
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
+	readAsyncInput = true;
+
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
         currentValues.add(0);
 }
@@ -53,16 +55,16 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 			continue;
         }
 		
-		if (i < ScopeSyncApplication::numScopeSyncParameters)
+		if (!readAsyncInput && i < ScopeSyncApplication::numScopeSyncParameters)
 		{
-			// For ScopeSync parameters, we don't have any async inputs, so just grab
+			// Reading the async input for ScopeSync parameters is switched off, so just grab
 			// the current value
 			asyncValues[i] = currentValues[i];
 		}
 		else
 		{
 			// There was no update from the ScopeSync system, so let's look to see whether the value
-			// has changed since last time (only for ScopeLocal parameters)
+			// has changed since last time
 			int newValue = asyncValues[i];
         
 			if (newValue != currentValues[i] || initialise)

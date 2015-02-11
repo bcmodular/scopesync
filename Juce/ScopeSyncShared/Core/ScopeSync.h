@@ -141,12 +141,20 @@ public:
     const File&    getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); }
     String         getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }
     int            getConfigurationUID() { return configuration->getConfigurationUID(); }
-    String         getLayoutDirectory() { return configuration->getLayoutDirectory(); };
+    String         getLayoutDirectory() { return configuration->getLayoutDirectory(); }
     bool           hasConfigurationUpdate(String& fileName);
     void           changeConfiguration(const String& fileName);
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
-    ValueTree      getMapping() { return configuration->getMapping(); };
+    
+	int            getOSCUID() { return oscUID; }
+	void           setOSCUID(int uid) { oscUID = uid; }
+
+#ifdef __DLL_EFFECT__
+	void           setReadAsyncInput(bool newValue) { scopeSyncAsync.setReadAsyncInput(newValue); }
+#endif // __DLL_EFFECT__
+    
+	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
     XmlElement*    getStandardContent(const String& contentToShow);
@@ -231,9 +239,10 @@ private:
     
 	Array<String, CriticalSection>               configurationChanges;
     ScopedPointer<Configuration>                 configuration;
-    
-    static const int    oscHandlerTime;       // Number of ms between checks of the OSC Server update queue
-    
+
+    static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
+    int oscUID;                      // Unique OSC ID for the current instance
+
 	static const int    minHostParameters;       // Minimum parameter count to return to host
     
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels

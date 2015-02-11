@@ -597,10 +597,20 @@ int BCMParameter::findNearestParameterSetting(int value)
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {
-	if (   UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
-		&& oscDeadTimeCounter == 0
-		&& valueThatChanged.refersToSameSourceAs(uiValue))
+	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
+		if (getScopeCodeText() == "Z8")
+		{
+			// We have an update to the Read Async Input setting, so pass it on to
+			// ScopeSync
+#ifdef __DLL_EFFECT__
+			scopeSync.setReadAsyncInput(uiValue.getValue());
+#endif //__DLL_EFFECT__
+		}
+		else if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
+			  && oscDeadTimeCounter == 0)
+		{
+			scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
+		}
 	}
 }

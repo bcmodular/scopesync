@@ -57,8 +57,12 @@ public:
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
+
+	void setReadAsyncInput(bool newValue) { readAsyncInput = newValue; }
     
 private:
+	bool readAsyncInput;
+
     Array<int, CriticalSection> currentValues;
     
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input

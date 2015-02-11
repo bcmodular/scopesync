@@ -119,6 +119,8 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+	oscUID = 0;
+
 	showEditToolbar = false;
     initCommandManager();
 

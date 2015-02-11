@@ -89,6 +89,7 @@ private:
     int positionX;        // Horizontal location of window
 	int positionY;        // Vertical location of window
 	int configurationUID; // UID of configuration file
+	int oscUID;           // OSC Identifier for this instance
 
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown

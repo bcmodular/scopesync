@@ -106,6 +106,7 @@ void ScopeFX::initValues()
     windowShown        = false;
     windowHandlerDelay = 0;
     configurationUID   = 0;
+	oscUID             = 0;
 }
 
 void ScopeFX::timerCallback()
@@ -195,11 +196,34 @@ void ScopeFX::hideWindow()
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
+	int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
+    int* localArray     = (int*)asyncIn[INPAD_LOCALS]->itg;
+
 	int asyncValues[ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters];
 
+	// Grab ScopeSync values from input
+	if (parameterArray != nullptr)
+	{
+		for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
+			asyncValues[i] = parameterArray[i];
+	}
+	else
+	{
+		for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
+            asyncValues[i] = 0;
+	}
+
 	// Grab ScopeLocal values from input
-	for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
-		asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = asyncIn[i]->itg;
+	if (localArray != nullptr)
+	{
+		for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
+			asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = localArray[i];
+	}
+	else
+	{
+        for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
+            asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = 0;
+	}
 
 	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
@@ -225,8 +249,8 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
     asyncOut[OUTPAD_SHOW].itg      = windowShown ? 1 : 0;
     asyncOut[OUTPAD_X].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
     asyncOut[OUTPAD_Y].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
-    asyncOut[OUTPAD_CONFIGUID].itg = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID() : configurationUID;
-   
+    asyncOut[OUTPAD_CONFIGUID].itg = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()       : configurationUID;
+      
     return 0;
 }
 
