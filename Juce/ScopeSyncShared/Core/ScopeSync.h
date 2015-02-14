@@ -151,7 +151,8 @@ public:
 	void           setOSCUID(int uid) { oscUID = uid; }
 
 #ifdef __DLL_EFFECT__
-	void           setReadAsyncInput(bool newValue) { scopeSyncAsync.setReadAsyncInput(newValue); }
+	void           setPerformanceMode(int newValue) { scopeSyncAsync.setPerformanceMode(newValue); }
+	int            getPerformanceMode()             { return scopeSyncAsync.getPerformanceMode(); }
 #endif // __DLL_EFFECT__
     
 	ValueTree      getMapping() { return configuration->getMapping(); };

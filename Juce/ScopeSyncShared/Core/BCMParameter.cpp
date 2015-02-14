@@ -599,15 +599,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		if (getScopeCodeText() == "Z8")
-		{
-			// We have an update to the Read Async Input setting, so pass it on to
-			// ScopeSync
-#ifdef __DLL_EFFECT__
-			scopeSync.setReadAsyncInput(uiValue.getValue());
-#endif //__DLL_EFFECT__
-		}
-		else if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
+		if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
 			  && oscDeadTimeCounter == 0)
 		{
 			scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());

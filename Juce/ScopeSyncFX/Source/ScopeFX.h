@@ -90,7 +90,8 @@ private:
 	int positionY;        // Vertical location of window
 	int configurationUID; // UID of configuration file
 	int oscUID;           // OSC Identifier for this instance
-
+	
+	int  performanceMode;   // Flag to indicate that performance mode is on
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown
     

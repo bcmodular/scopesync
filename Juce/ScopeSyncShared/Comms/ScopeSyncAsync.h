@@ -58,10 +58,11 @@ public:
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
 
-	void setReadAsyncInput(bool newValue) { readAsyncInput = newValue; }
+	int  getPerformanceMode()             { return performanceMode; }
+	void setPerformanceMode(int newValue) { performanceMode = newValue; }
     
 private:
-	bool readAsyncInput;
+	int performanceMode;
 
     Array<int, CriticalSection> currentValues;
     

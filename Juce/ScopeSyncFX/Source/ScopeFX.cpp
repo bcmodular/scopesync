@@ -225,16 +225,20 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
             asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = 0;
 	}
 
+	// Get ScopeSync to process the inputs and pass on changes from the SS system
 	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
+	// Write to the async outputs for the ScopeSync and ScopeLocal parameters
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
 		asyncOut[i].itg = asyncValues[i];
 
+	// Deal with showing/hiding the Control Panel window
     if (asyncIn[INPAD_SHOW]->itg == 0)
         requestWindowShow = false;
     else
         requestWindowShow = true;
 
+	// Handle configuration changes (project/preset load)
     int newConfigurationUID = asyncIn[INPAD_CONFIGUID]->itg;
 
     if (newConfigurationUID != configurationUID)
@@ -243,13 +247,25 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
         configurationUID = newConfigurationUID;
     }
 
-    positionX = asyncIn[INPAD_X]->itg;
+	// Switch Performance Mode on/off
+	int newPMSetting = asyncIn[INPAD_PERFORMANCE_MODE]->itg;
+
+	if (newPMSetting != performanceMode)
+	{
+		scopeSync->setPerformanceMode(newPMSetting);
+		performanceMode = newPMSetting;
+	}
+	
+	// Handle window position updates
+	positionX = asyncIn[INPAD_X]->itg;
     positionY = asyncIn[INPAD_Y]->itg;
     
-    asyncOut[OUTPAD_SHOW].itg      = windowShown ? 1 : 0;
-    asyncOut[OUTPAD_X].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
-    asyncOut[OUTPAD_Y].itg         = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
-    asyncOut[OUTPAD_CONFIGUID].itg = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()       : configurationUID;
+    asyncOut[OUTPAD_SHOW].itg             = windowShown ? 1 : 0;
+    asyncOut[OUTPAD_X].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
+    asyncOut[OUTPAD_Y].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
+    asyncOut[OUTPAD_CONFIGUID].itg        = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()       : configurationUID;
+	asyncOut[OUTPAD_PERFORMANCE_MODE].itg = (scopeSync  != nullptr) ? scopeSync->getPerformanceMode()        : performanceMode;
+	asyncOut[OUTPAD_OSCUID].itg           = 0;
       
     return 0;
 }

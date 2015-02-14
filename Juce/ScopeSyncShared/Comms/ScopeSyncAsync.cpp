@@ -32,7 +32,7 @@
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
-	readAsyncInput = true;
+	performanceMode = 0;
 
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
         currentValues.add(0);
@@ -55,7 +55,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 			continue;
         }
 		
-		if (!readAsyncInput && i < ScopeSyncApplication::numScopeSyncParameters)
+		if (performanceMode == 0 && i < ScopeSyncApplication::numScopeSyncParameters)
 		{
 			// Reading the async input for ScopeSync parameters is switched off, so just grab
 			// the current value

@@ -40,6 +40,8 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_Y,
 		INPAD_SHOW,
 		INPAD_CONFIGUID,
+		INPAD_OSCUID,
+		INPAD_PERFORMANCE_MODE,
 		NUM_ASYNCINPADS
     };
 
@@ -72,6 +74,8 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_Y,
         OUTPAD_SHOW,
 		OUTPAD_CONFIGUID,
+		OUTPAD_OSCUID,
+		OUTPAD_PERFORMANCE_MODE,
 		NUM_ASYNCOUTPADS
     };
 
@@ -89,6 +93,8 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_Y
 		{ DTYPE_INT, 0, 1 },                    // INPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_PERFORMANCE_MODE
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -238,8 +244,10 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_16
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_Y
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SHOW
+        { DTYPE_INT, 0, 1 },				// OUTPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_PERFORMANCE_MODE
     };
 
     //--------------------------------------------------------------------------
@@ -251,6 +259,8 @@ namespace ScopeFXParameterDefinitions {
         { "Y",    "Y position" },
 		{ "show", "show window" },
         { "cfg",  "configuration uid" },
+        { "osc",  "osc uid" },
+        { "pm",   "performance mode" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -402,6 +412,7 @@ namespace ScopeFXParameterDefinitions {
         { "Y",    "Y position" },
         { "show", "show window" },
         { "cfg",  "configuration uid" },
+        { "pm",   "performance mode" },
     };
 
     //--------------------------------------------------------------------------
