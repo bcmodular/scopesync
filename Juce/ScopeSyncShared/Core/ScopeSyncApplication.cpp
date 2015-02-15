@@ -38,6 +38,16 @@ const bool ScopeSyncApplication::inScopeFXContext()
     return (appContext == scopefx) ? true : false; 
 };
 
+void ScopeSyncApplication::setPerformanceMode(int newValue)
+{
+	performanceMode = newValue;
+}
+
+int ScopeSyncApplication::getPerformanceMode()
+{ 
+	return performanceMode;
+}
+
 ScopeSyncClipboard::ScopeSyncClipboard()
 {
     clipboard = ValueTree();

@@ -252,7 +252,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 
 	if (newPMSetting != performanceMode)
 	{
-		scopeSync->setPerformanceMode(newPMSetting);
+		ScopeSyncApplication::setPerformanceMode(newPMSetting);
 		performanceMode = newPMSetting;
 	}
 	
@@ -261,10 +261,10 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
     positionY = asyncIn[INPAD_Y]->itg;
     
     asyncOut[OUTPAD_SHOW].itg             = windowShown ? 1 : 0;
-    asyncOut[OUTPAD_X].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
-    asyncOut[OUTPAD_Y].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
-    asyncOut[OUTPAD_CONFIGUID].itg        = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()       : configurationUID;
-	asyncOut[OUTPAD_PERFORMANCE_MODE].itg = (scopeSync  != nullptr) ? scopeSync->getPerformanceMode()        : performanceMode;
+    asyncOut[OUTPAD_X].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX()     : positionX;
+    asyncOut[OUTPAD_Y].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY()     : positionY;
+    asyncOut[OUTPAD_CONFIGUID].itg        = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()           : configurationUID;
+	asyncOut[OUTPAD_PERFORMANCE_MODE].itg = (scopeSync  != nullptr) ? ScopeSyncApplication::getPerformanceMode() : performanceMode;
 	asyncOut[OUTPAD_OSCUID].itg           = 0;
       
     return 0;

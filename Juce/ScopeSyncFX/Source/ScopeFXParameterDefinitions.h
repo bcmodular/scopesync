@@ -412,6 +412,7 @@ namespace ScopeFXParameterDefinitions {
         { "Y",    "Y position" },
         { "show", "show window" },
         { "cfg",  "configuration uid" },
+        { "osc",  "osc uid" },
         { "pm",   "performance mode" },
     };
 

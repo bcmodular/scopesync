@@ -57,12 +57,8 @@ public:
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
     void setValue(int scopeCode, int newValue);
-
-	int  getPerformanceMode()             { return performanceMode; }
-	void setPerformanceMode(int newValue) { performanceMode = newValue; }
     
 private:
-	int performanceMode;
 
     Array<int, CriticalSection> currentValues;
     

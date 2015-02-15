@@ -48,8 +48,15 @@ namespace ScopeSyncApplication
 	const int        oscSendPort   = 8000;
 #endif // __DLL_EFFECT__
 
-    const bool inPluginContext();
+	const bool inPluginContext();
     const bool inScopeFXContext();
+
+	static int performanceMode = 1; // Indicates the current status of Performance mode
+								    // 0: Performance Mode on
+								    // 1: Performance Mode off
+	
+	void setPerformanceMode(int newValue);
+	int  getPerformanceMode();
 };
 
 class ScopeSyncClipboard
