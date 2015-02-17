@@ -51,9 +51,9 @@ namespace ScopeSyncApplication
 	const bool inPluginContext();
     const bool inScopeFXContext();
 
-	static int performanceMode = 1; // Indicates the current status of Performance mode
-								    // 0: Performance Mode on
-								    // 1: Performance Mode off
+	static int performanceMode = 0; // Indicates the current status of Performance mode
+								    // 0: Performance Mode off
+								    // 1: Performance Mode on
 	
 	void setPerformanceMode(int newValue);
 	int  getPerformanceMode();

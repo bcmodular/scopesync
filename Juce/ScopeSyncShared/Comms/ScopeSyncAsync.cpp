@@ -53,7 +53,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 			continue;
         }
 		
-		if (!initialise && ScopeSyncApplication::getPerformanceMode() == 0 && i < ScopeSyncApplication::numScopeSyncParameters)
+		if (!initialise && ScopeSyncApplication::getPerformanceMode() == 1 && i < ScopeSyncApplication::numScopeSyncParameters)
 		{
 			// Reading the async input for ScopeSync parameters is switched off, so just grab
 			// the current value
