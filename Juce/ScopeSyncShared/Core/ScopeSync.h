@@ -44,7 +44,6 @@ class ScopeFX;
 class Configuration;
 class ConfigurationManagerWindow;
 
-#include "../Comms/ScopeSyncAudio.h"
 #include "../Comms/ScopeSyncOSC.h"
 
 #include "BCMParameter.h"
@@ -149,6 +148,8 @@ public:
     
 	int            getOSCUID() { return oscUID; }
 	void           setOSCUID(int uid) { oscUID = uid; }
+
+	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
@@ -177,9 +178,7 @@ private:
     void initCommandManager();
     
     /* ========================== Private Actions ============================= */
-    void receiveUpdatesFromScopeAudio();
     void receiveUpdatesFromScopeAsync();
-    void sendToScopeSyncAudio(BCMParameter& parameter);
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
 
@@ -203,7 +202,6 @@ private:
     ScopeSyncAsync scopeSyncAsync;
 #endif // __DLL_EFFECT__
 
-    ScopeSyncAudio             scopeSyncAudio;
     XmlElement                 parameterValueStore;
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
     OwnedArray<BCMParameter>   hostParameters;         // Parameters that the host is interested in
@@ -229,9 +227,9 @@ private:
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
-	Array<std::pair<int,float>, CriticalSection> audioControlUpdates;  // Updates received from the ScopeSync audio input
-    HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;  // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;    // Updates received from the OSC Server
+	HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
+    HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;      // Updates received from the OSC Server
+	HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdateBuffer; // Buffer for updates received from the OSC Server
     
 	Array<String, CriticalSection>               configurationChanges;
     ScopedPointer<Configuration>                 configuration;

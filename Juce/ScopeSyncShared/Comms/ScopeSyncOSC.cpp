@@ -175,9 +175,7 @@ void ScopeSyncOSCServer::run()
 
 					DBG("ScopeSyncOSCServer::run - received OSC message with pattern: " + addressPattern + " and value: " + String(value)); 
 
-					// Add item to each of the listener's queues
-					for (int i = 0; i < oscUpdatesArray.size(); i++)
-						oscUpdatesArray[i]->set(addressPattern, value);
+					ScopeSync::addToOSCControlUpdateBuffers(addressPattern, value);
 				}
 				else
 				{
@@ -216,22 +214,4 @@ bool ScopeSyncOSCServer::sendMessage(osc::OutboundPacketStream stream)
 	}
 
 	return false;
-}
-
-void ScopeSyncOSCServer::getOSCUpdatesArray(ScopeSync* scopeSync, HashMap<String, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray)
-{
-	oscUpdateLookup[scopeSync]->swapWith(oscUpdateArray);
-}
-
-void ScopeSyncOSCServer::registerListener(ScopeSync* scopeSync)
-{
-	HashMap<String, float, DefaultHashFunctions, CriticalSection>* oscUpdates = new HashMap<String, float, DefaultHashFunctions, CriticalSection>();
-	oscUpdatesArray.add(oscUpdates);
-	oscUpdateLookup.set(scopeSync, oscUpdates);
-}
-
-void ScopeSyncOSCServer::unregisterListener(ScopeSync* scopeSync)
-{
-	oscUpdatesArray.removeObject(oscUpdateLookup[scopeSync]);
-	oscUpdateLookup.remove(scopeSync);
 }

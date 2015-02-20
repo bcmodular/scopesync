@@ -56,12 +56,6 @@ public:
 	// UDP Sender
 	bool sendMessage(osc::OutboundPacketStream stream);
 
-	// Passes on the contents of the queue of updates received from the OSC Server
-    void getOSCUpdatesArray(ScopeSync* scopeSync, HashMap<String, float, DefaultHashFunctions, CriticalSection>& oscUpdateArray);
-
-	void registerListener(ScopeSync* scopeSync);
-	void unregisterListener(ScopeSync* scopeSync);
-	
 	juce_DeclareSingleton (ScopeSyncOSCServer, false)
 
 private:
@@ -74,9 +68,6 @@ private:
 	int							  remotePortNumber;
 	ScopedPointer<DatagramSocket> remoteDatagramSocket;
 	bool					      remoteChanged;
-
-	OwnedArray<HashMap<String, float, DefaultHashFunctions, CriticalSection>>           oscUpdatesArray; // Updates received from the OSC Server
-	HashMap<ScopeSync*, HashMap<String, float, DefaultHashFunctions, CriticalSection>*> oscUpdateLookup;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncOSCServer)
 };

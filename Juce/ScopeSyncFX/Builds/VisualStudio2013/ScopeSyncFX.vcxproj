@@ -165,7 +165,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
@@ -228,6 +227,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
@@ -1103,7 +1105,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h"/>
@@ -1155,6 +1156,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessage.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Reverb.h"/>

@@ -50,8 +50,6 @@ namespace Ids
     DECLARE_ID(uiSuffix);
     DECLARE_ID(scopeRangeMin);
     DECLARE_ID(scopeRangeMax);
-    DECLARE_ID(scopeRangeMinFlt);
-    DECLARE_ID(scopeRangeMaxFlt);
     DECLARE_ID(scopeDBRef);
     DECLARE_ID(uiRangeMin);
     DECLARE_ID(uiRangeMax);
@@ -63,7 +61,6 @@ namespace Ids
     DECLARE_ID(valueType);
     DECLARE_ID(settings);
     DECLARE_ID(setting);
-    DECLARE_ID(value);
     DECLARE_ID(intValue);
     DECLARE_ID(layout);
 

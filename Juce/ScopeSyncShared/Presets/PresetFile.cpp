@@ -294,8 +294,6 @@ ValueTree PresetFile::getDefaultPreset()
     defaultPreset.setProperty(Ids::blurb,            String::empty, nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
-    defaultPreset.setProperty(Ids::scopeRangeMinFlt, 0,             nullptr);
-    defaultPreset.setProperty(Ids::scopeRangeMaxFlt, 1,             nullptr);
     defaultPreset.setProperty(Ids::scopeDBRef,       0,             nullptr);
     defaultPreset.setProperty(Ids::valueType,        0,             nullptr);
     defaultPreset.setProperty(Ids::uiResetValue,     0,             nullptr);
@@ -376,22 +374,7 @@ FileBasedDocument::SaveResult PresetFile::saveIfNeededAndUserAgrees(bool offerCa
 
 void PresetFile::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChanged, const Identifier& property)
 {
-    if (property == Ids::scopeRangeMin)
-    {
-        double newValue = scopeIntToDouble(treeWhosePropertyHasChanged.getProperty(property));
-        treeWhosePropertyHasChanged.setProperty(Ids::scopeRangeMinFlt, newValue, nullptr);
-    }
-    else if (property == Ids::scopeRangeMax)
-    {
-        double newValue = scopeIntToDouble(treeWhosePropertyHasChanged.getProperty(property));
-        treeWhosePropertyHasChanged.setProperty(Ids::scopeRangeMaxFlt, newValue, nullptr);
-    }
-    else if (property == Ids::intValue)
-    {
-        double newValue = scopeIntToDouble(treeWhosePropertyHasChanged.getProperty(property));
-        treeWhosePropertyHasChanged.setProperty(Ids::value, newValue, nullptr);
-    }
-    else if (property == Ids::uiRangeMin || property == Ids::uiRangeMax || property == Ids::uiSkewMidpoint)
+	if (property == Ids::uiRangeMin || property == Ids::uiRangeMax || property == Ids::uiSkewMidpoint)
     {
         float minimum    = treeWhosePropertyHasChanged.getProperty(Ids::uiRangeMin);
         float maximum    = treeWhosePropertyHasChanged.getProperty(Ids::uiRangeMax);

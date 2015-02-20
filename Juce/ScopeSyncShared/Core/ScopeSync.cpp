@@ -111,7 +111,6 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 ScopeSync::~ScopeSync()
 {
 	stopTimer();
-	ScopeSyncOSCServer::getInstance()->unregisterListener(this);
 	UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -129,14 +128,10 @@ void ScopeSync::initialise()
     configuration = new Configuration();
     applyConfiguration();
 
-	if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false))
-	{
-		if (getNumScopeSyncInstances() == 1)
-			initialiseOSCServer();
+	if (getNumScopeSyncInstances() == 1)
+		initialiseOSCServer();
 
-		ScopeSyncOSCServer::getInstance()->registerListener(this);
-		startTimer(oscHandlerTime);
-	}
+	startTimer(oscHandlerTime);
 }
 
 void ScopeSync::initialiseOSCServer()
@@ -155,9 +150,8 @@ void ScopeSync::timerCallback()
 
 void ScopeSync::handleOSCUpdates()
 {
-	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
-	oscServer->getOSCUpdatesArray(this, oscControlUpdates);
-
+	oscControlUpdates.swapWith(oscControlUpdateBuffer);
+	
     for (HashMap<String, float, DefaultHashFunctions, CriticalSection>::Iterator i(oscControlUpdates); i.next();)
 	{
     	String addressPattern = i.getKey();
@@ -191,7 +185,7 @@ void ScopeSync::handleOSCUpdates()
 			continue;
 		}
 		
-		int oscUID = oscUIDString.getIntValue();
+		//int oscUID = oscUIDString.getIntValue();
 
 		addressPattern = addressPattern.substring(oscUIDString.length() + 1);
 		
@@ -329,18 +323,12 @@ void ScopeSync::resetScopeCodeIndexes()
 void ScopeSync::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     (void)midiMessages;
-#ifndef __DLL_EFFECT__
-    scopeSyncAudio.processBlock(buffer);
-#else
     (void)buffer;
-#endif // __DLL_EFFECT__
 }
 
 void ScopeSync::snapshot()
 {
-#ifndef __DLL_EFFECT__
-    scopeSyncAudio.snapshot();
-#else
+#ifdef __DLL_EFFECT__
     scopeSyncAsync.createSnapshot();
 #endif // __DLL_EFFECT__
 }
@@ -400,33 +388,6 @@ void ScopeSync::endAllParameterChangeGestures()
     }
 }
 
-void ScopeSync::receiveUpdatesFromScopeAudio()
-{
-    if (scopeSyncAudio.controlUpdates.size() > 0)
-    {
-        const ScopedLock cuLock(scopeSyncAudio.controlUpdateLock);
-        audioControlUpdates.swapWith(scopeSyncAudio.controlUpdates);
-        
-        for (int i = 0; i < audioControlUpdates.size(); i++)
-        {
-            int   scopeSyncCode = audioControlUpdates[i].first;
-            float newScopeValue = audioControlUpdates[i].second;
-            
-            int paramIdx = paramIdxByScopeSyncId[scopeSyncCode];
-            
-            if (paramIdx >= 0)
-            {
-                BCMParameter* parameter = hostParameters[paramIdx];
-                parameter->setScopeFltValue(newScopeValue);
-#ifndef __DLL_EFFECT__
-                pluginProcessor->updateListeners(paramIdx, parameter->getHostValue());
-#endif // __DLL_EFFECT__
-            }
-        }    
-    }
-    audioControlUpdates.clear();
-}      
-
 void ScopeSync::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
@@ -460,19 +421,6 @@ void ScopeSync::receiveUpdatesFromScopeAsync()
     asyncControlUpdates.clear();
 #endif // __DLL_EFFECT__
 } 
-
-void ScopeSync::sendToScopeSyncAudio(BCMParameter& parameter)
-{
-    int scopeCode = parameter.getScopeCode();
-
-    if (!UserSettings::getInstance()->getPropertyBoolValue("useosc", false) && scopeCode != -1)
-    {
-        float newScopeValue = parameter.getScopeFltValue();
-
-        DBG("ScopeSync::sendToScopeSyncAudio: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
-        scopeSyncAudio.setControlValue(scopeCode, newScopeValue);
-    }
-}
 
 void ScopeSync::sendToScopeSyncAsync(BCMParameter& parameter)
 {
@@ -513,9 +461,7 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
 
 void ScopeSync::receiveUpdates()
 {
-    if (ScopeSyncApplication::inPluginContext())
-        receiveUpdatesFromScopeAudio();
-    else
+    if (ScopeSyncApplication::inScopeFXContext())
         receiveUpdatesFromScopeAsync();
 }
     
@@ -583,8 +529,6 @@ void ScopeSync::setParameterFromHost(int hostIdx, float newHostValue)
         hostParameters[hostIdx]->setHostValue(newHostValue);
 #ifdef __DLL_EFFECT__
         sendToScopeSyncAsync(*(hostParameters[hostIdx]));
-#else
-        sendToScopeSyncAudio(*(hostParameters[hostIdx]));
 #endif // __DLL_EFFECT__
     }
 }
@@ -596,7 +540,6 @@ void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 #ifdef __DLL_EFFECT__
     sendToScopeSyncAsync(parameter);
 #else
-    sendToScopeSyncAudio(parameter);
     pluginProcessor->updateListeners(parameter.getHostIdx(), parameter.getHostValue());
 #endif // __DLL_EFFECT__
 }
@@ -635,6 +578,12 @@ void ScopeSync::setSystemError(const String& errorText, const String& errorDetai
 {
     systemError        = errorText;
     systemErrorDetails = errorDetailsText;
+}
+
+void ScopeSync::addToOSCControlUpdateBuffers(const String& addressPattern, float value)
+{
+	for (int i = 0; i < getNumScopeSyncInstances(); i++)
+		scopeSyncInstances[i]->oscControlUpdateBuffer.set(addressPattern, value);
 }
     
 XmlElement* ScopeSync::getSystemLookAndFeels()

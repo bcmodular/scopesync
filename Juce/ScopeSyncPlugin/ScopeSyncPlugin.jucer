@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="1.0.1"
+<JUCERPROJECT id="aOrksy" name="ScopeSyncPlugin" projectType="audioplug" version="1.0.2"
               bundleIdentifier="uk.co.bcmodular.scopesync" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="0" buildRTAS="0" buildAAX="0"
               pluginName="ScopeSync" pluginDesc="ScopeSync" pluginManufacturer="bcmodular"
@@ -173,10 +173,6 @@
       <FILE id="mFNWgt" name="ScopeSyncOSC.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Comms/ScopeSyncOSC.cpp"/>
       <FILE id="VIajQF" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSyncShared/Comms/ScopeSyncOSC.h"/>
-      <FILE id="IpOlz9" name="ScopeSyncAudio.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Comms/ScopeSyncAudio.cpp"/>
-      <FILE id="QOU80j" name="ScopeSyncAudio.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Comms/ScopeSyncAudio.h"/>
       <FILE id="xPIb7u" name="ScopeSyncControl.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Comms/ScopeSyncControl.cpp"/>
       <FILE id="uam5cO" name="ScopeSyncControl.h" compile="0" resource="0"

@@ -322,9 +322,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp">
-      <Filter>ScopeSyncFX\Source\Comms</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClCompile>
@@ -444,6 +441,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
       <Filter>Juce Modules\juce_audio_basics\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.cpp">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
@@ -1434,9 +1434,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h">
-      <Filter>ScopeSyncFX\Source\Comms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClInclude>
@@ -1588,6 +1585,9 @@
       <Filter>Juce Modules\juce_audio_basics\midi</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h">

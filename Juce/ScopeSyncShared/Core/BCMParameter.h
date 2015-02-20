@@ -61,13 +61,11 @@ public:
 
     void  getUITextValue(String& textValue);
     float getHostValue();
-    float getScopeFltValue();
     int   getScopeIntValue();
 
     bool isDiscrete();
     
     void setHostValue(float newValue);
-    void setScopeFltValue(float newValue);
     void setScopeIntValue(int newValue);
     void setUIValue(float newValue);
 	void setOSCValue(float newValue);

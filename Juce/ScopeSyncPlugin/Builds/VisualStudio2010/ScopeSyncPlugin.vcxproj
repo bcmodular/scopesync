@@ -65,7 +65,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.1;JUCE_APP_VERSION_HEX=0x10001;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -110,7 +110,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.1;JUCE_APP_VERSION_HEX=0x10001;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -158,7 +158,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.1;JUCE_APP_VERSION_HEX=0x10001;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2010_78A501D=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -239,7 +239,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\Source\PluginGUI.cpp"/>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp"/>
@@ -280,6 +279,9 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
@@ -1244,7 +1246,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAudio.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\Source\PluginGUI.h"/>
     <ClInclude Include="..\..\Source\PluginProcessor.h"/>
@@ -1266,6 +1267,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessage.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h"/>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Reverb.h"/>

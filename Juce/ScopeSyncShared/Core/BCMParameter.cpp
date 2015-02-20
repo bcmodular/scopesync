@@ -249,59 +249,13 @@ void BCMParameter::getUITextValue(String& textValue)
 
 float BCMParameter::getHostValue()
 {
-    float hostValue = skewHostValue(linearNormalisedValue.getValue(), true);
+	float hostValue = linearNormalisedValue.getValue();
+
+	if (!definition.getProperty(Ids::skewUIOnly))
+		hostValue = skewHostValue(hostValue, true);
+
     // DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
     return hostValue;
-}
-
-float BCMParameter::getScopeFltValue()
-{
-    int parameterValueType = definition.getProperty(Ids::valueType);
-
-    if (parameterValueType == discrete)
-    {
-        int minScopeIntValue;
-        int maxScopeIntValue;
-
-        getScopeRanges(minScopeIntValue, maxScopeIntValue);
-
-        int intValue = 0;
-        
-        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
-
-        if (paramSettings.isValid())
-        {
-            int settingIdx = roundDoubleToInt(uiValue.getValue());
-        
-            if (settingIdx < paramSettings.getNumChildren())
-                intValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
-        }
-        
-        float scopeValue = (float)scaleDouble(minScopeIntValue, maxScopeIntValue, 0.0f, 1.0f, intValue);
-
-        return scopeValue;
-    }
-    else
-    {
-        float minScopeFltValue = definition.getProperty(Ids::scopeRangeMinFlt);
-        float maxScopeFltValue = definition.getProperty(Ids::scopeRangeMaxFlt);
-
-        double valueToScale = linearNormalisedValue.getValue();
-
-        double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-        if (ref != 0.0f)
-        {
-            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
-        
-            valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
-        }
-
-        float scopeValue = (float)scaleDouble(0.0f, 1.0f, minScopeFltValue, maxScopeFltValue, valueToScale);
-        // DBG("BCMParameter::getScopeFltValue - " + definition.getProperty(Ids::name).toString() + ": " + String(scopeValue));
-        return scopeValue;
-    }
 }
 
 void BCMParameter::getScopeRanges(int& min, int& max)
@@ -396,57 +350,14 @@ double BCMParameter::convertUIToLinearNormalisedValue(double newValue)
 
 void BCMParameter::setHostValue(float newValue)
 {
-	double newLinearNormalisedValue = skewHostValue(newValue, false);
-    double newUIValue               = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
+	if (!definition.getProperty(Ids::skewUIOnly))
+		newValue = skewHostValue(newValue, false);
+
+	double newUIValue               = convertLinearNormalisedToUIValue(newValue);
     
-	setParameterValues(hostUpdate, newLinearNormalisedValue, newUIValue);
+	setParameterValues(hostUpdate, newValue, newUIValue);
     
 	DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
-}
-
-void BCMParameter::setScopeFltValue(float newValue)
-{
-    float minScopeFltValue = definition.getProperty(Ids::scopeRangeMinFlt);
-    float maxScopeFltValue = definition.getProperty(Ids::scopeRangeMaxFlt);
-    
-    int parameterValueType = definition.getProperty(Ids::valueType);
-
-	double newUIValue = 0.0f;
-	double newLinearNormalisedValue = 0.0f;
-
-    if (parameterValueType == discrete)
-    {
-        int minScopeIntValue;
-        int maxScopeIntValue;
-
-        getScopeRanges(minScopeIntValue, maxScopeIntValue);
-
-        int intValue   = roundDoubleToInt(scaleDouble(minScopeFltValue, maxScopeFltValue, minScopeIntValue, maxScopeIntValue, newValue));
-        int newSetting = findNearestParameterSetting(intValue);
-        
-		newUIValue = newSetting;
-		newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
-    }
-    else
-    {
-        newLinearNormalisedValue = scaleDouble(minScopeFltValue, maxScopeFltValue, 0.0f, 1.0f, newValue);
-
-        double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-        if (ref != 0.0f)
-        {
-            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
-            
-            newLinearNormalisedValue = dbSkew(newLinearNormalisedValue, ref, uiMinValue, uiMaxValue, false);
-        }
-
-        newUIValue = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
-    }
-
-	setParameterValues(scopeAudioUpdate, newLinearNormalisedValue, newUIValue);
-
-    DBG("BCMParameter::setScopeFltValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setScopeIntValue(int newValue)
@@ -482,6 +393,11 @@ void BCMParameter::setScopeIntValue(int newValue)
             
                 newLinearNormalisedValue = dbSkew(newLinearNormalisedValue, ref, uiMinValue, uiMaxValue, false);
             }
+			//else
+			//{
+			//	if (definition.getProperty(Ids::skewUIOnly))
+			//		newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, false);
+			//}
 
             newUIValue = convertLinearNormalisedToUIValue(newLinearNormalisedValue);
         }
@@ -501,6 +417,9 @@ void BCMParameter::setUIValue(float newValue)
 	double newUIValue = newValue;
     double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
 
+	//if (ScopeSyncApplication::inScopeFXContext() && definition.getProperty(Ids::skewUIOnly))
+	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
+
 	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue);
     DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
@@ -511,7 +430,6 @@ void BCMParameter::setOSCValue(float newValue)
     double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
 
 	setParameterValues(oscUpdate, newLinearNormalisedValue, newUIValue);
-	
 }
 
 void BCMParameter::timerCallback()
@@ -533,7 +451,7 @@ float BCMParameter::skewHostValue(float hostValue, bool invert)
     double skewedValue = hostValue;
     double skewFactor = definition.getProperty(Ids::uiSkewFactor);
 
-    if ((skewFactor != 1.0f) && !(definition.getProperty(Ids::skewUIOnly)))
+    if ((skewFactor != 1.0f))
     {
         skewValue(skewedValue, skewFactor, 0.0f, 1.0f, invert);
     }
@@ -599,10 +517,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		if (UserSettings::getInstance()->getPropertyBoolValue("useosc", false)
-			  && oscDeadTimeCounter == 0)
-		{
+		if (oscDeadTimeCounter == 0)
 			scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
-		}
 	}
 }

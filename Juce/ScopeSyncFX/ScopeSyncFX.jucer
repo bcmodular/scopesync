@@ -78,10 +78,6 @@
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.cpp"/>
         <FILE id="P4Xjre" name="ScopeSyncAsync.h" compile="0" resource="0"
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.h"/>
-        <FILE id="UCicV4" name="ScopeSyncAudio.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Comms/ScopeSyncAudio.cpp"/>
-        <FILE id="nA5l9B" name="ScopeSyncAudio.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Comms/ScopeSyncAudio.h"/>
         <FILE id="i5nULv" name="ScopeSyncControl.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Comms/ScopeSyncControl.cpp"/>
         <FILE id="aLY7EB" name="ScopeSyncControl.h" compile="0" resource="0"
