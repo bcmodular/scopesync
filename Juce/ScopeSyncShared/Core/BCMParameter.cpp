@@ -518,6 +518,11 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
 		if (oscDeadTimeCounter == 0)
-			scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
+			sendOSCParameterUpdate();
 	}
+}
+
+void BCMParameter::sendOSCParameterUpdate()
+{
+	scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
 }

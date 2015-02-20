@@ -328,9 +328,8 @@ void ScopeSync::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessage
 
 void ScopeSync::snapshot()
 {
-#ifdef __DLL_EFFECT__
-    scopeSyncAsync.createSnapshot();
-#endif // __DLL_EFFECT__
+	for (int i = 0; i < hostParameters.size(); i++)
+		hostParameters[i]->sendOSCParameterUpdate();
 }
 
 void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
@@ -551,16 +550,6 @@ void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
     initialiseScopeParameters = false;
 #else
     (void)asyncValues;
-#endif // __DLL_EFFECT__
-}
-
-void ScopeSync::getSnapshot(Array<std::pair<int, int>>& snapshotSubset, int numElements)
-{
-#ifdef __DLL_EFFECT__
-    scopeSyncAsync.getSnapshot(snapshotSubset, numElements);
-#else
-    (void)snapshotSubset;
-    (void)numElements;
 #endif // __DLL_EFFECT__
 }
 

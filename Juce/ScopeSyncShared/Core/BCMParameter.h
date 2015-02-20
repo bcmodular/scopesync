@@ -70,6 +70,8 @@ public:
     void setUIValue(float newValue);
 	void setOSCValue(float newValue);
 
+	void sendOSCParameterUpdate();
+
 private:
     WeakReference<BCMParameter>::Master masterReference;
     friend class WeakReference<BCMParameter>;

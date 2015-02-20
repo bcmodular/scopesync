@@ -44,13 +44,6 @@ public:
     // on any updates from the ScopeSync system
     void handleUpdate(int* asyncValues, bool initialise);
     
-    // Generates a set of async entries that represents current values
-    // for all controls
-    void createSnapshot();
-
-    // Returns a chunk of the generated snapshot
-    void getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
-    
     // Passes on the contents of the queue of updates received from Scope
     void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
 
@@ -64,7 +57,6 @@ private:
     
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input
 	HashMap<int, int, DefaultHashFunctions, CriticalSection> scopeSyncUpdates; // Updates coming from within the ScopeSync code, e.g. GUI or OSC/MIDI changes
-    Array<std::pair<int,int>, CriticalSection> snapshot; // Snapshot messages queued up to be sent
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncAsync);
 };

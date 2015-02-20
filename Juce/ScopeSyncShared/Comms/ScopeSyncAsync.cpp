@@ -78,31 +78,6 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 	scopeSyncUpdates.clear();
 }
 
-void ScopeSyncAsync::createSnapshot()
-{
-    if (snapshot.size() == 0)
-    {
-        for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
-        {
-            int data = currentValues[i]; 
-            int dest = (i + 1 + (2 * (i / 16))) * 8388608;
-        
-            std::pair<int,int> ctrlMessage = std::make_pair(data, dest);
-            snapshot.add(ctrlMessage);
-            DBG("ScopeSyncAsync::createSnapshot - Added to snapshot: data: " + String(data) + ", dest: " + String(dest));
-        }
-    }
-}
-
-void ScopeSyncAsync::getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements)
-{
-    for (int i = 0; i < snapshot.size() && i < numElements; i++)
-    {
-        snapshotSubset.add(snapshot.getFirst());
-        snapshot.remove(0);
-    }
-}
-
 void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap)
 {
     targetHashMap.swapWith(asyncUpdates);

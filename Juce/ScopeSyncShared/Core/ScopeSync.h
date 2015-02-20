@@ -122,8 +122,6 @@ public:
     void   getParameterNameForHost(int hostIdx, String& parameterName);
     void   getParameterText(int hostIdx, String& parameterText);
     void   handleScopeSyncAsyncUpdate(int* asyncValues);
-    void   createSnapshot();
-    void   getSnapshot(Array<std::pair<int,int>>& snapshotSubset, int numElements);
           
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
