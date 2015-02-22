@@ -35,6 +35,7 @@
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
+#include "../Core/ScopeSyncApplication.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner)
@@ -46,10 +47,13 @@ BCMTextButton::~BCMTextButton() {};
 
 void BCMTextButton::applyProperties(TextButtonProperties& properties)
 {
+	// DBG("BCMTextButton::applyProperties - setting up button: " + getName());
+
     applyWidgetProperties(properties);
     mapsToTabs = false;
     isCommandButton = false;
-        
+    
+	// First see whether it's a command button and set it up if it is
     CommandID commandToTrigger = 0;
 
     if (getName().equalsIgnoreCase("snapshot"))
@@ -75,10 +79,24 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         return;
     }
 
+	// Performance mode is a special case button, as it's like a
+	// command button, but needs to toggle
+	if (getName().equalsIgnoreCase("performancemode"))
+	{
+		setClickingTogglesState(true);
+		setToggleState(ScopeSyncApplication::getPerformanceMode(), dontSendNotification);
+
+		ScopeSyncApplication::referToPerformanceMode(parameterValue);
+		parameterValue.addListener(this);
+
+		setTooltip(properties.tooltip);
+		setButtonText(properties.text);
+	}
+
+	// If it's not a command button, it must be a parameter button,
+	// so let's do the remaining set up for parameter buttons
     String tooltip(properties.tooltip);
     String buttonText(properties.text);
-
-    // DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
     int radioGroupId = properties.radioGroupId;
     
@@ -342,6 +360,12 @@ void BCMTextButton::clicked()
         return;
     }
 
+	if (getName().equalsIgnoreCase("performancemode"))
+	{
+		ScopeSyncApplication::setPerformanceMode(getToggleState());
+		return;
+	}
+
     if (url.isWellFormed())
         url.launchInDefaultBrowser();
 
@@ -366,6 +390,12 @@ void BCMTextButton::clicked()
 
 void BCMTextButton::valueChanged(Value& value)
 {
+	if (getName().equalsIgnoreCase("performancemode"))
+	{
+		setToggleState(parameterValue.getValue(), dontSendNotification);
+		return;
+	}
+
     if (displayType == currentSetting)
     {
         String buttonText = settings.getChild(value.getValue()).getProperty(Ids::name, "__NO_NAME__");

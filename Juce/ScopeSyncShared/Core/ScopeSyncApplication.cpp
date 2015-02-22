@@ -44,8 +44,15 @@ void ScopeSyncApplication::setPerformanceMode(int newValue)
 }
 
 int ScopeSyncApplication::getPerformanceMode()
-{ 
-	return performanceMode;
+{
+	int perfModeValue = performanceMode.getValue();
+
+	return perfModeValue;
+}
+
+void ScopeSyncApplication::referToPerformanceMode(Value& valueToLink)
+{
+	valueToLink.referTo(performanceMode);
 }
 
 ScopeSyncClipboard::ScopeSyncClipboard()
