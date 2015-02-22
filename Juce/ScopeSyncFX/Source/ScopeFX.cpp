@@ -247,6 +247,15 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
         configurationUID = newConfigurationUID;
     }
 
+	// Handle OSC UID updates
+    int newOSCUID = asyncIn[INPAD_OSCUID]->itg;
+
+    if (newOSCUID != oscUID)
+    {
+        scopeSync->setOSCUID(newOSCUID);
+        oscUID = newOSCUID;
+    }
+
 	// Switch Performance Mode on/off
 	int newPMSetting = asyncIn[INPAD_PERFORMANCE_MODE]->itg;
 
@@ -265,7 +274,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
     asyncOut[OUTPAD_Y].itg                = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY()     : positionY;
     asyncOut[OUTPAD_CONFIGUID].itg        = (scopeSync  != nullptr) ? scopeSync->getConfigurationUID()           : configurationUID;
 	asyncOut[OUTPAD_PERFORMANCE_MODE].itg = (scopeSync  != nullptr) ? ScopeSyncApplication::getPerformanceMode() : performanceMode;
-	asyncOut[OUTPAD_OSCUID].itg           = 0;
+	asyncOut[OUTPAD_OSCUID].itg           = (scopeSync  != nullptr) ? scopeSync->getOSCUID()                     : oscUID;
       
     return 0;
 }

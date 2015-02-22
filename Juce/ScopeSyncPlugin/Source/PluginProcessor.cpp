@@ -233,6 +233,9 @@ void PluginProcessor::getStateInformation (MemoryBlock& destData)
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
     configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
+	XmlElement* oscUIDXml = root.createNewChildElement("oscuid");
+    oscUIDXml->addTextElement(String(scopeSync->getOSCUID()));
+
     copyXmlToBinary(root, destData);
 
     DBG("PluginProcessor::getStateInformation - Storing XML: " + root.createDocument(""));
@@ -243,6 +246,8 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
     // Restore parameters from memory block whose contents will have been 
     // created by the getStateInformation() call.
     ScopedPointer<XmlElement> root = getXmlFromBinary(data, sizeInBytes);
+
+	DBG("PluginProcessor::getStateInformation - Retrieving XML: " + root->createDocument(""));
 
     if (root)
     {
@@ -259,6 +264,13 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
             String configurationFilePath = root->getChildByName("configurationfilepath")->getAllSubText();
 
             scopeSync->changeConfiguration(configurationFilePath);
+        }
+
+		if (root->getChildByName("oscuid"))
+        {
+            int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
+
+            scopeSync->setOSCUID(oscUID);
         }
     }
     else

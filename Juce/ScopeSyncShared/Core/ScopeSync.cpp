@@ -146,10 +146,7 @@ void ScopeSync::initOSCUID()
 
 int ScopeSync::getOSCUID() { return oscUID.getValue(); }
 
-void ScopeSync::setOSCUID(int uid)
-{
-	oscUID = uid;
-}
+void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
 
 void ScopeSync::initialiseOSCServer()
 {
