@@ -48,13 +48,15 @@ BCMSlider::~BCMSlider() {}
 
 void BCMSlider::applyProperties(SliderProperties& properties)
 {
+	mapsToParameter = false;
+
     overrideSliderStyle(properties.style);
     
-    applyWidgetProperties(properties);
-    
-    fontHeight         = properties.fontHeight;
+	fontHeight         = properties.fontHeight;
     fontStyleFlags     = properties.fontStyleFlags;
     justificationFlags = properties.justificationFlags;
+    
+    applyWidgetProperties(properties);
     
     if (properties.style == Slider::IncDecButtons)
         overrideIncDecButtonMode(properties.incDecButtonMode);
@@ -72,6 +74,17 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     double rangeInt = properties.rangeInt;
     String tooltip  = properties.name;
     
+	// Set up a dedicated OSC UID slider
+	if (getName().equalsIgnoreCase("oscuid"))
+	{
+		scopeSync.referToOSCUID(getValueObject());
+
+		setRange(rangeMin, rangeMax, 1);
+		setTooltip(tooltip);
+
+		return;
+	}
+
     // Set up any mapping to TabbedComponent Tabs
     mapsToTabs = false;
     
@@ -140,19 +153,23 @@ const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
 
 String BCMSlider::getTextFromValue(double v)
 {
-    if (settingsNames.size() > 0)
+    if (settingsNames.size() == 0)
     {
-        return settingsNames[roundDoubleToInt(v)];
+		return Slider::getTextFromValue(v);
     }
     else
     {
-        return Slider::getTextFromValue(v);
+        return settingsNames[roundDoubleToInt(v)];
     }
 }
 
 double BCMSlider::getValueFromText(const String& text)
 {
-    if (settingsNames.size() > 0)
+    if (settingsNames.size() == 0)
+    {
+        return Slider::getValueFromText(text);
+    }
+    else
     {
         for (int i = 0; i < settingsNames.size(); i++)
         {
@@ -163,10 +180,6 @@ double BCMSlider::getValueFromText(const String& text)
         }
 
         return text.getIntValue();
-    }
-    else
-    {
-        return Slider::getValueFromText(text);
     }
 }
 

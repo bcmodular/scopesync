@@ -84,7 +84,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
 		setClickingTogglesState(true);
-		setToggleState(ScopeSyncApplication::getPerformanceMode(), dontSendNotification);
+		setToggleState((ScopeSyncApplication::getPerformanceMode() > 0), dontSendNotification);
 
 		ScopeSyncApplication::referToPerformanceMode(parameterValue);
 		parameterValue.addListener(this);
@@ -392,7 +392,7 @@ void BCMTextButton::valueChanged(Value& value)
 {
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
-		setToggleState(parameterValue.getValue(), dontSendNotification);
+		setToggleState((int(parameterValue.getValue()) > 0), dontSendNotification);
 		return;
 	}
 

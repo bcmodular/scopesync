@@ -118,7 +118,7 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-	oscUID = 0;
+	initOSCUID();
 
 	showEditToolbar = false;
     initCommandManager();
@@ -132,6 +132,23 @@ void ScopeSync::initialise()
 		initialiseOSCServer();
 
 	startTimer(oscHandlerTime);
+}
+
+void ScopeSync::initOSCUID()
+{
+	int initialOSCUID = 0;
+
+	while (initialOSCUID < INT_MAX && oscUIDInUse(initialOSCUID, this))
+		initialOSCUID++;
+	
+	setOSCUID(initialOSCUID);
+}
+
+int ScopeSync::getOSCUID() { return oscUID.getValue(); }
+
+void ScopeSync::setOSCUID(int uid)
+{
+	oscUID = uid;
 }
 
 void ScopeSync::initialiseOSCServer()
@@ -159,24 +176,6 @@ void ScopeSync::handleOSCUpdates()
 
 		addressPattern = addressPattern.trimCharactersAtStart("/");
 
-		String configString = addressPattern.upToFirstOccurrenceOf("/", false, false);
-		
-		if (configString.isEmpty())
-		{
-			DBG("ScopeSync::handleOSCUpdates - no config reference found in OSC string");
-			continue;
-		}
-		
-		int configUID = configString.getIntValue();
-
-		if (configUID != getConfigurationUID())
-		{
-			DBG("ScopeSync::handleOSCUpdates - ignoring update as not for this configuration");
-			continue;
-		}
-
-		addressPattern = addressPattern.substring(configString.length() + 1);
-		
 		String oscUIDString = addressPattern.upToFirstOccurrenceOf("/", false, false);
 		
 		if (oscUIDString.isEmpty())
@@ -185,7 +184,13 @@ void ScopeSync::handleOSCUpdates()
 			continue;
 		}
 		
-		//int oscUID = oscUIDString.getIntValue();
+		int oscUID = oscUIDString.getIntValue();
+
+		if (oscUID != getOSCUID())
+		{
+			DBG("ScopeSync::handleOSCUpdates - ignoring update as not for this OSC UID");
+			continue;
+		}
 
 		addressPattern = addressPattern.substring(oscUIDString.length() + 1);
 		
@@ -232,7 +237,7 @@ void ScopeSync::handleOSCUpdates()
 void ScopeSync::sendOSCParameterUpdate(int hostIdx, float uiValue)
 {
 	static const int bufferSize = 256;
-    String address = "/" + String(getConfigurationUID()) + "/0/" + String(hostIdx);
+    String address = "/" + String(getOSCUID()) + "/" + String(hostIdx);
     char buffer[bufferSize];
     osc::OutboundPacketStream oscMessage(buffer, bufferSize);
     oscMessage << osc::BeginMessage(address.toRawUTF8()) << uiValue << osc::EndMessage;
@@ -279,7 +284,16 @@ int ScopeSync::getNumScopeSyncInstances()
 { 
     return scopeSyncInstances.size(); 
 };
-    
+
+bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
+{
+	for (int i = 0; i < getNumScopeSyncInstances(); i++)
+		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
+			return true;
+	
+	return false;
+}
+
 void ScopeSync::reloadAllGUIs()
 {
     for (int i = 0; i < scopeSyncInstances.size(); i++)

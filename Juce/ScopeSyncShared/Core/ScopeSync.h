@@ -75,6 +75,7 @@ public:
 
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
+	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
 	static void reloadAllGUIs();
     static void shutDownIfLastInstance();
     static const String& getScopeSyncCode(int scopeSync);
@@ -144,8 +145,12 @@ public:
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
     
-	int            getOSCUID() { return oscUID; }
-	void           setOSCUID(int uid) { oscUID = uid; }
+	int            getOSCUID();
+	void           setOSCUID(int uid);
+
+	void           initOSCUID();
+
+	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
 
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
@@ -208,6 +213,7 @@ private:
     Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
     ScopedPointer<ApplicationCommandManager> commandManager;
     static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
+	
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
@@ -233,7 +239,7 @@ private:
     ScopedPointer<Configuration>                 configuration;
 
     static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
-    int oscUID;                      // Unique OSC ID for the current instance
+    Value oscUID;                    // Unique OSC ID for the current instance
 
 	static const int    minHostParameters;       // Minimum parameter count to return to host
     
