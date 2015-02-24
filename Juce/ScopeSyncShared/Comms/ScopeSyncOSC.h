@@ -36,6 +36,8 @@ public:
 	ScopeSyncOSCServer();
 	~ScopeSyncOSCServer();
 
+	void setup(bool startListening);
+
 	// UDP Setup
 	void          setLocalPortNumber(int portNumber);
 	int           getLocalPortNumber();

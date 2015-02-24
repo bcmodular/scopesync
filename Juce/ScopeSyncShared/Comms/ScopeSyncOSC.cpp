@@ -26,16 +26,13 @@
 
 #include "ScopeSyncOSC.h"
 #include "..\Core\ScopeSync.h"
+#include "..\Windows\UserSettings.h"
 
 juce_ImplementSingleton(ScopeSyncOSCServer)
 
 ScopeSyncOSCServer::ScopeSyncOSCServer()
     : Thread("OscServer")
 {
-	receivePortNumber = 8050;
-	remoteHostname    = "localhost";
-	remotePortNumber  = 9050;
-	remoteChanged     = false;
 }
 
 ScopeSyncOSCServer::~ScopeSyncOSCServer()
@@ -54,8 +51,21 @@ ScopeSyncOSCServer::~ScopeSyncOSCServer()
 	remoteDatagramSocket  = nullptr;
 }
 
+void ScopeSyncOSCServer::setup(bool startListening)
+{
+	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
+    
+	oscServer->setLocalPortNumber(UserSettings::getInstance()->getPropertyIntValue("osclocalportnum"));
+    oscServer->setRemoteHostname(UserSettings::getInstance()->getPropertyValue("oscremotehost"));
+    oscServer->setRemotePortNumber(UserSettings::getInstance()->getPropertyIntValue("oscremoteportnum"));
+
+	if (startListening)
+		oscServer->listen();
+}
+
 void ScopeSyncOSCServer::setLocalPortNumber(int portNumber)
 {
+	DBG("ScopeSyncOSCServer::setLocalPortNumber - changed local port number to: " + String(portNumber));
 	receivePortNumber = portNumber;
 }
 
@@ -67,13 +77,14 @@ int ScopeSyncOSCServer::getLocalPortNumber()
 const String& ScopeSyncOSCServer::getLocalHostname() 
 {
 	if (receiveDatagramSocket)
-		receiveDatagramSocket->getHostName();
+		return receiveDatagramSocket->getHostName();
   
 	return String::empty;
 }
 
 void ScopeSyncOSCServer::setRemoteHostname(String hostname)
 {
+	DBG("ScopeSyncOSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
 	remoteHostname = hostname;
 	remoteChanged  = true;
 }
@@ -85,6 +96,7 @@ String ScopeSyncOSCServer::getRemoteHostname()
 
 void ScopeSyncOSCServer::setRemotePortNumber(int portNumber)
 {
+	DBG("ScopeSyncOSCServer::setRemotePortNumber - changed remote port number to: " + String(portNumber));
 	remotePortNumber = portNumber;
 	remoteChanged    = true;
 }

@@ -39,13 +39,9 @@ namespace ScopeSyncApplication
     enum AppContext { plugin, scopefx }; // Contexts under which the app may be running
 
 #ifndef __DLL_EFFECT__
-    const AppContext appContext    = plugin;
-	const int        oscListenPort = 8000;
-	const int        oscSendPort   = 9000;
+    const AppContext appContext = plugin;
 #else
     const AppContext appContext = scopefx;
-	const int        oscListenPort = 9000;
-	const int        oscSendPort   = 8000;
 #endif // __DLL_EFFECT__
 
 	const bool inPluginContext();

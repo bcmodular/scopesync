@@ -189,16 +189,25 @@ UserSettings::UserSettings()
     propertyPanel.setWantsKeyboardFocus(true);
     
     setName("User Settings");
+
+	oscLocalPortNum.addListener(this);
+	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8000 : 9000));
     
-    tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
+	oscRemoteHost.addListener(this);
+	oscRemoteHost.setValue(getPropertyValue("oscremotehost", "127.0.0.1"));
+    
+	oscRemotePortNum.addListener(this);
+	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  ScopeSyncApplication::inPluginContext() ? 9000 : 8000));
+    
     tooltipDelayTime.addListener(this);
-
-    useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
+	tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
+    
     useImageCache.addListener(this);
-
-	autoRebuildLibrary.setValue(getPropertyBoolValue("autorebuildlibrary", false));
+	useImageCache.setValue(getPropertyBoolValue("enableimagecache", true));
+    
 	autoRebuildLibrary.addListener(this);
-
+	autoRebuildLibrary.setValue(getPropertyBoolValue("autorebuildlibrary", false));
+	
     setupPanel();
 
     addAndMakeVisible(fileLocationsButton);
@@ -236,17 +245,24 @@ void UserSettings::setupPanel()
     propertyPanel.addSection("Tooltip Settings", props.components, true);
     
     props.clear();
-    props.add(new EncoderSnapProperty(*this),                                   "Choose whether encoders snap to valid parameter values");
-    props.add(new RotaryMovementProperty(*this),                                "Choose which mouse movement type is to be used by rotary encoders");
-    props.add(new IncDecButtonModeProperty(*this),                              "Choose the mode for Inc/Dec button style Sliders");
-    props.add(new PopupEnabledProperty(*this),                                  "Choose whether encoders show a popup with current value when dragging");
-    props.add(new EncoderVelocityModeProperty(*this),                           "Choose whether Velocity Based Mode is enabled for Encoders");
+    props.add(new EncoderSnapProperty(*this),         "Choose whether encoders snap to valid parameter values");
+    props.add(new RotaryMovementProperty(*this),      "Choose which mouse movement type is to be used by rotary encoders");
+    props.add(new IncDecButtonModeProperty(*this),    "Choose the mode for Inc/Dec button style Sliders");
+    props.add(new PopupEnabledProperty(*this),        "Choose whether encoders show a popup with current value when dragging");
+    props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for Encoders");
     
     propertyPanel.addSection("Encoder Settings", props.components, true);
 
-    props.clear();
-    props.add(new BooleanPropertyComponent(useImageCache,      "Image Cache",                       "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
-	props.add(new BooleanPropertyComponent(autoRebuildLibrary, "Automatically Rebuild Library",     "Enabled"), "Automatically rebuild the relevant library on opening a Chooser window. Depending on size of library, enabling this may cause a performance problem.");
+	props.clear();
+	props.add(new IntRangeProperty(oscLocalPortNum, "OSC Local Port", 1, 65535),       "Enter the port number that the local OSC Server should listen on");
+	props.add(new TextPropertyComponent(oscRemoteHost, "OSC Remote Host", 256, false), "Enter the host name or IP address that the remote OSC is hosted at (use localhost if on this machine)");
+	props.add(new IntRangeProperty(oscRemotePortNum, "OSC Remote Port", 1, 65535),     "Enter the port number that the remote OSC Server is listening on");
+
+	propertyPanel.addSection("OSC Settings", props.components, true);
+
+	props.clear();
+    props.add(new BooleanPropertyComponent(useImageCache,      "Image Cache",                   "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
+	props.add(new BooleanPropertyComponent(autoRebuildLibrary, "Automatically Rebuild Library", "Enabled"), "Automatically rebuild the relevant library on opening a Chooser window. Depending on size of library, enabling this may cause a performance problem.");
 	
     propertyPanel.addSection("Expert Settings", props.components, false);
 }
@@ -279,14 +295,24 @@ void UserSettings::resized()
     propertyPanel.setBounds(localBounds.reduced(4, 4));
 }
 
+String UserSettings::getPropertyValue(const String& propertyName, const String& defaultValue)
+{
+	return getAppProperties()->getValue(propertyName, defaultValue);
+}
+
+void UserSettings::setPropertyValue(const String& propertyName, const String& newValue)
+{
+	getAppProperties()->setValue(propertyName, newValue);
+}
+
 int UserSettings::getPropertyIntValue(const String& propertyName, int defaultValue)
 {
-    return getAppProperties()->getIntValue(propertyName, defaultValue);
+	return getAppProperties()->getIntValue(propertyName, defaultValue);
 }
 
 void UserSettings::setPropertyIntValue(const String& propertyName, int newValue)
 {
-    return getAppProperties()->setValue(propertyName, newValue);
+    getAppProperties()->setValue(propertyName, newValue);
 }
 
 bool UserSettings::getPropertyBoolValue(const String& propertyName, bool defaultValue)
@@ -296,7 +322,7 @@ bool UserSettings::getPropertyBoolValue(const String& propertyName, bool default
 
 void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValue)
 {
-    return getAppProperties()->setValue(propertyName, newValue);
+    getAppProperties()->setValue(propertyName, newValue);
 }
 
 void UserSettings::valueChanged(Value& valueThatChanged)
@@ -307,6 +333,21 @@ void UserSettings::valueChanged(Value& valueThatChanged)
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
+    else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
+	{
+		setPropertyIntValue("osclocalportnum", valueThatChanged.getValue());
+		ScopeSyncOSCServer::getInstance()->setup(false);
+	}
+    else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
+	{
+        setPropertyValue("oscremotehost", valueThatChanged.getValue());
+		ScopeSyncOSCServer::getInstance()->setup(false);
+	}
+	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
+	{
+		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
+		ScopeSyncOSCServer::getInstance()->setup(false);
+	}
 }
 
 void UserSettings::userTriedToCloseWindow()

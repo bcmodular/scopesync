@@ -176,7 +176,7 @@ private:
 
     /* ========================== Initialisation ============================== */
     void initialise();
-	void initialiseOSCServer();
+	void setupOSCServer();
     void resetScopeCodeIndexes();
     void initCommandManager();
     

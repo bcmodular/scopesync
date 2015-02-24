@@ -129,7 +129,7 @@ void ScopeSync::initialise()
     applyConfiguration();
 
 	if (getNumScopeSyncInstances() == 1)
-		initialiseOSCServer();
+		setupOSCServer();
 
 	startTimer(oscHandlerTime);
 }
@@ -148,13 +148,10 @@ int ScopeSync::getOSCUID() { return oscUID.getValue(); }
 
 void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
 
-void ScopeSync::initialiseOSCServer()
+void ScopeSync::setupOSCServer()
 {
 	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
-    oscServer->setLocalPortNumber(ScopeSyncApplication::oscListenPort);
-    oscServer->listen();
-    oscServer->setRemoteHostname("127.0.0.1");
-    oscServer->setRemotePortNumber(ScopeSyncApplication::oscSendPort);
+    oscServer->setup(true);
 }
 
 void ScopeSync::timerCallback()

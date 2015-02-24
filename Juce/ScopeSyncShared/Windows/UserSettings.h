@@ -79,10 +79,12 @@ public:
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
 
-    int  getPropertyIntValue(const String& propertyName, int defaultValue);
-    void setPropertyIntValue(const String& propertyName, int newValue);
-    bool getPropertyBoolValue(const String& propertyName, bool defaultValue);
-    void setPropertyBoolValue(const String& propertyName, bool newValue);
+    String getPropertyValue(const String& propertyName, const String& defaultValue = String::empty);
+    void   setPropertyValue(const String& propertyName, const String& newValue);
+    int    getPropertyIntValue(const String& propertyName, int defaultValue = 0);
+    void   setPropertyIntValue(const String& propertyName, int newValue);
+    bool   getPropertyBoolValue(const String& propertyName, bool defaultValue = false);
+    void   setPropertyBoolValue(const String& propertyName, bool newValue);
 
     Array<Colour> swatchColours;
 
@@ -109,9 +111,13 @@ private:
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
     ScopedPointer<PresetManagerWindow>      presetManagerWindow;
     
-    Value     useImageCache;
-    Value     tooltipDelayTime;
-	Value     autoRebuildLibrary;
+    Value useImageCache;
+    Value tooltipDelayTime;
+	Value autoRebuildLibrary;
+		  
+	Value oscLocalPortNum;
+	Value oscRemoteHost;
+	Value oscRemotePortNum;
 	
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
