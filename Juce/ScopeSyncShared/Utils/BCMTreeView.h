@@ -146,9 +146,9 @@ private:
     
     /* ================= ValueTree::Listener overrides ================= */
     void valueTreePropertyChanged (ValueTree&, const Identifier&) override;
-    void valueTreeChildAdded (ValueTree& parentTree, ValueTree&) override    { treeChildrenChanged(parentTree); }
-    void valueTreeChildRemoved (ValueTree& parentTree, ValueTree&) override  { treeChildrenChanged(parentTree); }
-    void valueTreeChildOrderChanged (ValueTree& parentTree) override         { treeChildrenChanged(parentTree); }
+    void valueTreeChildAdded (ValueTree& parentTree, ValueTree&) override { treeChildrenChanged(parentTree); }
+    void valueTreeChildRemoved (ValueTree& parentTree, ValueTree&, int /* oldIndex */) override { treeChildrenChanged(parentTree); }
+    void valueTreeChildOrderChanged (ValueTree& parentTree, int /* oldIndex */, int /* newIndex */) override { treeChildrenChanged(parentTree); }
     void valueTreeParentChanged (ValueTree&) override {}
 
     void treeChildrenChanged (const ValueTree& parentTree);

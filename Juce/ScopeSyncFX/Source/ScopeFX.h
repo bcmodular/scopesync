@@ -86,10 +86,13 @@ private:
     static const int timerFrequency;
     
     // Async values that are handled directly by ScopeFX
-    int positionX;        // Horizontal location of window
-	int positionY;        // Vertical location of window
-	int configurationUID; // UID of configuration file
-	int oscUID;           // OSC Identifier for this instance
+    int positionX;             // Horizontal location of window
+	int positionY;             // Vertical location of window
+	int configurationUID;      // UID of configuration file
+	int oscUID;                // OSC Identifier for this instance
+	int controlPanelConnected; // Flag to indicate whether the Control Panel is connected
+	int showPatchWindow;       // Flag to indicate whether the Patch Window should be shown
+	int showPresetWindow;	   // Flag to indicate whether the Preset Window should be shown
 	
 	int  performanceMode;   // Flag to indicate that performance mode is on
 	bool requestWindowShow; // Flag to indicate that window should be shown

@@ -50,7 +50,13 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 
     setTabBarDepth(properties.tabBarDepth);
     
-    setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
+	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	{
+		parameterValue.addListener(this);
+		scopeSync.referToControlPanelConnected(parameterValue);
+	}
+    else
+		setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
 
     barProperties.set("showdropshadow", properties.showDropShadow);
 }
@@ -59,9 +65,20 @@ const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabb
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {
-    DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundDoubleToInt(value.getValue())));
+    if (getName().equalsIgnoreCase("CP-Host Connection"))
+	{
+		DBG("BCMTabbedComponent::valueChanged: new value: " + value.toString());
 
-    setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
+		if (value.getValue())
+			setCurrentTabIndex(1, false);
+		else
+			setCurrentTabIndex(0, false);
+	}
+	else
+	{
+		DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundDoubleToInt(value.getValue())));
+		setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
+	}	
 }
 
 void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String& newCurrentTabName)
@@ -76,14 +93,21 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
 
 void BCMTabbedComponent::attachToParameter()
 {
-    if (mapsToParameter && parameter->isDiscrete())
-    {
-        parameter->mapToUIValue(parameterValue);
-        parameterValue.addListener(this);
-    }
+	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	{
+		valueChanged(parameterValue);
+	}
+	else
+	{
+		if (mapsToParameter && parameter->isDiscrete())
+		{
+			parameter->mapToUIValue(parameterValue);
+			parameterValue.addListener(this);
+		}
 
-    DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
-    setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), false);
+		DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
+		setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), false);
+	}
 }
 
 void BCMTabbedComponent::popupMenuClickOnTab(int /* tabIndex */, const String& /* tabName */)

@@ -390,7 +390,7 @@ void PresetFile::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChanged
     changed();
 }
 
-void PresetFile::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */)     { changed(); }
-void PresetFile::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved*/ ) { changed(); }
-void PresetFile::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */)                 { changed(); }
-void PresetFile::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */)                            { changed(); }
+void PresetFile::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) { changed(); }
+void PresetFile::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved*/, int /* oldIndex */ ) { changed(); }
+void PresetFile::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) { changed(); }
+void PresetFile::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) { changed(); }

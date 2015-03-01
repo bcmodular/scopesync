@@ -147,13 +147,21 @@ public:
     
 	int            getOSCUID();
 	void           setOSCUID(int uid);
-
 	void           initOSCUID();
-
 	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
-
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
+	void           setControlPanelConnected(bool newSetting) { controlPanelConnected = newSetting; }
+	void           referToControlPanelConnected(Value& valueToLink) { valueToLink.referTo(controlPanelConnected); }
+
+	bool           getShowPresetWindow() { return showPresetWindow.getValue(); }
+	void           setShowPresetWindow(bool newSetting) { showPresetWindow = newSetting; }
+	void           referToShowPresetWindow(Value& valueToLink) { valueToLink.referTo(showPresetWindow); }
+
+	bool           getShowPatchWindow() { return showPatchWindow.getValue(); }
+	void           setShowPatchWindow(bool newSetting) { showPatchWindow = newSetting; }
+	void           referToShowPatchWindow(Value& valueToLink) { valueToLink.referTo(showPatchWindow); }
+
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
@@ -240,6 +248,10 @@ private:
 
     static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
     Value oscUID;                    // Unique OSC ID for the current instance
+
+	Value controlPanelConnected;
+	Value showPresetWindow;
+	Value showPatchWindow;
 
 	static const int    minHostParameters;       // Minimum parameter count to return to host
     

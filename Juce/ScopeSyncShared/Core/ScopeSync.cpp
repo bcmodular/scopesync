@@ -119,6 +119,9 @@ ScopeSync::~ScopeSync()
 void ScopeSync::initialise()
 {
 	initOSCUID();
+	setControlPanelConnected(false);
+	setShowPatchWindow(true);
+	setShowPresetWindow(false);
 
 	showEditToolbar = false;
     initCommandManager();
@@ -1159,19 +1162,6 @@ const String ScopeSync::standardHeaderContent =
 "      </component>\n"
 "    </tab>\n"
 "  </tabbedcomponent>\n"
-"  <component displaycontext=\"scope\" backgroundcolour=\"00000000\">\n"
-"    <bounds relativerectangle=\"right - 2, 0, parent.width - 132, top + 2\"></bounds>\n"
-"    <!--CP<->Host Disconnected-->\n"
-"    <textbutton name=\"CPHost-Disconnected\" nostyleoverride=\"true\">\n"
-"      <bounds x=\"3\" y=\"3\" width=\"1\" height=\"1\"></bounds>\n"
-"      <choosetab tabbedcomponent=\"CP-Host Connection\" tabname=\"DISCONNECTED\"></choosetab>\n"
-"    </textbutton>\n"
-"    <!--CP<->Host Connected-->\n"
-"    <textbutton name=\"CPHost-Connected\" nostyleoverride=\"true\">\n"
-"      <bounds x=\"3\" y=\"3\" width=\"1\" height=\"1\"></bounds>\n"
-"      <choosetab tabbedcomponent=\"CP-Host Connection\" tabname=\"CONNECTED\"></choosetab>\n"
-"    </textbutton>\n"
-"  </component>\n"
 "</component>";
 
 const String ScopeSync::standardSliderLnFs =

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <component id="header">
   <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
@@ -47,17 +47,4 @@
       </component>
     </tab>
   </tabbedcomponent>
-  <component displaycontext="scope" backgroundcolour="00000000">
-    <bounds relativerectangle="right - 2, 0, parent.width - 132, top + 2"></bounds>
-    <!--CP<->Host Disconnected-->
-    <textbutton name="CPHost-Disconnected" nostyleoverride="true">
-      <bounds x="3" y="3" width="1" height="1"></bounds>
-      <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
-    </textbutton>
-    <!--CP<->Host Connected-->
-    <textbutton name="CPHost-Connected" nostyleoverride="true">
-      <bounds x="3" y="3" width="1" height="1"></bounds>
-      <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
-    </textbutton>
-  </component>
 </component>

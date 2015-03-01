@@ -42,6 +42,9 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_CONFIGUID,
 		INPAD_OSCUID,
 		INPAD_PERFORMANCE_MODE,
+		INPAD_SHOW_PRESET_WINDOW,
+		INPAD_SHOW_PATCH_WINDOW,
+		INPAD_CONTROL_PANEL_CONNECTED,
 		NUM_ASYNCINPADS
     };
 
@@ -76,6 +79,8 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_CONFIGUID,
 		OUTPAD_OSCUID,
 		OUTPAD_PERFORMANCE_MODE,
+		OUTPAD_SHOW_PRESET_WINDOW,
+		OUTPAD_SHOW_PATCH_WINDOW,
 		NUM_ASYNCOUTPADS
     };
 
@@ -95,6 +100,9 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_PERFORMANCE_MODE
+		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PRESET_WINDOW
+        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PATCH_WINDOW
+        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_CONTROL_PANEL_CONNECTED
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -248,6 +256,8 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_PERFORMANCE_MODE
+		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PRESET_WINDOW
+        { DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PATCH_WINDOW
     };
 
     //--------------------------------------------------------------------------
@@ -261,6 +271,9 @@ namespace ScopeFXParameterDefinitions {
         { "cfg",  "configuration uid" },
         { "osc",  "osc uid" },
         { "pm",   "performance mode" },
+		{ "spr",  "show preset window" },
+		{ "spa",  "show patch window" },
+		{ "cpc",  "control panel connected" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -414,6 +427,8 @@ namespace ScopeFXParameterDefinitions {
         { "cfg",  "configuration uid" },
         { "osc",  "osc uid" },
         { "pm",   "performance mode" },
+		{ "spr",  "show preset window" },
+		{ "spa",  "show patch window" },
     };
 
     //--------------------------------------------------------------------------

@@ -91,6 +91,31 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
 		setTooltip(properties.tooltip);
 		setButtonText(properties.text);
+		return;
+	}
+	else if (getName().equalsIgnoreCase("PresetList"))
+	{
+		setClickingTogglesState(true);
+		setToggleState(scopeSync.getShowPresetWindow(), dontSendNotification);
+
+		scopeSync.referToShowPresetWindow(parameterValue);
+		parameterValue.addListener(this);
+
+		setTooltip(properties.tooltip);
+		setButtonText(properties.text);
+		return;
+	}
+	else if (getName().equalsIgnoreCase("PatchWindow"))
+	{
+		setClickingTogglesState(true);
+		setToggleState(scopeSync.getShowPatchWindow(), dontSendNotification);
+
+		scopeSync.referToShowPatchWindow(parameterValue);
+		parameterValue.addListener(this);
+
+		setTooltip(properties.tooltip);
+		setButtonText(properties.text);
+		return;
 	}
 
 	// If it's not a command button, it must be a parameter button,
@@ -365,6 +390,16 @@ void BCMTextButton::clicked()
 		ScopeSyncApplication::setPerformanceMode(getToggleState());
 		return;
 	}
+	else if (getName().equalsIgnoreCase("PresetList"))
+	{
+		scopeSync.setShowPresetWindow(getToggleState());
+		return;
+	}
+	else if (getName().equalsIgnoreCase("PatchWindow"))
+	{
+		scopeSync.setShowPatchWindow(getToggleState());
+		return;
+	}
 
     if (url.isWellFormed())
         url.launchInDefaultBrowser();
@@ -393,6 +428,11 @@ void BCMTextButton::valueChanged(Value& value)
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
 		setToggleState((int(parameterValue.getValue()) > 0), dontSendNotification);
+		return;
+	}
+	else if (getName().equalsIgnoreCase("PresetList") || getName().equalsIgnoreCase("PatchWindow"))
+	{
+		setToggleState(parameterValue.getValue(), dontSendNotification);
 		return;
 	}
 

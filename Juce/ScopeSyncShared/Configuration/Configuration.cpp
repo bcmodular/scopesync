@@ -754,10 +754,10 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
     changed();
 }
 
-void Configuration::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */)     { changed(); }
-void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved*/ ) { changed(); }
-void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */)                 { changed(); }
-void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */)                            { changed(); }
+void Configuration::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) { changed(); }
+void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved*/ , int /* oldIndex */) { changed(); }
+void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) { changed(); }
+void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) { changed(); }
 
 ValueTree Configuration::getHostParameters()
 {
