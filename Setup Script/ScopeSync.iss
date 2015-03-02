@@ -8,13 +8,13 @@
 
 [Setup]
 AppName={#AppName}
-AppVersion=0.4.2
+AppVersion=0.5.0
 DefaultDirName={pf}\{#AppName}
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#AppName}.ico
 AppPublisher=BC Modular
 AppPublisherURL=http://www.bcmodular.co.uk/
-AppCopyright=Copyright (C) 2014 BC Modular
+AppCopyright=Copyright (C) 2015 BC Modular
 AppContact=support@bcmodular.co.uk
 AppSupportURL=http://bcmodular.co.uk/forum/
 AppUpdatesURL=http://www.scopesync.co.uk/
@@ -52,8 +52,6 @@ Source: "..\Configurations\*"; DestDir: "{app}\Configurations"; Flags: ignorever
 Source: "..\Layouts\*"; DestDir: "{app}\Layouts"; Flags: ignoreversion recursesubdirs; Components: Layouts
 Source: "..\Presets\*"; DestDir: "{app}\Presets"; Flags: ignoreversion recursesubdirs; Components: Presets
 Source: "..\Tutorials\*"; DestDir: "{app}\Tutorials"; Flags: ignoreversion recursesubdirs; Components: Tutorials
-Source: "..\Max For Live\ScopeSync\*"; DestDir: "{code:GetAbletonUserLibDir}\{#AppName}"; Flags: ignoreversion; Components: M4L
-Source: "..\Max Package\*"; DestDir: "{code:GetMaxDir}\Packages"; Flags: ignoreversion recursesubdirs; Components: M4L
 Source: "..\MS\vcredist_x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
@@ -71,7 +69,6 @@ Name: "VSTPlugin\32VST2"; Description: "32-bit VST2 Plugin"; Types: full typical
 Name: "VSTPlugin\64VST2"; Description: "64-bit VST2 Plugin"; Types: full typical compact; Check: Is64BitInstallMode
 Name: "VSTPlugin\32VST3"; Description: "32-bit VST3 Plugin (Experimental)"
 Name: "VSTPlugin\64VST3"; Description: "64-bit VST3 Plugin (Experimental)"; Check: Is64BitInstallMode
-Name: "M4L"; Description: "Max For Live Patches"; Types: full
 
 [Run]
 Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Installing 2010 RunTime...
@@ -88,8 +85,6 @@ var
   ScopeDirPage2ID: Integer;
   AdditionalDirPage1: TInputDirWizardPage;
   AdditionalDirPage1ID: Integer;
-  AdditionalDirPage2: TInputDirWizardPage;  
-  AdditionalDirPage2ID: Integer;
 
 function GetScopeDir(Param: String): String;
 var
@@ -121,33 +116,11 @@ begin
   Result := VST2Dir;
 end;
 
-function GetAbletonUserLibDir(Param: String): String;
-var
-  AbletonUserLibDir: String;
-begin
-  AbletonUserLibDir := AdditionalDirPage2.Values[0];
-  RegWriteStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'AbletonUserLibDir', AbletonUserLibDir);
-  { Return the selected AbletonUserLibDir }
-  Result := AbletonUserLibDir;
-end;
-     
-function GetMaxDir(Param: String): String;
-var
-  MaxDir: String;
-begin
-  MaxDir := AdditionalDirPage2.Values[1];
-  RegWriteStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'MaxDir', MaxDir);
-  { Return the selected MaxDir }
-  Result := MaxDir;
-end;
-     
 procedure InitializeWizard;
 var
   VST2Dir: String;
   ScopeDir: String;
   ModularDir: String;
-  AbletonUserLibDir: String;
-  MaxDir: String;
   VST3Text: String;
 begin
   if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'VST2Dir', VST2Dir)) then
@@ -163,16 +136,6 @@ begin
   if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'ModularDir', ModularDir)) then
   begin
     ModularDir := ExpandConstant('{pf}\Scope PCI\Modular Modules\ScopeSync');
-  end; 
-
-  if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'AbletonUserLibDir', AbletonUserLibDir)) then
-  begin
-    AbletonUserLibDir := ExpandConstant('{userdocs}\Ableton\User Library');
-  end; 
-
-  if not(RegQueryStringValue(HKEY_CURRENT_USER, '{#RegSubKey}', 'MaxDir', MaxDir)) then
-  begin
-    MaxDir := ExpandConstant('{pf32}\Cycling ''74\Max 6.1');
   end; 
 
   ScopeDirPage1 := CreateInputDirPage(
@@ -212,20 +175,6 @@ begin
   AdditionalDirPage1.Add('VST2 Plugin Directory');
   AdditionalDirPage1ID := AdditionalDirPage1.ID;
   AdditionalDirPage1.Values[0] := VST2Dir;
-  
-  AdditionalDirPage2 := CreateInputDirPage(
-    AdditionalDirPage1ID,
-    'Select Max For Live Directories',
-    'Where should Max For Live files be installed?',
-    '',
-    False,
-    '{#AppName}'
-  );
-  AdditionalDirPage2.Add('Ableton User Library (for M4L patches)');
-  AdditionalDirPage2.Add('Max Installation Directory (for Max Package)');
-  AdditionalDirPage2ID := AdditionalDirPage2.ID;
-  AdditionalDirPage2.Values[0] := AbletonUserLibDir;
-  AdditionalDirPage2.Values[1] := MaxDir;
 
 end;
 
@@ -239,9 +188,7 @@ begin
   else if PageID = ScopeDirPage2ID then
     Result := not IsComponentSelected('BCMod')
   else if PageID = AdditionalDirPage1ID then
-    Result := not (IsComponentSelected('VSTPlugin\32VST2') or IsComponentSelected('VSTPlugin\64VST2'))
-  else if PageID = AdditionalDirPage2ID then
-    Result := not IsComponentSelected('M4L');
+    Result := not (IsComponentSelected('VSTPlugin\32VST2') or IsComponentSelected('VSTPlugin\64VST2'));
 end;
 
 procedure DecodeVersion (verstr: String; var verint: array of Integer);
@@ -295,42 +242,4 @@ begin
     i := i + 1;
   end;
 
-end;
-
-procedure CheckJava();
-var
-  ErrorCode: Integer;
-  JavaVer : String;
-  Result1 : Boolean;
-begin
-  if IsComponentSelected('M4L') then
-  begin
-    RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVer);
-    
-    if Length( JavaVer ) > 0 then
-    begin
-      if CompareVersion(JavaVer,'1.6') >= 0 then
-      begin
-        exit;
-      end;
-    end;
-    
-    Result1 := MsgBox('The Max For Live component requires Java Runtime Environment v1.6 or newer to run. Please download and install the latest JRE.' + #13 + #10 + 'Do you want to download it now?',
-        mbConfirmation, MB_YESNO) = idYes;
-    
-    if Result1 = true then
-    begin
-      ShellExecAsOriginalUser('open',
-        'http://www.java.com/getjava/',
-        '','',SW_SHOWNORMAL,ewNoWait,ErrorCode);
-    end;
-  end;
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-begin
-  if CurStep = ssPostInstall then
-  begin
-    CheckJava();
-  end;
 end;
