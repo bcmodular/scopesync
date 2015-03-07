@@ -235,6 +235,7 @@ private:
     bool reloadGUI;                 // Flag to indicate whether the GUI needs to be reloaded
     bool retainParameterState;      // Flag to indicate whether parameter values should be restored after loading configuration
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
+	bool shouldReceiveAsyncUpdates;
     bool configurationLoading;
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component

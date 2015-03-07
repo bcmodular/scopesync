@@ -42,36 +42,37 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 {
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
+		// DBG("ScopeSyncAsync::handleUpdate - current value for param " + String(i) + " is: " + String(currentValues[i]));
+
         if (scopeSyncUpdates.contains(i))
         {
 			// We have an update from the ScopeSync system, so let's process it
 			int newValue = scopeSyncUpdates[i];
-            
+            // DBG("ScopeSyncAsync::handleUpdate - processing param " + String(i) + " from scopeSyncUpdates, with value: " + String(newValue));
+				
 			asyncValues[i] = newValue;
 			currentValues.set(i, newValue);
 
 			continue;
         }
 		
-		if (!initialise && ScopeSyncApplication::getPerformanceMode() == 1 && i < ScopeSyncApplication::numScopeSyncParameters)
+		if (ScopeSyncApplication::getPerformanceMode() == 1 && i < ScopeSyncApplication::numScopeSyncParameters)
 		{
-			// Reading the async input for ScopeSync parameters is switched off, so just grab
-			// the current value
+			// We're in performance mode, so overwrite the inputs with the current values
 			asyncValues[i] = currentValues[i];
 		}
-		else
-		{
-			// There was no update from the ScopeSync system, so let's look to see whether the value
-			// has changed since last time
-			int newValue = asyncValues[i];
+		
+		// There was no update from the ScopeSync system, so let's look to see whether the value
+		// has changed since last time, or initialise them all if we've just loaded a configuration
+		int newValue = asyncValues[i];
         
-			if (newValue != currentValues[i] || initialise)
-			{
-				// Value has changed, or we're initialising, so let's put it in the set to pass back to
-				// the ScopeSync system
-				asyncUpdates.set(i, newValue);
-				currentValues.set(i, newValue);
-			}
+		if (newValue != currentValues[i] || initialise)
+		{
+			// Value has changed, or we're initialising, so let's put it in the set to pass back to
+			// the ScopeSync system
+			// DBG("ScopeSyncAsync::handleUpdate - adding param " + String(i) + " to asyncUpdates, with value: " + String(newValue) + " (initialising: " + String(initialise) + ")");
+			asyncUpdates.set(i, newValue);
+			currentValues.set(i, newValue);
 		}
     }
 
@@ -80,10 +81,12 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 
 void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap)
 {
+	DBG("ScopeSyncAsync::getAsyncUpdates");
     targetHashMap.swapWith(asyncUpdates);
 }
 
 void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 {
+	// DBG("ScopeSyncAsync::setValue - Adding scopeSyncUpdate for scopeCode: " + String(scopeCode) + " value: " + String(newValue));
     scopeSyncUpdates.set(scopeCode, newValue);
 }

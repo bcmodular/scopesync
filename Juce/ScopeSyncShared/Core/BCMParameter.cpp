@@ -87,7 +87,7 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 	if (updateSource == oscUpdate)
 		oscDeadTimeCounter = maxOSCDeadTime;
 
-	if (updateSource != asyncUpdate)
+	if (updateSource != asyncUpdate && updateSource != internalUpdate)
 		asyncDeadTimeCounter = maxAsyncDeadTime;
 }
 

@@ -118,6 +118,8 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+	shouldReceiveAsyncUpdates = true;
+
 	initOSCUID();
 	setControlPanelConnected(false);
 	setShowPatchWindow(true);
@@ -401,6 +403,8 @@ void ScopeSync::endAllParameterChangeGestures()
 void ScopeSync::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
+	DBG("ScopeSync::receiveUpdatesFromScopeAsync");
+
     scopeSyncAsync.getAsyncUpdates(asyncControlUpdates);
 
     for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
@@ -471,7 +475,7 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
 
 void ScopeSync::receiveUpdates()
 {
-    if (ScopeSyncApplication::inScopeFXContext())
+    if (ScopeSyncApplication::inScopeFXContext() && shouldReceiveAsyncUpdates)
         receiveUpdatesFromScopeAsync();
 }
     
@@ -679,7 +683,10 @@ void ScopeSync::reloadLayout()
 
 void ScopeSync::applyConfiguration()
 {
-    setGUIEnabled(false);
+	DBG("ScopeSync::applyConfiguration");
+	shouldReceiveAsyncUpdates = false;
+    
+	setGUIEnabled(false);
     endAllParameterChangeGestures();
 
     systemError        = String::empty;
@@ -701,7 +708,7 @@ void ScopeSync::applyConfiguration()
         hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this));
         
         int scopeSyncCode = hostParameters[i]->getScopeCode();
-        // DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
+        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
         
         if (scopeSyncCode > -1 && scopeSyncCode < scopeSyncCodes.size())
             paramIdxByScopeSyncId.set(scopeSyncCode, i);
@@ -715,7 +722,7 @@ void ScopeSync::applyConfiguration()
         scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this));
         
         int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
-        // DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
+        DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
         
         if (scopeLocalCode > -1 && scopeLocalCode < scopeLocalCodes.size())
             paramIdxByScopeLocalId.set(scopeLocalCode, i);
@@ -739,7 +746,9 @@ void ScopeSync::applyConfiguration()
     {
         configurationManagerWindow->refreshContent();
         configurationManagerWindow->restoreWindowPosition();
-    }    
+    }
+
+	shouldReceiveAsyncUpdates = true;
 }
 
 void ScopeSync::setGUIEnabled(bool shouldBeEnabled)

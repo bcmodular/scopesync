@@ -205,7 +205,10 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	if (parameterArray != nullptr)
 	{
 		for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
+		{
+			// DBG("ScopeFX::async - input value for param " + String(i) + " is: " + String(parameterArray[i]));
 			asyncValues[i] = parameterArray[i];
+		}
 	}
 	else
 	{
@@ -230,7 +233,10 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 
 	// Write to the async outputs for the ScopeSync and ScopeLocal parameters
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+	{
+		// DBG("ScopeFX::async - output value for param " + String(i) + " is: " + String(asyncValues[i]));
 		asyncOut[i].itg = asyncValues[i];
+	}
 
 	// Deal with showing/hiding the Control Panel window
     if (asyncIn[INPAD_SHOW]->itg == 0)
