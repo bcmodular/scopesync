@@ -143,7 +143,7 @@ void ScopeFX::timerCallback()
     
     if (!(scopeSync->processConfigurationChange()))
     {
-        scopeSync->receiveUpdates();
+        scopeSync->receiveUpdatesFromScopeAsync();
     }
 }
 
@@ -229,7 +229,8 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	}
 
 	// Get ScopeSync to process the inputs and pass on changes from the SS system
-	scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
+	if (scopeSync != nullptr)
+		scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
 
 	// Write to the async outputs for the ScopeSync and ScopeLocal parameters
 	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
@@ -247,7 +248,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Handle configuration changes (project/preset load)
     int newConfigurationUID = asyncIn[INPAD_CONFIGUID]->itg;
 
-    if (newConfigurationUID != configurationUID)
+    if (scopeSync != nullptr && newConfigurationUID != configurationUID)
     {
         scopeSync->changeConfiguration(newConfigurationUID);
         configurationUID = newConfigurationUID;
@@ -256,7 +257,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Handle OSC UID updates
     int newOSCUID = asyncIn[INPAD_OSCUID]->itg;
 
-    if (newOSCUID != oscUID)
+    if (scopeSync != nullptr && newOSCUID != oscUID)
     {
         scopeSync->setOSCUID(newOSCUID);
         oscUID = newOSCUID;
@@ -265,7 +266,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Handle Control Panel connected updates
     int newCPConnected = asyncIn[INPAD_CONTROL_PANEL_CONNECTED]->itg;
 
-    if (newCPConnected != controlPanelConnected)
+    if (scopeSync != nullptr && newCPConnected != controlPanelConnected)
     {
         scopeSync->setControlPanelConnected(newCPConnected > 0);
         controlPanelConnected = newCPConnected;
@@ -274,7 +275,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Handle show/hide preset window updates
     int newShowPresetWindow = asyncIn[INPAD_SHOW_PRESET_WINDOW]->itg;
 
-    if (newShowPresetWindow != showPresetWindow)
+    if (scopeSync != nullptr && newShowPresetWindow != showPresetWindow)
     {
         scopeSync->setShowPresetWindow(newShowPresetWindow > 0);
         showPresetWindow = newShowPresetWindow;
@@ -283,7 +284,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Handle show/hide patch window updates
     int newShowPatchWindow = asyncIn[INPAD_SHOW_PATCH_WINDOW]->itg;
 
-    if (newShowPatchWindow != showPatchWindow)
+    if (scopeSync != nullptr && newShowPatchWindow != showPatchWindow)
     {
         scopeSync->setShowPatchWindow(newShowPatchWindow > 0);
         showPatchWindow = newShowPatchWindow;
@@ -292,7 +293,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Switch Performance Mode on/off
 	int newPMSetting = asyncIn[INPAD_PERFORMANCE_MODE]->itg;
 
-	if (newPMSetting != performanceMode)
+	if (scopeSync != nullptr && newPMSetting != performanceMode)
 	{
 		ScopeSyncApplication::setPerformanceMode(newPMSetting);
 		performanceMode = newPMSetting;
@@ -310,6 +311,7 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	asyncOut[OUTPAD_OSCUID].itg             = (scopeSync  != nullptr) ? scopeSync->getOSCUID()                            : oscUID;
 	asyncOut[OUTPAD_SHOW_PRESET_WINDOW].itg = (scopeSync  != nullptr) ? (scopeSync->getShowPresetWindow() ? FRAC_MAX : 0) : showPresetWindow;
 	asyncOut[OUTPAD_SHOW_PATCH_WINDOW].itg  = (scopeSync  != nullptr) ? (scopeSync->getShowPatchWindow() ? FRAC_MAX : 0)  : showPatchWindow;
+	asyncOut[OUTPAD_LOADED].itg             = (scopeSync  != nullptr && scopeSync->isInitialised()) ? FRAC_MAX            : 0;
       
     return 0;
 }

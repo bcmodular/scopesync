@@ -36,7 +36,7 @@ class PluginGUI;
 #include <JuceHeader.h>
 #include "../../ScopeSyncShared/Core/ScopeSync.h"
 
-class PluginProcessor  : public AudioProcessor, public Timer
+class PluginProcessor  : public AudioProcessor
 {
 public:
     PluginProcessor();
@@ -63,22 +63,22 @@ public:
     const String getInputChannelName (int channelIndex) const;
     const String getOutputChannelName (int channelIndex) const;
 
-    bool isInputChannelStereoPair (int index) const;
-    bool isOutputChannelStereoPair (int index) const;
+    bool   isInputChannelStereoPair (int index) const;
+    bool   isOutputChannelStereoPair (int index) const;
 
-    bool acceptsMidi() const;
-    bool producesMidi() const;
-    bool silenceInProducesSilenceOut() const;
+    bool   acceptsMidi() const;
+    bool   producesMidi() const;
+    bool   silenceInProducesSilenceOut() const;
     double getTailLengthSeconds() const;
 
-    int getNumPrograms();
-    int getCurrentProgram();
-    void setCurrentProgram (int index);
-    const String getProgramName (int index);
-    void changeProgramName (int index, const String& newName);
+    int    getNumPrograms();
+    int    getCurrentProgram();
+    void   setCurrentProgram (int index);
+    const  String getProgramName (int index);
+    void   changeProgramName (int index, const String& newName);
 
-    void getStateInformation (MemoryBlock& destData);
-    void setStateInformation (const void* data, int sizeInBytes);
+    void   getStateInformation (MemoryBlock& destData);
+    void   setStateInformation (const void* data, int sizeInBytes);
     
     String floatArrayToString(const Array<float>& floatData, int numFloat);
     int    stringToFloatArray(const String& sFloatCSV, Array<float>& floatData, int maxNumFloat);
@@ -93,8 +93,7 @@ private:
     WeakReference<PluginGUI> pluginGUI;
 
     void readStateInformation(XmlElement& data);
-    void timerCallback();
-
+    
     static const int timerInterval;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginProcessor)

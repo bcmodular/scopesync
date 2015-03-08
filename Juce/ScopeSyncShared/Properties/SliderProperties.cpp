@@ -162,12 +162,9 @@ void SliderProperties::getIncDecButtonModeFromXml(const String& buttonModeText, 
 
 void SliderProperties::getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval)
 {
-    forEachXmlChildElement(xml, child)
-    {
-             if (child->hasTagName("min")) min      = child->getAllSubText().getDoubleValue();
-        else if (child->hasTagName("max")) max      = child->getAllSubText().getDoubleValue();
-        else if (child->hasTagName("int")) interval = child->getAllSubText().getDoubleValue();
-    }
+	min      = xml.getDoubleAttribute("min", min);
+	max      = xml.getDoubleAttribute("max", max);
+	interval = xml.getDoubleAttribute("int", interval);
 }
 
 void SliderProperties::getTextBoxPositionFromXML(const String& positionText, Slider::TextEntryBoxPosition& position)

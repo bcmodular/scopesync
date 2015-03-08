@@ -81,7 +81,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise)
 
 void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap)
 {
-	DBG("ScopeSyncAsync::getAsyncUpdates");
+	// DBG("ScopeSyncAsync::getAsyncUpdates");
     targetHashMap.swapWith(asyncUpdates);
 }
 
@@ -89,4 +89,13 @@ void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 {
 	// DBG("ScopeSyncAsync::setValue - Adding scopeSyncUpdate for scopeCode: " + String(scopeCode) + " value: " + String(newValue));
     scopeSyncUpdates.set(scopeCode, newValue);
+}
+
+void ScopeSyncAsync::snapshot()
+{
+    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+    {
+		DBG("ScopeSyncAsync::snapshot Adding param " + String(i) + " to the hashmap with value: " + String(currentValues[i]));
+		asyncUpdates.set(i, currentValues[i]);
+    }
 }

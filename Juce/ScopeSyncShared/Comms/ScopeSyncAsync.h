@@ -47,6 +47,9 @@ public:
     // Passes on the contents of the queue of updates received from Scope
     void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
 
+	// Grab snapshot of current values into the hashmap
+	void snapshot();
+	
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
     void setValue(int scopeCode, int newValue);

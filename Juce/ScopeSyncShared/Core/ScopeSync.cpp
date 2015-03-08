@@ -75,22 +75,11 @@ Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
 
-const String& ScopeSync::getScopeSyncCode(int scopeSync)
-{
-    return scopeSyncCodes[scopeSync];
-}
+const String& ScopeSync::getScopeSyncCode(int scopeSync) { return scopeSyncCodes[scopeSync]; }
 
-const String& ScopeSync::getScopeLocalCode(int scopeLocal)
-{
-    return scopeLocalCodes[scopeLocal];
-}
+const String& ScopeSync::getScopeLocalCode(int scopeLocal) { return scopeLocalCodes[scopeLocal]; }
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
-
-ScopeSync::ScopeSync() : parameterValueStore("parametervalues")
-{
-    initialise();
-}
 
 #ifndef __DLL_EFFECT__
 ScopeSync::ScopeSync(PluginProcessor* owner) : parameterValueStore("parametervalues")
@@ -102,6 +91,7 @@ ScopeSync::ScopeSync(PluginProcessor* owner) : parameterValueStore("parameterval
 #else
 ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 {
+	initialised = false;
     scopeSyncInstances.add(this);
     scopeFX = owner;
     initialise();
@@ -118,7 +108,7 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-	shouldReceiveAsyncUpdates = true;
+	shouldReceiveAsyncUpdates = false;
 
 	initOSCUID();
 	setControlPanelConnected(false);
@@ -133,10 +123,11 @@ void ScopeSync::initialise()
     configuration = new Configuration();
     applyConfiguration();
 
-	if (getNumScopeSyncInstances() == 1)
-		setupOSCServer();
+	ScopeSyncOSCServer::getInstance()->setup();
 
 	startTimer(oscHandlerTime);
+
+	initialised = true;
 }
 
 void ScopeSync::initOSCUID()
@@ -152,12 +143,6 @@ void ScopeSync::initOSCUID()
 int ScopeSync::getOSCUID() { return oscUID.getValue(); }
 
 void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
-
-void ScopeSync::setupOSCServer()
-{
-	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
-    oscServer->setup(true);
-}
 
 void ScopeSync::timerCallback()
 {
@@ -296,9 +281,7 @@ bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
 void ScopeSync::reloadAllGUIs()
 {
     for (int i = 0; i < scopeSyncInstances.size(); i++)
-    {
         scopeSyncInstances[i]->setGUIReload(true);
-    }
 }
 
 void ScopeSync::shutDownIfLastInstance()
@@ -403,36 +386,47 @@ void ScopeSync::endAllParameterChangeGestures()
 void ScopeSync::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
-	DBG("ScopeSync::receiveUpdatesFromScopeAsync");
+	// DBG("ScopeSync::receiveUpdatesFromScopeAsync");
 
-    scopeSyncAsync.getAsyncUpdates(asyncControlUpdates);
-
-    for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
+	if (shouldReceiveAsyncUpdates)
 	{
-    	int scopeCode     = i.getKey();
-        int newScopeValue = i.getValue();
+		scopeSyncAsync.getAsyncUpdates(asyncControlUpdates);
 
-        BCMParameter* parameter = nullptr;
+		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
+		{
+    		int scopeCode     = i.getKey();
+			int paramIdx      = -1;
+			int newScopeValue = i.getValue();
+			
+			BCMParameter* parameter = nullptr;
 
-        if (scopeCode < ScopeSyncApplication::numScopeSyncParameters)
-        {
-            int paramIdx = paramIdxByScopeSyncId[scopeCode];
+			if (scopeCode < ScopeSyncApplication::numScopeSyncParameters)
+			{
+				paramIdx = paramIdxByScopeSyncId[scopeCode];
                 
-            if (paramIdx >= 0)
-                parameter = hostParameters[paramIdx];
-        }
-        else
-        {
-            int paramIdx = paramIdxByScopeLocalId[scopeCode - ScopeSyncApplication::numScopeSyncParameters];
+				if (paramIdx >= 0)
+					parameter = hostParameters[paramIdx];
+			}
+			else
+			{
+				paramIdx = paramIdxByScopeLocalId[scopeCode - ScopeSyncApplication::numScopeSyncParameters];
                 
-            if (paramIdx >= 0)
-                parameter = scopeLocalParameters[paramIdx];
-        }
+				if (paramIdx >= 0)
+					parameter = scopeLocalParameters[paramIdx];
+			}
             
-        if (parameter != nullptr)
-            parameter->setScopeIntValue(newScopeValue);
-    }
-    asyncControlUpdates.clear();
+			if (parameter != nullptr)
+			{
+				DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
+				parameter->setScopeIntValue(newScopeValue);
+			}
+			else
+			{
+				DBG("ScopeSync::receiveUpdatesFromScopeAsync - Failed to process async update for scopeCode " + String(scopeCode) + ", value: " + String(newScopeValue));
+			}
+		}
+		asyncControlUpdates.clear();
+	}
 #endif // __DLL_EFFECT__
 } 
 
@@ -472,12 +466,6 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
     const ScopedLock lock(flagLock);
     reloadGUI = reloadGUIFlag;
 };
-
-void ScopeSync::receiveUpdates()
-{
-    if (ScopeSyncApplication::inScopeFXContext() && shouldReceiveAsyncUpdates)
-        receiveUpdatesFromScopeAsync();
-}
     
 int ScopeSync::getNumParametersForHost()
 {
@@ -732,10 +720,11 @@ void ScopeSync::applyConfiguration()
     pluginProcessor->updateHostDisplay();
 #endif // __DLL_EFFECT__
 
-    if (ScopeSyncApplication::inPluginContext())
-        restoreParameterValues();
-    else
-        initialiseScopeParameters = true;
+#ifndef __DLL_EFFECT__
+    restoreParameterValues();
+#else
+	scopeSyncAsync.snapshot();
+#endif // __DLL_EFFECT__
 
     UserSettings::getInstance()->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),
                                                                  getConfigurationFile().getFileName(),
@@ -749,6 +738,11 @@ void ScopeSync::applyConfiguration()
     }
 
 	shouldReceiveAsyncUpdates = true;
+}
+
+bool ScopeSync::isInitialised()
+{
+	return initialised;
 }
 
 void ScopeSync::setGUIEnabled(bool shouldBeEnabled)

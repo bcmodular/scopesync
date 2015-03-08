@@ -51,22 +51,21 @@ ScopeSyncOSCServer::~ScopeSyncOSCServer()
 	remoteDatagramSocket  = nullptr;
 }
 
-void ScopeSyncOSCServer::setup(bool startListening)
+void ScopeSyncOSCServer::setup()
 {
-	ScopeSyncOSCServer* oscServer = ScopeSyncOSCServer::getInstance();
-    
-	oscServer->setLocalPortNumber(UserSettings::getInstance()->getPropertyIntValue("osclocalportnum"));
-    oscServer->setRemoteHostname(UserSettings::getInstance()->getPropertyValue("oscremotehost"));
-    oscServer->setRemotePortNumber(UserSettings::getInstance()->getPropertyIntValue("oscremoteportnum"));
-
-	if (startListening)
-		oscServer->listen();
+	setLocalPortNumber(UserSettings::getInstance()->getPropertyIntValue("osclocalportnum"));
+    setRemoteHostname(UserSettings::getInstance()->getPropertyValue("oscremotehost"));
+    setRemotePortNumber(UserSettings::getInstance()->getPropertyIntValue("oscremoteportnum"));		
 }
 
 void ScopeSyncOSCServer::setLocalPortNumber(int portNumber)
 {
-	DBG("ScopeSyncOSCServer::setLocalPortNumber - changed local port number to: " + String(portNumber));
-	receivePortNumber = portNumber;
+	if (!isThreadRunning() || portNumber != receivePortNumber)
+	{
+		DBG("ScopeSyncOSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
+		receivePortNumber = portNumber;
+		listen();
+	}
 }
 
 int ScopeSyncOSCServer::getLocalPortNumber()

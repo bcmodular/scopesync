@@ -81,6 +81,7 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_PERFORMANCE_MODE,
 		OUTPAD_SHOW_PRESET_WINDOW,
 		OUTPAD_SHOW_PATCH_WINDOW,
+		OUTPAD_LOADED,
 		NUM_ASYNCOUTPADS
     };
 
@@ -258,6 +259,7 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_PERFORMANCE_MODE
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PATCH_WINDOW
+		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_LOADED
     };
 
     //--------------------------------------------------------------------------
@@ -429,6 +431,7 @@ namespace ScopeFXParameterDefinitions {
         { "pm",   "performance mode" },
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
+		{ "load", "ScopeSync Loaded" },
     };
 
     //--------------------------------------------------------------------------

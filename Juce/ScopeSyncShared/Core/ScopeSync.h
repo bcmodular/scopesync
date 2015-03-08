@@ -62,7 +62,6 @@ class ScopeSync : public ActionListener,
 {
 public:
     /* ========================== Initialisation ============================= */
-    ScopeSync();
 #ifndef __DLL_EFFECT__
     ScopeSync(PluginProcessor* owner);
 #else
@@ -89,7 +88,7 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
-    void receiveUpdates();
+    void receiveUpdatesFromScopeAsync();
     void reloadLayout();
     void unloadConfiguration();
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
@@ -126,6 +125,7 @@ public:
           
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
+	bool           isInitialised();
     void           saveConfiguration();
     bool           saveConfigurationAs();
     void           addConfiguration(Rectangle<int> windowPosition);
@@ -184,12 +184,10 @@ private:
 
     /* ========================== Initialisation ============================== */
     void initialise();
-	void setupOSCServer();
-    void resetScopeCodeIndexes();
+	void resetScopeCodeIndexes();
     void initCommandManager();
     
     /* ========================== Private Actions ============================= */
-    void receiveUpdatesFromScopeAsync();
     void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
 
@@ -237,6 +235,7 @@ private:
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
 	bool shouldReceiveAsyncUpdates;
     bool configurationLoading;
+	bool initialised;
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 

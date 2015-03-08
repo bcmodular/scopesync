@@ -336,17 +336,17 @@ void UserSettings::valueChanged(Value& valueThatChanged)
     else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
 	{
 		setPropertyIntValue("osclocalportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setup(false);
+		ScopeSyncOSCServer::getInstance()->setLocalPortNumber(valueThatChanged.getValue());
 	}
     else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
 	{
         setPropertyValue("oscremotehost", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setup(false);
+		ScopeSyncOSCServer::getInstance()->setRemoteHostname(valueThatChanged.getValue());
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
 	{
 		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setup(false);
+		ScopeSyncOSCServer::getInstance()->setRemotePortNumber(valueThatChanged.getValue());
 	}
 }
 

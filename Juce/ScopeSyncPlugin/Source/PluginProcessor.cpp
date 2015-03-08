@@ -44,12 +44,10 @@ const int PluginProcessor::timerInterval   = 20;
 PluginProcessor::PluginProcessor()
 {
     scopeSync = new ScopeSync(this);
-    startTimer(timerInterval);
 }
 
 PluginProcessor::~PluginProcessor()
 {
-    stopTimer();
     scopeSync->unload();
     scopeSync = nullptr;
 
@@ -220,7 +218,7 @@ void PluginProcessor::setGUIEnabled(bool shouldBeEnabled)
         pluginGUI->setEnabled(shouldBeEnabled);
 }
 
-void PluginProcessor::getStateInformation (MemoryBlock& destData)
+void PluginProcessor::getStateInformation(MemoryBlock& destData)
 {
     // First put current parameter values into storage
     scopeSync->storeParameterValues();
@@ -277,11 +275,6 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
     {
         DBG("PluginProcessor::setStateInformation - Could not restore XML");
     }
-}
-
-void PluginProcessor::timerCallback()
-{
-    scopeSync->receiveUpdates();
 }
 
 void PluginProcessor::updateListeners(int index, float newValue)

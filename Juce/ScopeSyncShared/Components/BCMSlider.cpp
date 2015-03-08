@@ -87,6 +87,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
 
 		setRange(rangeMin, rangeMax, 1);
 		setTooltip(tooltip);
+		setPopupMenuEnabled(false);
 
 		return;
 	}
@@ -191,7 +192,7 @@ double BCMSlider::getValueFromText(const String& text)
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
-    if (event.mods.isPopupMenu())
+    if (!getName().equalsIgnoreCase("oscuid") && event.mods.isPopupMenu())
     {
         showPopupMenu();
     }
