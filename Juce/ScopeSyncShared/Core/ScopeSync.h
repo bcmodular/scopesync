@@ -151,6 +151,7 @@ public:
 	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
+	bool           getControlPanelConnected() { return controlPanelConnected.getValue(); }
 	void           setControlPanelConnected(bool newSetting) { controlPanelConnected = newSetting; }
 	void           referToControlPanelConnected(Value& valueToLink) { valueToLink.referTo(controlPanelConnected); }
 

@@ -67,11 +67,17 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
 
 private:	
-    // Initialise member variables
+    enum ManagedValues { performanceMode, configurationUID, oscUID, controlPanelConnected, showPatchWindow, showPresetWindow, numManagedValues };
+	
+	// Initialise member variables
     void initValues();
    
     // Show the ScopeSync GUI window
     void showWindow();
+
+	// Handle changes to fixed IO values either from Async or ScopeSync
+	void manageValueForAsync(ManagedValues managedValueId, int asyncValue);
+	void manageValuesForScopeSync();
 
 	// Handle the Timer callback and trigger callbacks in
     // ScopeSync and ScopeFXGUI. Handles window resizing and location.
@@ -86,15 +92,13 @@ private:
     static const int timerFrequency;
     
     // Async values that are handled directly by ScopeFX
-    int positionX;             // Horizontal location of window
-	int positionY;             // Vertical location of window
-	int configurationUID;      // UID of configuration file
-	int oscUID;                // OSC Identifier for this instance
-	int controlPanelConnected; // Flag to indicate whether the Control Panel is connected
-	int showPatchWindow;       // Flag to indicate whether the Patch Window should be shown
-	int showPresetWindow;	   // Flag to indicate whether the Preset Window should be shown
+    int positionX; // Horizontal location of window
+	int positionY; // Vertical location of window
+
+	int currentValues[numManagedValues];
+	int newAsyncValues[numManagedValues];
+	int newScopeSyncValues[numManagedValues];
 	
-	int  performanceMode;   // Flag to indicate that performance mode is on
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown
     

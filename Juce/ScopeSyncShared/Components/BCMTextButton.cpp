@@ -51,7 +51,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
     applyWidgetProperties(properties);
     mapsToTabs = false;
-    isCommandButton = false;
+    isCommandButton = true;
     
 	// First see whether it's a command button and set it up if it is
     CommandID commandToTrigger = 0;
@@ -74,7 +74,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     if (commandToTrigger != 0)
     {
         setCommandToTrigger(commandManager, commandToTrigger, true);
-        isCommandButton = true;
         setWantsKeyboardFocus(false);
         return;
     }
@@ -120,6 +119,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
 	// If it's not a command button, it must be a parameter button,
 	// so let's do the remaining set up for parameter buttons
+	isCommandButton = false;
+		
     String tooltip(properties.tooltip);
     String buttonText(properties.text);
 
@@ -379,12 +380,6 @@ void BCMTextButton::clicked()
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
 
-    if (isCommandButton)
-    {
-        TextButton::clicked();
-        return;
-    }
-
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
 		ScopeSyncApplication::setPerformanceMode(getToggleState());
@@ -400,6 +395,12 @@ void BCMTextButton::clicked()
 		scopeSync.setShowPatchWindow(getToggleState());
 		return;
 	}
+
+	if (isCommandButton)
+    {
+        TextButton::clicked();
+        return;
+    }
 
     if (url.isWellFormed())
         url.launchInDefaultBrowser();
