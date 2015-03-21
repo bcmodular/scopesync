@@ -446,7 +446,7 @@ namespace ScopeFXParameterDefinitions {
         inputPadTypes,     // PadType *typeOfInPad;
         outputPadTypes,    // PadType *typeOfOutPad;
         // 
-        MODFLAG_HASASYNC,  // int32    flags;
+        MODFLAG_HASASYNC | MODFLAG_SINGLE,  // int32    flags;
         "ScopeSync 1.0.2", // char    *shortName;
         "ScopeSync 1.0.2", // char    *longName;
         NULL,              // int32   *delay;      // internal delay of output pads relative to input
