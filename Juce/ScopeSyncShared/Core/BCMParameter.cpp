@@ -522,7 +522,14 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	}
 }
 
+String BCMParameter::getOSCPath()
+{
+	String address = "/" + String(scopeSync.getOSCUID()) + "/" + String(hostIdx);
+
+	return address;
+}
+    
 void BCMParameter::sendOSCParameterUpdate()
 {
-	scopeSync.sendOSCParameterUpdate(hostIdx, uiValue.getValue());
+	scopeSync.sendValueToOSC(getOSCPath(), uiValue.getValue());
 }

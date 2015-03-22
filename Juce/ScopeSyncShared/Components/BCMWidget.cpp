@@ -294,7 +294,8 @@ void BCMParameterWidget::getAllCommands(Array<CommandID>& commands)
                                   CommandIDs::clearStyleOverride,
                                   CommandIDs::copyStyleOverride,
                                   CommandIDs::copyStyleOverrideToAll,
-                                  CommandIDs::pasteStyleOverride
+                                  CommandIDs::pasteStyleOverride,
+								  CommandIDs::copyOSCPath
                                 };
 
         commands.addArray (ids, numElementsInArray (ids));
@@ -339,6 +340,10 @@ void BCMParameterWidget::getCommandInfo(CommandID commandID, ApplicationCommandI
         result.setInfo ("Paste parameter", "Overwrites a parameter with values from the clipboard", CommandCategories::general, !canPasteParameter());
         result.defaultKeypresses.add(KeyPress ('v', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::copyOSCPath:
+        result.setInfo ("Copy OSC Path", "Copies OSC Path for this widget's parameter to the system clipboard", CommandCategories::general, !mapsToParameter);
+        result.defaultKeypresses.add(KeyPress ('o', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
     default: return BCMWidget::getCommandInfo(commandID, result);
     }
 }
@@ -357,6 +362,7 @@ bool BCMParameterWidget::perform(const InvocationInfo& info)
         case CommandIDs::deleteParameter:           deleteMappedParameter(); break;
         case CommandIDs::copyParameter:             copyParameter(); break;
         case CommandIDs::pasteParameter:            pasteParameter(); break;
+        case CommandIDs::copyOSCPath:				copyOSCPath(); break;
         default:                                    BCMWidget::perform(info); break;
     }
 
@@ -398,6 +404,9 @@ void BCMParameterWidget::showPopupMenu()
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverride, "Copy Style Override");
     m.addCommandItem(commandManager, CommandIDs::pasteStyleOverride, "Paste Style Override");
     m.addCommandItem(commandManager, CommandIDs::copyStyleOverrideToAll, "Copy Style Override to all " + copyToText);
+	m.addSeparator();
+    m.addSectionHeader("OSC Path: " + parameter->getOSCPath());
+    m.addCommandItem(commandManager, CommandIDs::copyOSCPath, "Copy OSC Path");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
 }
@@ -519,4 +528,9 @@ void BCMParameterWidget::addParameter(bool fromClipboard)
 
     scopeSync.getConfiguration().addNewMapping(mappingComponentType, mappingComponentName, parameterName, newMapping, -1, &undoManager);
     scopeSync.applyConfiguration();
+}
+
+void BCMParameterWidget::copyOSCPath()
+{
+	SystemClipboard::copyTextToClipboard(parameter->getOSCPath());
 }

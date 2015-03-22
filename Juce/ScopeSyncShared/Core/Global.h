@@ -181,6 +181,7 @@ namespace CommandIDs
         editParameter               = 0x200560,
         deleteParameter             = 0x200570,
         chooseSelectedPreset        = 0x200580,
+		copyOSCPath                 = 0x200590,
 
         addSettings                 = 0x200600,
         removeSettings              = 0x200610,

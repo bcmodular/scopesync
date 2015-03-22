@@ -218,10 +218,9 @@ void ScopeSync::handleOSCUpdates()
     oscControlUpdates.clear();	
 }
 
-void ScopeSync::sendOSCParameterUpdate(int hostIdx, float uiValue)
+void ScopeSync::sendValueToOSC(const String& address, float uiValue)
 {
 	static const int bufferSize = 256;
-    String address = "/" + String(getOSCUID()) + "/" + String(hostIdx);
     char buffer[bufferSize];
     osc::OutboundPacketStream oscMessage(buffer, bufferSize);
     oscMessage << osc::BeginMessage(address.toRawUTF8()) << uiValue << osc::EndMessage;

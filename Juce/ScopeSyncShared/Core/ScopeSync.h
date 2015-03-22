@@ -106,7 +106,7 @@ public:
     void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
     bool shouldShowEditToolbar() { return showEditToolbar; }
 
-	void sendOSCParameterUpdate(int hostIdx, float uiValue);
+	void sendValueToOSC(const String& address, float uiValue);
 
     /* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns

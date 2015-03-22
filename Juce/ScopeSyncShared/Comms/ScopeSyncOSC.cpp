@@ -195,6 +195,7 @@ void ScopeSyncOSCServer::run()
 			} 
 			catch (osc::Exception& e)
 			{
+				(void)e;
 				DBG("ScopeSyncOSCServer::run - error while parsing packet: " + String(e.what()));
 			}
 		}

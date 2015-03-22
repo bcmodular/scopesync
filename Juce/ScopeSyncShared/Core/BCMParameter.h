@@ -70,7 +70,8 @@ public:
     void setUIValue(float newValue);
 	void setOSCValue(float newValue);
 
-	void sendOSCParameterUpdate();
+	String getOSCPath();
+	void   sendOSCParameterUpdate();
 
 private:
     WeakReference<BCMParameter>::Master masterReference;

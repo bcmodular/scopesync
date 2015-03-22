@@ -117,6 +117,7 @@ private:
     void pasteParameter();
     bool canPasteParameter();
     void addParameter(bool fromClipboard);
+	void copyOSCPath();
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
