@@ -38,7 +38,7 @@
 class EncoderSnapProperty : public ChoicePropertyComponent
 {
 public:
-    EncoderSnapProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Snap"), owner(userSettings)
+    EncoderSnapProperty(UserSettings& userSettings) : ChoicePropertyComponent("Slider Snap"), owner(userSettings)
     {
         choices.add ("No Override");
         choices.add ("Don\'t Snap");
@@ -58,7 +58,7 @@ private:
 class RotaryMovementProperty : public ChoicePropertyComponent
 {
 public:
-    RotaryMovementProperty(UserSettings& userSettings) : ChoicePropertyComponent("Rotary Encoder Movement"), owner(userSettings)
+    RotaryMovementProperty(UserSettings& userSettings) : ChoicePropertyComponent("Rotary Slider Movement"), owner(userSettings)
     {
         choices.add ("No Override");
         choices.add ("Rotary");
@@ -102,7 +102,7 @@ private:
 class PopupEnabledProperty : public ChoicePropertyComponent
 {
 public:
-    PopupEnabledProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Popup Enabled"), owner(userSettings)
+    PopupEnabledProperty(UserSettings& userSettings) : ChoicePropertyComponent("Slider Popup Enabled"), owner(userSettings)
     {
         choices.add ("No Override");
         choices.add ("Enabled");
@@ -122,7 +122,7 @@ private:
 class EncoderVelocityModeProperty : public ChoicePropertyComponent
 {
 public:
-    EncoderVelocityModeProperty(UserSettings& userSettings) : ChoicePropertyComponent("Encoder Velocity Mode"), owner(userSettings)
+    EncoderVelocityModeProperty(UserSettings& userSettings) : ChoicePropertyComponent("Slider Velocity Mode"), owner(userSettings)
     {
         choices.add ("No Override");
         choices.add ("Enabled");
@@ -245,13 +245,13 @@ void UserSettings::setupPanel()
     propertyPanel.addSection("Tooltip Settings", props.components, true);
     
     props.clear();
-    props.add(new EncoderSnapProperty(*this),         "Choose whether encoders snap to valid parameter values");
-    props.add(new RotaryMovementProperty(*this),      "Choose which mouse movement type is to be used by rotary encoders");
-    props.add(new IncDecButtonModeProperty(*this),    "Choose the mode for Inc/Dec button style Sliders");
-    props.add(new PopupEnabledProperty(*this),        "Choose whether encoders show a popup with current value when dragging");
-    props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for Encoders");
+    props.add(new EncoderSnapProperty(*this),         "Choose whether sliders snap to valid parameter values");
+    props.add(new RotaryMovementProperty(*this),      "Choose which mouse movement type is to be used by rotary sliders");
+    props.add(new IncDecButtonModeProperty(*this),    "Choose the mode for Inc/Dec button style sliders");
+    props.add(new PopupEnabledProperty(*this),        "Choose whether sliders show a popup with current value when dragging");
+    props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for sliders");
     
-    propertyPanel.addSection("Encoder Settings", props.components, true);
+    propertyPanel.addSection("Slider Settings", props.components, true);
 
 	props.clear();
 	props.add(new IntRangeProperty(oscLocalPortNum, "OSC Local Port", 1, 65535),       "Enter the port number that the local OSC Server should listen on");
