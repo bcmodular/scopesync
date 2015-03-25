@@ -38,7 +38,7 @@ ScopeSyncAsync::ScopeSyncAsync()
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
 
-void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, int performanceMode)
+void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool performanceMode)
 {
     for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
     {
@@ -56,7 +56,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, int perform
 			continue;
         }
 		
-		if (performanceMode == 1 && i < ScopeSyncApplication::numScopeSyncParameters)
+		if (performanceMode && i < ScopeSyncApplication::numScopeSyncParameters)
 		{
 			// We're in performance mode, so overwrite the inputs with the current values
 			asyncValues[i] = currentValues[i];

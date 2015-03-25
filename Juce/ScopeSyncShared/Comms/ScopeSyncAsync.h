@@ -42,7 +42,7 @@ public:
 
     // Processes an incoming array of Async values coming from Scope and passes
     // on any updates from the ScopeSync system
-    void handleUpdate(int* asyncValues, bool initialise, int performanceMode);
+    void handleUpdate(int* asyncValues, bool initialise, bool performanceMode);
     
     // Passes on the contents of the queue of updates received from Scope
     void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
