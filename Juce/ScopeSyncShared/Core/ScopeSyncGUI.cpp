@@ -543,6 +543,7 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
                                   CommandIDs::redo,
                                   CommandIDs::showHideEditToolbar,
                                   CommandIDs::snapshot,
+                                  CommandIDs::snapshotAll,
                                   CommandIDs::showUserSettings,
                                   CommandIDs::showConfigurationManager,
                                   CommandIDs::chooseConfiguration,
@@ -556,6 +557,7 @@ void ScopeSyncGUI::getAllCommands(Array<CommandID>& commands)
     {
         const CommandID ids[] = { CommandIDs::addConfig,
                                   CommandIDs::snapshot,
+                                  CommandIDs::snapshotAll,
                                   CommandIDs::showUserSettings,
                                   CommandIDs::chooseConfiguration,
                                   CommandIDs::showAboutBox
@@ -599,6 +601,10 @@ void ScopeSyncGUI::getCommandInfo(CommandID commandID, ApplicationCommandInfo& r
         result.setInfo("Snapshot", "Sends a snapshot of all current parameter values", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('t', ModifierKeys::commandModifier, 0));
         break;
+    case CommandIDs::snapshotAll:
+        result.setInfo("Snapshot All", "Sends a snapshot of all current parameter values to all active ScopeSync instances", CommandCategories::general, 0);
+        result.defaultKeypresses.add(KeyPress ('t', ModifierKeys::commandModifier | ModifierKeys::shiftModifier, 0));
+        break;
     case CommandIDs::showUserSettings:
         result.setInfo("Show User Settings", "Shows the User Settings Window", CommandCategories::general, 0);
         result.defaultKeypresses.add(KeyPress ('u', ModifierKeys::commandModifier, 0));
@@ -633,6 +639,7 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
         case CommandIDs::saveConfigAs:             saveAs(); break;
         case CommandIDs::showHideEditToolbar:      mainComponent->showHideEditToolbar(); break;
         case CommandIDs::snapshot:                 snapshot(); break;
+        case CommandIDs::snapshotAll:              snapshotAll(); break;
         case CommandIDs::showUserSettings:         showUserSettings(); break;
         case CommandIDs::showConfigurationManager: showConfigurationManager(); break;
         case CommandIDs::chooseConfiguration:      chooseConfiguration(); break;
@@ -685,6 +692,11 @@ void ScopeSyncGUI::redo()
 void ScopeSyncGUI::snapshot()
 {
     scopeSync.snapshot();
+}
+
+void ScopeSyncGUI::snapshotAll()
+{
+    ScopeSync::snapshotAll();
 }
 
 void ScopeSyncGUI::showConfigurationManager()

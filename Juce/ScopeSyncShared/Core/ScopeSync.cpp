@@ -111,6 +111,7 @@ void ScopeSync::initialise()
 	shouldReceiveAsyncUpdates = false;
 
 	initOSCUID();
+	setPerformanceMode(0);
 	setControlPanelConnected(false);
 	setShowPatchWindow(true);
 	setShowPresetWindow(false);
@@ -315,7 +316,7 @@ void ScopeSync::resetScopeCodeIndexes()
         paramIdxByScopeLocalId.add(-1);
 }
 
-void ScopeSync::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void ScopeSync::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     (void)midiMessages;
     (void)buffer;
@@ -325,6 +326,18 @@ void ScopeSync::snapshot()
 {
 	for (int i = 0; i < hostParameters.size(); i++)
 		hostParameters[i]->sendOSCParameterUpdate();
+}
+
+void ScopeSync::snapshotAll()
+{
+	for (int i = 0; i < getNumScopeSyncInstances(); i++)
+		scopeSyncInstances[i]->snapshot();
+}
+
+void ScopeSync::setPerformanceModeAll(bool newSetting)
+{
+	for (int i = 0; i < getNumScopeSyncInstances(); i++)
+		scopeSyncInstances[i]->setPerformanceMode(newSetting);
 }
 
 void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
@@ -548,7 +561,7 @@ void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 {
 #ifdef __DLL_EFFECT__
-    scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters);
+    scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, performanceMode.getValue());
     initialiseScopeParameters = false;
 #else
     (void)asyncValues;
@@ -1139,8 +1152,8 @@ const String ScopeSync::standardHeaderContent =
 "    <bounds relativerectangle=\"right - 32, showconfigurationmanager.top, parent.width - 1, top + 21\""
 "></bounds>\n"
 "  </textbutton>\n"
-"  <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" text=\"\" tooltip=\"Send Snapshot of Curren"
-"t Control Values\">\n"
+"  <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" text=\"\" tooltip=\"Send a snapshot of all "
+"current parameter values. Ctrl-click to send snapshot for all ScopeSync instances\">\n"
 "    <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 5, top + 21"
 "\"></bounds>\n"
 "  </textbutton>\n"

@@ -178,6 +178,7 @@ private:
     void undo();
     void redo();
     void snapshot();
+    void snapshotAll();
     void showConfigurationManager();
     void reloadSavedConfiguration();
     void showAboutBox();

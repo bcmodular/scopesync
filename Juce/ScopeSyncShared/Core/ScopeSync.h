@@ -83,6 +83,7 @@ public:
     static const StringArray& getScopeLocalCodes() { return scopeLocalCodes; };
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     void snapshot();
+	static void snapshotAll();
     void beginParameterChangeGesture(BCMParameter* parameter);
     void endParameterChangeGesture(BCMParameter* parameter);
     void setGUIEnabled(bool shouldBeEnabled);
@@ -151,6 +152,11 @@ public:
 	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
+	bool           getPerformanceMode() { return performanceMode.getValue(); }
+	void           setPerformanceMode(bool newSetting) { performanceMode = newSetting; }
+	static void    setPerformanceModeAll(bool newSetting);
+	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
+
 	bool           getControlPanelConnected() { return controlPanelConnected.getValue(); }
 	void           setControlPanelConnected(bool newSetting) { controlPanelConnected = newSetting; }
 	void           referToControlPanelConnected(Value& valueToLink) { valueToLink.referTo(controlPanelConnected); }
@@ -250,6 +256,7 @@ private:
     static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
     Value oscUID;                    // Unique OSC ID for the current instance
 
+	Value performanceMode;
 	Value controlPanelConnected;
 	Value showPresetWindow;
 	Value showPatchWindow;

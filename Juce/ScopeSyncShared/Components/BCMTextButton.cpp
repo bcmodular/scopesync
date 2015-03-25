@@ -56,9 +56,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	// First see whether it's a command button and set it up if it is
     CommandID commandToTrigger = 0;
 
-    if (getName().equalsIgnoreCase("snapshot"))
-        commandToTrigger = CommandIDs::snapshot;
-    else if (getName().equalsIgnoreCase("showusersettings"))
+    if (getName().equalsIgnoreCase("showusersettings"))
         commandToTrigger = CommandIDs::showUserSettings;
     else if (getName().equalsIgnoreCase("showconfigurationmanager"))
         commandToTrigger = CommandIDs::showConfigurationManager;
@@ -78,21 +76,31 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         return;
     }
 
-	// Performance mode is a special case button, as it's like a
-	// command button, but needs to toggle
+	// Need to handle two types of snapshot (i.e. regular and snapshot all),
+	// so can't use the normal command trigger method
+	if (getName().equalsIgnoreCase("snapshot"))
+	{
+		setTooltip(properties.tooltip);
+		setButtonText(properties.text);
+		return;
+	}
+
+	// Performance Mode, Preset List and Patch Window buttons are special cases, as they're like
+	// command buttons, but needs to toggle
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
 		setClickingTogglesState(true);
-		setToggleState((ScopeSyncApplication::getPerformanceMode() > 0), dontSendNotification);
+		setToggleState(scopeSync.getPerformanceMode(), dontSendNotification);
 
-		ScopeSyncApplication::referToPerformanceMode(parameterValue);
+		scopeSync.referToPerformanceMode(parameterValue);
 		parameterValue.addListener(this);
 
 		setTooltip(properties.tooltip);
 		setButtonText(properties.text);
 		return;
 	}
-	else if (getName().equalsIgnoreCase("PresetList"))
+	
+	if (getName().equalsIgnoreCase("presetlist"))
 	{
 		setClickingTogglesState(true);
 		setToggleState(scopeSync.getShowPresetWindow(), dontSendNotification);
@@ -104,7 +112,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 		setButtonText(properties.text);
 		return;
 	}
-	else if (getName().equalsIgnoreCase("PatchWindow"))
+	
+	if (getName().equalsIgnoreCase("patchwindow"))
 	{
 		setClickingTogglesState(true);
 		setToggleState(scopeSync.getShowPatchWindow(), dontSendNotification);
@@ -376,24 +385,35 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
     }
 }
 
-void BCMTextButton::clicked()
+void BCMTextButton::clicked(const ModifierKeys& modifiers)
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
 
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
-		ScopeSyncApplication::setPerformanceMode(getToggleState());
+		scopeSync.setPerformanceMode(getToggleState());
+
+		if (modifiers.isCommandDown())
+			ScopeSync::setPerformanceModeAll(getToggleState());
+
 		return;
 	}
-	else if (getName().equalsIgnoreCase("PresetList"))
+	else if (getName().equalsIgnoreCase("presetlist"))
 	{
 		scopeSync.setShowPresetWindow(getToggleState());
 		return;
 	}
-	else if (getName().equalsIgnoreCase("PatchWindow"))
+	else if (getName().equalsIgnoreCase("patchwindow"))
 	{
 		scopeSync.setShowPatchWindow(getToggleState());
 		return;
+	}
+	else if (getName().equalsIgnoreCase("snapshot"))
+	{
+		if (modifiers.isCommandDown())
+			ScopeSync::snapshotAll();
+		else
+			scopeSync.snapshot();
 	}
 
 	if (isCommandButton)
@@ -431,7 +451,7 @@ void BCMTextButton::valueChanged(Value& value)
 		setToggleState((int(parameterValue.getValue()) > 0), dontSendNotification);
 		return;
 	}
-	else if (getName().equalsIgnoreCase("PresetList") || getName().equalsIgnoreCase("PatchWindow"))
+	else if (getName().equalsIgnoreCase("presetlist") || getName().equalsIgnoreCase("patchwindow"))
 	{
 		setToggleState(parameterValue.getValue(), dontSendNotification);
 		return;

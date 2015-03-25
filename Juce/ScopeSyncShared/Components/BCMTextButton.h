@@ -103,7 +103,7 @@ private:
     void mouseUp(const MouseEvent& event) override;
     
     // Callback for when a BCMTextButton is clicked
-    void clicked();
+    void clicked(const ModifierKeys& modifiers);
 
     // Open the specific Style Override Panel for labels as appropriate
     void overrideStyle() override;

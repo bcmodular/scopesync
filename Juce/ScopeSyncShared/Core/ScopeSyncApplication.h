@@ -46,15 +46,6 @@ namespace ScopeSyncApplication
 
 	const bool inPluginContext();
     const bool inScopeFXContext();
-
-	static Value performanceMode; // Indicates the current status of Performance mode
-								  // 0: Performance Mode off
-								  // 1: Performance Mode on
-	
-	void setPerformanceMode(int newValue);
-	int  getPerformanceMode();
-
-	void referToPerformanceMode(Value& valueToLink);
 };
 
 class ScopeSyncClipboard

@@ -207,6 +207,7 @@ namespace CommandIDs
         unloadConfiguration         = 0x200860,
                                   
         snapshot                    = 0x200900,
+        snapshotAll                 = 0x200905,
         showUserSettings            = 0x200910,
         showConfigurationManager    = 0x200920,
         chooseConfiguration         = 0x200930,

@@ -76,7 +76,6 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
         Process::setCurrentModuleInstanceHandle(HINST_THISCOMPONENT);
 #endif
         initialiseJuce_GUI();
-		ScopeSyncApplication::setPerformanceMode(0);
     }
 
     scopeSync = new ScopeSync(this);
@@ -164,7 +163,7 @@ void ScopeFX::manageValuesForScopeSync()
 	newScopeSyncValues[controlPanelConnected] = scopeSync->getControlPanelConnected() ? FRAC_MAX : 0;
 	newScopeSyncValues[showPresetWindow]      = scopeSync->getShowPresetWindow() ? FRAC_MAX : 0;
 	newScopeSyncValues[showPatchWindow]       = scopeSync->getShowPatchWindow() ? FRAC_MAX : 0;
-	newScopeSyncValues[performanceMode]       = ScopeSyncApplication::getPerformanceMode();
+	newScopeSyncValues[performanceMode]       = scopeSync->getPerformanceMode() ? 1 : 0;
 
 	if (newAsyncValues[configurationUID] != currentValues[configurationUID])
 	{
@@ -205,7 +204,7 @@ void ScopeFX::manageValuesForScopeSync()
 	{
 		currentValues[performanceMode]      = newAsyncValues[performanceMode];
 		newScopeSyncValues[performanceMode] = newAsyncValues[performanceMode];
-		ScopeSyncApplication::setPerformanceMode(currentValues[performanceMode]);
+		scopeSync->setPerformanceMode(currentValues[performanceMode] > 0);
 	}
 }
 

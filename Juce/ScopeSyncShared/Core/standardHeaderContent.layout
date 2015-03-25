@@ -24,7 +24,7 @@
   <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
     <bounds relativerectangle="right - 32, showconfigurationmanager.top, parent.width - 1, top + 21"></bounds>
   </textbutton>
-  <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send Snapshot of Current Control Values">
+  <textbutton lfid="system:snapshot_button" name="snapshot" text="" tooltip="Send a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances">
     <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
   </textbutton>
   <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
