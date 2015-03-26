@@ -154,6 +154,7 @@ public:
     
 	bool           getPerformanceMode() { return performanceMode.getValue(); }
 	void           setPerformanceMode(bool newSetting) { performanceMode = newSetting; }
+	static void    setPerformanceModeGlobalDisable(bool newSetting) { performanceModeGlobalDisable = newSetting; }
 	static void    setPerformanceModeAll(bool newSetting);
 	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
 
@@ -255,6 +256,9 @@ private:
 
     static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
     Value oscUID;                    // Unique OSC ID for the current instance
+
+	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
+	static bool performanceModeGlobalDisable;
 
 	Value performanceMode;
 	Value controlPanelConnected;

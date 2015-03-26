@@ -206,6 +206,13 @@ void ScopeFX::manageValuesForScopeSync()
 		newScopeSyncValues[performanceMode] = newAsyncValues[performanceMode];
 		scopeSync->setPerformanceMode(currentValues[performanceMode] > 0);
 	}
+
+	if (newAsyncValues[performanceModeGlobalDisable] != currentValues[performanceModeGlobalDisable])
+	{
+		currentValues[performanceModeGlobalDisable]      = newAsyncValues[performanceModeGlobalDisable];
+		newScopeSyncValues[performanceModeGlobalDisable] = newAsyncValues[performanceModeGlobalDisable];
+		scopeSync->setPerformanceModeGlobalDisable(currentValues[performanceModeGlobalDisable] > 0);
+	}
 }
 
 void ScopeFX::showWindow()
@@ -307,12 +314,13 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
         requestWindowShow = true;
 
 	// Handle fixed IO value changes
-	manageValueForAsync(configurationUID,      asyncIn[INPAD_CONFIGUID]->itg);
-	manageValueForAsync(oscUID,                asyncIn[INPAD_OSCUID]->itg);
-	manageValueForAsync(controlPanelConnected, asyncIn[INPAD_CONTROL_PANEL_CONNECTED]->itg);
-	manageValueForAsync(showPresetWindow,      asyncIn[INPAD_SHOW_PRESET_WINDOW]->itg);
-	manageValueForAsync(showPatchWindow,       asyncIn[INPAD_SHOW_PATCH_WINDOW]->itg);
-	manageValueForAsync(performanceMode,       asyncIn[INPAD_PERFORMANCE_MODE]->itg);
+	manageValueForAsync(configurationUID,             asyncIn[INPAD_CONFIGUID]->itg);
+	manageValueForAsync(oscUID,                       asyncIn[INPAD_OSCUID]->itg);
+	manageValueForAsync(controlPanelConnected,        asyncIn[INPAD_CONTROL_PANEL_CONNECTED]->itg);
+	manageValueForAsync(showPresetWindow,             asyncIn[INPAD_SHOW_PRESET_WINDOW]->itg);
+	manageValueForAsync(showPatchWindow,              asyncIn[INPAD_SHOW_PATCH_WINDOW]->itg);
+	manageValueForAsync(performanceMode,              asyncIn[INPAD_PERFORMANCE_MODE]->itg);
+	manageValueForAsync(performanceModeGlobalDisable, asyncIn[INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE]->itg);
 	
 	// Handle window position updates
 	positionX = asyncIn[INPAD_X]->itg;

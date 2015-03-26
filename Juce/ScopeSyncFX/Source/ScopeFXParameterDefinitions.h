@@ -45,6 +45,7 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_SHOW_PRESET_WINDOW,
 		INPAD_SHOW_PATCH_WINDOW,
 		INPAD_CONTROL_PANEL_CONNECTED,
+		INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE,
 		NUM_ASYNCINPADS
     };
 
@@ -100,10 +101,11 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 0, 1 },                    // INPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_PERFORMANCE_MODE
+        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE
 		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PATCH_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },             // INPAD_CONTROL_PANEL_CONNECTED
+		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -276,6 +278,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
 		{ "cpc",  "control panel connected" },
+		{ "pmgd", "performance global disable" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {

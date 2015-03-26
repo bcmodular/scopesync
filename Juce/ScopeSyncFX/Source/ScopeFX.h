@@ -67,7 +67,7 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
 
 private:	
-    enum ManagedValues { performanceMode, configurationUID, oscUID, controlPanelConnected, showPatchWindow, showPresetWindow, numManagedValues };
+    enum ManagedValues { performanceMode, configurationUID, oscUID, controlPanelConnected, showPatchWindow, showPresetWindow, performanceModeGlobalDisable, numManagedValues };
 	
 	// Initialise member variables
     void initValues();

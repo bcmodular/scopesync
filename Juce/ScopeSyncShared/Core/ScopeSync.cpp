@@ -45,8 +45,9 @@
     #include "../../ScopeSyncFX/Source/ScopeFX.h"
 #endif // __DLL_EFFECT__
 
-const int ScopeSync::oscHandlerTime    = 20;
-const int ScopeSync::minHostParameters = 128;
+const int    ScopeSync::oscHandlerTime    = 20;
+bool         ScopeSync::performanceModeGlobalDisable = false;
+const int    ScopeSync::minHostParameters = 128;
 const String ScopeSync::scopeSyncVersionString = "0.5.0-Prerelease";
 
 const StringArray ScopeSync::scopeSyncCodes = StringArray::fromTokens(
@@ -112,6 +113,7 @@ void ScopeSync::initialise()
 
 	initOSCUID();
 	setPerformanceMode(0);
+
 	setControlPanelConnected(false);
 	setShowPatchWindow(true);
 	setShowPresetWindow(false);
@@ -561,7 +563,9 @@ void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 {
 #ifdef __DLL_EFFECT__
-    scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, performanceMode.getValue());
+	bool perfMode = performanceModeGlobalDisable ? false : performanceMode.getValue();
+	
+	scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, perfMode);
     initialiseScopeParameters = false;
 #else
     (void)asyncValues;
