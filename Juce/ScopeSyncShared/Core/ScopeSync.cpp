@@ -109,15 +109,17 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
+	managedValues = ValueTree(Ids::managedValues);
+
 	shouldReceiveAsyncUpdates = false;
 
 	initOSCUID();
-	setPerformanceMode(0);
 
-	setControlPanelConnected(false);
-	setShowPatchWindow(true);
-	setShowPresetWindow(false);
-
+	setManagedValue(Ids::performanceMode, 0);
+	setManagedValue(Ids::deviceType, 0);
+	setManagedValue(Ids::showPatchWindow, INT_MAX);
+	setManagedValue(Ids::showPresetWindow, 0);
+	
 	showEditToolbar = false;
     initCommandManager();
 
@@ -140,12 +142,8 @@ void ScopeSync::initOSCUID()
 	while (initialOSCUID < INT_MAX && oscUIDInUse(initialOSCUID, this))
 		initialOSCUID++;
 	
-	setOSCUID(initialOSCUID);
+	setManagedValue(Ids::oscUID, initialOSCUID);
 }
-
-int ScopeSync::getOSCUID() { return oscUID.getValue(); }
-
-void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
 
 void ScopeSync::timerCallback()
 {
@@ -173,7 +171,7 @@ void ScopeSync::handleOSCUpdates()
 		
 		int oscUID = oscUIDString.getIntValue();
 
-		if (oscUID != getOSCUID())
+		if (oscUID != getManagedValue(Ids::oscUID))
 		{
 			DBG("ScopeSync::handleOSCUpdates - ignoring update as not for this OSC UID");
 			continue;
@@ -274,7 +272,7 @@ int ScopeSync::getNumScopeSyncInstances()
 bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
+		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getManagedValue(Ids::oscUID) == uid)
 			return true;
 	
 	return false;
@@ -336,10 +334,10 @@ void ScopeSync::snapshotAll()
 		scopeSyncInstances[i]->snapshot();
 }
 
-void ScopeSync::setPerformanceModeAll(bool newSetting)
+void ScopeSync::setPerformanceModeAll(int newSetting)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		scopeSyncInstances[i]->setPerformanceMode(newSetting);
+		scopeSyncInstances[i]->setManagedValue(Ids::performanceMode, newSetting);
 }
 
 void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
@@ -563,7 +561,7 @@ void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 {
 #ifdef __DLL_EFFECT__
-	bool perfMode = performanceModeGlobalDisable ? false : performanceMode.getValue();
+	bool perfMode = performanceModeGlobalDisable ? false : getManagedValue(Ids::performanceMode) > 0;
 	
 	scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, perfMode);
     initialiseScopeParameters = false;

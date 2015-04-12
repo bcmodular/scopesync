@@ -53,6 +53,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     mapsToTabs = false;
     isCommandButton = true;
     
+	setTooltip(properties.tooltip);
+	setButtonText(properties.text);
+
 	// First see whether it's a command button and set it up if it is
     CommandID commandToTrigger = 0;
 
@@ -79,50 +82,17 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	// Need to handle two types of snapshot (i.e. regular and snapshot all),
 	// so can't use the normal command trigger method
 	if (getName().equalsIgnoreCase("snapshot"))
-	{
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
 		return;
-	}
-
-	// Performance Mode, Preset List and Patch Window buttons are special cases, as they're like
-	// command buttons, but needs to toggle
-	if (getName().equalsIgnoreCase("performancemode"))
-	{
-		setClickingTogglesState(true);
-		setToggleState(scopeSync.getPerformanceMode(), dontSendNotification);
-
-		scopeSync.referToPerformanceMode(parameterValue);
-		parameterValue.addListener(this);
-
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
-		return;
-	}
 	
-	if (getName().equalsIgnoreCase("presetlist"))
+	Identifier managedValueId = getManagedValueId(getName().toLowerCase());
+
+	if (managedValueId.isValid())
 	{
 		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPresetWindow(), dontSendNotification);
+		setToggleState(scopeSync.getManagedValue(managedValueId) > 0, dontSendNotification);
 
-		scopeSync.referToShowPresetWindow(parameterValue);
+		scopeSync.referToManagedValue(managedValueId, parameterValue);
 		parameterValue.addListener(this);
-
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
-		return;
-	}
-	
-	if (getName().equalsIgnoreCase("patchwindow"))
-	{
-		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPatchWindow(), dontSendNotification);
-
-		scopeSync.referToShowPatchWindow(parameterValue);
-		parameterValue.addListener(this);
-
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
 		return;
 	}
 
@@ -287,6 +257,26 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setRadioGroupId(radioGroupId);
 }
 
+const Identifier BCMTextButton::getManagedValueId(const String& buttonName)
+{
+	if (buttonName == "performancemode")
+		return Ids::performanceMode;
+	else if (buttonName == "presetlist")
+		return Ids::showPresetWindow;
+	else if (buttonName == "patchwindow")
+		return Ids::showPatchWindow;
+	else if (buttonName == "shellpresetwindow")
+			return Ids::showShellPresetWindow;
+	else if (buttonName == "bypasseffect")
+			return Ids::bypassEffect;
+	else if (buttonName == "monoeffect")
+			return Ids::monoEffect;
+	else if (buttonName == "midiactivity")
+			return Ids::midiActivity;
+
+	return Identifier();
+}
+
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };
 
 void BCMTextButton::switchToTabs()
@@ -389,23 +379,15 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
 
-	if (getName().equalsIgnoreCase("performancemode"))
-	{
-		scopeSync.setPerformanceMode(getToggleState());
+	Identifier managedValueId = getManagedValueId(getName().toLowerCase());
 
-		if (modifiers.isCommandDown())
+	if (managedValueId.isValid())
+	{
+		scopeSync.setManagedValue(managedValueId, getToggleState() ? FRAC_MAX : 0);
+
+		if (getName().equalsIgnoreCase("performancemode") && modifiers.isCommandDown())
 			ScopeSync::setPerformanceModeAll(getToggleState());
 
-		return;
-	}
-	else if (getName().equalsIgnoreCase("presetlist"))
-	{
-		scopeSync.setShowPresetWindow(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("patchwindow"))
-	{
-		scopeSync.setShowPatchWindow(getToggleState());
 		return;
 	}
 	else if (getName().equalsIgnoreCase("snapshot"))
@@ -446,14 +428,11 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 void BCMTextButton::valueChanged(Value& value)
 {
-	if (getName().equalsIgnoreCase("performancemode"))
+	Identifier managedValueId = getManagedValueId(getName().toLowerCase());
+
+	if (managedValueId.isValid())
 	{
 		setToggleState((int(parameterValue.getValue()) > 0), dontSendNotification);
-		return;
-	}
-	else if (getName().equalsIgnoreCase("presetlist") || getName().equalsIgnoreCase("patchwindow"))
-	{
-		setToggleState(parameterValue.getValue(), dontSendNotification);
 		return;
 	}
 

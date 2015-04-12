@@ -50,10 +50,10 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 
     setTabBarDepth(properties.tabBarDepth);
     
-	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	if (getName().equalsIgnoreCase("devicetype"))
 	{
 		parameterValue.addListener(this);
-		scopeSync.referToControlPanelConnected(parameterValue);
+		scopeSync.referToManagedValue(Ids::deviceType, parameterValue);
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
@@ -65,7 +65,7 @@ const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabb
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {
-    if (getName().equalsIgnoreCase("CP-Host Connection"))
+    if (getName().equalsIgnoreCase("devicetype"))
 	{
 		DBG("BCMTabbedComponent::valueChanged: new value: " + value.toString());
 

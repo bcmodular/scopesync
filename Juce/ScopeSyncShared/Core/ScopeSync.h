@@ -71,7 +71,7 @@ public:
     void unload();
 
     static const String scopeSyncVersionString;
-
+	
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
 	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
@@ -146,30 +146,17 @@ public:
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
     
-	int            getOSCUID();
-	void           setOSCUID(int uid);
+	int            getManagedValue(const Identifier& valueName) { return managedValues.getProperty(valueName); }
+	void           setManagedValue(const Identifier& valueName, int newSetting) { managedValues.setProperty(valueName, newSetting, nullptr); }
+	void           referToManagedValue(const Identifier& valueName, Value& valueToLink) { valueToLink.referTo(managedValues.getPropertyAsValue(valueName, nullptr)); }
+
+	int            getOSCUID() { return getManagedValue(Ids::oscUID); }
 	void           initOSCUID();
-	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
-	bool           getPerformanceMode() { return performanceMode.getValue(); }
-	void           setPerformanceMode(bool newSetting) { performanceMode = newSetting; }
 	static void    setPerformanceModeGlobalDisable(bool newSetting) { performanceModeGlobalDisable = newSetting; }
-	static void    setPerformanceModeAll(bool newSetting);
-	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
-
-	bool           getControlPanelConnected() { return controlPanelConnected.getValue(); }
-	void           setControlPanelConnected(bool newSetting) { controlPanelConnected = newSetting; }
-	void           referToControlPanelConnected(Value& valueToLink) { valueToLink.referTo(controlPanelConnected); }
-
-	bool           getShowPresetWindow() { return showPresetWindow.getValue(); }
-	void           setShowPresetWindow(bool newSetting) { showPresetWindow = newSetting; }
-	void           referToShowPresetWindow(Value& valueToLink) { valueToLink.referTo(showPresetWindow); }
-
-	bool           getShowPatchWindow() { return showPatchWindow.getValue(); }
-	void           setShowPatchWindow(bool newSetting) { showPatchWindow = newSetting; }
-	void           referToShowPatchWindow(Value& valueToLink) { valueToLink.referTo(showPatchWindow); }
-
+	static void    setPerformanceModeAll(int newSetting);
+	
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
@@ -260,11 +247,8 @@ private:
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
 	static bool performanceModeGlobalDisable;
 
-	Value performanceMode;
-	Value controlPanelConnected;
-	Value showPresetWindow;
-	Value showPatchWindow;
-
+	ValueTree managedValues;
+	
 	static const int    minHostParameters;       // Minimum parameter count to return to host
     
     static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels

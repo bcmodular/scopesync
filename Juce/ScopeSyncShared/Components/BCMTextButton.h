@@ -98,6 +98,8 @@ private:
 
     // For incrementing and decrementing MappingTypes, update the "next" values to be set
     void setNextValues();
+
+	static const Identifier BCMTextButton::getManagedValueId(const String& buttonName);
     
     void mouseDown(const MouseEvent& event) override;
     void mouseUp(const MouseEvent& event) override;

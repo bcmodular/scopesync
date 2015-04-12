@@ -77,13 +77,13 @@ void BCMSlider::applyProperties(SliderProperties& properties)
 	// Set up a dedicated OSC UID slider
 	if (getName().equalsIgnoreCase("oscuid"))
 	{
-		int oscUID = scopeSync.getOSCUID();
+		int oscUID = scopeSync.getManagedValue(Ids::oscUID);
 
-		scopeSync.referToOSCUID(getValueObject());
+		scopeSync.referToManagedValue(Ids::oscUID, getValueObject());
 
 		// Need to get to the bottom of why this is being
 		// overwritten when referTo completes
-		scopeSync.setOSCUID(oscUID);
+		scopeSync.setManagedValue(Ids::oscUID, oscUID);
 
 		setRange(rangeMin, rangeMax, 1);
 		setTooltip(tooltip);
