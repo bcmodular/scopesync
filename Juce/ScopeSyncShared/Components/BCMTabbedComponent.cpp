@@ -69,10 +69,7 @@ void BCMTabbedComponent::valueChanged(Value& value)
 	{
 		DBG("BCMTabbedComponent::valueChanged: new value: " + value.toString());
 
-		if (value.getValue())
-			setCurrentTabIndex(1, false);
-		else
-			setCurrentTabIndex(0, false);
+		setCurrentTabIndex(value.getValue(), false);
 	}
 	else
 	{
@@ -93,7 +90,7 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
 
 void BCMTabbedComponent::attachToParameter()
 {
-	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	if (getName().equalsIgnoreCase("devicetype"))
 	{
 		valueChanged(parameterValue);
 	}

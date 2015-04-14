@@ -146,15 +146,15 @@ public:
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
     
-	int            getManagedValue(const Identifier& valueName) { return managedValues.getProperty(valueName); }
-	void           setManagedValue(const Identifier& valueName, int newSetting) { managedValues.setProperty(valueName, newSetting, nullptr); }
-	void           referToManagedValue(const Identifier& valueName, Value& valueToLink) { valueToLink.referTo(managedValues.getPropertyAsValue(valueName, nullptr)); }
+	int            getManagedValue(const Identifier& valueName);
+	void           setManagedValue(const Identifier& valueName, int newSetting);
+	void           referToManagedValue(const Identifier& valueName, Value& valueToLink);
 
 	int            getOSCUID() { return getManagedValue(Ids::oscUID); }
 	void           initOSCUID();
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
-	static void    setPerformanceModeGlobalDisable(bool newSetting) { performanceModeGlobalDisable = newSetting; }
+	static void    setPerformanceModeGlobalDisable(bool newSetting);
 	static void    setPerformanceModeAll(int newSetting);
 	
 	ValueTree      getMapping() { return configuration->getMapping(); };

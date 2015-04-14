@@ -267,9 +267,9 @@ const Identifier BCMTextButton::getManagedValueId(const String& buttonName)
 		return Ids::showPatchWindow;
 	else if (buttonName == "shellpresetwindow")
 			return Ids::showShellPresetWindow;
-	else if (buttonName == "bypasseffect")
+	else if (buttonName == "bypass")
 			return Ids::bypassEffect;
-	else if (buttonName == "monoeffect")
+	else if (buttonName == "fxmono")
 			return Ids::monoEffect;
 	else if (buttonName == "midiactivity")
 			return Ids::midiActivity;
@@ -383,7 +383,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 	if (managedValueId.isValid())
 	{
-		scopeSync.setManagedValue(managedValueId, getToggleState() ? FRAC_MAX : 0);
+		scopeSync.setManagedValue(managedValueId, getToggleState() ? 1 : 0);
 
 		if (getName().equalsIgnoreCase("performancemode") && modifiers.isCommandDown())
 			ScopeSync::setPerformanceModeAll(getToggleState());
