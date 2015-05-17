@@ -43,13 +43,10 @@
   <PropertyGroup Label="UserMacros"/>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSyncVSTFX-Debug_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSyncVSTFX_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">.\Release (x64)\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">ScopeSyncVSTFX-x64_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">true</GenerateManifest>
   </PropertyGroup>
@@ -242,9 +239,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\..\Source\PluginGUI.cpp"/>
     <ClCompile Include="..\..\..\Source\PluginProcessor.cpp"/>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\src\FontAwesome.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1169,7 +1163,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\danlin_fontawesome.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
@@ -1252,8 +1245,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\..\Source\PluginGUI.h"/>
     <ClInclude Include="..\..\..\Source\PluginProcessor.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\src\FontAwesome.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\danlin_fontawesome.h"/>
     <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscException.h"/>
     <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscHostEndianness.h"/>
     <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.h"/>
@@ -1655,7 +1646,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\juce_module_info"/>
     <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_module_info"/>
