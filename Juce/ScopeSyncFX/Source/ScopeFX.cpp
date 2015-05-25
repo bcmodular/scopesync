@@ -222,13 +222,17 @@ void ScopeFX::manageValuesForScopeSync()
 	if (scopeSync == nullptr)
 		return;
 
+	int valuesFromScopeSync[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+	scopeSync->getManagedValues(valuesFromScopeSync);
+
 	for (int i = 0; i < numManagedValues + numUnmanagedValues; i++)
 	{
 		Identifier valueId = getIdForManagedValue(i);
 		
 		// Grab the current ScopeSync value
 		if (valueId.isValid())
-			newScopeSyncValues[i] = scopeSync->getManagedValue(valueId);
+			newScopeSyncValues[i] = valuesFromScopeSync[i];
 		
 		// If we've received a change from async, then override using that
 		if (newAsyncValues[i] != currentValues[i])

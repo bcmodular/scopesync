@@ -669,6 +669,21 @@ int ScopeSync::getManagedValue(const Identifier& valueName)
 		return 0;
 }
 
+void ScopeSync::getManagedValues(int* values)
+{
+	values[0]  = managedValues.getProperty(Ids::performanceMode);
+	values[1]  = managedValues.getProperty(Ids::oscUID);
+	values[2]  = managedValues.getProperty(Ids::deviceType);
+	values[3]  = managedValues.getProperty(Ids::showPatchWindow);
+	values[4]  = managedValues.getProperty(Ids::showPresetWindow);
+	values[5]  = managedValues.getProperty(Ids::monoEffect);
+	values[6]  = managedValues.getProperty(Ids::bypassEffect);
+	values[7]  = managedValues.getProperty(Ids::showShellPresetWindow);
+	values[8]  = managedValues.getProperty(Ids::voiceCount);
+	values[9]  = managedValues.getProperty(Ids::midiActivity);
+	values[10] = managedValues.getProperty(Ids::midiChannel);
+}
+
 void ScopeSync::setManagedValue(const Identifier& valueName, int newSetting)
 {
 	DBG("ScopeSync::setManagedValue - setting " + String(valueName) + " to " + String(newSetting));
