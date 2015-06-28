@@ -147,7 +147,6 @@ public:
     bool           processConfigurationChange();
     
 	int            getManagedValue(const Identifier& valueName);
-	void		   getManagedValues(int* values);
 	void           setManagedValue(const Identifier& valueName, int newSetting);
 	void           referToManagedValue(const Identifier& valueName, Value& valueToLink);
 
