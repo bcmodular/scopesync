@@ -229,7 +229,9 @@ void ScopeFX::manageValuesForScopeSync()
 		// Grab the current ScopeSync value
 		if (valueId.isValid())
 			newScopeSyncValues[i] = scopeSync->getManagedValue(valueId);
-		
+		else if (i == numManagedValues + configurationUID)
+			newScopeSyncValues[i] = scopeSync->getConfigurationUID();
+	
 		// If we've received a change from async, then override using that
 		if (newAsyncValues[i] != currentValues[i])
 		{
@@ -242,6 +244,9 @@ void ScopeFX::manageValuesForScopeSync()
 				scopeSync->setManagedValue(valueId, currentValues[i]);
 			else if (i == numManagedValues + performanceModeGlobalDisable)
 				scopeSync->setPerformanceModeGlobalDisable(currentValues[i] > 0);
+			else if (i == numManagedValues + configurationUID)
+				scopeSync->changeConfiguration(currentValues[i]);
+
 		}
 	}
 }
