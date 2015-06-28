@@ -117,7 +117,7 @@ void ScopeSync::initialise()
 
 	setManagedValue(Ids::performanceMode, 0);
 	setManagedValue(Ids::deviceType, 0);
-	setManagedValue(Ids::showPatchWindow, 1);
+	setManagedValue(Ids::showPatchWindow, INT_MAX);
 	setManagedValue(Ids::showPresetWindow, 0);
 	
 	showEditToolbar = false;
@@ -591,12 +591,6 @@ void ScopeSync::addToOSCControlUpdateBuffers(const String& addressPattern, float
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->oscControlUpdateBuffer.set(addressPattern, value);
 }
-
-void ScopeSync::setPerformanceModeGlobalDisable(bool newSetting)
-{
-	DBG("ScopeSync::setPerformanceModeGlobalDisable -> " + String(newSetting));
-	performanceModeGlobalDisable = newSetting;
-}
     
 XmlElement* ScopeSync::getSystemLookAndFeels()
 {
@@ -661,25 +655,6 @@ bool ScopeSync::processConfigurationChange()
     }
 }
 
-int ScopeSync::getManagedValue(const Identifier& valueName)
-{
-	if (valueName.isValid())
-		return managedValues.getProperty(valueName); 
-	else
-		return 0;
-}
-
-void ScopeSync::setManagedValue(const Identifier& valueName, int newSetting)
-{
-	DBG("ScopeSync::setManagedValue - setting " + String(valueName) + " to " + String(newSetting));
-	managedValues.setProperty(valueName, newSetting, nullptr); 
-}
-
-void ScopeSync::referToManagedValue(const Identifier& valueName, Value& valueToLink)
-{
-	valueToLink.referTo(managedValues.getPropertyAsValue(valueName, nullptr)); 
-}
-
 void ScopeSync::changeConfiguration(const String& fileName)
 {
     configurationChanges.add(fileName);
@@ -688,8 +663,6 @@ void ScopeSync::changeConfiguration(const String& fileName)
 
 void ScopeSync::changeConfiguration(int uid)
 {
-	DBG("ScopeSync::changeConfiguration: new value: " + String(uid));
-
     if (uid != 0)
     {
         String fileName = UserSettings::getInstance()->getConfigurationFilePathFromUID(uid);

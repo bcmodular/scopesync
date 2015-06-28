@@ -224,30 +224,31 @@ void ScopeFX::manageValuesForScopeSync()
 
 	for (int i = 0; i < numManagedValues + numUnmanagedValues; i++)
 	{
-		Identifier valueId = getIdForManagedValue(i);
-		
 		// Grab the current ScopeSync value
-		if (valueId.isValid())
-			newScopeSyncValues[i] = scopeSync->getManagedValue(valueId);
-		else if (i == numManagedValues + configurationUID)
-			newScopeSyncValues[i] = scopeSync->getConfigurationUID();
+		newScopeSyncValues[i] = scopeSync->getManagedValue(getIdForManagedValue(i));
 	
 		// If we've received a change from async, then override using that
 		if (newAsyncValues[i] != currentValues[i])
 		{
-			DBG("ScopeFX::async - Change to ScopeSync value from async: " + String(valueId) + " -> " + String(newAsyncValues[i]));
-			
 			currentValues[i] = newAsyncValues[i];
 			newScopeSyncValues[i] = newAsyncValues[i];
 
-			if (valueId.isValid())
-				scopeSync->setManagedValue(valueId, currentValues[i]);
-			else if (i == numManagedValues + performanceModeGlobalDisable)
+			if (i < numManagedValues)
+				scopeSync->setManagedValue(getIdForManagedValue(i), currentValues[i]);
+			else if (i == performanceModeGlobalDisable + numManagedValues)
 				scopeSync->setPerformanceModeGlobalDisable(currentValues[i] > 0);
-			else if (i == numManagedValues + configurationUID)
+			else if (i == configurationUID + numManagedValues)
 				scopeSync->changeConfiguration(currentValues[i]);
 
 		}
+	}
+
+
+	if (newAsyncValues[performanceModeGlobalDisable] != currentValues[performanceModeGlobalDisable])
+	{
+		currentValues[performanceModeGlobalDisable]      = newAsyncValues[performanceModeGlobalDisable];
+		newScopeSyncValues[performanceModeGlobalDisable] = newAsyncValues[performanceModeGlobalDisable];
+		scopeSync->setPerformanceModeGlobalDisable(currentValues[performanceModeGlobalDisable] > 0);
 	}
 }
 
@@ -349,28 +350,8 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
     else
         requestWindowShow = true;
 
-	newAsyncValues[numManagedValues + configurationUID] = asyncIn[INPAD_CONFIGUID]->itg;
-
-	if (scopeSync != nullptr)
-	{
-		if (newAsyncValues[numManagedValues + configurationUID] != currentValues[numManagedValues + configurationUID])
-		{
-			scopeSync->changeConfiguration(newAsyncValues[numManagedValues + configurationUID]);
-			currentValues[numManagedValues + configurationUID] = newAsyncValues[numManagedValues + configurationUID];
-		}
-
-		newScopeSyncValues[numManagedValues + configurationUID] = scopeSync->getConfigurationUID();
-	}
-
-#ifdef DEBUG
-	//String debugString;
-#endif //DEBUG
-
 	for (int i = 0; i < numManagedValues + numUnmanagedValues; i++)
 	{
-		if (i == numManagedValues + configurationUID)
-			continue;
-
 		// Firstly grab the value coming in from the async input
 		newAsyncValues[i] = asyncIn[getInputIndexForValue(i)]->itg;
 
@@ -378,7 +359,6 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		// using that
 		if (newScopeSyncValues[i] != currentValues[i])
 		{
-			DBG("ScopeFX::async - Change to async value from ScopeSync: " + String(getIdForManagedValue(i)) + " -> " + String(newScopeSyncValues[i]));
 			currentValues[i] = newScopeSyncValues[i];
 			newAsyncValues[i] = newScopeSyncValues[i];
 		}
@@ -388,28 +368,17 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 
 		if (outIdx >= 0)
 			asyncOut[outIdx].itg = newAsyncValues[i];
-			asyncOut[outIdx].itg = newScopeSyncValues[i];
-
-#ifdef DEBUG
-		//debugString += String(i) + ":";
-		//debugString += String(currentValues[i]) + ",";
-		//debugString += String(newAsyncValues[i]) + ",";
-		//debugString += String(newScopeSyncValues[i]) + ";";
-#endif //DEBUG
 	}
-
-	//DBG("ScopeFX::async - values: " + debugString);
-
+	
 	// Handle window position updates
 	positionX = asyncIn[INPAD_X]->itg;
     positionY = asyncIn[INPAD_Y]->itg;
     
-	asyncOut[OUTPAD_CONFIGUID].itg          = newScopeSyncValues[numManagedValues + configurationUID];
     asyncOut[OUTPAD_SHOW].itg               = windowShown ? 1 : 0;
     asyncOut[OUTPAD_X].itg                  = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
     asyncOut[OUTPAD_Y].itg                  = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
-	asyncOut[OUTPAD_LOADED].itg             = (scopeSync  != nullptr && scopeSync->isInitialised()) ? 1 : 0;
-    
+	asyncOut[OUTPAD_LOADED].itg             = (scopeSync  != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
+      
     return 0;
 }
 
