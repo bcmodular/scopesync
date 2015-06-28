@@ -22,6 +22,7 @@
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
+#define JUCE_MODULE_AVAILABLE_danlin_fontawesome            1
 #define JUCE_MODULE_AVAILABLE_danlin_oscpack                1
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics             1
 #define JUCE_MODULE_AVAILABLE_juce_audio_plugin_client      1
@@ -32,11 +33,6 @@
 #define JUCE_MODULE_AVAILABLE_juce_graphics                 1
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics               1
 #define JUCE_MODULE_AVAILABLE_juce_gui_extra                1
-
-//==============================================================================
-#ifndef    JUCE_STANDALONE_APPLICATION
- #define   JUCE_STANDALONE_APPLICATION 0
-#endif
 
 //==============================================================================
 // juce_audio_processors flags:

@@ -38,6 +38,12 @@
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Juce Modules\danlin_fontawesome">
+      <UniqueIdentifier>{CE8C814C-560D-B1B3-8322-22051FB751F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\danlin_fontawesome\src">
+      <UniqueIdentifier>{A443F528-6CA8-362D-AA3C-91E1BF1E0C90}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules\danlin_oscpack">
       <UniqueIdentifier>{698C2495-2F1D-6380-77D4-6CA8C401AD97}</UniqueIdentifier>
     </Filter>
@@ -429,6 +435,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\PluginProcessor.cpp">
       <Filter>ScopeSyncEffectPlugin\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\src\FontAwesome.cpp">
+      <Filter>Juce Modules\danlin_fontawesome\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.cpp">
       <Filter>Juce Modules\danlin_oscpack\src</Filter>
@@ -1432,6 +1441,9 @@
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\danlin_fontawesome.cpp">
+      <Filter>Juce Library Code</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
@@ -1643,6 +1655,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Source\PluginProcessor.h">
       <Filter>ScopeSyncEffectPlugin\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\src\FontAwesome.h">
+      <Filter>Juce Modules\danlin_fontawesome\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\danlin_fontawesome.h">
+      <Filter>Juce Modules\danlin_fontawesome</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscException.h">
       <Filter>Juce Modules\danlin_oscpack\src</Filter>
@@ -2843,6 +2861,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_fontawesome\juce_module_info">
+      <Filter>Juce Modules\danlin_fontawesome</Filter>
+    </None>
     <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\juce_module_info">
       <Filter>Juce Modules\danlin_oscpack</Filter>
     </None>

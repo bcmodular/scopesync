@@ -268,7 +268,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
 
-            scopeSync->setManagedValue(Ids::oscUID, oscUID);
+            scopeSync->setOSCUID(oscUID);
         }
     }
     else

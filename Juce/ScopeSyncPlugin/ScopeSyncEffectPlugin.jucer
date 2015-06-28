@@ -219,6 +219,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
         <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="danlin_fontawesome" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2013>
     <VS2010 targetFolder="Builds/ScopeSyncEffect/VisualStudio2010" vstFolder="../../../../SDKs/vstsdk2.4"
@@ -248,10 +249,12 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
         <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="danlin_fontawesome" path="../../../danlin/danlin_modules/modules"/>
       </MODULEPATHS>
     </VS2010>
   </EXPORTFORMATS>
   <MODULES>
+    <MODULES id="danlin_fontawesome" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="danlin_oscpack" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
