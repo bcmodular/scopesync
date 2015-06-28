@@ -22,7 +22,6 @@
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
-#define JUCE_MODULE_AVAILABLE_danlin_fontawesome            1
 #define JUCE_MODULE_AVAILABLE_danlin_oscpack                1
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics             1
 #define JUCE_MODULE_AVAILABLE_juce_audio_plugin_client      1
@@ -33,6 +32,11 @@
 #define JUCE_MODULE_AVAILABLE_juce_graphics                 1
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics               1
 #define JUCE_MODULE_AVAILABLE_juce_gui_extra                1
+
+//==============================================================================
+#ifndef    JUCE_STANDALONE_APPLICATION
+ #define   JUCE_STANDALONE_APPLICATION 0
+#endif
 
 //==============================================================================
 // juce_audio_processors flags:
@@ -133,10 +137,10 @@
  #define JucePlugin_Build_AAX              0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "ScopeSyncInst"
+ #define JucePlugin_Name                   "ScopeSyncEffect"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "ScopeSyncInst"
+ #define JucePlugin_Desc                   "ScopeSyncEffect"
 #endif
 #ifndef  JucePlugin_Manufacturer
  #define JucePlugin_Manufacturer           "bcmodular"
@@ -151,19 +155,19 @@
  #define JucePlugin_ManufacturerCode       'bcmd'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'ssi2'
+ #define JucePlugin_PluginCode             'sse2'
 #endif
 #ifndef  JucePlugin_MaxNumInputChannels
- #define JucePlugin_MaxNumInputChannels    0
+ #define JucePlugin_MaxNumInputChannels    2
 #endif
 #ifndef  JucePlugin_MaxNumOutputChannels
- #define JucePlugin_MaxNumOutputChannels   0
+ #define JucePlugin_MaxNumOutputChannels   2
 #endif
 #ifndef  JucePlugin_PreferredChannelConfigurations
- #define JucePlugin_PreferredChannelConfigurations  {0,0}
+ #define JucePlugin_PreferredChannelConfigurations  {2,2}
 #endif
 #ifndef  JucePlugin_IsSynth
- #define JucePlugin_IsSynth                1
+ #define JucePlugin_IsSynth                0
 #endif
 #ifndef  JucePlugin_WantsMidiInput
  #define JucePlugin_WantsMidiInput         1
@@ -190,10 +194,10 @@
  #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_VSTCategory
- #define JucePlugin_VSTCategory            kPlugCategSynth
+ #define JucePlugin_VSTCategory            kPlugCategEffect
 #endif
 #ifndef  JucePlugin_AUMainType
- #define JucePlugin_AUMainType             kAudioUnitType_MusicDevice
+ #define JucePlugin_AUMainType             kAudioUnitType_MusicEffect
 #endif
 #ifndef  JucePlugin_AUSubType
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
@@ -211,7 +215,7 @@
  #define JucePlugin_CFBundleIdentifier     uk.co.bcmodular.scopesync
 #endif
 #ifndef  JucePlugin_RTASCategory
- #define JucePlugin_RTASCategory           ePlugInCategory_SWGenerators
+ #define JucePlugin_RTASCategory           ePlugInCategory_None
 #endif
 #ifndef  JucePlugin_RTASManufacturerCode
  #define JucePlugin_RTASManufacturerCode   JucePlugin_ManufacturerCode

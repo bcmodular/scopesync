@@ -39,10 +39,8 @@ public:
 	void setup();
 
 	// UDP Setup
-	void          setLocalPortNumber(int portNumber);
-	int           getLocalPortNumber();
-	const String& getLocalHostname();
-
+	void   setLocalPortNumber(int portNumber);
+	
 	void   setRemoteHostname(String hostname);
 	String getRemoteHostname();
 	void   setRemotePortNumber(int portNumber);

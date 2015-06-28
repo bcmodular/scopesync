@@ -14,7 +14,6 @@
 #define __APPHEADERFILE_AORKSY__
 
 #include "AppConfig.h"
-#include "modules/danlin_fontawesome/danlin_fontawesome.h"
 #include "modules/danlin_oscpack/danlin_oscpack.h"
 #include "modules/juce_audio_basics/juce_audio_basics.h"
 #include "modules/juce_audio_plugin_client/juce_audio_plugin_client.h"
@@ -35,7 +34,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "ScopeSyncInstPlugin";
+    const char* const  projectName    = "ScopeSyncEffectPlugin";
     const char* const  versionString  = "1.0.2";
     const int          versionNumber  = 0x10002;
 }

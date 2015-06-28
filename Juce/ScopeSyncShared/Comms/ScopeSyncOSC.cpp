@@ -33,29 +33,24 @@ juce_ImplementSingleton(ScopeSyncOSCServer)
 ScopeSyncOSCServer::ScopeSyncOSCServer()
     : Thread("OscServer")
 {
+	setup();
 }
 
 ScopeSyncOSCServer::~ScopeSyncOSCServer()
 {
 	signalThreadShouldExit();
-
-	if (receiveDatagramSocket)
-		receiveDatagramSocket->close();
-	
-	if (remoteDatagramSocket)
-		remoteDatagramSocket->close();
-	
-	stopThread(500);
 	
 	receiveDatagramSocket = nullptr;
 	remoteDatagramSocket  = nullptr;
+
+	waitForThreadToExit (-1);
 }
 
 void ScopeSyncOSCServer::setup()
 {
-	setLocalPortNumber(UserSettings::getInstance()->getPropertyIntValue("osclocalportnum"));
-    setRemoteHostname(UserSettings::getInstance()->getPropertyValue("oscremotehost"));
+	setRemoteHostname(UserSettings::getInstance()->getPropertyValue("oscremotehost"));
     setRemotePortNumber(UserSettings::getInstance()->getPropertyIntValue("oscremoteportnum"));		
+	setLocalPortNumber(UserSettings::getInstance()->getPropertyIntValue("osclocalportnum"));
 }
 
 void ScopeSyncOSCServer::setLocalPortNumber(int portNumber)
@@ -66,19 +61,6 @@ void ScopeSyncOSCServer::setLocalPortNumber(int portNumber)
 		receivePortNumber = portNumber;
 		listen();
 	}
-}
-
-int ScopeSyncOSCServer::getLocalPortNumber()
-{
-	return receivePortNumber;
-}
-
-const String& ScopeSyncOSCServer::getLocalHostname() 
-{
-	if (receiveDatagramSocket)
-		return receiveDatagramSocket->getHostName();
-  
-	return String::empty;
 }
 
 void ScopeSyncOSCServer::setRemoteHostname(String hostname)
@@ -107,18 +89,8 @@ int ScopeSyncOSCServer::getRemotePortNumber()
 
 void ScopeSyncOSCServer::listen()
 {
-	if (isThreadRunning())
-	{
-		signalThreadShouldExit();
-
-		if (receiveDatagramSocket)
-			receiveDatagramSocket->close();
-
-		stopThread(500);
-		receiveDatagramSocket = nullptr;
-	}
-
-	startThread(1);
+	stopListening();
+	startThread(3);
 }
 
 void ScopeSyncOSCServer::stopListening() 
@@ -126,9 +98,6 @@ void ScopeSyncOSCServer::stopListening()
 	if (isThreadRunning())
 	{
 		signalThreadShouldExit();
-	
-		if (receiveDatagramSocket)
-			receiveDatagramSocket->close();
 	
 		stopThread(500);
 		receiveDatagramSocket = nullptr;
@@ -138,25 +107,36 @@ void ScopeSyncOSCServer::stopListening()
 void ScopeSyncOSCServer::run()
 {
 	DBG("ScopeSyncOSCServer::run - Initialise ScopeSync OSC Server");
+	receiveDatagramSocket = new DatagramSocket(false);
 
-	receiveDatagramSocket = new DatagramSocket(receivePortNumber);
+	if (!receiveDatagramSocket->bindToPort(receivePortNumber))
+	{
+		DBG("ScopeSyncOSCServer::run - OSC server failed to bind to receive port: " + String(receivePortNumber));
+		return;
+	}
 
-	MemoryBlock buffer(bufferSize, true);
+	char buffer[1024];
+	int  ret;
 
 	while (!threadShouldExit())
 	{
-		if (receiveDatagramSocket->getPort())
+        if (receiveDatagramSocket->getBoundPort() == -1)
 		{
-			if (!receiveDatagramSocket->bindToPort(receivePortNumber))
+            if (!receiveDatagramSocket->bindToPort(receivePortNumber))
 			{
-				DBG("ScopeSyncOSCServer::run - Error while binding to port");
-				return;
-			}
-		}
-	
-		if (receiveDatagramSocket->waitUntilReady(true, 100))
+                DBG("ScopeSyncOSCServer::run - error port " + String(receivePortNumber) + "is already bound");
+                return;
+            }
+        }
+
+		ret = receiveDatagramSocket->waitUntilReady(true, 100);
+		
+		if (ret == 1)
 		{
-			int size = receiveDatagramSocket->read(buffer.getData(), buffer.getSize(), false);
+			String ip;
+			int port;
+
+			int size = receiveDatagramSocket->read(buffer, 1024, false, ip, port);
 		
 			if (threadShouldExit())
 			{
@@ -166,7 +146,7 @@ void ScopeSyncOSCServer::run()
 
 			try
 			{
-				osc::ReceivedPacket packet((const char*)buffer.getData(), size);
+				osc::ReceivedPacket packet(buffer, size);
 
 				if (!packet.IsMessage())
 				{
@@ -199,6 +179,10 @@ void ScopeSyncOSCServer::run()
 				DBG("ScopeSyncOSCServer::run - error while parsing packet: " + String(e.what()));
 			}
 		}
+		else if (ret == -1)
+		{
+			DBG("ScopeSyncOSCServer::run - Error from waitUntilReady: " + String(ret));
+		}
 	}
 
 	DBG("ScopeSyncOSCServer::run - OSC server shutdown");
@@ -212,16 +196,14 @@ bool ScopeSyncOSCServer::sendMessage(osc::OutboundPacketStream stream)
 		return false;
 	}
 
-	if (!remoteDatagramSocket || remoteChanged)
-	{
-		remoteChanged        = false;
-		remoteDatagramSocket = new DatagramSocket(0);
-		remoteDatagramSocket->connect(remoteHostname, remotePortNumber);
-	}
+	if (!remoteDatagramSocket || remoteChanged) {
+        remoteChanged = false;
+        remoteDatagramSocket = new DatagramSocket(false);
+    }
 
 	if (remoteDatagramSocket->waitUntilReady(false, 100))
 	{
-		if (remoteDatagramSocket->write(stream.Data(), stream.Size()) > 0)
+		if (remoteDatagramSocket->write(remoteHostname, remotePortNumber, stream.Data(), stream.Size()) > 0)
 			return true;
 	}
 
