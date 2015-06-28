@@ -145,23 +145,7 @@ namespace Ids
     DECLARE_ID(presetFileLibrarySet);
     DECLARE_ID(presetFileAuthor);
     DECLARE_ID(presetFileBlurb);
-
-	// Managed Values
-	DECLARE_ID(managedValues);
-	DECLARE_ID(performanceMode);
-	DECLARE_ID(oscUID);
-	DECLARE_ID(deviceType);
-	DECLARE_ID(showPatchWindow);
-	DECLARE_ID(showPresetWindow);
-	DECLARE_ID(performanceModeGlobalDisable);
-	DECLARE_ID(monoEffect);
-	DECLARE_ID(bypassEffect);
-	DECLARE_ID(showShellPresetWindow);
-	DECLARE_ID(voiceCount);
-	DECLARE_ID(midiActivity);
-	DECLARE_ID(midiChannel);
-
-	#undef DECLARE_ID
+    #undef DECLARE_ID
 }
 
 namespace CommandIDs

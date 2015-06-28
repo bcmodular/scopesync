@@ -46,23 +46,6 @@ public:
     ScopeFX();
     ~ScopeFX();
 
-	enum ManagedValues { performanceMode, 
-					     oscUID, 
-						 deviceType, 
-						 showPatchWindow, 
-						 showPresetWindow, 
-						 monoEffect,
-						 bypassEffect,
-						 showShellPresetWindow,
-						 voiceCount,
-						 midiActivity,
-						 midiChannel,
-						 numManagedValues };
-
-	enum UnmanagedValues { configurationUID, 
-					       performanceModeGlobalDisable,
-						   numUnmanagedValues};
-
     // Process a set of Sync data coming in from Scope
     // and fill in outgoing streams as appropriate
     int  syncBlock (PadData** asyncIn,  PadData* syncIn,
@@ -84,17 +67,16 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
 
 private:	
-
-	static const int        getInputIndexForValue(int index);
-	static const int        getOutputIndexForValue(int index);
-	static const Identifier getIdForManagedValue(int index);
-
+    enum ManagedValues { performanceMode, configurationUID, oscUID, controlPanelConnected, showPatchWindow, showPresetWindow, performanceModeGlobalDisable, numManagedValues };
+	
 	// Initialise member variables
     void initValues();
    
     // Show the ScopeSync GUI window
     void showWindow();
 
+	// Handle changes to fixed IO values either from Async or ScopeSync
+	void manageValueForAsync(ManagedValues managedValueId, int asyncValue);
 	void manageValuesForScopeSync();
 
 	// Handle the Timer callback and trigger callbacks in
@@ -113,9 +95,9 @@ private:
     int positionX; // Horizontal location of window
 	int positionY; // Vertical location of window
 
-	int currentValues[numManagedValues + numUnmanagedValues];
-	int newAsyncValues[numManagedValues + numUnmanagedValues];
-	int newScopeSyncValues[numManagedValues + numUnmanagedValues];
+	int currentValues[numManagedValues];
+	int newAsyncValues[numManagedValues];
+	int newScopeSyncValues[numManagedValues];
 	
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown
@@ -123,8 +105,6 @@ private:
     int windowHandlerDelay; // Hack to avoid feedback loops when moving window around in Scope
 
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
-
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFX)
 };
 
 

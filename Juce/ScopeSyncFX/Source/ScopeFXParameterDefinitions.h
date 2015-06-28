@@ -44,14 +44,8 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_PERFORMANCE_MODE,
 		INPAD_SHOW_PRESET_WINDOW,
 		INPAD_SHOW_PATCH_WINDOW,
-		INPAD_DEVICE_TYPE,
+		INPAD_CONTROL_PANEL_CONNECTED,
 		INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE,
-		INPAD_MONO_EFFECT,
-		INPAD_BYPASS_EFFECT,
-		INPAD_SHOW_SHELL_PRESET_WINDOW,
-		INPAD_VOICE_COUNT,
-		INPAD_MIDI_ACTIVITY,
-		INPAD_MIDI_CHANNEL,
 		NUM_ASYNCINPADS
     };
 
@@ -89,12 +83,6 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_SHOW_PRESET_WINDOW,
 		OUTPAD_SHOW_PATCH_WINDOW,
 		OUTPAD_LOADED,
-		OUTPAD_MONO_EFFECT,
-		OUTPAD_BYPASS_EFFECT,
-		OUTPAD_SHOW_SHELL_PRESET_WINDOW,
-		OUTPAD_VOICE_COUNT,
-		OUTPAD_MIDI_ACTIVITY,
-		OUTPAD_MIDI_CHANNEL,
 		NUM_ASYNCOUTPADS
     };
 
@@ -116,14 +104,8 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE
 		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PATCH_WINDOW
-        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_DEVICE_TYPE
+        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_CONTROL_PANEL_CONNECTED
 		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MONO_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_BYPASS_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_SHELL_PRESET_WINDOW
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_VOICE_COUNT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MIDI_ACTIVITY
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MIDI_CHANNEL
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -280,12 +262,6 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PATCH_WINDOW
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_LOADED
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MONO_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_BYPASS_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_SHELL_PRESET_WINDOW
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_VOICE_COUNT
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MIDI_ACTIVITY
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MIDI_CHANNEL
     };
 
     //--------------------------------------------------------------------------
@@ -301,14 +277,8 @@ namespace ScopeFXParameterDefinitions {
         { "pm",   "performance mode" },
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
-		{ "type", "device type" },
+		{ "cpc",  "control panel connected" },
 		{ "pmgd", "performance global disable" },
-		{ "mono", "mono effect" },
-		{ "byp",  "bypass effect" },
-		{ "sspr", "show shell preset window" },
-		{ "vc",   "voice count" },
-		{ "mida", "midi activity" },
-		{ "midc", "midi channel" },
     };
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -464,14 +434,8 @@ namespace ScopeFXParameterDefinitions {
         { "pm",   "performance mode" },
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
-		{ "load", "scopesync loaded" },
-		{ "mono", "mono effect" },
-		{ "byp",  "bypass effect" },
-		{ "sspr", "show shell preset window" },
-		{ "vc",   "voice count" },
-		{ "mida", "midi activity" },
-		{ "midc", "midi channel" },
-	};
+		{ "load", "ScopeSync Loaded" },
+    };
 
     //--------------------------------------------------------------------------
     static EffectDescription effectDescription = {
