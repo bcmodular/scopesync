@@ -53,7 +53,7 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 	if (getName().equalsIgnoreCase("CP-Host Connection"))
 	{
 		parameterValue.addListener(this);
-		scopeSync.referToControlPanelConnected(parameterValue);
+		scopeSync.referToDeviceType(parameterValue);
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);

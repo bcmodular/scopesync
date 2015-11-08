@@ -795,7 +795,11 @@ void UserSettings::RebuildFileLibrary::run()
         if (!(location.isDirectory()))
             continue;
         
-        setStatusMessage("Searching for files in library locations..." + newLine + newLine + location.getFullPathName());
+		String statusMessage = "Searching for files in library locations...";
+		statusMessage << newLine << newLine;
+		statusMessage << location.getFullPathName();
+        
+		setStatusMessage(statusMessage);
 
         int total = 0;
 

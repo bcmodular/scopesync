@@ -610,10 +610,13 @@ bool PresetManagerWindow::newPresetFileIsInLocation()
     
     if (!pf.isValid())
     {
+		String errorMessage = String("Your new Preset File was not automatically added to the library. You probably need to add a new location.");
+		errorMessage << newLine;
+		errorMessage << String("Press OK to launch the File Location Editor or Cancel if you intend to do it later.");
+
         AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
                                     "Check locations",
-                                    "Your new Preset File was not automatically added to the library. You probably need to add a new location."
-                                    + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
+                                    errorMessage,
                                     String::empty,
                                     String::empty,
                                     nullptr,

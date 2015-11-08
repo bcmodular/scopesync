@@ -90,7 +90,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
 		setClickingTogglesState(true);
-		setToggleState(scopeSync.getPerformanceMode(), dontSendNotification);
+		setToggleState(scopeSync.getPerformanceModeBool(), dontSendNotification);
 
 		scopeSync.referToPerformanceMode(parameterValue);
 		parameterValue.addListener(this);
@@ -103,7 +103,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	if (getName().equalsIgnoreCase("presetlist"))
 	{
 		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPresetWindow(), dontSendNotification);
+		setToggleState(scopeSync.getShowPresetWindowBool(), dontSendNotification);
 
 		scopeSync.referToShowPresetWindow(parameterValue);
 		parameterValue.addListener(this);
@@ -116,7 +116,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	if (getName().equalsIgnoreCase("patchwindow"))
 	{
 		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPatchWindow(), dontSendNotification);
+		setToggleState(scopeSync.getShowPatchWindowBool(), dontSendNotification);
 
 		scopeSync.referToShowPatchWindow(parameterValue);
 		parameterValue.addListener(this);

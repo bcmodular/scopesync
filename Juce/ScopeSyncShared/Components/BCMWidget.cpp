@@ -68,20 +68,9 @@ void BCMWidget::applyBounds()
 {
     if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
     {
-        try
-        {
-            DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
-            parentWidget->setBounds(componentBounds.relativeRectangleString);
-            DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
-        }
-        catch (Expression::ParseError& error)
-        {
-            String errorText = "Failed to set RelativeRectangle bounds for component";
-            String errorDetailsText = "Component: " + parentWidget->getName() + ", error: " + error.description;
-            DBG("BCMWidget::applyBounds - " + errorText + ", " + errorDetailsText);
-            scopeSyncGUI.getScopeSync().setSystemError(errorText, errorDetailsText);
-            return;
-        }
+        DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
+        parentWidget->setBounds(componentBounds.relativeRectangleString);
+        DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
     }
     else if (componentBounds.boundsType == BCMComponentBounds::inset)
         parentWidget->setBoundsInset(componentBounds.borderSize);
@@ -196,14 +185,14 @@ void BCMWidget::showPopupMenu()
 {
     commandManager->setFirstCommandTarget(this);
 
-    String headerText = getComponentType();
+    String headerText = getComponentType().toString();
 
     if (widgetTemplateId.isNotEmpty())
         headerText += " (" + widgetTemplateId + ")";
 
     headerText += ": " + parentWidget->getName();
 
-    String copyToText = String(getComponentType()) + "s";
+    String copyToText = getComponentType().toString() + "s";
 
     if (widgetTemplateId.isNotEmpty())
         copyToText = widgetTemplateId + " " + copyToText;
@@ -373,14 +362,14 @@ void BCMParameterWidget::showPopupMenu()
 {
     commandManager->setFirstCommandTarget(this);
 
-    String headerText = getComponentType();
+    String headerText = getComponentType().toString();
 
     if (widgetTemplateId.isNotEmpty())
         headerText += " (" + widgetTemplateId + ")";
 
     headerText += ": " + parentWidget->getName();
 
-    String copyToText = String(getComponentType()) + "s";
+    String copyToText = getComponentType().toString() + "s";
 
     if (widgetTemplateId.isNotEmpty())
         copyToText = widgetTemplateId + " " + copyToText;
@@ -474,7 +463,7 @@ void BCMParameterWidget::editMapping()
         calloutHeight = 134;
 
     ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 400, calloutHeight);
-    DBG("BCMParameterWidget::editMapping from component: " + parentWidget->getName() + " - " + String(mappingComponentType) + "/" + mappingComponentName);
+    DBG("BCMParameterWidget::editMapping from component: " + parentWidget->getName() + " - " + mappingComponentType.toString() + "/" + mappingComponentName);
     configurationManagerCalloutWindow->setMappingPanel(mapping, mappingComponentType, mappingComponentName);
     configurationManagerCalloutWindow->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, parentWidget->getScreenBounds(), nullptr);

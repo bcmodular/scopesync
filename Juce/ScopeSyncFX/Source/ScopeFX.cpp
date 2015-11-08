@@ -41,6 +41,50 @@ const int ScopeFX::initPositionY           = 100;
 const int ScopeFX::windowHandlerDelayMax   = 6;
 const int ScopeFX::timerFrequency          = 20;
 
+using namespace ScopeFXParameterDefinitions;
+
+const int ScopeFX::getInputIndexForValue(int index)
+{
+	switch (index)
+	{
+	case 0:  return INPAD_PERFORMANCE_MODE;
+	case 1:  return INPAD_OSCUID;
+	case 2:  return INPAD_DEVICE_TYPE;
+	case 3:  return INPAD_SHOW_PATCH_WINDOW;
+	case 4:  return INPAD_SHOW_PRESET_WINDOW;
+	case 5:  return INPAD_MONO_EFFECT;
+	case 6:  return INPAD_BYPASS_EFFECT;
+	case 7:  return INPAD_SHOW_SHELL_PRESET_WINDOW;
+	case 8:  return INPAD_VOICE_COUNT;
+	case 9:  return INPAD_MIDI_ACTIVITY;
+	case 10: return INPAD_MIDI_CHANNEL;
+	case 11: return INPAD_CONFIGUID;
+	case 12: return INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE;
+	default: return -1;
+	}
+}
+
+const int ScopeFX::getOutputIndexForValue(int index)
+{
+	switch (index)
+	{
+	case 0:  return OUTPAD_PERFORMANCE_MODE;
+	case 1:  return OUTPAD_OSCUID;
+	case 2:  return -1;
+	case 3:  return OUTPAD_SHOW_PATCH_WINDOW;
+	case 4:  return OUTPAD_SHOW_PRESET_WINDOW;
+	case 5:  return OUTPAD_MONO_EFFECT;
+	case 6:  return OUTPAD_BYPASS_EFFECT;
+	case 7:  return OUTPAD_SHOW_SHELL_PRESET_WINDOW;
+	case 8:  return OUTPAD_VOICE_COUNT;
+	case 9:  return OUTPAD_MIDI_ACTIVITY;
+	case 10: return OUTPAD_MIDI_CHANNEL;
+	case 11: return OUTPAD_CONFIGUID;
+	case 12: return -1;
+	default: return -1;
+	}
+}
+
 #ifdef _WIN32
 #include <Windows.h>
 #endif
@@ -106,7 +150,7 @@ void ScopeFX::initValues()
     windowShown        = false;
     windowHandlerDelay = 0;
     
-	for (int i = 0; i < numManagedValues; i++)
+	for (int i = 0; i < numManagedValues + numUnmanagedValues; i++)
 	{
 		currentValues[i]      = 0;
 		newScopeSyncValues[i] = 0;
@@ -158,52 +202,43 @@ void ScopeFX::manageValuesForScopeSync()
 	if (scopeSync == nullptr)
 		return;
 
-	newScopeSyncValues[oscUID]                = scopeSync->getOSCUID();
-	newScopeSyncValues[controlPanelConnected] = scopeSync->getControlPanelConnected() ? FRAC_MAX : 0;
-	newScopeSyncValues[showPresetWindow]      = scopeSync->getShowPresetWindow() ? FRAC_MAX : 0;
-	newScopeSyncValues[showPatchWindow]       = scopeSync->getShowPatchWindow() ? FRAC_MAX : 0;
-	newScopeSyncValues[performanceMode]       = scopeSync->getPerformanceMode() ? 1 : 0;
-
-	if (newAsyncValues[oscUID] != currentValues[oscUID])
-	{
-		currentValues[oscUID]      = newAsyncValues[oscUID];
-		newScopeSyncValues[oscUID] = newAsyncValues[oscUID];
-		scopeSync->setOSCUID(currentValues[oscUID]);
-	}
-
-	if (newAsyncValues[controlPanelConnected] != currentValues[controlPanelConnected])
-	{
-		currentValues[controlPanelConnected]      = newAsyncValues[controlPanelConnected];
-		newScopeSyncValues[controlPanelConnected] = newAsyncValues[controlPanelConnected];
-		scopeSync->setControlPanelConnected(currentValues[controlPanelConnected] > 0);
-	}
-
-	if (newAsyncValues[showPresetWindow] != currentValues[showPresetWindow])
-	{
-		currentValues[showPresetWindow]      = newAsyncValues[showPresetWindow];
-		newScopeSyncValues[showPresetWindow] = newAsyncValues[showPresetWindow];
-		scopeSync->setShowPresetWindow(currentValues[showPresetWindow] > 0);
-	}
-
-	if (newAsyncValues[showPatchWindow] != currentValues[showPatchWindow])
-	{
-		currentValues[showPatchWindow]      = newAsyncValues[showPatchWindow];
-		newScopeSyncValues[showPatchWindow] = newAsyncValues[showPatchWindow];
-		scopeSync->setShowPatchWindow(currentValues[showPatchWindow] > 0);
-	}
-
-	if (newAsyncValues[performanceMode]     != currentValues[performanceMode])
-	{
-		currentValues[performanceMode]      = newAsyncValues[performanceMode];
-		newScopeSyncValues[performanceMode] = newAsyncValues[performanceMode];
-		scopeSync->setPerformanceMode(currentValues[performanceMode] > 0);
-	}
-
+	newScopeSyncValues[oscUID]           = scopeSync->getOSCUID();
+	newScopeSyncValues[deviceType]		 = scopeSync->getDeviceType();
+	newScopeSyncValues[showPresetWindow] = scopeSync->getShowPresetWindow();
+	newScopeSyncValues[showPatchWindow]  = scopeSync->getShowPatchWindow();
+	
+//	newScopeSyncValues[monoEffect]            = scopeSync->getMonoEffect() ? FRAC_MAX : 0;
+//	newScopeSyncValues[bypassEffect]          = scopeSync->getBypassEffect() ? FRAC_MAX : 0;
+//	newScopeSyncValues[showShellPresetWindow] = scopeSync->getShowShellPresetWindow() ? FRAC_MAX : 0;
+//	newScopeSyncValues[voiceCount]			  = scopeSync->getVoiceCount() ? FRAC_MAX : 0;
+//	newScopeSyncValues[midiActivity]          = scopeSync->getMidiActivity() ? FRAC_MAX : 0;
+//	newScopeSyncValues[midiChannel]           = scopeSync->getMidiChannel() ? FRAC_MAX : 0;
+	
+	newScopeSyncValues[performanceMode]  = scopeSync->getPerformanceMode();
+	
+	handleAsyncValue(&ScopeSync::setOSCUID, oscUID);
+	handleAsyncValue(&ScopeSync::setDeviceType, deviceType);
+	handleAsyncValue(&ScopeSync::setShowPresetWindow, showPresetWindow);
+	handleAsyncValue(&ScopeSync::setShowPatchWindow, showPatchWindow);
+	handleAsyncValue(&ScopeSync::setPerformanceMode, performanceMode);
+	
 	if (newAsyncValues[performanceModeGlobalDisable] != currentValues[performanceModeGlobalDisable])
 	{
 		currentValues[performanceModeGlobalDisable]      = newAsyncValues[performanceModeGlobalDisable];
 		newScopeSyncValues[performanceModeGlobalDisable] = newAsyncValues[performanceModeGlobalDisable];
-		scopeSync->setPerformanceModeGlobalDisable(currentValues[performanceModeGlobalDisable] > 0);
+		
+		scopeSync->setPerformanceModeGlobalDisable(currentValues[performanceModeGlobalDisable]);
+	}
+}
+
+void ScopeFX::handleAsyncValue(void (ScopeSync::*f)(int input), int managedValueId)
+{
+	if (newAsyncValues[managedValueId] != currentValues[managedValueId])
+	{
+		currentValues[managedValueId]      = newAsyncValues[managedValueId];
+		newScopeSyncValues[managedValueId] = newAsyncValues[managedValueId];
+		
+		(scopeSync->*f)(currentValues[managedValueId]);
 	}
 }
 
@@ -318,16 +353,31 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		newScopeSyncValues[configurationUID] = scopeSync->getConfigurationUID();
 	}
 
+	for (int i = 0; i < numManagedValues + numUnmanagedValues; i++)
+	{
+		if (i == numManagedValues + configurationUID)
+			continue;
 	
+		// Firstly grab the value coming in from the async input
+		newAsyncValues[i] = asyncIn[getInputIndexForValue(i)]->itg;
 
-	// Handle fixed IO value changes
-	manageValueForAsync(oscUID,                       asyncIn[INPAD_OSCUID]->itg);
-	manageValueForAsync(controlPanelConnected,        asyncIn[INPAD_CONTROL_PANEL_CONNECTED]->itg);
-	manageValueForAsync(showPresetWindow,             asyncIn[INPAD_SHOW_PRESET_WINDOW]->itg);
-	manageValueForAsync(showPatchWindow,              asyncIn[INPAD_SHOW_PATCH_WINDOW]->itg);
-	manageValueForAsync(performanceMode,              asyncIn[INPAD_PERFORMANCE_MODE]->itg);
-	manageValueForAsync(performanceModeGlobalDisable, asyncIn[INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE]->itg);
-	
+		// However, if we've had a change from ScopeSync, override
+		// using that
+		if (newScopeSyncValues[i] != currentValues[i])
+		{
+			// We have a change from ScopeSync, so let's process it
+			newAsyncValues[i] = newScopeSyncValues[i];
+			currentValues[i]  = newScopeSyncValues[i];
+		}
+
+		// Now set the appropriate output value where necessary
+		int outIdx = getOutputIndexForValue(i);
+
+		if (outIdx >= 0)
+			asyncOut[outIdx].itg = newAsyncValues[i];
+			asyncOut[outIdx].itg = newScopeSyncValues[i];
+	}
+
 	// Handle window position updates
 	positionX = asyncIn[INPAD_X]->itg;
     positionY = asyncIn[INPAD_Y]->itg;
@@ -343,18 +393,6 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	asyncOut[OUTPAD_LOADED].itg             = (scopeSync  != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
       
     return 0;
-}
-
-void ScopeFX::manageValueForAsync(ManagedValues managedValueId, int asyncValue)
-{
-	if (newScopeSyncValues[managedValueId] != currentValues[managedValueId])
-	{
-		// We have a change from ScopeSync, so let's process it
-		newAsyncValues[managedValueId] = newScopeSyncValues[managedValueId];
-		currentValues[managedValueId]  = newScopeSyncValues[managedValueId];
-	}
-	else
-		newAsyncValues[managedValueId] = asyncValue;
 }
 
 int ScopeFX::syncBlock(PadData** /*asyncIn*/, PadData* /*syncIn*/,

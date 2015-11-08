@@ -152,22 +152,25 @@ public:
 	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
-	bool           getPerformanceMode() { return performanceMode.getValue(); }
-	void           setPerformanceMode(bool newSetting) { performanceMode = newSetting; }
-	static void    setPerformanceModeGlobalDisable(bool newSetting) { performanceModeGlobalDisable = newSetting; }
-	static void    setPerformanceModeAll(bool newSetting);
+	int            getPerformanceMode() { return performanceMode.getValue(); }
+	bool           getPerformanceModeBool() { return getPerformanceMode() > 0; }
+	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
+	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
+	static void    setPerformanceModeAll(int newSetting);
 	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
 
-	bool           getControlPanelConnected() { return controlPanelConnected.getValue(); }
-	void           setControlPanelConnected(bool newSetting) { controlPanelConnected = newSetting; }
-	void           referToControlPanelConnected(Value& valueToLink) { valueToLink.referTo(controlPanelConnected); }
+	int            getDeviceType() { return deviceType.getValue(); }
+	void           setDeviceType(int newSetting) { deviceType = newSetting; }
+	void           referToDeviceType(Value& valueToLink) { valueToLink.referTo(deviceType); }
 
-	bool           getShowPresetWindow() { return showPresetWindow.getValue(); }
-	void           setShowPresetWindow(bool newSetting) { showPresetWindow = newSetting; }
+	int            getShowPresetWindow() { return showPresetWindow.getValue(); }
+	bool           getShowPresetWindowBool() { return getShowPresetWindow() > 0; }
+	void           setShowPresetWindow(int newSetting) { showPresetWindow = newSetting; }
 	void           referToShowPresetWindow(Value& valueToLink) { valueToLink.referTo(showPresetWindow); }
 
-	bool           getShowPatchWindow() { return showPatchWindow.getValue(); }
-	void           setShowPatchWindow(bool newSetting) { showPatchWindow = newSetting; }
+	int			   getShowPatchWindow() { return showPatchWindow.getValue(); }
+	bool		   getShowPatchWindowBool() { return getShowPatchWindow() > 0; }
+	void           setShowPatchWindow(int newSetting) { showPatchWindow = newSetting; }
 	void           referToShowPatchWindow(Value& valueToLink) { valueToLink.referTo(showPatchWindow); }
 
 	ValueTree      getMapping() { return configuration->getMapping(); };
@@ -258,10 +261,10 @@ private:
     Value oscUID;                    // Unique OSC ID for the current instance
 
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
-	static bool performanceModeGlobalDisable;
+	static int performanceModeGlobalDisable;
 
 	Value performanceMode;
-	Value controlPanelConnected;
+	Value deviceType;
 	Value showPresetWindow;
 	Value showPatchWindow;
 

@@ -46,7 +46,7 @@
 #endif // __DLL_EFFECT__
 
 const int    ScopeSync::oscHandlerTime    = 20;
-bool         ScopeSync::performanceModeGlobalDisable = false;
+int          ScopeSync::performanceModeGlobalDisable = 0;
 const int    ScopeSync::minHostParameters = 128;
 const String ScopeSync::scopeSyncVersionString = "0.5.0-Prerelease";
 
@@ -114,7 +114,7 @@ void ScopeSync::initialise()
 	initOSCUID();
 	setPerformanceMode(0);
 
-	setControlPanelConnected(false);
+	setDeviceType(0);
 	setShowPatchWindow(true);
 	setShowPresetWindow(false);
 
@@ -336,7 +336,7 @@ void ScopeSync::snapshotAll()
 		scopeSyncInstances[i]->snapshot();
 }
 
-void ScopeSync::setPerformanceModeAll(bool newSetting)
+void ScopeSync::setPerformanceModeAll(int newSetting)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->setPerformanceMode(newSetting);
@@ -880,10 +880,13 @@ bool ScopeSync::newConfigIsInLocation()
 
     if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
     {
+		String errorMessage = "Your new Configuration was not automatically added to the library. You probably need to add a new location.";
+        errorMessage << newLine;
+		errorMessage << "Press OK to launch the File Location Editor or Cancel if you intend to do it later.";
+
         AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
                                     "Check locations",
-                                    "Your new Configuration was not automatically added to the library. You probably need to add a new location."
-                                    + newLine + "Press OK to launch the File Location Editor or Cancel if you intend to do it later.",
+                                    errorMessage,
                                     String::empty,
                                     String::empty,
                                     nullptr,

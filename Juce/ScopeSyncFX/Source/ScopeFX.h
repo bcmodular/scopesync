@@ -67,7 +67,25 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
 
 private:	
-    enum ManagedValues { performanceMode, configurationUID, oscUID, controlPanelConnected, showPatchWindow, showPresetWindow, performanceModeGlobalDisable, numManagedValues };
+    enum ManagedValues { performanceMode, 
+                         oscUID, 
+                         deviceType, 
+                         showPatchWindow, 
+                         showPresetWindow, 
+                         monoEffect,
+                         bypassEffect,
+                         showShellPresetWindow,
+                         voiceCount,
+                         midiActivity,
+                         midiChannel,
+                         numManagedValues };
+ 
+    enum UnmanagedValues { configurationUID, 
+                           performanceModeGlobalDisable,
+                           numUnmanagedValues };
+
+	static const int getInputIndexForValue(int index);
+	static const int getOutputIndexForValue(int index);
 	
 	// Initialise member variables
     void initValues();
@@ -76,8 +94,8 @@ private:
     void showWindow();
 
 	// Handle changes to fixed IO values either from Async or ScopeSync
-	void manageValueForAsync(ManagedValues managedValueId, int asyncValue);
 	void manageValuesForScopeSync();
+	void handleAsyncValue(void (ScopeSync::*f)(int input), int managedValueId);
 
 	// Handle the Timer callback and trigger callbacks in
     // ScopeSync and ScopeFXGUI. Handles window resizing and location.
@@ -95,9 +113,9 @@ private:
     int positionX; // Horizontal location of window
 	int positionY; // Vertical location of window
 
-	int currentValues[numManagedValues];
-	int newAsyncValues[numManagedValues];
-	int newScopeSyncValues[numManagedValues];
+	int currentValues[numManagedValues + numUnmanagedValues];
+	int newAsyncValues[numManagedValues + numUnmanagedValues];
+	int newScopeSyncValues[numManagedValues + numUnmanagedValues];
 	
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown
