@@ -93,7 +93,6 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_BYPASS_EFFECT,
 		OUTPAD_SHOW_SHELL_PRESET_WINDOW,
 		OUTPAD_VOICE_COUNT,
-		OUTPAD_MIDI_ACTIVITY,
 		OUTPAD_MIDI_CHANNEL,
 		NUM_ASYNCOUTPADS
     };
@@ -284,7 +283,6 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_BYPASS_EFFECT
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_SHELL_PRESET_WINDOW
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_VOICE_COUNT
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MIDI_ACTIVITY
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MIDI_CHANNEL
     };
 
@@ -469,7 +467,6 @@ namespace ScopeFXParameterDefinitions {
 		{ "byp",  "bypass effect" },
 		{ "sspr", "show shell preset window" },
 		{ "vc",   "voice count" },
-		{ "mida", "midi activity" },
 		{ "midc", "midi channel" },
     };
 

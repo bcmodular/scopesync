@@ -153,7 +153,6 @@ public:
 	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
     
 	int            getPerformanceMode() { return performanceMode.getValue(); }
-	bool           getPerformanceModeBool() { return getPerformanceMode() > 0; }
 	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
 	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
 	static void    setPerformanceModeAll(int newSetting);
@@ -164,15 +163,38 @@ public:
 	void           referToDeviceType(Value& valueToLink) { valueToLink.referTo(deviceType); }
 
 	int            getShowPresetWindow() { return showPresetWindow.getValue(); }
-	bool           getShowPresetWindowBool() { return getShowPresetWindow() > 0; }
 	void           setShowPresetWindow(int newSetting) { showPresetWindow = newSetting; }
 	void           referToShowPresetWindow(Value& valueToLink) { valueToLink.referTo(showPresetWindow); }
 
 	int			   getShowPatchWindow() { return showPatchWindow.getValue(); }
-	bool		   getShowPatchWindowBool() { return getShowPatchWindow() > 0; }
 	void           setShowPatchWindow(int newSetting) { showPatchWindow = newSetting; }
 	void           referToShowPatchWindow(Value& valueToLink) { valueToLink.referTo(showPatchWindow); }
 
+	int			   getMonoEffect() { return monoEffect.getValue(); }
+	void           setMonoEffect(int newSetting) { monoEffect = newSetting; }
+	void           referToMonoEffect(Value& valueToLink) { valueToLink.referTo(monoEffect); }
+
+	int			   getBypassEffect() { return bypassEffect.getValue(); }
+	void           setBypassEffect(int newSetting) { bypassEffect = newSetting; }
+	void           referToBypassEffect(Value& valueToLink) { valueToLink.referTo(bypassEffect); }
+
+	int			   getShowShellPresetWindow() { return showShellPresetWindow.getValue(); }
+	void           setShowShellPresetWindow(int newSetting) { showShellPresetWindow = newSetting; }
+	void           referToShowShellPresetWindow(Value& valueToLink) { valueToLink.referTo(showShellPresetWindow); }
+
+	int			   getVoiceCount() { return voiceCount.getValue(); }
+	void           setVoiceCount(int newSetting) { voiceCount = newSetting; }
+	void           referToVoiceCount(Value& valueToLink) { valueToLink.referTo(voiceCount); }
+
+
+	int			   getMidiActivity() { return midiActivity.getValue(); }
+	void           setMidiActivity(int newSetting) { midiActivity = newSetting; }
+	void           referToMidiActivity(Value& valueToLink) { valueToLink.referTo(midiActivity); }
+
+	int			   getMidiChannel() { return midiChannel.getValue(); }
+	void           setMidiChannel(int newSetting) { midiChannel = newSetting; }
+	void           referToMidiChannel(Value& valueToLink) { valueToLink.referTo(midiChannel); }
+	
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
@@ -267,6 +289,12 @@ private:
 	Value deviceType;
 	Value showPresetWindow;
 	Value showPatchWindow;
+	Value monoEffect;
+	Value bypassEffect;
+	Value showShellPresetWindow;
+	Value voiceCount;
+	Value midiActivity;
+	Value midiChannel;
 
 	static const int    minHostParameters;       // Minimum parameter count to return to host
     

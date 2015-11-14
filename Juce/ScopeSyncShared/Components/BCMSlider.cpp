@@ -69,29 +69,36 @@ void BCMSlider::applyProperties(SliderProperties& properties)
                     properties.textBoxWidth,
                     properties.textBoxHeight);
     
-    double rangeMin = properties.rangeMin;
+    // Set up managed sliders
+	if (getName().equalsIgnoreCase("oscuid"))
+	{
+		setupManagedSlider(&ScopeSync::setOSCUID, &ScopeSync::getOSCUID, &ScopeSync::referToOSCUID, properties);
+		return;
+	}
+
+	if (getName().equalsIgnoreCase("voicecount"))
+	{
+		setupManagedSlider(&ScopeSync::setVoiceCount, &ScopeSync::getVoiceCount, &ScopeSync::referToVoiceCount, properties);
+		return;
+	}
+
+	if (getName().equalsIgnoreCase("midiactivity"))
+	{
+		setupManagedSlider(&ScopeSync::setMidiActivity, &ScopeSync::getMidiActivity, &ScopeSync::referToMidiActivity, properties);
+		return;
+	}
+
+	if (getName().equalsIgnoreCase("midichannel"))
+	{
+		setupManagedSlider(&ScopeSync::setMidiChannel, &ScopeSync::getMidiChannel, &ScopeSync::referToMidiChannel, properties);
+		return;
+	}
+
+	double rangeMin = properties.rangeMin;
     double rangeMax = properties.rangeMax;
     double rangeInt = properties.rangeInt;
     String tooltip  = properties.name;
     
-	// Set up a dedicated OSC UID slider
-	if (getName().equalsIgnoreCase("oscuid"))
-	{
-		int oscUID = scopeSync.getOSCUID();
-
-		scopeSync.referToOSCUID(getValueObject());
-
-		// Need to get to the bottom of why this is being
-		// overwritten when referTo completes
-		scopeSync.setOSCUID(oscUID);
-
-		setRange(rangeMin, rangeMax, 1);
-		setTooltip(tooltip);
-		setPopupMenuEnabled(false);
-
-		return;
-	}
-
     // Set up any mapping to TabbedComponent Tabs
     mapsToTabs = false;
     
@@ -156,6 +163,21 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     setPopupMenuEnabled(true);
 }
 
+void BCMSlider::setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& properties)
+{
+	int initialValue = (scopeSync.*gf)();
+
+	(scopeSync.*rf)(getValueObject());
+
+	// Need to get to the bottom of why this is being
+	// overwritten when referTo completes
+	(scopeSync.*sf)(initialValue);
+
+	setRange(properties.rangeMin, properties.rangeMax, 1);
+	setTooltip(properties.name);
+	setPopupMenuEnabled(false);
+}
+
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
 
 String BCMSlider::getTextFromValue(double v)
@@ -192,7 +214,11 @@ double BCMSlider::getValueFromText(const String& text)
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
-    if (!getName().equalsIgnoreCase("oscuid") && event.mods.isPopupMenu())
+    if (   !getName().equalsIgnoreCase("oscuid")
+		&& !getName().equalsIgnoreCase("voicecount")
+		&& !getName().equalsIgnoreCase("midiactivity")
+		&& !getName().equalsIgnoreCase("midichannel")
+		&& event.mods.isPopupMenu())
     {
         showPopupMenu();
     }

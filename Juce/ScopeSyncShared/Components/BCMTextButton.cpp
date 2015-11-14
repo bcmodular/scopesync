@@ -85,44 +85,40 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 		return;
 	}
 
-	// Performance Mode, Preset List and Patch Window buttons are special cases, as they're like
-	// command buttons, but needs to toggle
+	// Set up the managed buttons
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
-		setClickingTogglesState(true);
-		setToggleState(scopeSync.getPerformanceModeBool(), dontSendNotification);
-
-		scopeSync.referToPerformanceMode(parameterValue);
-		parameterValue.addListener(this);
-
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
+		setupManagedButton(&ScopeSync::getPerformanceMode, &ScopeSync::referToPerformanceMode, properties);
 		return;
 	}
 	
 	if (getName().equalsIgnoreCase("presetlist"))
 	{
-		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPresetWindowBool(), dontSendNotification);
-
-		scopeSync.referToShowPresetWindow(parameterValue);
-		parameterValue.addListener(this);
-
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
+		setupManagedButton(&ScopeSync::getShowPresetWindow, &ScopeSync::referToShowPresetWindow, properties);
 		return;
 	}
 	
 	if (getName().equalsIgnoreCase("patchwindow"))
 	{
-		setClickingTogglesState(true);
-		setToggleState(scopeSync.getShowPatchWindowBool(), dontSendNotification);
+		setupManagedButton(&ScopeSync::getShowPatchWindow, &ScopeSync::referToShowPatchWindow, properties);
+		return;
+	}
 
-		scopeSync.referToShowPatchWindow(parameterValue);
-		parameterValue.addListener(this);
+	if (getName().equalsIgnoreCase("monoeffect"))
+	{
+		setupManagedButton(&ScopeSync::getMonoEffect, &ScopeSync::referToMonoEffect, properties);
+		return;
+	}
 
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
+	if (getName().equalsIgnoreCase("bypasseffect"))
+	{
+		setupManagedButton(&ScopeSync::getBypassEffect, &ScopeSync::referToBypassEffect, properties);
+		return;
+	}
+
+	if (getName().equalsIgnoreCase("shellpresetwindow"))
+	{
+		setupManagedButton(&ScopeSync::getShowShellPresetWindow, &ScopeSync::referToShowShellPresetWindow, properties);
 		return;
 	}
 
@@ -287,6 +283,19 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     setRadioGroupId(radioGroupId);
 }
 
+void BCMTextButton::setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), TextButtonProperties& properties)
+{
+	setClickingTogglesState(true);
+	setToggleState((scopeSync.*gf)() > 0, dontSendNotification);
+
+	(scopeSync.*rf)(parameterValue);
+	parameterValue.addListener(this);
+
+	setTooltip(properties.tooltip);
+	setButtonText(properties.text);
+}
+
+
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };
 
 void BCMTextButton::switchToTabs()
@@ -408,6 +417,21 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 		scopeSync.setShowPatchWindow(getToggleState());
 		return;
 	}
+	else if (getName().equalsIgnoreCase("monoeffect"))
+	{
+		scopeSync.setMonoEffect(getToggleState());
+		return;
+	}
+	else if (getName().equalsIgnoreCase("bypasseffect"))
+	{
+		scopeSync.setBypassEffect(getToggleState());
+		return;
+	}
+	else if (getName().equalsIgnoreCase("shellpresetwindow"))
+	{
+		scopeSync.setShowShellPresetWindow(getToggleState());
+		return;
+	}
 	else if (getName().equalsIgnoreCase("snapshot"))
 	{
 		if (modifiers.isCommandDown())
@@ -446,14 +470,15 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 void BCMTextButton::valueChanged(Value& value)
 {
-	if (getName().equalsIgnoreCase("performancemode"))
+	if  (  getName().equalsIgnoreCase("performancemode")
+		|| getName().equalsIgnoreCase("presetlist")
+		|| getName().equalsIgnoreCase("patchwindow")
+		|| getName().equalsIgnoreCase("monoeffect")
+		|| getName().equalsIgnoreCase("bypasseffect")
+		|| getName().equalsIgnoreCase("shellpresetwindow")
+		)
 	{
 		setToggleState((int(parameterValue.getValue()) > 0), dontSendNotification);
-		return;
-	}
-	else if (getName().equalsIgnoreCase("presetlist") || getName().equalsIgnoreCase("patchwindow"))
-	{
-		setToggleState(parameterValue.getValue(), dontSendNotification);
 		return;
 	}
 

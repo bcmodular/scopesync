@@ -102,6 +102,8 @@ private:
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
+	void setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& properties);
+
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v) override;
 

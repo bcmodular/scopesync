@@ -93,6 +93,8 @@ private:
     
     ValueTree settings; // Discrete parameter settings
     
+	void setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), TextButtonProperties& properties);
+
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs();
 

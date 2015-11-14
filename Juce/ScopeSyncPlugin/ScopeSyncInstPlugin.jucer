@@ -10,7 +10,7 @@
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
               pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="3.1.1"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.0.1"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk">
   <MAINGROUP id="zkEMvA" name="ScopeSyncInstPlugin">
@@ -201,11 +201,11 @@
                        headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst_1_0_2"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
                        winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst-x64_1_0_2"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -230,11 +230,11 @@
                        headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst_1_0_2"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
                        winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst-x64_1_0_2"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
                        useRuntimeLibDLL="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
