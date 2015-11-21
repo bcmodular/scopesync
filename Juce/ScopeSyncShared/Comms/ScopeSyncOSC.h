@@ -30,11 +30,10 @@
 #include <JuceHeader.h>
 class ScopeSync;
 
-class ScopeSyncOSCServer : public Thread
+class ScopeSyncOSCServer : private OSCReceiver
 {
 public:
 	ScopeSyncOSCServer();
-	~ScopeSyncOSCServer();
 
 	void setup();
 
@@ -46,28 +45,24 @@ public:
 	void   setRemotePortNumber(int portNumber);
 	int    getRemotePortNumber();
 
-	// UDP Server
-	void listen();
-	void stopListening();
+	bool   sendMessage(const OSCAddressPattern pattern, float valueToSend);
 
-	// Server Thread
-	void run();
-
-	// UDP Sender
-	bool sendMessage(osc::OutboundPacketStream stream);
+	void   registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address);
+	void   unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove);
 
 	juce_DeclareSingleton (ScopeSyncOSCServer, false)
 
 private:
+	
 	static const int bufferSize = 4098;
 
-	int							  receivePortNumber;
-	ScopedPointer<DatagramSocket> receiveDatagramSocket;
+	int	   receivePortNumber;
+		   
+	String remoteHostname;
+	int	   remotePortNumber;
+	bool   remoteChanged;
 
-	String						  remoteHostname;
-	int							  remotePortNumber;
-	ScopedPointer<DatagramSocket> remoteDatagramSocket;
-	bool					      remoteChanged;
+	OSCSender sender;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncOSCServer)
 };

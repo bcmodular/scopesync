@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.2"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="4.0.1" defines="">
+              jucerVersion="4.0.2" defines="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{9A72096E-0E21-B6CC-11C5-DCAD6BB11A9E}" name="Presets">
@@ -211,7 +211,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2010>
     <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
@@ -235,12 +235,11 @@
         <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="danlin_oscpack" path="../../../danlin/danlin_modules/modules"/>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="danlin_oscpack" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
@@ -248,6 +247,7 @@
     <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
 </JUCERPROJECT>

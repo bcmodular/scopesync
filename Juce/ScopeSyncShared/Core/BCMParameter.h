@@ -29,18 +29,30 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Comms/ScopeSyncOSC.h"
+
 class ScopeSync;
+#ifdef __DLL_EFFECT__
+class ScopeSyncAsync;
+#endif // __DLL_EFFECT__
 
 class BCMParameter : public Value::Listener,
-					 public Timer
+					 public Timer,
+					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
 {
 public:
     /* ============================ Enumerations ============================== */
     enum ParameterType         {hostParameter, scopeLocal, preset};
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate, scopeAudioUpdate};
+
+	#ifdef __DLL_EFFECT__
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss, ScopeSyncAsync& ssa);
+	#else
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss);
+	#endif // __DLL_EFFECT__
     
-    BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss);
+	void initialise();
     ~BCMParameter();
 
     void          mapToUIValue(Value& valueToMapTo);
@@ -77,6 +89,8 @@ private:
     WeakReference<BCMParameter>::Master masterReference;
     friend class WeakReference<BCMParameter>;
 
+	void oscMessageReceived (const OSCMessage& message) override;
+
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
     // ensure the UI and LinearNormalised values are within the ranges
@@ -87,20 +101,27 @@ private:
     double convertLinearNormalisedToUIValue(double linearNormalisedValue);
 	double convertUIToLinearNormalisedValue(double newValue);
 
-    void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue);
+    void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
     int   findNearestParameterSetting(int value);
 
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
 
+	void  sendToScopeSyncAsync();
+
 	void  decDeadTimes();
     
     /* ===================== Private member variables ========================= */
 	ScopeSync&       scopeSync;
+#ifdef __DLL_EFFECT__
+	ScopeSyncAsync&  scopeSyncAsync;
+#endif // __DLL_EFFECT__
+
     ParameterType    type;
     ValueTree        definition;
     Value            uiValue;
     Value            linearNormalisedValue;
+	Value            oscUID;
     bool             affectedByUI;
     int              hostIdx;
     int              numDecimalPlaces;

@@ -80,7 +80,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -126,7 +126,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -169,7 +169,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -217,7 +217,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\danlin\danlin_modules\modules;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\JuceLibraryCode;..\..\..\..\..\..\JUCE\modules;..\..\..\..\..\..\..\SDKs\vstsdk2.4;..\..\..\..\..\..\..\SDKs\VST3SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -302,18 +302,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\..\Source\PluginGUI.cpp"/>
     <ClCompile Include="..\..\..\Source\PluginProcessor.cpp"/>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1235,7 +1223,30 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.cpp"/>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.cpp"/>
@@ -1245,6 +1256,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_graphics.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp"/>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\utility\juce_PluginUtilities.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_DigiCode1.cpp">
       <CallingConvention>StdCall</CallingConvention>
@@ -1317,13 +1329,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\..\Source\PluginGUI.h"/>
     <ClInclude Include="..\..\..\Source\PluginProcessor.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscException.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscHostEndianness.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.h"/>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>
@@ -1721,11 +1726,19 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_WebBrowserComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\AppConfig.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_module_info"/>
@@ -1735,6 +1748,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_module_info"/>
+    <None Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_module_info"/>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_WinResources.rsr"/>
   </ItemGroup>
   <ItemGroup>
