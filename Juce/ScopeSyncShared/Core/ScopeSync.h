@@ -44,8 +44,6 @@ class ScopeFX;
 class Configuration;
 class ConfigurationManagerWindow;
 
-#include "../Comms/ScopeSyncOSC.h"
-
 #include "BCMParameter.h"
 
 #ifdef __DLL_EFFECT__
@@ -57,8 +55,7 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 
-class ScopeSync : public ActionListener,
-	              public Timer
+class ScopeSync : public ActionListener
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -107,9 +104,7 @@ public:
     void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
     bool shouldShowEditToolbar() { return showEditToolbar; }
 
-	void sendValueToOSC(const String& address, float uiValue);
-
-    /* ====================== Public Parameter Methods ======================= */
+	/* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
     // the "minHostParameters" value if the real numHostParameters is smaller.
     // This is to prevent issues with switching between configurations that
@@ -123,6 +118,8 @@ public:
     void   getParameterNameForHost(int hostIdx, String& parameterName);
     void   getParameterText(int hostIdx, String& parameterText);
     void   handleScopeSyncAsyncUpdate(int* asyncValues);
+
+	void   updateHost(int hostIdx, float newValue);
           
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
@@ -150,8 +147,7 @@ public:
 	void           setOSCUID(int uid);
 	void           initOSCUID();
 	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
-	static void    addToOSCControlUpdateBuffers(const String& addressPattern, float value);
-    
+	    
 	int            getPerformanceMode() { return performanceMode.getValue(); }
 	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
 	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
@@ -218,15 +214,10 @@ private:
     /* ========================== Initialisation ============================== */
     void initialise();
 	void resetScopeCodeIndexes();
-    void initCommandManager();
     
     /* ========================== Private Actions ============================= */
-    void sendToScopeSyncAsync(BCMParameter& parameter);
     void endAllParameterChangeGestures();
 
-	void timerCallback() override;
-	void handleOSCUpdates();
-    
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
@@ -273,13 +264,10 @@ private:
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
 	HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdates;      // Updates received from the OSC Server
-	HashMap<String, float, DefaultHashFunctions, CriticalSection> oscControlUpdateBuffer; // Buffer for updates received from the OSC Server
     
 	Array<String, CriticalSection>               configurationChanges;
     ScopedPointer<Configuration>                 configuration;
 
-    static const int oscHandlerTime; // Number of ms between checks of the OSC Server update queue
     Value oscUID;                    // Unique OSC ID for the current instance
 
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)

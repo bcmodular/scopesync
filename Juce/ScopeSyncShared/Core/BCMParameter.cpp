@@ -36,12 +36,34 @@ const int BCMParameter::deadTimeTimerInterval = 100;
 const int BCMParameter::maxAsyncDeadTime = 3;
 const int BCMParameter::maxOSCDeadTime   = 3;
 
+#ifdef __DLL_EFFECT__
+#include "../Comms/ScopeSyncAsync.h"
+
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss, ScopeSyncAsync& ssa)
+    : type(parameterType),
+      hostIdx(index),
+      definition(parameterDefinition),
+      affectedByUI(false),
+	  scopeSync(ss),
+	  scopeSyncAsync(ssa)
+{
+	initialise();
+}
+
+#else
+
 BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
 	  scopeSync(ss)
+{
+	initialise();
+}
+#endif // __DLL_EFFECT__
+
+void BCMParameter::initialise()
 {
 	oscDeadTimeCounter   = 0;
 	asyncDeadTimeCounter = 0;
@@ -51,10 +73,17 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterTy
 	putValuesInRange(true);
     setNumDecimalPlaces();
 	uiValue.addListener(this);
+
+	scopeSync.referToOSCUID(oscUID);
+	oscUID.addListener(this);
+
+	ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
 }
 
 BCMParameter::~BCMParameter()
 {
+	ScopeSyncOSCServer::getInstance()->unregisterOSCListener(this);
+
 	masterReference.clear();
 	stopTimer();
 };
@@ -79,7 +108,7 @@ void BCMParameter::setNumDecimalPlaces()
     }
 }
 
-void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue)
+void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost)
 {
 	linearNormalisedValue = newLinearNormalisedValue;
 	uiValue               = newUIValue;
@@ -89,6 +118,14 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 
 	if (updateSource != asyncUpdate && updateSource != internalUpdate)
 		asyncDeadTimeCounter = maxAsyncDeadTime;
+
+	#ifdef __DLL_EFFECT__
+		sendToScopeSyncAsync();
+		(void)updateHost;
+	#else
+		if (updateHost)
+			scopeSync.updateHost(getHostIdx(), getHostValue());
+	#endif // __DLL_EFFECT__
 }
 
 void BCMParameter::putValuesInRange(bool initialise)
@@ -122,7 +159,7 @@ void BCMParameter::putValuesInRange(bool initialise)
 
 	double newLinearNormalisedValue = scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, newUIValue);
 
-	setParameterValues(internalUpdate, newLinearNormalisedValue, newUIValue);
+	setParameterValues(internalUpdate, newLinearNormalisedValue, newUIValue, false);
 }
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo)
@@ -520,16 +557,56 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 		if (oscDeadTimeCounter == 0)
 			sendOSCParameterUpdate();
 	}
+	else if (valueThatChanged.refersToSameSourceAs(oscUID))
+	{
+		ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
+	}
 }
 
 String BCMParameter::getOSCPath()
 {
-	String address = "/" + String(scopeSync.getOSCUID()) + "/" + String(hostIdx);
+	String oscUIDStr = oscUID.getValue();
+	String address = "/" + oscUIDStr + "/" + String(hostIdx);
 
 	return address;
 }
     
 void BCMParameter::sendOSCParameterUpdate()
 {
-	scopeSync.sendValueToOSC(getOSCPath(), uiValue.getValue());
+	ScopeSyncOSCServer::getInstance()->sendMessage(getOSCPath(), uiValue.getValue());
+}
+
+void BCMParameter::oscMessageReceived (const OSCMessage& message)
+{
+	DBG("BCMParameter::oscMessageReceived - " + message.getAddressPattern().toString());
+
+	if (message.size() == 1 && message[0].isFloat32())
+	{
+		float newValue = message[0].getFloat32();
+		setOSCValue(newValue);
+	}
+	else
+		DBG("BCMParameter::handleOSCMessage - received other OSC message");
+}
+
+void BCMParameter::sendToScopeSyncAsync()
+{
+#ifdef __DLL_EFFECT__
+    int scopeCode = getScopeCode();
+
+    if (scopeCode != -1)
+    {
+        int newScopeValue = getScopeIntValue();
+
+        DBG("BCMParameter::sendToScopeSyncAsync: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
+        scopeSyncAsync.setValue(scopeCode, newScopeValue);
+    }
+    else
+    {
+        String shortDesc;
+        String longDesc;
+        getDescriptions(shortDesc, longDesc);
+        DBG("BCMParameter::sendToScopeSyncAsync: couldn't find Scope code for parameter: " + longDesc);
+    }
+#endif // __DLL_EFFECT__
 }

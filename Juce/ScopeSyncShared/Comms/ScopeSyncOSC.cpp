@@ -31,19 +31,8 @@
 juce_ImplementSingleton(ScopeSyncOSCServer)
 
 ScopeSyncOSCServer::ScopeSyncOSCServer()
-    : Thread("OscServer")
 {
 	setup();
-}
-
-ScopeSyncOSCServer::~ScopeSyncOSCServer()
-{
-	signalThreadShouldExit();
-	
-	receiveDatagramSocket = nullptr;
-	remoteDatagramSocket  = nullptr;
-
-	waitForThreadToExit (-1);
 }
 
 void ScopeSyncOSCServer::setup()
@@ -55,12 +44,30 @@ void ScopeSyncOSCServer::setup()
 
 void ScopeSyncOSCServer::setLocalPortNumber(int portNumber)
 {
-	if (!isThreadRunning() || portNumber != receivePortNumber)
+	if (connect(portNumber))
 	{
 		DBG("ScopeSyncOSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
 		receivePortNumber = portNumber;
-		listen();
 	}
+	else
+	{
+        AlertWindow::showMessageBoxAsync (
+            AlertWindow::WarningIcon,
+            "Connection error",
+            "OSC Error: could not connect to UDP port: " + String(receivePortNumber),
+            "OK");		
+	}
+}
+
+void ScopeSyncOSCServer::registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address)
+{
+	removeListener(newListener);
+	addListener(newListener, address);
+}
+
+void ScopeSyncOSCServer::unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove)
+{
+	removeListener(listenerToRemove);
 }
 
 void ScopeSyncOSCServer::setRemoteHostname(String hostname)
@@ -87,125 +94,27 @@ int ScopeSyncOSCServer::getRemotePortNumber()
 	return remotePortNumber;
 }
 
-void ScopeSyncOSCServer::listen()
+bool ScopeSyncOSCServer::sendMessage(const OSCAddressPattern pattern, float valueToSend)
 {
-	stopListening();
-	startThread(3);
-}
 
-void ScopeSyncOSCServer::stopListening() 
-{
-	if (isThreadRunning())
-	{
-		signalThreadShouldExit();
-	
-		stopThread(500);
-		receiveDatagramSocket = nullptr;
-	}
-}
-
-void ScopeSyncOSCServer::run()
-{
-	DBG("ScopeSyncOSCServer::run - Initialise ScopeSync OSC Server");
-	receiveDatagramSocket = new DatagramSocket(false);
-
-	if (!receiveDatagramSocket->bindToPort(receivePortNumber))
-	{
-		DBG("ScopeSyncOSCServer::run - OSC server failed to bind to receive port: " + String(receivePortNumber));
-		return;
-	}
-
-	char buffer[1024];
-	int  ret;
-
-	while (!threadShouldExit())
-	{
-        if (receiveDatagramSocket->getBoundPort() == -1)
+	if (remoteChanged) {
+        if (sender.connect(remoteHostname, remotePortNumber))
+			remoteChanged = false;
+		else
 		{
-            if (!receiveDatagramSocket->bindToPort(receivePortNumber))
-			{
-                DBG("ScopeSyncOSCServer::run - error port " + String(receivePortNumber) + "is already bound");
-                return;
-            }
-        }
+			AlertWindow::showMessageBoxAsync (
+				AlertWindow::WarningIcon,
+				"Connection error",
+				"OSC Error: could not connect to remote UDP port: " + String(remotePortNumber) + ", on host: " + remoteHostname,
+				"OK");
 
-		ret = receiveDatagramSocket->waitUntilReady(true, 100);
-		
-		if (ret == 1)
-		{
-			String ip;
-			int port;
-
-			int size = receiveDatagramSocket->read(buffer, 1024, false, ip, port);
-		
-			if (threadShouldExit())
-			{
-				DBG("ScopeSyncOSCServer::run - OSC server shutdown");
-				return;
-			}
-
-			try
-			{
-				osc::ReceivedPacket packet(buffer, size);
-
-				if (!packet.IsMessage())
-				{
-					DBG("ScopeSyncOSCServer::run - packet isn't an OSC Message");
-					return;
-				}
-
-				osc::ReceivedMessage oscMessage(packet);
-
-				String addressPattern(oscMessage.AddressPattern());
-
-				if (addressPattern.startsWith("/"))
-				{
-					osc::ReceivedMessageArgumentStream args = oscMessage.ArgumentStream();
-					float value;
-					args >> value >> osc::EndMessage;
-
-					DBG("ScopeSyncOSCServer::run - received OSC message with pattern: " + addressPattern + " and value: " + String(value)); 
-
-					ScopeSync::addToOSCControlUpdateBuffers(addressPattern, value);
-				}
-				else
-				{
-					DBG("ScopeSync::handleOSCMessage - received other OSC message");                              
-				}
-			} 
-			catch (osc::Exception& e)
-			{
-				(void)e;
-				DBG("ScopeSyncOSCServer::run - error while parsing packet: " + String(e.what()));
-			}
+			return false;
 		}
-		else if (ret == -1)
-		{
-			DBG("ScopeSyncOSCServer::run - Error from waitUntilReady: " + String(ret));
-		}
-	}
-
-	DBG("ScopeSyncOSCServer::run - OSC server shutdown");
-}
-
-bool ScopeSyncOSCServer::sendMessage(osc::OutboundPacketStream stream)
-{
-	if (!stream.IsReady())
-	{
-		DBG("ScopeSyncOSCServer::sendMessage - error OSC packet is not ready");
-		return false;
-	}
-
-	if (!remoteDatagramSocket || remoteChanged) {
-        remoteChanged = false;
-        remoteDatagramSocket = new DatagramSocket(false);
     }
 
-	if (remoteDatagramSocket->waitUntilReady(false, 100))
-	{
-		if (remoteDatagramSocket->write(remoteHostname, remotePortNumber, stream.Data(), stream.Size()) > 0)
-			return true;
-	}
+	OSCMessage message(pattern);
+	message.addArgument(valueToSend);
 
-	return false;
+	sender.send(message);
+	return true;
 }

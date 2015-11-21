@@ -45,7 +45,6 @@
     #include "../../ScopeSyncFX/Source/ScopeFX.h"
 #endif // __DLL_EFFECT__
 
-const int    ScopeSync::oscHandlerTime    = 20;
 int          ScopeSync::performanceModeGlobalDisable = 0;
 const int    ScopeSync::minHostParameters = 128;
 const String ScopeSync::scopeSyncVersionString = "0.5.0-Prerelease";
@@ -101,7 +100,6 @@ ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
 
 ScopeSync::~ScopeSync()
 {
-	stopTimer();
 	UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -119,7 +117,7 @@ void ScopeSync::initialise()
 	setShowPresetWindow(false);
 
 	showEditToolbar = false;
-    initCommandManager();
+    commandManager = new ApplicationCommandManager();
 
     resetScopeCodeIndexes();
 
@@ -127,8 +125,6 @@ void ScopeSync::initialise()
     applyConfiguration();
 
 	ScopeSyncOSCServer::getInstance()->setup();
-
-	startTimer(oscHandlerTime);
 
 	initialised = true;
 }
@@ -147,94 +143,13 @@ int ScopeSync::getOSCUID() { return oscUID.getValue(); }
 
 void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
 
-void ScopeSync::timerCallback()
+bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
 {
-	handleOSCUpdates();
-}
-
-void ScopeSync::handleOSCUpdates()
-{
-	oscControlUpdates.swapWith(oscControlUpdateBuffer);
+	for (int i = 0; i < getNumScopeSyncInstances(); i++)
+		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
+			return true;
 	
-    for (HashMap<String, float, DefaultHashFunctions, CriticalSection>::Iterator i(oscControlUpdates); i.next();)
-	{
-    	String addressPattern = i.getKey();
-        float  newOSCValue    = i.getValue();
-
-		addressPattern = addressPattern.trimCharactersAtStart("/");
-
-		String oscUIDString = addressPattern.upToFirstOccurrenceOf("/", false, false);
-		
-		if (oscUIDString.isEmpty())
-		{
-			DBG("ScopeSync::handleOSCUpdates - no OSC UID found in OSC string");
-			continue;
-		}
-		
-		int oscUID = oscUIDString.getIntValue();
-
-		if (oscUID != getOSCUID())
-		{
-			DBG("ScopeSync::handleOSCUpdates - ignoring update as not for this OSC UID");
-			continue;
-		}
-
-		addressPattern = addressPattern.substring(oscUIDString.length() + 1);
-		
-		if (addressPattern.isEmpty())
-		{
-			DBG("ScopeSync::handleOSCUpdates - no param idx found in OSC string");
-			continue;
-		}
-		
-		int paramIdx = addressPattern.getIntValue();
-
-        BCMParameter* parameter;
-
-		if (paramIdx >= 0 && paramIdx < ScopeSyncApplication::numScopeSyncParameters)
-		{
-			parameter = hostParameters[paramIdx];
-		}
-		else
-		{
-			DBG("ScopeSync::handleOSCUpdates - received OSC message for out-of-range parameter");
-			continue;
-		}
-            
-		if (parameter != nullptr)
-		{
-			parameter->setOSCValue(newOSCValue);
-
-		#ifdef __DLL_EFFECT__
-			sendToScopeSyncAsync(*parameter);
-		#else
-			pluginProcessor->updateListeners(parameter->getHostIdx(), parameter->getHostValue());
-		#endif // __DLL_EFFECT__
-		}
-		else
-		{
-			DBG("ScopeSync::handleOSCUpdates - received OSC message for invalid parameter");
-			continue;
-		}
-    }
-
-    oscControlUpdates.clear();	
-}
-
-void ScopeSync::sendValueToOSC(const String& address, float uiValue)
-{
-	static const int bufferSize = 256;
-    char buffer[bufferSize];
-    osc::OutboundPacketStream oscMessage(buffer, bufferSize);
-    oscMessage << osc::BeginMessage(address.toRawUTF8()) << uiValue << osc::EndMessage;
-
-	DBG("ScopeSync::sendOSCParameterUpdate - sending update: " + String(oscMessage.Data()));
-    ScopeSyncOSCServer::getInstance()->sendMessage(oscMessage);
-}
-
-void ScopeSync::initCommandManager()
-{
-    commandManager = new ApplicationCommandManager();
+	return false;
 }
 
 void ScopeSync::showConfigurationManager(int posX, int posY)
@@ -270,15 +185,6 @@ int ScopeSync::getNumScopeSyncInstances()
 { 
     return scopeSyncInstances.size(); 
 };
-
-bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
-{
-	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
-			return true;
-	
-	return false;
-}
 
 void ScopeSync::reloadAllGUIs()
 {
@@ -444,31 +350,6 @@ void ScopeSync::receiveUpdatesFromScopeAsync()
 #endif // __DLL_EFFECT__
 } 
 
-void ScopeSync::sendToScopeSyncAsync(BCMParameter& parameter)
-{
-#ifdef __DLL_EFFECT__
-    // Try to grab the ScopeSyncId for the relevant parameter
-    int scopeCode = parameter.getScopeCode();
-
-    if (scopeCode != -1)
-    {
-        int newScopeValue = parameter.getScopeIntValue();
-
-        DBG("ScopeSync::sendToScopeSyncAsync: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
-        scopeSyncAsync.setValue(scopeCode, newScopeValue);
-    }
-    else
-    {
-        String shortDesc;
-        String longDesc;
-        parameter.getDescriptions(shortDesc, longDesc);
-        DBG("ScopeSync::sendToScopeSyncAsync: couldn't find Scope code for parameter: " + longDesc);
-    }
-#else
-    (void)parameter;
-#endif // __DLL_EFFECT__
-}
-
 bool ScopeSync::guiNeedsReloading()
 {
     const ScopedLock lock(flagLock);
@@ -533,31 +414,18 @@ void ScopeSync::getParameterNameForHost(int hostIdx, String& parameterName)
 void ScopeSync::getParameterText(int hostIdx, String& parameterText)
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-    {
         hostParameters[hostIdx]->getUITextValue(parameterText);
-    }
 }
 
 void ScopeSync::setParameterFromHost(int hostIdx, float newHostValue)
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-    {
         hostParameters[hostIdx]->setHostValue(newHostValue);
-#ifdef __DLL_EFFECT__
-        sendToScopeSyncAsync(*(hostParameters[hostIdx]));
-#endif // __DLL_EFFECT__
-    }
 }
 
 void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
 {
     parameter.setUIValue(newValue);
-    
-#ifdef __DLL_EFFECT__
-    sendToScopeSyncAsync(parameter);
-#else
-    pluginProcessor->updateListeners(parameter.getHostIdx(), parameter.getHostValue());
-#endif // __DLL_EFFECT__
 }
 
 void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
@@ -570,6 +438,16 @@ void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 #else
     (void)asyncValues;
 #endif // __DLL_EFFECT__
+}
+
+void ScopeSync::updateHost(int hostIdx, float newValue)
+{
+#ifndef __DLL_EFFECT__
+	pluginProcessor->updateListeners(hostIdx, newValue);
+#else
+	(void)hostIdx;
+	(void)newValue;
+#endif
 }
 
 Value& ScopeSync::getSystemError()
@@ -586,12 +464,6 @@ void ScopeSync::setSystemError(const String& errorText, const String& errorDetai
 {
     systemError        = errorText;
     systemErrorDetails = errorDetailsText;
-}
-
-void ScopeSync::addToOSCControlUpdateBuffers(const String& addressPattern, float value)
-{
-	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		scopeSyncInstances[i]->oscControlUpdateBuffer.set(addressPattern, value);
 }
     
 XmlElement* ScopeSync::getSystemLookAndFeels()
@@ -709,8 +581,12 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < hostParameterTree.getNumChildren(); i++)
     {
-        hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this));
-        
+	#ifdef __DLL_EFFECT__
+		hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this, scopeSyncAsync));
+    #else
+		hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this));
+	#endif __DLL_EFFECT__
+	    
         int scopeSyncCode = hostParameters[i]->getScopeCode();
         DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
         
@@ -723,8 +599,12 @@ void ScopeSync::applyConfiguration()
 
     for (int i = 0; i < scopeLocalParameterTree.getNumChildren(); i++)
     {
-        scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this));
-        
+    #ifdef __DLL_EFFECT__
+	    scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this, scopeSyncAsync));
+    #else
+	    scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this));
+    #endif __DLL_EFFECT__
+	    
         int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
         DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
         

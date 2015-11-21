@@ -38,12 +38,6 @@
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\danlin_oscpack">
-      <UniqueIdentifier>{698C2495-2F1D-6380-77D4-6CA8C401AD97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\danlin_oscpack\src">
-      <UniqueIdentifier>{31FD66B5-655A-DEEB-23AE-6FFB7BCF9D16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Juce Modules\juce_audio_basics">
       <UniqueIdentifier>{3247ED97-A75A-F50B-8CCC-46155E895806}</UniqueIdentifier>
     </Filter>
@@ -284,6 +278,12 @@
     <Filter Include="Juce Modules\juce_gui_extra\native">
       <UniqueIdentifier>{C413328B-5D81-89EE-F4F3-75752E700DE4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Juce Modules\juce_osc">
+      <UniqueIdentifier>{1A62F82C-C14A-E14A-94DE-8A27E0F8A090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_osc\osc">
+      <UniqueIdentifier>{3D19F603-7985-B222-DFDA-9B83329ACA9D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
@@ -429,18 +429,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\PluginProcessor.cpp">
       <Filter>ScopeSyncInstPlugin\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.cpp">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.cpp">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.cpp">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.cpp">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -1438,8 +1426,29 @@
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.cpp">
-      <Filter>Juce Library Code</Filter>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.cpp">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp">
       <Filter>Juce Library Code</Filter>
@@ -1466,6 +1475,9 @@
       <Filter>Juce Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp">
+      <Filter>Juce Library Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\utility\juce_PluginUtilities.cpp">
@@ -1649,27 +1661,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Source\PluginProcessor.h">
       <Filter>ScopeSyncInstPlugin\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscException.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscHostEndianness.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscOutboundPacketStream.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscPrintReceivedElements.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscReceivedElements.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\src\OscTypes.h">
-      <Filter>Juce Modules\danlin_oscpack\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\danlin_oscpack.h">
-      <Filter>Juce Modules\danlin_oscpack</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -2862,6 +2853,33 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
       <Filter>Juce Modules\juce_gui_extra</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.h">
+      <Filter>Juce Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h">
+      <Filter>Juce Modules\juce_osc</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\JuceLibraryCode\AppConfig.h">
       <Filter>Juce Library Code</Filter>
     </ClInclude>
@@ -2870,9 +2888,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\danlin\danlin_modules\modules\danlin_oscpack\juce_module_info">
-      <Filter>Juce Modules\danlin_oscpack</Filter>
-    </None>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>
     </None>
@@ -2899,6 +2914,9 @@
     </None>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_module_info">
       <Filter>Juce Modules\juce_gui_extra</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_module_info">
+      <Filter>Juce Modules\juce_osc</Filter>
     </None>
     <None Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_WinResources.rsr">
       <Filter>Juce Library Code</Filter>
