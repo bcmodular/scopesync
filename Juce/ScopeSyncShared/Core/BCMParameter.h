@@ -38,7 +38,7 @@ class ScopeSyncAsync;
 
 class BCMParameter : public Value::Listener,
 					 public Timer,
-					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
+					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
 {
 public:
     /* ============================ Enumerations ============================== */
