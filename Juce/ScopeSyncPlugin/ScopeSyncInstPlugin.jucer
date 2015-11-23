@@ -189,8 +189,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2013 targetFolder="Builds/ScopeSyncInst/VisualStudio2013" vstFolder="../../../../SDKs/vstsdk2.4"
-            vst3Folder="../../../../SDKs/VST3SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
+    <VS2013 targetFolder="Builds/ScopeSyncInst/VisualStudio2013" vstFolder=""
+            vst3Folder="../../External/VST3 SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
@@ -221,9 +221,9 @@
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
-    <VS2010 targetFolder="Builds/ScopeSyncInst/VisualStudio2010" vstFolder="../../../../SDKs/vstsdk2.4"
+    <VS2010 targetFolder="Builds/ScopeSyncInst/VisualStudio2010" vstFolder=""
             extraDefs="_CRT_SECURE_NO_DEPRECATE" externalLibraries="" extraLinkerFlags=""
-            vst3Folder="../../../../SDKs/VST3SDK">
+            vst3Folder="../../External/VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ScopeSyncVSTInst-Debug_1_0_2"
