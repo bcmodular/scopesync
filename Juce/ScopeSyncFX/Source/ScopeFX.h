@@ -78,12 +78,10 @@ private:
                          voiceCount,
                          midiActivity,
                          midiChannel,
+                         performanceModeGlobalDisable,
+                         configurationUID, 
                          numManagedValues };
  
-    enum UnmanagedValues { configurationUID, 
-                           performanceModeGlobalDisable,
-                           numUnmanagedValues };
-
 	static const int getInputIndexForValue(int index);
 	static const int getOutputIndexForValue(int index);
 	
@@ -113,9 +111,9 @@ private:
     int positionX; // Horizontal location of window
 	int positionY; // Vertical location of window
 
-	int currentValues[numManagedValues + numUnmanagedValues];
-	int newAsyncValues[numManagedValues + numUnmanagedValues];
-	int newScopeSyncValues[numManagedValues + numUnmanagedValues];
+	int currentValues[numManagedValues];
+	int newAsyncValues[numManagedValues];
+	int newScopeSyncValues[numManagedValues];
 	
 	bool requestWindowShow; // Flag to indicate that window should be shown
     bool windowShown;       // Flag to indicate that window is currently being shown

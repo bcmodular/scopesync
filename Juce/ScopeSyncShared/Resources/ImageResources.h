@@ -44,6 +44,24 @@ namespace ImageResources
     extern const char*  divider_png;
     const int           divider_pngSize = 173;
 
+    extern const char*  fxbypass_button_off_png;
+    const int           fxbypass_button_off_pngSize = 649;
+
+    extern const char*  fxbypass_button_on_png;
+    const int           fxbypass_button_on_pngSize = 606;
+
+    extern const char*  fxbypass_button_over_png;
+    const int           fxbypass_button_over_pngSize = 626;
+
+    extern const char*  fxmono_button_off_png;
+    const int           fxmono_button_off_pngSize = 902;
+
+    extern const char*  fxmono_button_on_png;
+    const int           fxmono_button_on_pngSize = 1108;
+
+    extern const char*  fxmono_button_over_png;
+    const int           fxmono_button_over_pngSize = 1028;
+
     extern const char*  help_button_off_png;
     const int           help_button_off_pngSize = 3228;
 
@@ -88,6 +106,15 @@ namespace ImageResources
 
     extern const char*  patch_window_button_over_png;
     const int           patch_window_button_over_pngSize = 353;
+
+    extern const char*  perf_mode_button_off_png;
+    const int           perf_mode_button_off_pngSize = 811;
+
+    extern const char*  perf_mode_button_on_png;
+    const int           perf_mode_button_on_pngSize = 795;
+
+    extern const char*  perf_mode_button_over_png;
+    const int           perf_mode_button_over_pngSize = 820;
 
     extern const char*  presets_button_off_png;
     const int           presets_button_off_pngSize = 469;

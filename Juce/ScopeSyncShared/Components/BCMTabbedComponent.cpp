@@ -50,7 +50,7 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 
     setTabBarDepth(properties.tabBarDepth);
     
-	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	if (getName().equalsIgnoreCase("Device Type"))
 	{
 		parameterValue.addListener(this);
 		scopeSync.referToDeviceType(parameterValue);
@@ -65,14 +65,11 @@ const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabb
 
 void BCMTabbedComponent::valueChanged(Value& value)
 {
-    if (getName().equalsIgnoreCase("CP-Host Connection"))
+    if (getName().equalsIgnoreCase("Device Type"))
 	{
 		DBG("BCMTabbedComponent::valueChanged: new value: " + value.toString());
 
-		if (value.getValue())
-			setCurrentTabIndex(1, false);
-		else
-			setCurrentTabIndex(0, false);
+		setCurrentTabIndex(value.getValue(), false);
 	}
 	else
 	{
@@ -93,7 +90,7 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
 
 void BCMTabbedComponent::attachToParameter()
 {
-	if (getName().equalsIgnoreCase("CP-Host Connection"))
+	if (getName().equalsIgnoreCase("Device Type"))
 	{
 		valueChanged(parameterValue);
 	}

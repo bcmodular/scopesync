@@ -1045,7 +1045,7 @@ const String ScopeSync::standardHeaderContent =
 "\"></bounds>\n"
 "  </textbutton>\n"
 "  <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->\n"
-"  <tabbedcomponent displaycontext=\"scope\" name=\"CP-Host Connection\" showdropshadow=\"false\">\n"
+"  <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
 "    <bounds relativerectangle=\"right - 58, 6, parent.width - 70, top + 32\"></bounds>\n"
 "    <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
 "    <tab idx=\"1\" name=\"DISCONNECTED\">\n"

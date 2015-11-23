@@ -149,6 +149,22 @@ void ImageLoader::loadImageResources()
     addImageResource("toolbarOff",   ImageResources::toolbar_button_off_png,  ImageResources::toolbar_button_off_pngSize);
     addImageResource("toolbarOn",    ImageResources::toolbar_button_on_png,   ImageResources::toolbar_button_on_pngSize);
     addImageResource("toolbarOver",  ImageResources::toolbar_button_over_png, ImageResources::toolbar_button_over_pngSize);
+
+	// FX bypass buttons
+    addImageResource("fxBypassOff",  ImageResources::fxbypass_button_off_png,  ImageResources::fxbypass_button_off_pngSize);
+    addImageResource("fxBypassOn",   ImageResources::fxbypass_button_on_png,   ImageResources::fxbypass_button_on_pngSize);
+    addImageResource("fxBypassOver", ImageResources::fxbypass_button_over_png, ImageResources::fxbypass_button_over_pngSize);
+
+	// FX mono buttons
+    addImageResource("fxMonoOff",  ImageResources::fxmono_button_off_png,  ImageResources::fxmono_button_off_pngSize);
+    addImageResource("fxMonoOn",   ImageResources::fxmono_button_on_png,   ImageResources::fxmono_button_on_pngSize);
+    addImageResource("fxMonoOver", ImageResources::fxmono_button_over_png, ImageResources::fxmono_button_over_pngSize);
+
+	// Performance mode buttons
+    addImageResource("perfModeOff",  ImageResources::perf_mode_button_off_png,  ImageResources::perf_mode_button_off_pngSize);
+    addImageResource("perfModeOn",   ImageResources::perf_mode_button_on_png,   ImageResources::perf_mode_button_on_pngSize);
+    addImageResource("perfModeOver", ImageResources::perf_mode_button_over_png, ImageResources::perf_mode_button_over_pngSize);
+
 }
 
 void ImageLoader::addImageResource(String imageName, const char* image, int imageSize)

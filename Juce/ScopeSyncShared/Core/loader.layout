@@ -32,7 +32,7 @@
         <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 5, top + 21"></bounds>
       </textbutton>
       <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->
-      <tabbedcomponent displaycontext="scope" name="CP-Host Connection" showdropshadow="false">
+      <tabbedcomponent displaycontext="scope" name="Device Type" showdropshadow="false">
         <bounds relativerectangle="right - 58, 6, parent.width - 70, top + 32"></bounds>
         <tabbar orientation="right" depth="0"></tabbar>
         <tab idx="1" name="DISCONNECTED">
@@ -56,12 +56,12 @@
         <!--CP<->Host Disconnected-->
         <textbutton name="CPHost-Disconnected">
           <bounds x="3" y="3" width="1" height="1"></bounds>
-          <choosetab tabbedcomponent="CP-Host Connection" tabname="DISCONNECTED"></choosetab>
+          <choosetab tabbedcomponent="Device Type" tabname="DISCONNECTED"></choosetab>
         </textbutton>
         <!--CP<->Host Connected-->
         <textbutton name="CPHost-Connected">
           <bounds x="3" y="3" width="1" height="1"></bounds>
-          <choosetab tabbedcomponent="CP-Host Connection" tabname="CONNECTED"></choosetab>
+          <choosetab tabbedcomponent="Device Type" tabname="CONNECTED"></choosetab>
         </textbutton>
       </component>
     </component>
