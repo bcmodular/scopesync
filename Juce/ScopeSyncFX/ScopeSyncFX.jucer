@@ -240,14 +240,14 @@
     </VS2013>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
 </JUCERPROJECT>

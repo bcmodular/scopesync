@@ -252,16 +252,16 @@
     </VS2010>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WASAPI="disabled" JUCE_DIRECTSOUND="disabled"
                JUCE_ALSA="disabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
