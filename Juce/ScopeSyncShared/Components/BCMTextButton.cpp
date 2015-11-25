@@ -400,10 +400,10 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
-		scopeSync.setPerformanceMode(getToggleState());
+		scopeSync.setPerformanceMode(getToggleState() ? 1 : 0);
 
 		if (modifiers.isCommandDown())
-			ScopeSync::setPerformanceModeAll(getToggleState());
+			ScopeSync::setPerformanceModeAll(getToggleState() ? 1 : 0);
 
 		return;
 	}
