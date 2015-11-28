@@ -234,9 +234,8 @@ void Configuration::setMissingDefaultValues()
     if (!(configurationRoot.hasProperty(Ids::ID)))
         configurationRoot.setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
 
-    configurationRoot.getOrCreateChildWithName(Ids::hostParameters, nullptr);
-    configurationRoot.getOrCreateChildWithName(Ids::scopeParameters, nullptr);
-
+    configurationRoot.getOrCreateChildWithName(Ids::parameters, nullptr);
+    
     ValueTree mapping(configurationRoot.getOrCreateChildWithName(Ids::mapping, nullptr));
     mapping.getOrCreateChildWithName(Ids::sliders, nullptr);
     mapping.getOrCreateChildWithName(Ids::textButtons, nullptr);
@@ -482,7 +481,7 @@ void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManag
     }
 }
 
-void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um)
+void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um)
 {
     if (paramValues.isValid())
         newParameter = paramValues.createCopy();
@@ -491,13 +490,9 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
 
     generateUniqueParameterNames(newParameter, um);
 
-    newParameter.setProperty(Ids::scopeSync,  -1, um);
-    newParameter.setProperty(Ids::scopeLocal, -1, um);
-
-    if (parameterTarget == host)
-        getHostParameters().addChild(newParameter, targetIndex, um);
-    else
-        getScopeParameters().addChild(newParameter, targetIndex, um);
+    newParameter.setProperty(Ids::scopeCodeId,  -1, um);
+    
+    getParameters().addChild(newParameter, targetIndex, um);
 }
 
 void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager)
@@ -505,8 +500,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     String name       = parameter.getProperty(Ids::name);
     String shortDesc  = parameter.getProperty(Ids::shortDescription);
     String fullDesc   = parameter.getProperty(Ids::fullDescription);
-    int    scopeSync  = parameter.getProperty(Ids::scopeSync);
-    int    scopeLocal = parameter.getProperty(Ids::scopeLocal);
+    int    scopeCodeId  = parameter.getProperty(Ids::scopeCodeId);
 
 	parameter.copyPropertiesFrom(preset, undoManager);
     parameter.removeProperty(Ids::presetFileName, undoManager);
@@ -524,14 +518,13 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     if (settings.isValid())
         parameter.addChild(settings, -1, undoManager);
 
-    parameter.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
-    parameter.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
-
+    parameter.setProperty(Ids::scopeCodeId, scopeCodeId, undoManager);
+    
     if (!overwriteNames)
     {
-        parameter.setProperty(Ids::name,             name,       undoManager);
-        parameter.setProperty(Ids::shortDescription, shortDesc,  undoManager);
-        parameter.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
+        parameter.setProperty(Ids::name,             name,      undoManager);
+        parameter.setProperty(Ids::shortDescription, shortDesc, undoManager);
+        parameter.setProperty(Ids::fullDescription,  fullDesc,  undoManager);
     }
     else
     {
@@ -570,8 +563,7 @@ ValueTree Configuration::getDefaultParameter()
     defaultParameter.setProperty(Ids::name,             "PARAM",       nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeSync,        -1,            nullptr);
-    defaultParameter.setProperty(Ids::scopeLocal,       -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeCodeId,      -1,            nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -589,10 +581,7 @@ ValueTree Configuration::getDefaultParameter()
 
 bool Configuration::parameterNameExists(const String& parameterName)
 {
-    if (getHostParameters().getChildWithProperty(Ids::name, parameterName).isValid())
-        return true;
-
-    if (getScopeParameters().getChildWithProperty(Ids::name, parameterName).isValid())
+    if (getParameters().getChildWithProperty(Ids::name, parameterName).isValid())
         return true;
 
     return false;
@@ -759,14 +748,9 @@ void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree
 void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) { changed(); }
 void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) { changed(); }
 
-ValueTree Configuration::getHostParameters()
+ValueTree Configuration::getParameters()
 {
-    return configurationRoot.getChildWithName(Ids::hostParameters);
-}
-
-ValueTree Configuration::getScopeParameters()
-{
-    return configurationRoot.getChildWithName(Ids::scopeParameters);
+    return configurationRoot.getChildWithName(Ids::parameters);
 }
 
 ValueTree Configuration::getMapping()
@@ -940,39 +924,23 @@ bool Configuration::componentInLookup(const Identifier& componentType, const Str
 
 void Configuration::setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly)
 {
-    ValueTree hostParameters = getHostParameters();
+    ValueTree parameters = getParameters();
     
-    for (int i = 0; i < hostParameters.getNumChildren(); i++)
+    for (int i = 0; i < parameters.getNumChildren(); i++)
     {
-        ValueTree parameter(hostParameters.getChild(i));
+        ValueTree parameter(parameters.getChild(i));
         
         if (!discreteOnly || int(parameter[Ids::valueType]) == 1)
         {
             parameterDescriptions.add(parameter[Ids::name].toString() + " (" + parameter[Ids::fullDescription].toString() + ")");
-            parameterNames.add(hostParameters.getChild(i)[Ids::name]);
-        }
-    }
-    
-    ValueTree scopeParameters = getScopeParameters();
-    
-    for (int i = 0; i < scopeParameters.getNumChildren(); i++)
-    {
-        ValueTree parameter(scopeParameters.getChild(i));
-        
-        if (!discreteOnly || int(parameter[Ids::valueType]) == 1)
-        {
-            parameterDescriptions.add(parameter[Ids::name].toString() + " (" + parameter[Ids::fullDescription].toString() + ")");
-            parameterNames.add(scopeParameters.getChild(i)[Ids::name]);
+            parameterNames.add(parameters.getChild(i)[Ids::name]);
         }
     }
 }
 
 void Configuration::setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues)
 {
-    ValueTree parameter(getHostParameters().getChildWithProperty(Ids::name, parameterName));
-
-    if (!(parameter.isValid()))
-        parameter = getScopeParameters().getChildWithProperty(Ids::name, parameterName);
+    ValueTree parameter(getParameters().getChildWithProperty(Ids::name, parameterName));
 
     if (parameter.isValid())
     {
@@ -1033,8 +1001,7 @@ const String Configuration::emptyConfiguration =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 "\n"
 "<configuration>\n"
-"  <hostParameters/>\n"
-"  <scopeParameters/>\n"
+"  <parameters/>\n"
 "  <mapping>\n"
 "    <textButtons/>\n"
 "    <sliders/>\n"
@@ -1050,8 +1017,8 @@ const String Configuration::emptyWithScopeLocalConfiguration =
 "<configuration>\n"
 "  <hostParameters/>\n"
 "  <scopeParameters>\n"
-"    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeS"
-"ync=\"-1\" scopeLocal=\"12\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\"\n"
+"    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeC"
+"odeId=\"139\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\"\n"
 "               scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\""
 "0\" uiSkewFactor=\"1\" skewUIOnly=\"false\"\n"
 "               uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
@@ -1061,7 +1028,7 @@ const String Configuration::emptyWithScopeLocalConfiguration =
 "      </settings>\n"
 "    </parameter>\n"
 "    <parameter name=\"PatchWindow\" shortDescription=\"PatchWindow\" fullDescription=\"Open Patch Window\""
-" scopeSync=\"-1\" scopeLocal=\"13\" scopeRangeMin=\"0\"\n"
+" scopeCodeId=\"140\" scopeRangeMin=\"0\"\n"
 "               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
 "alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
 "               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
@@ -1071,7 +1038,7 @@ const String Configuration::emptyWithScopeLocalConfiguration =
 "      </settings>\n"
 "    </parameter>\n"
 "    <parameter name=\"PresetList\" shortDescription=\"PresetList\" fullDescription=\"Open Preset List\" sc"
-"opeSync=\"-1\" scopeLocal=\"14\" scopeRangeMin=\"0\"\n"
+"opeCodeId=\"141\" scopeRangeMin=\"0\"\n"
 "               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
 "alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
 "               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
@@ -1081,7 +1048,7 @@ const String Configuration::emptyWithScopeLocalConfiguration =
 "      </settings>\n"
 "    </parameter>\n"
 "    <parameter name=\"LoadConfig\" shortDescription=\"LoadConfig\" fullDescription=\"Load Configuration\" "
-"scopeSync=\"-1\" scopeLocal=\"15\" scopeRangeMin=\"0\"\n"
+"scopeCodeId=\"142\" scopeRangeMin=\"0\"\n"
 "               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
 "alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
 "               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"

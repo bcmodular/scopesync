@@ -55,9 +55,8 @@ public:
     void saveTreeViewState();
     void unload();
     void changePanel(Component* newComponent);
-    Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree, BCMParameter::ParameterType);
+    Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree);
     static Component* createParameterPanelComponent(ValueTree& tree, 
-                                                    BCMParameter::ParameterType parameterType,
                                                     ScopeSync& scopeSync, 
                                                     UndoManager& undoManager, 
                                                     ApplicationCommandManager* commandManager,
@@ -212,7 +211,7 @@ public:
     ~ConfigurationManagerCalloutWindow();
 
     void setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName);
-    void setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType);
+    void setParameterPanel(ValueTree& parameter);
     void setStyleOverridePanel(ValueTree& styleOverride,
                                const Identifier& componentType, 
                                const String& componentName, 

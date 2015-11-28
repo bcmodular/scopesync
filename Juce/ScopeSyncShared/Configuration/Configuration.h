@@ -123,8 +123,7 @@ public:
     void valueTreeChildOrderChanged(ValueTree& parentTreeWhoseChildrenHaveMoved, int oldIndex, int newIndex) override;
     void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
-    ValueTree    getHostParameters();
-    ValueTree    getScopeParameters();
+    ValueTree    getParameters();
     ValueTree    getConfigurationRoot() { return configurationRoot; };
     ValueTree    getMapping();
     XmlElement&  getLayout(String& errorText, String& errorDetails, bool forceReload);
@@ -141,8 +140,7 @@ public:
     
     bool replaceConfiguration(const String& newFileName);
 
-    enum ParameterTarget { host, scopeLocal };
-    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, ParameterTarget parameterTarget, UndoManager* um);
+    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um);
     void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager);
 
     void deleteMapping(const Identifier& mappingType, 

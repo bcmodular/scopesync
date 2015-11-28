@@ -403,7 +403,7 @@ void BCMParameterWidget::showPopupMenu()
 void BCMParameterWidget::setupMapping(const Identifier& componentType,     const String& componentName, 
                                       const Identifier& mappingParentType, const String& mappingParent)
 {
-    mapsToParameter      = false;
+    mapsToParameter = false;
         
     // First try to use a specific mapping set up for this component. Even if it doesn't find a mapped parameter
     // we'll still stick to this mapping, so it can be fixed up later
@@ -416,12 +416,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
     {
         // DBG("BCMParameterWidget::setupMapping - Using direct mapping: " + String(componentType) + "/" + componentName);
         if (parameter != nullptr)
-        {
             mapsToParameter = true;
-		
-		    if (ScopeSyncApplication::inPluginContext() && parameter->getParameterType() == BCMParameter::scopeLocal)
-			    parentWidget->setVisible(false);
-        }
         
 		return;
     }
@@ -436,14 +431,7 @@ void BCMParameterWidget::setupMapping(const Identifier& componentType,     const
         parameter = scopeSyncGUI.getUIMapping(Configuration::getMappingParentId(mappingComponentType), mappingComponentName, mapping);
 
         if (parameter != nullptr)
-        {
             mapsToParameter = true;
-
-			if (ScopeSyncApplication::inPluginContext() && parameter->getParameterType() == BCMParameter::scopeLocal)
-				parentWidget->setVisible(false);
-
-            return;
-        }
     }
 
     // DBG("BCMParameterWidget::setupMapping - No mapping or parent mapping found for component: " + String(componentType) + "/" + componentName);
@@ -472,7 +460,7 @@ void BCMParameterWidget::editMapping()
 void BCMParameterWidget::editMappedParameter()
 {
     ConfigurationManagerCalloutWindow* configurationManagerCalloutWindow = new ConfigurationManagerCalloutWindow(scopeSyncGUI.getScopeSync(), 550, 700);
-    configurationManagerCalloutWindow->setParameterPanel(parameter->getDefinition(), parameter->getParameterType());
+    configurationManagerCalloutWindow->setParameterPanel(parameter->getDefinition());
     configurationManagerCalloutWindow->addChangeListener(this);
     CallOutBox::launchAsynchronously(configurationManagerCalloutWindow, parentWidget->getScreenBounds(), nullptr);
 }
@@ -510,7 +498,7 @@ void BCMParameterWidget::addParameter(bool fromClipboard)
         ParameterClipboard::getInstance()->paste(definition, &undoManager);
     }        
 
-    scopeSync.getConfiguration().addNewParameter(newParameter, definition, -1, Configuration::host, &undoManager);
+    scopeSync.getConfiguration().addNewParameter(newParameter, definition, -1, &undoManager);
 
     ValueTree newMapping;
     String parameterName = newParameter.getProperty(Ids::name);

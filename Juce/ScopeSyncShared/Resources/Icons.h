@@ -70,8 +70,7 @@ public:
     ~Icons();
 
     Path config, mapping, 
-         hostparameters, hostparameter, 
-         scopeparameters, scopeparameter,
+         parameters, parameter, 
          sliders, slider, 
          textbuttons, textbutton, 
          labels, label,

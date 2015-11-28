@@ -39,8 +39,6 @@
 #include "../../ScopeSyncShared/Windows/UserSettings.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 
-const int PluginProcessor::timerInterval   = 20;
-
 PluginProcessor::PluginProcessor()
 {
     scopeSync = new ScopeSync(this);
@@ -61,7 +59,7 @@ const String PluginProcessor::getName() const
 
 int PluginProcessor::getNumParameters()
 {
-    int numParameters = scopeSync->getNumParametersForHost();
+    int numParameters = scopeSync->getParameterController()->getNumParametersForHost();
     
     //DBG("PluginProcessor::getNumParameters - " + String(numParameters));
     return numParameters;
@@ -69,7 +67,7 @@ int PluginProcessor::getNumParameters()
 
 float PluginProcessor::getParameter (int index)
 {
-    float parameterValue = scopeSync->getParameterHostValue(index);
+    float parameterValue = scopeSync->getParameterController()->getParameterHostValue(index);
     
     DBG("PluginProcessor::getParameter - " + String(parameterValue));
     return parameterValue;
@@ -78,13 +76,13 @@ float PluginProcessor::getParameter (int index)
 void PluginProcessor::setParameter(int index, float newValue)
 {
     DBG("PluginProcessor::setParameter - index: " + String(index) + ", newValue: " + String(newValue));
-    scopeSync->setParameterFromHost(index, newValue);
+    scopeSync->getParameterController()->setParameterFromHost(index, newValue);
 }
 
 const String PluginProcessor::getParameterName(int index)
 {
     String parameterName = String::empty;
-    scopeSync->getParameterNameForHost(index, parameterName);
+    scopeSync->getParameterController()->getParameterNameForHost(index, parameterName);
     
     DBG("PluginProcessor::getParameterName - " + parameterName);
     return parameterName;
@@ -93,7 +91,7 @@ const String PluginProcessor::getParameterName(int index)
 const String PluginProcessor::getParameterText (int index)
 {
     String parameterText = String::empty;
-    scopeSync->getParameterText(index, parameterText);
+    scopeSync->getParameterController()->getParameterText(index, parameterText);
 
     DBG("PluginProcessor::getParameterText - " + parameterText);
     return parameterText;
@@ -221,18 +219,18 @@ void PluginProcessor::setGUIEnabled(bool shouldBeEnabled)
 void PluginProcessor::getStateInformation(MemoryBlock& destData)
 {
     // First put current parameter values into storage
-    scopeSync->storeParameterValues();
+    scopeSync->getParameterController()->storeParameterValues();
     
     XmlElement root("root");
 
-    XmlElement* parameterValues = new XmlElement(scopeSync->getParameterValueStore());
+    XmlElement* parameterValues = new XmlElement(scopeSync->getParameterController()->getParameterValueStore());
     root.addChildElement(parameterValues);
     
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
     configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
 	XmlElement* oscUIDXml = root.createNewChildElement("oscuid");
-    oscUIDXml->addTextElement(String(scopeSync->getOSCUID()));
+    oscUIDXml->addTextElement(String(scopeSync->getParameterController()->getOSCUID()));
 
     copyXmlToBinary(root, destData);
 
@@ -253,8 +251,8 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         // recreating the device parameters
         if (root->getChildByName("parametervalues"))
         {
-            scopeSync->storeParameterValues(*(root->getChildByName("parametervalues")));
-            scopeSync->restoreParameterValues();
+            scopeSync->getParameterController()->storeParameterValues(*(root->getChildByName("parametervalues")));
+            scopeSync->getParameterController()->restoreParameterValues();
         }
         
         if (root->getChildByName("configurationfilepath"))
@@ -268,7 +266,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
 
-            scopeSync->setOSCUID(oscUID);
+            scopeSync->getParameterController()->setOSCUID(oscUID);
         }
     }
     else

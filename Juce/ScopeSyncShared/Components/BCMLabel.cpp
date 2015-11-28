@@ -78,7 +78,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
             else if (properties.parameterTextDisplay == LabelProperties::fullDescription)
                 labelText = fullDescription;
             else if (properties.parameterTextDisplay == LabelProperties::scopeCode)
-                labelText = parameter->getScopeCodeText();
+                labelText = parameter->getScopeCode();
         }
     }
 

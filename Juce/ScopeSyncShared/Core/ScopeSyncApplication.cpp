@@ -69,12 +69,11 @@ void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
 void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoManager)
 {
     // Backup the parameter's identifying values
-    String name       = target.getProperty(Ids::name);
-    String shortDesc  = target.getProperty(Ids::shortDescription);
-    String fullDesc   = target.getProperty(Ids::fullDescription);
-    int    scopeSync  = target.getProperty(Ids::scopeSync);
-    int    scopeLocal = target.getProperty(Ids::scopeLocal);
-
+    String name        = target.getProperty(Ids::name);
+    String shortDesc   = target.getProperty(Ids::shortDescription);
+    String fullDesc    = target.getProperty(Ids::fullDescription);
+    int    scopeCodeId = target.getProperty(Ids::scopeCodeId);
+    
     target.copyPropertiesFrom(clipboard, undoManager);
 
     // Get rid of any stray Preset properties
@@ -97,8 +96,7 @@ void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoMana
     target.setProperty(Ids::name,             name,       undoManager);
     target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
     target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
-    target.setProperty(Ids::scopeSync,        scopeSync,  undoManager);
-    target.setProperty(Ids::scopeLocal,       scopeLocal, undoManager);
+    target.setProperty(Ids::scopeCodeId,      scopeCodeId,  undoManager);
 }
 
 void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager)
@@ -112,9 +110,8 @@ void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager
     // Get rid of any stray Parameter properties
     target.removeProperty(Ids::shortDescription, undoManager);
     target.removeProperty(Ids::fullDescription, undoManager);
-    target.removeProperty(Ids::scopeSync, undoManager);
-    target.removeProperty(Ids::scopeLocal, undoManager);
-
+    target.removeProperty(Ids::scopeCodeId, undoManager);
+    
     target.removeAllChildren(undoManager);
 
     ValueTree settings = clipboard.getChildWithName(Ids::settings).createCopy();

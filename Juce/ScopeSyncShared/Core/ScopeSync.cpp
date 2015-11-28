@@ -46,10 +46,9 @@
 #endif // __DLL_EFFECT__
 
 int          ScopeSync::performanceModeGlobalDisable = 0;
-const int    ScopeSync::minHostParameters = 128;
 const String ScopeSync::scopeSyncVersionString = "0.5.0-Prerelease";
 
-const StringArray ScopeSync::scopeSyncCodes = StringArray::fromTokens(
+const StringArray ScopeSync::scopeCodes = StringArray::fromTokens(
 "A1,A2,A3,A4,A5,A6,A7,A8,\
 B1,B2,B3,B4,B5,B6,B7,B8,\
 C1,C2,C3,C4,C5,C6,C7,C8,\
@@ -65,31 +64,25 @@ L1,L2,L3,L4,L5,L6,L7,L8,\
 M1,M2,M3,M4,M5,M6,M7,M8,\
 N1,N2,N3,N4,N5,N6,N7,N8,\
 O1,O2,O3,O4,O5,O6,O7,O8,\
-P1,P2,P3,P4,P5,P6,P7,P8",
-",",""
-);
-
-const StringArray ScopeSync::scopeLocalCodes = StringArray::fromTokens(
-"Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,\
+P1,P2,P3,P4,P5,P6,P7,P8,\
+Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,\
 Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
 ",",""
 );
 
-const String& ScopeSync::getScopeSyncCode(int scopeSync) { return scopeSyncCodes[scopeSync]; }
-
-const String& ScopeSync::getScopeLocalCode(int scopeLocal) { return scopeLocalCodes[scopeLocal]; }
+const String& ScopeSync::getScopeCode(int scopeCodeId) { return scopeCodes[scopeCodeId]; }
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
 #ifndef __DLL_EFFECT__
-ScopeSync::ScopeSync(PluginProcessor* owner) : parameterValueStore("parametervalues")
+ScopeSync::ScopeSync(PluginProcessor* owner)
 {
     scopeSyncInstances.add(this);
     pluginProcessor = owner;
     initialise();
 }
 #else
-ScopeSync::ScopeSync(ScopeFX* owner) : parameterValueStore("parametervalues")
+ScopeSync::ScopeSync(ScopeFX* owner)
 {
 	initialised = false;
     scopeSyncInstances.add(this);
@@ -109,8 +102,9 @@ void ScopeSync::initialise()
 {
 	shouldReceiveAsyncUpdates = false;
 
-	initOSCUID();
-	setPerformanceMode(0);
+	parameterController = new BCMParameterController(this);
+
+    setPerformanceMode(0);
 
 	setDeviceType(0);
 	setShowPatchWindow(true);
@@ -119,8 +113,7 @@ void ScopeSync::initialise()
 	showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
 
-    resetScopeCodeIndexes();
-
+    
     configuration = new Configuration();
     applyConfiguration();
 
@@ -129,24 +122,10 @@ void ScopeSync::initialise()
 	initialised = true;
 }
 
-void ScopeSync::initOSCUID()
-{
-	int initialOSCUID = 0;
-
-	while (initialOSCUID < INT_MAX && oscUIDInUse(initialOSCUID, this))
-		initialOSCUID++;
-	
-	setOSCUID(initialOSCUID);
-}
-
-int ScopeSync::getOSCUID() { return oscUID.getValue(); }
-
-void ScopeSync::setOSCUID(int uid) { oscUID = uid; }
-
 bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
+		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getParameterController()->getOSCUID() == uid)
 			return true;
 	
 	return false;
@@ -211,96 +190,22 @@ void ScopeSync::shutDownIfLastInstance()
     }
 }
 
-void ScopeSync::resetScopeCodeIndexes()
-{
-    paramIdxByScopeSyncId.clear();
-
-    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
-        paramIdxByScopeSyncId.add(-1);
-
-    paramIdxByScopeLocalId.clear();
-
-    for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
-        paramIdxByScopeLocalId.add(-1);
-}
-
 void ScopeSync::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
     (void)midiMessages;
     (void)buffer;
 }
 
-void ScopeSync::snapshot()
-{
-	for (int i = 0; i < hostParameters.size(); i++)
-		hostParameters[i]->sendOSCParameterUpdate();
-}
-
 void ScopeSync::snapshotAll()
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		scopeSyncInstances[i]->snapshot();
+		scopeSyncInstances[i]->getParameterController()->snapshot();
 }
 
 void ScopeSync::setPerformanceModeAll(int newSetting)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->setPerformanceMode(newSetting);
-}
-
-void ScopeSync::beginParameterChangeGesture(BCMParameter* parameter)
-{
-    if (parameter != nullptr)
-    {
-#ifndef __DLL_EFFECT__
-        int hostIdx = parameter->getHostIdx();
-        
-        if (!changingParams[hostIdx])
-        {
-            pluginProcessor->beginParameterChangeGesture(hostIdx);
-            changingParams.setBit(hostIdx);
-        }
-#else
-        parameter->setAffectedByUI(true);
-#endif // __DLL_EFFECT__
-    }
-}
-
-void ScopeSync::endParameterChangeGesture(BCMParameter* parameter)
-{
-    if (parameter != nullptr)
-    {
-#ifndef __DLL_EFFECT__
-        int hostIdx = parameter->getHostIdx();
-        
-        if (changingParams[hostIdx])
-        {
-            pluginProcessor->endParameterChangeGesture(hostIdx); 
-            changingParams.clearBit(hostIdx);
-        }
-#else
-        parameter->setAffectedByUI(false);
-#endif // __DLL_EFFECT__
-    }
-}
-
-void ScopeSync::endAllParameterChangeGestures()
-{
-    for (int i = 0; i < hostParameters.size(); i++)
-    {
-        BCMParameter* parameter = hostParameters[i];
-#ifndef __DLL_EFFECT__
-        int hostIdx = parameter->getHostIdx();
-
-        if (changingParams[hostIdx])
-        {
-            pluginProcessor->endParameterChangeGesture(hostIdx); 
-            changingParams.clearBit(hostIdx);
-        }
-#else
-        parameter->setAffectedByUI(false);
-#endif // __DLL_EFFECT__
-    }
 }
 
 void ScopeSync::receiveUpdatesFromScopeAsync()
@@ -320,21 +225,14 @@ void ScopeSync::receiveUpdatesFromScopeAsync()
 			
 			BCMParameter* parameter = nullptr;
 
-			if (scopeCode < ScopeSyncApplication::numScopeSyncParameters)
+			if (scopeCode < ScopeSyncApplication::numScopeParameters)
 			{
-				paramIdx = paramIdxByScopeSyncId[scopeCode];
+				paramIdx = paramIdxByScopeCodeId[scopeCode];
                 
 				if (paramIdx >= 0)
-					parameter = hostParameters[paramIdx];
+					parameter = parameters[paramIdx];
 			}
-			else
-			{
-				paramIdx = paramIdxByScopeLocalId[scopeCode - ScopeSyncApplication::numScopeSyncParameters];
-                
-				if (paramIdx >= 0)
-					parameter = scopeLocalParameters[paramIdx];
-			}
-            
+			
 			if (parameter != nullptr)
 			{
 				DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
@@ -362,72 +260,6 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
     reloadGUI = reloadGUIFlag;
 };
     
-int ScopeSync::getNumParametersForHost()
-{
-    int numHostParameters = hostParameters.size();
-
-    if (numHostParameters < minHostParameters)
-        numHostParameters = minHostParameters;
-
-    //DBG("ScopeSync::getNumHostParameters - " + String(numHostParameters));
-    return numHostParameters;
-}
-
-BCMParameter* ScopeSync::getParameterByName(const String& name)
-{
-    for (int i = 0; i < hostParameters.size(); i++)
-    {
-        if (hostParameters[i]->getName().equalsIgnoreCase(name))
-            return hostParameters[i];
-    }
-
-    for (int i = 0; i < scopeLocalParameters.size(); i++)
-    {
-        if (scopeLocalParameters[i]->getName().equalsIgnoreCase(name))
-            return scopeLocalParameters[i];
-    }
-
-    return nullptr;
-}
-
-float ScopeSync::getParameterHostValue(int hostIdx)
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        return hostParameters[hostIdx]->getHostValue();
-    else
-        return 0.0f;
-}
-
-void ScopeSync::getParameterNameForHost(int hostIdx, String& parameterName)
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-    {
-        String shortDesc;
-        hostParameters[hostIdx]->getDescriptions(shortDesc, parameterName);
-    }
-    else
-    {
-        parameterName = "Dummy Param";
-    }
-}
-
-void ScopeSync::getParameterText(int hostIdx, String& parameterText)
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        hostParameters[hostIdx]->getUITextValue(parameterText);
-}
-
-void ScopeSync::setParameterFromHost(int hostIdx, float newHostValue)
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        hostParameters[hostIdx]->setHostValue(newHostValue);
-}
-
-void ScopeSync::setParameterFromGUI(BCMParameter& parameter, float newValue)
-{
-    parameter.setUIValue(newValue);
-}
-
 void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 {
 #ifdef __DLL_EFFECT__
@@ -438,16 +270,6 @@ void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
 #else
     (void)asyncValues;
 #endif // __DLL_EFFECT__
-}
-
-void ScopeSync::updateHost(int hostIdx, float newValue)
-{
-#ifndef __DLL_EFFECT__
-	pluginProcessor->updateListeners(hostIdx, newValue);
-#else
-	(void)hostIdx;
-	(void)newValue;
-#endif
 }
 
 Value& ScopeSync::getSystemError()
@@ -506,7 +328,7 @@ bool ScopeSync::hasConfigurationUpdate(String& fileName)
 bool ScopeSync::processConfigurationChange()
 {
     if (ScopeSyncApplication::inPluginContext())
-        storeParameterValues(); 
+        parameterController->storeParameterValues(); 
 
     String newFileName;
 
@@ -563,61 +385,33 @@ void ScopeSync::applyConfiguration()
 	shouldReceiveAsyncUpdates = false;
     
 	setGUIEnabled(false);
-    endAllParameterChangeGestures();
+    parameterController->endAllParameterChangeGestures();
 
     systemError        = String::empty;
     systemErrorDetails = String::empty;
     
     if (ScopeSyncApplication::inPluginContext())
-        storeParameterValues();
+        parameterController->storeParameterValues();
 
-    hostParameters.clear();
-    scopeLocalParameters.clear();
+    parameterController->reset();
     
-    resetScopeCodeIndexes();
-
     // Firstly create the BCMParameter entries for each of the Host Parameters
-    ValueTree hostParameterTree = configuration->getHostParameters();
+    ValueTree parameterTree = configuration->getParameters();
 
-    for (int i = 0; i < hostParameterTree.getNumChildren(); i++)
+    for (int i = 0; i < parameterTree.getNumChildren(); i++)
     {
-	#ifdef __DLL_EFFECT__
-		hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this, scopeSyncAsync));
-    #else
-		hostParameters.add(new BCMParameter(i, hostParameterTree.getChild(i), BCMParameter::hostParameter, *this));
-	#endif __DLL_EFFECT__
+		// TODO: Keep a count of "automatable" params and only enumerate those
+        parameterController->addParameter(i, parameterTree.getChild(i), BCMParameter::regular);
 	    
-        int scopeSyncCode = hostParameters[i]->getScopeCode();
-        DBG("ScopeSync::applyConfiguration - Added host parameter: " + hostParameters[i]->getName() + ", ScopeSyncCode: " + String(scopeSyncCode));
-        
-        if (scopeSyncCode > -1 && scopeSyncCode < scopeSyncCodes.size())
-            paramIdxByScopeSyncId.set(scopeSyncCode, i);
+		// TODO: Add fixed IOs here
     }
     
-    // Then do the same for each of the Scope Local Parameters
-    ValueTree scopeLocalParameterTree = configuration->getScopeParameters();
-
-    for (int i = 0; i < scopeLocalParameterTree.getNumChildren(); i++)
-    {
-    #ifdef __DLL_EFFECT__
-	    scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this, scopeSyncAsync));
-    #else
-	    scopeLocalParameters.add(new BCMParameter(i, scopeLocalParameterTree.getChild(i), BCMParameter::scopeLocal, *this));
-    #endif __DLL_EFFECT__
-	    
-        int scopeLocalCode = scopeLocalParameters[i]->getScopeCode() - ScopeSyncApplication::numScopeSyncParameters;
-        DBG("ScopeSync::applyConfiguration - Added scope local parameter: " + scopeLocalParameters[i]->getName() + ", ScopeLocalCode: " + String(scopeLocalCode));
-        
-        if (scopeLocalCode > -1 && scopeLocalCode < scopeLocalCodes.size())
-            paramIdxByScopeLocalId.set(scopeLocalCode, i);
-    }
-
 #ifndef __DLL_EFFECT__
     pluginProcessor->updateHostDisplay();
 #endif // __DLL_EFFECT__
 
 #ifndef __DLL_EFFECT__
-    restoreParameterValues();
+    parameterController->restoreParameterValues();
 #else
 	scopeSyncAsync.snapshot();
 #endif // __DLL_EFFECT__
@@ -862,51 +656,6 @@ StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType)
     specificList.addArray(genericList);
 
     return specificList;
-}
-
-void ScopeSync::storeParameterValues()
-{
-    int numHostParameters = hostParameters.size();
-    
-    if (numHostParameters > 0)
-    {
-        Array<float> currentParameterValues;
-    
-        for (int i = 0; i < numHostParameters; i++)
-            currentParameterValues.set(i, getParameterHostValue(i));
-
-        parameterValueStore = XmlElement("parametervalues");
-        parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, numHostParameters)));
-
-        //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
-    }
-    else
-    {
-        //DBG("ScopeSync::storeParameterValues - leaving storage alone, as we don't have any host parameters");
-    }
-}
-
-void ScopeSync::storeParameterValues(XmlElement& parameterValues)
-{
-    parameterValueStore = XmlElement(parameterValues);
-    
-    //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
-}
-
-void ScopeSync::restoreParameterValues()
-{
-    Array<float> parameterValues;
-    int numHostParameters = getNumParametersForHost();
-
-    String floatCSV = parameterValueStore.getAllSubText();
-    int numParametersToRead = jmin(numHostParameters, stringToFloatArray(floatCSV, parameterValues, numHostParameters));
-
-    for (int i = 0; i < numParametersToRead; i++)
-    {
-        setParameterFromHost(i, parameterValues[i]);
-    }
-
-    //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 }
 
 const String ScopeSync::systemLookAndFeels =

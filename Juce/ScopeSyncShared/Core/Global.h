@@ -39,14 +39,12 @@ namespace Ids
     DECLARE_ID(name);
     DECLARE_ID(readOnly);
     DECLARE_ID(layoutFilename);
-    DECLARE_ID(hostParameters);
-    DECLARE_ID(scopeParameters);
+    DECLARE_ID(parameters);
     DECLARE_ID(mapping);
     DECLARE_ID(parameter);
     DECLARE_ID(shortDescription);
     DECLARE_ID(fullDescription);
-    DECLARE_ID(scopeSync);
-    DECLARE_ID(scopeLocal);
+    DECLARE_ID(scopeCodeId);
     DECLARE_ID(uiSuffix);
     DECLARE_ID(scopeRangeMin);
     DECLARE_ID(scopeRangeMax);

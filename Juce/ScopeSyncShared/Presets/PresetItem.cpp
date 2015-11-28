@@ -28,7 +28,7 @@ public:
     var  getDragSourceDescription() override { return "Preset"; }
     bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->hostparameter, Colours::grey); }
+    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->parameter, Colours::grey); }
     virtual String getDisplayName() const override;
 
     void copyItem() override;
@@ -149,7 +149,7 @@ Font PresetRootItem::getFont() const { return Font (getItemHeight() * 0.7f); }
 
 float PresetRootItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
-Icon PresetRootItem::getIcon() const { return Icon(Icons::getInstance()->hostparameters, Colours::aliceblue); }
+Icon PresetRootItem::getIcon() const { return Icon(Icons::getInstance()->parameters, Colours::aliceblue); }
 
 var PresetRootItem::getDragSourceDescription() { return "Preset File Root Item"; }
 

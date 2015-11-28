@@ -74,15 +74,10 @@ public:
 	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
 	static void reloadAllGUIs();
     static void shutDownIfLastInstance();
-    static const String& getScopeSyncCode(int scopeSync);
-    static const String& getScopeLocalCode(int scopeLocal);
-    static const StringArray& getScopeSyncCodes()  { return scopeSyncCodes; };
-    static const StringArray& getScopeLocalCodes() { return scopeLocalCodes; };
+    static const String& getScopeCode(int scopeSyncId);
+    static const StringArray& getScopeCodes() { return scopeCodes; };
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
-    void snapshot();
-	static void snapshotAll();
-    void beginParameterChangeGesture(BCMParameter* parameter);
-    void endParameterChangeGesture(BCMParameter* parameter);
+    static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
@@ -99,28 +94,21 @@ public:
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
     ApplicationCommandManager* getCommandManager() { return commandManager; }
+    BCMParameterController* getParameterController() { return parameterController; }
+    PluginProcessor* getPluginProcessor() { return pluginProcessor; }
+
+#ifdef __DLL_EFFECT__
+    ScopeSyncAsync& getScopeSyncAsync() { return scopeSyncAsync; }
+#endif // __DLL_EFFECT__
+    
+
     UndoManager& getUndoManager() { return undoManager; }
 
     void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
     bool shouldShowEditToolbar() { return showEditToolbar; }
 
-	/* ====================== Public Parameter Methods ======================= */
-    // Returns the number of parameters to inform the host about. Actually returns
-    // the "minHostParameters" value if the real numHostParameters is smaller.
-    // This is to prevent issues with switching between configurations that
-    // have different parameter counts.
-    int    getNumParametersForHost();
-
-    BCMParameter* getParameterByName(const String& name);
-    float  getParameterHostValue(int hostIdx);
-    void   setParameterFromHost(int hostIdx, float newValue);
-    void   setParameterFromGUI(BCMParameter& parameter, float newValue);
-    void   getParameterNameForHost(int hostIdx, String& parameterName);
-    void   getParameterText(int hostIdx, String& parameterText);
-    void   handleScopeSyncAsyncUpdate(int* asyncValues);
-
-	void   updateHost(int hostIdx, float newValue);
-          
+    void  handleScopeSyncAsyncUpdate(int* asyncValues);
+    
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
 	bool           isInitialised();
@@ -142,12 +130,7 @@ public:
     void           changeConfiguration(const String& fileName);
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
-    
-	int            getOSCUID();
-	void           setOSCUID(int uid);
-	void           initOSCUID();
-	void           referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
-	    
+        
 	int            getPerformanceMode() { return performanceMode.getValue(); }
 	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
 	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
@@ -196,10 +179,6 @@ public:
     XmlElement*    getSystemLookAndFeels();
     XmlElement*    getStandardContent(const String& contentToShow);
 
-    void           storeParameterValues();
-    void           storeParameterValues(XmlElement& parameterValues);
-    void           restoreParameterValues();
-    XmlElement&    getParameterValueStore() { return parameterValueStore; };
     Value&         getSystemError();
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
@@ -213,11 +192,9 @@ private:
 
     /* ========================== Initialisation ============================== */
     void initialise();
-	void resetScopeCodeIndexes();
-    
+	
     /* ========================== Private Actions ============================= */
-    void endAllParameterChangeGestures();
-
+    
     /* =================== Private Configuration Methods =======================*/
     bool loadSystemParameterTypes();
     bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
@@ -235,13 +212,9 @@ private:
     ScopeSyncAsync scopeSyncAsync;
 #endif // __DLL_EFFECT__
 
-    XmlElement                 parameterValueStore;
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
-    OwnedArray<BCMParameter>   hostParameters;         // Parameters that the host is interested in
-    OwnedArray<BCMParameter>   scopeLocalParameters;   // Parameters that are only relevant in the Scope DLL
-    Array<int>                 paramIdxByScopeSyncId;  // Index of parameters by their ScopeSyncId
-    Array<int>                 paramIdxByScopeLocalId; // Index of parameters by their ScopeLocalId
     ScopedPointer<ApplicationCommandManager> commandManager;
+    ScopedPointer<BCMParameterController>    parameterController;
     static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
 	
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
@@ -249,8 +222,6 @@ private:
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
 	
     Rectangle<int> newConfigWindowPosition;
-
-    BigInteger changingParams;
     
     CriticalSection flagLock;
    
@@ -265,10 +236,8 @@ private:
 
 	HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
     
-	Array<String, CriticalSection>               configurationChanges;
-    ScopedPointer<Configuration>                 configuration;
-
-    Value oscUID;                    // Unique OSC ID for the current instance
+	Array<String, CriticalSection> configurationChanges;
+    ScopedPointer<Configuration>   configuration;
 
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
 	static int performanceModeGlobalDisable;
@@ -284,15 +253,12 @@ private:
 	Value midiActivity;
 	Value midiChannel;
 
-	static const int    minHostParameters;       // Minimum parameter count to return to host
-    
-    static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
+	static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
     
     static const String standardHeaderContent; // Standard XML content for the ScopeSync layout header
     static const String standardSliderLnFs;    // Standard Slider LnFs for ScopeSync templates
 
-    static const StringArray scopeSyncCodes;  // Array of ScopeSync codes for looking up during configuration
-    static const StringArray scopeLocalCodes; // Array of ScopeLocal codes for looking up during configuration
+    static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
     
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text

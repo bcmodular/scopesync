@@ -36,32 +36,91 @@ class ScopeSync;
 class ScopeSyncAsync;
 #endif // __DLL_EFFECT__
 
+class BCMParameterController
+{
+public:
+
+    BCMParameterController(ScopeSync* owner);
+    ~BCMParameterController();
+
+	/* ====================== Public Parameter Methods ======================= */
+    // Returns the number of parameters to inform the host about. Actually returns
+    // the "minHostParameters" value to prevent issues with switching between 
+    // configurations that have different parameter counts.
+    int    getNumParametersForHost();
+
+    void reset();
+
+    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType);
+
+    BCMParameter* getParameterByName(const String& name);
+    float getParameterHostValue(int hostIdx);
+    void  setParameterFromHost(int hostIdx, float newValue);
+    void  setParameterFromGUI(BCMParameter& parameter, float newValue);
+    void  getParameterNameForHost(int hostIdx, String& parameterName);
+    void  getParameterText(int hostIdx, String& parameterText);
+    void resetScopeCodeIndexes();
+    void snapshot();
+
+    int  getOSCUID();
+	void setOSCUID(int uid);
+	void initOSCUID();
+	void referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
+	void updateHost(int hostIdx, float newValue);
+
+    
+    void beginParameterChangeGesture(int hostIdx);
+    void endParameterChangeGesture(int hostIdx);
+    void endAllParameterChangeGestures();
+
+    void         storeParameterValues();
+    void         storeParameterValues(XmlElement& parameterValues);
+    void         restoreParameterValues();
+    XmlElement&  getParameterValueStore() { return parameterValueStore; };
+    
+private:
+
+    OwnedArray<BCMParameter>   parameters;
+    Array<int>                 paramIdxByScopeCodeId;  // Index of parameters by their scopeCodeId
+    Value oscUID; // Unique OSC ID for the current instance
+    XmlElement                 parameterValueStore;
+    
+    ScopeSync* scopeSync;
+    
+    BigInteger changingParams;
+    
+    static const int    minHostParameters;       // Minimum parameter count to return to host
+};
+
 class BCMParameter : public Value::Listener,
 					 public Timer,
 					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType         {hostParameter, scopeLocal, preset};
+    enum ParameterType         {regular, scopeAsync, preset};
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
-	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate, scopeAudioUpdate};
+	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate};
 
 	#ifdef __DLL_EFFECT__
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss, ScopeSyncAsync& ssa);
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa);
 	#else
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss);
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc);
 	#endif // __DLL_EFFECT__
     
 	void initialise();
     ~BCMParameter();
 
+    void beginParameterChangeGesture();
+    void endParameterChangeGesture();
+    
     void          mapToUIValue(Value& valueToMapTo);
     void          setAffectedByUI(bool isAffected);
     bool          isAffectedByUI();
     String        getName();
     int           getHostIdx() { return hostIdx; };
-    int           getScopeCode();
-    String        getScopeCodeText();
+    int           getScopeCodeId();
+    String        getScopeCode();
     ParameterType getParameterType() { return type; };
     ValueTree&    getDefinition() { return definition; };
     void          getSettings(ValueTree& settings);
@@ -71,19 +130,19 @@ public:
     double        getUIResetValue();
     double        getUISkewFactor();
 
-    void  getUITextValue(String& textValue);
-    float getHostValue();
-    int   getScopeIntValue();
+    void          getUITextValue(String& textValue);
+    float         getHostValue();
+    int           getScopeIntValue();
 
-    bool isDiscrete();
+    bool          isDiscrete();
     
-    void setHostValue(float newValue);
-    void setScopeIntValue(int newValue);
-    void setUIValue(float newValue);
-	void setOSCValue(float newValue);
+    void          setHostValue(float newValue);
+    void          setScopeIntValue(int newValue);
+    void          setUIValue(float newValue);
+	void          setOSCValue(float newValue);
 
-	String getOSCPath();
-	void   sendOSCParameterUpdate();
+	String        getOSCPath();
+	void          sendOSCParameterUpdate();
 
 private:
     WeakReference<BCMParameter>::Master masterReference;
@@ -112,7 +171,7 @@ private:
 	void  decDeadTimes();
     
     /* ===================== Private member variables ========================= */
-	ScopeSync&       scopeSync;
+	BCMParameterController& parameterController;
 #ifdef __DLL_EFFECT__
 	ScopeSyncAsync&  scopeSyncAsync;
 #endif // __DLL_EFFECT__

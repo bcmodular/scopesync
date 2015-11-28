@@ -27,24 +27,233 @@
 
 #include "BCMParameter.h"
 #include "../Utils/BCMMath.h"
+#include "../Utils/BCMXml.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "ScopeSync.h"
 #include "../Windows/UserSettings.h"
+#ifndef __DLL_EFFECT__
+    #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
+#endif // __DLL_EFFECT__
+
+
+const int BCMParameterController::minHostParameters = 128;
 
 const int BCMParameter::deadTimeTimerInterval = 100;
 const int BCMParameter::maxAsyncDeadTime = 3;
 const int BCMParameter::maxOSCDeadTime   = 3;
 
+BCMParameterController::BCMParameterController(ScopeSync* owner) :
+scopeSync(owner), parameterValueStore("parametervalues")
+{
+    initOSCUID();
+    resetScopeCodeIndexes();
+}
+
+void BCMParameterController::addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType)
+{
+#ifdef __DLL_EFFECT__
+	parameters.add(new BCMParameter(index, parameterDefinition, parameterType, *this, scopeSync->getScopeSyncAsync()));
+#else									   
+	parameters.add(new BCMParameter(index, parameterDefinition, parameterType, *this));
+#endif __DLL_EFFECT__
+
+    int scopeCodeId = parameters[index]->getScopeCodeId();
+    DBG("BCMParameterController::addParameter - Added parameter: " + parameters[index]->getName() + ", ScopeCode: " + String(scopeCodeId));
+        
+    if (scopeCodeId > -1 && scopeCodeId < scopeSync->getScopeCodes().size())
+        paramIdxByScopeCodeId.set(scopeCodeId, index);
+}
+
+void BCMParameterController::reset()
+{
+    parameters.clear();
+    resetScopeCodeIndexes();
+}
+
+void BCMParameterController::resetScopeCodeIndexes()
+{
+    paramIdxByScopeCodeId.clear();
+
+    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
+        paramIdxByScopeCodeId.add(-1);    
+}
+
+void BCMParameterController::snapshot()
+{
+	for (int i = 0; i < parameters.size(); i++)
+		parameters[i]->sendOSCParameterUpdate();
+}
+
+int BCMParameterController::getNumParametersForHost()
+{
+    return minHostParameters;
+}
+
+BCMParameter* BCMParameterController::getParameterByName(const String& name)
+{
+    for (int i = 0; i < parameters.size(); i++)
+    {
+        if (parameters[i]->getName().equalsIgnoreCase(name))
+            return parameters[i];
+    }
+
+    return nullptr;
+}
+
+float BCMParameterController::getParameterHostValue(int hostIdx)
+{
+    if (isPositiveAndBelow(hostIdx, parameters.size()))
+        return parameters[hostIdx]->getHostValue();
+    else
+        return 0.0f;
+}
+
+void BCMParameterController::getParameterNameForHost(int hostIdx, String& parameterName)
+{
+    if (isPositiveAndBelow(hostIdx, parameters.size()))
+    {
+        String shortDesc;
+        parameters[hostIdx]->getDescriptions(shortDesc, parameterName);
+    }
+    else
+    {
+        parameterName = "Dummy Param";
+    }
+}
+
+void BCMParameterController::getParameterText(int hostIdx, String& parameterText)
+{
+    if (isPositiveAndBelow(hostIdx, parameters.size()))
+        parameters[hostIdx]->getUITextValue(parameterText);
+}
+
+void BCMParameterController::setParameterFromHost(int hostIdx, float newHostValue)
+{
+    if (isPositiveAndBelow(hostIdx, parameters.size()))
+        parameters[hostIdx]->setHostValue(newHostValue);
+}
+
+void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float newValue)
+{
+    parameter.setUIValue(newValue);
+}
+
+void BCMParameterController::endAllParameterChangeGestures()
+{
+    for (int i = 0; i < parameters.size(); i++)
+    {
+        BCMParameter* parameter = parameters[i];
+#ifndef __DLL_EFFECT__
+        int hostIdx = parameter->getHostIdx();
+
+        if (changingParams[hostIdx])
+        {
+            scopeSync->getPluginProcessor()->endParameterChangeGesture(hostIdx); 
+            changingParams.clearBit(hostIdx);
+        }
+#else
+        parameter->setAffectedByUI(false);
+#endif // __DLL_EFFECT__
+    }
+}
+
+void BCMParameterController::initOSCUID()
+{
+	int initialOSCUID = 0;
+
+	while (initialOSCUID < INT_MAX && scopeSync->oscUIDInUse(initialOSCUID, scopeSync))
+		initialOSCUID++;
+	
+	setOSCUID(initialOSCUID);
+}
+
+int BCMParameterController::getOSCUID() { return oscUID.getValue(); }
+
+void BCMParameterController::setOSCUID(int uid) { oscUID = uid; }
+
+void BCMParameterController::updateHost(int hostIdx, float newValue)
+{
+#ifndef __DLL_EFFECT__
+	scopeSync->getPluginProcessor()->updateListeners(hostIdx, newValue);
+#else
+	(void)hostIdx;
+	(void)newValue;
+#endif
+}
+
+void BCMParameterController::beginParameterChangeGesture(int hostIdx)
+{
+    if (!changingParams[hostIdx])
+    {
+        scopeSync->getPluginProcessor()->beginParameterChangeGesture(hostIdx);
+        changingParams.setBit(hostIdx);
+    }
+}
+
+void BCMParameterController::endParameterChangeGesture(int hostIdx)
+{
+    if (changingParams[hostIdx])
+    {
+        scopeSync->getPluginProcessor()->endParameterChangeGesture(hostIdx); 
+        changingParams.clearBit(hostIdx);
+    }
+}
+
+void BCMParameterController::storeParameterValues()
+{
+    int numHostParameters = parameters.size();
+    
+    if (numHostParameters > 0)
+    {
+        Array<float> currentParameterValues;
+    
+        for (int i = 0; i < numHostParameters; i++)
+            currentParameterValues.set(i, getParameterHostValue(i));
+
+        parameterValueStore = XmlElement("parametervalues");
+        parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, numHostParameters)));
+
+        //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+    }
+    else
+    {
+        //DBG("ScopeSync::storeParameterValues - leaving storage alone, as we don't have any host parameters");
+    }
+}
+
+void BCMParameterController::storeParameterValues(XmlElement& parameterValues)
+{
+    parameterValueStore = XmlElement(parameterValues);
+    
+    //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+}
+
+void BCMParameterController::restoreParameterValues()
+{
+    Array<float> parameterValues;
+    int numHostParameters = getNumParametersForHost();
+
+    String floatCSV = parameterValueStore.getAllSubText();
+    int numParametersToRead = jmin(numHostParameters, stringToFloatArray(floatCSV, parameterValues, numHostParameters));
+
+    for (int i = 0; i < numParametersToRead; i++)
+    {
+        setParameterFromHost(i, parameterValues[i]);
+    }
+
+    //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
+}
+
 #ifdef __DLL_EFFECT__
 #include "../Comms/ScopeSyncAsync.h"
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss, ScopeSyncAsync& ssa)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
-	  scopeSync(ss),
+	  parameterController(pc),
 	  scopeSyncAsync(ssa)
 {
 	initialise();
@@ -52,12 +261,12 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterTy
 
 #else
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, ScopeSync& ss)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
-	  scopeSync(ss)
+	  parameterController(pc)
 {
 	initialise();
 }
@@ -74,7 +283,7 @@ void BCMParameter::initialise()
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
-	scopeSync.referToOSCUID(oscUID);
+	parameterController.referToOSCUID(oscUID);
 	oscUID.addListener(this);
 
 	ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
@@ -124,7 +333,7 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 		(void)updateHost;
 	#else
 		if (updateHost)
-			scopeSync.updateHost(getHostIdx(), getHostValue());
+			parameterController.updateHost(getHostIdx(), getHostValue());
 	#endif // __DLL_EFFECT__
 }
 
@@ -183,49 +392,23 @@ String BCMParameter::getName()
     return definition.getProperty(Ids::name).toString();
 }
 
-int BCMParameter::getScopeCode()
+int BCMParameter::getScopeCodeId()
 {
-    int scopeCode;
-
-    if (type == hostParameter)
-    {
-        scopeCode = definition.getProperty(Ids::scopeSync, -1);
-    }
-    else
-    {
-        scopeCode = definition.getProperty(Ids::scopeLocal, -1);
-        
-        if (scopeCode != -1)
-        {
-            // We found one, so shift the value by the number of
-            // ScopeSyncIds to generate a valid ScopeCode
-            scopeCode += ScopeSyncApplication::numScopeSyncParameters;
-        }
-    }
-
-    return scopeCode;
+    int scopeCodeId = definition.getProperty(Ids::scopeCodeId, -1);
+    
+    return scopeCodeId;
 }
 
-String BCMParameter::getScopeCodeText()
+String BCMParameter::getScopeCode()
 {
-    String scopeCodeText(String::empty);
+    String scopeCode(String::empty);
 
-    if (type == hostParameter)
-    {
-        int scopeCode = definition.getProperty(Ids::scopeSync, -1);
+    int scopeCodeId = definition.getProperty(Ids::scopeCodeId, -1);
 
-        if (scopeCode != -1)
-            scopeCodeText = ScopeSync::getScopeSyncCode(scopeCode);
-    }
-    else
-    {
-        int scopeCode = definition.getProperty(Ids::scopeLocal, -1);
-
-        if (scopeCode != -1)
-            scopeCodeText = ScopeSync::getScopeLocalCode(scopeCode);
-    }
-
-    return scopeCodeText;
+    if (scopeCodeId != -1)
+        scopeCode = ScopeSync::getScopeCode(scopeCodeId);
+    
+    return scopeCode;
 }
 
 void BCMParameter::getSettings(ValueTree& settings)
@@ -573,7 +756,7 @@ String BCMParameter::getOSCPath()
     
 void BCMParameter::sendOSCParameterUpdate()
 {
-	ScopeSyncOSCServer::getInstance()->sendMessage(getOSCPath(), uiValue.getValue());
+    ScopeSyncOSCServer::getInstance()->sendMessage(getOSCPath(), uiValue.getValue());
 }
 
 void BCMParameter::oscMessageReceived (const OSCMessage& message)
@@ -592,14 +775,14 @@ void BCMParameter::oscMessageReceived (const OSCMessage& message)
 void BCMParameter::sendToScopeSyncAsync()
 {
 #ifdef __DLL_EFFECT__
-    int scopeCode = getScopeCode();
+    int scopeCodeId = getScopeCodeId();
 
-    if (scopeCode != -1)
+    if (scopeCodeId != -1)
     {
         int newScopeValue = getScopeIntValue();
 
-        DBG("BCMParameter::sendToScopeSyncAsync: " + String(scopeCode) + ", scaled value: " + String(newScopeValue));
-        scopeSyncAsync.setValue(scopeCode, newScopeValue);
+        DBG("BCMParameter::sendToScopeSyncAsync: " + String(scopeCodeId) + ", scaled value: " + String(newScopeValue));
+        scopeSyncAsync.setValue(scopeCodeId, newScopeValue);
     }
     else
     {
@@ -608,5 +791,23 @@ void BCMParameter::sendToScopeSyncAsync()
         getDescriptions(shortDesc, longDesc);
         DBG("BCMParameter::sendToScopeSyncAsync: couldn't find Scope code for parameter: " + longDesc);
     }
+#endif // __DLL_EFFECT__
+}
+
+void BCMParameter::beginParameterChangeGesture()
+{
+#ifndef __DLL_EFFECT__
+    parameterController.beginParameterChangeGesture(getHostIdx());
+#else
+     setAffectedByUI(true);
+#endif // __DLL_EFFECT__
+}
+
+void BCMParameter::endParameterChangeGesture()
+{
+#ifndef __DLL_EFFECT__
+    parameterController.endParameterChangeGesture(getHostIdx()); 
+#else
+    setAffectedByUI(false);
 #endif // __DLL_EFFECT__
 }

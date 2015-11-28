@@ -223,9 +223,9 @@ void ConfigurationPanel::chooseLayout()
  * ParameterPanel
  */
 ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
-                               BCMParameter::ParameterType paramType, ScopeSync& ss,
+                               ScopeSync& ss,
                                ApplicationCommandManager* acm, bool showCalloutView)
-    : BasePanel(parameter, um, acm), parameterType(paramType), calloutView(showCalloutView), configuration(ss.getConfiguration())
+    : BasePanel(parameter, um, acm), calloutView(showCalloutView), configuration(ss.getConfiguration())
 {
     // Listen for changes to the valueType, to decide whether or not to show
     // the SettingsTable
@@ -279,26 +279,13 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, Und
         props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::blurb, &undoManager), "Blurb", 1024, true), "Textual description of Preset (shown in Chooser)");
     }
 
-    if (parameterType == BCMParameter::hostParameter)
-    {
-        StringArray scopeSyncCodes = ScopeSync::getScopeSyncCodes();
-        Array<var>  scopeSyncValues;
+    StringArray scopeCodes = ScopeSync::getScopeCodes();
+    Array<var>  scopeCodeIds;
 
-        for (int i = 0; i < scopeSyncCodes.size(); i++)
-            scopeSyncValues.add(i);
+    for (int i = 0; i < scopeCodes.size(); i++)
+        scopeCodeIds.add(i);
 
-        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeSync, &undoManager), "ScopeSync Code", scopeSyncCodes, scopeSyncValues), "ScopeSync Code");
-    }
-    else if (parameterType == BCMParameter::scopeLocal)
-    {
-        StringArray scopeLocalCodes = ScopeSync::getScopeLocalCodes();
-        Array<var>  scopeLocalValues;
-
-        for (int i = 0; i < scopeLocalCodes.size(); i++)
-            scopeLocalValues.add(i);
-
-        props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeLocal, &undoManager), "ScopeLocal Code", scopeLocalCodes, scopeLocalValues), "ScopeLocal Code");
-    }
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeCodeId, &undoManager), "Scope Code", scopeCodes, scopeCodeIds), "Scope Code");
 }
 
 void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)

@@ -94,8 +94,6 @@ private:
 
     void readStateInformation(XmlElement& data);
     
-    static const int timerInterval;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginProcessor)
 };
 

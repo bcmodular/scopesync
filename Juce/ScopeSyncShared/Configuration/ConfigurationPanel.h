@@ -114,7 +114,7 @@ class ParameterPanel : public BasePanel,
 {
 public:
     ParameterPanel(ValueTree& parameter, UndoManager& um,
-                   BCMParameter::ParameterType paramType, ScopeSync& ss,
+                   ScopeSync& ss,
                    ApplicationCommandManager* acm, bool showCalloutView = false);
     ~ParameterPanel();
 

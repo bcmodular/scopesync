@@ -80,7 +80,7 @@ public:
     var  getDragSourceDescription() override { return "Parameter"; }
     bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    virtual Icon getIcon() const override = 0;
+    Icon getIcon() const override { return Icon(Icons::getInstance()->parameter, Colours::grey); }
     virtual String getDisplayName() const override;
 
     void copyItem() override;
@@ -93,71 +93,13 @@ public:
 
     void insertParameterAt(const ValueTree& definition, int index);
 
+	void changePanel();
+
 private:
     void refreshSubItems() override;
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterItem);
-};
-
-/* =========================================================================
- * HostParameterItem: Host Parameter instance TreeViewItems
- */
-class HostParameterItem  : public ParameterItem
-{
-public:
-    HostParameterItem(ConfigurationManager& cm, const ValueTree& v, UndoManager& um)
-        : ParameterItem(cm, v, um) {}
-
-    Icon getIcon() const override { return Icon(Icons::getInstance()->hostparameter, Colours::grey); }
-    
-    String getDisplayName() const override
-    {
-        String displayName = ParameterItem::getDisplayName();
-    
-        if (int(tree[Ids::scopeSync]) != -1)
-            displayName += " - " + ScopeSync::getScopeSyncCode(int(tree[Ids::scopeSync]));
-
-        return displayName;
-    }
-
-    void changePanel() override
-    {
-        configurationManager.changePanel(configurationManager.createParameterPanelComponent(tree, BCMParameter::hostParameter));
-    }
-
-private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HostParameterItem);
-};
-
-/* =========================================================================
- * ScopeParameterItem: Scope Parameter instance TreeViewItems
- */
-class ScopeParameterItem  : public ParameterItem
-{
-public:
-    ScopeParameterItem(ConfigurationManager& cm, const ValueTree& v, UndoManager& um)
-        : ParameterItem(cm, v, um) {}
-
-    Icon getIcon() const override { return Icon(Icons::getInstance()->scopeparameter, Colours::grey); }
-    
-    String getDisplayName() const override
-    {
-        String displayName = ParameterItem::getDisplayName();
-    
-        if (int(tree[Ids::scopeLocal]) != -1)
-            displayName += " - " + ScopeSync::getScopeLocalCode(int(tree[Ids::scopeLocal]));
-
-        return displayName;
-    }
-
-    void changePanel() override
-    {
-        configurationManager.changePanel(configurationManager.createParameterPanelComponent(tree, BCMParameter::scopeLocal));
-    }
-
-private:    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeParameterItem);
 };
 
 /* =========================================================================
@@ -924,18 +866,12 @@ void ConfigurationItem::refreshSubItems()
     {
         ValueTree child = tree.getChild(i);
 
-        if (child.hasType(Ids::hostParameters) || child.hasType(Ids::scopeParameters))
-        {
+        if (child.hasType(Ids::parameters))
             addSubItem (new ParameterRootItem(configurationManager, child, undoManager));
-        }
         else if (child.hasType(Ids::mapping))
-        {
             addSubItem (new MappingRootItem(configurationManager, child, undoManager));
-        }
         else if (child.hasType(Ids::styleOverrides))
-        {
             addSubItem (new StyleOverrideRootItem(configurationManager, child, undoManager));
-        }
     }
 }
 
@@ -952,10 +888,8 @@ void ConfigurationItem::changePanel()
  */
 Icon ParameterRootItem::getIcon() const
 {
-    if (tree.hasType(Ids::hostParameters))
-        return Icon(Icons::getInstance()->hostparameters, Colours::aliceblue);
-    else if (tree.hasType(Ids::scopeParameters))
-        return Icon(Icons::getInstance()->scopeparameters, Colours::azure);
+    if (tree.hasType(Ids::parameters))
+        return Icon(Icons::getInstance()->parameters, Colours::aliceblue);
     else
         return Icon();
 }
@@ -977,14 +911,8 @@ void ParameterRootItem::refreshSubItems()
 
     for (int i = 0; i < tree.getNumChildren(); ++i)
     {
-        if (tree.hasType(Ids::hostParameters))
-        {
-            addSubItem(new HostParameterItem(configurationManager, tree.getChild(i), undoManager));
-        }
-        else if (tree.hasType(Ids::scopeParameters))
-        {
-            addSubItem(new ScopeParameterItem(configurationManager, tree.getChild(i), undoManager));
-        }
+        if (tree.hasType(Ids::parameters))
+            addSubItem(new ParameterItem(configurationManager, tree.getChild(i), undoManager));
     }
 }
 
@@ -1011,27 +939,29 @@ void ParameterRootItem::addParameter(const ValueTree& definition)
 {
     storeSelectionOnAdd();
     
-    Configuration::ParameterTarget parameterTarget;
-
-    if (tree.hasType(Ids::hostParameters))
-        parameterTarget = Configuration::host;
-    else
-        parameterTarget = Configuration::scopeLocal;
-    
     ValueTree newParameter;
 
-    configurationManager.getConfiguration().addNewParameter(newParameter, definition, 0, parameterTarget, &undoManager);
+    configurationManager.getConfiguration().addNewParameter(newParameter, definition, 0, &undoManager);
 }
 
 /* =========================================================================
  * ParameterItem
  */
+
 String ParameterItem::getDisplayName() const 
 {
     String displayName = tree[Ids::name].toString();
     displayName += " (" + tree[Ids::fullDescription].toString() + ")";
-    
+
+    if (int(tree[Ids::scopeCodeId]) != -1)
+        displayName += " - " + ScopeSync::getScopeCode(int(tree[Ids::scopeCodeId]));
+
     return displayName;
+}
+
+void ParameterItem::changePanel()
+{
+    configurationManager.changePanel(configurationManager.createParameterPanelComponent(tree));
 }
 
 void ParameterItem::showPopupMenu()
@@ -1079,16 +1009,9 @@ void ParameterItem::insertParameterAt(const ValueTree& definition, int index)
 {
     storeSelectionOnAdd();
     
-    Configuration::ParameterTarget parameterTarget;
-
-    if (tree.getParent().hasType(Ids::hostParameters))
-        parameterTarget = Configuration::host;
-    else
-        parameterTarget = Configuration::scopeLocal;
-    
     ValueTree newParameter;
 
-    configurationManager.getConfiguration().addNewParameter(newParameter, definition, index, parameterTarget, &undoManager);
+    configurationManager.getConfiguration().addNewParameter(newParameter, definition, index, &undoManager);
 }
 
 void ParameterItem::copyItem()

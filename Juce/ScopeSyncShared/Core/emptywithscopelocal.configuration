@@ -3,7 +3,7 @@
 <configuration>
   <hostParameters/>
   <scopeParameters>
-    <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0" scopeRangeMax="2147483647"
+    <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeCodeId="139" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
                uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
       <settings>
@@ -11,7 +11,7 @@
         <setting name="CONNECTED" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PatchWindow" shortDescription="PatchWindow" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
+    <parameter name="PatchWindow" shortDescription="PatchWindow" fullDescription="Open Patch Window" scopeCodeId="140" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
       <settings>
@@ -19,7 +19,7 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="PresetList" shortDescription="PresetList" fullDescription="Open Preset List" scopeSync="-1" scopeLocal="14" scopeRangeMin="0"
+    <parameter name="PresetList" shortDescription="PresetList" fullDescription="Open Preset List" scopeCodeId="141" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
       <settings>
@@ -27,7 +27,7 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-    <parameter name="LoadConfig" shortDescription="LoadConfig" fullDescription="Load Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
+    <parameter name="LoadConfig" shortDescription="LoadConfig" fullDescription="Load Configuration" scopeCodeId="142" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="">
       <settings>

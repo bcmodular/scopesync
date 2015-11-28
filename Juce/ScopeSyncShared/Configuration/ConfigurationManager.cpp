@@ -137,19 +137,18 @@ void ConfigurationManager::changePanel(Component* newComponent)
     resized();
 }
 
-Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree, BCMParameter::ParameterType parameterType)
+Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree)
 {
-    return createParameterPanelComponent(tree, parameterType, scopeSync, undoManager, commandManager, this);
+    return createParameterPanelComponent(tree, scopeSync, undoManager, commandManager, this);
 }
 
 Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree, 
-                                                               BCMParameter::ParameterType parameterType, 
                                                                ScopeSync& scopeSync, 
                                                                UndoManager& undoManager, 
                                                                ApplicationCommandManager* commandManager,
                                                                ChangeListener* listener)
 {
-    ParameterPanel* parameterPanel = new ParameterPanel(tree, undoManager, parameterType, scopeSync, commandManager);
+    ParameterPanel* parameterPanel = new ParameterPanel(tree, undoManager, scopeSync, commandManager);
     PresetChooser* presetChooser = new PresetChooser(tree, scopeSync, commandManager, undoManager);
     presetChooser->addChangeListener(listener);
 
@@ -715,9 +714,9 @@ void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, cons
         configurationManagerCallout->changePanel(panelToShow);
 }
 
-void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter, BCMParameter::ParameterType paramType)
+void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter)
 {
-    configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, paramType, scopeSync, undoManager, commandManager, configurationManagerCallout));
+    configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, scopeSync, undoManager, commandManager, configurationManagerCallout));
 }
 
 void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&  styleOverride, 
