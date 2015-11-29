@@ -250,8 +250,8 @@ private:
     }
 };
 
-BCMComponent::BCMComponent(ScopeSyncGUI& owner, const String& name, bool isMainComponent)
-    : BCMWidget(owner), Component(name), mainComponent(isMainComponent)
+BCMComponent::BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool isMainComponent)
+    : BCMWidget(owner), Component(name), mainComponent(isMainComponent), parameterController(pc)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
@@ -486,7 +486,7 @@ void BCMComponent::setupSubComponent(XmlElement& subComponentXML)
         
         String name = subComponentXML.getStringAttribute("name", getName() + ":" + String(subComponents.size()));
 
-        addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, name));
+        addAndMakeVisible(subComponent = new BCMComponent(scopeSyncGUI, *scopeSyncGUI.getScopeSync().getParameterController(), name));
 
         subComponent->applyProperties(subComponentXML, layoutDirectory);
         subComponents.add(subComponent);
@@ -551,7 +551,7 @@ void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent
             tabbedComponent.addTab(
                 tabProperties.name,
                 Colour::fromString(tabProperties.backgroundColour),
-                subComponent = new BCMComponent(scopeSyncGUI, name),
+                subComponent = new BCMComponent(scopeSyncGUI, *scopeSyncGUI.getScopeSync().getParameterController(), name),
                 true,
                 tabProperties.idx
             );
@@ -701,7 +701,7 @@ void BCMComponent::sliderValueChanged (Slider* sliderThatWasMoved)
         
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmSlider->getParameter()), value);
+        scopeSyncGUI.getScopeSync().getParameterController()->setParameterFromGUI(*(bcmSlider->getParameter()), value);
     }
     return;
 }
@@ -717,7 +717,7 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
         
     if (bcmComboBox && bcmComboBox->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
+        scopeSyncGUI.getScopeSync().getParameterController()->setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
     }
 }
 
@@ -772,7 +772,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().beginParameterChangeGesture(bcmSlider->getParameter());
+        parameterController.beginParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
     }
 }
 
@@ -782,7 +782,7 @@ void BCMComponent::sliderDragEnded(Slider* slider)
 
     if (bcmSlider && bcmSlider->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().endParameterChangeGesture(bcmSlider->getParameter());
+        parameterController.endParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
     }
 }
 

@@ -36,6 +36,7 @@
 #include "../Core/Global.h"
 #include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationManager.h"
+#include "../Core/BCMParameterController.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
     : Slider(name), BCMParameterWidget(owner)

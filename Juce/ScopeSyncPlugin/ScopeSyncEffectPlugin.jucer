@@ -123,6 +123,10 @@
             file="../ScopeSyncShared/Properties/TextButtonProperties.h"/>
     </GROUP>
     <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
+      <FILE id="l3OGs8" name="BCMParameterController.cpp" compile="1" resource="0"
+            file="../ScopeSyncShared/Core/BCMParameterController.cpp"/>
+      <FILE id="omZmbf" name="BCMParameterController.h" compile="0" resource="0"
+            file="../ScopeSyncShared/Core/BCMParameterController.h"/>
       <FILE id="aS753Z" name="ScopeSyncApplication.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Core/ScopeSyncApplication.cpp"/>
       <FILE id="t4s7pd" name="ScopeSyncApplication.h" compile="0" resource="0"
@@ -174,10 +178,6 @@
       <FILE id="mFNWgt" name="ScopeSyncOSC.cpp" compile="1" resource="0"
             file="../ScopeSyncShared/Comms/ScopeSyncOSC.cpp"/>
       <FILE id="VIajQF" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSyncShared/Comms/ScopeSyncOSC.h"/>
-      <FILE id="xPIb7u" name="ScopeSyncControl.cpp" compile="1" resource="0"
-            file="../ScopeSyncShared/Comms/ScopeSyncControl.cpp"/>
-      <FILE id="uam5cO" name="ScopeSyncControl.h" compile="0" resource="0"
-            file="../ScopeSyncShared/Comms/ScopeSyncControl.h"/>
     </GROUP>
     <GROUP id="{FFFEA119-560E-4392-FEE2-1FD44AE0B074}" name="Plugin">
       <FILE id="lWLvI1" name="PluginGUI.cpp" compile="1" resource="0" file="Source/PluginGUI.cpp"/>

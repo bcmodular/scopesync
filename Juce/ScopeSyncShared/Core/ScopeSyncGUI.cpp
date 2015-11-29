@@ -46,6 +46,7 @@
 #include "../Properties/TabProperties.h"
 #include "../Windows/ConfigurationChooser.h"
 #include "../Resources/ImageLoader.h"
+#include "../Core/BCMParameterController.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 ScopedPointer<TooltipWindow> ScopeSyncGUI::tooltipWindow;
@@ -187,7 +188,7 @@ BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const Strin
             {
                 mapping = componentMapping.getChild(i);
                 String mapTo = mapping.getProperty(Ids::mapTo).toString();
-                return scopeSync.getParameterByName(mapTo);
+                return scopeSync.getParameterController()->getParameterByName(mapTo);
             }
         }
     }
@@ -517,7 +518,7 @@ void ScopeSyncGUI::createComponent(XmlElement& componentXML)
 {
     const String& layoutDirectory = scopeSync.getLayoutDirectory();
         
-    addAndMakeVisible(mainComponent = new BCMComponent(*this, "MainComp", true));
+    addAndMakeVisible(mainComponent = new BCMComponent(*this, *scopeSync.getParameterController(), "MainComp", true));
     
     mainComponent->applyProperties(componentXML, layoutDirectory);
     return;
@@ -691,7 +692,7 @@ void ScopeSyncGUI::redo()
 
 void ScopeSyncGUI::snapshot()
 {
-    scopeSync.snapshot();
+    scopeSync.getParameterController()->snapshot();
 }
 
 void ScopeSyncGUI::snapshotAll()

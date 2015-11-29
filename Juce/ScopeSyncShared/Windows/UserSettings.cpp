@@ -31,6 +31,7 @@
 #include "../Utils/BCMMisc.h"
 #include "FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
+#include "../Comms/ScopeSyncOSC.h"
 
 /* =========================================================================
  * EncoderSnapProperty

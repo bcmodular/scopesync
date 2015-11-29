@@ -78,10 +78,6 @@
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.cpp"/>
         <FILE id="P4Xjre" name="ScopeSyncAsync.h" compile="0" resource="0"
               file="../ScopeSyncShared/Comms/ScopeSyncAsync.h"/>
-        <FILE id="i5nULv" name="ScopeSyncControl.cpp" compile="1" resource="0"
-              file="../ScopeSyncShared/Comms/ScopeSyncControl.cpp"/>
-        <FILE id="aLY7EB" name="ScopeSyncControl.h" compile="0" resource="0"
-              file="../ScopeSyncShared/Comms/ScopeSyncControl.h"/>
       </GROUP>
       <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
         <FILE id="CiMxrd" name="WidgetProperties.cpp" compile="1" resource="0"
@@ -173,6 +169,10 @@
         <FILE id="AhwtTw" name="BCMMath.h" compile="0" resource="0" file="../ScopeSyncShared/Utils/BCMMath.h"/>
       </GROUP>
       <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
+        <FILE id="DKizCu" name="BCMParameterController.cpp" compile="1" resource="0"
+              file="../ScopeSyncShared/Core/BCMParameterController.cpp"/>
+        <FILE id="Q19S4o" name="BCMParameterController.h" compile="0" resource="0"
+              file="../ScopeSyncShared/Core/BCMParameterController.h"/>
         <FILE id="ZmSN4p" name="ScopeSyncApplication.cpp" compile="1" resource="0"
               file="../ScopeSyncShared/Core/ScopeSyncApplication.cpp"/>
         <FILE id="pDlPqV" name="ScopeSyncApplication.h" compile="0" resource="0"

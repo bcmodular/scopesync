@@ -35,6 +35,7 @@
 #include "../../ScopeSyncShared/Resources/Icons.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 #include "../../ScopeSyncShared/Windows/UserSettings.h"
+#include "../../ScopeSyncShared/Core/BCMParameterController.h"
 
 const int ScopeFX::initPositionX           = 100;
 const int ScopeFX::initPositionY           = 100;
@@ -192,7 +193,7 @@ void ScopeFX::timerCallback()
     
     if (!(scopeSync->processConfigurationChange()))
     {
-        scopeSync->receiveUpdatesFromScopeAsync();
+        scopeSync->getParameterController()->receiveUpdatesFromScopeAsync();
 		manageValuesForScopeSync();
     }
 }
@@ -299,12 +300,12 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
     int* localArray     = (int*)asyncIn[INPAD_LOCALS]->itg;
 
-	int asyncValues[ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters];
+	int asyncValues[numParameters + numLocals];
 
 	// Grab ScopeSync values from input
 	if (parameterArray != nullptr)
 	{
-		for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
+		for (int i = 0; i < numParameters; i++)
 		{
 			// DBG("ScopeFX::async - input value for param " + String(i) + " is: " + String(parameterArray[i]));
 			asyncValues[i] = parameterArray[i];
@@ -312,28 +313,28 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	}
 	else
 	{
-		for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters; i++)
+		for (int i = 0; i < numParameters; i++)
             asyncValues[i] = 0;
 	}
 
 	// Grab ScopeLocal values from input
 	if (localArray != nullptr)
 	{
-		for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
-			asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = localArray[i];
+		for (int i = numParameters; i < numParameters + numLocals; i++)
+			asyncValues[i] = localArray[i - numParameters];
 	}
 	else
 	{
-        for (int i = 0; i < ScopeSyncApplication::numScopeLocalParameters; i++)
-            asyncValues[i + ScopeSyncApplication::numScopeSyncParameters] = 0;
+        for (int i = numParameters; i < numParameters + numLocals; i++)
+            asyncValues[i] = 0;
 	}
 
 	// Get ScopeSync to process the inputs and pass on changes from the SS system
 	if (scopeSync != nullptr)
-		scopeSync->handleScopeSyncAsyncUpdate(asyncValues);
+		scopeSync->getParameterController()->handleScopeSyncAsyncUpdate(asyncValues);
 
 	// Write to the async outputs for the ScopeSync and ScopeLocal parameters
-	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+	for (int i = 0; i < numParameters + numLocals; i++)
 	{
 		// DBG("ScopeFX::async - output value for param " + String(i) + " is: " + String(asyncValues[i]));
 		asyncOut[i].itg = asyncValues[i];

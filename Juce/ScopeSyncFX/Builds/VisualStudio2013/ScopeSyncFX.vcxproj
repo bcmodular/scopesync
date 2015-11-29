@@ -163,7 +163,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.cpp"/>
@@ -187,6 +186,7 @@
     <ClCompile Include="..\..\Source\ScopeFXGUI.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
@@ -1121,7 +1121,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.h"/>
@@ -1151,6 +1150,7 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h"/>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>

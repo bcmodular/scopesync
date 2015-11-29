@@ -36,6 +36,7 @@
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Core/ScopeSyncApplication.h"
+#include "../Core/BCMParameterController.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner)
@@ -367,7 +368,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     else
     {
         if (hasParameter())
-            scopeSync.beginParameterChangeGesture(getParameter());
+            scopeSync.getParameterController()->beginParameterChangeGesture(getParameter()->getHostIdx());
 
         TextButton::mouseDown(event);
     }
@@ -384,11 +385,11 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
             float valueToSet = (float)upSettingIdx;
             
             if (valueToSet >= 0)
-                scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+                scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
         }
 
         if (hasParameter())
-            scopeSync.endParameterChangeGesture(getParameter());
+            scopeSync.getParameterController()->endParameterChangeGesture(getParameter()->getHostIdx());
 
         TextButton::mouseUp(event);
     }
@@ -437,7 +438,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 		if (modifiers.isCommandDown())
 			ScopeSync::snapshotAll();
 		else
-			scopeSync.snapshot();
+			scopeSync.getParameterController()->snapshot();
 	}
 
 	if (isCommandButton)
@@ -464,7 +465,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
             valueToSet = (float)downSettingIdx;
             
         if (valueToSet >= 0)
-            scopeSyncGUI.getScopeSync().setParameterFromGUI(*(parameter), valueToSet);
+            scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
     }
 }
 

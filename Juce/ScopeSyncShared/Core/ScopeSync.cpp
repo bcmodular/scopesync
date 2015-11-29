@@ -38,6 +38,9 @@
 #include "../Windows/UserSettings.h"
 #include "../Resources/Icons.h"
 #include "../Core/ScopeSyncGUI.h"
+#include "BCMParameterController.h"
+#include "BCMParameter.h"
+#include "../Comms/ScopeSyncOSC.h"
 
 #ifndef __DLL_EFFECT__
     #include "../../ScopeSyncPlugin/Source/PluginProcessor.h"
@@ -100,8 +103,6 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-	shouldReceiveAsyncUpdates = false;
-
 	parameterController = new BCMParameterController(this);
 
     setPerformanceMode(0);
@@ -208,46 +209,10 @@ void ScopeSync::setPerformanceModeAll(int newSetting)
 		scopeSyncInstances[i]->setPerformanceMode(newSetting);
 }
 
-void ScopeSync::receiveUpdatesFromScopeAsync()
-{
-#ifdef __DLL_EFFECT__
-	// DBG("ScopeSync::receiveUpdatesFromScopeAsync");
-
-	if (shouldReceiveAsyncUpdates)
-	{
-		scopeSyncAsync.getAsyncUpdates(asyncControlUpdates);
-
-		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
-		{
-    		int scopeCode     = i.getKey();
-			int paramIdx      = -1;
-			int newScopeValue = i.getValue();
-			
-			BCMParameter* parameter = nullptr;
-
-			if (scopeCode < ScopeSyncApplication::numScopeParameters)
-			{
-				paramIdx = paramIdxByScopeCodeId[scopeCode];
-                
-				if (paramIdx >= 0)
-					parameter = parameters[paramIdx];
-			}
-			
-			if (parameter != nullptr)
-			{
-				DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
-				parameter->setScopeIntValue(newScopeValue);
-			}
-			else
-			{
-				// DBG("ScopeSync::receiveUpdatesFromScopeAsync - Failed to process async update for scopeCode " + String(scopeCode) + ", value: " + String(newScopeValue) + " - No parameter found");
-			}
-		}
-		asyncControlUpdates.clear();
-	}
-#endif // __DLL_EFFECT__
-} 
-
+int  ScopeSync::getOSCUID() { return parameterController->getOSCUID(); }
+void ScopeSync::setOSCUID(int uid) { parameterController->setOSCUID(uid); }
+void ScopeSync::referToOSCUID(Value& valueToLink) { parameterController->referToOSCUID(valueToLink); }
+	
 bool ScopeSync::guiNeedsReloading()
 {
     const ScopedLock lock(flagLock);
@@ -260,18 +225,6 @@ void ScopeSync::setGUIReload(bool reloadGUIFlag)
     reloadGUI = reloadGUIFlag;
 };
     
-void ScopeSync::handleScopeSyncAsyncUpdate(int* asyncValues)
-{
-#ifdef __DLL_EFFECT__
-	bool perfMode = performanceModeGlobalDisable ? false : performanceMode.getValue();
-	
-	scopeSyncAsync.handleUpdate(asyncValues, initialiseScopeParameters, perfMode);
-    initialiseScopeParameters = false;
-#else
-    (void)asyncValues;
-#endif // __DLL_EFFECT__
-}
-
 Value& ScopeSync::getSystemError()
 {
     return systemError;
@@ -382,7 +335,7 @@ void ScopeSync::reloadLayout()
 void ScopeSync::applyConfiguration()
 {
 	DBG("ScopeSync::applyConfiguration");
-	shouldReceiveAsyncUpdates = false;
+	parameterController->toggleAsyncUpdates(false);
     
 	setGUIEnabled(false);
     parameterController->endAllParameterChangeGestures();
@@ -427,7 +380,7 @@ void ScopeSync::applyConfiguration()
         configurationManagerWindow->restoreWindowPosition();
     }
 
-	shouldReceiveAsyncUpdates = true;
+    parameterController->toggleAsyncUpdates(true);
 }
 
 bool ScopeSync::isInitialised()

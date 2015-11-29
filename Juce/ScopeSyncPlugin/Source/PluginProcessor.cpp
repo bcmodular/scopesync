@@ -38,6 +38,7 @@
 #include "../../ScopeSyncShared/Resources/Icons.h"
 #include "../../ScopeSyncShared/Windows/UserSettings.h"
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
+#include "../../ScopeSyncShared/Core/BCMParameterController.h"
 
 PluginProcessor::PluginProcessor()
 {

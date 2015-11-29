@@ -44,6 +44,7 @@ class BCMImage;
 class EditToolbar;
 #include "../Core/ScopeSyncGUI.h"
 #include "../Components/BCMWidget.h"
+#include "../Core/BCMParameterController.h"
 
 class BCMComponent : public BCMWidget,
                      public Component,
@@ -52,7 +53,7 @@ class BCMComponent : public BCMWidget,
                      public Value::Listener                                     
 {
 public:
-    BCMComponent(ScopeSyncGUI& owner, const String& name, bool showEditToolbar = false);
+    BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool showEditToolbar = false);
     ~BCMComponent();
 
     void applyProperties(XmlElement& componentXML, const String& layoutDir);
@@ -102,6 +103,8 @@ private:
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
+
+    BCMParameterController& parameterController;
 
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;

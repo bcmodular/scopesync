@@ -322,9 +322,6 @@
     <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.cpp">
-      <Filter>ScopeSyncFX\Source\Comms</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClCompile>
@@ -393,6 +390,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp">
       <Filter>ScopeSyncFX\Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.cpp">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp">
       <Filter>ScopeSyncFX\Source\Core</Filter>
@@ -1452,9 +1452,6 @@
     <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h">
       <Filter>ScopeSyncFX\Source\Comms</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncControl.h">
-      <Filter>ScopeSyncFX\Source\Comms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h">
       <Filter>ScopeSyncFX\Source\Properties</Filter>
     </ClInclude>
@@ -1541,6 +1538,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h">
       <Filter>ScopeSyncFX\Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.h">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.h">
       <Filter>ScopeSyncFX\Source\Core</Filter>

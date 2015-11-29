@@ -32,7 +32,7 @@
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
-	for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+	for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
         currentValues.add(0);
 }
 
@@ -40,7 +40,7 @@ ScopeSyncAsync::~ScopeSyncAsync() {}
 
 void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool performanceMode)
 {
-    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
     {
 		// DBG("ScopeSyncAsync::handleUpdate - current value for param " + String(i) + " is: " + String(currentValues[i]));
 
@@ -56,7 +56,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool perfor
 			continue;
         }
 		
-		if (performanceMode && i < ScopeSyncApplication::numScopeSyncParameters)
+		if (performanceMode && i < ScopeSyncApplication::numScopeParameters)
 		{
 			// We're in performance mode, so overwrite the inputs with the current values
 			asyncValues[i] = currentValues[i];
@@ -93,7 +93,7 @@ void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 
 void ScopeSyncAsync::snapshot()
 {
-    for (int i = 0; i < ScopeSyncApplication::numScopeSyncParameters + ScopeSyncApplication::numScopeLocalParameters; i++)
+    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
     {
 		DBG("ScopeSyncAsync::snapshot Adding param " + String(i) + " to the hashmap with value: " + String(currentValues[i]));
 		asyncUpdates.set(i, currentValues[i]);

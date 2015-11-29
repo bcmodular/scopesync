@@ -31,6 +31,10 @@
 
 namespace ScopeFXParameterDefinitions {
 
+    static const int numParameters = 128;
+    static const int numLocals = 16;
+    static const int numFeedbackParameters = 128;
+
     /** the async input numbers*/
     enum asyncInPads {
 		INPAD_PARAMS,
@@ -104,25 +108,25 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 }, // INPAD_PARAMS
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX, 16 },  // INPAD_LOCALS
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX, 128 }, // INPAD_FEEDBACK
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_X
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_Y
-		{ DTYPE_INT, 0, 1 },                    // INPAD_SHOW
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_CONFIGUID
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },      // INPAD_OSCUID
-        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PRESET_WINDOW
-        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_PATCH_WINDOW
-        { DTYPE_INT, 0, FRAC_MAX },             // INPAD_DEVICE_TYPE
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MONO_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_BYPASS_EFFECT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_SHOW_SHELL_PRESET_WINDOW
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_VOICE_COUNT
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MIDI_ACTIVITY
-		{ DTYPE_INT, 0, FRAC_MAX },             // INPAD_MIDI_CHANNEL
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numParameters },         // INPAD_PARAMS
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, numLocals },             // INPAD_LOCALS
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, numFeedbackParameters }, // INPAD_FEEDBACK
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_X
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_Y
+		{ DTYPE_INT, 0, 1 },                                      // INPAD_SHOW
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_CONFIGUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_OSCUID
+        { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_PRESET_WINDOW
+        { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_PATCH_WINDOW
+        { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_DEVICE_TYPE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MONO_EFFECT
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_BYPASS_EFFECT
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_SHELL_PRESET_WINDOW
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_VOICE_COUNT
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_ACTIVITY
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_CHANNEL
     };
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {

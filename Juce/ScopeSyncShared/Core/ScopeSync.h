@@ -44,8 +44,6 @@ class ScopeFX;
 class Configuration;
 class ConfigurationManagerWindow;
 
-#include "BCMParameter.h"
-
 #ifdef __DLL_EFFECT__
     #include "../Comms/ScopeSyncAsync.h"
 	#include "../Include/SonicCore/effclass.h"
@@ -81,7 +79,6 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
     bool guiNeedsReloading();
     void setGUIReload(bool reloadGUIFlag);
-    void receiveUpdatesFromScopeAsync();
     void reloadLayout();
     void unloadConfiguration();
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
@@ -95,10 +92,11 @@ public:
     void hideConfigurationManager();
     ApplicationCommandManager* getCommandManager() { return commandManager; }
     BCMParameterController* getParameterController() { return parameterController; }
-    PluginProcessor* getPluginProcessor() { return pluginProcessor; }
 
 #ifdef __DLL_EFFECT__
     ScopeSyncAsync& getScopeSyncAsync() { return scopeSyncAsync; }
+#else
+    PluginProcessor* getPluginProcessor() { return pluginProcessor; }
 #endif // __DLL_EFFECT__
     
 
@@ -107,8 +105,6 @@ public:
     void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
     bool shouldShowEditToolbar() { return showEditToolbar; }
 
-    void  handleScopeSyncAsyncUpdate(int* asyncValues);
-    
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
 	bool           isInitialised();
@@ -134,9 +130,14 @@ public:
 	int            getPerformanceMode() { return performanceMode.getValue(); }
 	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
 	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
+    static int     getPerformanceModeGlobalDisable() { return performanceModeGlobalDisable; }
 	static void    setPerformanceModeAll(int newSetting);
 	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
 
+    int            getOSCUID();
+    void           setOSCUID(int uid);
+	void           referToOSCUID(Value& valueToLink);
+	
 	int            getDeviceType() { return deviceType.getValue(); }
 	void           setDeviceType(int newSetting) { deviceType = newSetting; }
 	void           referToDeviceType(Value& valueToLink) { valueToLink.referTo(deviceType); }
@@ -227,15 +228,11 @@ private:
    
     bool reloadGUI;                 // Flag to indicate whether the GUI needs to be reloaded
     bool retainParameterState;      // Flag to indicate whether parameter values should be restored after loading configuration
-    bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
-	bool shouldReceiveAsyncUpdates;
     bool configurationLoading;
 	bool initialised;
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
-	HashMap<int,    int,   DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
-    
 	Array<String, CriticalSection> configurationChanges;
     ScopedPointer<Configuration>   configuration;
 

@@ -31,6 +31,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Core/Global.h"
+#include "../Core/BCMParameterController.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
     : TabbedComponent(orientation), BCMParameterWidget(owner)
@@ -85,7 +86,7 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
     (void)newCurrentTabName;
 
     if (parameter != nullptr)
-        scopeSyncGUI.getScopeSync().setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
+        scopeSync.getParameterController()->setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
 }
 
 void BCMTabbedComponent::attachToParameter()
