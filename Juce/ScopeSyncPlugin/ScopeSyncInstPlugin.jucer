@@ -2,17 +2,16 @@
 
 <JUCERPROJECT id="aOrksy" name="ScopeSyncInstPlugin" projectType="audioplug"
               version="1.0.2" bundleIdentifier="uk.co.bcmodular.scopesync"
-              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="0"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="1"
               buildRTAS="0" buildAAX="0" pluginName="ScopeSyncInst" pluginDesc="ScopeSyncInst"
               pluginManufacturer="bcmodular" pluginManufacturerWebsite="www.yourcompany.com"
               pluginManufacturerEmail="support@yourcompany.com" pluginManufacturerCode="bcmd"
-              pluginCode="ssi2" pluginChannelConfigs="{0,0}" pluginIsSynth="1"
-              pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
-              pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
-              pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.0.2"
+              pluginCode="ssi2" pluginChannelConfigs="" pluginIsSynth="1" pluginWantsMidiIn="1"
+              pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
+              pluginAUExportPrefix="ScopeSyncAU" pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.1.0"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
-              companyEmail="support@scopesync.co.uk">
+              companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
   <MAINGROUP id="zkEMvA" name="ScopeSyncInstPlugin">
     <GROUP id="{5DDFDA23-4E61-4495-F913-536F2D9C1306}" name="Presets">
       <FILE id="ENmiOS" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSyncShared/Presets/PresetItem.cpp"/>
