@@ -41,14 +41,14 @@ public:
     bool   isHorizontal;
     int    frameWidth;
     int    frameHeight;
-
+    
     FilmStripImage() { initialise(); }
     void initialise();
     void copyFrom(const FilmStripImage& source);
-    void setUp(const String& fileName,       const String& mouseOverFileName, 
-               int           numberOfFrames, bool          fsIsHorizontal, 
+    void setUp(const String& fileName,       const String& mouseOverFileName,
+               int           numberOfFrames, bool          fsIsHorizontal,
                bool          useImageCache,  const String& layoutDirectory);
-
+    
     // Cut a specific slice from a film-strip image
     Image getImageAtIndex(int frameIndex, bool isMouseOver);
     
@@ -70,77 +70,77 @@ public:
     BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& layoutDirectory);
     
     ~BCMLookAndFeel();
-
+    
     // Returns the identifier for a BCMLookAndFeel
     const String& getId();
     
     // Callback for drawing a Rotary Slider. Supports filmstrip images.
     void drawRotarySlider
     (
-        Graphics &g,
-        int  	x,
-        int  	y,
-        int  	width,
-        int  	height,
-        float  	sliderPosProportional,
-        float  	rotaryStartAngle,
-        float  	rotaryEndAngle,
-        Slider  &slider
-    );
-
+     Graphics &g,
+     int  	x,
+     int  	y,
+     int  	width,
+     int  	height,
+     float  	sliderPosProportional,
+     float  	rotaryStartAngle,
+     float  	rotaryEndAngle,
+     Slider  &slider
+     );
+    
     void drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
     void drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
-
+    
     // Callback for drawing a Linear Slider's thumb. Supports fixed images.
     void drawLinearSliderThumb
     (
-        Graphics& g,
-        int 	  x,
-        int 	  y,
-        int 	  width,
-        int 	  height,
-        float 	  sliderPos,
-        float 	  minSliderPos,
-        float 	  maxSliderPos,
-        const Slider::SliderStyle sliderStyle,
-        Slider&   slider
-    );
+     Graphics& g,
+     int 	  x,
+     int 	  y,
+     int 	  width,
+     int 	  height,
+     float 	  sliderPos,
+     float 	  minSliderPos,
+     float 	  maxSliderPos,
+     const Slider::SliderStyle sliderStyle,
+     Slider&   slider
+     );
     
     // Returns the radius of a Slider thumb. Overridden from LookAndFeel_V3's
     // so it can handle situation when images being used for thumb
     int getSliderThumbRadius(Slider& slider);
-
+    
     // Callback for drawing a Linear Slider's background. Supports filmstrip images.
-    void BCMLookAndFeel::drawLinearSliderBackground
+    void drawLinearSliderBackground
     (
-        Graphics& g,
-        int       x,
-        int       y,
-        int       width,
-        int       height,
-        float     sliderPos,
-        float     minSliderPos,
-        float     maxSliderPos,
-        const Slider::SliderStyle style,
-        Slider&   slider
-    );
-
+     Graphics& g,
+     int       x,
+     int       y,
+     int       width,
+     int       height,
+     float     sliderPos,
+     float     minSliderPos,
+     float     maxSliderPos,
+     const Slider::SliderStyle style,
+     Slider&   slider
+     );
+    
     // Callback for drawing a Button's background. Supports fixed images.
     void drawButtonBackground
     (
-        Graphics&     g,
-        Button&       button,
-        const Colour& backgroundColour,
-        bool 	      isMouseOverButton,
-        bool 	      isButtonDown
-    );
-
+     Graphics&     g,
+     Button&       button,
+     const Colour& backgroundColour,
+     bool 	      isMouseOverButton,
+     bool 	      isButtonDown
+     );
+    
     // Callback for creating a Slider's textbox. Overridden to allow control of font and justification
     Label* createSliderTextBox(Slider& slider);
     
     // Callback for creating a Slider's inc/dec buttons. Overridden to pick up overridden colours
     Button* createSliderButton(Slider&, bool isIncrement) override;
-
+    
     // Returns font for a ComboBox. Overridden to allow control of font
     Font   getComboBoxFont (ComboBox& box);
     
@@ -149,24 +149,24 @@ public:
     
     // Returns font for a PopupMenu (also used by ComboBoxes). Overridden to allow control of font
     Font   getPopupMenuFont();
-
+    
     // Callback for drawing a CallOutBox's background. Overridden to fix performance issue on Windows 8
     void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
-
-	// Callback for drawing a Label. Overridden to allow restricted number of lines of text
-	void drawLabel(Graphics&, Label&) override;
-
+    
+    // Callback for drawing a Label. Overridden to allow restricted number of lines of text
+    void drawLabel(Graphics&, Label&) override;
+    
     // Returns a result to indicate whether the BCMLookAndFeel applies to the supplied Component Type
     // 0: Doesn't apply, 1: Applies specifically, 2: Applies generally
     int  appliesToComponentType(const Identifier& componentType);
-
+    
 private:
     String id;            // Identifier for a BCMLookAndFeel
     bool   useImageCache; // Flags as to whether the Image Cache should be used
     
     Array<Identifier> appliesTo; // Array of component types the BCMLookAndFeel is relevant to (used to
-                                 // restrict drop-down lists for Style Overrides)
-
+    // restrict drop-down lists for Style Overrides)
+    
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     FilmStripImage rotary;
     Image rotaryFillBackground;
@@ -208,13 +208,13 @@ private:
     
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;
-
+    
     // Sets up the various HashMaps containing ColourId mapping from XML tags
     void setupColourIds();
     
     // Set sensible defaults for a LookAndFeel
     void initialise(bool cacheImages);
-
+    
     // Copy the properties from a parent LookAndFeel
     void copyProperties(const BCMLookAndFeel& parentLookAndFeel);
     
@@ -236,7 +236,7 @@ private:
     // Callback to draw the area behind TabbedComponent's Tabs. Overridden to allow
     // the drop-shadow to be disabled
     void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h);
-
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLookAndFeel);
 };
 

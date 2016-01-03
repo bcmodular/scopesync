@@ -25,8 +25,8 @@
  */
 
 #include "ScopeSyncOSC.h"
-#include "..\Core\ScopeSync.h"
-#include "..\Windows\UserSettings.h"
+#include "ScopeSync.h"
+#include "UserSettings.h"
 
 juce_ImplementSingleton(ScopeSyncOSCServer)
 

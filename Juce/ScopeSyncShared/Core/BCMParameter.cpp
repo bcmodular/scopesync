@@ -279,7 +279,7 @@ void BCMParameter::getUITextValue(String& textValue)
     }
     else
     {
-        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + definition.getProperty(Ids::uiSuffix);
+        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + definition.getProperty(Ids::uiSuffix).toString();
     }
     //DBG("BCMParameter::getUITextValue - " + definition.getProperty(paramNameId).toString() + ": " + textValue);
 }
@@ -535,7 +535,7 @@ int BCMParameter::findNearestParameterSetting(int value)
 
         if (gap == 0)
         {
-            DBG("BCMParameter::findNearestParameterSetting - Found 'exact' match for setting: " + String(settings.getChild(i).getProperty(Ids::name)));
+            DBG("BCMParameter::findNearestParameterSetting - Found 'exact' match for setting: " + settings.getChild(i).getProperty(Ids::name).toString());
 
             nearestItem = i;
             break;
