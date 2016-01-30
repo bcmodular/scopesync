@@ -180,7 +180,9 @@ public:
                                const String&     widgetTemplateId,
                                ValueTree&        newStyleOverride,
                                UndoManager*      um);
-
+    
+    static ValueTree getDefaultParameter();
+    
 private:
     ValueTree  configurationRoot;
     ValueTree  loaderConfigurationRoot;
@@ -248,7 +250,6 @@ private:
     void getComponentNamesFromXml(XmlElement& xml);
     bool componentInLookup(const Identifier& componentType, const String& componentName);
 
-    static ValueTree getDefaultParameter();
     bool             parameterNameExists(const String& parameterName);
     void             generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager);
 

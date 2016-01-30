@@ -176,14 +176,6 @@ void ScopeFX::timerCallback()
             DBG("ScopeFX::timerCallback - Request to hide window");
             hideWindow();
         }
-
-        //DBG("ScopeFX::timerCallback: " + String(positionX) + ", " + String(positionY) + ", " + String(scopeFXGUI->getScreenPosition().getX()) + ", " + String(scopeFXGUI->getScreenPosition().getY()));
-        if (scopeFXGUI != nullptr
-            && (positionX != scopeFXGUI->getScreenPosition().getX()
-            ||  positionY != scopeFXGUI->getScreenPosition().getY()))
-        {
-            scopeFXGUI->setTopLeftPosition(positionX, positionY);
-        }
     }
     else
     {
@@ -251,8 +243,7 @@ void ScopeFX::handleAsyncValue(void (ScopeSync::*f)(int input), int managedValue
 void ScopeFX::showWindow()
 {
     DBG("ScopeFX::showWindow");
-    scopeFXGUI = new ScopeFXGUI(this);
-
+    
 #ifdef _WIN32
     if (scopeWindow == nullptr)
     {
@@ -263,12 +254,9 @@ void ScopeFX::showWindow()
     // probably want to implement something here
     void* scopeWindow = nullptr;
 #endif
-    scopeFXGUI->setOpaque(true);
-    scopeFXGUI->setVisible(true);
-    scopeFXGUI->setName("ScopeSync");
 
-    scopeFXGUI->setTopLeftPosition(positionX, positionY);
-    scopeFXGUI->addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, scopeWindow);
+    scopeFXGUI = new ScopeFXGUI(this, scopeWindow);
+
     windowShown = true;
     windowHandlerDelay = windowHandlerDelayMax;
 }
@@ -278,6 +266,7 @@ void ScopeFX::positionChanged(int newPosX, int newPosY)
     DBG("ScopeFX::positionChanged - moving window to: " + String(newPosX) + "," + String(newPosY));
     positionX = newPosX;
     positionY = newPosY;
+    windowShown = true;
     windowHandlerDelay = windowHandlerDelayMax;
 }
 
@@ -300,58 +289,48 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
     int* localArray     = (int*)asyncIn[INPAD_LOCALS]->itg;
 
-	int asyncValues[numParameters + numLocals];
+	int asyncValues[numParameters];
 
 	// Grab ScopeSync values from input
 	if (parameterArray != nullptr)
 	{
-		for (int i = 0; i < numParameters; i++)
-		{
-			// DBG("ScopeFX::async - input value for param " + String(i) + " is: " + String(parameterArray[i]));
+		for (int i = 0; i < numScopeParameters; i++)
 			asyncValues[i] = parameterArray[i];
-		}
 	}
 	else
 	{
-		for (int i = 0; i < numParameters; i++)
+		for (int i = 0; i < numScopeParameters; i++)
             asyncValues[i] = 0;
 	}
 
 	// Grab ScopeLocal values from input
 	if (localArray != nullptr)
 	{
-		for (int i = numParameters; i < numParameters + numLocals; i++)
-			asyncValues[i] = localArray[i - numParameters];
+		for (int i = numScopeParameters; i < numScopeParameters + numLocalParameters; i++)
+			asyncValues[i] = localArray[i - numScopeParameters];
 	}
 	else
 	{
-        for (int i = numParameters; i < numParameters + numLocals; i++)
+        for (int i = numScopeParameters; i < numScopeParameters + numLocalParameters; i++)
             asyncValues[i] = 0;
 	}
+
+    asyncValues[numLocalParameters + 1] = asyncIn[INPAD_X]->itg;
+    asyncValues[numLocalParameters + 2] = asyncIn[INPAD_Y]->itg;
 
 	// Get ScopeSync to process the inputs and pass on changes from the SS system
 	if (scopeSync != nullptr)
 		scopeSync->getParameterController()->handleScopeSyncAsyncUpdate(asyncValues);
 
 	// Write to the async outputs for the ScopeSync and ScopeLocal parameters
-	for (int i = 0; i < numParameters + numLocals; i++)
-	{
-		// DBG("ScopeFX::async - output value for param " + String(i) + " is: " + String(asyncValues[i]));
+	for (int i = 0; i < numScopeParameters + numLocalParameters; i++)
 		asyncOut[i].itg = asyncValues[i];
-	}
-
+	
 	// Deal with showing/hiding the Control Panel window
     requestWindowShow = (asyncIn[INPAD_SHOW]->itg > 0);
     asyncOut[OUTPAD_SHOW].itg = windowShown ? 1 : 0;
-    
-	// Handle window position updates
-	positionX = asyncIn[INPAD_X]->itg;
-    positionY = asyncIn[INPAD_Y]->itg;
-    
-    asyncOut[OUTPAD_X].itg = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getX() : positionX;
-    asyncOut[OUTPAD_Y].itg = (scopeFXGUI != nullptr) ? scopeFXGUI->getScreenPosition().getY() : positionY;
-    
-	// Handle configuration changes
+        
+    // Handle configuration changes
 	newAsyncValues[configurationUID] = asyncIn[INPAD_CONFIGUID]->itg;
 
 	if (scopeSync != nullptr)

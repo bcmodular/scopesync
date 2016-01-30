@@ -32,24 +32,31 @@ class ScopeFX;
 
 #include <JuceHeader.h>
 #include "../../ScopeSyncShared/Core/ScopeSyncGUI.h"
+#include <Windows.h>
+
+class BCMParameter;
 
 class ScopeFXGUI : public Component
 {
 public:
-    ScopeFXGUI (ScopeFX* owner);
+    ScopeFXGUI (ScopeFX* owner, HWND scopeWindow);
     ~ScopeFXGUI();
 
     // Handles resizing the window if the contents have changed in size
     // and updating the window title
     void refreshWindow();
-    
+
 private:
     ScopeFX*                    scopeFX;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
 
     void userTriedToCloseWindow();
     void moved();
-    
+
+    Point<int> position;
+    WeakReference<BCMParameter> parameterX;
+    WeakReference<BCMParameter> parameterY;
+
     String windowName;
     bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
     

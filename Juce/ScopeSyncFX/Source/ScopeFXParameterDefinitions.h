@@ -31,9 +31,11 @@
 
 namespace ScopeFXParameterDefinitions {
 
-    static const int numParameters = 128;
-    static const int numLocals = 16;
+    static const int numScopeParameters = 128;
+    static const int numLocalParameters = 16;
     static const int numFeedbackParameters = 128;
+    static const int numFixedParameters = 2;
+    static const int numParameters = numScopeParameters + numLocalParameters + numFixedParameters;
 
     /** the async input numbers*/
     enum asyncInPads {
@@ -108,8 +110,8 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numParameters },         // INPAD_PARAMS
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX, numLocals },             // INPAD_LOCALS
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numScopeParameters },    // INPAD_PARAMS
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX, numLocalParameters },    // INPAD_LOCALS
         { DTYPE_INT, FRAC_MIN, FRAC_MAX, numFeedbackParameters }, // INPAD_FEEDBACK
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_Y

@@ -17,6 +17,7 @@
 #endif // __DLL_EFFECT__
 
 const int BCMParameterController::minHostParameters = 128;
+const int BCMParameterController::maxHostParameters = 128;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 scopeSync(owner), parameterValueStore("parametervalues")
@@ -25,26 +26,88 @@ scopeSync(owner), parameterValueStore("parametervalues")
 
     initOSCUID();
     resetScopeCodeIndexes();
+
+    // Create X Parameter
+    ValueTree tmpParameter = Configuration::getDefaultParameter();
+    tmpParameter.setProperty(Ids::name,             "X",           nullptr);
+    tmpParameter.setProperty(Ids::shortDescription, "X",           nullptr);
+    tmpParameter.setProperty(Ids::fullDescription,  "X",           nullptr);
+    tmpParameter.setProperty(Ids::scopeCodeId,      144,           nullptr);
+    addParameter(-1, tmpParameter, BCMParameter::regular, true);
+
+    // Create Y Parameter
+    tmpParameter = Configuration::getDefaultParameter();
+    tmpParameter.setProperty(Ids::name,             "Y",           nullptr);
+    tmpParameter.setProperty(Ids::shortDescription, "Y",           nullptr);
+    tmpParameter.setProperty(Ids::fullDescription,  "Y",           nullptr);
+    tmpParameter.setProperty(Ids::scopeCodeId,      145,           nullptr);
+    addParameter(-1, tmpParameter, BCMParameter::regular, true);
 }
 
-void BCMParameterController::addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType)
+void BCMParameterController::addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter)
 {
+    BCMParameter* parameter;
 #ifdef __DLL_EFFECT__
-	parameters.add(new BCMParameter(index, parameterDefinition, parameterType, *this, scopeSync->getScopeSyncAsync()));
+    parameter = new BCMParameter(index, parameterDefinition, parameterType, *this, scopeSync->getScopeSyncAsync());
 #else									   
-	parameters.add(new BCMParameter(index, parameterDefinition, parameterType, *this));
+	parameter = new BCMParameter(index, parameterDefinition, parameterType, *this);
 #endif __DLL_EFFECT__
 
-    int scopeCodeId = parameters[index]->getScopeCodeId();
-    DBG("BCMParameterController::addParameter - Added parameter: " + parameters[index]->getName() + ", ScopeCode: " + String(scopeCodeId));
+    if (fixedParameter)
+        fixedParameters.add(parameter);
+    else
+        dynamicParameters.add(parameter);
+
+    parameters.add(parameter);
+}
+
+void BCMParameterController::setupHostParameters()
+{
+    int hostIdx = 0;
+    int paramCounter = 0;
+
+	BCMParameter* parameter;
+
+	// Firstly add the dynamic parameters
+    while (hostIdx < maxHostParameters && paramCounter < dynamicParameters.size())
+    {
+		parameter = dynamicParameters[paramCounter];
+        hostParameters.add(parameter);
+
+        addToParamIdxByScopeCodeId(parameter, hostIdx);
         
-    if (scopeCodeId > -1 && scopeCodeId < scopeSync->getScopeCodes().size())
+        paramCounter++;
+        hostIdx++;
+    }
+
+    // If there is room add the fixed parameters
+    paramCounter = 0;
+    
+    while (hostIdx < maxHostParameters && paramCounter < fixedParameters.size())
+    {
+        parameter = fixedParameters[paramCounter];
+        hostParameters.add(parameter);
+
+        addToParamIdxByScopeCodeId(parameter, hostIdx);
+        
+        paramCounter++;
+        hostIdx++;
+    }
+}
+
+void BCMParameterController::addToParamIdxByScopeCodeId(BCMParameter* parameter, int index)
+{
+    int scopeCodeId = parameter->getScopeCodeId();
+    DBG("BCMParameterController::addParameter - Added parameter: " + parameter->getName() + ", ScopeCode: " + String(scopeCodeId));
+        
+    if (index > -1 && scopeCodeId > -1 && scopeCodeId < scopeSync->getScopeCodes().size())
         paramIdxByScopeCodeId.set(scopeCodeId, index);
 }
 
 void BCMParameterController::reset()
 {
-    parameters.clear();
+    hostParameters.clear();
+    dynamicParameters.clear();
     resetScopeCodeIndexes();
 }
 
@@ -69,10 +132,10 @@ int BCMParameterController::getNumParametersForHost()
 
 BCMParameter* BCMParameterController::getParameterByName(const String& name)
 {
-    for (int i = 0; i < parameters.size(); i++)
+	for (int i = 0; i < parameters.size(); i++)
     {
         if (parameters[i]->getName().equalsIgnoreCase(name))
-            return parameters[i];
+			return parameters[i];
     }
 
     return nullptr;
@@ -81,17 +144,17 @@ BCMParameter* BCMParameterController::getParameterByName(const String& name)
 float BCMParameterController::getParameterHostValue(int hostIdx)
 {
     if (isPositiveAndBelow(hostIdx, parameters.size()))
-        return parameters[hostIdx]->getHostValue();
+        return hostParameters[hostIdx]->getHostValue();
     else
         return 0.0f;
 }
 
 void BCMParameterController::getParameterNameForHost(int hostIdx, String& parameterName)
 {
-    if (isPositiveAndBelow(hostIdx, parameters.size()))
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
     {
         String shortDesc;
-        parameters[hostIdx]->getDescriptions(shortDesc, parameterName);
+        hostParameters[hostIdx]->getDescriptions(shortDesc, parameterName);
     }
     else
     {
@@ -101,14 +164,14 @@ void BCMParameterController::getParameterNameForHost(int hostIdx, String& parame
 
 void BCMParameterController::getParameterText(int hostIdx, String& parameterText)
 {
-    if (isPositiveAndBelow(hostIdx, parameters.size()))
-        parameters[hostIdx]->getUITextValue(parameterText);
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
+        hostParameters[hostIdx]->getUITextValue(parameterText);
 }
 
 void BCMParameterController::setParameterFromHost(int hostIdx, float newHostValue)
 {
-    if (isPositiveAndBelow(hostIdx, parameters.size()))
-        parameters[hostIdx]->setHostValue(newHostValue);
+    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
+        hostParameters[hostIdx]->setHostValue(newHostValue);
 }
 
 void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float newValue)
@@ -187,7 +250,7 @@ void BCMParameterController::endParameterChangeGesture(int hostIdx)
 
 void BCMParameterController::storeParameterValues()
 {
-    int numHostParameters = parameters.size();
+    int numHostParameters = hostParameters.size();
     
     if (numHostParameters > 0)
     {
@@ -245,24 +308,15 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
 			int paramIdx      = -1;
 			int newScopeValue = i.getValue();
 			
-			BCMParameter* parameter = nullptr;
-
 			if (scopeCode < ScopeSyncApplication::numScopeParameters)
 			{
 				paramIdx = paramIdxByScopeCodeId[scopeCode];
                 
 				if (paramIdx >= 0)
-					parameter = parameters[paramIdx];
-			}
-			
-			if (parameter != nullptr)
-			{
-				DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
-				parameter->setScopeIntValue(newScopeValue);
-			}
-			else
-			{
-				// DBG("ScopeSync::receiveUpdatesFromScopeAsync - Failed to process async update for scopeCode " + String(scopeCode) + ", value: " + String(newScopeValue) + " - No parameter found");
+                {
+                    DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
+				    hostParameters[paramIdx]->setScopeIntValue(newScopeValue);
+                }
 			}
 		}
 		asyncControlUpdates.clear();

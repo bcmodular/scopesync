@@ -30,9 +30,16 @@
 #include "ScopeFXGUI.h"
 #include "ScopeFX.h"
 
-ScopeFXGUI::ScopeFXGUI(ScopeFX* owner)
+ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
+    scopeFX(owner)
 {
-    scopeFX = owner;
+    setOpaque(true);
+    setVisible(true);
+    setName("ScopeSync");
+
+    setTopLeftPosition(getScreenPosition().getX(), getScreenPosition().getY());
+    addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, scopeWindow);
+
     scopeSyncGUI = new ScopeSyncGUI(scopeFX->getScopeSync());
     
     int width  = jmax(scopeSyncGUI->getWidth(), 100);

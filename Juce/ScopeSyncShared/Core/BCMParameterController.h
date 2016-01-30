@@ -29,7 +29,8 @@ public:
 
     void reset();
 
-    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType);
+    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter = false);
+    void setupHostParameters();
 
     BCMParameter* getParameterByName(const String& name);
     float getParameterHostValue(int hostIdx);
@@ -37,8 +38,8 @@ public:
     void  setParameterFromGUI(BCMParameter& parameter, float newValue);
     void  getParameterNameForHost(int hostIdx, String& parameterName);
     void  getParameterText(int hostIdx, String& parameterText);
-    void resetScopeCodeIndexes();
-    void snapshot();
+    void  resetScopeCodeIndexes();
+    void  snapshot();
 
     int  getOSCUID();
 	void setOSCUID(int uid);
@@ -62,7 +63,13 @@ public:
     
 private:
 
-    OwnedArray<BCMParameter>   parameters;
+	void addToParamIdxByScopeCodeId(BCMParameter* parameter, int index);
+
+    OwnedArray<BCMParameter>   fixedParameters;
+    OwnedArray<BCMParameter>   dynamicParameters;
+    Array<BCMParameter*>       hostParameters;
+    Array<BCMParameter*>       parameters;
+
     Array<int>                 paramIdxByScopeCodeId;  // Index of parameters by their scopeCodeId
     Value oscUID; // Unique OSC ID for the current instance
     XmlElement                 parameterValueStore;
@@ -77,6 +84,7 @@ private:
     BigInteger changingParams;
     
     static const int    minHostParameters;       // Minimum parameter count to return to host
+    static const int    maxHostParameters;       // Minimum parameter count to return to host
 };
 
 #endif  // BCMPARAMETERCONTROLLER_H_INCLUDED

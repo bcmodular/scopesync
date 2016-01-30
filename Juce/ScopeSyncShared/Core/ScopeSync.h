@@ -110,7 +110,7 @@ public:
 	bool           isInitialised();
     void           saveConfiguration();
     bool           saveConfigurationAs();
-    void           addConfiguration(Rectangle<int> windowPosition);
+    void           addConfiguration(juce::Rectangle<int> windowPosition);
     void           reloadSavedConfiguration();
     bool           configurationHasUnsavedChanges();
     Configuration& getConfiguration() { return *configuration; };
@@ -184,7 +184,7 @@ public:
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
     bool           newConfigIsInLocation();
-    static void    alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync);
+    static void    alertBoxLaunchLocationEditor(int result, juce::Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync);
     void           addConfiguration(File newFile, ValueTree newSettings);
     void           hideAddConfigurationWindow();
     void           actionListenerCallback(const String& message) override;
@@ -222,7 +222,7 @@ private:
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
 	
-    Rectangle<int> newConfigWindowPosition;
+    juce::Rectangle<int> newConfigWindowPosition;
     
     CriticalSection flagLock;
    

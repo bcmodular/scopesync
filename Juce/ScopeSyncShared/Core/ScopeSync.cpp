@@ -69,7 +69,8 @@ N1,N2,N3,N4,N5,N6,N7,N8,\
 O1,O2,O3,O4,O5,O6,O7,O8,\
 P1,P2,P3,P4,P5,P6,P7,P8,\
 Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,\
-Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8",
+Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,\
+X,Y",
 ",",""
 );
 
@@ -352,13 +353,8 @@ void ScopeSync::applyConfiguration()
     ValueTree parameterTree = configuration->getParameters();
 
     for (int i = 0; i < parameterTree.getNumChildren(); i++)
-    {
-		// TODO: Keep a count of "automatable" params and only enumerate those
         parameterController->addParameter(i, parameterTree.getChild(i), BCMParameter::regular);
-	    
-		// TODO: Add fixed IOs here
-    }
-    
+
 #ifndef __DLL_EFFECT__
     pluginProcessor->updateHostDisplay();
 #endif // __DLL_EFFECT__
