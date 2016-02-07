@@ -100,7 +100,7 @@ void ScopeFXGUI::userTriedToCloseWindow()
 
 void ScopeFXGUI::moved()
 {
-    scopeFX->positionChanged(getScreenPosition().getX(), getScreenPosition().getY());
+//    scopeFX->positionChanged(getScreenPosition().getX(), getScreenPosition().getY());
 }
 
 void ScopeFXGUI::paint(Graphics& g)

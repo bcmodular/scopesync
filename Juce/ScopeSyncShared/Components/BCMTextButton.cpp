@@ -46,11 +46,11 @@ BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
 
 BCMTextButton::~BCMTextButton() {};
 
-void BCMTextButton::applyProperties(TextButtonProperties& properties)
+void BCMTextButton::applyProperties(TextButtonProperties& props)
 {
 	// DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
-    applyWidgetProperties(properties);
+    applyWidgetProperties(props);
     mapsToTabs = false;
     isCommandButton = true;
     
@@ -81,45 +81,45 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	// so can't use the normal command trigger method
 	if (getName().equalsIgnoreCase("snapshot"))
 	{
-		setTooltip(properties.tooltip);
-		setButtonText(properties.text);
+		setTooltip(props.tooltip);
+		setButtonText(props.text);
 		return;
 	}
 
 	// Set up the managed buttons
 	if (getName().equalsIgnoreCase("performancemode"))
 	{
-		setupManagedButton(&ScopeSync::getPerformanceMode, &ScopeSync::referToPerformanceMode, properties);
+		setupManagedButton(&ScopeSync::getPerformanceMode, &ScopeSync::referToPerformanceMode, props);
 		return;
 	}
 	
 	if (getName().equalsIgnoreCase("presetlist"))
 	{
-		setupManagedButton(&ScopeSync::getShowPresetWindow, &ScopeSync::referToShowPresetWindow, properties);
+		setupManagedButton(&ScopeSync::getShowPresetWindow, &ScopeSync::referToShowPresetWindow, props);
 		return;
 	}
 	
 	if (getName().equalsIgnoreCase("patchwindow"))
 	{
-		setupManagedButton(&ScopeSync::getShowPatchWindow, &ScopeSync::referToShowPatchWindow, properties);
+		setupManagedButton(&ScopeSync::getShowPatchWindow, &ScopeSync::referToShowPatchWindow, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("monoeffect"))
 	{
-		setupManagedButton(&ScopeSync::getMonoEffect, &ScopeSync::referToMonoEffect, properties);
+		setupManagedButton(&ScopeSync::getMonoEffect, &ScopeSync::referToMonoEffect, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("bypasseffect"))
 	{
-		setupManagedButton(&ScopeSync::getBypassEffect, &ScopeSync::referToBypassEffect, properties);
+		setupManagedButton(&ScopeSync::getBypassEffect, &ScopeSync::referToBypassEffect, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("shellpresetwindow"))
 	{
-		setupManagedButton(&ScopeSync::getShowShellPresetWindow, &ScopeSync::referToShowShellPresetWindow, properties);
+		setupManagedButton(&ScopeSync::getShowShellPresetWindow, &ScopeSync::referToShowShellPresetWindow, props);
 		return;
 	}
 
@@ -127,30 +127,30 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 	// so let's do the remaining set up for parameter buttons
 	isCommandButton = false;
 		
-    String tooltip(properties.tooltip);
-    String buttonText(properties.text);
+    String tooltip(props.tooltip);
+    String buttonText(props.text);
 
-    int radioGroupId = properties.radioGroupId;
+    int rgId = props.radioGroupId;
     
     // Set up any mapping to TabbedComponent Tabs
     String radioGroupTag = String::empty;
 
-    for (int i = 0; i < properties.tabbedComponents.size(); i++)
+    for (int i = 0; i < props.tabbedComponents.size(); i++)
     {
-        String tabbedComponentName = properties.tabbedComponents[i];
-        String tabName = properties.tabNames[i];
+        String tabbedComponentName = props.tabbedComponents[i];
+        String tabName = props.tabNames[i];
 
         tabbedComponentNames.add(tabbedComponentName);
         tabNames.add(tabName);
 
-        radioGroupTag += properties.tabbedComponents[i];
+        radioGroupTag += props.tabbedComponents[i];
         mapsToTabs = true;
             
         // DBG("BCMTextButton::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
     }
         
     if (mapsToTabs)
-        radioGroupId = radioGroupTag.hashCode();
+		rgId = radioGroupTag.hashCode();
 
     upSettingIdx   = -1;
     downSettingIdx = -1;
@@ -158,7 +158,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
     mappingType = noToggle;
     displayType = currentSetting;
 
-    setupMapping(Ids::textButton, getName(), properties.mappingParentType, properties.mappingParent);
+    setupMapping(Ids::textButton, getName(), props.mappingParentType, props.mappingParent);
     
     if (mapsToParameter && parameter->isDiscrete())
     {
@@ -185,7 +185,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
 
         if (mapping.getProperty(Ids::radioGroup).isInt())
         {
-            radioGroupId = mapping.getProperty(Ids::radioGroup);
+			rgId = mapping.getProperty(Ids::radioGroup);
             // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
         }
                 
@@ -278,13 +278,13 @@ void BCMTextButton::applyProperties(TextButtonProperties& properties)
         mapsToParameter = false;
     }
 
-    url = properties.url;
+    url = props.url;
     setTooltip (tooltip);
     setButtonText(buttonText);
-    setRadioGroupId(radioGroupId);
+    setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), TextButtonProperties& properties)
+void BCMTextButton::setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), TextButtonProperties& props)
 {
 	setClickingTogglesState(true);
 	setToggleState((scopeSync.*gf)() > 0, dontSendNotification);
@@ -292,8 +292,8 @@ void BCMTextButton::setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::
 	(scopeSync.*rf)(parameterValue);
 	parameterValue.addListener(this);
 
-	setTooltip(properties.tooltip);
-	setButtonText(properties.text);
+	setTooltip(props.tooltip);
+	setButtonText(props.text);
 }
 
 
@@ -313,8 +313,8 @@ void BCMTextButton::switchToTabs()
 
         for (int j = 0; j < numTabbedComponents; j++)
         {
-            StringArray tabNames = tabbedComponents[j]->getTabNames();
-            int tabIndex = tabNames.indexOf(tabName, true);
+            StringArray names = tabbedComponents[j]->getTabNames();
+            int tabIndex = names.indexOf(tabName, true);
 
             DBG("BCMTextButton::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
                 tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);

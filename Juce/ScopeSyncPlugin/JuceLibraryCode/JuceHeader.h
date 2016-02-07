@@ -34,7 +34,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "ScopeSyncEffectPlugin";
+    const char* const  projectName    = "ScopeSyncInstPlugin";
     const char* const  versionString  = "1.0.2";
     const int          versionNumber  = 0x10002;
 }

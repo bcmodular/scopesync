@@ -371,7 +371,7 @@ int MidiMessage::getNoteNumber() const noexcept
 
 void MidiMessage::setNoteNumber (const int newNoteNumber) noexcept
 {
-    if (isNoteOnOrOff())
+    if (isNoteOnOrOff() || isAftertouch())
         getData()[1] = (uint8) (newNoteNumber & 127);
 }
 
@@ -672,7 +672,7 @@ bool MidiMessage::isTextMetaEvent() const noexcept
 
 String MidiMessage::getTextFromTextMetaEvent() const
 {
-    const char* const textData = reinterpret_cast <const char*> (getMetaEventData());
+    const char* const textData = reinterpret_cast<const char*> (getMetaEventData());
     return String (CharPointer_UTF8 (textData),
                    CharPointer_UTF8 (textData + getMetaEventLength()));
 }
@@ -982,7 +982,7 @@ String MidiMessage::getMidiNoteName (int note, bool useSharps, bool includeOctav
         return s;
     }
 
-    return String::empty;
+    return String();
 }
 
 double MidiMessage::getMidiNoteInHertz (int noteNumber, const double frequencyOfA) noexcept

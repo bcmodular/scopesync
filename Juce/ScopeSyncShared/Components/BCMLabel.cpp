@@ -44,11 +44,11 @@ BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
 
 BCMLabel::~BCMLabel() {}
 
-void BCMLabel::applyProperties(LabelProperties& properties) 
+void BCMLabel::applyProperties(LabelProperties& props) 
 {
-    applyWidgetProperties(properties);
+    applyWidgetProperties(props);
     
-	maxTextLines = properties.maxTextLines;
+	maxTextLines = props.maxTextLines;
 
     String labelText = getText();
     String tooltip   = getText();
@@ -61,7 +61,7 @@ void BCMLabel::applyProperties(LabelProperties& properties)
         labelText = scopeSyncGUI.getScopeSync().getConfigurationName(true);
     else
     {
-        setupMapping(Ids::label, getName(), properties.mappingParentType, properties.mappingParent);
+        setupMapping(Ids::label, getName(), props.mappingParentType, props.mappingParent);
 
         if (mapsToParameter)
         {
@@ -71,13 +71,13 @@ void BCMLabel::applyProperties(LabelProperties& properties)
             parameter->getDescriptions(shortDescription, fullDescription);
             tooltip = fullDescription;
             
-            if (properties.parameterTextDisplay == LabelProperties::parameterName)
+            if (props.parameterTextDisplay == LabelProperties::parameterName)
                 labelText = parameter->getName();
-            else if (properties.parameterTextDisplay == LabelProperties::shortDescription)
+            else if (props.parameterTextDisplay == LabelProperties::shortDescription)
                 labelText = shortDescription;
-            else if (properties.parameterTextDisplay == LabelProperties::fullDescription)
+            else if (props.parameterTextDisplay == LabelProperties::fullDescription)
                 labelText = fullDescription;
-            else if (properties.parameterTextDisplay == LabelProperties::scopeCode)
+            else if (props.parameterTextDisplay == LabelProperties::scopeCode)
                 labelText = parameter->getScopeCode();
         }
     }
@@ -88,8 +88,8 @@ void BCMLabel::applyProperties(LabelProperties& properties)
     setText(labelText, dontSendNotification);
     setTooltip(tooltip);
     
-    setFont(Font(properties.fontHeight, properties.fontStyleFlags));
-    setJustificationType(Justification(properties.justificationFlags));
+    setFont(Font(props.fontHeight, props.fontStyleFlags));
+    setJustificationType(Justification(props.justificationFlags));
 }
 
 const Identifier BCMLabel::getComponentType() const { return Ids::label; };

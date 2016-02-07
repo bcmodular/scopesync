@@ -44,7 +44,7 @@ public:
     BCMComboBox(String& name, ScopeSyncGUI& owner);
     ~BCMComboBox();
 
-    void applyProperties(ComboBoxProperties& properties);
+    void applyProperties(ComboBoxProperties& props);
     const Identifier getComponentType() const override;
 
     void valueChanged(Value& value) override;

@@ -42,7 +42,7 @@ public:
     BCMLabel(String& name, String& text, ScopeSyncGUI& owner);
     ~BCMLabel();
 
-    void applyProperties(LabelProperties& properties);
+    void applyProperties(LabelProperties& props);
     const Identifier getComponentType() const override;
 
 	int getMaxTextLines() { return maxTextLines; }

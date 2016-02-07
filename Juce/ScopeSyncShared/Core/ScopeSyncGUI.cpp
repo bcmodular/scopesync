@@ -174,9 +174,9 @@ void ScopeSyncGUI::hideConfigurationChooserWindow()
     configurationChooserWindow = nullptr;
 }
 
-BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping)
+BCMParameter* ScopeSyncGUI::getUIMapping(Identifier compTypeId, const String& compName, ValueTree& mapping)
 {
-    ValueTree componentMapping = deviceMapping.getChildWithName(componentTypeId);
+    ValueTree componentMapping = deviceMapping.getChildWithName(compTypeId);
 
     if (componentMapping.isValid())
     {
@@ -184,7 +184,7 @@ BCMParameter* ScopeSyncGUI::getUIMapping(Identifier componentTypeId, const Strin
         {
             String mappedComponentName = componentMapping.getChild(i).getProperty(Ids::name);
 
-            if (componentName.equalsIgnoreCase(mappedComponentName))
+            if (compName.equalsIgnoreCase(mappedComponentName))
             {
                 mapping = componentMapping.getChild(i);
                 String mapTo = mapping.getProperty(Ids::mapTo).toString();
@@ -210,9 +210,9 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
 
     for (int i = 0; i < numTabbedComponents; i++)
     {
-        String componentName = tabbedComponents[i]->getName();
+        String compName = tabbedComponents[i]->getName();
 
-        if (name.equalsIgnoreCase(componentName))
+        if (name.equalsIgnoreCase(compName))
             tabbedComponentArray.add(tabbedComponents[i]);
     }
 }

@@ -298,7 +298,7 @@ String Configuration::getDocumentTitle()
 
 void Configuration::setupConfigurationProperties()
 {
-    const String filename ("Configuration_" + String(configurationRoot[Ids::ID]));
+    const String filename ("Configuration_" + configurationRoot[Ids::ID].toString());
 
     PropertiesFile::Options options;
     options.applicationName     = filename;

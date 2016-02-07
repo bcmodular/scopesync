@@ -699,17 +699,17 @@ ConfigurationManagerCalloutWindow::~ConfigurationManagerCalloutWindow()
         sendSynchronousChangeMessage();
 }
 
-void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName)
+void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName)
 {
     if (!(mapping.isValid()))
-         scopeSync.getConfiguration().addNewMapping(componentType, componentName, String::empty, mapping, -1, &undoManager);
+         scopeSync.getConfiguration().addNewMapping(compType, compName, String::empty, mapping, -1, &undoManager);
 
     MappingPanel* panelToShow;
 
-    if (componentType == Ids::textButton)
+    if (compType == Ids::textButton)
         panelToShow = new TextButtonMappingPanel(mapping, undoManager, scopeSync, commandManager, true);
     else
-        panelToShow = new MappingPanel(mapping, undoManager, scopeSync, commandManager, componentType, true);
+        panelToShow = new MappingPanel(mapping, undoManager, scopeSync, commandManager, compType, true);
     
         configurationManagerCallout->changePanel(panelToShow);
 }
@@ -720,8 +720,8 @@ void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter)
 }
 
 void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&  styleOverride, 
-                                                        const Identifier& componentType, 
-                                                        const String&     componentName, 
+                                                        const Identifier& compType, 
+                                                        const String&     compName, 
                                                         const String&     widgetTemplateId, 
                                                         const String&     fillColour,
                                                         const String&     lineColour,
@@ -730,14 +730,14 @@ void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&  styleO
 {
     if (!(styleOverride.isValid()))
     {
-        scopeSync.getConfiguration().addStyleOverride(componentType, componentName, widgetTemplateId, styleOverride, -1, &undoManager);
+        scopeSync.getConfiguration().addStyleOverride(compType, compName, widgetTemplateId, styleOverride, -1, &undoManager);
         styleOverride.setProperty(Ids::fillColour,  fillColour, &undoManager);
         styleOverride.setProperty(Ids::lineColour,  lineColour, &undoManager);
         styleOverride.setProperty(Ids::fillColour2, fillColour2, &undoManager);
         styleOverride.setProperty(Ids::lineColour2, lineColour2, &undoManager);
     }
 
-    configurationManagerCallout->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, componentType, true));
+    configurationManagerCallout->changePanel(new StyleOverridePanel(styleOverride, undoManager, scopeSync, commandManager, compType, true));
 }
 
 void ConfigurationManagerCalloutWindow::paint(Graphics& g)

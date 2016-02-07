@@ -687,7 +687,7 @@ ValueTree UserSettings::getValueTreeFromGlobalProperties(const String& valueTree
     {
         ValueTree newTree(valueTreeToGet);
         
-        ScopedPointer<XmlElement> xml = newTree.createXml();
+        xml = newTree.createXml();
         getGlobalProperties()->setValue(valueTreeToGet, xml);
 
         return newTree;

@@ -341,7 +341,7 @@ bool BCMParameter::isDiscrete()
     return false;
 }
 
-double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedValue)
+double BCMParameter::convertLinearNormalisedToUIValue(double lnValue)
 {
     double minUIValue;
     double maxUIValue;
@@ -350,7 +350,7 @@ double BCMParameter::convertLinearNormalisedToUIValue(double linearNormalisedVal
     
     getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
     
-    return scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, linearNormalisedValue);
+    return scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, lnValue);
 }
 
 double BCMParameter::convertUIToLinearNormalisedValue(double newValue)
@@ -515,7 +515,7 @@ int BCMParameter::findNearestParameterSetting(int value)
 
         if (gap == 0)
         {
-            DBG("BCMParameter::findNearestParameterSetting - Found 'exact' match for setting: " + String(settings.getChild(i).getProperty(Ids::name)));
+            DBG("BCMParameter::findNearestParameterSetting - Found 'exact' match for setting: " + settings.getChild(i).getProperty(Ids::name).toString());
 
             nearestItem = i;
             break;

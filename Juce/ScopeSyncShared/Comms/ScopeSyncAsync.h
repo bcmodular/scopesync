@@ -32,6 +32,8 @@ class ScopeSync;
 
 #include <JuceHeader.h>
 #include "../Include/SonicCore/effclass.h"
+#include "../../ScopeSyncFX/Source/ScopeFXParameterDefinitions.h"
+#include <atomic>
 
 class ScopeSyncAsync {
 
@@ -42,7 +44,7 @@ public:
 
     // Processes an incoming array of Async values coming from Scope and passes
     // on any updates from the ScopeSync system
-    void handleUpdate(int* asyncValues, bool initialise, bool performanceMode);
+    void handleUpdate(int* asyncValues, int* prevValues, bool performanceMode);
     
     // Passes on the contents of the queue of updates received from Scope
     void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
@@ -55,11 +57,10 @@ public:
     void setValue(int scopeCode, int newValue);
     
 private:
+    bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
 
-    Array<int, CriticalSection> currentValues;
-    
+    std::atomic_int currentValues[ScopeFXParameterDefinitions::numParameters];
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input
-	HashMap<int, int, DefaultHashFunctions, CriticalSection> scopeSyncUpdates; // Updates coming from within the ScopeSync code, e.g. GUI or OSC/MIDI changes
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncAsync);
 };

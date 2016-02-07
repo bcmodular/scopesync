@@ -86,16 +86,16 @@ void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
 	maxTextLines = labelXML.getIntAttribute("maxtextlines", maxTextLines);
 };
 
-void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& parameterTextDisplay)
+void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& paramTextDisplay)
 {
     String parameterTextDisplayString = labelXML.getStringAttribute("parametertextdisplay", String::empty);
 
     if (parameterTextDisplayString.equalsIgnoreCase("name"))
-        parameterTextDisplay = parameterName;
+		paramTextDisplay = parameterName;
     else if (parameterTextDisplayString.equalsIgnoreCase("shortdescription"))
-        parameterTextDisplay = shortDescription;
+		paramTextDisplay = shortDescription;
     else if (parameterTextDisplayString.equalsIgnoreCase("fulldescription"))
-        parameterTextDisplay = fullDescription;
+		paramTextDisplay = fullDescription;
     else if (parameterTextDisplayString.equalsIgnoreCase("scopecode"))
-        parameterTextDisplay = scopeCode;
+		paramTextDisplay = scopeCode;
 }

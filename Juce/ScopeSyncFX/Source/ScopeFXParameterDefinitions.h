@@ -33,15 +33,22 @@ namespace ScopeFXParameterDefinitions {
 
     static const int numScopeParameters = 128;
     static const int numLocalParameters = 16;
-    static const int numFeedbackParameters = 128;
-    static const int numFixedParameters = 2;
-    static const int numParameters = numScopeParameters + numLocalParameters + numFixedParameters;
+    static const int numFixedBiDirParameters = 13;
+	static const int numFixedInputOnlyParameters = 3;
+	static const int numFeedbackParameters = 128;
+	static const int numParameters = numScopeParameters 
+		                           + numLocalParameters 
+								   + numFixedBiDirParameters
+								   + numFixedInputOnlyParameters
+								   + numFeedbackParameters;
+    static const int numOutputParameters = numScopeParameters
+                                         + numLocalParameters
+                                         + numFixedBiDirParameters;
 
     /** the async input numbers*/
     enum asyncInPads {
 		INPAD_PARAMS,
         INPAD_LOCALS,
-        INPAD_FEEDBACK,
         INPAD_X,
 		INPAD_Y,
 		INPAD_SHOW,
@@ -50,14 +57,15 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_PERFORMANCE_MODE,
 		INPAD_SHOW_PRESET_WINDOW,
 		INPAD_SHOW_PATCH_WINDOW,
-		INPAD_DEVICE_TYPE,
-		INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE,
 		INPAD_MONO_EFFECT,
 		INPAD_BYPASS_EFFECT,
 		INPAD_SHOW_SHELL_PRESET_WINDOW,
 		INPAD_VOICE_COUNT,
-		INPAD_MIDI_ACTIVITY,
 		INPAD_MIDI_CHANNEL,
+		INPAD_FEEDBACK,
+		INPAD_DEVICE_TYPE,
+		INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE,
+		INPAD_MIDI_ACTIVITY,
 		NUM_ASYNCINPADS
     };
 
@@ -94,12 +102,12 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_PERFORMANCE_MODE,
 		OUTPAD_SHOW_PRESET_WINDOW,
 		OUTPAD_SHOW_PATCH_WINDOW,
-		OUTPAD_LOADED,
 		OUTPAD_MONO_EFFECT,
 		OUTPAD_BYPASS_EFFECT,
 		OUTPAD_SHOW_SHELL_PRESET_WINDOW,
 		OUTPAD_VOICE_COUNT,
 		OUTPAD_MIDI_CHANNEL,
+		OUTPAD_LOADED,
 		NUM_ASYNCOUTPADS
     };
 
@@ -112,7 +120,6 @@ namespace ScopeFXParameterDefinitions {
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numScopeParameters },    // INPAD_PARAMS
         { DTYPE_INT, FRAC_MIN, FRAC_MAX, numLocalParameters },    // INPAD_LOCALS
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX, numFeedbackParameters }, // INPAD_FEEDBACK
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_Y
 		{ DTYPE_INT, 0, 1 },                                      // INPAD_SHOW
@@ -121,15 +128,16 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_PATCH_WINDOW
-        { DTYPE_INT, 0, FRAC_MAX },                               // INPAD_DEVICE_TYPE
-		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MONO_EFFECT
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_BYPASS_EFFECT
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_SHOW_SHELL_PRESET_WINDOW
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_VOICE_COUNT
-		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_ACTIVITY
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_CHANNEL
-    };
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX, numFeedbackParameters }, // INPAD_FEEDBACK
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_DEVICE_TYPE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE_GLOBAL_DISABLE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_ACTIVITY
+	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_PARAM_1
@@ -284,19 +292,18 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_PERFORMANCE_MODE
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PRESET_WINDOW
         { DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_PATCH_WINDOW
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_LOADED
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MONO_EFFECT
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_BYPASS_EFFECT
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_SHOW_SHELL_PRESET_WINDOW
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_VOICE_COUNT
 		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_MIDI_CHANNEL
-    };
+		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_LOADED
+	};
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
 		{ "PI",   "Parameter Inputs" },
         { "LI",   "Local Inputs" },
-        { "FI",   "Feedback Inputs" },
         { "X",    "X position" },
         { "Y",    "Y position" },
 		{ "show", "show window" },
@@ -305,15 +312,16 @@ namespace ScopeFXParameterDefinitions {
         { "pm",   "performance mode" },
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
-		{ "type", "device type" },
-		{ "pmgd", "performance global disable" },
 		{ "mono", "mono effect" },
 		{ "byp",  "bypass effect" },
 		{ "sspr", "show shell preset window" },
 		{ "vc",   "voice count" },
-		{ "mida", "midi activity" },
 		{ "midc", "midi channel" },
-    };
+		{ "FI",   "Feedback Inputs" },
+		{ "type", "device type" },
+		{ "pmgd", "performance global disable" },
+		{ "mida", "midi activity" },
+	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
 		{ "P1",   "Parameter Output 1" },
@@ -468,15 +476,15 @@ namespace ScopeFXParameterDefinitions {
         { "pm",   "performance mode" },
 		{ "spr",  "show preset window" },
 		{ "spa",  "show patch window" },
-		{ "load", "ScopeSync Loaded" },
 		{ "mono", "mono effect" },
 		{ "byp",  "bypass effect" },
 		{ "sspr", "show shell preset window" },
 		{ "vc",   "voice count" },
 		{ "midc", "midi channel" },
-    };
+		{ "load", "ScopeSync Loaded" },
+};
 
-    //--------------------------------------------------------------------------
+	//--------------------------------------------------------------------------
     static EffectDescription effectDescription = {
 
         NUM_ASYNCINPADS,   // int32    asyncinPads;

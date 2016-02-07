@@ -44,21 +44,21 @@ BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
 
 BCMComboBox::~BCMComboBox() {}
 
-void BCMComboBox::applyProperties(ComboBoxProperties& properties)
+void BCMComboBox::applyProperties(ComboBoxProperties& props)
 {
-    applyWidgetProperties(properties);
+    applyWidgetProperties(props);
     
-    fontHeight         = properties.fontHeight;
-    fontStyleFlags     = properties.fontStyleFlags;
+    fontHeight         = props.fontHeight;
+    fontStyleFlags     = props.fontStyleFlags;
     
-    setEditableText(properties.editableText);
-    setJustificationType(Justification(properties.justificationFlags));
-    setTextWhenNothingSelected(properties.nothingSelectedText);
-    setTextWhenNoChoicesAvailable(properties.noChoicesText);
+    setEditableText(props.editableText);
+    setJustificationType(Justification(props.justificationFlags));
+    setTextWhenNothingSelected(props.nothingSelectedText);
+    setTextWhenNoChoicesAvailable(props.noChoicesText);
     
-    String tooltip  = properties.tooltip;
+    String tooltip  = props.tooltip;
     
-    setupMapping(Ids::comboBox, getName(), properties.mappingParentType, properties.mappingParent);
+    setupMapping(Ids::comboBox, getName(), props.mappingParentType, props.mappingParent);
 
     if (mapsToParameter && parameter->isDiscrete())
     {

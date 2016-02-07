@@ -91,9 +91,9 @@ class LowLevelGraphicsContext;
 #include "images/juce_ImageCache.h"
 #include "images/juce_ImageConvolutionKernel.h"
 #include "images/juce_ImageFileFormat.h"
-#include "fonts/juce_AttributedString.h"
 #include "fonts/juce_Typeface.h"
 #include "fonts/juce_Font.h"
+#include "fonts/juce_AttributedString.h"
 #include "fonts/juce_GlyphArrangement.h"
 #include "fonts/juce_TextLayout.h"
 #include "fonts/juce_CustomTypeface.h"
@@ -107,6 +107,11 @@ class LowLevelGraphicsContext;
 #include "effects/juce_ImageEffectFilter.h"
 #include "effects/juce_DropShadowEffect.h"
 #include "effects/juce_GlowEffect.h"
+
+#if JUCE_GRAPHICS_INCLUDE_COREGRAPHICS_HELPERS && JUCE_MAC
+ #include "native/juce_mac_CoreGraphicsHelpers.h"
+ #include "native/juce_mac_CoreGraphicsContext.h"
+#endif
 
 }
 

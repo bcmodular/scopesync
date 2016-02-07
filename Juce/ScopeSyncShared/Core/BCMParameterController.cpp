@@ -18,6 +18,7 @@
 
 const int BCMParameterController::minHostParameters = 128;
 const int BCMParameterController::maxHostParameters = 128;
+const int BCMParameterController::timerFrequency = 20;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 scopeSync(owner), parameterValueStore("parametervalues")
@@ -42,6 +43,13 @@ scopeSync(owner), parameterValueStore("parametervalues")
     tmpParameter.setProperty(Ids::fullDescription,  "Y",           nullptr);
     tmpParameter.setProperty(Ids::scopeCodeId,      145,           nullptr);
     addParameter(-1, tmpParameter, BCMParameter::regular, true);
+
+    startTimer(timerFrequency);
+}
+
+BCMParameterController::~BCMParameterController()
+{
+    stopTimer();
 }
 
 void BCMParameterController::addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter)
@@ -293,6 +301,11 @@ void BCMParameterController::restoreParameterValues()
     //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 }
 
+void BCMParameterController::timerCallback()
+{
+    receiveUpdatesFromScopeAsync();
+}
+
 void BCMParameterController::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
@@ -323,18 +336,5 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
 	}
 #endif // __DLL_EFFECT__
 } 
-
-void BCMParameterController::handleScopeSyncAsyncUpdate(int* asyncValues)
-{
-#ifdef __DLL_EFFECT__
-	bool perfMode = ScopeSync::getPerformanceModeGlobalDisable() ? false : (scopeSync->getPerformanceMode() > 0);
-	
-	scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, initialiseScopeParameters, perfMode);
-    initialiseScopeParameters = false;
-#else
-    (void)asyncValues;
-#endif // __DLL_EFFECT__
-}
-
 
 

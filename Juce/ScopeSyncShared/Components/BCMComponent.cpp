@@ -272,13 +272,13 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
 
     ComponentProperties* parentProperties = scopeSyncGUI.defaultComponentProperties;
         
-    String widgetTemplateId = componentXML.getStringAttribute("wtid");
+    String wtId = componentXML.getStringAttribute("wtid");
 
-    if (widgetTemplateId.isNotEmpty())
+    if (wtId.isNotEmpty())
     {
         for (int i = 0; i < scopeSyncGUI.componentTemplates.size(); i++)
         {
-            if (scopeSyncGUI.componentTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+            if (scopeSyncGUI.componentTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
             {
                 parentProperties = scopeSyncGUI.componentTemplates[i];
                 break;
@@ -286,21 +286,21 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
         }
     }
 
-    ComponentProperties properties(componentXML, *parentProperties);
+    ComponentProperties props(componentXML, *parentProperties);
     
-    applyWidgetProperties(properties);
+    applyWidgetProperties(props);
     layoutDirectory = layoutDir;
 
     if (styleOverride.isValid() && styleOverride.getProperty(Ids::useColourOverrides, true))
-        backgroundColour = styleOverride.getProperty(Ids::fillColour, properties.backgroundColour);
+        backgroundColour = styleOverride.getProperty(Ids::fillColour, props.backgroundColour);
     else
-        backgroundColour = properties.backgroundColour;
+        backgroundColour = props.backgroundColour;
     
-    if (properties.backgroundImageFileName.isNotEmpty())
+    if (props.backgroundImageFileName.isNotEmpty())
     {
         bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
-        backgroundImage = ImageLoader::getInstance()->loadImage(properties.backgroundImageFileName, useImageCache, layoutDirectory);
+        backgroundImage = ImageLoader::getInstance()->loadImage(props.backgroundImageFileName, useImageCache, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
         {
@@ -499,13 +499,13 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
     {
         TabbedComponentProperties* parentProperties = scopeSyncGUI.defaultTabbedComponentProperties;
         
-        String widgetTemplateId = tabbedComponentXML.getStringAttribute("wtid");
+        String wtId = tabbedComponentXML.getStringAttribute("wtid");
 
-        if (widgetTemplateId.isNotEmpty())
+        if (wtId.isNotEmpty())
         {
             for (int i = 0; i < scopeSyncGUI.tabbedComponentTemplates.size(); i++)
             {
-                if (scopeSyncGUI.tabbedComponentTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                if (scopeSyncGUI.tabbedComponentTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
                 {
                     parentProperties = scopeSyncGUI.tabbedComponentTemplates[i];
                     break;
@@ -571,13 +571,13 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
     {
         SliderProperties* parentProperties = scopeSyncGUI.defaultSliderProperties;
         
-        String widgetTemplateId = sliderXML.getStringAttribute("wtid");
+        String wtId = sliderXML.getStringAttribute("wtid");
 
-        if (widgetTemplateId.isNotEmpty())
+        if (wtId.isNotEmpty())
         {
             for (int i = 0; i < scopeSyncGUI.sliderTemplates.size(); i++)
             {
-                if (scopeSyncGUI.sliderTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                if (scopeSyncGUI.sliderTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
                 {
                     parentProperties = scopeSyncGUI.sliderTemplates[i];
                     break;
@@ -603,13 +603,13 @@ void BCMComponent::setupLabel(XmlElement& labelXML)
     {
         LabelProperties* parentProperties = scopeSyncGUI.defaultLabelProperties;
         
-        String widgetTemplateId = labelXML.getStringAttribute("wtid");
+        String wtId = labelXML.getStringAttribute("wtid");
 
-        if (widgetTemplateId.isNotEmpty())
+        if (wtId.isNotEmpty())
         {
             for (int i = 0; i < scopeSyncGUI.labelTemplates.size(); i++)
             {
-                if (scopeSyncGUI.labelTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                if (scopeSyncGUI.labelTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
                 {
                     parentProperties = scopeSyncGUI.labelTemplates[i];
                     break;
@@ -637,13 +637,13 @@ void BCMComponent::setupTextButton(XmlElement& textButtonXML)
     {
         TextButtonProperties* parentProperties = scopeSyncGUI.defaultTextButtonProperties;
         
-        String widgetTemplateId = textButtonXML.getStringAttribute("wtid");
+        String wtId = textButtonXML.getStringAttribute("wtid");
 
-        if (widgetTemplateId.isNotEmpty())
+        if (wtId.isNotEmpty())
         {
             for (int i = 0; i < scopeSyncGUI.textButtonTemplates.size(); i++)
             {
-                if (scopeSyncGUI.textButtonTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                if (scopeSyncGUI.textButtonTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
                 {
                     parentProperties = scopeSyncGUI.textButtonTemplates[i];
                     break;
@@ -667,13 +667,13 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
     {
         ComboBoxProperties* parentProperties = scopeSyncGUI.defaultComboBoxProperties;
         
-        String widgetTemplateId = comboBoxXML.getStringAttribute("wtid");
+        String wtId = comboBoxXML.getStringAttribute("wtid");
 
-        if (widgetTemplateId.isNotEmpty())
+        if (wtId.isNotEmpty())
         {
             for (int i = 0; i < scopeSyncGUI.comboBoxTemplates.size(); i++)
             {
-                if (scopeSyncGUI.comboBoxTemplates[i]->widgetTemplateId.equalsIgnoreCase(widgetTemplateId))
+                if (scopeSyncGUI.comboBoxTemplates[i]->widgetTemplateId.equalsIgnoreCase(wtId))
                 {
                     parentProperties = scopeSyncGUI.comboBoxTemplates[i];
                     break;

@@ -42,14 +42,14 @@ BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation,
 
 BCMTabbedComponent::~BCMTabbedComponent() {}
 
-void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
+void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 {
-    setName(properties.name);
-    applyWidgetProperties(properties);
+    setName(props.name);
+    applyWidgetProperties(props);
     
     NamedValueSet& barProperties = getTabbedButtonBar().getProperties();
 
-    setTabBarDepth(properties.tabBarDepth);
+    setTabBarDepth(props.tabBarDepth);
     
 	if (getName().equalsIgnoreCase("Device Type"))
 	{
@@ -57,9 +57,9 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& properties)
 		scopeSync.referToDeviceType(parameterValue);
 	}
     else
-		setupMapping(Ids::tabbedComponent, getName(), properties.mappingParentType, properties.mappingParent);
+		setupMapping(Ids::tabbedComponent, getName(), props.mappingParentType, props.mappingParent);
 
-    barProperties.set("showdropshadow", properties.showDropShadow);
+    barProperties.set("showdropshadow", props.showDropShadow);
 }
 
 const Identifier BCMTabbedComponent::getComponentType() const { return Ids::tabbedComponent; };

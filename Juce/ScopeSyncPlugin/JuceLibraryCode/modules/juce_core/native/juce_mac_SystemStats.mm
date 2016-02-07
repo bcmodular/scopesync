@@ -81,14 +81,15 @@ void CPUInformation::initialise() noexcept
     has3DNow = (b & (1u << 31)) != 0;
     hasSSE3  = (c & (1u <<  0)) != 0;
     hasSSSE3 = (c & (1u <<  9)) != 0;
+    hasSSE41 = (c & (1u << 20)) != 0;
+    hasSSE42 = (c & (1u << 19)) != 0;
     hasAVX   = (c & (1u << 28)) != 0;
+
+    SystemStatsHelpers::doCPUID (a, b, c, d, 7);
+    hasAVX2  = (b & (1u <<  5)) != 0;
    #endif
 
-   #if JUCE_IOS || (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5)
     numCpus = (int) [[NSProcessInfo processInfo] activeProcessorCount];
-   #else
-    numCpus = (int) MPProcessors();
-   #endif
 }
 
 #if JUCE_MAC
@@ -182,7 +183,7 @@ String SystemStats::getCpuVendor()
 
     SystemStatsHelpers::doCPUID (dummy, vendor[0], vendor[2], vendor[1], 0);
 
-    return String (reinterpret_cast <const char*> (vendor), 12);
+    return String (reinterpret_cast<const char*> (vendor), 12);
    #else
     return String();
    #endif

@@ -45,7 +45,7 @@ public:
     BCMTextButton(ScopeSyncGUI& owner, String& name);
     ~BCMTextButton();
 
-    void applyProperties(TextButtonProperties& properties);
+    void applyProperties(TextButtonProperties& props);
     const Identifier getComponentType() const override;
 
     // Callback for when the value of a mapped parameter changes

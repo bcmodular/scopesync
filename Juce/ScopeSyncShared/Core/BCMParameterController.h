@@ -15,17 +15,18 @@
 #include "BCMParameter.h"
 #include "ScopeSync.h"
 
-class BCMParameterController
+class BCMParameterController : public Timer
 {
 public:
 
     BCMParameterController(ScopeSync* owner);
+    ~BCMParameterController();
     
 	/* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
     // the "minHostParameters" value to prevent issues with switching between 
     // configurations that have different parameter counts.
-    int    getNumParametersForHost();
+    int  getNumParametersForHost();
 
     void reset();
 
@@ -54,13 +55,14 @@ public:
     void endAllParameterChangeGestures();
 
     void receiveUpdatesFromScopeAsync();
-    void handleScopeSyncAsyncUpdate(int* asyncValues);
     
     void         storeParameterValues();
     void         storeParameterValues(XmlElement& parameterValues);
     void         restoreParameterValues();
     XmlElement&  getParameterValueStore() { return parameterValueStore; };
     
+    void timerCallback();
+
 private:
 
 	void addToParamIdxByScopeCodeId(BCMParameter* parameter, int index);
@@ -74,8 +76,7 @@ private:
     Value oscUID; // Unique OSC ID for the current instance
     XmlElement                 parameterValueStore;
     
-    bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
-	bool shouldReceiveAsyncUpdates;
+    bool shouldReceiveAsyncUpdates;
     
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
     
@@ -83,8 +84,9 @@ private:
     
     BigInteger changingParams;
     
-    static const int    minHostParameters;       // Minimum parameter count to return to host
-    static const int    maxHostParameters;       // Minimum parameter count to return to host
+    static const int minHostParameters;       // Minimum parameter count to return to host
+    static const int maxHostParameters;       // Minimum parameter count to return to host
+    static const int timerFrequency;
 };
 
 #endif  // BCMPARAMETERCONTROLLER_H_INCLUDED

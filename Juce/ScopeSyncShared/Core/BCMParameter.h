@@ -100,7 +100,7 @@ private:
     void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert);
     double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert);
-    double convertLinearNormalisedToUIValue(double linearNormalisedValue);
+    double convertLinearNormalisedToUIValue(double lnValue);
 	double convertUIToLinearNormalisedValue(double newValue);
 
     void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);

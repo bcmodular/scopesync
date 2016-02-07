@@ -10,9 +10,9 @@
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
               pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.0.2"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.1.0"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
-              companyEmail="support@scopesync.co.uk">
+              companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
   <MAINGROUP id="zkEMvA" name="ScopeSyncEffectPlugin">
     <GROUP id="{5DDFDA23-4E61-4495-F913-536F2D9C1306}" name="Presets">
       <FILE id="ENmiOS" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSyncShared/Presets/PresetItem.cpp"/>
@@ -189,6 +189,35 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
+    <VS2015 targetFolder="Builds/ScopeSyncEffect/VisualStudio2015" vstFolder=""
+            vst3Folder="../../External/VST3 SDK" extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTFX-Debug_1_0_2"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" targetName="ScopeSyncVSTFX-Debug-x64_1_0_2" optimisation="1"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeSyncVSTFX_1_0_2"
+                       useRuntimeLibDLL="0" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
+        <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
+                       winArchitecture="32-bit" targetName="ScopeSyncVSTFX-x64_1_0_2"
+                       useRuntimeLibDLL="0" optimisation="2" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
     <VS2013 targetFolder="Builds/ScopeSyncEffect/VisualStudio2013" vstFolder=""
             vst3Folder="../../External/VST3 SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="">

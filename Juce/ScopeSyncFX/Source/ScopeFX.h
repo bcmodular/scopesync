@@ -40,6 +40,8 @@ class ScopeFXGUI;
 #include "../Include/SonicCore/effclass.h"
 #include "ScopeFXParameterDefinitions.h"
 
+using namespace ScopeFXParameterDefinitions;
+
 class ScopeFX : public Effect, public Timer
 {
 public:
@@ -57,33 +59,15 @@ public:
     int  async (PadData** asyncIn,  PadData* syncIn,
                 PadData*  asyncOut, PadData* syncOut);
     
-    // Hides the GUI window
-    void hideWindow();
-    
-    // Update current window location values
-    void positionChanged(int newPosX, int newPosY);
-    
     ScopeSync& getScopeSync() { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 
+    void timerCallback();
+
+    // Hides the GUI window
+    void hideWindow();
+
 private:	
-    enum ManagedValues { performanceMode, 
-                         oscUID, 
-                         deviceType, 
-                         showPatchWindow, 
-                         showPresetWindow, 
-                         monoEffect,
-                         bypassEffect,
-                         showShellPresetWindow,
-                         voiceCount,
-                         midiActivity,
-                         midiChannel,
-                         performanceModeGlobalDisable,
-                         configurationUID, 
-                         numManagedValues };
- 
-	static const int getInputIndexForValue(int index);
-	static const int getOutputIndexForValue(int index);
 	
 	// Initialise member variables
     void initValues();
@@ -91,34 +75,11 @@ private:
     // Show the ScopeSync GUI window
     void showWindow();
 
-	// Handle changes to fixed IO values either from Async or ScopeSync
-	void manageValuesForScopeSync();
-	void handleAsyncValue(void (ScopeSync::*f)(int input), int managedValueId);
-
-	// Handle the Timer callback and trigger callbacks in
-    // ScopeSync and ScopeFXGUI. Handles window resizing and location.
-    void timerCallback();
+    bool shouldShowWindow;
 
     ScopedPointer<ScopeSync> scopeSync;	
-    
-    static const int initPositionX;
-	static const int initPositionY;
-
-    static const int windowHandlerDelayMax;
-    static const int timerFrequency;
-    
-    // Async values that are handled directly by ScopeFX
-    int positionX; // Horizontal location of window
-	int positionY; // Vertical location of window
-
-	int currentValues[numManagedValues];
-	int newAsyncValues[numManagedValues];
-	int newScopeSyncValues[numManagedValues];
-	
-	bool requestWindowShow; // Flag to indicate that window should be shown
-    bool windowShown;       // Flag to indicate that window is currently being shown
-    
-    int windowHandlerDelay; // Hack to avoid feedback loops when moving window around in Scope
+        
+	int currentValues[numParameters];
 
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
 };

@@ -210,7 +210,7 @@ public:
     ConfigurationManagerCalloutWindow(ScopeSync& owner, int width, int height);
     ~ConfigurationManagerCalloutWindow();
 
-    void setMappingPanel(ValueTree& mapping, const Identifier& componentType, const String& componentName);
+    void setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName);
     void setParameterPanel(ValueTree& parameter);
     void setStyleOverridePanel(ValueTree& styleOverride,
                                const Identifier& componentType, 

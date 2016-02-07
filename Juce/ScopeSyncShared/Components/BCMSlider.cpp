@@ -47,66 +47,66 @@ BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
 
 BCMSlider::~BCMSlider() {}
 
-void BCMSlider::applyProperties(SliderProperties& properties)
+void BCMSlider::applyProperties(SliderProperties& props)
 {
 	mapsToParameter = false;
 
-    overrideSliderStyle(properties.style);
+    overrideSliderStyle(props.style);
     
-	fontHeight         = properties.fontHeight;
-    fontStyleFlags     = properties.fontStyleFlags;
-    justificationFlags = properties.justificationFlags;
+	fontHeight         = props.fontHeight;
+    fontStyleFlags     = props.fontStyleFlags;
+    justificationFlags = props.justificationFlags;
     
-    applyWidgetProperties(properties);
+    applyWidgetProperties(props);
     
-    if (properties.style == Slider::IncDecButtons)
-        overrideIncDecButtonMode(properties.incDecButtonMode);
+    if (props.style == Slider::IncDecButtons)
+        overrideIncDecButtonMode(props.incDecButtonMode);
 
-    overridePopupEnabled(properties.popupEnabled);
-    overrideVelocityBasedMode(properties.velocityBasedMode);
+    overridePopupEnabled(props.popupEnabled);
+    overrideVelocityBasedMode(props.velocityBasedMode);
 
-    setTextBoxStyle(properties.textBoxPosition,
-                    properties.textBoxReadOnly,
-                    properties.textBoxWidth,
-                    properties.textBoxHeight);
+    setTextBoxStyle(props.textBoxPosition,
+                    props.textBoxReadOnly,
+                    props.textBoxWidth,
+                    props.textBoxHeight);
     
     // Set up managed sliders
 	if (getName().equalsIgnoreCase("oscuid"))
 	{
-		setupManagedSlider(&ScopeSync::setOSCUID, &ScopeSync::getOSCUID, &ScopeSync::referToOSCUID, properties);
+		setupManagedSlider(&ScopeSync::setOSCUID, &ScopeSync::getOSCUID, &ScopeSync::referToOSCUID, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("voicecount"))
 	{
-		setupManagedSlider(&ScopeSync::setVoiceCount, &ScopeSync::getVoiceCount, &ScopeSync::referToVoiceCount, properties);
+		setupManagedSlider(&ScopeSync::setVoiceCount, &ScopeSync::getVoiceCount, &ScopeSync::referToVoiceCount, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("midiactivity"))
 	{
-		setupManagedSlider(&ScopeSync::setMidiActivity, &ScopeSync::getMidiActivity, &ScopeSync::referToMidiActivity, properties);
+		setupManagedSlider(&ScopeSync::setMidiActivity, &ScopeSync::getMidiActivity, &ScopeSync::referToMidiActivity, props);
 		return;
 	}
 
 	if (getName().equalsIgnoreCase("midichannel"))
 	{
-		setupManagedSlider(&ScopeSync::setMidiChannel, &ScopeSync::getMidiChannel, &ScopeSync::referToMidiChannel, properties);
+		setupManagedSlider(&ScopeSync::setMidiChannel, &ScopeSync::getMidiChannel, &ScopeSync::referToMidiChannel, props);
 		return;
 	}
 
-	double rangeMin = properties.rangeMin;
-    double rangeMax = properties.rangeMax;
-    double rangeInt = properties.rangeInt;
-    String tooltip  = properties.name;
+	double rangeMin = props.rangeMin;
+    double rangeMax = props.rangeMax;
+    double rangeInt = props.rangeInt;
+    String tooltip  = props.name;
     
     // Set up any mapping to TabbedComponent Tabs
     mapsToTabs = false;
     
-    for (int i = 0; i < properties.tabbedComponents.size(); i++)
+    for (int i = 0; i < props.tabbedComponents.size(); i++)
     {
-        String tabbedComponentName = properties.tabbedComponents[i];
-        String tabName = properties.tabNames[i];
+        String tabbedComponentName = props.tabbedComponents[i];
+        String tabName = props.tabNames[i];
 
         tabbedComponentNames.add(tabbedComponentName);
         tabNames.add(tabName);
@@ -116,7 +116,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
         // DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
     }
 
-    setupMapping(Ids::slider, getName(), properties.mappingParentType, properties.mappingParent);
+    setupMapping(Ids::slider, getName(), props.mappingParentType, props.mappingParent);
 
     if (mapsToParameter)
     {
@@ -142,7 +142,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
                 settingsNames.add(settingName);
             }
             
-            if (getEncoderSnap(properties.encoderSnap))
+            if (getEncoderSnap(props.encoderSnap))
                 rangeInt = 1;
         }
 
@@ -164,7 +164,7 @@ void BCMSlider::applyProperties(SliderProperties& properties)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& properties)
+void BCMSlider::setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& props)
 {
 	int initialValue = (scopeSync.*gf)();
 
@@ -174,8 +174,8 @@ void BCMSlider::setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (Sco
 	// overwritten when referTo completes
 	(scopeSync.*sf)(initialValue);
 
-	setRange(properties.rangeMin, properties.rangeMax, 1);
-	setTooltip(properties.name);
+	setRange(props.rangeMin, props.rangeMax, 1);
+	setTooltip(props.name);
 	setPopupMenuEnabled(false);
 }
 
@@ -252,8 +252,8 @@ void BCMSlider::switchToTabs()
 
         for (int j = 0; j < numTabbedComponents; j++)
         {
-            StringArray tabNames = tabbedComponents[j]->getTabNames();
-            int tabIndex = tabNames.indexOf(tabName, true);
+            StringArray names = tabbedComponents[j]->getTabNames();
+            int tabIndex = names.indexOf(tabName, true);
 
             // DBG("BCMSlider::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
             tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);

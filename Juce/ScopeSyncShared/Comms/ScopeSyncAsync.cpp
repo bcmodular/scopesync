@@ -28,55 +28,41 @@
 #include "ScopeSyncAsync.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
 
 ScopeSyncAsync::ScopeSyncAsync()
 {
-	for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
-        currentValues.add(0);
+    initialiseScopeParameters = true;
+
+    for (int i = 0; i < ScopeFXParameterDefinitions::numParameters; i++)
+        currentValues[i].store(0);
 }
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
 
-void ScopeSyncAsync::handleUpdate(int* asyncValues, bool initialise, bool performanceMode)
+void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues, bool performanceMode)
 {
-    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
+    for (int i = 0; i < ScopeFXParameterDefinitions::numParameters; i++)
     {
-		// DBG("ScopeSyncAsync::handleUpdate - current value for param " + String(i) + " is: " + String(currentValues[i]));
-
-        if (scopeSyncUpdates.contains(i))
+        if (performanceMode)
         {
-			// We have an update from the ScopeSync system, so let's process it
-			int newValue = scopeSyncUpdates[i];
-            // DBG("ScopeSyncAsync::handleUpdate - processing param " + String(i) + " from scopeSyncUpdates, with value: " + String(newValue));
-				
-			asyncValues[i] = newValue;
-			currentValues.set(i, newValue);
-
-			continue;
+            // If we're in performance mode overwrite the inputs with the current values
+            asyncValues[i] = currentValues[i];
+            prevValues[i]  = currentValues[i];
         }
-		
-		if (performanceMode && i < ScopeSyncApplication::numScopeParameters)
-		{
-			// We're in performance mode, so overwrite the inputs with the current values
-			asyncValues[i] = currentValues[i];
-		}
-		
-		// There was no update from the ScopeSync system, so let's look to see whether the value
-		// has changed since last time, or initialise them all if we've just loaded a configuration
-		int newValue = asyncValues[i];
-        
-		if (newValue != currentValues[i] || initialise)
-		{
-			// Value has changed, or we're initialising, so let's put it in the set to pass back to
-			// the ScopeSync system
-			// DBG("ScopeSyncAsync::handleUpdate - adding param " + String(i) + " to asyncUpdates, with value: " + String(newValue) + " (initialising: " + String(initialise) + ")");
-			asyncUpdates.set(i, newValue);
-			currentValues.set(i, newValue);
-		}
+        else if (asyncValues[i] != prevValues[i] || initialiseScopeParameters)
+        {
+            // If the value hasn't been changed by ScopeSync in the meantime, update
+            if (currentValues[i].compare_exchange_strong(prevValues[i], asyncValues[i]))
+            {
+                // Successfully changed, so add this into the update map
+                DBG("ScopeSyncAsync::handleUpdate - updated value for parameter: " + String(i) + ", new value: " + String(currentValues[i]));
+                asyncUpdates.set(i, currentValues[i]);
+                prevValues[i] = currentValues[i];
+            }
+        }
     }
 
-	scopeSyncUpdates.clear();
+    initialiseScopeParameters = false;
 }
 
 void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap)
@@ -87,13 +73,12 @@ void ScopeSyncAsync::getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, Cri
 
 void ScopeSyncAsync::setValue(int scopeCode, int newValue)
 {
-	// DBG("ScopeSyncAsync::setValue - Adding scopeSyncUpdate for scopeCode: " + String(scopeCode) + " value: " + String(newValue));
-    scopeSyncUpdates.set(scopeCode, newValue);
+    currentValues[scopeCode].store(newValue);
 }
 
 void ScopeSyncAsync::snapshot()
 {
-    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
+    for (int i = 0; i < ScopeFXParameterDefinitions::numParameters; i++)
     {
 		DBG("ScopeSyncAsync::snapshot Adding param " + String(i) + " to the hashmap with value: " + String(currentValues[i]));
 		asyncUpdates.set(i, currentValues[i]);
