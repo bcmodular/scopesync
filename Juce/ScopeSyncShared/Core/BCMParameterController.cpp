@@ -25,26 +25,26 @@ scopeSync(owner), parameterValueStore("parametervalues")
 {
     shouldReceiveAsyncUpdates = false;
 
-    initOSCUID();
     resetScopeCodeIndexes();
 
-    // Create X Parameter
-    ValueTree tmpParameter = Configuration::getDefaultParameter();
-    tmpParameter.setProperty(Ids::name,             "X",           nullptr);
-    tmpParameter.setProperty(Ids::shortDescription, "X",           nullptr);
-    tmpParameter.setProperty(Ids::fullDescription,  "X",           nullptr);
-    tmpParameter.setProperty(Ids::scopeCodeId,      144,           nullptr);
-    addParameter(-1, tmpParameter, BCMParameter::regular, true);
-
-    // Create Y Parameter
-    tmpParameter = Configuration::getDefaultParameter();
-    tmpParameter.setProperty(Ids::name,             "Y",           nullptr);
-    tmpParameter.setProperty(Ids::shortDescription, "Y",           nullptr);
-    tmpParameter.setProperty(Ids::fullDescription,  "Y",           nullptr);
-    tmpParameter.setProperty(Ids::scopeCodeId,      145,           nullptr);
-    addParameter(-1, tmpParameter, BCMParameter::regular, true);
+    const StringArray scopeCodes = StringArray::fromTokens("X,Y,show,cfg,osc,pm,spr,spa,mono,byp,sspr,vc,midc,type,pmgd,mida",",", "");
+    
+    for (int i = 0; i < scopeCodes.size(); i++)
+        addFixedScopeParameter(scopeCodes[i]);
+    
+    initOSCUID();
 
     startTimer(timerFrequency);
+}
+
+void BCMParameterController::addFixedScopeParameter(const String& scopeCode)
+{
+    ValueTree tmpParameter = Configuration::getDefaultParameter();
+    tmpParameter.setProperty(Ids::name, scopeCode, nullptr);
+    tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
+    tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
+    tmpParameter.setProperty(Ids::scopeCodeId, scopeSync->getScopeCodeId(scopeCode), nullptr);
+    addParameter(-1, tmpParameter, BCMParameter::regular, true);
 }
 
 BCMParameterController::~BCMParameterController()
@@ -74,42 +74,27 @@ void BCMParameterController::setupHostParameters()
     int hostIdx = 0;
     int paramCounter = 0;
 
-	BCMParameter* parameter;
+    BCMParameter* parameter;
 
-	// Firstly add the dynamic parameters
+    // Add the dynamic parameters
     while (hostIdx < maxHostParameters && paramCounter < dynamicParameters.size())
     {
-		parameter = dynamicParameters[paramCounter];
+        parameter = dynamicParameters[paramCounter];
         hostParameters.add(parameter);
 
-        addToParamIdxByScopeCodeId(parameter, hostIdx);
-        
-        paramCounter++;
-        hostIdx++;
-    }
+        addToParametersByScopeCodeId(parameter, parameter->getScopeCodeId());
 
-    // If there is room add the fixed parameters
-    paramCounter = 0;
-    
-    while (hostIdx < maxHostParameters && paramCounter < fixedParameters.size())
-    {
-        parameter = fixedParameters[paramCounter];
-        hostParameters.add(parameter);
-
-        addToParamIdxByScopeCodeId(parameter, hostIdx);
-        
         paramCounter++;
         hostIdx++;
     }
 }
 
-void BCMParameterController::addToParamIdxByScopeCodeId(BCMParameter* parameter, int index)
+void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId)
 {
-    int scopeCodeId = parameter->getScopeCodeId();
-    DBG("BCMParameterController::addParameter - Added parameter: " + parameter->getName() + ", ScopeCode: " + String(scopeCodeId));
+    DBG("BCMParameterController::addParameter - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
         
-    if (index > -1 && scopeCodeId > -1 && scopeCodeId < scopeSync->getScopeCodes().size())
-        paramIdxByScopeCodeId.set(scopeCodeId, index);
+    if (scopeCodeId > -1 && scopeCodeId < ScopeSync::getScopeCodes().size())
+        parametersByScopeCodeId.set(scopeCodeId, parameter);
 }
 
 void BCMParameterController::reset()
@@ -121,10 +106,7 @@ void BCMParameterController::reset()
 
 void BCMParameterController::resetScopeCodeIndexes()
 {
-    paramIdxByScopeCodeId.clear();
-
-    for (int i = 0; i < ScopeSyncApplication::numScopeParameters; i++)
-        paramIdxByScopeCodeId.add(-1);    
+    parametersByScopeCodeId.clear();  
 }
 
 void BCMParameterController::snapshot()
@@ -147,6 +129,12 @@ BCMParameter* BCMParameterController::getParameterByName(const String& name)
     }
 
     return nullptr;
+}
+
+BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scopeCode)
+{
+    BCMParameter* parameter = parametersByScopeCodeId[ScopeSync::getScopeCodeId(scopeCode)];
+    return parameter;
 }
 
 float BCMParameterController::getParameterHostValue(int hostIdx)
@@ -213,12 +201,22 @@ void BCMParameterController::initOSCUID()
 	while (initialOSCUID < INT_MAX && scopeSync->oscUIDInUse(initialOSCUID, scopeSync))
 		initialOSCUID++;
 	
-	setOSCUID(initialOSCUID);
+    getParameterByScopeCode("osc")->setUIValue((float)initialOSCUID);
 }
 
-int BCMParameterController::getOSCUID() { return oscUID.getValue(); }
+void BCMParameterController::referToOSCUID(Value & valueToLink)
+{
+    BCMParameter* param = getParameterByScopeCode("osc");
 
-void BCMParameterController::setOSCUID(int uid) { oscUID = uid; }
+    param->mapToUIValue(valueToLink);
+}
+
+int BCMParameterController::getOSCUID()
+{
+    BCMParameter* param = getParameterByScopeCode("osc");
+
+    return roundDoubleToInt(param->getUIValue());
+}
 
 void BCMParameterController::updateHost(int hostIdx, float newValue)
 {
@@ -317,18 +315,17 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
 
 		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
 		{
-    		int scopeCode     = i.getKey();
-			int paramIdx      = -1;
+    		int scopeCodeId   = i.getKey();
 			int newScopeValue = i.getValue();
 			
-			if (scopeCode < ScopeSyncApplication::numScopeParameters)
+			if (scopeCodeId < ScopeSync::getScopeCodes().size())
 			{
-				paramIdx = paramIdxByScopeCodeId[scopeCode];
+				BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
                 
-				if (paramIdx >= 0)
+				if (parameter != nullptr)
                 {
-                    DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param " + String(paramIdx) + ", value: " + String(newScopeValue));
-				    hostParameters[paramIdx]->setScopeIntValue(newScopeValue);
+                    DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCodeId" + String(scopeCodeId) + ", value: " + String(newScopeValue));
+                    parameter->setScopeIntValue(newScopeValue);
                 }
 			}
 		}

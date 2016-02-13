@@ -32,9 +32,7 @@
 
 namespace ScopeSyncApplication
 {
-    const int numScopeParameters  = 144;
-    
-	/* ============================ Enumerations ============================== */
+    /* ============================ Enumerations ============================== */
     enum AppContext { plugin, scopefx }; // Contexts under which the app may be running
 
 #ifndef __DLL_EFFECT__

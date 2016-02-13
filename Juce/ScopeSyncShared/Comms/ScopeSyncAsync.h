@@ -54,7 +54,8 @@ public:
 	
     // Add a new control value change to the queue for processing in the next
     // batch of Async updates
-    void setValue(int scopeCode, int newValue);
+    void setValue(int scopeCodeId, int newValue);
+    void setValue(const String& scopeCode, int newValue);
     
 private:
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update

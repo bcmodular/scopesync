@@ -86,42 +86,14 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 		return;
 	}
 
-	// Set up the managed buttons
-	if (getName().equalsIgnoreCase("performancemode"))
-	{
-		setupManagedButton(&ScopeSync::getPerformanceMode, &ScopeSync::referToPerformanceMode, props);
-		return;
-	}
-	
-	if (getName().equalsIgnoreCase("presetlist"))
-	{
-		setupManagedButton(&ScopeSync::getShowPresetWindow, &ScopeSync::referToShowPresetWindow, props);
-		return;
-	}
-	
-	if (getName().equalsIgnoreCase("patchwindow"))
-	{
-		setupManagedButton(&ScopeSync::getShowPatchWindow, &ScopeSync::referToShowPatchWindow, props);
-		return;
-	}
+    // Set up sliders for fixed Scope parameters
+    int fixedButtonIndex = fixedWidgetNames.indexOf(getName());
 
-	if (getName().equalsIgnoreCase("monoeffect"))
-	{
-		setupManagedButton(&ScopeSync::getMonoEffect, &ScopeSync::referToMonoEffect, props);
-		return;
-	}
-
-	if (getName().equalsIgnoreCase("bypasseffect"))
-	{
-		setupManagedButton(&ScopeSync::getBypassEffect, &ScopeSync::referToBypassEffect, props);
-		return;
-	}
-
-	if (getName().equalsIgnoreCase("shellpresetwindow"))
-	{
-		setupManagedButton(&ScopeSync::getShowShellPresetWindow, &ScopeSync::referToShowShellPresetWindow, props);
-		return;
-	}
+    if (fixedButtonIndex != -1)
+    {
+        setupManagedButton(widgetScopeCodes[fixedButtonIndex], props);
+        return;
+    }
 
 	// If it's not a command button, it must be a parameter button,
 	// so let's do the remaining set up for parameter buttons
@@ -284,13 +256,17 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupManagedButton(int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), TextButtonProperties& props)
+void BCMTextButton::setupManagedButton(const String& scopeCode, TextButtonProperties& props)
 {
-	setClickingTogglesState(true);
-	setToggleState((scopeSync.*gf)() > 0, dontSendNotification);
+    setClickingTogglesState(true);
+    
+    BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(scopeCode);
+    
+    setToggleState(param->getUIValue() > 0, dontSendNotification);
 
-	(scopeSync.*rf)(parameterValue);
-	parameterValue.addListener(this);
+    param->mapToUIValue(parameterValue);
+
+    parameterValue.addListener(this);
 
 	setTooltip(props.tooltip);
 	setButtonText(props.text);
@@ -408,32 +384,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 		return;
 	}
-	else if (getName().equalsIgnoreCase("presetlist"))
-	{
-		scopeSync.setShowPresetWindow(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("patchwindow"))
-	{
-		scopeSync.setShowPatchWindow(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("monoeffect"))
-	{
-		scopeSync.setMonoEffect(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("bypasseffect"))
-	{
-		scopeSync.setBypassEffect(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("shellpresetwindow"))
-	{
-		scopeSync.setShowShellPresetWindow(getToggleState());
-		return;
-	}
-	else if (getName().equalsIgnoreCase("snapshot"))
+    else if (getName().equalsIgnoreCase("snapshot"))
 	{
 		if (modifiers.isCommandDown())
 			ScopeSync::snapshotAll();
@@ -465,7 +416,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
             valueToSet = (float)downSettingIdx;
             
         if (valueToSet >= 0)
-            scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
+            parameter->setUIValue(valueToSet);
     }
 }
 

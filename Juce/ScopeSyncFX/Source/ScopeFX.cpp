@@ -104,15 +104,11 @@ void ScopeFX::initValues()
 
 void ScopeFX::showWindow()
 {
-    DBG("ScopeFX::showWindow");
-
 	if (scopeFXGUI == nullptr)
 	{
 #ifdef _WIN32
 		if (scopeWindow == nullptr)
-		{
 			EnumWindows(EnumWindowsProc, 0);
-		}
 #else
 		// If Scope ever ends up on non-Windows, we'll
 		// probably want to implement something here
@@ -139,6 +135,8 @@ void ScopeFX::timerCallback()
 
 void ScopeFX::hideWindow()
 {
+    scopeSync->getScopeSyncAsync().setValue("show", 0);
+    shouldShowWindow = false;
     scopeFXGUI = nullptr;
 }
 

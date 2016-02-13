@@ -49,16 +49,16 @@ BCMSlider::~BCMSlider() {}
 
 void BCMSlider::applyProperties(SliderProperties& props)
 {
-	mapsToParameter = false;
+    mapsToParameter = false;
 
     overrideSliderStyle(props.style);
-    
-	fontHeight         = props.fontHeight;
-    fontStyleFlags     = props.fontStyleFlags;
+
+    fontHeight = props.fontHeight;
+    fontStyleFlags = props.fontStyleFlags;
     justificationFlags = props.justificationFlags;
-    
+
     applyWidgetProperties(props);
-    
+
     if (props.style == Slider::IncDecButtons)
         overrideIncDecButtonMode(props.incDecButtonMode);
 
@@ -66,34 +66,18 @@ void BCMSlider::applyProperties(SliderProperties& props)
     overrideVelocityBasedMode(props.velocityBasedMode);
 
     setTextBoxStyle(props.textBoxPosition,
-                    props.textBoxReadOnly,
-                    props.textBoxWidth,
-                    props.textBoxHeight);
-    
-    // Set up managed sliders
-	if (getName().equalsIgnoreCase("oscuid"))
-	{
-		setupManagedSlider(&ScopeSync::setOSCUID, &ScopeSync::getOSCUID, &ScopeSync::referToOSCUID, props);
-		return;
-	}
+        props.textBoxReadOnly,
+        props.textBoxWidth,
+        props.textBoxHeight);
 
-	if (getName().equalsIgnoreCase("voicecount"))
-	{
-		setupManagedSlider(&ScopeSync::setVoiceCount, &ScopeSync::getVoiceCount, &ScopeSync::referToVoiceCount, props);
-		return;
-	}
+    // Set up sliders for fixed Scope parameters
+    int fixedSliderIndex = fixedWidgetNames.indexOf(getName());
 
-	if (getName().equalsIgnoreCase("midiactivity"))
-	{
-		setupManagedSlider(&ScopeSync::setMidiActivity, &ScopeSync::getMidiActivity, &ScopeSync::referToMidiActivity, props);
-		return;
-	}
-
-	if (getName().equalsIgnoreCase("midichannel"))
-	{
-		setupManagedSlider(&ScopeSync::setMidiChannel, &ScopeSync::getMidiChannel, &ScopeSync::referToMidiChannel, props);
-		return;
-	}
+    if (fixedSliderIndex != -1)
+    {
+        setupManagedSlider(widgetScopeCodes[fixedSliderIndex], props);
+        return;
+    }
 
 	double rangeMin = props.rangeMin;
     double rangeMax = props.rangeMax;
@@ -164,15 +148,11 @@ void BCMSlider::applyProperties(SliderProperties& props)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& props)
+void BCMSlider::setupManagedSlider(const String& scopeCode, SliderProperties& props)
 {
-	int initialValue = (scopeSync.*gf)();
+    BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(scopeCode);
 
-	(scopeSync.*rf)(getValueObject());
-
-	// Need to get to the bottom of why this is being
-	// overwritten when referTo completes
-	(scopeSync.*sf)(initialValue);
+    param->mapToUIValue(getValueObject());
 
 	setRange(props.rangeMin, props.rangeMax, 1);
 	setTooltip(props.name);

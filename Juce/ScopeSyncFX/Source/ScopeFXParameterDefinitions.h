@@ -30,6 +30,8 @@
 #define SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
 
 namespace ScopeFXParameterDefinitions {
+// Scope library annoys VS2015+
+#pragma warning (disable : 4838)
 
     static const int numScopeParameters = 128;
     static const int numLocalParameters = 16;

@@ -74,6 +74,7 @@ public:
     static void shutDownIfLastInstance();
     static const String& getScopeCode(int scopeSyncId);
     static const StringArray& getScopeCodes() { return scopeCodes; };
+    static const int ScopeSync::getScopeCodeId(const String& scopeCode);
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled);
@@ -133,47 +134,6 @@ public:
     static int     getPerformanceModeGlobalDisable() { return performanceModeGlobalDisable; }
 	static void    setPerformanceModeAll(int newSetting);
 	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
-
-    int            getOSCUID();
-    void           setOSCUID(int uid);
-	void           referToOSCUID(Value& valueToLink);
-	
-	int            getDeviceType() { return deviceType.getValue(); }
-	void           setDeviceType(int newSetting) { deviceType = newSetting; }
-	void           referToDeviceType(Value& valueToLink) { valueToLink.referTo(deviceType); }
-
-	int            getShowPresetWindow() { return showPresetWindow.getValue(); }
-	void           setShowPresetWindow(int newSetting) { showPresetWindow = newSetting; }
-	void           referToShowPresetWindow(Value& valueToLink) { valueToLink.referTo(showPresetWindow); }
-
-	int			   getShowPatchWindow() { return showPatchWindow.getValue(); }
-	void           setShowPatchWindow(int newSetting) { showPatchWindow = newSetting; }
-	void           referToShowPatchWindow(Value& valueToLink) { valueToLink.referTo(showPatchWindow); }
-
-	int			   getMonoEffect() { return monoEffect.getValue(); }
-	void           setMonoEffect(int newSetting) { monoEffect = newSetting; }
-	void           referToMonoEffect(Value& valueToLink) { valueToLink.referTo(monoEffect); }
-
-	int			   getBypassEffect() { return bypassEffect.getValue(); }
-	void           setBypassEffect(int newSetting) { bypassEffect = newSetting; }
-	void           referToBypassEffect(Value& valueToLink) { valueToLink.referTo(bypassEffect); }
-
-	int			   getShowShellPresetWindow() { return showShellPresetWindow.getValue(); }
-	void           setShowShellPresetWindow(int newSetting) { showShellPresetWindow = newSetting; }
-	void           referToShowShellPresetWindow(Value& valueToLink) { valueToLink.referTo(showShellPresetWindow); }
-
-	int			   getVoiceCount() { return voiceCount.getValue(); }
-	void           setVoiceCount(int newSetting) { voiceCount = newSetting; }
-	void           referToVoiceCount(Value& valueToLink) { valueToLink.referTo(voiceCount); }
-
-
-	int			   getMidiActivity() { return midiActivity.getValue(); }
-	void           setMidiActivity(int newSetting) { midiActivity = newSetting; }
-	void           referToMidiActivity(Value& valueToLink) { valueToLink.referTo(midiActivity); }
-
-	int			   getMidiChannel() { return midiChannel.getValue(); }
-	void           setMidiChannel(int newSetting) { midiChannel = newSetting; }
-	void           referToMidiChannel(Value& valueToLink) { valueToLink.referTo(midiChannel); }
 	
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };

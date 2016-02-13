@@ -96,13 +96,14 @@ protected:
     void applyLookAndFeel(bool noStyleOverride) override;
 
 private:
+    
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
     bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
-	void setupManagedSlider(void (ScopeSync::*sf)(int newValue), int (ScopeSync::*gf)(), void (ScopeSync::*rf)(Value& input), SliderProperties& properties);
+	void setupManagedSlider(const String& scopeCode, SliderProperties& props);
 
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v) override;

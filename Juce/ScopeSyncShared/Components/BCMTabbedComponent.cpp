@@ -51,10 +51,14 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     setTabBarDepth(props.tabBarDepth);
     
-	if (getName().equalsIgnoreCase("Device Type"))
-	{
-		parameterValue.addListener(this);
-		scopeSync.referToDeviceType(parameterValue);
+    int fixedWidgetIndex = fixedWidgetNames.indexOf(getName());
+
+    if (fixedWidgetIndex != -1)
+    {
+	    parameterValue.addListener(this);
+        BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(widgetScopeCodes[fixedWidgetIndex]);
+		
+        param->mapToUIValue(parameterValue);
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), props.mappingParentType, props.mappingParent);

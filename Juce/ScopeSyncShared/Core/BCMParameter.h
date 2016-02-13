@@ -74,6 +74,8 @@ public:
     double        getUISkewFactor();
 
     void          getUITextValue(String& textValue);
+    int           getUIValue() { return uiValue.getValue(); };
+
     float         getHostValue();
     int           getScopeIntValue();
 

@@ -31,9 +31,12 @@ public:
     void reset();
 
     void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter = false);
+    void addFixedScopeParameter(const String& scopeCode);
     void setupHostParameters();
 
     BCMParameter* getParameterByName(const String& name);
+    BCMParameter* getParameterByScopeCode(const String& scopeCode);
+
     float getParameterHostValue(int hostIdx);
     void  setParameterFromHost(int hostIdx, float newValue);
     void  setParameterFromGUI(BCMParameter& parameter, float newValue);
@@ -42,10 +45,10 @@ public:
     void  resetScopeCodeIndexes();
     void  snapshot();
 
-    int  getOSCUID();
-	void setOSCUID(int uid);
 	void initOSCUID();
-	void referToOSCUID(Value& valueToLink) { valueToLink.referTo(oscUID); }
+    void referToOSCUID(Value& valueToLink);
+    int  getOSCUID();
+
 	void updateHost(int hostIdx, float newValue);
 
     void toggleAsyncUpdates(bool enable) { shouldReceiveAsyncUpdates = enable; }
@@ -65,16 +68,15 @@ public:
 
 private:
 
-	void addToParamIdxByScopeCodeId(BCMParameter* parameter, int index);
+	void addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId);
 
-    OwnedArray<BCMParameter>   fixedParameters;
-    OwnedArray<BCMParameter>   dynamicParameters;
-    Array<BCMParameter*>       hostParameters;
-    Array<BCMParameter*>       parameters;
+    OwnedArray<BCMParameter>    fixedParameters;
+    OwnedArray<BCMParameter>    dynamicParameters;
+    Array<BCMParameter*>        hostParameters;
+    Array<BCMParameter*>        parameters;
 
-    Array<int>                 paramIdxByScopeCodeId;  // Index of parameters by their scopeCodeId
-    Value oscUID; // Unique OSC ID for the current instance
-    XmlElement                 parameterValueStore;
+    HashMap<int, BCMParameter*> parametersByScopeCodeId;  // Index of parameters by their scopeCodeId
+    XmlElement                  parameterValueStore;
     
     bool shouldReceiveAsyncUpdates;
     

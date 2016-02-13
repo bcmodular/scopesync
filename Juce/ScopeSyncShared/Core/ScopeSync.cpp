@@ -94,6 +94,8 @@ type,pmgd,mida",
 
 const String& ScopeSync::getScopeCode(int scopeCodeId) { return scopeCodes[scopeCodeId]; }
 
+const int ScopeSync::getScopeCodeId(const String& scopeCode) { return scopeCodes.indexOf(scopeCode); }
+
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
 #ifndef __DLL_EFFECT__
@@ -124,13 +126,7 @@ void ScopeSync::initialise()
 {
 	parameterController = new BCMParameterController(this);
 
-    setPerformanceMode(0);
-
-	setDeviceType(0);
-	setShowPatchWindow(true);
-	setShowPresetWindow(false);
-
-	showEditToolbar = false;
+    showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
 
     
@@ -227,10 +223,6 @@ void ScopeSync::setPerformanceModeAll(int newSetting)
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->setPerformanceMode(newSetting);
 }
-
-int  ScopeSync::getOSCUID() { return parameterController->getOSCUID(); }
-void ScopeSync::setOSCUID(int uid) { parameterController->setOSCUID(uid); }
-void ScopeSync::referToOSCUID(Value& valueToLink) { parameterController->referToOSCUID(valueToLink); }
 	
 bool ScopeSync::guiNeedsReloading()
 {
