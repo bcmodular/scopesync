@@ -53,7 +53,8 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 
-class ScopeSync : public ActionListener
+class ScopeSync : public ActionListener,
+                  public Value::Listener
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -153,18 +154,9 @@ private:
 
     /* ========================== Initialisation ============================== */
     void initialise();
-	
-    /* ========================== Private Actions ============================= */
     
-    /* =================== Private Configuration Methods =======================*/
-    bool loadSystemParameterTypes();
-    bool overrideParameterTypes(XmlElement& parameterTypesXml, bool loadLoader);
-    void getParameterTypeFromXML(XmlElement& xml, ValueTree& parameterType);
-    void readUISkewFactorXml   (const XmlElement& xml, ValueTree& parameterType, double uiMinValue, double uiMaxValue);
-    bool loadDeviceParameters(XmlElement& deviceXml, bool loadLoader);
-    bool loadMappingFile(XmlElement& mappingXml);
-    bool loadLayoutFile(XmlElement& layoutXml);
-    
+    void valueChanged(Value& valueThatChanged) override;
+
     /* ===================== Private member variables ========================= */
 #ifndef __DLL_EFFECT__
     PluginProcessor* pluginProcessor;
@@ -172,6 +164,8 @@ private:
     ScopeFX*       scopeFX;
     ScopeSyncAsync scopeSyncAsync;
 #endif // __DLL_EFFECT__
+
+    Value configurationID;
 
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
     ScopedPointer<ApplicationCommandManager> commandManager;

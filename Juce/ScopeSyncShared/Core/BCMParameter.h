@@ -46,9 +46,9 @@ public:
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate};
 
 	#ifdef __DLL_EFFECT__
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa);
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble);
 	#else
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc);
+		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble);
 	#endif // __DLL_EFFECT__
     
 	void initialise();
@@ -121,6 +121,7 @@ private:
 	ScopeSyncAsync&  scopeSyncAsync;
 #endif // __DLL_EFFECT__
 
+    bool             oscEnabled;
     ParameterType    type;
     ValueTree        definition;
     Value            uiValue;

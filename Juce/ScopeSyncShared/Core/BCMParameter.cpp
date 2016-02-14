@@ -45,25 +45,27 @@ const int BCMParameter::maxOSCDeadTime   = 3;
 #ifdef __DLL_EFFECT__
 #include "../Comms/ScopeSyncAsync.h"
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
 	  parameterController(pc),
-	  scopeSyncAsync(ssa)
+	  scopeSyncAsync(ssa),
+      oscEnabled(oscAble)
 {
 	initialise();
 }
 
 #else
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc)
+BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble)
     : type(parameterType),
       hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
-	  parameterController(pc)
+	  parameterController(pc),
+      oscEnabled(oscAble)
 {
 	initialise();
 }
@@ -80,15 +82,19 @@ void BCMParameter::initialise()
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
-	parameterController.referToOSCUID(oscUID);
-	oscUID.addListener(this);
+    if (oscEnabled)
+    {
+        parameterController.referToOSCUID(oscUID);
+        oscUID.addListener(this);
 
-	ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
+        ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
+    }
 }
 
 BCMParameter::~BCMParameter()
 {
-	ScopeSyncOSCServer::getInstance()->unregisterOSCListener(this);
+    if (oscEnabled)
+        ScopeSyncOSCServer::getInstance()->unregisterOSCListener(this);
 
 	masterReference.clear();
 	stopTimer();
@@ -534,7 +540,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		if (oscDeadTimeCounter == 0)
+		if (oscEnabled && oscDeadTimeCounter == 0)
 			sendOSCParameterUpdate();
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))

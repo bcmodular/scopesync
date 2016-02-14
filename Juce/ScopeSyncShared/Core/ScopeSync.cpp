@@ -117,6 +117,7 @@ ScopeSync::ScopeSync(ScopeFX* owner)
 
 ScopeSync::~ScopeSync()
 {
+    configurationID.removeListener(this);
 	UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -126,16 +127,24 @@ void ScopeSync::initialise()
 {
 	parameterController = new BCMParameterController(this);
 
+    parameterController->getParameterByScopeCode("cfg")->mapToUIValue(configurationID);
+    configurationID.addListener(this);
+
     showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
 
-    
     configuration = new Configuration();
     applyConfiguration();
 
 	ScopeSyncOSCServer::getInstance()->setup();
 
 	initialised = true;
+}
+
+void ScopeSync::valueChanged(Value& valueThatChanged)
+{
+    if (valueThatChanged.refersToSameSourceAs(configurationID))
+        changeConfiguration(int(valueThatChanged.getValue()));
 }
 
 bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)

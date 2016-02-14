@@ -182,6 +182,8 @@ public:
                                UndoManager*      um);
     
     static ValueTree getDefaultParameter();
+
+    static ValueTree getDefaultFixedParameter();
     
 private:
     ValueTree  configurationRoot;

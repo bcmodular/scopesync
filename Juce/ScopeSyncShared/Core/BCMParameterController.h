@@ -30,7 +30,7 @@ public:
 
     void reset();
 
-    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter = false);
+    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter = false, bool oscAble = true);
     void addFixedScopeParameter(const String& scopeCode);
     void setupHostParameters();
 

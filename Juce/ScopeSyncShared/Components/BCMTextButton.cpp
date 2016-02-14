@@ -52,6 +52,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
     applyWidgetProperties(props);
     mapsToTabs = false;
+    mapsToParameter = false;
     isCommandButton = true;
     
 	// First see whether it's a command button and set it up if it is

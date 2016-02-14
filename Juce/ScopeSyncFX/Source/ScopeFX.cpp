@@ -131,6 +131,11 @@ void ScopeFX::timerCallback()
         showWindow();
     else
         hideWindow();
+
+    if (scopeFXGUI)
+        scopeFXGUI->refreshWindow();
+
+    scopeSync->processConfigurationChange();
 }
 
 void ScopeFX::hideWindow()

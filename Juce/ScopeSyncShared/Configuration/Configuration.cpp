@@ -579,6 +579,28 @@ ValueTree Configuration::getDefaultParameter()
     return defaultParameter;
 }
 
+ValueTree Configuration::getDefaultFixedParameter()
+{
+    ValueTree defaultParameter(Ids::parameter);
+    defaultParameter.setProperty(Ids::name, "PARAM", nullptr);
+    defaultParameter.setProperty(Ids::shortDescription, "Param", nullptr);
+    defaultParameter.setProperty(Ids::fullDescription, "Parameter", nullptr);
+    defaultParameter.setProperty(Ids::scopeCodeId, -1, nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMin, -2147483647, nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMax, 2147483647, nullptr);
+    defaultParameter.setProperty(Ids::scopeDBRef, 0, nullptr);
+    defaultParameter.setProperty(Ids::valueType, 0, nullptr);
+    defaultParameter.setProperty(Ids::uiResetValue, 0, nullptr);
+    defaultParameter.setProperty(Ids::uiSkewFactor, 1, nullptr);
+    defaultParameter.setProperty(Ids::skewUIOnly, false, nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMin, -2147483647, nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMax, 2147483647, nullptr);
+    defaultParameter.setProperty(Ids::uiRangeInterval, 1, nullptr);
+    defaultParameter.setProperty(Ids::uiSuffix, String::empty, nullptr);
+
+    return defaultParameter;
+}
+
 bool Configuration::parameterNameExists(const String& parameterName)
 {
     if (getParameters().getChildWithProperty(Ids::name, parameterName).isValid())
