@@ -156,19 +156,19 @@ public:
     //==============================================================================
     /** Returns the x coordinate of the last place that a mouse was pressed.
         The coordinate is relative to the component specified in MouseEvent::component.
-        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasDraggedSinceMouseDown
+        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasClicked
     */
     int getMouseDownX() const noexcept;
 
     /** Returns the y coordinate of the last place that a mouse was pressed.
         The coordinate is relative to the component specified in MouseEvent::component.
-        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasDraggedSinceMouseDown
+        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasClicked
     */
     int getMouseDownY() const noexcept;
 
     /** Returns the coordinates of the last place that a mouse was pressed.
         The coordinates are relative to the component specified in MouseEvent::component.
-        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasDraggedSinceMouseDown
+        @see getDistanceFromDragStart, getDistanceFromDragStartX, mouseWasClicked
     */
     Point<int> getMouseDownPosition() const noexcept;
 
@@ -203,27 +203,25 @@ public:
     */
     Point<int> getOffsetFromDragStart() const noexcept;
 
-    /** Returns true if the user seems to be performing a drag gesture.
+    /** Returns true if the mouse has just been clicked.
 
-        This is only meaningful if called in either a mouseUp() or mouseDrag() method.
+        Used in either your mouseUp() or mouseDrag() methods, this will tell you whether
+        the user has dragged the mouse more than a few pixels from the place where the
+        mouse-down occurred.
 
-        It will return true if the user has dragged the mouse more than a few pixels
-        from the place where the mouse-down occurred.
-
-        Once they have dragged it far enough for this method to return true, it will continue
-        to return true until the mouse-up, even if they move the mouse back to the same
-        location at which the mouse-down happened. This means that it's very handy for
+        Once they have dragged it far enough for this method to return false, it will continue
+        to return false until the mouse-up, even if they move the mouse back to the same
+        position where they originally pressed it. This means that it's very handy for
         objects that can either be clicked on or dragged, as you can use it in the mouseDrag()
-        callback to ignore small movements they might make while trying to click.
-    */
-    bool mouseWasDraggedSinceMouseDown() const noexcept;
+        callback to ignore any small movements they might make while clicking.
 
-    /** Returns true if the mouse event is part of a click gesture rather than a drag.
-        This is effectively the opposite of mouseWasDraggedSinceMouseDown()
+        @returns    true if the mouse wasn't dragged by more than a few pixels between
+                    the last time the button was pressed and released.
     */
     bool mouseWasClicked() const noexcept;
 
     /** For a click event, the number of times the mouse was clicked in succession.
+
         So for example a double-click event will return 2, a triple-click 3, etc.
     */
     int getNumberOfClicks() const noexcept                              { return numberOfClicks; }

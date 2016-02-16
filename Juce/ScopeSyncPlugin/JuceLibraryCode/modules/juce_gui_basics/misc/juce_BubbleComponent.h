@@ -94,8 +94,7 @@ public:
         on where there's the most space, honouring any restrictions that were set
         with setAllowedPlacement().
     */
-    void setPosition (Component* componentToPointTo,
-                      int distanceFromTarget = 15, int arrowLength = 10);
+    void setPosition (Component* componentToPointTo);
 
     /** Moves and resizes the bubble to point at a given point.
 
@@ -108,7 +107,7 @@ public:
         on where there's the most space, honouring any restrictions that were set
         with setAllowedPlacement().
     */
-    void setPosition (Point<int> arrowTipPosition, int arrowLength = 10);
+    void setPosition (Point<int> arrowTipPosition);
 
     /** Moves and resizes the bubble to point at a given rectangle.
 
@@ -120,12 +119,8 @@ public:
         It'll put itself either above, below, or to the side of the component depending
         on where there's the most space, honouring any restrictions that were set
         with setAllowedPlacement().
-
-        distanceFromTarget is the amount of space to leave between the bubble and the
-        target rectangle, and arrowLength is the length of the arrow that it will draw.
     */
-    void setPosition (Rectangle<int> rectangleToPointTo,
-                      int distanceFromTarget = 15, int arrowLength = 10);
+    void setPosition (const Rectangle<int>& rectangleToPointTo);
 
     //==============================================================================
     /** A set of colour IDs to use to change the colour of various aspects of the bubble component.

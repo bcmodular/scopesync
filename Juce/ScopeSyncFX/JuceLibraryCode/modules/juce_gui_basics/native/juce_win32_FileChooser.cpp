@@ -130,8 +130,7 @@ bool FileChooser::isPlatformDialogAvailable()
 void FileChooser::showPlatformDialog (Array<File>& results, const String& title_, const File& currentFileOrDirectory,
                                       const String& filter, bool selectsDirectory, bool /*selectsFiles*/,
                                       bool isSaveDialogue, bool warnAboutOverwritingExistingFiles,
-                                      bool selectMultipleFiles, bool /*treatFilePackagesAsDirs*/,
-                                      FilePreviewComponent* extraInfoComponent)
+                                      bool selectMultipleFiles, FilePreviewComponent* extraInfoComponent)
 {
     using namespace FileChooserHelpers;
 

@@ -260,10 +260,6 @@ public:
            #else
             [webView loadRequest: r];
            #endif
-
-           #if JUCE_IOS
-            [webView setScalesPageToFit:YES];
-           #endif
         }
     }
 

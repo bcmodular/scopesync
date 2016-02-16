@@ -335,7 +335,9 @@ void ResizableWindow::setConstrainer (ComponentBoundsConstrainer* newConstrainer
         resizableBorder = nullptr;
 
         setResizable (shouldBeResizable, useBottomRightCornerResizer);
-        updatePeerConstrainer();
+
+        if (ComponentPeer* const peer = getPeer())
+            peer->setConstrainer (newConstrainer);
     }
 }
 
@@ -382,7 +384,9 @@ void ResizableWindow::lookAndFeelChanged()
     if (isOnDesktop())
     {
         Component::addToDesktop (getDesktopWindowStyleFlags());
-        updatePeerConstrainer();
+
+        if (ComponentPeer* const peer = getPeer())
+            peer->setConstrainer (constrainer);
     }
 }
 
@@ -488,23 +492,13 @@ bool ResizableWindow::isKioskMode() const
 void ResizableWindow::updateLastPosIfShowing()
 {
     if (isShowing())
-    {
         updateLastPosIfNotFullScreen();
-        updatePeerConstrainer();
-    }
 }
 
 void ResizableWindow::updateLastPosIfNotFullScreen()
 {
     if (! (isFullScreen() || isMinimised() || isKioskMode()))
         lastNonFullScreenPos = getBounds();
-}
-
-void ResizableWindow::updatePeerConstrainer()
-{
-    if (isOnDesktop())
-        if (ComponentPeer* const peer = getPeer())
-            peer->setConstrainer (constrainer);
 }
 
 void ResizableWindow::parentSizeChanged()

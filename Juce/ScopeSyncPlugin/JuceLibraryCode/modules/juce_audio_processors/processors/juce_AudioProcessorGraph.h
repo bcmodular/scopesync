@@ -311,6 +311,7 @@ public:
         void processBlock (AudioBuffer<double>&, MidiBuffer&) override;
         bool supportsDoublePrecisionProcessing() const override;
 
+        bool silenceInProducesSilenceOut() const override;
         double getTailLengthSeconds() const override;
         bool acceptsMidi() const override;
         bool producesMidi() const override;
@@ -353,6 +354,7 @@ public:
     void setNonRealtime (bool) noexcept override;
     void setPlayHead (AudioPlayHead*) override;
 
+    bool silenceInProducesSilenceOut() const override;
     double getTailLengthSeconds() const override;
     bool acceptsMidi() const override;
     bool producesMidi() const override;

@@ -53,14 +53,8 @@ public:
 
         When first created, the thread is not running. Use the startThread()
         method to start it.
-
-        @param threadName       The name of the thread which typically appears in
-                                debug logs and profiles.
-        @param threadStackSize  The size of the stack of the thread. If this value
-                                is zero then the default stack size of the OS will
-                                be used.
     */
-    explicit Thread (const String& threadName, size_t threadStackSize = 0);
+    explicit Thread (const String& threadName);
 
     /** Destructor.
 
@@ -276,7 +270,6 @@ private:
     CriticalSection startStopLock;
     WaitableEvent startSuspensionEvent, defaultEvent;
     int threadPriority;
-    size_t threadStackSize;
     uint32 affinityMask;
     bool volatile shouldExit;
 

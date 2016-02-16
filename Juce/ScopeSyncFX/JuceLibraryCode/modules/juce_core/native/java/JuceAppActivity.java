@@ -1132,9 +1132,8 @@ public class JuceAppActivity   extends Activity
 
     private static class JuceThread extends Thread
     {
-        public JuceThread (long host, String threadName, long threadStackSize)
+        public JuceThread (long host)
         {
-            super (null, null, threadName, threadStackSize);
             _this = host;
         }
 
@@ -1147,8 +1146,8 @@ public class JuceAppActivity   extends Activity
         private long _this;
     }
 
-    public final Thread createNewThread(long host, String threadName, long threadStackSize)
+    public final Thread createNewThread(long host)
     {
-        return new JuceThread(host, threadName, threadStackSize);
+        return new JuceThread(host);
     }
 }

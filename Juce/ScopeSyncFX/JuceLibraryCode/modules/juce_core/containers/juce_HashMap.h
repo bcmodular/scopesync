@@ -424,13 +424,6 @@ public:
             return entry != nullptr ? entry->value : ValueType();
         }
 
-        /** Resets the iterator to its starting position. */
-        void reset() noexcept
-        {
-            entry = nullptr;
-            index = 0;
-        }
-
     private:
         //==============================================================================
         const HashMap& hashMap;

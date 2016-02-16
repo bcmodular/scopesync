@@ -92,9 +92,6 @@ public:
 
     void callTimers()
     {
-        // avoid getting stuck in a loop if a timer callback repeatedly takes too long
-        const uint32 timeout = Time::getMillisecondCounter() + 100;
-
         const LockType::ScopedLockType sl (lock);
 
         while (firstTimer != nullptr && firstTimer->timerCountdownMs <= 0)
@@ -112,9 +109,6 @@ public:
                 t->timerCallback();
             }
             JUCE_CATCH_EXCEPTION
-
-            if (Time::getMillisecondCounter() > timeout)
-                break;
         }
 
         callbackArrived.signal();
@@ -300,10 +294,6 @@ Timer::~Timer()
 
 void Timer::startTimer (const int interval) noexcept
 {
-    // If you're calling this before (or after) the MessageManager is
-    // running, then you're not going to get any timer callbacks!
-    jassert (MessageManager::getInstanceWithoutCreating() != nullptr);
-
     const TimerThread::LockType::ScopedLockType sl (TimerThread::lock);
 
     if (timerPeriodMs == 0)
