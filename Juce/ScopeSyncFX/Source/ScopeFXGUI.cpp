@@ -29,6 +29,8 @@
 
 #include "ScopeFXGUI.h"
 #include "ScopeFX.h"
+#include "../../ScopeSyncShared/Core/ScopeSync.h"
+#include "../../ScopeSyncShared/Core/BCMParameterController.h"
 
 ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     scopeFX(owner)
@@ -37,7 +39,13 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     setVisible(true);
     setName("ScopeSync");
 
-    setTopLeftPosition(getScreenPosition().getX(), getScreenPosition().getY());
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("X")->mapToUIValue(xPos);
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("Y")->mapToUIValue(yPos);
+
+    xPos.addListener(this);
+    yPos.addListener(this);
+
+    setTopLeftPosition(xPos.getValue(), yPos.getValue());
     addToDesktop(ComponentPeer::windowHasTitleBar | ComponentPeer::windowHasCloseButton | ComponentPeer::windowHasDropShadow, scopeWindow);
 
     scopeSyncGUI = new ScopeSyncGUI(scopeFX->getScopeSync());
@@ -55,6 +63,8 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
 
 ScopeFXGUI::~ScopeFXGUI()
 {
+    xPos.removeListener(this);
+    yPos.removeListener(this);
     scopeFX = nullptr;
 }
 
@@ -93,6 +103,12 @@ void ScopeFXGUI::refreshWindow()
     }
 }
 
+void ScopeFXGUI::valueChanged(Value & valueThatChanged)
+{
+    if (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos))
+        setTopLeftPosition(xPos.getValue(), yPos.getValue());
+}
+
 void ScopeFXGUI::userTriedToCloseWindow()
 {
     scopeFX->hideWindow();
@@ -100,7 +116,8 @@ void ScopeFXGUI::userTriedToCloseWindow()
 
 void ScopeFXGUI::moved()
 {
-//    scopeFX->positionChanged(getScreenPosition().getX(), getScreenPosition().getY());
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("X")->setUIValue((float)getScreenPosition().getX());
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("Y")->setUIValue((float)getScreenPosition().getY());
 }
 
 void ScopeFXGUI::paint(Graphics& g)

@@ -69,6 +69,9 @@ private:
     public:
         AboutBox();
 
+        void paint(Graphics& g) override;
+        void resized() override;
+
     private:
         Label           scopeSyncVersion;
         Label           moduleVersion;
@@ -150,10 +153,13 @@ private:
 
     /* =================== Private Configuration Methods =======================*/
     void createGUI(bool forceReload);
+    void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache); 
     void setupStandardLookAndFeels(XmlElement& xml, bool useImageCache);
     void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
     void setupDefaults(XmlElement& defaultsXML);
     void clearWidgetTemplates();
+    void resetWidgetTemplates();
+    void setupWidgetTemplates(XmlElement& widgetTemplatesXML);
     void readSettingsXml(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback();

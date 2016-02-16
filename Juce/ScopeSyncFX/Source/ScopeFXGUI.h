@@ -36,7 +36,8 @@ class ScopeFX;
 
 class BCMParameter;
 
-class ScopeFXGUI : public Component
+class ScopeFXGUI : public Component,
+                   public Value::Listener
 {
 public:
     ScopeFXGUI (ScopeFX* owner, HWND scopeWindow);
@@ -46,16 +47,17 @@ public:
     // and updating the window title
     void refreshWindow();
 
+    void valueChanged(Value& valueThatChanged);
+
 private:
     ScopeFX*                    scopeFX;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
+    
+    Value xPos;
+    Value yPos;
 
     void userTriedToCloseWindow();
     void moved();
-
-    Point<int> position;
-    WeakReference<BCMParameter> parameterX;
-    WeakReference<BCMParameter> parameterY;
 
     String windowName;
     bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
