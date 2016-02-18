@@ -132,7 +132,8 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 		asyncDeadTimeCounter = maxAsyncDeadTime;
 
 	#ifdef __DLL_EFFECT__
-		sendToScopeSyncAsync();
+		if (updateSource != internalUpdate && updateSource != asyncUpdate)
+            sendToScopeSyncAsync();
 		(void)updateHost;
 	#else
 		if (updateHost)
@@ -142,29 +143,29 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 
 void BCMParameter::putValuesInRange(bool initialise)
 {
-    // DBG("BCMParameter::putValuesInRange - " + String(getName()));
+    DBG("BCMParameter::putValuesInRange - " + String(getName()));
     float uiMinValue = definition.getProperty(Ids::uiRangeMin);
     float uiMaxValue = definition.getProperty(Ids::uiRangeMax);
     
-    // DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
+    DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiMinValue) + ", uiMaxValue: " + String(uiMaxValue));
     
 	double newUIValue = 0.0f;
 
     if (initialise)
     {
-        // DBG("BCMParameter::putValuesInRange - Initialise to: " + String(definition.getProperty(Ids::uiResetValue)));
+        DBG("BCMParameter::putValuesInRange - Initialise to: " + definition.getProperty(Ids::uiResetValue).toString());
         newUIValue = definition.getProperty(Ids::uiResetValue);
     }
     else
     {
         if (float(uiValue.getValue()) < uiMinValue)
         {
-            // DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
+            DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiMinValue));
             newUIValue = uiMinValue;
         }
         else if (float(uiValue.getValue()) > uiMaxValue)
         {
-            // DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
+            DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiMaxValue));
             newUIValue = uiMaxValue;
         }
     }
@@ -427,11 +428,12 @@ void BCMParameter::setScopeIntValue(int newValue)
         
 		setParameterValues(asyncUpdate, newLinearNormalisedValue, newUIValue);
 
-        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(getScopeIntValue()));
     }
     else
     {
         DBG("ScopeSync::receiveUpdatesFromScopeAsync: Parameter affected by UI since last update, or still in async dead time: " + definition.getProperty(Ids::name).toString());
+        sendToScopeSyncAsync();
     }
 }
 
@@ -444,7 +446,7 @@ void BCMParameter::setUIValue(float newValue)
 	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
 
 	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue);
-    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(getScopeIntValue()));
 }
 
 void BCMParameter::setOSCValue(float newValue)

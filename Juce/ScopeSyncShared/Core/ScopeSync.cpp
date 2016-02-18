@@ -355,6 +355,9 @@ void ScopeSync::reloadLayout()
 void ScopeSync::applyConfiguration()
 {
 	DBG("ScopeSync::applyConfiguration");
+#ifdef __DLL_EFFECT__
+    scopeSyncAsync.toggleUpdateProcessing(false);
+#endif
 	parameterController->toggleAsyncUpdates(false);
     
 	setGUIEnabled(false);
@@ -382,6 +385,7 @@ void ScopeSync::applyConfiguration()
     parameterController->restoreParameterValues();
 #else
 	scopeSyncAsync.snapshot();
+    scopeSyncAsync.toggleUpdateProcessing(true);
 #endif // __DLL_EFFECT__
 
     UserSettings::getInstance()->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),

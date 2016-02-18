@@ -56,11 +56,15 @@ public:
     // batch of Async updates
     void setValue(int scopeCodeId, int newValue);
     void setValue(const String& scopeCode, int newValue);
+
+    void toggleUpdateProcessing(bool processThem);
     
 private:
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
 
-    std::atomic_int currentValues[ScopeFXParameterDefinitions::numParameters];
+    std::atomic_int  currentValues[ScopeFXParameterDefinitions::numParameters];
+    std::atomic_bool processUpdates;
+
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeSyncAsync);

@@ -200,7 +200,7 @@
                        postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" headerPath="../../Include/SonicCore"
-                       libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       libraryPath="..\..\Include\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

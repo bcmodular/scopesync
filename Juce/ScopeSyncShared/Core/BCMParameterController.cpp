@@ -18,7 +18,7 @@
 
 const int BCMParameterController::minHostParameters = 128;
 const int BCMParameterController::maxHostParameters = 128;
-const int BCMParameterController::timerFrequency = 20;
+const int BCMParameterController::timerFrequency = 100;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 scopeSync(owner), parameterValueStore("parametervalues")
@@ -99,6 +99,7 @@ void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* paramete
 
 void BCMParameterController::reset()
 {
+    parameters.clear();
     hostParameters.clear();
     dynamicParameters.clear();
     resetScopeCodeIndexes();
@@ -304,13 +305,14 @@ void BCMParameterController::restoreParameterValues()
 
 void BCMParameterController::timerCallback()
 {
-    receiveUpdatesFromScopeAsync();
+    if (!scopeSync->processConfigurationChange())
+        receiveUpdatesFromScopeAsync();
 }
 
 void BCMParameterController::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
-	// DBG("ScopeSync::receiveUpdatesFromScopeAsync");
+	// DBG("BCMParameterController::receiveUpdatesFromScopeAsync");
 
 	if (shouldReceiveAsyncUpdates)
 	{
@@ -327,7 +329,7 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
                 
 				if (parameter != nullptr)
                 {
-                    DBG("ScopeSync::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCodeId" + String(scopeCodeId) + ", value: " + String(newScopeValue));
+                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCodeId" + String(scopeCodeId) + ", value: " + String(newScopeValue));
                     parameter->setScopeIntValue(newScopeValue);
                 }
 			}

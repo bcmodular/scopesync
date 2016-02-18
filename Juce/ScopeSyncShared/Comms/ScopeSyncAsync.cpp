@@ -43,7 +43,7 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues, bool perfor
 {
     for (int i = 0; i < ScopeFXParameterDefinitions::numParameters; i++)
     {
-        if (initialiseScopeParameters)
+        if (initialiseScopeParameters || !processUpdates)
         {
             currentValues[i].store(asyncValues[i]);
             asyncUpdates.set(i, currentValues[i]);
@@ -83,6 +83,11 @@ void ScopeSyncAsync::setValue(const String& scopeCode, int newValue)
 {
     int scopeCodeId = ScopeSync::getScopeCodeId(scopeCode);
     setValue(scopeCodeId, newValue);
+}
+
+void ScopeSyncAsync::toggleUpdateProcessing(bool processThem)
+{
+    processUpdates.store(processThem);
 }
 
 void ScopeSyncAsync::snapshot()

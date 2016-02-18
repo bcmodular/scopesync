@@ -106,7 +106,10 @@ void ScopeFXGUI::refreshWindow()
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos))
+    {
+        DBG("ScopeFXGUI::valueChanged - new position: X = " + xPos.getValue().toString() + " Y = " + yPos.getValue().toString());
         setTopLeftPosition(xPos.getValue(), yPos.getValue());
+    }
 }
 
 void ScopeFXGUI::userTriedToCloseWindow()
@@ -116,6 +119,7 @@ void ScopeFXGUI::userTriedToCloseWindow()
 
 void ScopeFXGUI::moved()
 {
+    DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
     scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("X")->setUIValue((float)getScreenPosition().getX());
     scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("Y")->setUIValue((float)getScreenPosition().getY());
 }
