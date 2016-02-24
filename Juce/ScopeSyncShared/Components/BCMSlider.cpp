@@ -71,7 +71,7 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxHeight);
 
     // Set up sliders for fixed Scope parameters
-    int fixedSliderIndex = fixedWidgetNames.indexOf(getName());
+    int fixedSliderIndex = fixedWidgetNames.indexOf(getName(), true);
 
     if (fixedSliderIndex != -1)
     {

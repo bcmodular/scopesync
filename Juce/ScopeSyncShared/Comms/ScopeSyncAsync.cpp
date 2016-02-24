@@ -48,9 +48,9 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues, bool perfor
             currentValues[i].store(asyncValues[i]);
             asyncUpdates.set(i, currentValues[i]);
         }
-        else if (!performanceMode && asyncValues[i] != prevValues[i])
+        else if ((!performanceMode || i >= ScopeFXParameterDefinitions::numScopeParameters) && asyncValues[i] != prevValues[i])
         {
-            // We have a value change from Async and we're not in performance mode
+            // We have a value change from Async and we're not in performance mode (or we're not looking at a Scope Parameter)
             // If the value hasn't been changed by ScopeSync in the meantime, update
             if (currentValues[i].compare_exchange_strong(prevValues[i], asyncValues[i]))
             {

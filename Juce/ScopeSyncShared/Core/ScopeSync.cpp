@@ -70,8 +70,6 @@ O1,O2,O3,O4,O5,O6,O7,O8,\
 P1,P2,P3,P4,P5,P6,P7,P8,\
 Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,\
 Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,\
-X,Y,show,cfg,osc,pm,spr,\
-spa,mono,byp,sspr,vc,midc,\
 F1,F2,F3,F4,F5,F6,F7,F8,\
 F9,F10,F11,F12,F13,F14,F15,F16,\
 F17,F18,F19,F20,F21,F22,F23,F24,\
@@ -88,7 +86,9 @@ F97,F98,F99,F100,F101,F102,F103,F104,\
 F105,F106,F107,F108,F109,F110,F111,F112,\
 F113,F114,F115,F116,F117,F118,F119,F120,\
 F121,F122,F123,F124,F125,F126,F127,F128,\
-type,pmgd,mida",
+X,Y,show,cfg,osc,spr,\
+spa,mono,byp,sspr,vc,midc,\
+type,mida",
 ",",""
 );
 
@@ -225,12 +225,6 @@ void ScopeSync::snapshotAll()
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->getParameterController()->snapshot();
-}
-
-void ScopeSync::setPerformanceModeAll(int newSetting)
-{
-	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		scopeSyncInstances[i]->setPerformanceMode(newSetting);
 }
 	
 bool ScopeSync::guiNeedsReloading()

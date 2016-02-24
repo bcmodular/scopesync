@@ -42,7 +42,7 @@ class ScopeFXGUI;
 
 using namespace ScopeFXParameterDefinitions;
 
-class ScopeFX : public Effect, public Timer
+class ScopeFX : public Effect, public Value::Listener
 {
 public:
     ScopeFX();
@@ -62,20 +62,17 @@ public:
     ScopeSync& getScopeSync() { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 
-    void timerCallback();
-
-    // Hides the GUI window
-    void hideWindow();
+    void valueChanged(Value& valueThatChanged) override;
 
 private:	
 	
 	// Initialise member variables
     void initValues();
    
-    // Show the ScopeSync GUI window
-    void showWindow();
-
-    bool shouldShowWindow;
+    // Show/hides the ScopeFX GUI window
+	void toggleWindow(bool show);
+	
+    Value shouldShowWindow;
 
     ScopedPointer<ScopeSync> scopeSync;	
         

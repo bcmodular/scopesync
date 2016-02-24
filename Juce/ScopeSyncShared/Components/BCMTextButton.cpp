@@ -87,19 +87,19 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 		return;
 	}
 
-    // Set up sliders for fixed Scope parameters
-    int fixedButtonIndex = fixedWidgetNames.indexOf(getName());
+	// If it's not a command button, it must be a parameter button,
+	// so let's do the remaining set up for parameter buttons
+	isCommandButton = false;
+	
+    // Set up buttons for fixed Scope parameters
+    int fixedButtonIndex = fixedWidgetNames.indexOf(getName(), true);
 
     if (fixedButtonIndex != -1)
     {
         setupManagedButton(widgetScopeCodes[fixedButtonIndex], props);
         return;
     }
-
-	// If it's not a command button, it must be a parameter button,
-	// so let's do the remaining set up for parameter buttons
-	isCommandButton = false;
-		
+	
     String tooltip(props.tooltip);
     String buttonText(props.text);
 
@@ -260,7 +260,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 void BCMTextButton::setupManagedButton(const String& scopeCode, TextButtonProperties& props)
 {
     setClickingTogglesState(true);
-    
+    mapsToParameter = true;
+
     BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(scopeCode);
     
     setToggleState(param->getUIValue() > 0, dontSendNotification);
@@ -344,8 +345,10 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     }
     else
     {
-        if (hasParameter())
-            scopeSync.getParameterController()->beginParameterChangeGesture(getParameter()->getHostIdx());
+		int hostIdx = getParameter()->getHostIdx();
+
+        if (hasParameter() && hostIdx != -1)
+            scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
 
         TextButton::mouseDown(event);
     }
@@ -376,21 +379,14 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 {
     DBG("BCMTextButton::clicked - button clicked: " + getName());
 
-	if (getName().equalsIgnoreCase("performancemode"))
-	{
-		scopeSync.setPerformanceMode(getToggleState() ? 1 : 0);
-
-		if (modifiers.isCommandDown())
-			ScopeSync::setPerformanceModeAll(getToggleState() ? 1 : 0);
-
-		return;
-	}
-    else if (getName().equalsIgnoreCase("snapshot"))
+	if (getName().equalsIgnoreCase("snapshot"))
 	{
 		if (modifiers.isCommandDown())
 			ScopeSync::snapshotAll();
 		else
 			scopeSync.getParameterController()->snapshot();
+
+		return;
 	}
 
 	if (isCommandButton)
@@ -400,7 +396,10 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
     }
 
     if (url.isWellFormed())
-        url.launchInDefaultBrowser();
+	{
+		url.launchInDefaultBrowser();
+		return;
+	}
 
     if (hasParameter())
     {
@@ -423,8 +422,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 void BCMTextButton::valueChanged(Value& value)
 {
-	if  (  getName().equalsIgnoreCase("performancemode")
-		|| getName().equalsIgnoreCase("presetlist")
+	if  (  getName().equalsIgnoreCase("presetlist")
 		|| getName().equalsIgnoreCase("patchwindow")
 		|| getName().equalsIgnoreCase("monoeffect")
 		|| getName().equalsIgnoreCase("bypasseffect")

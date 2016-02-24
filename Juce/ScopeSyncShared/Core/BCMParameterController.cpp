@@ -27,7 +27,7 @@ scopeSync(owner), parameterValueStore("parametervalues")
 
     resetScopeCodeIndexes();
 
-    const StringArray scopeCodes = StringArray::fromTokens("osc,X,Y,show,cfg,pm,spr,spa,mono,byp,sspr,vc,midc,type,pmgd,mida",",", "");
+    const StringArray scopeCodes = StringArray::fromTokens("osc,X,Y,show,cfg,spr,spa,mono,byp,sspr,vc,midc,type,mida",",", "");
     
     for (int i = 0; i < scopeCodes.size(); i++)
         addFixedScopeParameter(scopeCodes[i]);
@@ -329,7 +329,7 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
                 
 				if (parameter != nullptr)
                 {
-                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCodeId" + String(scopeCodeId) + ", value: " + String(newScopeValue));
+                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCode: " + ScopeSync::getScopeCodes()[scopeCodeId] + "(" + String(scopeCodeId) + ")" + ", value: " + String(newScopeValue));
                     parameter->setScopeIntValue(newScopeValue);
                 }
 			}

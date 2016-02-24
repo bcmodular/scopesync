@@ -114,7 +114,7 @@ void ScopeFXGUI::valueChanged(Value & valueThatChanged)
 
 void ScopeFXGUI::userTriedToCloseWindow()
 {
-    scopeFX->hideWindow();
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("show")->setUIValue(0);
 }
 
 void ScopeFXGUI::moved()

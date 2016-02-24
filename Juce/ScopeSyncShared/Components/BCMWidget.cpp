@@ -263,8 +263,8 @@ void BCMWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
 }
 
 
-const StringArray BCMParameterWidget::fixedWidgetNames = StringArray::fromTokens("oscuid,voicecount,midiactivity,midichannel,Device Type,performancemode,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow", ",", "");
-const StringArray BCMParameterWidget::widgetScopeCodes = StringArray::fromTokens("osc,vc,midc,mida,type,pm,spr,spa,mono,byp,sspr", ",", "");
+const StringArray BCMParameterWidget::fixedWidgetNames = StringArray::fromTokens("oscuid,voicecount,midiactivity,midichannel,Device Type,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow", ",", "");
+const StringArray BCMParameterWidget::widgetScopeCodes = StringArray::fromTokens("osc,vc,midc,mida,type,spr,spa,mono,byp,sspr", ",", "");
 
 BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner) : BCMWidget(owner) 
 {

@@ -129,13 +129,6 @@ public:
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
         
-	int            getPerformanceMode() { return performanceMode.getValue(); }
-	void           setPerformanceMode(int newSetting) { performanceMode = newSetting; }
-	static void    setPerformanceModeGlobalDisable(int newSetting) { performanceModeGlobalDisable = newSetting; }
-    static int     getPerformanceModeGlobalDisable() { return performanceModeGlobalDisable; }
-	static void    setPerformanceModeAll(int newSetting);
-	void           referToPerformanceMode(Value& valueToLink) { valueToLink.referTo(performanceMode); }
-	
 	ValueTree      getMapping() { return configuration->getMapping(); };
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
     XmlElement*    getSystemLookAndFeels();
@@ -192,17 +185,6 @@ private:
 
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
 	static int performanceModeGlobalDisable;
-
-	Value performanceMode;
-	Value deviceType;
-	Value showPresetWindow;
-	Value showPatchWindow;
-	Value monoEffect;
-	Value bypassEffect;
-	Value showShellPresetWindow;
-	Value voiceCount;
-	Value midiActivity;
-	Value midiChannel;
 
 	static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
     

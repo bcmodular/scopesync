@@ -78,12 +78,13 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-    startTimer(100);
+	scopeSync->getParameterController()->getParameterByScopeCode("show")->mapToUIValue(shouldShowWindow);
+    shouldShowWindow.addListener(this);
 }
 
 ScopeFX::~ScopeFX()
 {
-    stopTimer();
+	shouldShowWindow.removeListener(this);
 
     scopeFXGUI = nullptr;
     scopeSync->unload();
@@ -102,9 +103,9 @@ void ScopeFX::initValues()
 		currentValues[i] = 0;
 }
 
-void ScopeFX::showWindow()
+void ScopeFX::toggleWindow(bool show)
 {
-	if (scopeFXGUI == nullptr)
+	if (show && scopeFXGUI == nullptr)
 	{
 #ifdef _WIN32
 		if (scopeWindow == nullptr)
@@ -117,6 +118,8 @@ void ScopeFX::showWindow()
 
 		scopeFXGUI = new ScopeFXGUI(this, scopeWindow);
 	}
+	else if (!show)
+		scopeFXGUI = nullptr;
 }
 
 void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
@@ -125,23 +128,12 @@ void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
         scopeFXGUI->setEnabled(shouldBeEnabled);
 }
 
-void ScopeFX::timerCallback()
+void ScopeFX::valueChanged(Value& valueThatChanged)
 {
-    if (shouldShowWindow)
-        showWindow();
-    else
-        hideWindow();
-
-    if (scopeFXGUI)
-        scopeFXGUI->refreshWindow();
+	if (valueThatChanged.refersToSameSourceAs(shouldShowWindow))
+		toggleWindow(int(shouldShowWindow.getValue()) > 0);
 }
 
-void ScopeFX::hideWindow()
-{
-    scopeSync->getScopeSyncAsync().setValue("show", 0);
-    shouldShowWindow = false;
-    scopeFXGUI = nullptr;
-}
 
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
@@ -152,14 +144,17 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	int j = 0;
 
     int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
-
-    if (parameterArray == nullptr)
-        return 0;
     
     // Grab ScopeSync values from input
 	while (i < numScopeParameters)
 	{
-		asyncValues[i] = parameterArray[j];
+		if (parameterArray != nullptr)
+			asyncValues[i] = parameterArray[j];
+		else
+			asyncValues[i] = 0;
+		
+		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
+		
 		i++;
 		j++;
 	}
@@ -170,75 +165,69 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	// Grab ScopeLocal values from input
 	while (j < numLocalParameters)
 	{
-		asyncValues[i] = localArray[j];
+		if (localArray != nullptr)
+			asyncValues[i] = localArray[j];
+		else
+			asyncValues[i] = 0;
+
+		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
+		
 		i++;
 		j++;
 	}
 
-    // Grab Bi-direction fixed parameter values from input
-    j = INPAD_X;
-    while (j < INPAD_X + numFixedBiDirParameters)
+	int* feedbackArray = (int*)asyncIn[INPAD_FEEDBACK]->itg;
+	
+	j = 0;
+    // Grab Feedback values from input
+    while (j < numFeedbackParameters)
     {
-        asyncValues[i] = asyncIn[j]->itg;
-        i++;
+        if (feedbackArray != nullptr)
+			asyncValues[i] = feedbackArray[j];
+		else
+			asyncValues[i] = 0;
+        
+		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
+		
+		i++;
         j++;
     }
 
-    int* feedbackArray = (int*)asyncIn[INPAD_FEEDBACK]->itg;
-
-    if (feedbackArray != nullptr)
+    // Grab fixed parameters values from input
+    j = INPAD_X;
+    while (j < INPAD_X + numFixedBiDirParameters + numFixedInputOnlyParameters)
     {
-        j = 0;
-        // Grab Feedback values from input
-        while (j < numFeedbackParameters)
-        {
-            asyncValues[i] = feedbackArray[j];
-            i++;
-            j++;
-        }
-    }
-    else
-    {
-        j = 0;
+        asyncValues[i] = asyncIn[j]->itg;
         
-        while (j < numFeedbackParameters)
-        {
-            asyncValues[i] = 0;
-            i++;
-            j++;
-        }
-    }
-
-    // Grab input only fixed parameter values from input
-    j = INPAD_DEVICE_TYPE;
-	while (j < INPAD_X + numFixedInputOnlyParameters)
-	{
-		asyncValues[i] = asyncIn[j]->itg;
+		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
+		
 		i++;
-		j++;
-	}
+        j++;
+    }
 	
     // Get ScopeSync to process the inputs and pass on changes from the SS system
     if (scopeSync != nullptr)
     {
-        bool perfMode = ScopeSync::getPerformanceModeGlobalDisable() ? false : (scopeSync->getPerformanceMode() > 0);
-        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues, perfMode);
+        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues, asyncIn[INPAD_PERFORMANCE_MODE]->itg > 0);
     }
 
+	i = 0;
+
 	// Write to the async outputs for all output parameters
-    for (int k = 0; k < numOutputParameters; k++)
+    for (int k = 0; k < numParameters; k++)
     {
-        asyncOut[k].itg  = asyncValues[k];
+		if ((    k < numScopeParameters + numLocalParameters 
+			  || k >= numScopeParameters + numLocalParameters + numFeedbackParameters) 
+			&& k < numScopeParameters + numLocalParameters + numFeedbackParameters + numFixedBiDirParameters)
+		{
+			//DBG("OUTPUT: i = " + String(i) + ", k = " + String(k) + ", value = " + String(asyncValues[k]));
+			asyncOut[i].itg  = asyncValues[k];
+			i++;
+		}
     }
 	
 	// Tell Scope when the DLL has been loaded
 	asyncOut[OUTPAD_LOADED].itg = (scopeSync != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
-
-    // Handle window
-    if (asyncOut[OUTPAD_SHOW].itg > 0)
-        shouldShowWindow = true;
-    else
-        shouldShowWindow = false;
 
 	return 0;
 }

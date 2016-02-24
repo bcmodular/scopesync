@@ -51,7 +51,7 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     setTabBarDepth(props.tabBarDepth);
     
-    int fixedWidgetIndex = fixedWidgetNames.indexOf(getName());
+    int fixedWidgetIndex = fixedWidgetNames.indexOf(getName(), true);
 
     if (fixedWidgetIndex != -1)
     {
