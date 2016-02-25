@@ -264,7 +264,7 @@ void BCMWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
 
 
 const StringArray BCMParameterWidget::fixedWidgetNames = StringArray::fromTokens("oscuid,voicecount,midiactivity,midichannel,Device Type,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow", ",", "");
-const StringArray BCMParameterWidget::widgetScopeCodes = StringArray::fromTokens("osc,vc,midc,mida,type,spr,spa,mono,byp,sspr", ",", "");
+const StringArray BCMParameterWidget::widgetScopeCodes = StringArray::fromTokens("osc,vc,mida,midc,type,spr,spa,mono,byp,sspr", ",", "");
 
 BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner) : BCMWidget(owner) 
 {
@@ -402,6 +402,15 @@ void BCMParameterWidget::showPopupMenu()
     m.addCommandItem(commandManager, CommandIDs::copyOSCPath, "Copy OSC Path");
     
     m.showMenuAsync(PopupMenu::Options(), nullptr);  
+}
+
+void BCMParameterWidget::setParameter(BCMParameter* param)
+{
+	if (param != nullptr)
+	{
+		parameter = param;
+		mapsToParameter = true;
+	}
 }
 
 void BCMParameterWidget::setupMapping(const Identifier& componentType,     const String& componentName, 

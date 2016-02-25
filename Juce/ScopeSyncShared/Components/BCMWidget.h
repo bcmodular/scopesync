@@ -106,6 +106,7 @@ protected:
     String      mappingComponentName;
     ValueTree   mapping;
 
+	void setParameter(BCMParameter* param);
     void setupMapping(const Identifier& componentType,     const String& componentName,
                       const Identifier& mappingParentType, const String& mappingParent);
 

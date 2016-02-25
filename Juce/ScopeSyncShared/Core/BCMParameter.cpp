@@ -45,9 +45,8 @@ const int BCMParameter::maxOSCDeadTime   = 3;
 #ifdef __DLL_EFFECT__
 #include "../Comms/ScopeSyncAsync.h"
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble)
+BCMParameter::BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble)
     : type(parameterType),
-      hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
 	  parameterController(pc),
@@ -59,9 +58,8 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterTy
 
 #else
 
-BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble)
+BCMParameter::BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble)
     : type(parameterType),
-      hostIdx(index),
       definition(parameterDefinition),
       affectedByUI(false),
 	  parameterController(pc),
@@ -73,6 +71,7 @@ BCMParameter::BCMParameter(int index, ValueTree parameterDefinition, ParameterTy
 
 void BCMParameter::initialise()
 {
+	hostIdx = -1;
 	oscDeadTimeCounter   = 0;
 	asyncDeadTimeCounter = 0;
 
@@ -96,6 +95,7 @@ BCMParameter::~BCMParameter()
     if (oscEnabled)
         ScopeSyncOSCServer::getInstance()->unregisterOSCListener(this);
 
+	DBG("BCMParameter::~BCMParameter - deleting parameter: " + getName());
 	masterReference.clear();
 	stopTimer();
 };

@@ -55,10 +55,10 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     if (fixedWidgetIndex != -1)
     {
-	    parameterValue.addListener(this);
-        BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(widgetScopeCodes[fixedWidgetIndex]);
-		
-        param->mapToUIValue(parameterValue);
+	    setParameter(scopeSync.getParameterController()->getParameterByScopeCode(widgetScopeCodes[fixedWidgetIndex]));
+        
+		parameterValue.addListener(this);
+        getParameter()->mapToUIValue(parameterValue);
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), props.mappingParentType, props.mappingParent);

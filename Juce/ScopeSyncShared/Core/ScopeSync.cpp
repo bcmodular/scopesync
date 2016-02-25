@@ -369,7 +369,9 @@ void ScopeSync::applyConfiguration()
     ValueTree parameterTree = configuration->getParameters();
 
     for (int i = 0; i < parameterTree.getNumChildren(); i++)
-        parameterController->addParameter(i, parameterTree.getChild(i), BCMParameter::regular);
+        parameterController->addParameter(parameterTree.getChild(i));
+
+	parameterController->setupHostParameters();
 
 #ifndef __DLL_EFFECT__
     pluginProcessor->updateHostDisplay();

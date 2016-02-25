@@ -41,14 +41,14 @@ class BCMParameter : public Value::Listener,
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType         {regular, scopeAsync, preset};
+    enum ParameterType         {regular, preset};
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate};
 
 	#ifdef __DLL_EFFECT__
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble);
+		BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble);
 	#else
-		BCMParameter(int index, ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble);
+		BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble);
 	#endif // __DLL_EFFECT__
     
 	void initialise();
@@ -61,11 +61,12 @@ public:
     void          setAffectedByUI(bool isAffected);
     bool          isAffectedByUI();
     String        getName();
-    int           getHostIdx() { return hostIdx; };
+	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
+    int           getHostIdx() { return hostIdx; }
     int           getScopeCodeId();
     String        getScopeCode();
-    ParameterType getParameterType() { return type; };
-    ValueTree&    getDefinition() { return definition; };
+    ParameterType getParameterType() { return type; }
+    ValueTree&    getDefinition() { return definition; }
     void          getSettings(ValueTree& settings);
     void          getDescriptions(String& shortDesc, String& fullDesc);
     void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);

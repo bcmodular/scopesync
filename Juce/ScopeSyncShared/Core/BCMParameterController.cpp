@@ -18,12 +18,12 @@
 
 const int BCMParameterController::minHostParameters = 128;
 const int BCMParameterController::maxHostParameters = 128;
-const int BCMParameterController::timerFrequency = 100;
+const int BCMParameterController::timerFrequency    = 100;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 scopeSync(owner), parameterValueStore("parametervalues")
 {
-    shouldReceiveAsyncUpdates = false;
+	shouldReceiveAsyncUpdates = false;
 
     resetScopeCodeIndexes();
 
@@ -32,7 +32,7 @@ scopeSync(owner), parameterValueStore("parametervalues")
     for (int i = 0; i < scopeCodes.size(); i++)
         addFixedScopeParameter(scopeCodes[i]);
     
-    initOSCUID();
+	initOSCUID();
 
     startTimer(timerFrequency);
 }
@@ -44,7 +44,7 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode)
     tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::scopeCodeId, scopeSync->getScopeCodeId(scopeCode), nullptr);
-    addParameter(-1, tmpParameter, BCMParameter::regular, true, (scopeCode != "osc"));
+    addParameter(tmpParameter, true, (scopeCode != "osc"));
 }
 
 BCMParameterController::~BCMParameterController()
@@ -52,13 +52,13 @@ BCMParameterController::~BCMParameterController()
     stopTimer();
 }
 
-void BCMParameterController::addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter, bool oscAble)
+void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
 {
-    BCMParameter* parameter;
+	BCMParameter* parameter;
 #ifdef __DLL_EFFECT__
-    parameter = new BCMParameter(index, parameterDefinition, parameterType, *this, scopeSync->getScopeSyncAsync(), oscAble);
+    parameter = new BCMParameter(parameterDefinition, BCMParameter::regular, *this, scopeSync->getScopeSyncAsync(), oscAble);
 #else									   
-	parameter = new BCMParameter(index, parameterDefinition, parameterType, *this, oscAble);
+	parameter = new BCMParameter(parameterDefinition, BCMParameter::regular, *this, oscAble);
 #endif __DLL_EFFECT__
 
     if (fixedParameter)
@@ -73,7 +73,7 @@ void BCMParameterController::addParameter(int index, ValueTree parameterDefiniti
 
 void BCMParameterController::setupHostParameters()
 {
-    int hostIdx = 0;
+	int hostIdx = 0;
     int paramCounter = 0;
 
     BCMParameter* parameter;
@@ -82,6 +82,9 @@ void BCMParameterController::setupHostParameters()
     while (hostIdx < maxHostParameters && paramCounter < dynamicParameters.size())
     {
         parameter = dynamicParameters[paramCounter];
+		
+		parameter->setHostIdx(hostIdx);
+
         hostParameters.add(parameter);
 
         paramCounter++;
@@ -91,7 +94,7 @@ void BCMParameterController::setupHostParameters()
 
 void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId)
 {
-    DBG("BCMParameterController::addParameter - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
+    //DBG("BCMParameterController::addToParametersByScopeCodeId - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
         
     if (scopeCodeId > -1 && scopeCodeId < ScopeSync::getScopeCodes().size())
         parametersByScopeCodeId.set(scopeCodeId, parameter);
@@ -99,7 +102,15 @@ void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* paramete
 
 void BCMParameterController::reset()
 {
+	//DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
+
+    for (int i = 0; i < fixedParameters.size(); i++)
+	{
+		//DBG("BCMParameterController::reset - Added parameter: " + fixedParameters[i]->getName());
+		parameters.add(fixedParameters[i]);
+	}
+
     hostParameters.clear();
     dynamicParameters.clear();
     resetScopeCodeIndexes();
@@ -107,10 +118,15 @@ void BCMParameterController::reset()
 
 void BCMParameterController::resetScopeCodeIndexes()
 {
-    parametersByScopeCodeId.clear();
+	//DBG("BCMParameterController::resetScopeCodeIndexes - clearing parametersByScopeCodeId array");
+    
+	parametersByScopeCodeId.clear();
 
     for (int i = 0; i < fixedParameters.size(); i++)
+	{
+		//DBG("BCMParameterController::resetScopeCodeIndexes - adding fixed parameter back in: " + fixedParameters[i]->getName() + "(" + String(fixedParameters[i]->getScopeCodeId()) + ")");
         addToParametersByScopeCodeId(fixedParameters[i], fixedParameters[i]->getScopeCodeId());
+	}
 }
 
 void BCMParameterController::snapshot()
@@ -138,6 +154,9 @@ BCMParameter* BCMParameterController::getParameterByName(const String& name)
 BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scopeCode)
 {
     BCMParameter* parameter = parametersByScopeCodeId[ScopeSync::getScopeCodeId(scopeCode)];
+
+	//DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
+
     return parameter;
 }
 
@@ -338,5 +357,4 @@ void BCMParameterController::receiveUpdatesFromScopeAsync()
 	}
 #endif // __DLL_EFFECT__
 } 
-
 

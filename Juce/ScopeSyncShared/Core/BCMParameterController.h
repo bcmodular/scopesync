@@ -30,11 +30,11 @@ public:
 
     void reset();
 
-    void addParameter(int index, ValueTree parameterDefinition, BCMParameter::ParameterType parameterType, bool fixedParameter = false, bool oscAble = true);
+    void addParameter(ValueTree parameterDefinition, bool fixedParameter = false, bool oscAble = true);
     void addFixedScopeParameter(const String& scopeCode);
     void setupHostParameters();
 
-    BCMParameter* getParameterByName(const String& name);
+	BCMParameter* getParameterByName(const String& name);
     BCMParameter* getParameterByScopeCode(const String& scopeCode);
 
     float getParameterHostValue(int hostIdx);

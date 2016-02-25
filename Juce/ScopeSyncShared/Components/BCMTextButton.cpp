@@ -259,14 +259,17 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
 void BCMTextButton::setupManagedButton(const String& scopeCode, TextButtonProperties& props)
 {
-    setClickingTogglesState(true);
-    mapsToParameter = true;
-
-    BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(scopeCode);
+    mappingType = toggle;
+	setClickingTogglesState(true);
+	
+	upSettingIdx   = 0;
+	downSettingIdx = 1;
+	
+	setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
     
-    setToggleState(param->getUIValue() > 0, dontSendNotification);
+    setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
 
-    param->mapToUIValue(parameterValue);
+    getParameter()->mapToUIValue(parameterValue);
 
     parameterValue.addListener(this);
 
@@ -345,10 +348,17 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     }
     else
     {
-		int hostIdx = getParameter()->getHostIdx();
+		if (hasParameter() && getParameter() != nullptr)
+		{
+			int hostIdx = getParameter()->getHostIdx();
 
-        if (hasParameter() && hostIdx != -1)
-            scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
+			if (hostIdx != -1)
+				scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
+		}
+		else
+		{
+			DBG("BCMTextButton::mouseDown - button " + getName() + " doesn't have a parameter");
+		}
 
         TextButton::mouseDown(event);
     }
@@ -369,7 +379,17 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
         }
 
         if (hasParameter())
-            scopeSync.getParameterController()->endParameterChangeGesture(getParameter()->getHostIdx());
+		{
+			BCMParameter* param = getParameter();
+
+			if (param != nullptr)
+			{
+				int hostIdx = param->getHostIdx();
+
+				scopeSync.getParameterController()->endParameterChangeGesture(hostIdx);
+			}
+            
+		}
 
         TextButton::mouseUp(event);
     }

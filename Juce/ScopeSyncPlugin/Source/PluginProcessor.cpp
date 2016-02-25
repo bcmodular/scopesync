@@ -98,28 +98,6 @@ const String PluginProcessor::getParameterText (int index)
     return parameterText;
 }
 
-const String PluginProcessor::getInputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
-
-const String PluginProcessor::getOutputChannelName (int channelIndex) const
-{
-    return String (channelIndex + 1);
-}
-
-bool PluginProcessor::isInputChannelStereoPair (int index) const
-{
-    (void)index;
-    return true;
-}
-
-bool PluginProcessor::isOutputChannelStereoPair (int index) const
-{
-    (void)index;
-    return true;
-}
-
 bool PluginProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
@@ -136,11 +114,6 @@ bool PluginProcessor::producesMidi() const
    #else
     return false;
    #endif
-}
-
-bool PluginProcessor::silenceInProducesSilenceOut() const
-{
-    return false;
 }
 
 double PluginProcessor::getTailLengthSeconds() const
@@ -196,7 +169,7 @@ void PluginProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiM
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
-    for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
+    for (int i = getTotalNumInputChannels(); i < getTotalNumOutputChannels(); ++i)
     {
         buffer.clear (i, 0, buffer.getNumSamples());
     }
@@ -267,7 +240,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
 
-            scopeSync->getParameterController()->setOSCUID(oscUID);
+            scopeSync->getParameterController()->getParameterByScopeCode("osc")->setUIValue((float)oscUID);
         }
     }
     else

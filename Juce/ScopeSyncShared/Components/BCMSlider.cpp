@@ -150,10 +150,10 @@ void BCMSlider::applyProperties(SliderProperties& props)
 
 void BCMSlider::setupManagedSlider(const String& scopeCode, SliderProperties& props)
 {
-    BCMParameter* param = scopeSync.getParameterController()->getParameterByScopeCode(scopeCode);
+    setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
 
-    param->mapToUIValue(getValueObject());
-
+    getParameter()->mapToUIValue(getValueObject());
+	
 	setRange(props.rangeMin, props.rangeMax, 1);
 	setTooltip(props.name);
 	setPopupMenuEnabled(false);
