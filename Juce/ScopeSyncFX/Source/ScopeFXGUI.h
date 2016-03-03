@@ -37,7 +37,8 @@ class ScopeFX;
 class BCMParameter;
 
 class ScopeFXGUI : public Component,
-                   public Value::Listener
+                   public Value::Listener,
+				   public Timer
 {
 public:
     ScopeFXGUI (ScopeFX* owner, HWND scopeWindow);
@@ -47,8 +48,9 @@ public:
     // and updating the window title
     void refreshWindow();
 
-    void valueChanged(Value& valueThatChanged);
-
+    void valueChanged(Value& valueThatChanged) override;
+	void timerCallback() override;
+    
 private:
     ScopeFX*                    scopeFX;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
@@ -62,8 +64,8 @@ private:
     String windowName;
     bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
     
-    void paint(Graphics& g);
-    
+    void paint(Graphics& g) override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFXGUI)
 };
 

@@ -59,13 +59,21 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     
     setSize(width, height);
     addAndMakeVisible(scopeSyncGUI);
+
+	startTimer(100);
 }
 
 ScopeFXGUI::~ScopeFXGUI()
 {
+	stopTimer();
     xPos.removeListener(this);
     yPos.removeListener(this);
     scopeFX = nullptr;
+}
+
+void ScopeFXGUI::timerCallback()
+{
+	refreshWindow();
 }
 
 void ScopeFXGUI::refreshWindow()
@@ -88,7 +96,7 @@ void ScopeFXGUI::refreshWindow()
 
     if (sizeChanged || firstTimeShow)
     {
-        DBG("ScopeFXGUI::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
+        DBG("refreshWindow::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
         setSize(newWidth, newHeight);
         grabKeyboardFocus();
         firstTimeShow = false;

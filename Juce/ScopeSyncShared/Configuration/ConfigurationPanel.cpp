@@ -168,12 +168,6 @@ void ConfigurationPanel::rebuildProperties()
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::author,     &undoManager), "Author",      256,  false), "Name of Configuration's creator");
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::blurb,      &undoManager), "Blurb",       1024, true),  "Textual description of Configuration (shown in Chooser)");
 
-    if (isNewConfiguration)
-    {
-        valueTree.setProperty(Ids::includeScopeLocal, true, &undoManager);
-        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::includeScopeLocal, &undoManager), "Standard Scope Parameters", "Include"), "Tick to automatically include the standard Scope parameters and their mappings, to support features like Open/Close Preset window etc.");
-    }
-
     propertyPanel.addSection("Configuration Settings", props.components);
 
     props.clear();
@@ -280,12 +274,12 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, Und
     }
 
     StringArray scopeCodes = ScopeSync::getScopeCodes();
-    Array<var>  scopeCodeIds;
+    Array<var>  scopeCodeValues;
 
     for (int i = 0; i < scopeCodes.size(); i++)
-        scopeCodeIds.add(i);
+        scopeCodeValues.add(scopeCodes[i]);
 
-    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeCodeId, &undoManager), "Scope Code", scopeCodes, scopeCodeIds), "Scope Code");
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeCode, &undoManager), "Scope Code", scopeCodes, scopeCodeValues), "Scope Code");
 }
 
 void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)

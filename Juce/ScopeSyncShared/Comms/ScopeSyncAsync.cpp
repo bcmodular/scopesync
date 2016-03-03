@@ -29,6 +29,8 @@
 #include "../Core/ScopeSync.h"
 #include "../Core/Global.h"
 
+bool ScopeSyncAsync::enableScopeInputs = false;
+
 ScopeSyncAsync::ScopeSyncAsync()
 {
     initialiseScopeParameters = true;
@@ -39,7 +41,7 @@ ScopeSyncAsync::ScopeSyncAsync()
 
 ScopeSyncAsync::~ScopeSyncAsync() {}
 
-void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues, bool performanceMode)
+void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues)
 {
     for (int i = 0; i < ScopeFXParameterDefinitions::numParameters; i++)
     {
@@ -48,9 +50,10 @@ void ScopeSyncAsync::handleUpdate(int* asyncValues, int* prevValues, bool perfor
             currentValues[i].store(asyncValues[i]);
             asyncUpdates.set(i, currentValues[i]);
         }
-        else if ((!performanceMode || i >= ScopeFXParameterDefinitions::numScopeParameters) && asyncValues[i] != prevValues[i])
+        else if ((enableScopeInputs || (i >= ScopeFXParameterDefinitions::numScopeParameters && i != ScopeSync::getScopeCodeId("X") && i != ScopeSync::getScopeCodeId("Y"))) 
+			      && asyncValues[i] != prevValues[i])
         {
-            // We have a value change from Async and we're not in performance mode (or we're not looking at a Scope Parameter)
+            // We have a value change from Async and scope inputs are enabled (or we're not looking at a Scope Parameter)
             // If the value hasn't been changed by ScopeSync in the meantime, update
             if (currentValues[i].compare_exchange_strong(prevValues[i], asyncValues[i]))
             {

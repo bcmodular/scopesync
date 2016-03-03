@@ -70,12 +70,9 @@ NewConfigurationWindow::~NewConfigurationWindow() {}
 
 void NewConfigurationWindow::addConfiguration()
 {
-    bool includeScopeLocal = settings.getProperty(Ids::includeScopeLocal, true);
-
-    ValueTree newSettings = configuration.getEmptyConfiguration(includeScopeLocal);
+    ValueTree newSettings = configuration.getEmptyConfiguration();
     newSettings.copyPropertiesFrom(settings, nullptr);
-    newSettings.removeProperty(Ids::includeScopeLocal, nullptr);
-
+    
     scopeSync.addConfiguration(File(newFile), newSettings);
     scopeSync.hideAddConfigurationWindow();
 }
@@ -257,7 +254,7 @@ const char* Configuration::configurationFileExtension = ".configuration";
 
 void Configuration::loadLoaderConfiguration()
 {
-    ScopedPointer<XmlElement> xml(XmlDocument::parse(emptyWithScopeLocalConfiguration));
+    ScopedPointer<XmlElement> xml(XmlDocument::parse(emptyConfiguration));
 
     ValueTree newTree (ValueTree::fromXml(*xml));
     newTree.setProperty(Ids::name, "No configuration loaded...", nullptr);
@@ -268,14 +265,11 @@ void Configuration::loadLoaderConfiguration()
     loaderConfigurationRoot = newTree;
 }
 
-ValueTree Configuration::getEmptyConfiguration(bool includeScopeLocal)
+ValueTree Configuration::getEmptyConfiguration()
 {
     String xmlToParse;
 
-    if (includeScopeLocal)
-        xmlToParse = emptyWithScopeLocalConfiguration;
-    else
-        xmlToParse = emptyConfiguration;
+    xmlToParse = emptyConfiguration;
 
     ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
 
@@ -490,17 +484,17 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
 
     generateUniqueParameterNames(newParameter, um);
 
-    newParameter.setProperty(Ids::scopeCodeId,  -1, um);
+    newParameter.setProperty(Ids::scopeCode, String::empty, um);
     
     getParameters().addChild(newParameter, targetIndex, um);
 }
 
 void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager)
 {
-    String name       = parameter.getProperty(Ids::name);
-    String shortDesc  = parameter.getProperty(Ids::shortDescription);
-    String fullDesc   = parameter.getProperty(Ids::fullDescription);
-    int    scopeCodeId  = parameter.getProperty(Ids::scopeCodeId);
+    String name      = parameter.getProperty(Ids::name);
+    String shortDesc = parameter.getProperty(Ids::shortDescription);
+    String fullDesc  = parameter.getProperty(Ids::fullDescription);
+    String scopeCode = parameter.getProperty(Ids::scopeCode);
 
 	parameter.copyPropertiesFrom(preset, undoManager);
     parameter.removeProperty(Ids::presetFileName, undoManager);
@@ -518,7 +512,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     if (settings.isValid())
         parameter.addChild(settings, -1, undoManager);
 
-    parameter.setProperty(Ids::scopeCodeId, scopeCodeId, undoManager);
+    parameter.setProperty(Ids::scopeCode, scopeCode, undoManager);
     
     if (!overwriteNames)
     {
@@ -563,7 +557,7 @@ ValueTree Configuration::getDefaultParameter()
     defaultParameter.setProperty(Ids::name,             "PARAM",       nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeCodeId,      -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeCode,        String::empty, nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -582,21 +576,21 @@ ValueTree Configuration::getDefaultParameter()
 ValueTree Configuration::getDefaultFixedParameter()
 {
     ValueTree defaultParameter(Ids::parameter);
-    defaultParameter.setProperty(Ids::name, "PARAM", nullptr);
-    defaultParameter.setProperty(Ids::shortDescription, "Param", nullptr);
-    defaultParameter.setProperty(Ids::fullDescription, "Parameter", nullptr);
-    defaultParameter.setProperty(Ids::scopeCodeId, -1, nullptr);
-    defaultParameter.setProperty(Ids::scopeRangeMin, -2147483647, nullptr);
-    defaultParameter.setProperty(Ids::scopeRangeMax, 2147483647, nullptr);
-    defaultParameter.setProperty(Ids::scopeDBRef, 0, nullptr);
-    defaultParameter.setProperty(Ids::valueType, 0, nullptr);
-    defaultParameter.setProperty(Ids::uiResetValue, 0, nullptr);
-    defaultParameter.setProperty(Ids::uiSkewFactor, 1, nullptr);
-    defaultParameter.setProperty(Ids::skewUIOnly, false, nullptr);
-    defaultParameter.setProperty(Ids::uiRangeMin, -2147483647, nullptr);
-    defaultParameter.setProperty(Ids::uiRangeMax, 2147483647, nullptr);
-    defaultParameter.setProperty(Ids::uiRangeInterval, 1, nullptr);
-    defaultParameter.setProperty(Ids::uiSuffix, String::empty, nullptr);
+    defaultParameter.setProperty(Ids::name,            "PARAM",        nullptr);
+    defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
+    defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
+    defaultParameter.setProperty(Ids::scopeCode,        String::empty, nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMin,    -2147483647,   nullptr);
+    defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
+    defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
+    defaultParameter.setProperty(Ids::valueType,        0,             nullptr);
+    defaultParameter.setProperty(Ids::uiResetValue,     0,             nullptr);
+    defaultParameter.setProperty(Ids::uiSkewFactor,     1,             nullptr);
+    defaultParameter.setProperty(Ids::skewUIOnly,       false,         nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMin,       -2147483647,   nullptr);
+    defaultParameter.setProperty(Ids::uiRangeMax,       2147483647,    nullptr);
+    defaultParameter.setProperty(Ids::uiRangeInterval,  1,             nullptr);
+    defaultParameter.setProperty(Ids::uiSuffix,         String::empty, nullptr);
 
     return defaultParameter;
 }
@@ -1033,72 +1027,6 @@ const String Configuration::emptyConfiguration =
 "  </mapping>\n"
 "</configuration>\n";
 
-const String Configuration::emptyWithScopeLocalConfiguration =
-"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"\n"
-"<configuration>\n"
-"  <hostParameters/>\n"
-"  <scopeParameters>\n"
-"    <parameter name=\"CPHost\" shortDescription=\"CPHost\" fullDescription=\"Control Panel - Host\" scopeC"
-"odeId=\"139\" scopeRangeMin=\"0\" scopeRangeMax=\"2147483647\"\n"
-"               scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" valueType=\"1\" uiResetValue=\""
-"0\" uiSkewFactor=\"1\" skewUIOnly=\"false\"\n"
-"               uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
-"      <settings>\n"
-"        <setting name=\"DISCONNECTED\" value=\"0\" intValue=\"0\"/>\n"
-"        <setting name=\"CONNECTED\" value=\"1\" intValue=\"2147483647\"/>\n"
-"      </settings>\n"
-"    </parameter>\n"
-"    <parameter name=\"PatchWindow\" shortDescription=\"PatchWindow\" fullDescription=\"Open Patch Window\""
-" scopeCodeId=\"140\" scopeRangeMin=\"0\"\n"
-"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
-"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
-"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
-"      <settings>\n"
-"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"      </settings>\n"
-"    </parameter>\n"
-"    <parameter name=\"PresetList\" shortDescription=\"PresetList\" fullDescription=\"Open Preset List\" sc"
-"opeCodeId=\"141\" scopeRangeMin=\"0\"\n"
-"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
-"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
-"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
-"      <settings>\n"
-"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"      </settings>\n"
-"    </parameter>\n"
-"    <parameter name=\"LoadConfig\" shortDescription=\"LoadConfig\" fullDescription=\"Load Configuration\" "
-"scopeCodeId=\"142\" scopeRangeMin=\"0\"\n"
-"               scopeRangeMax=\"2147483647\" scopeRangeMinFlt=\"0\" scopeRangeMaxFlt=\"1\" scopeDBRef=\"0\" v"
-"alueType=\"1\" uiResetValue=\"0\" uiSkewFactor=\"1\"\n"
-"               skewUIOnly=\"false\" uiRangeMin=\"0\" uiRangeMax=\"1\" uiRangeInterval=\"1\" uiSuffix=\"\">\n"
-"      <settings>\n"
-"        <setting name=\"OFF\" value=\"0\" intValue=\"0\"/>\n"
-"        <setting name=\"ON\" value=\"1\" intValue=\"2147483647\"/>\n"
-"      </settings>\n"
-"    </parameter>\n"
-"  </scopeParameters>\n"
-"  <mapping>\n"
-"    <textButtons>\n"
-"      <textButton name=\"CPHost-Disconnected\" mapTo=\"CPHost\" settingDown=\"DISCONNECTED\" type=\"1\" radi"
-"oGroup=\"\"/>\n"
-"      <textButton name=\"CPHost-Connected\" mapTo=\"CPHost\" settingDown=\"CONNECTED\" type=\"1\" radioGroup"
-"=\"\"/>\n"
-"      <textButton name=\"PatchWindow\" mapTo=\"PatchWindow\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" r"
-"adioGroup=\"\"/>\n"
-"      <textButton name=\"PresetList\" mapTo=\"PresetList\" settingDown=\"ON\" settingUp=\"OFF\" type=\"1\" rad"
-"ioGroup=\"\"/>\n"
-"      <textButton name=\"LoadConfig\" mapTo=\"LoadConfig\" settingDown=\"ON\" type=\"0\" radioGroup=\"\"/>\n"
-"    </textButtons>\n"
-"    <sliders/>\n"
-"    <labels/>\n"
-"    <comboBoxes/>\n"
-"    <tabbedComponents/>\n"
-"  </mapping>\n"
-"</configuration>\n";
-
 const String Configuration::loaderLayout =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 "<layout>\n"
@@ -1106,77 +1034,106 @@ const String Configuration::loaderLayout =
 "  <component backgroundcolour=\"ff2d3035\" lfid=\"system:default\">\n"
 "    <bounds x=\"0\" y=\"0\" width=\"674\" height=\"100\" />\n"
 "    <!--Header Section-->\n"
-"    <component>\n"
-"      <bounds relativerectangle=\"right - parent.width, 1, parent.width, top + 40\"></bounds>\n"
-"      <label lfid=\"system:configname\" name=\"configurationname\" text=\"Current Configuration\">\n"
-"        <bounds x=\"177\" y=\"11\" width=\"160\" height=\"17\"></bounds>\n"
-"        <font bold=\"true\" height=\"12\"></font>\n"
-"      </label>\n"
-"      <textbutton lfid=\"system:scopesynclogo_button\" name=\"showaboutbox\" id=\"showaboutbox\" text=\"\" t"
-"ooltip=\"Show About Box\">\n"
-"        <bounds relativerectangle=\"13, 11, left + 151, top + 21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:new_config_button\" name=\"newconfiguration\" tooltip=\"New Configuration"
-"\">\n"
-"        <bounds x=\"347\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Configur"
-"ation\">\n"
-"        <bounds x=\"373\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:reload_button\" name=\"reloadconfiguration\" tooltip=\"Reload Current Con"
-"figuration\">\n"
-"        <bounds x=\"399\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:showconfigurationmanager_button\" name=\"showconfigurationmanager\" id=\""
-"showconfigurationmanager\" text=\"\" tooltip=\"Open Configuration Manager panel\">\n"
-"        <bounds x=\"425\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text=\""
-"\" tooltip=\"Open User Settings panel\">\n"
-"        <bounds relativerectangle=\"right - 32, showconfigurationmanager.top, parent.width - 1, top +"
-" 21\"></bounds>\n"
-"      </textbutton>\n"
-"      <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" text=\"\" tooltip=\"Send Snapshot of Cu"
-"rrent Control Values\">\n"
-"        <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 5, top "
-"+ 21\"></bounds>\n"
-"      </textbutton>\n"
-"      <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->"
-"\n"
-"      <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
-"        <bounds relativerectangle=\"right - 58, 6, parent.width - 70, top + 32\"></bounds>\n"
-"        <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
-"        <tab idx=\"1\" name=\"DISCONNECTED\">\n"
-"          <component>\n"
-"            <!--No Controls-->\n"
-"          </component>\n"
-"        </tab>\n"
-"        <tab idx=\"2\" name=\"CONNECTED\">\n"
-"          <component>\n"
-"            <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\">\n"
-"              <bounds x=\"0\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
-"            </textbutton>\n"
-"            <textbutton lfid=\"system:presets_button\" name=\"PresetList\">\n"
-"              <bounds x=\"33\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"            </textbutton>\n"
-"          </component>\n"
-"        </tab>\n"
-"      </tabbedcomponent>\n"
-"      <component displaycontext=\"scope\" backgroundcolour=\"00000000\">\n"
-"        <bounds relativerectangle=\"right - 2, 0, parent.width - 132, top + 2\"></bounds>\n"
-"        <!--CP<->Host Disconnected-->\n"
-"        <textbutton name=\"CPHost-Disconnected\">\n"
-"          <bounds x=\"3\" y=\"3\" width=\"1\" height=\"1\"></bounds>\n"
-"          <choosetab tabbedcomponent=\"Device Type\" tabname=\"DISCONNECTED\"></choosetab>\n"
+"    <component id=\"header\">\n"
+"        <bounds relativerectangle=\"right - parent.width, 1, parent.width, top + 40\"></bounds>\n"
+"        <label lfid=\"system:configname\" name=\"configurationname\" text=\"Current Configuration\">\n"
+"          <bounds x=\"172\" y=\"11\" width=\"131\" height=\"17\"></bounds>\n"
+"          <font bold=\"true\" height=\"12\"></font>\n"
+"        </label>\n"
+"        <textbutton lfid=\"system:scopesynclogo_button\" name=\"showaboutbox\" id=\"showaboutbox\" text=\"\""
+" tooltip=\"Show About Box\">\n"
+"          <bounds relativerectangle=\"13, 11, left + 151, top + 21\"></bounds>\n"
 "        </textbutton>\n"
-"        <!--CP<->Host Connected-->\n"
-"        <textbutton name=\"CPHost-Connected\">\n"
-"          <bounds x=\"3\" y=\"3\" width=\"1\" height=\"1\"></bounds>\n"
-"          <choosetab tabbedcomponent=\"Device Type\" tabname=\"CONNECTED\"></choosetab>\n"
+"        <textbutton lfid=\"system:new_config_button\" name=\"newconfiguration\" tooltip=\"New Configurati"
+"on\">\n"
+"          <bounds x=\"311\" y=\"9\" width=\"20\" height=\"21\"></bounds>\n"
 "        </textbutton>\n"
+"        <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Config"
+"uration\">\n"
+"          <bounds x=\"331\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"        </textbutton>\n"
+"        <textbutton lfid=\"system:reload_button\" name=\"reloadconfiguration\" tooltip=\"Reload Current C"
+"onfiguration\">\n"
+"          <bounds x=\"356\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"        </textbutton>\n"
+"        <textbutton lfid=\"system:showconfigurationmanager_button\" name=\"showconfigurationmanager\" id"
+"=\"showconfigurationmanager\" text=\"\" tooltip=\"Open Configuration Manager panel\">\n"
+"          <bounds x=\"379\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"        </textbutton>\n"
+"        <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text"
+"=\"\" tooltip=\"Open User Settings panel\">\n"
+"          <bounds relativerectangle=\"right - 28, showconfigurationmanager.top, parent.width - 4, top"
+" + 21\"></bounds>\n"
+"        </textbutton>\n"
+"        <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" id=\"snapshot\" text=\"\" tooltip=\"Sen"
+"d a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instance"
+"s\">\n"
+"          <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 3, to"
+"p + 21\"></bounds>\n"
+"        </textbutton>\n"
+"        <!--Shows additional buttons in Scope DLL header based on device type setting-->\n"
+"        <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
+"          <bounds relativerectangle=\"right - 100, 6, snapshot.left - 4, top + 32\"></bounds>\n"
+"          <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
+"          <tab idx=\"1\" name=\"NOPRESET\">\n"
+"            <component>\n"
+"              <!--No Controls-->\n"
+"            </component>\n"
+"          </tab>\n"
+"          <tab idx=\"2\" name=\"PRESET\">\n"
+"            <component>\n"
+"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
+"r\">\n"
+"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"            </component>\n"
+"          </tab>\n"
+"          <tab idx=\"3\" name=\"PRESETFX\">\n"
+"            <component>\n"
+"              <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
+"                <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
+"                <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
+"r\">\n"
+"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"            </component>\n"
+"          </tab>\n"
+"          <tab idx=\"4\" name=\"BCPRESET\">\n"
+"            <component>\n"
+"              <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch "
+"Window\">\n"
+"                <bounds x=\"50\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
+"r\">\n"
+"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"            </component>\n"
+"          </tab>\n"
+"          <tab idx=\"5\" name=\"BCPRESETFX\">\n"
+"            <component>\n"
+"              <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch "
+"Window\">\n"
+"                <bounds x=\"0\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
+"                <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
+"                <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
+"              </textbutton>\n"
+"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
+"r\">\n"
+"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"              </textbutton>\n"
+"            </component>\n"
+"          </tab>\n"
+"        </tabbedcomponent>\n"
 "      </component>\n"
-"    </component>\n"
 "    <!--Background-->\n"
 "    <component backgroundcolour=\"55000000\" backgroundimage=\"Skins/B-Control/background.png\">\n"
 "      <bounds relativerectangle=\"right - parent.width, 41, parent.width, parent.height\" />\n"

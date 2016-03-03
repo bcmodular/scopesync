@@ -72,6 +72,7 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, ParameterType paramete
 void BCMParameter::initialise()
 {
 	hostIdx = -1;
+	scopeCodeId = ScopeSync::getScopeCodeId(getScopeCode());
 	oscDeadTimeCounter   = 0;
 	asyncDeadTimeCounter = 0;
 
@@ -198,21 +199,12 @@ String BCMParameter::getName()
 
 int BCMParameter::getScopeCodeId()
 {
-    int scopeCodeId = definition.getProperty(Ids::scopeCodeId, -1);
-    
     return scopeCodeId;
 }
 
 String BCMParameter::getScopeCode()
 {
-    String scopeCode(String::empty);
-
-    int scopeCodeId = definition.getProperty(Ids::scopeCodeId, -1);
-
-    if (scopeCodeId != -1)
-        scopeCode = ScopeSync::getScopeCode(scopeCodeId);
-    
-    return scopeCode;
+    return definition.getProperty(Ids::scopeCode, String::empty);
 }
 
 void BCMParameter::getSettings(ValueTree& settings)

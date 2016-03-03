@@ -43,7 +43,8 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode)
     tmpParameter.setProperty(Ids::name, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::scopeCodeId, scopeSync->getScopeCodeId(scopeCode), nullptr);
+    tmpParameter.setProperty(Ids::scopeCode, scopeCode, nullptr);
+
     addParameter(tmpParameter, true, (scopeCode != "osc"));
 }
 
@@ -55,10 +56,13 @@ BCMParameterController::~BCMParameterController()
 void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
 {
 	BCMParameter* parameter;
+
+	BCMParameter::ParameterType type = ScopeSync::getScopeCodeType(parameterDefinition.getProperty(Ids::scopeCode).toString());
+
 #ifdef __DLL_EFFECT__
-    parameter = new BCMParameter(parameterDefinition, BCMParameter::regular, *this, scopeSync->getScopeSyncAsync(), oscAble);
+    parameter = new BCMParameter(parameterDefinition, type, *this, scopeSync->getScopeSyncAsync(), oscAble);
 #else									   
-	parameter = new BCMParameter(parameterDefinition, BCMParameter::regular, *this, oscAble);
+	parameter = new BCMParameter(parameterDefinition, type, *this, oscAble);
 #endif __DLL_EFFECT__
 
     if (fixedParameter)

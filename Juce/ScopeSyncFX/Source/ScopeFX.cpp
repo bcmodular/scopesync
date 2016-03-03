@@ -36,6 +36,7 @@
 #include "../../ScopeSyncShared/Core/ScopeSyncApplication.h"
 #include "../../ScopeSyncShared/Windows/UserSettings.h"
 #include "../../ScopeSyncShared/Core/BCMParameterController.h"
+#include "../../ScopeSyncShared/Core/BCMParameter.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -205,20 +206,22 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
         j++;
     }
 	
+	int enableScopeInputs = asyncIn[INPAD_ENABLE_SCOPE_INPUTS]->itg;
+
+	if (enableScopeInputs != currentValues[numParameters - 1])
+		ScopeSyncAsync::setScopeInputEnablement(enableScopeInputs > 0);
+
     // Get ScopeSync to process the inputs and pass on changes from the SS system
     if (scopeSync != nullptr)
-    {
-        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues, asyncIn[INPAD_PERFORMANCE_MODE]->itg > 0);
-    }
-
+        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues);
+    
 	i = 0;
 
 	// Write to the async outputs for all output parameters
     for (int k = 0; k < numParameters; k++)
     {
-		if ((    k < numScopeParameters + numLocalParameters 
-			  || k >= numScopeParameters + numLocalParameters + numFeedbackParameters) 
-			&& k < numScopeParameters + numLocalParameters + numFeedbackParameters + numFixedBiDirParameters)
+		if (   ScopeSync::getScopeCodeType(k) != BCMParameter::feedback
+			&& ScopeSync::getScopeCodeType(k) != BCMParameter::fixedInputOnly)
 		{
 			//DBG("OUTPUT: i = " + String(i) + ", k = " + String(k) + ", value = " + String(asyncValues[k]));
 			asyncOut[i].itg  = asyncValues[k];

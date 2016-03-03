@@ -44,7 +44,7 @@ public:
 
     // Processes an incoming array of Async values coming from Scope and passes
     // on any updates from the ScopeSync system
-    void handleUpdate(int* asyncValues, int* prevValues, bool performanceMode);
+    void handleUpdate(int* asyncValues, int* prevValues);
     
     // Passes on the contents of the queue of updates received from Scope
     void getAsyncUpdates(HashMap<int, int, DefaultHashFunctions, CriticalSection>& targetHashMap);
@@ -59,11 +59,15 @@ public:
 
     void toggleUpdateProcessing(bool processThem);
     
+	static void setScopeInputEnablement(bool newValue) { enableScopeInputs = newValue; }
+
 private:
     bool initialiseScopeParameters; // All Scope Parameters are set from Async the first time we receive an update
 
     std::atomic_int  currentValues[ScopeFXParameterDefinitions::numParameters];
     std::atomic_bool processUpdates;
+
+	static bool enableScopeInputs;
 
     HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncUpdates;     // Updates received from the async input
 

@@ -41,7 +41,7 @@ class BCMParameter : public Value::Listener,
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType         {regular, preset};
+    enum ParameterType         {none, scope, local, feedback, fixedBiDir, fixedInputOnly, preset};
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate};
 
@@ -130,7 +130,8 @@ private:
 	Value            oscUID;
     bool             affectedByUI;
     int              hostIdx;
-    int              numDecimalPlaces;
+    int              scopeCodeId;
+	int              numDecimalPlaces;
 	
 	int oscDeadTimeCounter;
 	int asyncDeadTimeCounter;

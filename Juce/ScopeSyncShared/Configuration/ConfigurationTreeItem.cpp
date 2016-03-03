@@ -953,8 +953,8 @@ String ParameterItem::getDisplayName() const
     String displayName = tree[Ids::name].toString();
     displayName += " (" + tree[Ids::fullDescription].toString() + ")";
 
-    if (int(tree[Ids::scopeCodeId]) != -1)
-        displayName += " - " + ScopeSync::getScopeCode(int(tree[Ids::scopeCodeId]));
+	if (tree[Ids::scopeCode].toString().isNotEmpty())
+        displayName += " - " + tree[Ids::scopeCode].toString();
 
     return displayName;
 }

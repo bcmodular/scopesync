@@ -67,7 +67,8 @@ public:
     void unload();
 
     static const String scopeSyncVersionString;
-
+	static const int numScopeCodes;       // Number of Scope codes
+    
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
 	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
@@ -75,6 +76,8 @@ public:
     static void shutDownIfLastInstance();
     static const String& getScopeCode(int scopeSyncId);
     static const StringArray& getScopeCodes() { return scopeCodes; };
+	static const BCMParameter::ParameterType getScopeCodeType(const String& scopeCode);
+	static const BCMParameter::ParameterType getScopeCodeType(const int scopeCodeId) { return scopeCodeTypes[scopeCodeId]; };
     static const int ScopeSync::getScopeCodeId(const String& scopeCode);
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
     static void snapshotAll();
@@ -191,7 +194,8 @@ private:
     static const String standardHeaderContent; // Standard XML content for the ScopeSync layout header
     static const String standardSliderLnFs;    // Standard Slider LnFs for ScopeSync templates
 
-    static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
+	static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
+	static const BCMParameter::ParameterType scopeCodeTypes[]; // Types of each of the scope codes
     
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text

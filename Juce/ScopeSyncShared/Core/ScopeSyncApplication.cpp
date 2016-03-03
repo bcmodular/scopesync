@@ -69,10 +69,10 @@ void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
 void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoManager)
 {
     // Backup the parameter's identifying values
-    String name        = target.getProperty(Ids::name);
-    String shortDesc   = target.getProperty(Ids::shortDescription);
-    String fullDesc    = target.getProperty(Ids::fullDescription);
-    int    scopeCodeId = target.getProperty(Ids::scopeCodeId);
+    String name      = target.getProperty(Ids::name);
+    String shortDesc = target.getProperty(Ids::shortDescription);
+    String fullDesc  = target.getProperty(Ids::fullDescription);
+    String scopeCode = target.getProperty(Ids::scopeCode);
     
     target.copyPropertiesFrom(clipboard, undoManager);
 
@@ -96,7 +96,7 @@ void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoMana
     target.setProperty(Ids::name,             name,       undoManager);
     target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
     target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
-    target.setProperty(Ids::scopeCodeId,      scopeCodeId,  undoManager);
+    target.setProperty(Ids::scopeCode,        scopeCode,  undoManager);
 }
 
 void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager)
@@ -109,8 +109,8 @@ void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager
 
     // Get rid of any stray Parameter properties
     target.removeProperty(Ids::shortDescription, undoManager);
-    target.removeProperty(Ids::fullDescription, undoManager);
-    target.removeProperty(Ids::scopeCodeId, undoManager);
+    target.removeProperty(Ids::fullDescription,  undoManager);
+    target.removeProperty(Ids::scopeCode,        undoManager);
     
     target.removeAllChildren(undoManager);
 

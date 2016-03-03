@@ -30,14 +30,12 @@
 #define SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
 
 namespace ScopeFXParameterDefinitions {
-// Scope library annoys VS2015+
-#pragma warning (disable : 4838)
 
     static const int numScopeParameters = 128;
-    static const int numLocalParameters = 16;
-    static const int numFixedBiDirParameters = 12;
+    static const int numLocalParameters = 128;
+    static const int numFeedbackParameters = 128;
+	static const int numFixedBiDirParameters = 12;
 	static const int numFixedInputOnlyParameters = 2;
-	static const int numFeedbackParameters = 128;
 	static const int numParameters = numScopeParameters 
 		                           + numLocalParameters 
 								   + numFixedBiDirParameters
@@ -66,7 +64,7 @@ namespace ScopeFXParameterDefinitions {
 		INPAD_MIDI_CHANNEL,
 		INPAD_DEVICE_TYPE,
 		INPAD_MIDI_ACTIVITY,
-		INPAD_PERFORMANCE_MODE,
+		INPAD_ENABLE_SCOPE_INPUTS,
 		NUM_ASYNCINPADS
     };
 
@@ -95,7 +93,21 @@ namespace ScopeFXParameterDefinitions {
         OUTPAD_PARAM_121, OUTPAD_PARAM_122, OUTPAD_PARAM_123, OUTPAD_PARAM_124, OUTPAD_PARAM_125, OUTPAD_PARAM_126, OUTPAD_PARAM_127, OUTPAD_PARAM_128,
         OUTPAD_LOCAL_1,   OUTPAD_LOCAL_2,   OUTPAD_LOCAL_3,   OUTPAD_LOCAL_4,   OUTPAD_LOCAL_5,   OUTPAD_LOCAL_6,   OUTPAD_LOCAL_7,   OUTPAD_LOCAL_8,
         OUTPAD_LOCAL_9,   OUTPAD_LOCAL_10,  OUTPAD_LOCAL_11,  OUTPAD_LOCAL_12,  OUTPAD_LOCAL_13,  OUTPAD_LOCAL_14,  OUTPAD_LOCAL_15,  OUTPAD_LOCAL_16,
-        OUTPAD_X,
+        OUTPAD_LOCAL_17,  OUTPAD_LOCAL_18,  OUTPAD_LOCAL_19,  OUTPAD_LOCAL_20,  OUTPAD_LOCAL_21,  OUTPAD_LOCAL_22,  OUTPAD_LOCAL_23,  OUTPAD_LOCAL_24,
+        OUTPAD_LOCAL_25,  OUTPAD_LOCAL_26,  OUTPAD_LOCAL_27,  OUTPAD_LOCAL_28,  OUTPAD_LOCAL_29,  OUTPAD_LOCAL_30,  OUTPAD_LOCAL_31,  OUTPAD_LOCAL_32,
+        OUTPAD_LOCAL_33,  OUTPAD_LOCAL_34,  OUTPAD_LOCAL_35,  OUTPAD_LOCAL_36,  OUTPAD_LOCAL_37,  OUTPAD_LOCAL_38,  OUTPAD_LOCAL_39,  OUTPAD_LOCAL_40,
+        OUTPAD_LOCAL_41,  OUTPAD_LOCAL_42,  OUTPAD_LOCAL_43,  OUTPAD_LOCAL_44,  OUTPAD_LOCAL_45,  OUTPAD_LOCAL_46,  OUTPAD_LOCAL_47,  OUTPAD_LOCAL_48,
+        OUTPAD_LOCAL_49,  OUTPAD_LOCAL_50,  OUTPAD_LOCAL_51,  OUTPAD_LOCAL_52,  OUTPAD_LOCAL_53,  OUTPAD_LOCAL_54,  OUTPAD_LOCAL_55,  OUTPAD_LOCAL_56,
+        OUTPAD_LOCAL_57,  OUTPAD_LOCAL_58,  OUTPAD_LOCAL_59,  OUTPAD_LOCAL_60,  OUTPAD_LOCAL_61,  OUTPAD_LOCAL_62,  OUTPAD_LOCAL_63,  OUTPAD_LOCAL_64,
+        OUTPAD_LOCAL_65,  OUTPAD_LOCAL_66,  OUTPAD_LOCAL_67,  OUTPAD_LOCAL_68,  OUTPAD_LOCAL_69,  OUTPAD_LOCAL_70,  OUTPAD_LOCAL_71,  OUTPAD_LOCAL_72,
+        OUTPAD_LOCAL_73,  OUTPAD_LOCAL_74,  OUTPAD_LOCAL_75,  OUTPAD_LOCAL_76,  OUTPAD_LOCAL_77,  OUTPAD_LOCAL_78,  OUTPAD_LOCAL_79,  OUTPAD_LOCAL_80,
+        OUTPAD_LOCAL_81,  OUTPAD_LOCAL_82,  OUTPAD_LOCAL_83,  OUTPAD_LOCAL_84,  OUTPAD_LOCAL_85,  OUTPAD_LOCAL_86,  OUTPAD_LOCAL_87,  OUTPAD_LOCAL_88,
+        OUTPAD_LOCAL_89,  OUTPAD_LOCAL_90,  OUTPAD_LOCAL_91,  OUTPAD_LOCAL_92,  OUTPAD_LOCAL_93,  OUTPAD_LOCAL_94,  OUTPAD_LOCAL_95,  OUTPAD_LOCAL_96,
+        OUTPAD_LOCAL_97,  OUTPAD_LOCAL_98,  OUTPAD_LOCAL_99,  OUTPAD_LOCAL_100, OUTPAD_LOCAL_101, OUTPAD_LOCAL_102, OUTPAD_LOCAL_103, OUTPAD_LOCAL_104,
+        OUTPAD_LOCAL_105, OUTPAD_LOCAL_106, OUTPAD_LOCAL_107, OUTPAD_LOCAL_108, OUTPAD_LOCAL_109, OUTPAD_LOCAL_110, OUTPAD_LOCAL_111, OUTPAD_LOCAL_112,
+        OUTPAD_LOCAL_113, OUTPAD_LOCAL_114, OUTPAD_LOCAL_115, OUTPAD_LOCAL_116, OUTPAD_LOCAL_117, OUTPAD_LOCAL_118, OUTPAD_LOCAL_119, OUTPAD_LOCAL_120,
+        OUTPAD_LOCAL_121, OUTPAD_LOCAL_122, OUTPAD_LOCAL_123, OUTPAD_LOCAL_124, OUTPAD_LOCAL_125, OUTPAD_LOCAL_126, OUTPAD_LOCAL_127, OUTPAD_LOCAL_128,
+		OUTPAD_X,
 		OUTPAD_Y,
         OUTPAD_SHOW,
 		OUTPAD_CONFIGUID,
@@ -135,7 +147,7 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_CHANNEL
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_DEVICE_TYPE
 		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_MIDI_ACTIVITY
-		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_PERFORMANCE_MODE
+		{ DTYPE_INT, 0, FRAC_MAX },                               // INPAD_ENABLE_SCOPE_INPUTS
 	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -283,7 +295,119 @@ namespace ScopeFXParameterDefinitions {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_14
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_15
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_16
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_X
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_17
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_18
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_19
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_20
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_21
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_22
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_23
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_24
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_25
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_26
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_27
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_28
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_29
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_30
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_31
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_32
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_33
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_34
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_35
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_36
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_37
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_38
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_39
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_40
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_41
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_42
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_43
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_44
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_45
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_46
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_47
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_48
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_49
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_50
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_51
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_52
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_53
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_54
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_55
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_56
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_57
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_58
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_59
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_60
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_61
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_62
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_63
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_64
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_65
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_66
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_67
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_68
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_69
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_70
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_71
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_72
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_73
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_74
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_75
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_76
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_77
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_78
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_79
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_80
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_81
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_82
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_83
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_84
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_85
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_86
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_87
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_88
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_89
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_90
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_91
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_92
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_93
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_94
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_95
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_96
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_97
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_98
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_99
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_100
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_101
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_102
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_103
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_104
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_105
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_106
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_107
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_108
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_109
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_110
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_111
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_112
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_113
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_114
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_115
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_116
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_117
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_118
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_119
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_120
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_121
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_122
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_123
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_124
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_125
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_126
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_127
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_LOCAL_128
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_X
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_Y
         { DTYPE_INT, 0, 1 },				// OUTPAD_SHOW
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
@@ -317,7 +441,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "midc", "midi channel" },
 		{ "type", "device type" },
 		{ "mida", "midi activity" },
-		{ "pm",   "performance mode" },
+		{ "esi",  "enable scope inputs" },
 	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -465,7 +589,119 @@ namespace ScopeFXParameterDefinitions {
         { "L14",  "Local Output 14" },
         { "L15",  "Local Output 15" },
         { "L16",  "Local Output 16" },
-        { "X",    "X position" },
+        { "L17",  "Local Output 17" },
+        { "L18",  "Local Output 18" },
+        { "L19",  "Local Output 19" },
+        { "L20",  "Local Output 20" },
+        { "L21",  "Local Output 21" },
+        { "L22",  "Local Output 22" },
+        { "L23",  "Local Output 23" },
+        { "L24",  "Local Output 24" },
+        { "L25",  "Local Output 25" },
+        { "L26",  "Local Output 26" },
+        { "L27",  "Local Output 27" },
+        { "L28",  "Local Output 28" },
+        { "L29",  "Local Output 29" },
+        { "L30",  "Local Output 30" },
+        { "L31",  "Local Output 31" },
+        { "L32",  "Local Output 32" },
+        { "L33",  "Local Output 33" },
+        { "L34",  "Local Output 34" },
+        { "L35",  "Local Output 35" },
+        { "L36",  "Local Output 36" },
+        { "L37",  "Local Output 37" },
+        { "L38",  "Local Output 38" },
+        { "L39",  "Local Output 39" },
+        { "L40",  "Local Output 40" },
+        { "L41",  "Local Output 41" },
+        { "L42",  "Local Output 42" },
+        { "L43",  "Local Output 43" },
+        { "L44",  "Local Output 44" },
+        { "L45",  "Local Output 45" },
+        { "L46",  "Local Output 46" },
+        { "L47",  "Local Output 47" },
+        { "L48",  "Local Output 48" },
+        { "L49",  "Local Output 49" },
+        { "L50",  "Local Output 50" },
+        { "L51",  "Local Output 51" },
+        { "L52",  "Local Output 52" },
+        { "L53",  "Local Output 53" },
+        { "L54",  "Local Output 54" },
+        { "L55",  "Local Output 55" },
+        { "L56",  "Local Output 56" },
+        { "L57",  "Local Output 57" },
+        { "L58",  "Local Output 58" },
+        { "L59",  "Local Output 59" },
+        { "L60",  "Local Output 60" },
+        { "L61",  "Local Output 61" },
+        { "L62",  "Local Output 62" },
+        { "L63",  "Local Output 63" },
+        { "L64",  "Local Output 64" },
+        { "L65",  "Local Output 65" },
+        { "L66",  "Local Output 66" },
+        { "L67",  "Local Output 67" },
+        { "L68",  "Local Output 68" },
+        { "L69",  "Local Output 69" },
+        { "L70",  "Local Output 70" },
+        { "L71",  "Local Output 71" },
+        { "L72",  "Local Output 72" },
+        { "L73",  "Local Output 73" },
+        { "L74",  "Local Output 74" },
+        { "L75",  "Local Output 75" },
+        { "L76",  "Local Output 76" },
+        { "L77",  "Local Output 77" },
+        { "L78",  "Local Output 78" },
+        { "L79",  "Local Output 79" },
+        { "L80",  "Local Output 80" },
+        { "L81",  "Local Output 81" },
+        { "L82",  "Local Output 82" },
+        { "L83",  "Local Output 83" },
+        { "L84",  "Local Output 84" },
+        { "L85",  "Local Output 85" },
+        { "L86",  "Local Output 86" },
+        { "L87",  "Local Output 87" },
+        { "L88",  "Local Output 88" },
+        { "L89",  "Local Output 89" },
+        { "L90",  "Local Output 90" },
+        { "L91",  "Local Output 91" },
+        { "L92",  "Local Output 92" },
+        { "L93",  "Local Output 93" },
+        { "L94",  "Local Output 94" },
+        { "L95",  "Local Output 95" },
+        { "L96",  "Local Output 96" },
+        { "L97",  "Local Output 97" },
+        { "L98",  "Local Output 98" },
+        { "L99",  "Local Output 99" },
+        { "L100", "Local Output 100" },
+        { "L101", "Local Output 101" },
+        { "L102", "Local Output 102" },
+        { "L103", "Local Output 103" },
+        { "L104", "Local Output 104" },
+        { "L105", "Local Output 105" },
+        { "L106", "Local Output 106" },
+        { "L107", "Local Output 107" },
+        { "L108", "Local Output 108" },
+        { "L109", "Local Output 109" },
+        { "L110", "Local Output 110" },
+        { "L111", "Local Output 111" },
+        { "L112", "Local Output 112" },
+        { "L113", "Local Output 113" },
+        { "L114", "Local Output 114" },
+        { "L115", "Local Output 115" },
+        { "L116", "Local Output 116" },
+        { "L117", "Local Output 117" },
+        { "L118", "Local Output 118" },
+        { "L119", "Local Output 119" },
+        { "L120", "Local Output 120" },
+        { "L121", "Local Output 121" },
+        { "L122", "Local Output 122" },
+        { "L123", "Local Output 123" },
+        { "L124", "Local Output 124" },
+        { "L125", "Local Output 125" },
+        { "L126", "Local Output 126" },
+        { "L127", "Local Output 127" },
+        { "L128", "Local Output 128" },
+		{ "X",    "X position" },
         { "Y",    "Y position" },
         { "show", "show window" },
         { "cfg",  "configuration uid" },

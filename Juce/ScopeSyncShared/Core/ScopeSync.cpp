@@ -50,6 +50,7 @@
 
 int          ScopeSync::performanceModeGlobalDisable = 0;
 const String ScopeSync::scopeSyncVersionString = "0.5.0-Prerelease";
+const int ScopeSync::numScopeCodes = 398;
 
 const StringArray ScopeSync::scopeCodes = StringArray::fromTokens(
 "A1,A2,A3,A4,A5,A6,A7,A8,\
@@ -68,33 +69,112 @@ M1,M2,M3,M4,M5,M6,M7,M8,\
 N1,N2,N3,N4,N5,N6,N7,N8,\
 O1,O2,O3,O4,O5,O6,O7,O8,\
 P1,P2,P3,P4,P5,P6,P7,P8,\
-Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,\
-Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,\
-F1,F2,F3,F4,F5,F6,F7,F8,\
-F9,F10,F11,F12,F13,F14,F15,F16,\
-F17,F18,F19,F20,F21,F22,F23,F24,\
-F25,F26,F27,F28,F29,F30,F31,F32,\
-F33,F34,F35,F36,F37,F38,F39,F40,\
-F41,F42,F43,F44,F45,F46,F47,F48,\
-F49,F50,F51,F52,F53,F54,F55,F56,\
-F57,F58,F59,F60,F61,F62,F63,F64,\
-F65,F66,F67,F68,F69,F70,F71,F72,\
-F73,F74,F75,F76,F77,F78,F79,F80,\
-F81,F82,F83,F84,F85,F86,F87,F88,\
-F89,F90,F91,F92,F93,F94,F95,F96,\
-F97,F98,F99,F100,F101,F102,F103,F104,\
-F105,F106,F107,F108,F109,F110,F111,F112,\
-F113,F114,F115,F116,F117,F118,F119,F120,\
-F121,F122,F123,F124,F125,F126,F127,F128,\
+LA1,LA2,LA3,LA4,LA5,LA6,LA7,LA8,\
+LB1,LB2,LB3,LB4,LB5,LB6,LB7,LB8,\
+LC1,LC2,LC3,LC4,LC5,LC6,LC7,LC8,\
+LD1,LD2,LD3,LD4,LD5,LD6,LD7,LD8,\
+LE1,LE2,LE3,LE4,LE5,LE6,LE7,LE8,\
+LF1,LF2,LF3,LF4,LF5,LF6,LF7,LF8,\
+LG1,LG2,LG3,LG4,LG5,LG6,LG7,LG8,\
+LH1,LH2,LH3,LH4,LH5,LH6,LH7,LH8,\
+LI1,LI2,LI3,LI4,LI5,LI6,LI7,LI8,\
+LJ1,LJ2,LJ3,LJ4,LJ5,LJ6,LJ7,LJ8,\
+LK1,LK2,LK3,LK4,LK5,LK6,LK7,LK8,\
+LL1,LL2,LL3,LL4,LL5,LL6,LL7,LL8,\
+LM1,LM2,LM3,LM4,LM5,LM6,LM7,LM8,\
+LN1,LN2,LN3,LN4,LN5,LN6,LN7,LN8,\
+LO1,LO2,LO3,LO4,LO5,LO6,LO7,LO8,\
+LP1,LP2,LP3,LP4,LP5,LP6,LP7,LP8,\
+FA1,FA2,FA3,FA4,FA5,FA6,FA7,FA8,\
+FB1,FB2,FB3,FB4,FB5,FB6,FB7,FB8,\
+FC1,FC2,FC3,FC4,FC5,FC6,FC7,FC8,\
+FD1,FD2,FD3,FD4,FD5,FD6,FD7,FD8,\
+FE1,FE2,FE3,FE4,FE5,FE6,FE7,FE8,\
+FF1,FF2,FF3,FF4,FF5,FF6,FF7,FF8,\
+FG1,FG2,FG3,FG4,FG5,FG6,FG7,FG8,\
+FH1,FH2,FH3,FH4,FH5,FH6,FH7,FH8,\
+FI1,FI2,FI3,FI4,FI5,FI6,FI7,FI8,\
+FJ1,FJ2,FJ3,FJ4,FJ5,FJ6,FJ7,FJ8,\
+FK1,FK2,FK3,FK4,FK5,FK6,FK7,FK8,\
+FL1,FL2,FL3,FL4,FL5,FL6,FL7,FL8,\
+FM1,FM2,FM3,FM4,FM5,FM6,FM7,FM8,\
+FN1,FN2,FN3,FN4,FN5,FN6,FN7,FN8,\
+FO1,FO2,FO3,FO4,FO5,FO6,FO7,FO8,\
+FP1,FP2,FP3,FP4,FP5,FP6,FP7,FP8,\
 X,Y,show,cfg,osc,spr,\
 spa,mono,byp,sspr,vc,midc,\
 type,mida",
 ",",""
 );
 
+const BCMParameter::ParameterType ScopeSync::scopeCodeTypes[numScopeCodes] = 
+{
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,BCMParameter::scope,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,BCMParameter::local,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,BCMParameter::feedback,
+BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,
+BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,
+BCMParameter::fixedInputOnly,BCMParameter::fixedInputOnly
+};
+
 const String& ScopeSync::getScopeCode(int scopeCodeId) { return scopeCodes[scopeCodeId]; }
 
 const int ScopeSync::getScopeCodeId(const String& scopeCode) { return scopeCodes.indexOf(scopeCode); }
+
+const BCMParameter::ParameterType ScopeSync::getScopeCodeType(const String& scopeCode)
+{
+	int index = scopeCodes.indexOf(scopeCode);
+
+	if (index >= 0)
+		return scopeCodeTypes[index];
+	else
+		return BCMParameter::none;
+};
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
@@ -726,62 +806,101 @@ const String ScopeSync::systemLookAndFeels =
 const String ScopeSync::standardHeaderContent =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 "\n"
-"<component id=\"header\">\n"
-"  <bounds relativerectangle=\"right - parent.width, 1, parent.width, top + 40\"></bounds>\n"
-"  <label lfid=\"system:configname\" name=\"configurationname\" text=\"Current Configuration\">\n"
-"    <bounds x=\"177\" y=\"11\" width=\"160\" height=\"17\"></bounds>\n"
-"    <font bold=\"true\" height=\"12\"></font>\n"
-"  </label>\n"
-"  <textbutton lfid=\"system:scopesynclogo_button\" name=\"showaboutbox\" id=\"showaboutbox\" text=\"\" toolt"
-"ip=\"Show About Box\">\n"
-"    <bounds relativerectangle=\"13, 11, left + 151, top + 21\"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:new_config_button\" name=\"newconfiguration\" tooltip=\"New Configuration\">\n"
-"    <bounds x=\"347\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Configuratio"
-"n\">\n"
-"    <bounds x=\"373\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:reload_button\" name=\"reloadconfiguration\" tooltip=\"Reload Current Configu"
-"ration\">\n"
-"    <bounds x=\"399\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:showconfigurationmanager_button\" name=\"showconfigurationmanager\" id=\"show"
-"configurationmanager\" text=\"\" tooltip=\"Open Configuration Manager panel\">\n"
-"    <bounds x=\"425\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text=\"\" to"
-"oltip=\"Open User Settings panel\">\n"
-"    <bounds relativerectangle=\"right - 32, showconfigurationmanager.top, parent.width - 1, top + 21\""
-"></bounds>\n"
-"  </textbutton>\n"
-"  <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" text=\"\" tooltip=\"Send a snapshot of all "
-"current parameter values. Ctrl-click to send snapshot for all ScopeSync instances\">\n"
-"    <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 5, top + 21"
-"\"></bounds>\n"
-"  </textbutton>\n"
-"  <!--Shows Patch and Preset Buttons for BC Modular shell based on CP<->Host connection state-->\n"
-"  <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
-"    <bounds relativerectangle=\"right - 58, 6, parent.width - 70, top + 32\"></bounds>\n"
-"    <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
-"    <tab idx=\"1\" name=\"DISCONNECTED\">\n"
-"      <component>\n"
-"        <!--No Controls-->\n"
-"      </component>\n"
-"    </tab>\n"
-"    <tab idx=\"2\" name=\"CONNECTED\">\n"
-"      <component>\n"
-"        <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\">\n"
-"          <bounds x=\"0\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:presets_button\" name=\"PresetList\">\n"
-"          <bounds x=\"33\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"      </component>\n"
-"    </tab>\n"
-"  </tabbedcomponent>\n"
-"</component>";
+"  <component id=\"header\">\n"
+"    <bounds relativerectangle=\"right - parent.width, 1, parent.width, top + 40\"></bounds>\n"
+"    <label lfid=\"system:configname\" name=\"configurationname\" text=\"Current Configuration\">\n"
+"      <bounds x=\"172\" y=\"11\" width=\"131\" height=\"17\"></bounds>\n"
+"      <font bold=\"true\" height=\"12\"></font>\n"
+"    </label>\n"
+"    <textbutton lfid=\"system:scopesynclogo_button\" name=\"showaboutbox\" id=\"showaboutbox\" text=\"\" too"
+"ltip=\"Show About Box\">\n"
+"      <bounds relativerectangle=\"13, 11, left + 151, top + 21\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:new_config_button\" name=\"newconfiguration\" tooltip=\"New Configuration\">"
+"\n"
+"      <bounds x=\"311\" y=\"9\" width=\"20\" height=\"21\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Configurat"
+"ion\">\n"
+"      <bounds x=\"331\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:reload_button\" name=\"reloadconfiguration\" tooltip=\"Reload Current Confi"
+"guration\">\n"
+"      <bounds x=\"356\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:showconfigurationmanager_button\" name=\"showconfigurationmanager\" id=\"sh"
+"owconfigurationmanager\" text=\"\" tooltip=\"Open Configuration Manager panel\">\n"
+"      <bounds x=\"379\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text=\"\" "
+"tooltip=\"Open User Settings panel\">\n"
+"      <bounds relativerectangle=\"right - 28, showconfigurationmanager.top, parent.width - 4, top + 2"
+"1\"></bounds>\n"
+"    </textbutton>\n"
+"    <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" id=\"snapshot\" text=\"\" tooltip=\"Send a "
+"snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances\">\n"
+"      <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 3, top + "
+"21\"></bounds>\n"
+"    </textbutton>\n"
+"    <!--Shows additional buttons in Scope DLL header based on device type setting-->\n"
+"    <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
+"      <bounds relativerectangle=\"right - 100, 6, snapshot.left - 4, top + 32\"></bounds>\n"
+"      <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
+"      <tab idx=\"1\" name=\"NOPRESET\">\n"
+"        <component>\n"
+"          <!--No Controls-->\n"
+"        </component>\n"
+"      </tab>\n"
+"      <tab idx=\"2\" name=\"PRESET\">\n"
+"        <component>\n"
+"          <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browser\">\n"
+"            <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"        </component>\n"
+"      </tab>\n"
+"      <tab idx=\"3\" name=\"PRESETFX\">\n"
+"        <component>\n"
+"          <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
+"            <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
+"            <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browser\">\n"
+"            <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"        </component>\n"
+"      </tab>\n"
+"      <tab idx=\"4\" name=\"BCPRESET\">\n"
+"        <component>\n"
+"          <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch Wind"
+"ow\">\n"
+"            <bounds x=\"50\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browser\">\n"
+"            <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"        </component>\n"
+"      </tab>\n"
+"      <tab idx=\"5\" name=\"BCPRESETFX\">\n"
+"        <component>\n"
+"          <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch Wind"
+"ow\">\n"
+"            <bounds x=\"0\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
+"            <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
+"            <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
+"          </textbutton>\n"
+"          <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browser\">\n"
+"            <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
+"          </textbutton>\n"
+"        </component>\n"
+"      </tab>\n"
+"    </tabbedcomponent>\n"
+"  </component>";
 
 const String ScopeSync::standardSliderLnFs =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"

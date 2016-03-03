@@ -136,7 +136,7 @@ public:
     String getLayoutDirectory() { return layoutDirectory; }
 
     void      createConfiguration(const File& filePath, const ValueTree& initialSettings);
-    ValueTree getEmptyConfiguration(bool includeScopeLocal);
+    ValueTree getEmptyConfiguration();
     
     bool replaceConfiguration(const String& newFileName);
 
@@ -208,7 +208,6 @@ private:
     
     static const char*  configurationFileExtension;
     static const String emptyConfiguration;
-    static const String emptyWithScopeLocalConfiguration;
     static const String loaderLayout;
 
     void        setConfigurationRoot(const ValueTree& newRoot);

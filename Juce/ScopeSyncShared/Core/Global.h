@@ -44,7 +44,7 @@ namespace Ids
     DECLARE_ID(parameter);
     DECLARE_ID(shortDescription);
     DECLARE_ID(fullDescription);
-    DECLARE_ID(scopeCodeId);
+    DECLARE_ID(scopeCode);
     DECLARE_ID(uiSuffix);
     DECLARE_ID(scopeRangeMin);
     DECLARE_ID(scopeRangeMax);
@@ -98,8 +98,6 @@ namespace Ids
     DECLARE_ID(component);
     DECLARE_ID(tabs);
     DECLARE_ID(none);
-
-    DECLARE_ID(includeScopeLocal);
 
     // File Library attributes
     DECLARE_ID(fileLocations);
