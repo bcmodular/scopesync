@@ -409,6 +409,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
                     lastFailedFile = File();
                     UserSettings::getInstance()->setLastTimeConfigurationLoaded(newFileName);
                     setMissingDefaultValues();
+					migrateFromV101();
     
                     return true;
                 }
@@ -429,6 +430,79 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     }
 
     return true;
+}
+
+void Configuration::migrateFromV101()
+{
+	ValueTree parameters = getParameters();
+
+	ValueTree hostParameters = configurationRoot.getChildWithName(Ids::hostParameters);
+	
+	if (hostParameters.isValid())
+	{
+		// Firstly migrate from old scopeSync property to new scopeCode
+		for (int i = 0; i < hostParameters.getNumChildren(); i++)
+		{
+			ValueTree parameter(hostParameters.getChild(i));
+        
+			if (!parameter[Ids::scopeSync].isVoid())
+			{
+				if (int(parameter[Ids::scopeSync]) >= 0)
+				{
+					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeSync])), nullptr);
+				}
+			
+				parameter.removeProperty(Ids::scopeSync, nullptr);
+			}
+
+		}
+		
+		// Then move the host parameters into the parameters node
+		while (hostParameters.getNumChildren() > 0)
+		{
+			ValueTree parameter(hostParameters.getChild(0));
+        
+			hostParameters.removeChild(parameter, nullptr);
+			parameters.addChild(parameter, -1, nullptr);
+		}
+
+		configurationRoot.removeChild(configurationRoot.indexOf(hostParameters), nullptr);
+	}
+
+	ValueTree scopeParameters = configurationRoot.getChildWithName(Ids::scopeParameters);
+
+    if (scopeParameters.isValid())
+	{
+		// Firstly migrate from old scopeLocal property to new scopeCode
+		for (int i = 0; i < scopeParameters.getNumChildren(); i++)
+		{
+			ValueTree parameter(scopeParameters.getChild(i));
+        
+			if (!parameter[Ids::scopeLocal].isVoid())
+			{
+				if (int(parameter[Ids::scopeLocal]) >= 0)
+				{
+					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeLocal]) + 128), nullptr);
+				}
+			
+				parameter.removeProperty(Ids::scopeLocal, nullptr);
+			}
+		
+			scopeParameters.removeChild(parameter, nullptr);
+			parameters.addChild(parameter, -1, nullptr);
+		}
+
+		// Then move the scope parameters into the parameters node
+		while (scopeParameters.getNumChildren() > 0)
+		{
+			ValueTree parameter(scopeParameters.getChild(0));
+        
+			scopeParameters.removeChild(parameter, nullptr);
+			parameters.addChild(parameter, -1, nullptr);
+		}
+
+		configurationRoot.removeChild(configurationRoot.indexOf(scopeParameters), nullptr);
+	}
 }
 
 void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager)

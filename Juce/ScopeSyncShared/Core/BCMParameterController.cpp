@@ -83,16 +83,39 @@ void BCMParameterController::setupHostParameters()
     BCMParameter* parameter;
 
     // Add the dynamic parameters
-    while (hostIdx < maxHostParameters && paramCounter < dynamicParameters.size())
+    while (paramCounter < dynamicParameters.size())
     {
         parameter = dynamicParameters[paramCounter];
 		
 		parameter->setHostIdx(hostIdx);
+		parameter->registerOSCListener();
 
         hostParameters.add(parameter);
 
         paramCounter++;
         hostIdx++;
+    }
+
+	paramCounter = 0;
+
+	// Add the fixed parameters (excluding a few that don't make much sense)
+    while (paramCounter < fixedParameters.size())
+    {
+        parameter = fixedParameters[paramCounter];
+		
+		String scopeCode = parameter->getScopeCode();
+		StringArray scopeCodes = StringArray::fromTokens("X,Y,show,cfg,osc,mida",",","");
+
+		if (scopeCodes.indexOf(scopeCode) == -1)
+		{
+			parameter->setHostIdx(hostIdx);
+			parameter->registerOSCListener();
+
+	        hostParameters.add(parameter);
+			hostIdx++;
+		}
+
+        paramCounter++;
     }
 }
 
@@ -228,7 +251,7 @@ void BCMParameterController::initOSCUID()
 	while (initialOSCUID < INT_MAX && scopeSync->oscUIDInUse(initialOSCUID, scopeSync))
 		initialOSCUID++;
 	
-    getParameterByScopeCode("osc")->setUIValue((float)initialOSCUID);
+    getParameterByScopeCode("osc")->setUIValue((float)initialOSCUID, false);
 }
 
 void BCMParameterController::referToOSCUID(Value & valueToLink)
@@ -258,7 +281,7 @@ void BCMParameterController::updateHost(int hostIdx, float newValue)
 void BCMParameterController::beginParameterChangeGesture(int hostIdx)
 {
 #ifndef __DLL_EFFECT__
-    if (!changingParams[hostIdx])
+    if (hostIdx >= 0 && !changingParams[hostIdx])
     {
         scopeSync->getPluginProcessor()->beginParameterChangeGesture(hostIdx);
         changingParams.setBit(hostIdx);
@@ -271,7 +294,7 @@ void BCMParameterController::beginParameterChangeGesture(int hostIdx)
 void BCMParameterController::endParameterChangeGesture(int hostIdx)
 {
 #ifndef __DLL_EFFECT__
-    if (changingParams[hostIdx])
+    if (hostIdx >= 0 && changingParams[hostIdx])
     {
         scopeSync->getPluginProcessor()->endParameterChangeGesture(hostIdx); 
         changingParams.clearBit(hostIdx);
@@ -328,7 +351,7 @@ void BCMParameterController::restoreParameterValues()
 
 void BCMParameterController::timerCallback()
 {
-    if (!scopeSync->processConfigurationChange())
+    if (ScopeSyncApplication::inScopeFXContext() && !scopeSync->processConfigurationChange())
         receiveUpdatesFromScopeAsync();
 }
 

@@ -84,9 +84,10 @@ public:
     
     void          setHostValue(float newValue);
     void          setScopeIntValue(int newValue);
-    void          setUIValue(float newValue);
+    void          setUIValue(float newValue, bool updateHost = true);
 	void          setOSCValue(float newValue);
 
+	void          registerOSCListener();
 	String        getOSCPath();
 	void          sendOSCParameterUpdate();
 

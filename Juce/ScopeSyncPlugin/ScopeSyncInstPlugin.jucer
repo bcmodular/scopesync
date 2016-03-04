@@ -6,7 +6,7 @@
               buildRTAS="0" buildAAX="0" pluginName="ScopeSyncInst" pluginDesc="ScopeSyncInst"
               pluginManufacturer="bcmodular" pluginManufacturerWebsite="www.yourcompany.com"
               pluginManufacturerEmail="support@yourcompany.com" pluginManufacturerCode="bcmd"
-              pluginCode="ssi2" pluginChannelConfigs="{0,0}" pluginIsSynth="1"
+              pluginCode="ssi2" pluginChannelConfigs="{1,1}" pluginIsSynth="1"
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
               pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"

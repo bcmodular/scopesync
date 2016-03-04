@@ -251,8 +251,10 @@ private:
     void getComponentNamesFromXml(XmlElement& xml);
     bool componentInLookup(const Identifier& componentType, const String& componentName);
 
-    bool             parameterNameExists(const String& parameterName);
-    void             generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager);
+    bool parameterNameExists(const String& parameterName);
+    void generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager);
+
+	void migrateFromV101();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };

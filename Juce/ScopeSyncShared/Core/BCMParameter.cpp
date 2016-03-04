@@ -86,8 +86,6 @@ void BCMParameter::initialise()
     {
         parameterController.referToOSCUID(oscUID);
         oscUID.addListener(this);
-
-        ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
     }
 }
 
@@ -137,7 +135,7 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
             sendToScopeSyncAsync();
 		(void)updateHost;
 	#else
-		if (updateHost)
+		if (updateHost && getHostIdx() >= 0)
 			parameterController.updateHost(getHostIdx(), getHostValue());
 	#endif // __DLL_EFFECT__
 }
@@ -429,7 +427,7 @@ void BCMParameter::setScopeIntValue(int newValue)
     }
 }
 
-void BCMParameter::setUIValue(float newValue)
+void BCMParameter::setUIValue(float newValue, bool updateHost)
 {
 	double newUIValue = newValue;
     double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
@@ -437,7 +435,7 @@ void BCMParameter::setUIValue(float newValue)
 	//if (ScopeSyncApplication::inScopeFXContext() && definition.getProperty(Ids::skewUIOnly))
 	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
 
-	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue);
+	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue, updateHost);
     DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(getScopeIntValue()));
 }
 
@@ -538,9 +536,12 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 			sendOSCParameterUpdate();
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))
-	{
-		ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
-	}
+		registerOSCListener();
+}
+
+void BCMParameter::registerOSCListener()
+{
+	ScopeSyncOSCServer::getInstance()->registerOSCListener(this, getOSCPath());
 }
 
 String BCMParameter::getOSCPath()

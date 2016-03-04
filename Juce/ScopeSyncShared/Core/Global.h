@@ -45,7 +45,7 @@ namespace Ids
     DECLARE_ID(shortDescription);
     DECLARE_ID(fullDescription);
     DECLARE_ID(scopeCode);
-    DECLARE_ID(uiSuffix);
+	DECLARE_ID(uiSuffix);
     DECLARE_ID(scopeRangeMin);
     DECLARE_ID(scopeRangeMax);
     DECLARE_ID(scopeDBRef);
@@ -141,6 +141,13 @@ namespace Ids
     DECLARE_ID(presetFileLibrarySet);
     DECLARE_ID(presetFileAuthor);
     DECLARE_ID(presetFileBlurb);
+
+	// Deprecated in 1.0.2
+	DECLARE_ID(scopeSync);
+	DECLARE_ID(scopeLocal);
+	DECLARE_ID(hostParameters);
+	DECLARE_ID(scopeParameters);
+
     #undef DECLARE_ID
 }
 

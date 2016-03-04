@@ -246,13 +246,13 @@
  #define JucePlugin_AAXDisableMultiMono    0
 #endif
 #ifndef  JucePlugin_MaxNumInputChannels
- #define JucePlugin_MaxNumInputChannels    0
+ #define JucePlugin_MaxNumInputChannels    1
 #endif
 #ifndef  JucePlugin_MaxNumOutputChannels
- #define JucePlugin_MaxNumOutputChannels   0
+ #define JucePlugin_MaxNumOutputChannels   1
 #endif
 #ifndef  JucePlugin_PreferredChannelConfigurations
- #define JucePlugin_PreferredChannelConfigurations  {0,0}
+ #define JucePlugin_PreferredChannelConfigurations  {1,1}
 #endif
 
 #endif  // __JUCE_APPCONFIG_AORKSY__
