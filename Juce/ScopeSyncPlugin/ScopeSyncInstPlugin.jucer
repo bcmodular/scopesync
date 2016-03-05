@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="aOrksy" name="ScopeSyncInstPlugin" projectType="audioplug"
               version="1.0.2" bundleIdentifier="uk.co.bcmodular.scopesync"
-              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="0"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="1"
               buildRTAS="0" buildAAX="0" pluginName="ScopeSyncInst" pluginDesc="ScopeSyncInst"
               pluginManufacturer="bcmodular" pluginManufacturerWebsite="www.yourcompany.com"
               pluginManufacturerEmail="support@yourcompany.com" pluginManufacturerCode="bcmd"

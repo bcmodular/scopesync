@@ -55,7 +55,7 @@ public:
     void saveTreeViewState();
     void unload();
     void changePanel(Component* newComponent);
-    Component* ConfigurationManager::createParameterPanelComponent(ValueTree& tree);
+    Component* createParameterPanelComponent(ValueTree& tree, BCMParameter::ParameterType);
     static Component* createParameterPanelComponent(ValueTree& tree, 
                                                     ScopeSync& scopeSync, 
                                                     UndoManager& undoManager, 
