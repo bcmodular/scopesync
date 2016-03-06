@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="aOrksy" name="ScopeSyncInstPlugin" projectType="audioplug"
+              version="1.0.2" bundleIdentifier="uk.co.bcmodular.scopesync"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="1"
+              buildRTAS="0" buildAAX="0" pluginName="ScopeSyncInst" pluginDesc="ScopeSyncInst"
+              pluginManufacturer="bcmodular" pluginManufacturerWebsite="www.yourcompany.com"
+              pluginManufacturerEmail="support@yourcompany.com" pluginManufacturerCode="bcmd"
+              pluginCode="ssi2" pluginChannelConfigs="{2,2}" pluginIsSynth="1"
+              pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
+              pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
+              pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="4.1.0"
+              companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
+              companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
+  <MAINGROUP id="zkEMvA" name="ScopeSyncInstPlugin">
+    <GROUP id="{5DDFDA23-4E61-4495-F913-536F2D9C1306}" name="Presets">
+      <FILE id="wqkbPH" name="PresetFile.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetFile.cpp"/>
+      <FILE id="AElhR3" name="PresetFile.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetFile.h"/>
+      <FILE id="Edcomj" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetItem.cpp"/>
+      <FILE id="i24e68" name="PresetItem.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetItem.h"/>
+      <FILE id="vrieRy" name="PresetManager.cpp" compile="1" resource="0"
+            file="../ScopeSync/Presets/PresetManager.cpp"/>
+      <FILE id="ULgUQB" name="PresetManager.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetManager.h"/>
+    </GROUP>
+    <GROUP id="{66C9BDB0-55B6-90E8-B66A-D0AE298BAD02}" name="Windows">
+      <FILE id="h0n4hf" name="ConfigurationChooser.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/ConfigurationChooser.cpp"/>
+      <FILE id="B3MsbI" name="ConfigurationChooser.h" compile="0" resource="0"
+            file="../ScopeSync/Windows/ConfigurationChooser.h"/>
+      <FILE id="m9zbCA" name="FileLocationEditor.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/FileLocationEditor.cpp"/>
+      <FILE id="ru4cLl" name="FileLocationEditor.h" compile="0" resource="0"
+            file="../ScopeSync/Windows/FileLocationEditor.h"/>
+      <FILE id="yrwRgb" name="LayoutChooser.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/LayoutChooser.cpp"/>
+      <FILE id="HKPbMj" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/LayoutChooser.h"/>
+      <FILE id="yzusME" name="PresetChooser.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/PresetChooser.cpp"/>
+      <FILE id="Mn3t0p" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/PresetChooser.h"/>
+      <FILE id="nsp646" name="PresetFileChooser.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/PresetFileChooser.cpp"/>
+      <FILE id="R2HJrK" name="PresetFileChooser.h" compile="0" resource="0"
+            file="../ScopeSync/Windows/PresetFileChooser.h"/>
+      <FILE id="YyjkKx" name="UserSettings.cpp" compile="1" resource="0"
+            file="../ScopeSync/Windows/UserSettings.cpp"/>
+      <FILE id="OzQW5B" name="UserSettings.h" compile="0" resource="0" file="../ScopeSync/Windows/UserSettings.h"/>
+    </GROUP>
+    <GROUP id="{FA78E3AD-3745-9A40-E42C-D8113FFED5C1}" name="Configuration">
+      <FILE id="qjsz3x" name="Configuration.cpp" compile="1" resource="0"
+            file="../ScopeSync/Configuration/Configuration.cpp"/>
+      <FILE id="mnAsYU" name="Configuration.h" compile="0" resource="0" file="../ScopeSync/Configuration/Configuration.h"/>
+      <FILE id="dBcn7k" name="ConfigurationManager.cpp" compile="1" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationManager.cpp"/>
+      <FILE id="LRae2C" name="ConfigurationManager.h" compile="0" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationManager.h"/>
+      <FILE id="rpRiTK" name="ConfigurationPanel.cpp" compile="1" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationPanel.cpp"/>
+      <FILE id="L06JdY" name="ConfigurationPanel.h" compile="0" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationPanel.h"/>
+      <FILE id="kawXFa" name="ConfigurationTreeItem.cpp" compile="1" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationTreeItem.cpp"/>
+      <FILE id="cQTnnf" name="ConfigurationTreeItem.h" compile="0" resource="0"
+            file="../ScopeSync/Configuration/ConfigurationTreeItem.h"/>
+      <FILE id="Q41kYJ" name="SettingsTable.cpp" compile="1" resource="0"
+            file="../ScopeSync/Configuration/SettingsTable.cpp"/>
+      <FILE id="JxWwlo" name="SettingsTable.h" compile="0" resource="0" file="../ScopeSync/Configuration/SettingsTable.h"/>
+    </GROUP>
+    <GROUP id="{AE86523D-8D18-E33E-CDD7-4C90A830DF7F}" name="Resources">
+      <FILE id="yL8tES" name="FontResources.cpp" compile="1" resource="0"
+            file="../ScopeSync/Resources/FontResources.cpp"/>
+      <FILE id="Q0FisD" name="FontResources.h" compile="0" resource="0" file="../ScopeSync/Resources/FontResources.h"/>
+      <FILE id="xIzceh" name="Icons.cpp" compile="1" resource="0" file="../ScopeSync/Resources/Icons.cpp"/>
+      <FILE id="HflJ2D" name="Icons.h" compile="0" resource="0" file="../ScopeSync/Resources/Icons.h"/>
+      <FILE id="dMUoIh" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSync/Resources/ImageLoader.cpp"/>
+      <FILE id="aIpGzp" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSync/Resources/ImageLoader.h"/>
+      <FILE id="Co96uy" name="ImageResources.cpp" compile="1" resource="0"
+            file="../ScopeSync/Resources/ImageResources.cpp"/>
+      <FILE id="VHq89H" name="ImageResources.h" compile="0" resource="0"
+            file="../ScopeSync/Resources/ImageResources.h"/>
+    </GROUP>
+    <GROUP id="{8AD02881-08E9-AAD1-250F-E03129CAFBCF}" name="Utils">
+      <FILE id="KPQ2Rg" name="BCMMath.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMMath.h"/>
+      <FILE id="WHYntl" name="BCMMisc.cpp" compile="1" resource="0" file="../ScopeSync/Utils/BCMMisc.cpp"/>
+      <FILE id="QSKwKt" name="BCMMisc.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMMisc.h"/>
+      <FILE id="dKUH1H" name="BCMTreeView.cpp" compile="1" resource="0" file="../ScopeSync/Utils/BCMTreeView.cpp"/>
+      <FILE id="EMw96J" name="BCMTreeView.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMTreeView.h"/>
+      <FILE id="Eveq4S" name="BCMXml.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMXml.h"/>
+    </GROUP>
+    <GROUP id="{98750E9D-E625-1DE1-D7F7-EF9A76569CE6}" name="Properties">
+      <FILE id="HEwmpr" name="ComboBoxProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/ComboBoxProperties.cpp"/>
+      <FILE id="i6kAJC" name="ComboBoxProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/ComboBoxProperties.h"/>
+      <FILE id="bVz1Zl" name="ComponentProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/ComponentProperties.cpp"/>
+      <FILE id="UpflnI" name="ComponentProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/ComponentProperties.h"/>
+      <FILE id="TXMzy5" name="LabelProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/LabelProperties.cpp"/>
+      <FILE id="slRA8V" name="LabelProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/LabelProperties.h"/>
+      <FILE id="tRYMJ8" name="PropertiesHelper.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/PropertiesHelper.h"/>
+      <FILE id="xq4hte" name="SliderProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/SliderProperties.cpp"/>
+      <FILE id="gq9XCL" name="SliderProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/SliderProperties.h"/>
+      <FILE id="Fn8d7M" name="TabbedComponentProperties.cpp" compile="1"
+            resource="0" file="../ScopeSync/Properties/TabbedComponentProperties.cpp"/>
+      <FILE id="Tubv3v" name="TabbedComponentProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/TabbedComponentProperties.h"/>
+      <FILE id="m9Ssr0" name="TabProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/TabProperties.cpp"/>
+      <FILE id="d1otE3" name="TabProperties.h" compile="0" resource="0" file="../ScopeSync/Properties/TabProperties.h"/>
+      <FILE id="KRaLxN" name="TextButtonProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/TextButtonProperties.cpp"/>
+      <FILE id="IgZCt5" name="TextButtonProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/TextButtonProperties.h"/>
+      <FILE id="tOsTCP" name="WidgetProperties.cpp" compile="1" resource="0"
+            file="../ScopeSync/Properties/WidgetProperties.cpp"/>
+      <FILE id="sTZhy8" name="WidgetProperties.h" compile="0" resource="0"
+            file="../ScopeSync/Properties/WidgetProperties.h"/>
+    </GROUP>
+    <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
+      <FILE id="KrYOCU" name="BCMParameter.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/BCMParameter.cpp"/>
+      <FILE id="Qd4Mj7" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSync/Core/BCMParameter.h"/>
+      <FILE id="jLSu3x" name="BCMParameterController.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/BCMParameterController.cpp"/>
+      <FILE id="PBCnqd" name="BCMParameterController.h" compile="0" resource="0"
+            file="../ScopeSync/Core/BCMParameterController.h"/>
+      <FILE id="cuY0vu" name="empty.configuration" compile="0" resource="1"
+            file="../ScopeSync/Core/empty.configuration"/>
+      <FILE id="XYSeRt" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
+      <FILE id="cbPC4g" name="loader.layout" compile="0" resource="1" file="../ScopeSync/Core/loader.layout"/>
+      <FILE id="oO2cmh" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
+      <FILE id="gVty51" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>
+      <FILE id="rUzeUM" name="ScopeSyncApplication.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/ScopeSyncApplication.cpp"/>
+      <FILE id="S3VZXN" name="ScopeSyncApplication.h" compile="0" resource="0"
+            file="../ScopeSync/Core/ScopeSyncApplication.h"/>
+      <FILE id="vzgWqQ" name="ScopeSyncGUI.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/ScopeSyncGUI.cpp"/>
+      <FILE id="aSWSLp" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSyncGUI.h"/>
+      <FILE id="jkMnM3" name="standardHeaderContent.layout" compile="0" resource="1"
+            file="../ScopeSync/Core/standardHeaderContent.layout"/>
+      <FILE id="bPSI0e" name="standardSliderLnFs.layout" compile="0" resource="1"
+            file="../ScopeSync/Core/standardSliderLnFs.layout"/>
+      <FILE id="sFmnUL" name="system.lookandfeels" compile="0" resource="1"
+            file="../ScopeSync/Core/system.lookandfeels"/>
+    </GROUP>
+    <GROUP id="{07377C62-05CC-B499-64FB-90058B0B7C02}" name="Components">
+      <FILE id="bw39Ta" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMComboBox.cpp"/>
+      <FILE id="yC67VV" name="BCMComboBox.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComboBox.h"/>
+      <FILE id="ECshrE" name="BCMComponent.cpp" compile="1" resource="0"
+            file="../ScopeSync/Components/BCMComponent.cpp"/>
+      <FILE id="ObplAV" name="BCMComponent.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComponent.h"/>
+      <FILE id="RTYIye" name="BCMComponentBounds.h" compile="0" resource="0"
+            file="../ScopeSync/Components/BCMComponentBounds.h"/>
+      <FILE id="K0kt8i" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMGraphic.cpp"/>
+      <FILE id="VMqFGM" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSync/Components/BCMGraphic.h"/>
+      <FILE id="YZWpUg" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMImage.cpp"/>
+      <FILE id="ZXHoQP" name="BCMImage.h" compile="0" resource="0" file="../ScopeSync/Components/BCMImage.h"/>
+      <FILE id="fLmIva" name="BCMLabel.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMLabel.cpp"/>
+      <FILE id="oC1JcL" name="BCMLabel.h" compile="0" resource="0" file="../ScopeSync/Components/BCMLabel.h"/>
+      <FILE id="Vj60jF" name="BCMLookAndFeel.cpp" compile="1" resource="0"
+            file="../ScopeSync/Components/BCMLookAndFeel.cpp"/>
+      <FILE id="tXhqqA" name="BCMLookAndFeel.h" compile="0" resource="0"
+            file="../ScopeSync/Components/BCMLookAndFeel.h"/>
+      <FILE id="zByC9f" name="BCMRectangle.cpp" compile="1" resource="0"
+            file="../ScopeSync/Components/BCMRectangle.cpp"/>
+      <FILE id="cWR45W" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSync/Components/BCMRectangle.h"/>
+      <FILE id="FGtV2v" name="BCMSlider.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMSlider.cpp"/>
+      <FILE id="HH4cMR" name="BCMSlider.h" compile="0" resource="0" file="../ScopeSync/Components/BCMSlider.h"/>
+      <FILE id="lcOzf5" name="BCMTabbedComponent.cpp" compile="1" resource="0"
+            file="../ScopeSync/Components/BCMTabbedComponent.cpp"/>
+      <FILE id="ZBBADo" name="BCMTabbedComponent.h" compile="0" resource="0"
+            file="../ScopeSync/Components/BCMTabbedComponent.h"/>
+      <FILE id="bMlm0K" name="BCMTextButton.cpp" compile="1" resource="0"
+            file="../ScopeSync/Components/BCMTextButton.cpp"/>
+      <FILE id="MglrJa" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSync/Components/BCMTextButton.h"/>
+      <FILE id="OmEA47" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMWidget.cpp"/>
+      <FILE id="kmMKZw" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSync/Components/BCMWidget.h"/>
+    </GROUP>
+    <GROUP id="{A150B2E7-7C76-DAE0-FC32-F9929B5D5083}" name="Comms">
+      <FILE id="dJtVrg" name="ScopeSyncOSC.cpp" compile="1" resource="0"
+            file="../ScopeSync/Comms/ScopeSyncOSC.cpp"/>
+      <FILE id="WbfTUE" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSync/Comms/ScopeSyncOSC.h"/>
+    </GROUP>
+    <GROUP id="{FFFEA119-560E-4392-FEE2-1FD44AE0B074}" name="Plugin">
+      <FILE id="nD7BSg" name="PluginGUI.cpp" compile="1" resource="0" file="../ScopeSync/Plugin/PluginGUI.cpp"/>
+      <FILE id="ow0RzK" name="PluginGUI.h" compile="0" resource="0" file="../ScopeSync/Plugin/PluginGUI.h"/>
+      <FILE id="z7mgUN" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="../ScopeSync/Plugin/PluginProcessor.cpp"/>
+      <FILE id="uWAF3f" name="PluginProcessor.h" compile="0" resource="0"
+            file="../ScopeSync/Plugin/PluginProcessor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2015 targetFolder="Builds/ScopeSyncInst/VisualStudio2015" vstFolder=""
+            vst3Folder="../../External/VST3 SDK" extraDefs="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTInst-Debug_1_0_2"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" targetName="ScopeSyncVSTInst-Debug-x64_1_0_2" optimisation="1"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst_1_0_2"
+                       useRuntimeLibDLL="0" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
+        <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
+                       winArchitecture="32-bit" targetName="ScopeSyncVSTInst-x64_1_0_2"
+                       useRuntimeLibDLL="0" optimisation="2" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
+    <VS2013 targetFolder="Builds/ScopeSyncInst/VisualStudio2013" vstFolder=""
+            vst3Folder="../../External/VST3 SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
+            extraLinkerFlags="">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTInst-Debug_1_0_2"
+                       headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTInst-Debug-x64_1_0_2"
+                       headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst_1_0_2"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
+                       winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVSTInst-x64_1_0_2"
+                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
+                       useRuntimeLibDLL="0"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2013>
+    <XCODE_MAC targetFolder="Builds/ScopeSyncInst/MacOSX" postbuildCommand="original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#10;&#10;echo &quot;Copying to AudioUnit folder...&quot;&#10;AUDir=~/Library/Audio/Plug-Ins/Components&#10;mkdir -p &quot;$AUDir&quot;&#10;AU=$AUDir/$PRODUCT_NAME.component&#10;if [ -d &quot;$AU&quot; ]; then &#10;  rm -r &quot;$AU&quot;&#10;fi&#10;&#10;cp -r &quot;$original&quot; &quot;$AU&quot;&#10;sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#10;sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;"
+               vstFolder="" vst3Folder="../../External/VST3 SDK">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="64BitUniversal"
+                       isDebug="1" optimisation="1" targetName="ScopeSyncAUInst-Debug_1_0_2"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="64BitUniversal"
+                       isDebug="0" optimisation="3" targetName="ScopeSyncAUInst_1_0_2"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WASAPI="disabled" JUCE_DIRECTSOUND="disabled"
+               JUCE_ALSA="disabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
+               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="disabled"
+               JUCE_USE_OGGVORBIS="disabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
+               JUCE_USE_LAME_AUDIO_FORMAT="disabled" JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled"
+               JUCE_PLUGINHOST_VST3="disabled" JUCE_PLUGINHOST_AU="disabled"
+               JUCE_ASIO="disabled"/>
+</JUCERPROJECT>

@@ -40,10 +40,10 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSync-Debug_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);..\..\Include\SonicCore</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);..\..\..\..\External\SonicCore</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSync_1_0_2</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);..\..\Include\SonicCore</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);..\..\..\..\External\SonicCore</LibraryPath>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -57,7 +57,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../../../External/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLLd.lib;_XKEYCHECK_H;JUCE_NO_COMPILER_THREAD_LOCAL=1;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -81,7 +81,7 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>..\..\Include\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <AdditionalDependencies>ScopeDLLd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
@@ -104,7 +104,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../Include/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../../../External/SonicCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;__DLL_EFFECT__;SCOPELIB=ScopeDLL.lib;_XKEYCHECK_H;JUCE_NO_COMPILER_THREAD_LOCAL=1;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_78A5020=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -129,7 +129,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>..\..\Include\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <AdditionalDependencies>ScopeDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
@@ -143,54 +143,54 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetFile.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Presets\PresetManager.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Windows\UserSettings.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\Configuration.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\Icons.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\ImageResources.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Resources\FontResources.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\SliderProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMWidget.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMImage.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMComponent.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMLabel.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMLookAndFeel.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMSlider.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.cpp"/>
-    <ClCompile Include="..\..\Source\ScopeFX.cpp"/>
-    <ClCompile Include="..\..\Source\ScopeFXGUI.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\BCMParameter.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSync.cpp"/>
-    <ClCompile Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Presets\PresetFile.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Presets\PresetItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Presets\PresetManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\ConfigurationChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\FileLocationEditor.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\LayoutChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\PresetChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\PresetFileChooser.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Windows\UserSettings.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Configuration\Configuration.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Configuration\ConfigurationManager.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Configuration\ConfigurationPanel.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Configuration\ConfigurationTreeItem.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Configuration\SettingsTable.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Resources\FontResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Resources\Icons.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Resources\ImageLoader.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Resources\ImageResources.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Comms\ScopeSyncAsync.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Comms\ScopeSyncOSC.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\ComboBoxProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\ComponentProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\LabelProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\SliderProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\TabbedComponentProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\TabProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\TextButtonProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Properties\WidgetProperties.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMComboBox.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMComponent.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMGraphic.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMImage.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMLabel.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMLookAndFeel.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMRectangle.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMSlider.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMTabbedComponent.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMTextButton.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Components\BCMWidget.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\ScopeFX\ScopeFX.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\ScopeFX\ScopeFXGUI.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Utils\BCMMisc.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Utils\BCMTreeView.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\BCMParameter.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\BCMParameterController.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSync.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSyncApplication.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSyncGUI.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1130,6 +1130,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_osc\osc\juce_OSCTypes.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\juce_core.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_data_structures\juce_data_structures.cpp"/>
@@ -1140,61 +1141,61 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_osc\juce_osc.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetFile.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Presets\PresetManager.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetFileChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\PresetChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\ConfigurationChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\FileLocationEditor.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\LayoutChooser.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Windows\UserSettings.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\SettingsTable.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationTreeItem.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\Configuration.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationManager.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Configuration\ConfigurationPanel.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\Icons.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageLoader.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\ImageResources.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Resources\FontResources.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncOSC.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Comms\ScopeSyncAsync.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\WidgetProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComboBoxProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\ComponentProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\LabelProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\PropertiesHelper.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\SliderProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TabbedComponentProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Properties\TextButtonProperties.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMWidget.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMGraphic.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMImage.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMRectangle.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponentBounds.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComboBox.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMComponent.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMLabel.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMLookAndFeel.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMSlider.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTabbedComponent.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Components\BCMTextButton.h"/>
-    <ClInclude Include="..\..\Include\SonicCore\effclass.h"/>
-    <ClInclude Include="..\..\Source\ScopeFX.h"/>
-    <ClInclude Include="..\..\Source\ScopeFXGUI.h"/>
-    <ClInclude Include="..\..\Source\ScopeFXParameterDefinitions.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMTreeView.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMisc.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMXml.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Utils\BCMMath.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameterController.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncApplication.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\Global.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\BCMParameter.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSync.h"/>
-    <ClInclude Include="..\..\..\ScopeSyncShared\Core\ScopeSyncGUI.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Presets\PresetFile.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Presets\PresetItem.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Presets\PresetManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\ConfigurationChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\FileLocationEditor.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\LayoutChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\PresetChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\PresetFileChooser.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Windows\UserSettings.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Configuration\Configuration.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Configuration\ConfigurationManager.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Configuration\ConfigurationPanel.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Configuration\ConfigurationTreeItem.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Configuration\SettingsTable.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Resources\FontResources.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Resources\Icons.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Resources\ImageLoader.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Resources\ImageResources.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Comms\ScopeSyncAsync.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Comms\ScopeSyncOSC.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\ComboBoxProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\ComponentProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\LabelProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\PropertiesHelper.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\SliderProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\TabbedComponentProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\TabProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\TextButtonProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Properties\WidgetProperties.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMComboBox.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMComponent.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMComponentBounds.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMGraphic.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMImage.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMLabel.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMLookAndFeel.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMRectangle.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMSlider.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMTabbedComponent.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMTextButton.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Components\BCMWidget.h"/>
+    <ClInclude Include="..\..\..\..\External\SonicCore\effclass.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\ScopeFX\ScopeFX.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\ScopeFX\ScopeFXGUI.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\ScopeFX\ScopeFXParameterDefinitions.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Utils\BCMMath.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Utils\BCMMisc.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Utils\BCMTreeView.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Utils\BCMXml.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\BCMParameter.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\BCMParameterController.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\Global.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSync.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSyncApplication.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSyncGUI.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>
@@ -1580,9 +1581,15 @@
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_osc\osc\juce_OSCTypes.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_osc\juce_osc.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\ScopeSync\Core\empty.configuration"/>
+    <None Include="..\..\..\ScopeSync\Core\loader.layout"/>
+    <None Include="..\..\..\ScopeSync\Core\standardHeaderContent.layout"/>
+    <None Include="..\..\..\ScopeSync\Core\standardSliderLnFs.layout"/>
+    <None Include="..\..\..\ScopeSync\Core\system.lookandfeels"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\juce_module_info"/>
     <None Include="..\..\JuceLibraryCode\modules\juce_data_structures\juce_module_info"/>
