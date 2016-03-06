@@ -189,11 +189,6 @@ private:
 	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
 	static int performanceModeGlobalDisable;
 
-	static const String systemLookAndFeels;   // XML configuration for the built-in LookAndFeels
-    
-    static const String standardHeaderContent; // Standard XML content for the ScopeSync layout header
-    static const String standardSliderLnFs;    // Standard Slider LnFs for ScopeSync templates
-
 	static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
 	static const BCMParameter::ParameterType scopeCodeTypes[]; // Types of each of the scope codes
     

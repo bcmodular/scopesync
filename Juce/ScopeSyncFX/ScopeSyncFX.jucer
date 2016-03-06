@@ -189,6 +189,8 @@
         <FILE id="oUc8QK" name="ScopeSyncGUI.cpp" compile="1" resource="0"
               file="../ScopeSync/Core/ScopeSyncGUI.cpp"/>
         <FILE id="GvhbvO" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSyncGUI.h"/>
+        <FILE id="yJlcPD" name="standardFooterContent.layout" compile="0" resource="1"
+              file="../ScopeSync/Core/standardFooterContent.layout"/>
         <FILE id="Wa9yxJ" name="standardHeaderContent.layout" compile="0" resource="1"
               file="../ScopeSync/Core/standardHeaderContent.layout"/>
         <FILE id="o9FysR" name="standardSliderLnFs.layout" compile="0" resource="1"

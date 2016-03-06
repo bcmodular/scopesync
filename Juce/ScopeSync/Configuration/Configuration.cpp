@@ -232,6 +232,8 @@ void Configuration::setMissingDefaultValues()
         configurationRoot.setProperty(Ids::ID, createAlphaNumericUID(), nullptr);
 
     configurationRoot.getOrCreateChildWithName(Ids::parameters, nullptr);
+
+	configurationRoot.moveChild(configurationRoot.indexOf(configurationRoot.getChildWithName(Ids::parameters)), 0, nullptr);
     
     ValueTree mapping(configurationRoot.getOrCreateChildWithName(Ids::mapping, nullptr));
     mapping.getOrCreateChildWithName(Ids::sliders, nullptr);
@@ -254,7 +256,8 @@ const char* Configuration::configurationFileExtension = ".configuration";
 
 void Configuration::loadLoaderConfiguration()
 {
-    ScopedPointer<XmlElement> xml(XmlDocument::parse(emptyConfiguration));
+	String xmlToParse(BinaryData::empty_configuration);
+    ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
 
     ValueTree newTree (ValueTree::fromXml(*xml));
     newTree.setProperty(Ids::name, "No configuration loaded...", nullptr);
@@ -267,11 +270,8 @@ void Configuration::loadLoaderConfiguration()
 
 ValueTree Configuration::getEmptyConfiguration()
 {
-    String xmlToParse;
-
-    xmlToParse = emptyConfiguration;
-
-    ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
+    String xmlToParse(BinaryData::empty_configuration);
+	ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
 
     return ValueTree::fromXml(*xml);
 }
@@ -280,7 +280,8 @@ void Configuration::loadLoaderLayout()
 {
     ScopedPointer<XmlElement> configElement;
 
-    XmlDocument configurationDocument(loaderLayout);
+	String xmlToParse(BinaryData::loader_layout);
+    XmlDocument configurationDocument(xmlToParse);
     configElement   = configurationDocument.getDocumentElement();
     loaderLayoutXml = *configElement;
 }
@@ -448,10 +449,8 @@ void Configuration::migrateFromV101()
 			if (!parameter[Ids::scopeSync].isVoid())
 			{
 				if (int(parameter[Ids::scopeSync]) >= 0)
-				{
 					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeSync])), nullptr);
-				}
-			
+				
 				parameter.removeProperty(Ids::scopeSync, nullptr);
 			}
 
@@ -481,15 +480,10 @@ void Configuration::migrateFromV101()
 			if (!parameter[Ids::scopeLocal].isVoid())
 			{
 				if (int(parameter[Ids::scopeLocal]) >= 0)
-				{
 					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeLocal]) + 128), nullptr);
-				}
-			
+				
 				parameter.removeProperty(Ids::scopeLocal, nullptr);
 			}
-		
-			scopeParameters.removeChild(parameter, nullptr);
-			parameters.addChild(parameter, -1, nullptr);
 		}
 
 		// Then move the scope parameters into the parameters node
@@ -1087,130 +1081,3 @@ ValueTree Configuration::getStyleOverride(const Identifier& componentType, const
     return componentStyleOverrides.getChildWithProperty(Ids::name, componentName);
 }
 
-const String Configuration::emptyConfiguration =
-"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-"\n"
-"<configuration>\n"
-"  <parameters/>\n"
-"  <mapping>\n"
-"    <textButtons/>\n"
-"    <sliders/>\n"
-"    <labels/>\n"
-"    <comboBoxes/>\n"
-"    <tabbedComponents/>\n"
-"  </mapping>\n"
-"</configuration>\n";
-
-const String Configuration::loaderLayout =
-"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-"<layout>\n"
-"  <!--Main Component-->\n"
-"  <component backgroundcolour=\"ff2d3035\" lfid=\"system:default\">\n"
-"    <bounds x=\"0\" y=\"0\" width=\"674\" height=\"100\" />\n"
-"    <!--Header Section-->\n"
-"    <component id=\"header\">\n"
-"        <bounds relativerectangle=\"right - parent.width, 1, parent.width, top + 40\"></bounds>\n"
-"        <label lfid=\"system:configname\" name=\"configurationname\" text=\"Current Configuration\">\n"
-"          <bounds x=\"172\" y=\"11\" width=\"131\" height=\"17\"></bounds>\n"
-"          <font bold=\"true\" height=\"12\"></font>\n"
-"        </label>\n"
-"        <textbutton lfid=\"system:scopesynclogo_button\" name=\"showaboutbox\" id=\"showaboutbox\" text=\"\""
-" tooltip=\"Show About Box\">\n"
-"          <bounds relativerectangle=\"13, 11, left + 151, top + 21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:new_config_button\" name=\"newconfiguration\" tooltip=\"New Configurati"
-"on\">\n"
-"          <bounds x=\"311\" y=\"9\" width=\"20\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:load_config_button\" name=\"chooseconfiguration\" tooltip=\"Load Config"
-"uration\">\n"
-"          <bounds x=\"331\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:reload_button\" name=\"reloadconfiguration\" tooltip=\"Reload Current C"
-"onfiguration\">\n"
-"          <bounds x=\"356\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:showconfigurationmanager_button\" name=\"showconfigurationmanager\" id"
-"=\"showconfigurationmanager\" text=\"\" tooltip=\"Open Configuration Manager panel\">\n"
-"          <bounds x=\"379\" y=\"9\" width=\"21\" height=\"21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:settings_button\" name=\"showusersettings\" id=\"showusersettings\" text"
-"=\"\" tooltip=\"Open User Settings panel\">\n"
-"          <bounds relativerectangle=\"right - 28, showconfigurationmanager.top, parent.width - 4, top"
-" + 21\"></bounds>\n"
-"        </textbutton>\n"
-"        <textbutton lfid=\"system:snapshot_button\" name=\"snapshot\" id=\"snapshot\" text=\"\" tooltip=\"Sen"
-"d a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instance"
-"s\">\n"
-"          <bounds relativerectangle=\"right - 32, showusersettings.top, showusersettings.left - 3, to"
-"p + 21\"></bounds>\n"
-"        </textbutton>\n"
-"        <!--Shows additional buttons in Scope DLL header based on device type setting-->\n"
-"        <tabbedcomponent displaycontext=\"scope\" name=\"Device Type\" showdropshadow=\"false\">\n"
-"          <bounds relativerectangle=\"right - 100, 6, snapshot.left - 4, top + 32\"></bounds>\n"
-"          <tabbar orientation=\"right\" depth=\"0\"></tabbar>\n"
-"          <tab idx=\"1\" name=\"NOPRESET\">\n"
-"            <component>\n"
-"              <!--No Controls-->\n"
-"            </component>\n"
-"          </tab>\n"
-"          <tab idx=\"2\" name=\"PRESET\">\n"
-"            <component>\n"
-"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
-"r\">\n"
-"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"            </component>\n"
-"          </tab>\n"
-"          <tab idx=\"3\" name=\"PRESETFX\">\n"
-"            <component>\n"
-"              <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
-"                <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
-"                <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
-"r\">\n"
-"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"            </component>\n"
-"          </tab>\n"
-"          <tab idx=\"4\" name=\"BCPRESET\">\n"
-"            <component>\n"
-"              <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch "
-"Window\">\n"
-"                <bounds x=\"50\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
-"r\">\n"
-"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"            </component>\n"
-"          </tab>\n"
-"          <tab idx=\"5\" name=\"BCPRESETFX\">\n"
-"            <component>\n"
-"              <textbutton lfid=\"system:patch_button\" name=\"PatchWindow\" tooltip=\"Open Modular Patch "
-"Window\">\n"
-"                <bounds x=\"0\" y=\"2\" width=\"27\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"FX_Mono_button\" name=\"MonoEffect\" tooltip=\"Mono (use left input)\">\n"
-"                <bounds x=\"30\" y=\"3\" width=\"27\" height=\"19\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"FX_Bypass_button\" name=\"BypassEffect\" tooltip=\"Bypass\">\n"
-"                <bounds x=\"58\" y=\"2\" width=\"20\" height=\"19\"></bounds>\n"
-"              </textbutton>\n"
-"              <textbutton lfid=\"system:presets_button\" name=\"PresetList\" tooltip=\"Open Preset Browse"
-"r\">\n"
-"                <bounds x=\"81\" y=\"2\" width=\"19\" height=\"21\"></bounds>\n"
-"              </textbutton>\n"
-"            </component>\n"
-"          </tab>\n"
-"        </tabbedcomponent>\n"
-"      </component>\n"
-"    <!--Background-->\n"
-"    <component backgroundcolour=\"55000000\" backgroundimage=\"Skins/B-Control/background.png\">\n"
-"      <bounds relativerectangle=\"right - parent.width, 41, parent.width, parent.height\" />\n"
-"    </component>\n"
-"  </component>\n"
-"</layout>";

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+  <component>
+    <component id="footer">
+      <bounds relativerectangle="right - 116, parent.height-40, parent.width-8, top + 40" />
+      <label name="oscuid" text="OSC UID" lfid="system:oscuid">
+        <bounds x="0" width="112" height="16" y="12" />
+        <font bold="true" height="10" />
+        <justification left="true" />
+      </label>
+      <slider name="oscuid" style="linearbar" nostyleoverride="true" lfid="OSCUID">
+        <bounds x="55" width="56" height="16" y="12" />
+        <range min="0" max="127" int="0.0001"></range>
+        <textbox position="above" readonly="false" width="71" height="13">
+          <font height="10" bold="true"></font>
+        </textbox>
+      </slider>
+    </component>
+  </component>

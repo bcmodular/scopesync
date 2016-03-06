@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<component>
   <component id="header">
     <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
     <label lfid="system:configname" name="configurationname" text="Current Configuration">
@@ -45,10 +46,10 @@
       </tab>
       <tab idx="3" name="PRESETFX">
         <component>
-          <textbutton lfid="FX_Mono_button" name="MonoEffect" tooltip="Mono (use left input)">
+          <textbutton lfid="system:fxmono_button" name="MonoEffect" tooltip="Mono (use left input)">
             <bounds x="30" y="3" width="27" height="19"></bounds>
           </textbutton>
-          <textbutton lfid="FX_Bypass_button" name="BypassEffect" tooltip="Bypass">
+          <textbutton lfid="system:fxbypass_button" name="BypassEffect" tooltip="Bypass">
             <bounds x="58" y="2" width="20" height="19"></bounds>
           </textbutton>
           <textbutton lfid="system:presets_button" name="PresetList" tooltip="Open Preset Browser">
@@ -71,10 +72,10 @@
           <textbutton lfid="system:patch_button" name="PatchWindow" tooltip="Open Modular Patch Window">
             <bounds x="0" y="2" width="27" height="21"></bounds>
           </textbutton>
-          <textbutton lfid="FX_Mono_button" name="MonoEffect" tooltip="Mono (use left input)">
+          <textbutton lfid="system:fxmono_button" name="MonoEffect" tooltip="Mono (use left input)">
             <bounds x="30" y="3" width="27" height="19"></bounds>
           </textbutton>
-          <textbutton lfid="FX_Bypass_button" name="BypassEffect" tooltip="Bypass">
+          <textbutton lfid="system:fxbypass_button" name="BypassEffect" tooltip="Bypass">
             <bounds x="58" y="2" width="20" height="19"></bounds>
           </textbutton>
           <textbutton lfid="system:presets_button" name="PresetList" tooltip="Open Preset Browser">
@@ -84,3 +85,4 @@
       </tab>
     </tabbedcomponent>
   </component>
+</component>

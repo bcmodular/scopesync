@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <lookandfeels>
   <lookandfeel id="system:default">
     <appliesto componenttype="none" />
@@ -11,6 +12,13 @@
       <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000" buttoncolourid="ffff0000"></textbutton>
     </colours>
   </lookandfeel>
+    <lookandfeel id="system:nostyle">
+      <colours>
+        <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"></slider>
+        <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
+      </colours>
+      <appliesto componenttype="none" />
+    </lookandfeel>
   <lookandfeel id="system:load_config_button" parentid="system:default">
     <appliesto componenttype="none" />
     <images>
@@ -59,6 +67,18 @@
       <textbutton upfilename="snapshotOff" downfilename="snapshotOn" mouseoverupfilename="snapshotOver" mouseoverdownfilename="snapshotOn"></textbutton>
     </images>
   </lookandfeel>
+  <lookandfeel id="system:fxmono_button" parentid="system:default">
+    <appliesto componenttype="none" />
+    <images>
+      <textbutton upfilename="fxMonoOff" downfilename="fxMonoOn" mouseoverupfilename="fxMonoOver" mouseoverdownfilename="fxMonoOn"></textbutton>
+    </images>
+  </lookandfeel>
+  <lookandfeel id="system:fxbypass_button" parentid="system:default">
+    <appliesto componenttype="none" />
+    <images>
+      <textbutton upfilename="fxBypassOff" downfilename="fxBypassOn" mouseoverupfilename="fxBypassOver" mouseoverdownfilename="fxBypassOn"></textbutton>
+    </images>
+  </lookandfeel>
   <lookandfeel id="system:showconfigurationmanager_button" parentid="system:default">
     <appliesto componenttype="none" />
     <images>
@@ -70,6 +90,20 @@
     <images>
       <textbutton upfilename="scopeSyncLogoOff" downfilename="scopeSyncLogoOn" mouseoverupfilename="scopeSyncLogoOn" mouseoverdownfilename="scopeSyncLogoOn"></textbutton>
     </images>
+  </lookandfeel>
+  <lookandfeel id="system:oscuid" parentid="system:nostyle">
+      <images>
+        <slider>
+          <linearhorizontal>
+            <backgroundimage />
+          </linearhorizontal>
+        </slider>
+      </images>
+      <colours>
+        <slider backgroundcolourid="00000000" thumbcolourid="7f000000" trackcolourid="ffffffff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121" textboxoutlinecolourid="00ffffff" textboxtextcolourid="7fffffff"></slider>
+        <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
+        <label textcolourid="7fffffff" outlinecolourid="5fffffff" />
+      </colours>
   </lookandfeel>
   <lookandfeel id="system:configname">
     <appliesto componenttype="none" />

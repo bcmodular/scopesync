@@ -1587,6 +1587,7 @@
   <ItemGroup>
     <None Include="..\..\..\ScopeSync\Core\empty.configuration"/>
     <None Include="..\..\..\ScopeSync\Core\loader.layout"/>
+    <None Include="..\..\..\ScopeSync\Core\standardFooterContent.layout"/>
     <None Include="..\..\..\ScopeSync\Core\standardHeaderContent.layout"/>
     <None Include="..\..\..\ScopeSync\Core\standardSliderLnFs.layout"/>
     <None Include="..\..\..\ScopeSync\Core\system.lookandfeels"/>

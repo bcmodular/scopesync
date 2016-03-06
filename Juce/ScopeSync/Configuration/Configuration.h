@@ -207,8 +207,6 @@ private:
     bool       layoutLoaded;
     
     static const char*  configurationFileExtension;
-    static const String emptyConfiguration;
-    static const String loaderLayout;
 
     void        setConfigurationRoot(const ValueTree& newRoot);
     void        setupConfigurationProperties();
