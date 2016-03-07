@@ -13,16 +13,16 @@ namespace BinaryData
     const int            empty_configurationSize = 216;
 
     extern const char*   loader_layout;
-    const int            loader_layoutSize = 5538;
+    const int            loader_layoutSize = 511;
 
     extern const char*   standardHeaderContent_layout;
-    const int            standardHeaderContent_layoutSize = 4772;
+    const int            standardHeaderContent_layoutSize = 4823;
 
     extern const char*   standardSliderLnFs_layout;
     const int            standardSliderLnFs_layoutSize = 22039;
 
     extern const char*   system_lookandfeels;
-    const int            system_lookandfeelsSize = 4429;
+    const int            system_lookandfeelsSize = 6264;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
