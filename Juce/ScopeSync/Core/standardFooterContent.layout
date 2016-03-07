@@ -8,7 +8,7 @@
         <font bold="true" height="10" />
         <justification left="true" />
       </label>
-      <slider name="oscuid" style="linearbar" nostyleoverride="true" lfid="OSCUID">
+      <slider name="oscuid" style="linearbar" nostyleoverride="true" lfid="system:oscuid">
         <bounds x="55" width="56" height="16" y="12" />
         <range min="0" max="127" int="0.0001"></range>
         <textbox position="above" readonly="false" width="71" height="13">

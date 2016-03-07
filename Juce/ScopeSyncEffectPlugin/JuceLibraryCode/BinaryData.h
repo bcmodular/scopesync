@@ -15,6 +15,9 @@ namespace BinaryData
     extern const char*   loader_layout;
     const int            loader_layoutSize = 511;
 
+    extern const char*   standardFooterContent_layout;
+    const int            standardFooterContent_layoutSize = 798;
+
     extern const char*   standardHeaderContent_layout;
     const int            standardHeaderContent_layoutSize = 4823;
 
@@ -28,7 +31,7 @@ namespace BinaryData
     extern const char* namedResourceList[];
 
     // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 5;
+    const int namedResourceListSize = 6;
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).

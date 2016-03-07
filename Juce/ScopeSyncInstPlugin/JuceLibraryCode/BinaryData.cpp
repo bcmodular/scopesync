@@ -42,8 +42,32 @@ static const unsigned char temp_binary_data_1[] =
 
 const char* loader_layout = (const char*) temp_binary_data_1;
 
-//================== standardHeaderContent.layout ==================
+//================== standardFooterContent.layout ==================
 static const unsigned char temp_binary_data_2[] =
+"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
+"\r\n"
+"  <component>\r\n"
+"    <component id=\"footer\">\r\n"
+"      <bounds relativerectangle=\"right - 116, parent.height-40, parent.width-8, top + 40\" />\r\n"
+"      <label name=\"oscuid\" text=\"OSC UID\" lfid=\"system:oscuid\">\r\n"
+"        <bounds x=\"0\" width=\"112\" height=\"16\" y=\"12\" />\r\n"
+"        <font bold=\"true\" height=\"10\" />\r\n"
+"        <justification left=\"true\" />\r\n"
+"      </label>\r\n"
+"      <slider name=\"oscuid\" style=\"linearbar\" nostyleoverride=\"true\" lfid=\"system:oscuid\">\r\n"
+"        <bounds x=\"55\" width=\"56\" height=\"16\" y=\"12\" />\r\n"
+"        <range min=\"0\" max=\"127\" int=\"0.0001\"></range>\r\n"
+"        <textbox position=\"above\" readonly=\"false\" width=\"71\" height=\"13\">\r\n"
+"          <font height=\"10\" bold=\"true\"></font>\r\n"
+"        </textbox>\r\n"
+"      </slider>\r\n"
+"    </component>\r\n"
+"  </component>";
+
+const char* standardFooterContent_layout = (const char*) temp_binary_data_2;
+
+//================== standardHeaderContent.layout ==================
+static const unsigned char temp_binary_data_3[] =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
 "\r\n"
 "<component>\r\n"
@@ -133,10 +157,10 @@ static const unsigned char temp_binary_data_2[] =
 "  </component>\r\n"
 "</component>";
 
-const char* standardHeaderContent_layout = (const char*) temp_binary_data_2;
+const char* standardHeaderContent_layout = (const char*) temp_binary_data_3;
 
 //================== standardSliderLnFs.layout ==================
-static const unsigned char temp_binary_data_3[] =
+static const unsigned char temp_binary_data_4[] =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
 "\r\n"
 "<lookandfeels>\r\n"
@@ -617,10 +641,10 @@ static const unsigned char temp_binary_data_3[] =
 "  </lookandfeel>\r\n"
 "</lookandfeels>";
 
-const char* standardSliderLnFs_layout = (const char*) temp_binary_data_3;
+const char* standardSliderLnFs_layout = (const char*) temp_binary_data_4;
 
 //================== system.lookandfeels ==================
-static const unsigned char temp_binary_data_4[] =
+static const unsigned char temp_binary_data_5[] =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
 "\r\n"
 "<lookandfeels>\r\n"
@@ -737,7 +761,7 @@ static const unsigned char temp_binary_data_4[] =
 "  </lookandfeel>\r\n"
 "</lookandfeels>\r\n";
 
-const char* system_lookandfeels = (const char*) temp_binary_data_4;
+const char* system_lookandfeels = (const char*) temp_binary_data_5;
 
 
 const char* getNamedResource (const char*, int&) throw();
@@ -752,6 +776,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     {
         case 0x13f60184:  numBytes = 216; return empty_configuration;
         case 0xed361cd6:  numBytes = 511; return loader_layout;
+        case 0x2a922288:  numBytes = 798; return standardFooterContent_layout;
         case 0x2695bffa:  numBytes = 4823; return standardHeaderContent_layout;
         case 0x383dda9c:  numBytes = 22039; return standardSliderLnFs_layout;
         case 0x5ac2d7c5:  numBytes = 6264; return system_lookandfeels;
@@ -766,6 +791,7 @@ const char* namedResourceList[] =
 {
     "empty_configuration",
     "loader_layout",
+    "standardFooterContent_layout",
     "standardHeaderContent_layout",
     "standardSliderLnFs_layout",
     "system_lookandfeels"

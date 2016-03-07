@@ -16,7 +16,7 @@ namespace BinaryData
     const int            loader_layoutSize = 511;
 
     extern const char*   standardFooterContent_layout;
-    const int            standardFooterContent_layoutSize = 791;
+    const int            standardFooterContent_layoutSize = 798;
 
     extern const char*   standardHeaderContent_layout;
     const int            standardHeaderContent_layoutSize = 4823;

@@ -2996,6 +2996,9 @@
     <None Include="..\..\..\..\ScopeSync\Core\loader.layout">
       <Filter>ScopeSyncInstPlugin\Core</Filter>
     </None>
+    <None Include="..\..\..\..\ScopeSync\Core\standardFooterContent.layout">
+      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    </None>
     <None Include="..\..\..\..\ScopeSync\Core\standardHeaderContent.layout">
       <Filter>ScopeSyncInstPlugin\Core</Filter>
     </None>

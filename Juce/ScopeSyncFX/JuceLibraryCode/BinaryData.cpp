@@ -54,7 +54,7 @@ static const unsigned char temp_binary_data_2[] =
 "        <font bold=\"true\" height=\"10\" />\r\n"
 "        <justification left=\"true\" />\r\n"
 "      </label>\r\n"
-"      <slider name=\"oscuid\" style=\"linearbar\" nostyleoverride=\"true\" lfid=\"OSCUID\">\r\n"
+"      <slider name=\"oscuid\" style=\"linearbar\" nostyleoverride=\"true\" lfid=\"system:oscuid\">\r\n"
 "        <bounds x=\"55\" width=\"56\" height=\"16\" y=\"12\" />\r\n"
 "        <range min=\"0\" max=\"127\" int=\"0.0001\"></range>\r\n"
 "        <textbox position=\"above\" readonly=\"false\" width=\"71\" height=\"13\">\r\n"
@@ -776,7 +776,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     {
         case 0x13f60184:  numBytes = 216; return empty_configuration;
         case 0xed361cd6:  numBytes = 511; return loader_layout;
-        case 0x2a922288:  numBytes = 791; return standardFooterContent_layout;
+        case 0x2a922288:  numBytes = 798; return standardFooterContent_layout;
         case 0x2695bffa:  numBytes = 4823; return standardHeaderContent_layout;
         case 0x383dda9c:  numBytes = 22039; return standardSliderLnFs_layout;
         case 0x5ac2d7c5:  numBytes = 6264; return system_lookandfeels;
