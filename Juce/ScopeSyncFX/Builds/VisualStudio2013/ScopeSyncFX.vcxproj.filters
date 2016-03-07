@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ScopeSyncFX">
@@ -18,6 +19,15 @@
     </Filter>
     <Filter Include="ScopeSyncFX\Source\Resources">
       <UniqueIdentifier>{E50C43E0-DFF1-3681-7461-2324D2C16F7C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncFX\Source\Resources\font">
+      <UniqueIdentifier>{0633CA96-9E51-2492-9C32-DB4F623C8904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncFX\Source\Resources\image">
+      <UniqueIdentifier>{5C868D08-FFF7-FF17-42A2-9C8DF2AAE0DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncFX\Source\Resources\xml">
+      <UniqueIdentifier>{9B7F870F-F99C-2D40-B26D-29750CB5CA6F}</UniqueIdentifier>
     </Filter>
     <Filter Include="ScopeSyncFX\Source\Comms">
       <UniqueIdentifier>{CE2AFE4D-333E-1614-C4F7-4E92DF40A9DF}</UniqueIdentifier>
@@ -306,16 +316,10 @@
     <ClCompile Include="..\..\..\ScopeSync\Configuration\SettingsTable.cpp">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSync\Resources\FontResources.cpp">
-      <Filter>ScopeSyncFX\Source\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSync\Resources\Icons.cpp">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSync\Resources\ImageLoader.cpp">
-      <Filter>ScopeSyncFX\Source\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ScopeSync\Resources\ImageResources.cpp">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ScopeSync\Comms\ScopeSyncAsync.cpp">
@@ -714,6 +718,21 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_linux_Threads.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Files.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Network.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Strings.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_SystemStats.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_mac_Threads.mm">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\native\juce_posix_NamedPipe.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
@@ -789,7 +808,13 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_events\native\juce_android_Messaging.cpp">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_events\native\juce_ios_MessageManager.mm">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_events\native\juce_linux_Messaging.cpp">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_events\native\juce_mac_MessageManager.mm">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_Messaging.cpp">
@@ -889,6 +914,12 @@
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_Fonts.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_Fonts.mm">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.cpp">
@@ -1239,6 +1270,12 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_android_Windowing.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_Windowing.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Clipboard.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
@@ -1246,6 +1283,21 @@
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MainMenu.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_NSViewComponentPeer.mm">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_Windowing.mm">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_win32_DragAndDrop.cpp">
@@ -1305,13 +1357,25 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_android_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_SystemTrayIcon.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_WebBrowserComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_SystemTrayIcon.cpp">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_WebBrowserComponent.mm">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_win32_ActiveXComponent.cpp">
@@ -1418,16 +1482,10 @@
     <ClInclude Include="..\..\..\ScopeSync\Configuration\SettingsTable.h">
       <Filter>ScopeSyncFX\Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSync\Resources\FontResources.h">
-      <Filter>ScopeSyncFX\Source\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ScopeSync\Resources\Icons.h">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSync\Resources\ImageLoader.h">
-      <Filter>ScopeSyncFX\Source\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ScopeSync\Resources\ImageResources.h">
       <Filter>ScopeSyncFX\Source\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSync\Comms\ScopeSyncAsync.h">
@@ -2704,23 +2762,248 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\ScopeSync\Core\empty.configuration">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\font\erbos_draco_1st_nbp.ttf">
+      <Filter>ScopeSyncFX\Source\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\ScopeSync\Core\loader.layout">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\font\erbos_draco_1st_open_nbp.ttf">
+      <Filter>ScopeSyncFX\Source\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\ScopeSync\Core\standardFooterContent.layout">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\font\Montserrat-Bold.ttf">
+      <Filter>ScopeSyncFX\Source\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\ScopeSync\Core\standardHeaderContent.layout">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\font\Montserrat-Regular.ttf">
+      <Filter>ScopeSyncFX\Source\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\ScopeSync\Core\standardSliderLnFs.layout">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\image\Close_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
     </None>
-    <None Include="..\..\..\ScopeSync\Core\system.lookandfeels">
-      <Filter>ScopeSyncFX\Source\Core</Filter>
+    <None Include="..\..\..\ScopeSync\Resources\image\Close_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Close_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\config_manager_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\config_manager_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\config_manager_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\confirm_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\confirm_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\confirm_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Copy_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Copy_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Copy_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\divider.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXbypass_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXbypass_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXbypass_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXmono_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXmono_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\FXmono_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\help_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\help_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\help_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\load_config_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\load_config_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\load_config_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\NewConfig_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\NewConfig_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\NewConfig_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Paste_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Paste_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Paste_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Patch_Window_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Patch_Window_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Patch_Window_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Perf_Mode_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Perf_Mode_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Perf_Mode_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Presets_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Presets_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Presets_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Redo_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Redo_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Redo_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\reload_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\reload_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\reload_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\remove_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\remove_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\remove_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Save_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Save_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Save_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\SaveAs_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\SaveAs_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\SaveAs_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\ScopeSync_Logo.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\settings_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\settings_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\settings_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Snapshot_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Snapshot_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Snapshot_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\toolbar_bevel.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\toolbar_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\toolbar_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\toolbar_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Undo_button_off.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Undo_button_on.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\image\Undo_button_over.png">
+      <Filter>ScopeSyncFX\Source\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\empty.configuration">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\loader.layout">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\standardFooterContent.layout">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\standardHeaderContent.layout">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\standardSliderLnFs.layout">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\ScopeSync\Resources\xml\system.lookandfeels">
+      <Filter>ScopeSyncFX\Source\Resources\xml</Filter>
     </None>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>
