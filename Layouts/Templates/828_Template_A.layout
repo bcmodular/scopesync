@@ -1703,6 +1703,8 @@
           <mappingparent componentname="S128" />
         </label>
       </component>
+      <!--Footer Section-->
+      <standardcontent type="footer" />
     </component>
   </layout>
 </tns:ScopeSyncLayout>

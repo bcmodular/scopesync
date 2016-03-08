@@ -1115,6 +1115,8 @@
           <bounds x="791" />
         </slider>
       </component>
+      <!--Footer Section-->
+      <standardcontent type="footer" />
     </component>
   </layout>
 </tns:ScopeSyncLayout>

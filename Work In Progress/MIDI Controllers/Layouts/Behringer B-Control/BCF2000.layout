@@ -1982,6 +1982,8 @@
           <choosetab tabbedcomponent="GROUP STATE" tabname="P"></choosetab>
         </textbutton>
       </component>
+      <!--Footer Section-->
+      <standardcontent type="footer" />
     </component>
   </layout>
 </tns:ScopeSyncLayout>

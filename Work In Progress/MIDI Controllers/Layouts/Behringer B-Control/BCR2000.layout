@@ -906,7 +906,7 @@
                   <textbutton lfid="enc2push" name="B8">
                     <bounds x="529" y="46" width="69" height="69" />
                   </textbutton>
-                  <slider lfid="encoder2" name="oscuid">
+                  <slider lfid="encoder2" name="S1">
                     <bounds x="19" y="33" />
                   </slider>
                   <slider lfid="encoder2" name="S2">
@@ -2151,6 +2151,8 @@
           <choosetab tabbedcomponent="GROUP STATE" tabname="P"></choosetab>
         </textbutton>
       </component>
+    <!--Footer Section-->
+    <standardcontent type="footer" />    
     </component>
   </layout>
 </tns:ScopeSyncLayout>

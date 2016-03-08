@@ -33,7 +33,8 @@
     		<element name="appliesto" type="tns:appliestotype" />
     	</choice>
     	<attribute name="id" type="string" use="required"></attribute>
-    	<attribute name="parentid" type="string"></attribute>
+    	<attribute name="parentid" type="string"></attribute>
+
     </complexType>
 
     <complexType name="colourstype"></complexType>
@@ -58,8 +59,10 @@
     		<element name="slider" type="tns:slidertype"></element>
     		<element name="label" type="tns:labeltype"></element>
     		<element name="textbutton" type="tns:textbuttontype"></element>
-    		<element name="tabbedcomponent" type="tns:tabbedcomponenttype"></element>
-    		<element name="combobox" type="tns:comboboxtype"></element>    	</choice>
+    		<element name="tabbedcomponent" type="tns:tabbedcomponenttype"></element>
+
+    		<element name="combobox" type="tns:comboboxtype"></element>
+    	</choice>
     </complexType>
 
 	<complexType name="componenttype">
@@ -89,7 +92,8 @@
 		<attribute name="displaycontext"
 			type="tns:displaycontexttype">
 		</attribute>
-		<attribute name="nostyleoverride" type="boolean"></attribute>
+		<attribute name="nostyleoverride" type="boolean"></attribute>
+
 	</complexType>
 
 	<complexType name="lookandfeelcolourstype">
@@ -229,7 +233,11 @@
     	</sequence>
     	<attribute name="thumbfilename" type="string"></attribute>
     	<attribute name="thumbmouseoverfilename" type="string"></attribute>
-    	<attribute name="thumbborder" type="int"></attribute>
+    	<attribute name="thumbborder" type="int"></attribute>
+
+
+
+
 
     </complexType>
 
@@ -537,7 +545,8 @@
     		<element name="defaults" type="tns:defaultstype" minOccurs="0" maxOccurs="1"></element>
             <element name="widgettemplates" type="tns:widgettemplatestype" minOccurs="0" maxOccurs="1"></element>
             <element name="component" type="tns:componenttype" minOccurs="0" maxOccurs="1">
-    		</element>
+    		</element>
+
     	</sequence>
     	<attribute name="name" type="string"></attribute>
     	<attribute name="libraryset" type="string"></attribute>
@@ -551,7 +560,8 @@
     	<attribute name="numencoders" type="int"></attribute>
     	<attribute name="numfaders" type="int"></attribute>
     	<attribute name="numbuttons" type="int"></attribute>
-    	<attribute name="numparameters" type="int"></attribute>
+    	<attribute name="numparameters" type="int"></attribute>
+
     </complexType>
 
     <simpleType name="displaycontexttype">
@@ -562,14 +572,16 @@
     </simpleType>
 
     <complexType name="boundstype">
-    	<choice minOccurs="0">
+    	<choice minOccurs="0">
+
     		<element name="bordersize" type="tns:bordersizetype"></element>
     	</choice>
     	<attribute name="x" type="int"></attribute>
     	<attribute name="y" type="int"></attribute>
     	<attribute name="width" type="int"></attribute>
     	<attribute name="height" type="int"></attribute>
-        <attribute name="relativerectangle" type="string"></attribute>
+        <attribute name="relativerectangle" type="string"></attribute>
+
     </complexType>
 
     <complexType name="bordersizetype">
@@ -681,6 +693,7 @@
     		<simpleType>
     			<restriction base="string">
     				<enumeration value="header"></enumeration>
+            <enumeration value="footer"></enumeration>
     			</restriction>
     		</simpleType>
     	</attribute>

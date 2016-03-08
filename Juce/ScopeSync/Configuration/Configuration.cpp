@@ -452,6 +452,7 @@ void Configuration::migrateFromV101()
 					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeSync])), nullptr);
 				
 				parameter.removeProperty(Ids::scopeSync, nullptr);
+                parameter.removeProperty(Ids::scopeLocal, nullptr);
 			}
 
 		}
@@ -482,7 +483,8 @@ void Configuration::migrateFromV101()
 				if (int(parameter[Ids::scopeLocal]) >= 0)
 					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeLocal]) + 128), nullptr);
 				
-				parameter.removeProperty(Ids::scopeLocal, nullptr);
+				parameter.removeProperty(Ids::scopeSync, nullptr);
+                parameter.removeProperty(Ids::scopeLocal, nullptr);
 			}
 		}
 

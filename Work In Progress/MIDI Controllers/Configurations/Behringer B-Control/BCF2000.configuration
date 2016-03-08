@@ -625,11 +625,6 @@
       <textButton name="B62" mapTo="PARAM127" settingDown="GROUP 4" type="1" radioGroup=""/>
       <textButton name="B63" mapTo="PARAM128" settingDown="ROTARY" type="1" radioGroup=""/>
       <textButton name="B64" mapTo="PARAM128" settingDown="PUSH" type="1" radioGroup=""/>
-      <textButton name="CPHost-Disconnected" mapTo="CPHost" settingDown="DISCONNECTED" type="1" radioGroup=""/>
-      <textButton name="CPHost-Connected" mapTo="CPHost" settingDown="CONNECTED" type="1" radioGroup=""/>
-      <textButton name="PatchWindow" mapTo="PatchWindow" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="PresetList" mapTo="PresetList" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="LoadConfig" mapTo="LoadConfig" settingDown="ON" type="0" radioGroup=""/>
     </textButtons>
     <labels/>
     <comboBoxes/>
