@@ -80,7 +80,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;~\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;c:\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -105,7 +105,6 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -126,7 +125,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;~\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;c:\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -149,7 +148,6 @@
       <ProgramDatabaseFile>$(IntDir)\ScopeSyncVSTFX-Debug-x64_1_0_2.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -169,7 +167,7 @@
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;~\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;c:\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -195,7 +193,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -217,7 +214,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;~\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\..\External\VST3 SDK;c:\SDKs\VST3 SDK;..\..\..\JuceLibraryCode;..\..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;JUCER_VS2013_F857D0EF=1;JUCE_APP_VERSION=1.0.2;JUCE_APP_VERSION_HEX=0x10002;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -242,7 +239,6 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalOptions>/FORCE:multiple %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -269,10 +265,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSync\Configuration\ConfigurationPanel.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Configuration\ConfigurationTreeItem.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Configuration\SettingsTable.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Resources\FontResources.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Resources\Icons.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Resources\ImageLoader.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Resources\ImageResources.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Utils\BCMMisc.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Utils\BCMTreeView.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\ComboBoxProperties.cpp"/>
@@ -1334,10 +1328,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSync\Configuration\ConfigurationPanel.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Configuration\ConfigurationTreeItem.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Configuration\SettingsTable.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Resources\FontResources.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Resources\Icons.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Resources\ImageLoader.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Resources\ImageResources.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Utils\BCMMath.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Utils\BCMMisc.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Utils\BCMTreeView.h"/>
@@ -1800,12 +1792,87 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\ScopeSync\Core\empty.configuration"/>
-    <None Include="..\..\..\..\ScopeSync\Core\loader.layout"/>
-    <None Include="..\..\..\..\ScopeSync\Core\standardFooterContent.layout"/>
-    <None Include="..\..\..\..\ScopeSync\Core\standardHeaderContent.layout"/>
-    <None Include="..\..\..\..\ScopeSync\Core\standardSliderLnFs.layout"/>
-    <None Include="..\..\..\..\ScopeSync\Core\system.lookandfeels"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\erbos_draco_1st_nbp.ttf"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\erbos_draco_1st_open_nbp.ttf"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\Montserrat-Bold.ttf"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\Montserrat-Regular.ttf"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\divider.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_bevel.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_off.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_on.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_over.png"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\empty.configuration"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\loader.layout"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardFooterContent.layout"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardHeaderContent.layout"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardSliderLnFs.layout"/>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\system.lookandfeels"/>
     <None Include="..\..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\JuceLibraryCode\modules\juce_audio_plugin_client\juce_module_info"/>
     <None Include="..\..\..\JuceLibraryCode\modules\juce_audio_processors\juce_module_info"/>

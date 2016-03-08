@@ -17,6 +17,15 @@
     <Filter Include="ScopeSyncInstPlugin\Resources">
       <UniqueIdentifier>{6AE831AE-1877-7B99-67A8-443FD0E2ACC4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScopeSyncInstPlugin\Resources\font">
+      <UniqueIdentifier>{D8881501-F369-43B2-0D51-A5DEC2EDE6CC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncInstPlugin\Resources\image">
+      <UniqueIdentifier>{77126DFB-DA4B-08BB-BCDB-A7197ABBE64A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScopeSyncInstPlugin\Resources\xml">
+      <UniqueIdentifier>{970BB2ED-9B12-8706-7D13-7A48722595F3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ScopeSyncInstPlugin\Utils">
       <UniqueIdentifier>{C6D86F03-3AA3-BD1A-E958-C0587D9EC7DF}</UniqueIdentifier>
     </Filter>
@@ -334,16 +343,10 @@
     <ClCompile Include="..\..\..\..\ScopeSync\Configuration\SettingsTable.cpp">
       <Filter>ScopeSyncInstPlugin\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Resources\FontResources.cpp">
-      <Filter>ScopeSyncInstPlugin\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Resources\Icons.cpp">
       <Filter>ScopeSyncInstPlugin\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Resources\ImageLoader.cpp">
-      <Filter>ScopeSyncInstPlugin\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Resources\ImageResources.cpp">
       <Filter>ScopeSyncInstPlugin\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Utils\BCMMisc.cpp">
@@ -1596,16 +1599,10 @@
     <ClInclude Include="..\..\..\..\ScopeSync\Configuration\SettingsTable.h">
       <Filter>ScopeSyncInstPlugin\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Resources\FontResources.h">
-      <Filter>ScopeSyncInstPlugin\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Resources\Icons.h">
       <Filter>ScopeSyncInstPlugin\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Resources\ImageLoader.h">
-      <Filter>ScopeSyncInstPlugin\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Resources\ImageResources.h">
       <Filter>ScopeSyncInstPlugin\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Utils\BCMMath.h">
@@ -2990,23 +2987,248 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\ScopeSync\Core\empty.configuration">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\erbos_draco_1st_nbp.ttf">
+      <Filter>ScopeSyncInstPlugin\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\..\ScopeSync\Core\loader.layout">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\erbos_draco_1st_open_nbp.ttf">
+      <Filter>ScopeSyncInstPlugin\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\..\ScopeSync\Core\standardFooterContent.layout">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\Montserrat-Bold.ttf">
+      <Filter>ScopeSyncInstPlugin\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\..\ScopeSync\Core\standardHeaderContent.layout">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\font\Montserrat-Regular.ttf">
+      <Filter>ScopeSyncInstPlugin\Resources\font</Filter>
     </None>
-    <None Include="..\..\..\..\ScopeSync\Core\standardSliderLnFs.layout">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
     </None>
-    <None Include="..\..\..\..\ScopeSync\Core\system.lookandfeels">
-      <Filter>ScopeSyncInstPlugin\Core</Filter>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Close_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\config_manager_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\confirm_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Copy_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\divider.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXbypass_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\FXmono_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\help_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\load_config_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\NewConfig_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Paste_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Patch_Window_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Perf_Mode_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Presets_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Redo_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\reload_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\remove_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Save_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\SaveAs_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\ScopeSync_Logo_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\settings_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Snapshot_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_bevel.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\toolbar_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_off.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_on.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\image\Undo_button_over.png">
+      <Filter>ScopeSyncInstPlugin\Resources\image</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\empty.configuration">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\loader.layout">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardFooterContent.layout">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardHeaderContent.layout">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\standardSliderLnFs.layout">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
+    </None>
+    <None Include="..\..\..\..\ScopeSync\Resources\xml\system.lookandfeels">
+      <Filter>ScopeSyncInstPlugin\Resources\xml</Filter>
     </None>
     <None Include="..\..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>

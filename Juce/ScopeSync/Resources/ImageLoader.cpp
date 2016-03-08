@@ -26,7 +26,6 @@
  */
 
 #include "ImageLoader.h"
-#include "../Resources/ImageResources.h"
 #include "../Components/BCMLookAndFeel.h"
 
 juce_ImplementSingleton (ImageLoader)
@@ -49,8 +48,8 @@ void ImageLoader::loadImageResources()
 
     // ScopeSync Logo
     addImageResource("scopeSyncLogo", BinaryData::ScopeSync_Logo_png, BinaryData::ScopeSync_Logo_pngSize);
-    addImageResource("scopeSyncLogoOff", BinaryData::Scopesync_logo_off_png, BinaryData::scopesync_logo_off_pngSize);
-    addImageResource("scopeSyncLogoOn", BinaryData::Scopesync_logo_on_png, BinaryData::scopesync_logo_on_pngSize);
+	addImageResource("scopeSyncLogoOff", BinaryData::ScopeSync_Logo_off_png, BinaryData::ScopeSync_Logo_off_pngSize);
+	addImageResource("scopeSyncLogoOn", BinaryData::ScopeSync_Logo_on_png, BinaryData::ScopeSync_Logo_on_pngSize);
     
     // Load Config buttons
     addImageResource("loadConfigButtonOff",  BinaryData::load_config_button_off_png,  BinaryData::load_config_button_off_pngSize);
@@ -58,14 +57,14 @@ void ImageLoader::loadImageResources()
     addImageResource("loadConfigButtonOver", BinaryData::load_config_button_over_png, BinaryData::load_config_button_over_pngSize);
     
     // Patch Window buttons
-    addImageResource("patchWindowButtonOff",  BinaryData::patch_window_button_off_png,  BinaryData::patch_window_button_off_pngSize);
-    addImageResource("patchWindowButtonOn",   BinaryData::patch_window_button_on_png,   BinaryData::patch_window_button_on_pngSize);
-    addImageResource("patchWindowButtonOver", BinaryData::patch_window_button_over_png, BinaryData::patch_window_button_over_pngSize);
+	addImageResource("patchWindowButtonOff", BinaryData::Patch_Window_button_off_png, BinaryData::Patch_Window_button_off_pngSize);
+	addImageResource("patchWindowButtonOn", BinaryData::Patch_Window_button_on_png, BinaryData::Patch_Window_button_on_pngSize);
+	addImageResource("patchWindowButtonOver", BinaryData::Patch_Window_button_over_png, BinaryData::Patch_Window_button_over_pngSize);
     
     // Presets buttons
-    addImageResource("presetsButtonOff",  BinaryData::presets_button_off_png,  BinaryData::presets_button_off_pngSize);
-    addImageResource("presetsButtonOn",   BinaryData::presets_button_on_png,   BinaryData::presets_button_on_pngSize);
-    addImageResource("presetsButtonOver", BinaryData::presets_button_over_png, BinaryData::presets_button_over_pngSize);
+	addImageResource("presetsButtonOff", BinaryData::Presets_button_off_png, BinaryData::Presets_button_off_pngSize);
+	addImageResource("presetsButtonOn", BinaryData::Presets_button_on_png, BinaryData::Presets_button_on_pngSize);
+	addImageResource("presetsButtonOver", BinaryData::Presets_button_over_png, BinaryData::Presets_button_over_pngSize);
     
     // Reload buttons
     addImageResource("reloadButtonOff",  BinaryData::reload_button_off_png,  BinaryData::reload_button_off_pngSize);
@@ -83,9 +82,9 @@ void ImageLoader::loadImageResources()
     addImageResource("settingsButtonOver", BinaryData::settings_button_over_png, BinaryData::settings_button_over_pngSize);
     
     // Snapshot buttons
-    addImageResource("snapshotOff",  BinaryData::snapshot_button_off_png,  BinaryData::snapshot_button_off_pngSize);
-    addImageResource("snapshotOn",   BinaryData::snapshot_button_on_png,   BinaryData::snapshot_button_on_pngSize);
-    addImageResource("snapshotOver", BinaryData::snapshot_button_over_png, BinaryData::snapshot_button_over_pngSize);
+	addImageResource("snapshotOff", BinaryData::Snapshot_button_off_png, BinaryData::Snapshot_button_off_pngSize);
+	addImageResource("snapshotOn", BinaryData::Snapshot_button_on_png, BinaryData::Snapshot_button_on_pngSize);
+	addImageResource("snapshotOver", BinaryData::Snapshot_button_over_png, BinaryData::Snapshot_button_over_pngSize);
 
 	// Show Config Manager buttons
     addImageResource("showconfigurationmanagerOff",  BinaryData::config_manager_button_off_png,  BinaryData::config_manager_button_off_pngSize);
@@ -93,19 +92,19 @@ void ImageLoader::loadImageResources()
     addImageResource("showconfigurationmanagerOver", BinaryData::config_manager_button_over_png, BinaryData::config_manager_button_over_pngSize);
 
     // Save buttons
-    addImageResource("saveOff",  BinaryData::save_button_off_png,  BinaryData::save_button_off_pngSize);
-    addImageResource("saveOn",   BinaryData::save_button_on_png,   BinaryData::save_button_on_pngSize);
-    addImageResource("saveOver", BinaryData::save_button_over_png, BinaryData::save_button_over_pngSize);
+    addImageResource("saveOff",  BinaryData::Save_button_off_png,  BinaryData::Save_button_off_pngSize);
+    addImageResource("saveOn",   BinaryData::Save_button_on_png,   BinaryData::Save_button_on_pngSize);
+    addImageResource("saveOver", BinaryData::Save_button_over_png, BinaryData::Save_button_over_pngSize);
 
     // SaveAs buttons
-    addImageResource("saveAsOff",  BinaryData::saveas_button_off_png,  BinaryData::saveas_button_off_pngSize);
-    addImageResource("saveAsOn",   BinaryData::saveas_button_on_png,   BinaryData::saveas_button_on_pngSize);
-    addImageResource("saveAsOver", BinaryData::saveas_button_over_png, BinaryData::saveas_button_over_pngSize);
+    addImageResource("saveAsOff",  BinaryData::SaveAs_button_off_png,  BinaryData::SaveAs_button_off_pngSize);
+    addImageResource("saveAsOn",   BinaryData::SaveAs_button_on_png,   BinaryData::SaveAs_button_on_pngSize);
+    addImageResource("saveAsOver", BinaryData::SaveAs_button_over_png, BinaryData::SaveAs_button_over_pngSize);
 
     // Close buttons
-    addImageResource("closeOff",  BinaryData::close_button_off_png,  BinaryData::close_button_off_pngSize);
-    addImageResource("closeOn",   BinaryData::close_button_on_png,   BinaryData::close_button_on_pngSize);
-    addImageResource("closeOver", BinaryData::close_button_over_png, BinaryData::close_button_over_pngSize);
+    addImageResource("closeOff",  BinaryData::Close_button_off_png,  BinaryData::Close_button_off_pngSize);
+    addImageResource("closeOn",   BinaryData::Close_button_on_png,   BinaryData::Close_button_on_pngSize);
+    addImageResource("closeOver", BinaryData::Close_button_over_png, BinaryData::Close_button_over_pngSize);
 	
     // Confirm buttons
     addImageResource("confirmOff",  BinaryData::confirm_button_off_png,  BinaryData::confirm_button_off_pngSize);
@@ -113,32 +112,32 @@ void ImageLoader::loadImageResources()
     addImageResource("confirmOver", BinaryData::confirm_button_over_png, BinaryData::confirm_button_over_pngSize);
 	
     // Copy buttons
-    addImageResource("copyOff",  BinaryData::Copy_button_off_png,  BinaryData::copy_button_off_pngSize);
-    addImageResource("copyOn",   BinaryData::copy_button_on_png,   BinaryData::copy_button_on_pngSize);
-    addImageResource("copyOver", BinaryData::copy_button_over_png, BinaryData::copy_button_over_pngSize);
+    addImageResource("copyOff",  BinaryData::Copy_button_off_png,  BinaryData::Copy_button_off_pngSize);
+    addImageResource("copyOn",   BinaryData::Copy_button_on_png,   BinaryData::Copy_button_on_pngSize);
+    addImageResource("copyOver", BinaryData::Copy_button_over_png, BinaryData::Copy_button_over_pngSize);
 	
     // Divider
     addImageResource("divider",  BinaryData::divider_png,  BinaryData::divider_pngSize);
     
     // New configuration buttons
-    addImageResource("newConfigOff",  BinaryData::newconfig_button_off_png,  BinaryData::newconfig_button_off_pngSize);
-    addImageResource("newConfigOn",   BinaryData::newconfig_button_on_png,   BinaryData::newconfig_button_on_pngSize);
-    addImageResource("newConfigOver", BinaryData::newconfig_button_over_png, BinaryData::newconfig_button_over_pngSize);
+    addImageResource("newConfigOff",  BinaryData::NewConfig_button_off_png,  BinaryData::NewConfig_button_off_pngSize);
+    addImageResource("newConfigOn",   BinaryData::NewConfig_button_on_png,   BinaryData::NewConfig_button_on_pngSize);
+    addImageResource("newConfigOver", BinaryData::NewConfig_button_over_png, BinaryData::NewConfig_button_over_pngSize);
 	
     // Paste buttons
-    addImageResource("pasteOff",  BinaryData::paste_button_off_png,  BinaryData::paste_button_off_pngSize);
-    addImageResource("pasteOn",   BinaryData::paste_button_on_png,   BinaryData::paste_button_on_pngSize);
-    addImageResource("pasteOver", BinaryData::paste_button_over_png, BinaryData::paste_button_over_pngSize);
+    addImageResource("pasteOff",  BinaryData::Paste_button_off_png,  BinaryData::Paste_button_off_pngSize);
+    addImageResource("pasteOn",   BinaryData::Paste_button_on_png,   BinaryData::Paste_button_on_pngSize);
+    addImageResource("pasteOver", BinaryData::Paste_button_over_png, BinaryData::Paste_button_over_pngSize);
 	
     // Redo buttons
-    addImageResource("redoOff",  BinaryData::redo_button_off_png,  BinaryData::redo_button_off_pngSize);
-    addImageResource("redoOn",   BinaryData::redo_button_on_png,   BinaryData::redo_button_on_pngSize);
-    addImageResource("redoOver", BinaryData::redo_button_over_png, BinaryData::redo_button_over_pngSize);
+    addImageResource("redoOff",  BinaryData::Redo_button_off_png,  BinaryData::Redo_button_off_pngSize);
+    addImageResource("redoOn",   BinaryData::Redo_button_on_png,   BinaryData::Redo_button_on_pngSize);
+    addImageResource("redoOver", BinaryData::Redo_button_over_png, BinaryData::Redo_button_over_pngSize);
 	
     // Undo buttons
-    addImageResource("undoOff",  BinaryData::undo_button_off_png,  BinaryData::undo_button_off_pngSize);
-    addImageResource("undoOn",   BinaryData::undo_button_on_png,   BinaryData::undo_button_on_pngSize);
-    addImageResource("undoOver", BinaryData::undo_button_over_png, BinaryData::undo_button_over_pngSize);
+    addImageResource("undoOff",  BinaryData::Undo_button_off_png,  BinaryData::Undo_button_off_pngSize);
+    addImageResource("undoOn",   BinaryData::Undo_button_on_png,   BinaryData::Undo_button_on_pngSize);
+    addImageResource("undoOver", BinaryData::Undo_button_over_png, BinaryData::Undo_button_over_pngSize);
 
     // Help buttons
     addImageResource("helpOff",  BinaryData::help_button_off_png,  BinaryData::help_button_off_pngSize);
@@ -152,19 +151,19 @@ void ImageLoader::loadImageResources()
     addImageResource("toolbarOver",  BinaryData::toolbar_button_over_png, BinaryData::toolbar_button_over_pngSize);
 
 	// FX bypass buttons
-    addImageResource("fxBypassOff",  BinaryData::fxbypass_button_off_png,  BinaryData::fxbypass_button_off_pngSize);
-    addImageResource("fxBypassOn",   BinaryData::fxbypass_button_on_png,   BinaryData::fxbypass_button_on_pngSize);
-    addImageResource("fxBypassOver", BinaryData::fxbypass_button_over_png, BinaryData::fxbypass_button_over_pngSize);
+    addImageResource("fxBypassOff",  BinaryData::FXbypass_button_off_png,  BinaryData::FXbypass_button_off_pngSize);
+    addImageResource("fxBypassOn",   BinaryData::FXbypass_button_on_png,   BinaryData::FXbypass_button_on_pngSize);
+    addImageResource("fxBypassOver", BinaryData::FXbypass_button_over_png, BinaryData::FXbypass_button_over_pngSize);
 
 	// FX mono buttons
-    addImageResource("fxMonoOff",  BinaryData::fxmono_button_off_png,  BinaryData::fxmono_button_off_pngSize);
-    addImageResource("fxMonoOn",   BinaryData::fxmono_button_on_png,   BinaryData::fxmono_button_on_pngSize);
-    addImageResource("fxMonoOver", BinaryData::fxmono_button_over_png, BinaryData::fxmono_button_over_pngSize);
+    addImageResource("fxMonoOff",  BinaryData::FXmono_button_off_png,  BinaryData::FXmono_button_off_pngSize);
+    addImageResource("fxMonoOn",   BinaryData::FXmono_button_on_png,   BinaryData::FXmono_button_on_pngSize);
+    addImageResource("fxMonoOver", BinaryData::FXmono_button_over_png, BinaryData::FXmono_button_over_pngSize);
 
 	// Performance mode buttons
-    addImageResource("perfModeOff",  BinaryData::perf_mode_button_off_png,  BinaryData::perf_mode_button_off_pngSize);
-    addImageResource("perfModeOn",   BinaryData::perf_mode_button_on_png,   BinaryData::perf_mode_button_on_pngSize);
-    addImageResource("perfModeOver", BinaryData::perf_mode_button_over_png, BinaryData::perf_mode_button_over_pngSize);
+    addImageResource("perfModeOff",  BinaryData::Perf_Mode_button_off_png,  BinaryData::Perf_Mode_button_off_pngSize);
+    addImageResource("perfModeOn",   BinaryData::Perf_Mode_button_on_png,   BinaryData::Perf_Mode_button_on_pngSize);
+    addImageResource("perfModeOver", BinaryData::Perf_Mode_button_over_png, BinaryData::Perf_Mode_button_over_pngSize);
 
 }
 
