@@ -369,7 +369,7 @@ void BCMParameter::setHostValue(float newValue)
 
 	double newUIValue               = convertLinearNormalisedToUIValue(newValue);
     
-	setParameterValues(hostUpdate, newValue, newUIValue);
+	setParameterValues(hostUpdate, newValue, newUIValue, false);
     
 	DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
