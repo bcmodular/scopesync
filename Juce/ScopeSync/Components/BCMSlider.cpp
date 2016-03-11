@@ -135,6 +135,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
         setTextValueSuffix(uiSuffix);
 
         setDoubleClickReturnValue(!parameter->isScopeInputOnly(), parameter->getUIResetValue());
+        setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
+
         setSkewFactor(parameter->getUISkewFactor());
         
         // DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
@@ -154,11 +156,13 @@ void BCMSlider::setupFixedSlider(const String& scopeCode, SliderProperties& prop
     fixed = true;
     setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
 
-    getParameter()->mapToUIValue(getValueObject());
+    parameter->mapToUIValue(getValueObject());
 	
 	setRange(props.rangeMin, props.rangeMax, 1);
 	setTooltip(props.name);
 	setPopupMenuEnabled(false);
+
+    setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };

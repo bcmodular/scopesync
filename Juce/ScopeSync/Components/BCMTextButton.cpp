@@ -96,7 +96,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
     if (fixedButtonIndex != -1)
     {
-        setupManagedButton(widgetScopeCodes[fixedButtonIndex], props);
+        setupFixedButton(widgetScopeCodes[fixedButtonIndex], props);
         return;
     }
 	
@@ -257,7 +257,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupManagedButton(const String& scopeCode, TextButtonProperties& props)
+void BCMTextButton::setupFixedButton(const String& scopeCode, TextButtonProperties& props)
 {
     mappingType = toggle;
 	setClickingTogglesState(true);
@@ -343,23 +343,22 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     DBG("BCMTextButton::mouseDown - button clicked: " + getName());
 
     if (!isCommandButton && event.mods.isPopupMenu())
-    {
         showPopupMenu();
-    }
     else
     {
-		if (hasParameter() && getParameter() != nullptr)
+		if (hasParameter())
 		{
+            if (parameter->isScopeInputOnly())
+                return;
+
 			int hostIdx = getParameter()->getHostIdx();
 
 			if (hostIdx != -1)
 				scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
 		}
 		else
-		{
 			DBG("BCMTextButton::mouseDown - button " + getName() + " doesn't have a parameter");
-		}
-
+	
         TextButton::mouseDown(event);
     }
 }
@@ -370,25 +369,23 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
 
     if (!(event.mods.isPopupMenu()))
     {
-        if (!isCommandButton && hasParameter() && mappingType == noToggle)
-        {
-            float valueToSet = (float)upSettingIdx;
-            
-            if (valueToSet >= 0)
-                scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
-        }
-
         if (hasParameter())
 		{
-			BCMParameter* param = getParameter();
+            if (parameter->isScopeInputOnly())
+                return;
 
-			if (param != nullptr)
-			{
-				int hostIdx = param->getHostIdx();
-
-				scopeSync.getParameterController()->endParameterChangeGesture(hostIdx);
-			}
+            if (!isCommandButton && mappingType == noToggle)
+            {
+                float valueToSet = (float)upSettingIdx;
             
+                if (valueToSet >= 0)
+                    scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
+            }
+
+			int hostIdx = parameter->getHostIdx();
+			
+            if (hostIdx != -1)
+				scopeSync.getParameterController()->endParameterChangeGesture(hostIdx);
 		}
 
         TextButton::mouseUp(event);
@@ -423,6 +420,9 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
     if (hasParameter())
     {
+        if (parameter->isScopeInputOnly())
+            return;
+
         float valueToSet;
 
         if (mappingType == toggle)
