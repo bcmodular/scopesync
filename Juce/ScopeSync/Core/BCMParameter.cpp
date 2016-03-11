@@ -338,6 +338,15 @@ bool BCMParameter::isDiscrete()
     return false;
 }
 
+bool BCMParameter::isScopeInputOnly()
+{
+    if (   type == feedback
+        || type == fixedInputOnly)
+        return true;
+    else
+        return false;
+}
+
 double BCMParameter::convertLinearNormalisedToUIValue(double lnValue)
 {
     double minUIValue;

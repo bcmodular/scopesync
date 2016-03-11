@@ -50,6 +50,7 @@ BCMSlider::~BCMSlider() {}
 void BCMSlider::applyProperties(SliderProperties& props)
 {
     mapsToParameter = false;
+    fixed = false;
 
     overrideSliderStyle(props.style);
 
@@ -75,7 +76,7 @@ void BCMSlider::applyProperties(SliderProperties& props)
 
     if (fixedSliderIndex != -1)
     {
-        setupManagedSlider(widgetScopeCodes[fixedSliderIndex], props);
+        setupFixedSlider(widgetScopeCodes[fixedSliderIndex], props);
         return;
     }
 
@@ -133,7 +134,7 @@ void BCMSlider::applyProperties(SliderProperties& props)
         setRange(rangeMin, rangeMax, rangeInt);
         setTextValueSuffix(uiSuffix);
 
-        setDoubleClickReturnValue(true, parameter->getUIResetValue());
+        setDoubleClickReturnValue(!parameter->isScopeInputOnly(), parameter->getUIResetValue());
         setSkewFactor(parameter->getUISkewFactor());
         
         // DBG("BCMSlider::applyProperties - " + getName() + " mapping to parameter: " + parameter->getName());
@@ -148,8 +149,9 @@ void BCMSlider::applyProperties(SliderProperties& props)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupManagedSlider(const String& scopeCode, SliderProperties& props)
+void BCMSlider::setupFixedSlider(const String& scopeCode, SliderProperties& props)
 {
+    fixed = true;
     setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
 
     getParameter()->mapToUIValue(getValueObject());
@@ -195,18 +197,16 @@ double BCMSlider::getValueFromText(const String& text)
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
-    if (   !getName().equalsIgnoreCase("oscuid")
-		&& !getName().equalsIgnoreCase("voicecount")
-		&& !getName().equalsIgnoreCase("midiactivity")
-		&& !getName().equalsIgnoreCase("midichannel")
-		&& event.mods.isPopupMenu())
+    if (!fixed && event.mods.isPopupMenu())
     {
         showPopupMenu();
     }
     else
     {
         switchToTabs();
-        Slider::mouseDown(event);
+
+        if (!hasParameter() || !parameter->isScopeInputOnly())
+            Slider::mouseDown(event);
     }
 }
 

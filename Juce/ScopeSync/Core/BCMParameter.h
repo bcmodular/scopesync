@@ -81,6 +81,7 @@ public:
     int           getScopeIntValue();
 
     bool          isDiscrete();
+    bool          isScopeInputOnly();
     
     void          setHostValue(float newValue);
     void          setScopeIntValue(int newValue);
