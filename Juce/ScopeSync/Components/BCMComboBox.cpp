@@ -46,7 +46,8 @@ BCMComboBox::~BCMComboBox() {}
 
 void BCMComboBox::applyProperties(ComboBoxProperties& props)
 {
-    applyWidgetProperties(props);
+    mapsToParameter = false;
+	applyWidgetProperties(props);
     
     fontHeight         = props.fontHeight;
     fontStyleFlags     = props.fontStyleFlags;
@@ -60,31 +61,33 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
     
     setupMapping(Ids::comboBox, getName(), props.mappingParentType, props.mappingParent);
 
-    if (mapsToParameter && parameter->isDiscrete())
+    if (mapsToParameter)
     {
-        ValueTree parameterSettings;
-        parameter->getSettings(parameterSettings);
+		setEditableText(!parameter->isScopeInputOnly() ? props.editableText : false);
+		clear(juce::dontSendNotification);
 
-        clear(juce::dontSendNotification);
-            
-        parameter->mapToUIValue(parameterValue);
+		parameter->mapToUIValue(parameterValue);
         parameterValue.addListener(this);
-            
-        String shortDesc;
-        parameter->getDescriptions(shortDesc, tooltip);
 
-        for (int i = 0; i < parameterSettings.getNumChildren(); i++)
-        {
-            ValueTree parameterSetting = parameterSettings.getChild(i);
-            String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
-
-            addItem(settingName, i + 1);
-        }
+		if (parameter->isDiscrete())
+		{
+			ValueTree parameterSettings;
+			parameter->getSettings(parameterSettings);
             
-        setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
+			String shortDesc;
+			parameter->getDescriptions(shortDesc, tooltip);
+
+			for (int i = 0; i < parameterSettings.getNumChildren(); i++)
+			{
+				ValueTree parameterSetting = parameterSettings.getChild(i);
+				String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
+
+				addItem(settingName, i + 1);
+			}
+            
+			setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
+		}
     }
-    else
-        mapsToParameter = false;
     
     setTooltip(tooltip);
 }
@@ -96,7 +99,10 @@ void BCMComboBox::mouseDown(const MouseEvent& event)
     if (event.mods.isPopupMenu())
         showPopupMenu();
     else
-        ComboBox::mouseDown(event);
+		if (hasParameter() && parameter->isScopeInputOnly())
+			return;
+		else
+			ComboBox::mouseDown(event);
 }
 
 void BCMComboBox::valueChanged(Value& value)

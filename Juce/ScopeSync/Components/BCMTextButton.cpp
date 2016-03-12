@@ -440,6 +440,30 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
     }
 }
 
+void BCMTextButton::mouseDrag(const MouseEvent& e)
+{
+	if (hasParameter() && parameter->isScopeInputOnly())
+		return;
+	else
+		TextButton::mouseDrag(e);
+}
+
+void BCMTextButton::focusGained(FocusChangeType f)
+{
+	if (hasParameter() && parameter->isScopeInputOnly())
+		return;
+	else
+		TextButton::focusGained(f);
+}
+
+void BCMTextButton::focusLost(FocusChangeType f)
+{
+	if (hasParameter() && parameter->isScopeInputOnly())
+		return;
+	else
+		TextButton::focusLost(f);
+}
+
 void BCMTextButton::valueChanged(Value& value)
 {
 	if  (  getName().equalsIgnoreCase("presetlist")
