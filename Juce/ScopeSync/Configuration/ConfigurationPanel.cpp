@@ -299,21 +299,22 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props, UndoManager&
 {
     props.clear();
     
+	String valIntTooltip;
+    
     if (valueType == 0)
     {
         props.add(new TextPropertyComponent   (valueTree.getPropertyAsValue(Ids::uiSuffix,        &undoManager), "UI Suffix", 32, false),  "Text to display after value in the User Interface, e.g. Hz, %");
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMin,      &undoManager), "Min UI Value"),          "Minimum User Interface Value (Float)");
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeMax,      &undoManager), "Max UI Value"),          "Maximum User Interface Value (Float)");
-        props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiSkewMidpoint,  &undoManager), "Mid-point Value", true), "Value that should be at the mid-point of the UI range (leave blank if no skew required)");
+
+		valIntTooltip = "Step between consecutive User Interface values";
     }
-    
-    String valIntTooltip;
-    if (valueType == 0)
-        valIntTooltip = "Step between consecutive User Interface values";
     else
         valIntTooltip = "Step between consecutive User Interface values (use 1 to snap to discrete values, or a smaller number to allow smooth scrolling)";
 
+	props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiResetValue,    &undoManager), "Reset Value"),           "Value to reset parameter to on double-click or initialisation");
+    
     props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),                     valIntTooltip);
     props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String::empty), "Use a set of discrete parameter values relating to specific control settings");
 }
