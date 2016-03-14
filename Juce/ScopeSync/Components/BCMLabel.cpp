@@ -27,8 +27,6 @@
  */
 
 #include "BCMLabel.h"
-#include "../Utils/BCMMath.h"
-#include "../Components/BCMLookAndFeel.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/LabelProperties.h"
@@ -92,7 +90,12 @@ void BCMLabel::applyProperties(LabelProperties& props)
     setJustificationType(Justification(props.justificationFlags));
 }
 
-const Identifier BCMLabel::getComponentType() const { return Ids::label; };
+const Identifier BCMLabel::getComponentType() const { return Ids::label; }
+
+int BCMLabel::getMaxTextLines() const
+{
+	return maxTextLines;
+};
 
 void BCMLabel::mouseDown(const MouseEvent& event)
 {

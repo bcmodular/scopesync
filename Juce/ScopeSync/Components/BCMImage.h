@@ -42,7 +42,7 @@ public:
     float       opacity;
 
 private:
-    StretchMode getStretchModeFromXml(XmlElement& xml);
+	static StretchMode getStretchModeFromXml(XmlElement& xml);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMImage);
 };

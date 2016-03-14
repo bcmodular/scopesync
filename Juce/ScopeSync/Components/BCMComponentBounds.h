@@ -35,7 +35,7 @@ public:
     BCMComponentBounds()  {};
     ~BCMComponentBounds() {};
 
-    void copyValues(BCMComponentBounds& targetBounds)
+    void copyValues(BCMComponentBounds& targetBounds) const
     {
         targetBounds.width                   = width;
         targetBounds.height                  = height;

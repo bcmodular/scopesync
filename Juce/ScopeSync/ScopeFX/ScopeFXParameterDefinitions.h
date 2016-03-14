@@ -28,6 +28,7 @@
 
 #ifndef SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
 #define SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
+#include <effclass.h>
 
 namespace ScopeFXParameterDefinitions {
 

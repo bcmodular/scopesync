@@ -31,7 +31,6 @@
 class ScopeSync;
 
 #include <JuceHeader.h>
-#include "../../../External/SonicCore/effclass.h"
 #include "../ScopeFX/ScopeFXParameterDefinitions.h"
 #include <atomic>
 

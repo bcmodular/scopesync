@@ -241,7 +241,7 @@ private:
         g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);       
     }
 
-    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
     {
         button.setImages(true, true, true,
                          ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
@@ -251,7 +251,7 @@ private:
 };
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool isMainComponent)
-    : BCMWidget(owner), Component(name), mainComponent(isMainComponent), parameterController(pc)
+    : BCMWidget(owner), Component(name), parameterController(pc), mainComponent(isMainComponent)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
@@ -378,8 +378,18 @@ void BCMComponent::setupStandardContent(XmlElement& contentXML)
     }
 }
 
-const Identifier BCMComponent::getComponentType() const { return Ids::component; };
-    
+const Identifier BCMComponent::getComponentType() const { return Ids::component; }
+
+int BCMComponent::getWidth() const
+{
+	return componentBounds.width;
+};
+
+int BCMComponent::getHeight() const
+{
+	return componentBounds.height;
+}
+
 void BCMComponent::paint(Graphics& g)
 {
     g.fillAll(Colour::fromString(backgroundColour));
@@ -416,12 +426,12 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
     {
         // We're drawing a rounded rectangle
         g.setColour(Colour::fromString(rectangle.fillColour));
-        g.fillRoundedRectangle((float)rectangle.bounds.x, (float)rectangle.bounds.y, (float)rectangle.bounds.width, (float)rectangle.bounds.height, rectangle.cornerSize);
+        g.fillRoundedRectangle(static_cast<float>(rectangle.bounds.x), static_cast<float>(rectangle.bounds.y), static_cast<float>(rectangle.bounds.width), static_cast<float>(rectangle.bounds.height), rectangle.cornerSize);
 
         if (rectangle.outlineThickness > 0.0f)
         {
             g.setColour(Colour::fromString(rectangle.outlineColour));
-            g.drawRoundedRectangle((float)rectangle.bounds.x, (float)rectangle.bounds.y, (float)rectangle.bounds.width, (float)rectangle.bounds.height, 
+            g.drawRoundedRectangle(static_cast<float>(rectangle.bounds.x), static_cast<float>(rectangle.bounds.y), static_cast<float>(rectangle.bounds.width), static_cast<float>(rectangle.bounds.height), 
                                     rectangle.cornerSize, rectangle.outlineThickness);
         }
     }
@@ -439,7 +449,7 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
     }
 }
 
-void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
+void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image) const
 {
     bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
@@ -462,7 +472,7 @@ void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image)
             RectanglePlacement::Flags placement = RectanglePlacement::centred;
 
             if (image.stretchMode == BCMImage::maintainAspectOnlyReduce)
-                placement = (RectanglePlacement::Flags)(placement | RectanglePlacement::onlyReduceInSize);
+                placement = static_cast<RectanglePlacement::Flags>(placement | RectanglePlacement::onlyReduceInSize);
 
             g.drawImageWithin(loadedImage, image.bounds.x, image.bounds.y, image.bounds.width, image.bounds.height, placement, false);
         }
@@ -536,12 +546,12 @@ void BCMComponent::setupTabbedComponent(XmlElement& tabbedComponentXML)
     }
 }
 
-void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent)
+void BCMComponent::setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent) const
 {
     if (showInThisContext(tabXML))
     {
         TabProperties tabProperties(tabXML, *(scopeSyncGUI.defaultTabProperties));
-        XmlElement*   componentXML = nullptr;
+        XmlElement*   componentXML;
 
         componentXML = tabXML.getChildByName("component");
         
@@ -694,11 +704,11 @@ void BCMComponent::setupComboBox(XmlElement& comboBoxXML)
     }
 }
 
-void BCMComponent::sliderValueChanged (Slider* sliderThatWasMoved)
+void BCMComponent::sliderValueChanged(Slider* sliderThatWasMoved)
 {
     BCMSlider* bcmSlider = dynamic_cast<BCMSlider*>(sliderThatWasMoved);
     String name = sliderThatWasMoved->getName();
-    float value = (float)sliderThatWasMoved->getValue();
+    float value = static_cast<float>(sliderThatWasMoved->getValue());
 
     DBG("BCMComponent::sliderValueChanged: " + name + ", orig value: " + String(value));
         
@@ -720,11 +730,11 @@ void BCMComponent::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
         
     if (bcmComboBox && bcmComboBox->hasParameter())
     {
-        scopeSyncGUI.getScopeSync().getParameterController()->setParameterFromGUI(*(bcmComboBox->getParameter()), (float)selectedIndex);
+        scopeSyncGUI.getScopeSync().getParameterController()->setParameterFromGUI(*(bcmComboBox->getParameter()), static_cast<float>(selectedIndex));
     }
 }
 
-void BCMComponent::showHideEditToolbar()
+void BCMComponent::showHideEditToolbar() const
 {
     Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
     

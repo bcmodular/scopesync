@@ -26,8 +26,6 @@
 
 #include "ConfigurationManager.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
-#include "../Utils/BCMMisc.h"
 #include "../Utils/BCMTreeView.h"
 #include "../Core/ScopeSync.h"
 #include "ConfigurationTreeItem.h"
@@ -38,15 +36,15 @@
  * ConfigurationManager
  */
 ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWindow& parent) 
-    : scopeSync(ss),
-      parentWindow(parent),
-      addButton("New"),
+    : addButton("New"),
       saveButton("Save"),
       saveAsButton("Save As..."),
       applyChangesButton("Apply Changes"),
       discardChangesButton("Discard All Unsaved Changes"),
       undoButton("Undo"),
-      redoButton("Redo")
+      redoButton("Redo"),
+      scopeSync(ss),
+      parentWindow(parent)
 {
     commandManager = scopeSync.getCommandManager();
     commandManager->setFirstCommandTarget(nullptr);
@@ -304,7 +302,7 @@ void ConfigurationManager::redo()
     treeView->changePanel();
 }
 
-bool ConfigurationManager::canPasteItem()
+bool ConfigurationManager::canPasteItem() const
 {
     if (treeView != nullptr)
         return treeView->canPasteItem();
@@ -323,7 +321,7 @@ void ConfigurationManager::childBoundsChanged(Component* child)
         resized();
 }
 
-void ConfigurationManager::saveTreeViewState()
+void ConfigurationManager::saveTreeViewState() const
 {
     treeView->saveTreeViewState();
 }
@@ -371,8 +369,8 @@ void ConfigurationManager::paintOverChildren(Graphics& g)
     
     const int resizerX = resizerBar->getX();
 
-    ColourGradient resizerCG (Colours::black.withAlpha (0.25f), (float) resizerX, 0,
-                              Colours::transparentBlack,        (float) (resizerX - shadowSize), 0, false);
+    ColourGradient resizerCG (Colours::black.withAlpha (0.25f), static_cast<float>(resizerX), 0,
+                              Colours::transparentBlack,        static_cast<float>(resizerX - shadowSize), 0, false);
     resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
     resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
@@ -553,8 +551,8 @@ ConfigurationManagerWindow::ConfigurationManagerWindow(ScopeSync& owner, int pos
     addKeyListener(commandManager->getKeyMappings());
 
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+	Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -573,14 +571,14 @@ StringArray ConfigurationManagerWindow::getMenuNames()
     return StringArray (names);
 }
 
-void ConfigurationManagerWindow::createMenu(PopupMenu& menu, const String& menuName)
+void ConfigurationManagerWindow::createMenu(PopupMenu& menu, const String& menuName) const
 {
          if (menuName == "File") createFileMenu(menu);
     else if (menuName == "Edit") createEditMenu(menu);
     else                    jassertfalse; // names have changed?
 }
 
-void ConfigurationManagerWindow::createFileMenu(PopupMenu& menu)
+void ConfigurationManagerWindow::createFileMenu(PopupMenu& menu) const
 {
     menu.addCommandItem(commandManager, CommandIDs::addConfig);
     menu.addCommandItem(commandManager, CommandIDs::saveConfig);
@@ -592,7 +590,7 @@ void ConfigurationManagerWindow::createFileMenu(PopupMenu& menu)
     menu.addCommandItem(commandManager, CommandIDs::closeConfig);   
 }
 
-void ConfigurationManagerWindow::createEditMenu(PopupMenu& menu)
+void ConfigurationManagerWindow::createEditMenu(PopupMenu& menu) const
 {
     menu.addCommandItem(commandManager, CommandIDs::undo);
     menu.addCommandItem(commandManager, CommandIDs::redo);
@@ -605,7 +603,7 @@ void ConfigurationManagerWindow::closeButtonPressed()
     scopeSync.hideConfigurationManager();
 }
 
-void ConfigurationManagerWindow::addConfig()
+void ConfigurationManagerWindow::addConfig() const
 {
     if (configurationManager != nullptr)
         configurationManager->unload();
@@ -613,7 +611,7 @@ void ConfigurationManagerWindow::addConfig()
     scopeSync.addConfiguration(getParentMonitorArea());
 }
 
-void ConfigurationManagerWindow::save()
+void ConfigurationManagerWindow::save() const
 {
     scopeSync.saveConfiguration();
 }
@@ -630,7 +628,7 @@ void ConfigurationManagerWindow::unload()
     setMenuBar(nullptr);
 }
 
-void ConfigurationManagerWindow::saveAs()
+void ConfigurationManagerWindow::saveAs() const
 {
     if (configurationManager != nullptr)
         configurationManager->unload();
@@ -638,7 +636,7 @@ void ConfigurationManagerWindow::saveAs()
     scopeSync.saveConfigurationAs();
 }
 
-void ConfigurationManagerWindow::reloadConfiguration()
+void ConfigurationManagerWindow::reloadConfiguration() const
 {
     scopeSync.reloadSavedConfiguration();
 }
@@ -686,7 +684,7 @@ ConfigurationManagerCalloutWindow::ConfigurationManagerCalloutWindow(ScopeSync& 
     addAndMakeVisible(configurationManagerCallout);
     
     setOpaque(true);
-    setVisible(true);
+	Component::setVisible(true);
     
     setWantsKeyboardFocus (false);
     setSize(width, height);
@@ -699,7 +697,7 @@ ConfigurationManagerCalloutWindow::~ConfigurationManagerCalloutWindow()
         sendSynchronousChangeMessage();
 }
 
-void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName)
+void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName) const
 {
     if (!(mapping.isValid()))
          scopeSync.getConfiguration().addNewMapping(compType, compName, String::empty, mapping, -1, &undoManager);
@@ -714,7 +712,7 @@ void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, cons
         configurationManagerCallout->changePanel(panelToShow);
 }
 
-void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter)
+void ConfigurationManagerCalloutWindow::setParameterPanel(ValueTree& parameter) const
 {
     configurationManagerCallout->changePanel(ConfigurationManager::createParameterPanelComponent(parameter, scopeSync, undoManager, commandManager, configurationManagerCallout));
 }
@@ -726,7 +724,7 @@ void ConfigurationManagerCalloutWindow::setStyleOverridePanel(ValueTree&  styleO
                                                         const String&     fillColour,
                                                         const String&     lineColour,
                                                         const String&     fillColour2,
-                                                        const String&     lineColour2)
+                                                        const String&     lineColour2) const
 {
     if (!(styleOverride.isValid()))
     {

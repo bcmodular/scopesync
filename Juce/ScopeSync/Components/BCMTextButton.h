@@ -33,9 +33,7 @@ class ScopeSyncGUI;
 class TextButtonProperties;
 
 #include <JuceHeader.h>
-#include "BCMTabbedComponent.h"
 #include "BCMWidget.h"
-#include "../Core/BCMParameter.h"
 
 class BCMTextButton : public TextButton,
                       public Value::Listener,
@@ -96,21 +94,21 @@ private:
 	void setupFixedButton(const String& scopeCode, TextButtonProperties& props);
 
     // Switch any linked TabbedComponent's tabs as appropriate
-    void switchToTabs();
+    void switchToTabs() const;
 
     // For incrementing and decrementing MappingTypes, update the "next" values to be set
     void setNextValues();
-    
-    void mouseDown(const MouseEvent& event) override;
-    void mouseUp(const MouseEvent& event) override;
 
-	void mouseDrag(const MouseEvent& e);
+	virtual void mouseDown(const MouseEvent& event) override;
+	virtual void mouseUp(const MouseEvent& event) override;
 
-	void focusGained(FocusChangeType f);
-	void focusLost(FocusChangeType f);
+	virtual void mouseDrag(const MouseEvent& e) override;
+
+	virtual void focusGained(FocusChangeType f) override;
+	virtual void focusLost(FocusChangeType f) override;
     
     // Callback for when a BCMTextButton is clicked
-    void clicked(const ModifierKeys& modifiers);
+	virtual void clicked(const ModifierKeys& modifiers) override;
 
     // Open the specific Style Override Panel for labels as appropriate
     void overrideStyle() override;

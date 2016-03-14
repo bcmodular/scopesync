@@ -26,7 +26,7 @@ public:
     // Returns the number of parameters to inform the host about. Actually returns
     // the "minHostParameters" value to prevent issues with switching between 
     // configurations that have different parameter counts.
-    int  getNumParametersForHost();
+	static int  getNumParametersForHost();
 
     void reset();
 
@@ -34,37 +34,37 @@ public:
     void addFixedScopeParameter(const String& scopeCode);
     void setupHostParameters();
 
-	BCMParameter* getParameterByName(const String& name);
-    BCMParameter* getParameterByScopeCode(const String& scopeCode);
+	BCMParameter* getParameterByName(const String& name) const;
+    BCMParameter* getParameterByScopeCode(const String& scopeCode) const;
 
-    float getParameterHostValue(int hostIdx);
-    void  setParameterFromHost(int hostIdx, float newValue);
-    void  setParameterFromGUI(BCMParameter& parameter, float newValue);
-    void  getParameterNameForHost(int hostIdx, String& parameterName);
-    void  getParameterText(int hostIdx, String& parameterText);
+    float getParameterHostValue(int hostIdx) const;
+    void  setParameterFromHost(int hostIdx, float newValue) const;
+	static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
+    void  getParameterNameForHost(int hostIdx, String& parameterName) const;
+    void  getParameterText(int hostIdx, String& parameterText) const;
     void  resetScopeCodeIndexes();
-    void  snapshot();
+    void  snapshot() const;
 
-	void initOSCUID();
-    void referToOSCUID(Value& valueToLink);
-    int  getOSCUID();
+	void initOSCUID() const;
+    void referToOSCUID(Value& valueToLink) const;
+    int  getOSCUID() const;
 
-	void updateHost(int hostIdx, float newValue);
+	void updateHost(int hostIdx, float newValue) const;
 
     void toggleAsyncUpdates(bool enable) { shouldReceiveAsyncUpdates = enable; }
     
-    void beginParameterChangeGesture(int hostIdx);
+    void beginParameterChangeGesture(int hostIdx) const;
     void endParameterChangeGesture(int hostIdx);
-    void endAllParameterChangeGestures();
+    void endAllParameterChangeGestures() const;
 
     void receiveUpdatesFromScopeAsync();
     
     void         storeParameterValues();
     void         storeParameterValues(XmlElement& parameterValues);
-    void         restoreParameterValues();
+    void         restoreParameterValues() const;
     XmlElement&  getParameterValueStore() { return parameterValueStore; };
     
-    void timerCallback();
+    void timerCallback() override;
 
 private:
 

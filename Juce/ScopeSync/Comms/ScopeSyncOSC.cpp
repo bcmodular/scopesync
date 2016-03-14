@@ -25,7 +25,6 @@
  */
 
 #include "ScopeSyncOSC.h"
-#include "..\Core\ScopeSync.h"
 #include "..\Windows\UserSettings.h"
 
 juce_ImplementSingleton(ScopeSyncOSCServer)
@@ -77,7 +76,7 @@ void ScopeSyncOSCServer::setRemoteHostname(String hostname)
 	remoteChanged  = true;
 }
 
-String ScopeSyncOSCServer::getRemoteHostname()
+String ScopeSyncOSCServer::getRemoteHostname() const
 {
 	return remoteHostname;
 }
@@ -89,7 +88,7 @@ void ScopeSyncOSCServer::setRemotePortNumber(int portNumber)
 	remoteChanged    = true;
 }
 
-int ScopeSyncOSCServer::getRemotePortNumber()
+int ScopeSyncOSCServer::getRemotePortNumber() const
 {
 	return remotePortNumber;
 }

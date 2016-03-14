@@ -33,9 +33,7 @@ class ScopeSyncGUI;
 class SliderProperties;
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
 #include "BCMWidget.h"
-#include "BCMComponentBounds.h"
 
 class BCMSlider : public Slider,
                   public BCMParameterWidget
@@ -114,20 +112,17 @@ private:
 
     // Interprets input typed into a Slider's Textbox and converts it into a value.
     // Includes support for discrete parameter settings
-    double getValueFromText(const String& text);
+    double getValueFromText(const String& text) override;
 
     // Utility methods for applying User Settings that override aspects of Slider handling
     void overrideSliderStyle(Slider::SliderStyle& style);
     void overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode);
     void overridePopupEnabled(bool popupEnabledFlag);
     void overrideVelocityBasedMode(bool velocityBasedMode);
-    bool getEncoderSnap(bool encoderSnap);
+	static bool getEncoderSnap(bool encoderSnap);
 
     // Switch any linked TabbedComponent's tabs as appropriate
-    void switchToTabs();
-
-    // Returns true if this is a Rotary-style Slider
-    bool isRotary() const;
+    void switchToTabs() const;
 
     // Returns true if this is a LinearBar-style Slider
     bool isLinearBar() const;

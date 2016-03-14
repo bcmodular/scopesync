@@ -11,6 +11,7 @@
 #include "BCMParameterController.h"
 #include "ScopeSyncApplication.h"
 #include "../Utils/BCMXml.h"
+#include "Global.h"
 
 #ifndef __DLL_EFFECT__
     #include "../Plugin/PluginProcessor.h"
@@ -21,7 +22,7 @@ const int BCMParameterController::maxHostParameters = 128;
 const int BCMParameterController::timerFrequency    = 100;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
-scopeSync(owner), parameterValueStore("parametervalues")
+parameterValueStore("parametervalues"), scopeSync(owner)
 {
 	shouldReceiveAsyncUpdates = false;
 
@@ -156,7 +157,7 @@ void BCMParameterController::resetScopeCodeIndexes()
 	}
 }
 
-void BCMParameterController::snapshot()
+void BCMParameterController::snapshot() const
 {
 	for (int i = 0; i < parameters.size(); i++)
 		parameters[i]->sendOSCParameterUpdate();
@@ -167,7 +168,7 @@ int BCMParameterController::getNumParametersForHost()
     return minHostParameters;
 }
 
-BCMParameter* BCMParameterController::getParameterByName(const String& name)
+BCMParameter* BCMParameterController::getParameterByName(const String& name) const
 {
 	for (int i = 0; i < parameters.size(); i++)
     {
@@ -178,7 +179,7 @@ BCMParameter* BCMParameterController::getParameterByName(const String& name)
     return nullptr;
 }
 
-BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scopeCode)
+BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scopeCode) const
 {
     BCMParameter* parameter = parametersByScopeCodeId[ScopeSync::getScopeCodeId(scopeCode)];
 
@@ -187,7 +188,7 @@ BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scop
     return parameter;
 }
 
-float BCMParameterController::getParameterHostValue(int hostIdx)
+float BCMParameterController::getParameterHostValue(int hostIdx) const
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
         return hostParameters[hostIdx]->getHostValue();
@@ -195,7 +196,7 @@ float BCMParameterController::getParameterHostValue(int hostIdx)
         return 0.0f;
 }
 
-void BCMParameterController::getParameterNameForHost(int hostIdx, String& parameterName)
+void BCMParameterController::getParameterNameForHost(int hostIdx, String& parameterName) const
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
     {
@@ -208,13 +209,13 @@ void BCMParameterController::getParameterNameForHost(int hostIdx, String& parame
     }
 }
 
-void BCMParameterController::getParameterText(int hostIdx, String& parameterText)
+void BCMParameterController::getParameterText(int hostIdx, String& parameterText) const
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
         hostParameters[hostIdx]->getUITextValue(parameterText);
 }
 
-void BCMParameterController::setParameterFromHost(int hostIdx, float newHostValue)
+void BCMParameterController::setParameterFromHost(int hostIdx, float newHostValue) const
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
         hostParameters[hostIdx]->setHostValue(newHostValue);
@@ -225,7 +226,7 @@ void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float 
     parameter.setUIValue(newValue);
 }
 
-void BCMParameterController::endAllParameterChangeGestures()
+void BCMParameterController::endAllParameterChangeGestures() const
 {
     for (int i = 0; i < hostParameters.size(); i++)
     {
@@ -244,31 +245,31 @@ void BCMParameterController::endAllParameterChangeGestures()
     }
 }
 
-void BCMParameterController::initOSCUID()
+void BCMParameterController::initOSCUID() const
 {
 	int initialOSCUID = 0;
 
 	while (initialOSCUID < INT_MAX && scopeSync->oscUIDInUse(initialOSCUID, scopeSync))
 		initialOSCUID++;
 	
-    getParameterByScopeCode("osc")->setUIValue((float)initialOSCUID, false);
+    getParameterByScopeCode("osc")->setUIValue(static_cast<float>(initialOSCUID), false);
 }
 
-void BCMParameterController::referToOSCUID(Value & valueToLink)
+void BCMParameterController::referToOSCUID(Value & valueToLink) const
 {
     BCMParameter* param = getParameterByScopeCode("osc");
 
     param->mapToUIValue(valueToLink);
 }
 
-int BCMParameterController::getOSCUID()
+int BCMParameterController::getOSCUID() const
 {
     BCMParameter* param = getParameterByScopeCode("osc");
 
     return roundDoubleToInt(param->getUIValue());
 }
 
-void BCMParameterController::updateHost(int hostIdx, float newValue)
+void BCMParameterController::updateHost(int hostIdx, float newValue) const
 {
 #ifndef __DLL_EFFECT__
 	scopeSync->getPluginProcessor()->updateListeners(hostIdx, newValue);
@@ -278,7 +279,7 @@ void BCMParameterController::updateHost(int hostIdx, float newValue)
 #endif
 }
 
-void BCMParameterController::beginParameterChangeGesture(int hostIdx)
+void BCMParameterController::beginParameterChangeGesture(int hostIdx) const
 {
 #ifndef __DLL_EFFECT__
     if (hostIdx >= 0 && !changingParams[hostIdx])
@@ -333,7 +334,7 @@ void BCMParameterController::storeParameterValues(XmlElement& parameterValues)
     //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
 }
 
-void BCMParameterController::restoreParameterValues()
+void BCMParameterController::restoreParameterValues() const
 {
     Array<float> parameterValues;
     int numHostParameters = getNumParametersForHost();

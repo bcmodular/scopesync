@@ -27,8 +27,6 @@
  */
 
 #include "BCMSlider.h"
-#include "../Utils/BCMMath.h"
-#include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMTabbedComponent.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
@@ -222,7 +220,7 @@ double BCMSlider::valueToProportionOfLength(double value)
     return (skew == 1.0 || n < FLT_EPSILON) ? n : pow (n, skew);
 }
 
-void BCMSlider::switchToTabs()
+void BCMSlider::switchToTabs() const
 {
     for (int i = 0; i < tabbedComponentNames.size(); i++)
     {
@@ -307,16 +305,6 @@ bool BCMSlider::getEncoderSnap(bool encoderSnap)
         encoderSnap = (encoderSnapUserSetting == snap);
     
     return encoderSnap;
-}
-
-bool BCMSlider::isRotary() const
-{
-    //DBG("BCMSlider::isRotary - slider style: " + String(getSliderStyle()));
-
-    return getSliderStyle() == Rotary
-        || getSliderStyle() == RotaryHorizontalDrag
-        || getSliderStyle() == RotaryVerticalDrag
-        || getSliderStyle() == RotaryHorizontalVerticalDrag;
 }
 
 bool BCMSlider::isLinearBar() const

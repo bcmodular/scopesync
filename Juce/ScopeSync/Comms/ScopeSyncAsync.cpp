@@ -27,7 +27,6 @@
 
 #include "ScopeSyncAsync.h"
 #include "../Core/ScopeSync.h"
-#include "../Core/Global.h"
 
 bool ScopeSyncAsync::enableScopeInputs = false;
 

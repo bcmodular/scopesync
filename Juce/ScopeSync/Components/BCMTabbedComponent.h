@@ -32,9 +32,6 @@ class TabbedComponentProperties;
 class ScopeSyncGUI;
 
 #include <JuceHeader.h>
-#include "../Components/BCMLookAndFeel.h"
-#include "../Components/BCMComponentBounds.h"
-#include "../Core/BCMParameter.h"
 #include "BCMWidget.h"
 
 class BCMTabbedComponent : public TabbedComponent,
@@ -51,13 +48,13 @@ public:
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value) override;
 
-    void currentTabChanged(int newCurrentTabIndex, const String &newCurrentTabName);
-    void popupMenuClickOnTab(int tabIndex, const String& tabName);
+    void currentTabChanged(int newCurrentTabIndex, const String &newCurrentTabName) override;
+    void popupMenuClickOnTab(int tabIndex, const String& tabName) override;
 
     void attachToParameter();
 
     // Indicates whether Tabs should show a drop-shadow
-    bool shouldShowDropShadow() { return showDropShadow; }
+    bool shouldShowDropShadow() const { return showDropShadow; }
 
 private:
     Value parameterValue;  // Maintains a link to a mapped parameter's UI value

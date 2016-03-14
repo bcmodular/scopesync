@@ -33,8 +33,6 @@ class ScopeSyncGUI;
 class ComboBoxProperties;
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
-#include "../Components/BCMComponentBounds.h"
 #include "BCMWidget.h"
 
 class BCMComboBox : public ComboBox,

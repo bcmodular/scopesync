@@ -26,7 +26,6 @@
  */
 
 #include "BCMTabbedComponent.h"
-#include "../Utils/BCMMath.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
@@ -90,7 +89,7 @@ void BCMTabbedComponent::currentTabChanged(int newCurrentTabIndex, const String&
     (void)newCurrentTabName;
 
     if (parameter != nullptr)
-        scopeSync.getParameterController()->setParameterFromGUI(*parameter, (float)newCurrentTabIndex);
+        scopeSync.getParameterController()->setParameterFromGUI(*parameter, static_cast<float>(newCurrentTabIndex));
 }
 
 void BCMTabbedComponent::attachToParameter()

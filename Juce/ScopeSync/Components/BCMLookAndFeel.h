@@ -50,7 +50,7 @@ public:
                bool          useImageCache,  const String& layoutDirectory);
     
     // Cut a specific slice from a film-strip image
-    Image getImageAtIndex(int frameIndex, bool isMouseOver);
+    Image getImageAtIndex(int frameIndex, bool isMouseOver) const;
     
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilmStripImage);
@@ -72,7 +72,7 @@ public:
     ~BCMLookAndFeel();
     
     // Returns the identifier for a BCMLookAndFeel
-    const String& getId();
+    const String& getId() const;
     
     // Callback for drawing a Rotary Slider. Supports filmstrip images.
     void drawRotarySlider
@@ -86,10 +86,10 @@ public:
      float  	rotaryStartAngle,
      float  	rotaryEndAngle,
      Slider  &slider
-     );
+     ) override;
     
-    void drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
-    void drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider);
+    void drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider) const;
+    void drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider) const;
     
     // Callback for drawing a Linear Slider's thumb. Supports fixed images.
     void drawLinearSliderThumb
@@ -104,11 +104,11 @@ public:
      float 	  maxSliderPos,
      const Slider::SliderStyle sliderStyle,
      Slider&   slider
-     );
+     ) override;
     
     // Returns the radius of a Slider thumb. Overridden from LookAndFeel_V3's
     // so it can handle situation when images being used for thumb
-    int getSliderThumbRadius(Slider& slider);
+    int getSliderThumbRadius(Slider& slider) override;
     
     // Callback for drawing a Linear Slider's background. Supports filmstrip images.
     void drawLinearSliderBackground
@@ -123,7 +123,7 @@ public:
      float     maxSliderPos,
      const Slider::SliderStyle style,
      Slider&   slider
-     );
+     ) override;
     
     // Callback for drawing a Button's background. Supports fixed images.
     void drawButtonBackground
@@ -133,22 +133,22 @@ public:
      const Colour& backgroundColour,
      bool 	      isMouseOverButton,
      bool 	      isButtonDown
-     );
+     ) override;
     
     // Callback for creating a Slider's textbox. Overridden to allow control of font and justification
-    Label* createSliderTextBox(Slider& slider);
+    Label* createSliderTextBox(Slider& slider) override;
     
     // Callback for creating a Slider's inc/dec buttons. Overridden to pick up overridden colours
     Button* createSliderButton(Slider&, bool isIncrement) override;
     
     // Returns font for a ComboBox. Overridden to allow control of font
-    Font   getComboBoxFont (ComboBox& box);
+    Font   getComboBoxFont (ComboBox& box) override;
     
     // Callback for creating a ComboBox's textbox. Overridden to allow control of font
-    Label* createComboBoxTextBox(ComboBox& comboBox);
+    Label* createComboBoxTextBox(ComboBox& comboBox) override;
     
     // Returns font for a PopupMenu (also used by ComboBoxes). Overridden to allow control of font
-    Font   getPopupMenuFont();
+    Font   getPopupMenuFont() override;
     
     // Callback for drawing a CallOutBox's background. Overridden to fix performance issue on Windows 8
     void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
@@ -158,7 +158,7 @@ public:
     
     // Returns a result to indicate whether the BCMLookAndFeel applies to the supplied Component Type
     // 0: Doesn't apply, 1: Applies specifically, 2: Applies generally
-    int  appliesToComponentType(const Identifier& componentType);
+    int  appliesToComponentType(const Identifier& componentType) const;
     
 private:
     String id;            // Identifier for a BCMLookAndFeel
@@ -222,8 +222,8 @@ private:
     void setValuesFromXml(const XmlElement& lookAndFeelXML);
     
     // Utility methods to read information from XML
-    void overrideImageIfValid(Image& imageToOverride, const String& fileName);
-    void setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage);
+    void overrideImageIfValid(Image& imageToOverride, const String& fileName) const;
+    void setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage) const;
     void getRotarySliderImagesFromXml(const XmlElement& xml);
     void getLinearVerticalSliderImagesFromXml(const XmlElement& xml);
     void getLinearHorizontalSliderImagesFromXml(const XmlElement& xml);
@@ -235,7 +235,7 @@ private:
     
     // Callback to draw the area behind TabbedComponent's Tabs. Overridden to allow
     // the drop-shadow to be disabled
-    void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h);
+    void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLookAndFeel);
 };

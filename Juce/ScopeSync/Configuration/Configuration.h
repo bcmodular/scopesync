@@ -43,8 +43,8 @@ public:
                            ApplicationCommandManager* acm);
     ~NewConfigurationWindow();
 
-    void addConfiguration();
-    void cancel();
+    void addConfiguration() const;
+    void cancel() const;
 
 private:
     ScopeSync&     scopeSync;
@@ -80,14 +80,14 @@ private:
     TextButton   addButton;
     TextButton   cancelButton;
 
-    void addConfiguration();
-    void cancel();
+    void addConfiguration() const;
+    void cancel() const;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewConfigurationEditor);
 };
@@ -111,9 +111,9 @@ public:
     void   setLastDocumentOpened(const File& file) override;
     
     void          setLastFailedFile(const File& file) { lastFailedFile = file; };
-    const File&   getLastFailedFile()                 { return lastFailedFile; };
-    const String& getLastError()                      { return lastError; };
-    const String& getLastErrorDetails()               { return lastErrorDetails; };
+    const File&   getLastFailedFile() const { return lastFailedFile; };
+    const String& getLastError() const { return lastError; };
+    const String& getLastErrorDetails() const { return lastErrorDetails; };
     SaveResult    saveIfNeededAndUserAgrees(bool offerCancelOption);
 
     // Overridden methods for ValueTree::Listener
@@ -123,63 +123,63 @@ public:
     void valueTreeChildOrderChanged(ValueTree& parentTreeWhoseChildrenHaveMoved, int oldIndex, int newIndex) override;
     void valueTreeParentChanged(ValueTree& treeWhoseParentHasChanged) override;
 
-    ValueTree    getParameters();
-    ValueTree    getConfigurationRoot() { return configurationRoot; };
-    ValueTree    getMapping();
+    ValueTree    getParameters() const;
+    ValueTree    getConfigurationRoot() const { return configurationRoot; };
+    ValueTree    getMapping() const;
     XmlElement&  getLayout(String& errorText, String& errorDetails, bool forceReload);
 
-    PropertiesFile& getConfigurationProperties();
+    PropertiesFile& getConfigurationProperties() const;
     
-    String getConfigurationDirectory();
+    String getConfigurationDirectory() const;
     int    getConfigurationUID();
     int    generateConfigurationUID();
-    String getLayoutDirectory() { return layoutDirectory; }
+    String getLayoutDirectory() const { return layoutDirectory; }
 
     void      createConfiguration(const File& filePath, const ValueTree& initialSettings);
-    ValueTree getEmptyConfiguration();
+    ValueTree getEmptyConfiguration() const;
     
     bool replaceConfiguration(const String& newFileName);
 
-    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um);
-    void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager);
+    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
+    void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const;
 
     void deleteMapping(const Identifier& mappingType, 
                        ValueTree& mappingToDelete,
-                       UndoManager* um);
+                       UndoManager* um) const;
     void addNewMapping(const Identifier& mappingType,
                        const String& componentName, 
                        const String& parameterName, 
                        ValueTree& newMapping,
                        int targetIndex, 
-                       UndoManager* um);
+                       UndoManager* um) const;
 
     StringArray getComponentNames(const Identifier& componentType, bool checkStyleOverrideFlag = false);
-    void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly);
-    void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues);
+    void setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly) const;
+    void setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues) const;
 
     static Identifier getMappingParentId(const Identifier& componentType);
     static Identifier getComponentTypeId(const String& typeString);
     static String     getComponentTypeName(const Identifier& type);
 
-    ValueTree getStyleOverride(const Identifier& componentType, const String& componentName);
+    ValueTree getStyleOverride(const Identifier& componentType, const String& componentName) const;
     
     void deleteStyleOverride(const Identifier& componentType, 
                              ValueTree& styleOverrideToDelete,
-                             UndoManager* um);
+                             UndoManager* um) const;
 
-    void deleteAllStyleOverrides(const Identifier& componentType, const String& widgetTemplateId, UndoManager* um);
+    void deleteAllStyleOverrides(const Identifier& componentType, const String& widgetTemplateId, UndoManager* um) const;
     
     void addStyleOverride(const Identifier& componentType,
                           const String&     componentName, 
                           const String&     widgetTemplateId,
                           ValueTree&        newStyleOverride,
                           int               targetIndex, 
-                          UndoManager*      um);
+                          UndoManager*      um) const;
 
     void addStyleOverrideToAll(const Identifier& componentType,
                                const String&     widgetTemplateId,
                                ValueTree&        newStyleOverride,
-                               UndoManager*      um);
+                               UndoManager*      um) const;
     
     static ValueTree getDefaultParameter();
 
@@ -247,10 +247,10 @@ private:
 
     void setupComponentLookup();
     void getComponentNamesFromXml(XmlElement& xml);
-    bool componentInLookup(const Identifier& componentType, const String& componentName);
+    bool componentInLookup(const Identifier& componentType, const String& componentName) const;
 
-    bool parameterNameExists(const String& parameterName);
-    void generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager);
+    bool parameterNameExists(const String& parameterName) const;
+    void generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager) const;
 
 	void migrateFromV101();
 

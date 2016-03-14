@@ -60,32 +60,32 @@ public:
     const Identifier getComponentType() const override;
     
     // Returns width of the BCMComponent
-    int  getWidth()  { return componentBounds.width; };
+	int getWidth() const;
     
     // Returns height of the BCMComponent
-    int  getHeight() { return componentBounds.height; };
+	int getHeight() const;
     
     // Called when the Juce graphics system redraws
-    void paint(Graphics& g);
+    void paint(Graphics& g) override;
 
     // Callback for when a user starts to move a Slider
-    void sliderDragStarted(Slider *);
+    void sliderDragStarted(Slider *) override;
     
     // Callback for when a user stops moving a Slider
-    void sliderDragEnded(Slider *);
+    void sliderDragEnded(Slider *) override;
     
     // Callback for when Slider's value has been changed
-    void sliderValueChanged(Slider* sliderThatWasMoved);
+    void sliderValueChanged(Slider* sliderThatWasMoved) override;
 
     // Callback for when ComboBox's value has been changed
-    void comboBoxChanged(ComboBox* comboBoxThatHasChanged);
+    void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 
     void hideSystemErrorBar();
 
     // Callback for when the systemerror values change
     void valueChanged(Value& valueThatChanged) override;
 
-    void showHideEditToolbar();
+    void showHideEditToolbar() const;
 
 private:
     class EditToolbar;
@@ -113,9 +113,7 @@ private:
     bool mainComponent;
 
     // Indicates whether a Component should be shown in the current context (plugin|scopefx)
-    bool showInThisContext(XmlElement& xml);
-
-    void getParentProperties(XmlElement& widgetXML);
+	static bool showInThisContext(XmlElement& xml);
 
     // Loop through children of this component, creating widgets
     void setupContent(XmlElement& xml);
@@ -143,13 +141,13 @@ private:
     void setupTabbedComponent(XmlElement& tabbedComponentXML);
     
     // Add a BCMTab to a BCMTabbedComponent
-    void setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent);
+    void setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent) const;
 
     // Draw a BCMRectangle on the canvas
-    void drawBCMRectangle(Graphics& g, BCMRectangle& rectangle);
+	static void drawBCMRectangle(Graphics& g, BCMRectangle& rectangle);
     
     // Draw a BCMImage on the canvas
-    void drawBCMImage(Graphics& g, BCMImage& image);
+    void drawBCMImage(Graphics& g, BCMImage& image) const;
 
     // To handle the right-click menu
     void mouseDown(const MouseEvent& event);

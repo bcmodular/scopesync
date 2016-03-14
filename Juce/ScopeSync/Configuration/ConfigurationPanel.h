@@ -29,7 +29,6 @@
 #define PARAMETERPANEL_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Core/Global.h"
 #include "../Core/BCMParameter.h"
 class SettingsTable;
 class Configuration;
@@ -118,7 +117,7 @@ public:
                    ApplicationCommandManager* acm, bool showCalloutView = false);
     ~ParameterPanel();
 
-    void paintOverChildren(Graphics& g);
+    void paintOverChildren(Graphics& g) override;
     void childBoundsChanged(Component* child) override;
     
     static void setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree);

@@ -30,7 +30,6 @@
 #define CONFIGURATIONMANAGER_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Core/ScopeSync.h"
-#include "../Configuration/ConfigurationPanel.h"
 
 class PropertyListBuilder;
 class BCMTreeView;
@@ -52,7 +51,7 @@ public:
     void paintOverChildren (Graphics&) override;
     void resized() override;
     void childBoundsChanged(Component* child) override;
-    void saveTreeViewState();
+    void saveTreeViewState() const;
     void unload();
     void changePanel(Component* newComponent);
     Component* createParameterPanelComponent(ValueTree& tree);
@@ -61,9 +60,9 @@ public:
                                                     UndoManager& undoManager, 
                                                     ApplicationCommandManager* commandManager,
                                                     ChangeListener* listener);
-    ApplicationCommandManager* getCommandManager() { return commandManager; };
-    Configuration&             getConfiguration()  { return scopeSync.getConfiguration(); };
-    ScopeSync&                 getScopeSync()      { return scopeSync; };
+    ApplicationCommandManager* getCommandManager() const { return commandManager; };
+    Configuration&             getConfiguration() const { return scopeSync.getConfiguration(); };
+    ScopeSync&                 getScopeSync() const { return scopeSync; };
 
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -89,16 +88,16 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
-    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
     void changeListenerCallback(ChangeBroadcaster* source) override;
     
     void undo();
     void redo();
-    bool canPasteItem();
+    bool canPasteItem() const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationManager);
 };
@@ -120,7 +119,7 @@ public:
     void changePanel(Component* newComponent);
 
     void timerCallback() override;
-    int  getNumActions() { return numActions; }
+    int  getNumActions() const { return numActions; }
 
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -136,7 +135,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     void changeListenerCallback(ChangeBroadcaster* source) override;
     
@@ -154,9 +153,9 @@ class ConfigurationMenuBarModel  : public MenuBarModel
 public:
     ConfigurationMenuBarModel(ConfigurationManagerWindow& owner);
 
-    StringArray getMenuBarNames();
-    PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName);
-    void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) {};
+    StringArray getMenuBarNames() override;
+    PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
+    void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) override {};
 
     ConfigurationManagerWindow& configurationManagerWindow;
 
@@ -173,18 +172,19 @@ public:
     ConfigurationManagerWindow(ScopeSync& owner, int posX, int posY);
     ~ConfigurationManagerWindow();
 
-    ApplicationCommandManager* getCommandManager() { return commandManager; };
-    StringArray getMenuNames();
-    void createMenu(PopupMenu& menu, const String& menuName);
-    void createFileMenu(PopupMenu& menu);
-    void createEditMenu(PopupMenu& menu);
+    ApplicationCommandManager* getCommandManager() const { return commandManager; };
 
-    void addConfig();
-    void save();
-    void saveAs();
+	static StringArray getMenuNames();
+    void createMenu(PopupMenu& menu, const String& menuName) const;
+    void createFileMenu(PopupMenu& menu) const;
+    void createEditMenu(PopupMenu& menu) const;
+
+    void addConfig() const;
+    void save() const;
+    void saveAs() const;
     void unload();
     void refreshContent();
-    void reloadConfiguration();
+    void reloadConfiguration() const;
     void restoreWindowPosition();
 
 private:
@@ -210,8 +210,8 @@ public:
     ConfigurationManagerCalloutWindow(ScopeSync& owner, int width, int height);
     ~ConfigurationManagerCalloutWindow();
 
-    void setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName);
-    void setParameterPanel(ValueTree& parameter);
+    void setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName) const;
+    void setParameterPanel(ValueTree& parameter) const;
     void setStyleOverridePanel(ValueTree& styleOverride,
                                const Identifier& componentType, 
                                const String& componentName, 
@@ -219,7 +219,7 @@ public:
                                const String& fillColour  = String::empty,
                                const String& lineColour  = String::empty,
                                const String& fillColour2 = String::empty,
-                               const String& lineColour2 = String::empty);
+                               const String& lineColour2 = String::empty) const;
     
 private:
     ScopeSync&                 scopeSync;

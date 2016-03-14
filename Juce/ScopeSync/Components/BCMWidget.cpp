@@ -35,8 +35,8 @@
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner)
     : scopeSyncGUI(owner), scopeSync(owner.getScopeSync()),
-      undoManager(owner.getScopeSync().getUndoManager()), 
-      commandManager(owner.getScopeSync().getCommandManager())
+      commandManager(owner.getScopeSync().getCommandManager()), 
+      undoManager(owner.getScopeSync().getUndoManager())
 {
     commandManager->registerAllCommandsForTarget(this);
 }
@@ -64,7 +64,7 @@ void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
     widgetTemplateId = properties.widgetTemplateId;
 }
 
-void BCMWidget::applyBounds()
+void BCMWidget::applyBounds() const
 {
     if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
     {
@@ -223,13 +223,13 @@ void BCMWidget::clearStyleOverride()
     scopeSync.applyConfiguration();
 }
 
-void BCMWidget::copyStyleOverride()
+void BCMWidget::copyStyleOverride() const
 {
     StyleOverrideClipboard::getInstance()->copy(styleOverride);
 
 }
 
-void BCMWidget::copyStyleOverrideToAll()
+void BCMWidget::copyStyleOverrideToAll() const
 {
     copyStyleOverride();
     ValueTree styleOverrideCopy(styleOverride.createCopy());
@@ -504,7 +504,7 @@ bool BCMParameterWidget::canPasteParameter()
     return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
 }
 
-void BCMParameterWidget::addParameter(bool fromClipboard)
+void BCMParameterWidget::addParameter(bool fromClipboard) const
 {
     ValueTree newParameter;
     ValueTree definition;

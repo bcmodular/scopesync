@@ -27,16 +27,13 @@
  */
 
 #include "BCMTextButton.h"
-
-#include "../Utils/BCMMath.h"
-#include "../Components/BCMLookAndFeel.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Core/ScopeSyncApplication.h"
 #include "../Core/BCMParameterController.h"
+#include "BCMTabbedComponent.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner)
@@ -143,7 +140,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         parameter->mapToUIValue(parameterValue);
         
         // Grab the correct mapping type
-        mappingType = (MappingType)(int(mapping.getProperty(Ids::type)));
+        mappingType = static_cast<MappingType>(int(mapping.getProperty(Ids::type)));
         // DBG("BCMTextButton::applyProperties - mappingType: " + String(mappingType));
         
         // For mapped buttons, we want them to send their
@@ -163,7 +160,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         }
                 
         // Set up the button display type and the initial button text
-        displayType = (DisplayType)(int(mapping.getProperty(Ids::displayType)));
+        displayType = static_cast<DisplayType>(int(mapping.getProperty(Ids::displayType)));
             
         if (displayType == downSetting)
             buttonText  = mapping.getProperty(Ids::settingDown);
@@ -280,7 +277,7 @@ void BCMTextButton::setupFixedButton(const String& scopeCode, TextButtonProperti
 
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };
 
-void BCMTextButton::switchToTabs()
+void BCMTextButton::switchToTabs() const
 {
     for (int i = 0; i < tabbedComponentNames.size(); i++)
     {
@@ -376,7 +373,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
 
             if (!isCommandButton && mappingType == noToggle)
             {
-                float valueToSet = (float)upSettingIdx;
+                float valueToSet = static_cast<float>(upSettingIdx);
             
                 if (valueToSet >= 0)
                     scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
@@ -428,12 +425,12 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
         if (mappingType == toggle)
         {
             if (getToggleState())
-                valueToSet = (float)downSettingIdx;
+                valueToSet = static_cast<float>(downSettingIdx);
             else
-                valueToSet = (float)upSettingIdx;
+                valueToSet = static_cast<float>(upSettingIdx);
         }
         else
-            valueToSet = (float)downSettingIdx;
+            valueToSet = static_cast<float>(downSettingIdx);
             
         if (valueToSet >= 0)
             parameter->setUIValue(valueToSet);

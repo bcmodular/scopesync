@@ -45,7 +45,7 @@ public:
     void applyProperties(LabelProperties& props);
     const Identifier getComponentType() const override;
 
-	int getMaxTextLines() { return maxTextLines; }
+	int getMaxTextLines() const;
 
 protected:
     void applyLookAndFeel(bool noStyleOverride) override;

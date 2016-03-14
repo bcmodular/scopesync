@@ -27,13 +27,10 @@
  */
 
 #include "BCMComboBox.h"
-
-#include "../Utils/BCMMath.h"
-#include "../Components/BCMLookAndFeel.h"
-#include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/ComboBoxProperties.h"
 #include "../Core/Global.h"
+#include "../Core/BCMParameter.h"
 
 BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
     : ComboBox(name), BCMParameterWidget(owner)

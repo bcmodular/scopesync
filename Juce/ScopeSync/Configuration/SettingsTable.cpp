@@ -101,7 +101,7 @@ private:
 
 SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm,
                              ValueTree& param, ApplicationCommandTarget* act)
-    : tree(valueTree), undoManager(um), font(14.0f), commandManager(acm),
+    : font(14.0f), tree(valueTree), undoManager(um), commandManager(acm),
       numSettingsTextLabel(String::empty, "Num to add:"),
       addSettingsButton("Add"),
       removeSettingsButton("Remove"),
@@ -204,7 +204,7 @@ Component* SettingsTable::refreshComponentForCell(int rowNumber, int columnId, b
     
     Value valueToEdit(tree.getChild(rowNumber).getPropertyAsValue(propertyId, &undoManager));
     
-    LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
+    LabelComp* labelComp = static_cast<LabelComp*>(existingComponentToUpdate);
 
     if (labelComp == nullptr)
         labelComp = new LabelComp(valueToEdit);
@@ -323,12 +323,12 @@ bool SettingsTable::perform(const InvocationInfo& info)
     return true;
 }
 
-void SettingsTable::undo()
+void SettingsTable::undo() const
 {
     undoManager.undo();
 }
 
-void SettingsTable::redo()
+void SettingsTable::redo() const
 {
     undoManager.redo();
 }
@@ -393,7 +393,7 @@ void SettingsTable::updateParameterRanges()
     ParameterPanel::setParameterUIRanges(0, maxValue, 0, undoManager, tree);
 }
 
-void SettingsTable::autoFill()
+void SettingsTable::autoFill() const
 {
     int    numSettings = tree.getNumChildren();
     double scopeRangeMin = parameter.getProperty(Ids::scopeRangeMin);

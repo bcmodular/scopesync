@@ -57,31 +57,31 @@ public:
     void beginParameterChangeGesture();
     void endParameterChangeGesture();
     
-    void          mapToUIValue(Value& valueToMapTo);
+    void          mapToUIValue(Value& valueToMapTo) const;
     void          setAffectedByUI(bool isAffected);
-    bool          isAffectedByUI();
-    String        getName();
+    bool          isAffectedByUI() const;
+    String        getName() const;
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
-    int           getHostIdx() { return hostIdx; }
-    int           getScopeCodeId();
-    String        getScopeCode();
-    ParameterType getParameterType() { return type; }
+    int           getHostIdx() const { return hostIdx; }
+    int           getScopeCodeId() const;
+    String        getScopeCode() const;
+    ParameterType getParameterType() const { return type; }
     ValueTree&    getDefinition() { return definition; }
-    void          getSettings(ValueTree& settings);
-    void          getDescriptions(String& shortDesc, String& fullDesc);
-    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix);
-    void          getScopeRanges(int& min, int& max);
-    double        getUIResetValue();
-    double        getUISkewFactor();
+    void          getSettings(ValueTree& settings) const;
+    void          getDescriptions(String& shortDesc, String& fullDesc) const;
+    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix) const;
+    void          getScopeRanges(int& min, int& max) const;
+    double        getUIResetValue() const;
+    double        getUISkewFactor() const;
 
-    void          getUITextValue(String& textValue);
-    int           getUIValue() { return uiValue.getValue(); };
+    void          getUITextValue(String& textValue) const;
+    int           getUIValue() const { return uiValue.getValue(); };
 
-    float         getHostValue();
-    int           getScopeIntValue();
+    float         getHostValue() const;
+    int           getScopeIntValue() const;
 
-    bool          isDiscrete();
-    bool          isScopeInputOnly();
+    bool          isDiscrete() const;
+    bool          isScopeInputOnly() const;
     
     void          setHostValue(float newValue);
     void          setScopeIntValue(int newValue);
@@ -89,8 +89,8 @@ public:
 	void          setOSCValue(float newValue);
 
 	void          registerOSCListener();
-	String        getOSCPath();
-	void          sendOSCParameterUpdate();
+	String        getOSCPath() const;
+	void          sendOSCParameterUpdate() const;
 
 private:
     WeakReference<BCMParameter>::Master masterReference;
@@ -103,18 +103,18 @@ private:
     // ensure the UI and LinearNormalised values are within the ranges
     void   putValuesInRange(bool initialise);
     void   setNumDecimalPlaces();
-    float  skewHostValue(float hostValue, bool invert);
-    double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert);
-    double convertLinearNormalisedToUIValue(double lnValue);
-	double convertUIToLinearNormalisedValue(double newValue);
+    float  skewHostValue(float hostValue, bool invert) const;
+    double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
+    double convertLinearNormalisedToUIValue(double lnValue) const;
+	double convertUIToLinearNormalisedValue(double newValue) const;
 
     void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
-    int   findNearestParameterSetting(int value);
+    int   findNearestParameterSetting(int value) const;
 
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
 
-	void  sendToScopeSyncAsync();
+	void  sendToScopeSyncAsync() const;
 
 	void  decDeadTimes();
     

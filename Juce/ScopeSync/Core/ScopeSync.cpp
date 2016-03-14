@@ -28,12 +28,9 @@
 
 #include "ScopeSync.h"
 
-#include "../Utils/BCMMath.h"
-#include "../Utils/BCMXml.h"
 #include "../Resources/ImageLoader.h"
 #include "ScopeSyncApplication.h"
 #include "Global.h"
-#include <utility>
 #include "../Configuration/ConfigurationManager.h"
 #include "../Windows/UserSettings.h"
 #include "../Resources/Icons.h"

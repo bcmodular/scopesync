@@ -146,9 +146,9 @@ private:
  * ConfigurationPanel
  */
 ConfigurationPanel::ConfigurationPanel(ValueTree& node, UndoManager& um, ScopeSync& ss, ApplicationCommandManager* acm, bool newConfiguration)
-    : BasePanel(node, um, acm), isNewConfiguration(newConfiguration), configuration(ss.getConfiguration())
+    : BasePanel(node, um, acm), configuration(ss.getConfiguration()), isNewConfiguration(newConfiguration)
 {
-    rebuildProperties();
+	ConfigurationPanel::rebuildProperties();
 }
 
 ConfigurationPanel::~ConfigurationPanel() {}
@@ -219,14 +219,14 @@ void ConfigurationPanel::chooseLayout()
 ParameterPanel::ParameterPanel(ValueTree& parameter, UndoManager& um, 
                                ScopeSync& ss,
                                ApplicationCommandManager* acm, bool showCalloutView)
-    : BasePanel(parameter, um, acm), calloutView(showCalloutView), configuration(ss.getConfiguration())
+    : BasePanel(parameter, um, acm), configuration(ss.getConfiguration()), calloutView(showCalloutView)
 {
     // Listen for changes to the valueType, to decide whether or not to show
     // the SettingsTable
     valueType = valueTree.getPropertyAsValue(Ids::valueType, &undoManager);
     valueType.addListener(this);
 
-    rebuildProperties();
+	ParameterPanel::rebuildProperties();
 
     if (int(valueType.getValue()) == 1)
         createSettingsTable();
@@ -356,8 +356,8 @@ void ParameterPanel::paintOverChildren(Graphics& g)
     
         const int resizerY = resizerBar->getY();
 
-        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), 0, (float) resizerY, 
-                                  Colours::transparentBlack,        0, (float) (resizerY + shadowSize), false);
+        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), 0, static_cast<float>(resizerY), 
+                                  Colours::transparentBlack,        0, static_cast<float>(resizerY + shadowSize), false);
         resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
         resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
@@ -462,10 +462,10 @@ void ParameterPanel::rebuild()
 MappingPanel::MappingPanel(ValueTree& mapping, UndoManager& um, 
                            ScopeSync& ss, ApplicationCommandManager* acm, 
                            const Identifier& compType, bool calloutView)
-    : BasePanel(mapping, um, acm), componentType(compType), 
-      showComponent(!calloutView), configuration(ss.getConfiguration())
+    : BasePanel(mapping, um, acm), configuration(ss.getConfiguration()), 
+      componentType(compType), showComponent(!calloutView)
 {
-    rebuildProperties();
+	MappingPanel::rebuildProperties();
 }
 
 MappingPanel::~MappingPanel() {}
@@ -520,7 +520,7 @@ TextButtonMappingPanel::TextButtonMappingPanel(ValueTree& mapping, UndoManager& 
     parameterName.addListener(this);
     mappingType.addListener(this);
 
-    rebuildProperties();
+	TextButtonMappingPanel::rebuildProperties();
 }
 
 TextButtonMappingPanel::~TextButtonMappingPanel()
@@ -573,8 +573,6 @@ void TextButtonMappingPanel::valueChanged(Value& /* valueThatChanged */)
     rebuildProperties();
 }
 
-#include "../Components/BCMWidget.h"
-
 /* =========================================================================
  * StyleOverridePanel
  */
@@ -583,13 +581,13 @@ StyleOverridePanel::StyleOverridePanel(ValueTree& mapping, UndoManager& um,
                                        const Identifier& compType,
                                        bool calloutView)
     : BasePanel(mapping, um, acm), 
-      componentType(compType), 
-      showComponent(!calloutView),
-      useColourOverrides(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager)),
-      scopeSync(ss), configuration(ss.getConfiguration())
+      scopeSync(ss), 
+      configuration(ss.getConfiguration()),
+      componentType(compType),
+      showComponent(!calloutView), useColourOverrides(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager))
 {
     useColourOverrides.addListener(this);
-    rebuildProperties();
+	StyleOverridePanel::rebuildProperties();
 }
 
 StyleOverridePanel::~StyleOverridePanel()

@@ -46,7 +46,6 @@ class ConfigurationManagerWindow;
 
 #ifdef __DLL_EFFECT__
     #include "../Comms/ScopeSyncAsync.h"
-	#include "../../../External/SonicCore/effclass.h"
 #endif // __DLL_EFFECT__
 
 #include <JuceHeader.h>

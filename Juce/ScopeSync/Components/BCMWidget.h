@@ -41,7 +41,7 @@ public:
     ~BCMWidget();
 
     void setParentWidget(Component* parent);
-    const String& getLookAndFeelId() { return bcmLookAndFeelId; }
+    const String& getLookAndFeelId() const { return bcmLookAndFeelId; }
 
 protected:
     ScopeSyncGUI&      scopeSyncGUI;
@@ -61,23 +61,23 @@ protected:
 
     virtual void overrideStyle();
     void clearStyleOverride();
-    void copyStyleOverride();
-    void copyStyleOverrideToAll();
+    void copyStyleOverride() const;
+    void copyStyleOverrideToAll() const;
     void pasteStyleOverride();
-    bool canPasteStyleOverride();
+	static bool canPasteStyleOverride();
 
     virtual void showPopupMenu();
 
     /* ================= Application Command Target overrides ================= */
-    virtual void getAllCommands(Array<CommandID>& commands) override;
+	virtual void getAllCommands(Array<CommandID>& commands) override;
     virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     virtual bool perform(const InvocationInfo& info) override;
-    virtual ApplicationCommandTarget* getNextCommandTarget();
+	virtual ApplicationCommandTarget* getNextCommandTarget() override;
 
-    virtual void changeListenerCallback (ChangeBroadcaster* source);
+	virtual void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-    void applyBounds();
+    void applyBounds() const;
     
 };
 
@@ -90,10 +90,10 @@ public:
     ~BCMParameterWidget() {};
 
     // Indicates whether the widget has a parameter mapping
-    bool hasParameter() { return mapsToParameter; };
+    bool hasParameter() const { return mapsToParameter; };
     
     // Returns the parameter the widget is mapped to
-    BCMParameter* getParameter() { return parameter.get(); };
+    BCMParameter* getParameter() const { return parameter.get(); };
 
 protected:
     static const StringArray fixedWidgetNames;
@@ -110,7 +110,7 @@ protected:
     void setupMapping(const Identifier& componentType,     const String& componentName,
                       const Identifier& mappingParentType, const String& mappingParent);
 
-    void showPopupMenu();
+    void showPopupMenu() override;
 
 private:
     
@@ -120,8 +120,8 @@ private:
     void deleteMappedParameter();
     void copyParameter();
     void pasteParameter();
-    bool canPasteParameter();
-    void addParameter(bool fromClipboard);
+	static bool canPasteParameter();
+    void addParameter(bool fromClipboard) const;
 	void copyOSCPath();
 
     /* ================= Application Command Target overrides ================= */

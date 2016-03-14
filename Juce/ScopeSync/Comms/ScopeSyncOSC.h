@@ -41,9 +41,9 @@ public:
 	void   setLocalPortNumber(int portNumber);
 	
 	void   setRemoteHostname(String hostname);
-	String getRemoteHostname();
+	String getRemoteHostname() const;
 	void   setRemotePortNumber(int portNumber);
-	int    getRemotePortNumber();
+	int    getRemotePortNumber() const;
 
 	bool   sendMessage(const OSCAddressPattern pattern, float valueToSend);
 

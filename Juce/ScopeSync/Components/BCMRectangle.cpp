@@ -28,9 +28,9 @@
 
 BCMRectangle::BCMRectangle(XmlElement& xml) : BCMGraphic(xml)
 {
-    cornerSize       = (float)(xml.getDoubleAttribute("cornersize", 0.0f));
+    cornerSize       = static_cast<float>(xml.getDoubleAttribute("cornersize", 0.0f));
     fillColour       = xml.getStringAttribute("fillcolour", "00000000");
-    outlineThickness = (float)(xml.getDoubleAttribute("outlinethickness", 0.0f));
+    outlineThickness = static_cast<float>(xml.getDoubleAttribute("outlinethickness", 0.0f));
     outlineColour    = xml.getStringAttribute("outlinecolour", "00000000");
 }
 

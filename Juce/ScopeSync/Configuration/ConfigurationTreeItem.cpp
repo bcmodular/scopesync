@@ -56,7 +56,7 @@ public:
     bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
 
 protected:
-    void addNewSubItem();
+    void addNewSubItem() = delete;
     
 private:
     void refreshSubItems() override;
@@ -93,7 +93,7 @@ public:
 
     void insertParameterAt(const ValueTree& definition, int index);
 
-	void changePanel();
+	void changePanel() override;
 
 private:
     void refreshSubItems() override;

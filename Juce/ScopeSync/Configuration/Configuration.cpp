@@ -25,11 +25,9 @@
  */
 
 #include "Configuration.h"
-#include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
-#include "../Utils/BCMMath.h"
 #include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
@@ -44,8 +42,8 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
                      Colour::greyLevel(0.6f),
                      DocumentWindow::allButtons,
                      true),
-      newFile(file),
       scopeSync(ss),
+      newFile(file),
       configuration(ss.getConfiguration())
 {
     cancelled = true;
@@ -57,8 +55,8 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
     setContentOwned(new NewConfigurationEditor(ss, settings, file.getFullPathName(), acm), true);
     
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+	Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -68,7 +66,7 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
 
 NewConfigurationWindow::~NewConfigurationWindow() {}
 
-void NewConfigurationWindow::addConfiguration()
+void NewConfigurationWindow::addConfiguration() const
 {
     ValueTree newSettings = configuration.getEmptyConfiguration();
     newSettings.copyPropertiesFrom(settings, nullptr);
@@ -77,7 +75,7 @@ void NewConfigurationWindow::addConfiguration()
     scopeSync.hideAddConfigurationWindow();
 }
 
-void NewConfigurationWindow::cancel() { scopeSync.hideAddConfigurationWindow(); }
+void NewConfigurationWindow::cancel() const { scopeSync.hideAddConfigurationWindow(); }
 
 void NewConfigurationWindow::closeButtonPressed() { addConfiguration(); }
 
@@ -93,11 +91,11 @@ NewConfigurationEditor::NewConfigurationEditor(ScopeSync& ss,
                                                ValueTree& settings,
                                                const String& filePath,
                                                ApplicationCommandManager* acm)
-    : commandManager(acm),
-      addButton("Add Configuration"),
-      cancelButton("Cancel"),
+    : panel(settings, ss.getUndoManager(), ss, acm, true),
+      commandManager(acm),
       filePathLabel("File Path"),
-      panel(settings, ss.getUndoManager(), ss, acm, true)
+      addButton("Add Configuration"),
+      cancelButton("Cancel")
 {
     commandManager->registerAllCommandsForTarget(this);
 
@@ -136,13 +134,13 @@ void NewConfigurationEditor::resized()
     panel.setBounds(localBounds.reduced(4, 4));
 }
 
-void NewConfigurationEditor::addConfiguration()
+void NewConfigurationEditor::addConfiguration() const
 {
     NewConfigurationWindow* parent = dynamic_cast<NewConfigurationWindow*>(getParentComponent());
     parent->addConfiguration();
 }
 
-void NewConfigurationEditor::cancel()
+void NewConfigurationEditor::cancel() const
 {
     NewConfigurationWindow* parent = dynamic_cast<NewConfigurationWindow*>(getParentComponent());
     parent->cancel();
@@ -268,7 +266,7 @@ void Configuration::loadLoaderConfiguration()
     loaderConfigurationRoot = newTree;
 }
 
-ValueTree Configuration::getEmptyConfiguration()
+ValueTree Configuration::getEmptyConfiguration() const
 {
     String xmlToParse(BinaryData::empty_configuration);
 	ScopedPointer<XmlElement> xml(XmlDocument::parse(xmlToParse));
@@ -304,7 +302,7 @@ void Configuration::setupConfigurationProperties()
     properties = new PropertiesFile(options);
 }
 
-PropertiesFile& Configuration::getConfigurationProperties()
+PropertiesFile& Configuration::getConfigurationProperties() const
 {
     return *properties;
 }
@@ -328,7 +326,7 @@ Result Configuration::loadDocument(const File& file)
     return Result::ok();
 }
 
-String Configuration::getConfigurationDirectory()
+String Configuration::getConfigurationDirectory() const
 {
     if (getFile() != File::nonexistent)
         return getFile().getParentDirectory().getFullPathName();
@@ -346,7 +344,7 @@ int Configuration::getConfigurationUID()
 
 int Configuration::generateConfigurationUID()
 {
-    int uid = 0;
+    int uid;
 
     String stringToHash = configurationRoot.getProperty(Ids::name);
     stringToHash += configurationRoot.getProperty(Ids::librarySet).toString();
@@ -501,7 +499,7 @@ void Configuration::migrateFromV101()
 	}
 }
 
-void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager)
+void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager) const
 {
     String parameterNameBase = parameter.getProperty(Ids::name);
 
@@ -545,7 +543,7 @@ void Configuration::generateUniqueParameterNames(ValueTree& parameter, UndoManag
     }
 }
 
-void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um)
+void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const
 {
     if (paramValues.isValid())
         newParameter = paramValues.createCopy();
@@ -559,7 +557,7 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
     getParameters().addChild(newParameter, targetIndex, um);
 }
 
-void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager)
+void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const
 {
     String name      = parameter.getProperty(Ids::name);
     String shortDesc = parameter.getProperty(Ids::shortDescription);
@@ -598,7 +596,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
 
 void Configuration::deleteMapping(const Identifier& mappingType, 
                                   ValueTree& mappingToDelete,
-                                  UndoManager* um)
+                                  UndoManager* um) const
 {
     ValueTree mappingRoot = configurationRoot.getChildWithName(Ids::mapping).getChildWithName(getMappingParentId(mappingType));
     
@@ -610,7 +608,7 @@ void Configuration::addNewMapping(const Identifier& mappingType,
                                   const String& parameterName, 
                                   ValueTree& newMapping,
                                   int targetIndex, 
-                                  UndoManager* um)
+                                  UndoManager* um) const
 {
     ValueTree mappingRoot = configurationRoot.getChildWithName(Ids::mapping).getChildWithName(getMappingParentId(mappingType));
     
@@ -665,7 +663,7 @@ ValueTree Configuration::getDefaultFixedParameter()
     return defaultParameter;
 }
 
-bool Configuration::parameterNameExists(const String& parameterName)
+bool Configuration::parameterNameExists(const String& parameterName) const
 {
     if (getParameters().getChildWithProperty(Ids::name, parameterName).isValid())
         return true;
@@ -675,7 +673,7 @@ bool Configuration::parameterNameExists(const String& parameterName)
 
 void Configuration::deleteStyleOverride(const Identifier& componentType, 
                                         ValueTree& styleOverrideToDelete,
-                                        UndoManager* um)
+                                        UndoManager* um) const
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
@@ -684,7 +682,7 @@ void Configuration::deleteStyleOverride(const Identifier& componentType,
 
 void Configuration::deleteAllStyleOverrides(const Identifier& componentType,
                                             const String& widgetTemplateId,
-                                            UndoManager* um)
+                                            UndoManager* um) const
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
@@ -700,7 +698,7 @@ void Configuration::addStyleOverride(const Identifier& componentType,
                                      const String&     widgetTemplateId,
                                      ValueTree&        newStyleOverride,
                                      int               targetIndex,
-                                     UndoManager*      um)
+                                     UndoManager*      um) const
 {
     ValueTree styleOverrideRoot = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
     
@@ -719,7 +717,7 @@ void Configuration::addStyleOverride(const Identifier& componentType,
 void Configuration::addStyleOverrideToAll(const Identifier& componentType,
                                           const String& widgetTemplateId,
                                           ValueTree&    newStyleOverride,
-                                          UndoManager*  um)
+                                          UndoManager*  um) const
 {
     deleteAllStyleOverrides(componentType, widgetTemplateId, um);
 
@@ -804,7 +802,7 @@ void Configuration::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChan
         float skewFactor = 1.0f;
 
         if (maximum > minimum && midpoint > minimum && midpoint < maximum)
-            skewFactor = (float)(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
+            skewFactor = static_cast<float>(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
 
         treeWhosePropertyHasChanged.setProperty(Ids::uiSkewFactor, skewFactor, nullptr);
     }
@@ -834,12 +832,12 @@ void Configuration::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree
 void Configuration::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) { changed(); }
 void Configuration::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) { changed(); }
 
-ValueTree Configuration::getParameters()
+ValueTree Configuration::getParameters() const
 {
     return configurationRoot.getChildWithName(Ids::parameters);
 }
 
-ValueTree Configuration::getMapping()
+ValueTree Configuration::getMapping() const
 {
     if (configurationRoot.getChildWithName(Ids::mapping).isValid())
         return configurationRoot.getChildWithName(Ids::mapping);
@@ -995,7 +993,7 @@ void Configuration::getComponentNamesFromXml(XmlElement& xml)
     }
 }
 
-bool Configuration::componentInLookup(const Identifier& componentType, const String& componentName)
+bool Configuration::componentInLookup(const Identifier& componentType, const String& componentName) const
 {
     for (int i = 0; i < componentLookup.size(); i++)
     {
@@ -1008,7 +1006,7 @@ bool Configuration::componentInLookup(const Identifier& componentType, const Str
     return false;
 }
 
-void Configuration::setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly)
+void Configuration::setupParameterLists(StringArray& parameterDescriptions, Array<var>& parameterNames, bool discreteOnly) const
 {
     ValueTree parameters = getParameters();
     
@@ -1024,7 +1022,7 @@ void Configuration::setupParameterLists(StringArray& parameterDescriptions, Arra
     }
 }
 
-void Configuration::setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues)
+void Configuration::setupSettingLists(const String& parameterName, StringArray& settingNames, Array<var>& settingValues) const
 {
     ValueTree parameter(getParameters().getChildWithProperty(Ids::name, parameterName));
 
@@ -1075,7 +1073,7 @@ String Configuration::getComponentTypeName(const Identifier& type)
     else                                   return String::empty;
 }
 
-ValueTree Configuration::getStyleOverride(const Identifier& componentType, const String& componentName)
+ValueTree Configuration::getStyleOverride(const Identifier& componentType, const String& componentName) const
 {
     ValueTree componentStyleOverrides = configurationRoot.getChildWithName(Ids::styleOverrides).getChildWithName(getMappingParentId(componentType));
 

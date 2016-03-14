@@ -27,8 +27,6 @@
 #ifndef SETTINGSTABLE_H_INCLUDED
 #define SETTINGSTABLE_H_INCLUDED
 #include <JuceHeader.h>
-#include "ConfigurationManager.h"
-#include "../Core/Global.h"
 
 /* =========================================================================
  * SettingsTable: TableListBox for managing Parameter Settings
@@ -45,7 +43,7 @@ public:
 
     void       resized() override;
     
-    int        getNumRows();
+    int        getNumRows() override;
     void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
@@ -82,21 +80,19 @@ private:
     class LabelComp;
     friend class LabelComp;
 
-    void textWasEdited();
-    
-	void undo();
-	void redo();
+    void undo() const;
+	void redo() const;
 	void addSettings();
     void removeSettings();
     void updateParameterRanges();
-    void autoFill();
+    void autoFill() const;
     void moveSettings(bool moveUp);
 
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsTable)
 };

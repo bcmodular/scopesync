@@ -32,8 +32,6 @@
 #include "BCMComboBox.h"
 #include "BCMLabel.h"
 #include "../Properties/PropertiesHelper.h"
-#include "../Utils/BCMMath.h"
-#include "../Core/ScopeSyncGUI.h"
 #include "../Resources/ImageLoader.h"
 #include "../Configuration/Configuration.h"
 
@@ -87,7 +85,7 @@ void FilmStripImage::setUp(const String& fileName,       const String& mouseOver
     }
 }
 
-Image FilmStripImage::getImageAtIndex(int frameIndex, bool isMouseOver)
+Image FilmStripImage::getImageAtIndex(int frameIndex, bool isMouseOver) const
 {
     int srcX;
     int srcY;
@@ -141,7 +139,7 @@ BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAn
 
 BCMLookAndFeel::~BCMLookAndFeel() {};
 
-const String& BCMLookAndFeel::getId() { return id; };
+const String& BCMLookAndFeel::getId() const { return id; };
 
 void BCMLookAndFeel::setupColourIds()
 {
@@ -319,7 +317,7 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
     }
 }
 
-void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& fileName)
+void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& fileName) const
 {
     if (fileName.isNotEmpty())
     {
@@ -330,7 +328,7 @@ void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& 
     }
 }
 
-void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage)
+void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage) const
 {
     String fileName          = xml.getStringAttribute("filename",          String::empty);
     String mouseOverFileName = xml.getStringAttribute("mouseoverfilename", String::empty);
@@ -462,7 +460,7 @@ void BCMLookAndFeel::drawRotarySlider
         }
 
         // Draw filmstrip image
-        int   frameIndex = (int)(sliderPosProportional * (rotary.numFrames - 1));
+        int   frameIndex = static_cast<int>(sliderPosProportional * (rotary.numFrames - 1));
         Image indexImage = rotary.getImageAtIndex(frameIndex, slider.isMouseOverOrDragging());
         
         g.drawImageWithin(indexImage, x, y, width, height, RectanglePlacement::doNotResize);
@@ -474,7 +472,7 @@ void BCMLookAndFeel::drawRotarySlider
     }
 }
 
-void BCMLookAndFeel::drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider)
+void BCMLookAndFeel::drawRotaryFillBackground(Graphics& g, int x, int y, int width, int height, Slider& slider) const
 {
     if (rotaryFillBackground.isValid())
     {
@@ -483,7 +481,7 @@ void BCMLookAndFeel::drawRotaryFillBackground(Graphics& g, int x, int y, int wid
     }
 }
 
-void BCMLookAndFeel::drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider)
+void BCMLookAndFeel::drawRotaryOutlineBackground(Graphics& g, int x, int y, int width, int height, Slider& slider) const
 {
     if (rotaryOutlineBackground.isValid())
     {
@@ -518,8 +516,8 @@ void BCMLookAndFeel::drawLinearSliderThumb
             image = linearVerticalThumb;
 
         g.drawImageAt(image,
-                      (int)(x + (width / 2.0f) - (linearVerticalThumb.getWidth() / 2.0f)),
-                      (int)(sliderPos - (linearVerticalThumb.getHeight() / 2.0f)));
+                      static_cast<int>(x + (width / 2.0f) - (linearVerticalThumb.getWidth() / 2.0f)),
+                      static_cast<int>(sliderPos - (linearVerticalThumb.getHeight() / 2.0f)));
     }
     else if (linearHorizontalThumb.isValid() && (sliderStyle == Slider::LinearHorizontal))
     {
@@ -532,8 +530,8 @@ void BCMLookAndFeel::drawLinearSliderThumb
 
         g.setOpacity(1.0f);
         g.drawImageAt(image,
-                      (int)(sliderPos - (linearHorizontalThumb.getWidth() / 2.0f)),
-                      (int)(y + (height / 2.0f) - (linearHorizontalThumb.getHeight() / 2.0f)));
+                      static_cast<int>(sliderPos - (linearHorizontalThumb.getWidth() / 2.0f)),
+                      static_cast<int>(y + (height / 2.0f) - (linearHorizontalThumb.getHeight() / 2.0f)));
     }
     else
     {
@@ -567,19 +565,19 @@ void BCMLookAndFeel::drawLinearSliderBackground
 {
     if (style == Slider::LinearVertical && linearVerticalBackground.numFrames > 0)
     {
-        int   frameIndex = (int)((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearVerticalBackground.numFrames - 1));
+        int   frameIndex = static_cast<int>((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearVerticalBackground.numFrames - 1));
         Image indexImage = linearVerticalBackground.getImageAtIndex(frameIndex, slider.isMouseOverOrDragging());
         
         g.setOpacity(1.0f);
-        g.drawImageAt(indexImage, (int)(x + (width / 2.0f) - (indexImage.getWidth() / 2.0f)), y);
+        g.drawImageAt(indexImage, static_cast<int>(x + (width / 2.0f) - (indexImage.getWidth() / 2.0f)), y);
     }
     else if (style == Slider::LinearHorizontal && linearHorizontalBackground.numFrames > 0)
     {
-        int   frameIndex = (int)((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearHorizontalBackground.numFrames - 1));
+        int   frameIndex = static_cast<int>((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearHorizontalBackground.numFrames - 1));
         Image indexImage = linearHorizontalBackground.getImageAtIndex(frameIndex, slider.isMouseOverOrDragging());
         
         g.setOpacity(1.0f);
-        g.drawImageAt(indexImage, x, (int)(y + (height / 2.0f) - (indexImage.getHeight() / 2.0f)));
+        g.drawImageAt(indexImage, x, static_cast<int>(y + (height / 2.0f) - (indexImage.getHeight() / 2.0f)));
     }
     else
     {
@@ -725,7 +723,7 @@ void BCMLookAndFeel::drawLabel(Graphics& g, Label& label)
 		LookAndFeel_V2::drawLabel(g, label);
 }
 
-int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType)
+int BCMLookAndFeel::appliesToComponentType(const Identifier& componentType) const
 {
     // Applies generally
     if (appliesTo.size() == 0)
@@ -750,28 +748,28 @@ void BCMLookAndFeel::drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics
     switch (bar.getOrientation())
     {
         case TabbedButtonBar::TabsAtLeft:
-            gradient.point1.x = (float) w;
+            gradient.point1.x = static_cast<float>(w);
             gradient.point2.x = w * (1.0f - shadowSize);
-            shadowRect.setBounds ((int) gradient.point2.x, 0, w - (int) gradient.point2.x, h);
+            shadowRect.setBounds (static_cast<int>(gradient.point2.x), 0, w - static_cast<int>(gradient.point2.x), h);
             line.setBounds (w - 1, 0, 1, h);
             break;
 
         case TabbedButtonBar::TabsAtRight:
             gradient.point2.x = w * shadowSize;
-            shadowRect.setBounds (0, 0, (int) gradient.point2.x, h);
+            shadowRect.setBounds (0, 0, static_cast<int>(gradient.point2.x), h);
             line.setBounds (0, 0, 1, h);
             break;
 
         case TabbedButtonBar::TabsAtTop:
-            gradient.point1.y = (float) h;
+            gradient.point1.y = static_cast<float>(h);
             gradient.point2.y = h * (1.0f - shadowSize);
-            shadowRect.setBounds (0, (int) gradient.point2.y, w, h - (int) gradient.point2.y);
+            shadowRect.setBounds (0, static_cast<int>(gradient.point2.y), w, h - static_cast<int>(gradient.point2.y));
             line.setBounds (0, h - 1, w, 1);
             break;
 
         case TabbedButtonBar::TabsAtBottom:
             gradient.point2.y = h * shadowSize;
-            shadowRect.setBounds (0, 0, w, (int) gradient.point2.y);
+            shadowRect.setBounds (0, 0, w, static_cast<int>(gradient.point2.y));
             line.setBounds (0, 0, w, 1);
             break;
 
