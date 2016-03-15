@@ -26,7 +26,6 @@
  */
 
 #include "Icons.h"
-#include "../Core/ScopeSyncApplication.h"
 
 juce_ImplementSingleton (Icons)
 

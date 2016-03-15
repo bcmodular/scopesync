@@ -26,8 +26,7 @@
 
 #include "BCMMisc.h"
 #include "BCMMath.h"
-#include "../Resources/Icons.h"
-#include "../Core/Global.h"
+#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID()
 {
@@ -219,4 +218,130 @@ void FltProperty::labelTextChanged(Label* labelThatHasChanged)
         textEditor->clearError();
 
     NumericProperty::setText(newText);
+}
+
+ColourPropertyComponent::ColourPropertyComponent(const String& name, const bool canReset): PropertyComponent (name)
+{
+    colourPropEditor = new ColourPropEditorComponent(this, canReset);
+    addAndMakeVisible(colourPropEditor);
+}
+
+void ColourPropertyComponent::refresh()
+{
+    static_cast<ColourPropEditorComponent*>(getChildComponent(0))->refresh();
+}
+
+ColourPropertyComponent::ColourEditorComponent::ColourEditorComponent(const bool canReset): canResetToDefault (canReset) {}
+
+void ColourPropertyComponent::ColourEditorComponent::paint(Graphics& g)
+{
+    g.fillAll (Colours::grey);
+
+    g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
+                        10, 10,
+                        Colour (0xffdddddd).overlaidWith (colour),
+                        Colour (0xffffffff).overlaidWith (colour));
+
+    g.setColour (Colours::white.overlaidWith (colour).contrasting());
+    g.setFont (Font (getHeight() * 0.6f, Font::bold));
+    g.drawFittedText (colour.toDisplayString (true),
+                      2, 1, getWidth() - 4, getHeight() - 1,
+                      Justification::centred, 1);
+}
+
+void ColourPropertyComponent::ColourEditorComponent::refresh()
+{
+    const Colour col (getColour());
+
+    if (col != colour)
+    {
+        colour = col;
+        repaint();
+    }
+}
+
+void ColourPropertyComponent::ColourEditorComponent::mouseDown(const MouseEvent&)
+{
+    CallOutBox::launchAsynchronously (new ColourSelectorComp (this, canResetToDefault),
+                                      getScreenBounds(), nullptr);
+}
+
+void ColourPropertyComponent::ColourEditorComponent::changeListenerCallback(ChangeBroadcaster* source)
+{
+    const ColourSelector* const cs = static_cast<const ColourSelector*>(source);
+
+    if (cs->getCurrentColour() != getColour())
+        setColour(cs->getCurrentColour());
+}
+
+ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorComp(ColourEditorComponent* owner_, const bool canReset): owner (owner_),
+                                                                                                                                            defaultButton ("Reset to Default")
+{
+    addAndMakeVisible (selector);
+    selector.setName ("Colour");
+    selector.setCurrentColour (owner->getColour());
+    selector.addChangeListener (owner);
+
+    if (canReset)
+    {
+        addAndMakeVisible (defaultButton);
+        defaultButton.addListener (this);
+    }
+
+    setSize (300, 400);
+}
+
+void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::resized()
+{
+    if (defaultButton.isVisible())
+    {
+        selector.setBounds (0, 0, getWidth(), getHeight() - 30);
+        defaultButton.changeWidthToFitText (22);
+        defaultButton.setTopLeftPosition (10, getHeight() - 26);
+    }
+    else
+    {
+        selector.setBounds (getLocalBounds());
+    }
+}
+
+void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::buttonClicked(Button*)
+{
+    owner->resetToDefault();
+    owner->refresh();
+    selector.setCurrentColour (owner->getColour());
+}
+
+ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::ColourSelectorWithSwatches() {}
+
+int ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getNumSwatches() const
+{
+    return UserSettings::getInstance()->swatchColours.size();
+}
+
+Colour ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getSwatchColour(int index) const
+{
+    return UserSettings::getInstance()->swatchColours [index];
+}
+
+void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour) const
+{
+    UserSettings::getInstance()->swatchColours.set(index, newColour);
+}
+
+ColourPropertyComponent::ColourPropEditorComponent::ColourPropEditorComponent(ColourPropertyComponent* const owner_, const bool canReset): ColourEditorComponent(canReset), owner (owner_) {}
+
+void ColourPropertyComponent::ColourPropEditorComponent::setColour(Colour newColour)
+{
+    owner->setColour(newColour);
+}
+
+Colour ColourPropertyComponent::ColourPropEditorComponent::getColour() const
+{
+    return owner->getColour();
+}
+
+void ColourPropertyComponent::ColourPropEditorComponent::resetToDefault()
+{
+    owner->resetToDefault();
 }

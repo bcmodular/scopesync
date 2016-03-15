@@ -48,8 +48,8 @@ struct Icon
             if (isCrossedOut)
             {
                 g.setColour (Colours::red.withAlpha (0.8f));
-                g.drawLine ((float)area.getX(), area.getY() + area.getHeight() * 0.2f,
-                            (float)area.getRight(), area.getY() + area.getHeight() * 0.8f, 3.0f);
+                g.drawLine (static_cast<float>(area.getX()), area.getY() + area.getHeight() * 0.2f,
+                            static_cast<float>(area.getRight()), area.getY() + area.getHeight() * 0.8f, 3.0f);
             }
         }
     }

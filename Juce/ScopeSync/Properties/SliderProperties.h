@@ -72,7 +72,7 @@ private:
     void copyProperties(SliderProperties& parentSliderProperties);
     void setValuesFromXML(XmlElement& sliderXML);
 
-           void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle);
+           void getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle) const;
     static void getIncDecButtonModeFromXml(const String& buttonModeText, Slider::IncDecButtonMode& incDecButtonMode);
     static void getRangeFromXml(const XmlElement& xml, double& min, double& max, double& interval);
     static void getTextBoxPositionFromXML(const String& positionText, Slider::TextEntryBoxPosition& position);

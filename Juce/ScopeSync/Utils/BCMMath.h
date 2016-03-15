@@ -55,9 +55,9 @@ namespace BCMMath
     inline double scopeIntToDouble(int scopeInt)
     {
         if (scopeInt > 0)
-            return scopeInt / (double)0x7FFFFFFF;
+            return scopeInt / static_cast<double>(0x7FFFFFFF);
         else if (scopeInt < 0)
-            return scopeInt / (double)0x80000000;
+            return scopeInt / static_cast<double>(0x80000000);
         else
             return 0.0;
     }

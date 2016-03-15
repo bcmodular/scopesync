@@ -176,7 +176,7 @@ void ImageLoader::addImageResource(String imageName, const char* image, int imag
     imageResources.add(imageResource);
 }
 
-Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath)
+Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const
 {
     for (int i = 0; i < imageResources.size(); i++)
     {

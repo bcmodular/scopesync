@@ -40,15 +40,15 @@ namespace PropertiesHelper
         styleFlags = Font::plain;
 
         if (xml.getBoolAttribute("bold", false))
-            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::bold);
+            styleFlags = static_cast<Font::FontStyleFlags>(styleFlags | Font::bold);
 
         if (xml.getBoolAttribute("italic", false))
-            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::italic);
+            styleFlags = static_cast<Font::FontStyleFlags>(styleFlags | Font::italic);
 
         if (xml.getBoolAttribute("underlined", false))
-            styleFlags = (Font::FontStyleFlags)(styleFlags | Font::underlined);
+            styleFlags = static_cast<Font::FontStyleFlags>(styleFlags | Font::underlined);
 
-        height = (float)(xml.getDoubleAttribute("height", height));
+        height = static_cast<float>(xml.getDoubleAttribute("height", height));
     }
 
     inline void getJustificationFlagsFromXml(const XmlElement& xml, Justification::Flags& flags)
@@ -64,7 +64,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::left);
+                flags = static_cast<Justification::Flags>(flags | Justification::left);
         }
         
         if (xml.getBoolAttribute("right", false))
@@ -75,7 +75,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::right);
+                flags = static_cast<Justification::Flags>(flags | Justification::right);
         }
 
         if (xml.getBoolAttribute("horizontallycentred", false))
@@ -86,7 +86,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::horizontallyCentred);
+                flags = static_cast<Justification::Flags>(flags | Justification::horizontallyCentred);
         }
 
         if (xml.getBoolAttribute("top", false))
@@ -97,7 +97,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::top);
+                flags = static_cast<Justification::Flags>(flags | Justification::top);
         }
         
         if (xml.getBoolAttribute("bottom", false))
@@ -108,7 +108,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::bottom);
+                flags = static_cast<Justification::Flags>(flags | Justification::bottom);
         }
 
         if (xml.getBoolAttribute("verticallycentred", false))
@@ -119,7 +119,7 @@ namespace PropertiesHelper
                 firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::verticallyCentred);
+                flags = static_cast<Justification::Flags>(flags | Justification::verticallyCentred);
         }
         
         if (xml.getBoolAttribute("horizontallyjustified", false))
@@ -127,10 +127,9 @@ namespace PropertiesHelper
             if (firstFlag)
             {
                 flags = Justification::horizontallyJustified;
-                firstFlag = false;
             }
             else
-                flags = (Justification::Flags)(flags | Justification::horizontallyJustified);
+                flags = static_cast<Justification::Flags>(flags | Justification::horizontallyJustified);
         }
     }
 

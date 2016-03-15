@@ -1,12 +1,29 @@
-/*
-  ==============================================================================
-
-    PresetManager.h
-    Created: 2 Nov 2014 10:12:07am
-    Author:  giles
-
-  ==============================================================================
-*/
+/**
+ * The Preset Manager allows users to set up and manage Parameter
+ * Presets
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #ifndef PRESETMANAGER_H_INCLUDED
 #define PRESETMANAGER_H_INCLUDED
@@ -34,11 +51,11 @@ public:
     void paintOverChildren (Graphics&) override;
     void resized() override;
     void childBoundsChanged(Component* child) override;
-    void saveTreeViewState();
+    void saveTreeViewState() const;
     void unload();
     void changePanel(Component* newComponent);
 
-    ApplicationCommandManager* getCommandManager() { return commandManager; };
+    ApplicationCommandManager* getCommandManager() const;
 
 private:
     LookAndFeel_V3             lookAndFeel;
@@ -67,24 +84,24 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
-    void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+    static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
 
     void timerCallback() override;
     void actionListenerCallback(const String& message) override;
     
-    void copyItem();
-    void pasteItem();
-    void deleteItems();
-    void addItem();
-    void addItemFromClipboard();
+    void copyItem() const;
+    void pasteItem() const;
+    void deleteItems() const;
+    void addItem() const;
+    void addItemFromClipboard() const;
 
-    void save();
-    void saveAs();
+    void save() const;
+    void saveAs() const;
     void undo();
     void redo();
-    bool canPasteItem();
+    bool canPasteItem() const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetManager);
 };
@@ -97,9 +114,9 @@ class PresetMenuBarModel  : public MenuBarModel
 public:
     PresetMenuBarModel(PresetManagerWindow& owner);
 
-    StringArray getMenuBarNames();
-    PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName);
-    void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) {};
+    StringArray getMenuBarNames() override;
+    PopupMenu   getMenuForIndex(int topLevelMenuIndex, const String& menuName) override;
+    void        menuItemSelected(int /* menuItemID */, int /* topLevelMenuIndex */) override;;
 
     PresetManagerWindow& presetManagerWindow;
 
@@ -120,17 +137,17 @@ public:
                         int posX, int posY);
     ~PresetManagerWindow();
 
-    ApplicationCommandManager* getCommandManager() { return commandManager; };
-    StringArray getMenuNames();
-    void createMenu(PopupMenu& menu, const String& menuName);
-    void createFileMenu(PopupMenu& menu);
-    void createEditMenu(PopupMenu& menu);
+    ApplicationCommandManager* getCommandManager() const;
+    static StringArray getMenuNames();
+    void createMenu(PopupMenu& menu, const String& menuName) const;
+    void createFileMenu(PopupMenu& menu) const;
+    void createEditMenu(PopupMenu& menu) const;
 
     void addPresetFile();
     void unload();
     void discardChanges();
     void restoreWindowPosition();
-    void updatePresetLibrary();
+    static void updatePresetLibrary();
     void hidePresetManager(bool offerToSave = true);
 
     void showPresetFileChooser();
@@ -138,7 +155,7 @@ public:
     
     void incrNumActions() { numActions += 1; }
 
-    bool presetsHaveChanged();
+    bool presetsHaveChanged() const;
 
     PresetFile& getPresetFile() { return presetFile; }
 
@@ -157,7 +174,7 @@ private:
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
-    void actionListenerCallback(const String& message);
+    void actionListenerCallback(const String& message) override;
     bool newPresetFileIsInLocation();
 
     static void alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, PresetManagerWindow* pmw);

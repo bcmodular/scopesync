@@ -44,7 +44,7 @@ public:
     };
     
     // Load image, either direct from file, via Image Cache, or from resources
-    Image         loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath);
+    Image         loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const;
     
     juce_DeclareSingleton(ImageLoader, false)
 

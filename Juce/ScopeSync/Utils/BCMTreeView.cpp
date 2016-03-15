@@ -14,8 +14,8 @@
 
 BCMTreeView::BCMTreeView(UndoManager& um, BCMTreeItem* root, PropertiesFile& props)
     : undoManager(um),
-      storedRow(-1),
-      properties(props)
+      properties(props),
+      storedRow(-1)
 {
     addAndMakeVisible(tree);
 
@@ -64,19 +64,19 @@ void BCMTreeView::resized()
     tree.setBounds(r);
 }
 
-void BCMTreeView::copyItem()
+void BCMTreeView::copyItem() const
 {
     if (tree.getNumSelectedItems() == 1)
         dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(0))->copyItem();
 }
 
-void BCMTreeView::pasteItem()
+void BCMTreeView::pasteItem() const
 {
     if (tree.getNumSelectedItems() == 1)
         dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(0))->pasteItem();
 }
 
-bool BCMTreeView::canPasteItem()
+bool BCMTreeView::canPasteItem() const
 {
     if (tree.getNumSelectedItems() == 1)
         return dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(0))->canPasteItem();
@@ -84,19 +84,19 @@ bool BCMTreeView::canPasteItem()
         return false;
 }
 
-void BCMTreeView::addItem()
+void BCMTreeView::addItem() const
 {
     if (tree.getNumSelectedItems() == 1)
         dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(0))->addItem();
 }
 
-void BCMTreeView::addItemFromClipboard()
+void BCMTreeView::addItemFromClipboard() const
 {
     if (tree.getNumSelectedItems() == 1)
         dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(0))->addItemFromClipboard();
 }
 
-void BCMTreeView::deleteSelectedItems()
+void BCMTreeView::deleteSelectedItems() const
 {
     StringArray identifiers;
 
@@ -112,7 +112,7 @@ void BCMTreeView::deleteSelectedItems()
     }
 }
 
-void BCMTreeView::changePanel()
+void BCMTreeView::changePanel() const
 {
     BCMTreeItem* treeItem = dynamic_cast<BCMTreeItem*>(tree.getSelectedItem(tree.getNumSelectedItems() - 1));
     
@@ -120,7 +120,7 @@ void BCMTreeView::changePanel()
         treeItem->changePanel();
 }
 
-void BCMTreeView::saveTreeViewState()
+void BCMTreeView::saveTreeViewState() const
 {
     const ScopedPointer<XmlElement> opennessState(tree.getOpennessState(true));
 
@@ -166,13 +166,13 @@ public:
         item.paintContent(g, Rectangle<int>(item.textX, 0, getWidth() - item.textX, getHeight()));
     }
 
-    void paintIcon (Graphics& g)
+    void paintIcon (Graphics& g) const
     {
         item.getIcon().draw(g, Rectangle<float> (4.0f, 2.0f, item.getIconSize(), getHeight() - 4.0f),
                                 item.isIconCrossedOut());
     }
 
-    void resized() override { item.textX = (int)item.getIconSize() + 8; }
+    void resized() override { item.textX = static_cast<int>(item.getIconSize()) + 8; }
 
     BCMTreeItem& item;
 
@@ -185,10 +185,10 @@ private:
  * BCMTreeItem
  */
 BCMTreeItem::BCMTreeItem(const ValueTree& v, UndoManager& um, ApplicationCommandManager* acm)
-    : tree(v),
-      undoManager(um),
-      textX(0),
-      commandManager(acm)
+    : textX(0),
+      tree(v),
+      commandManager(acm),
+      undoManager(um)
 {
     tree.addListener(this);
 }
@@ -216,6 +216,8 @@ Font BCMTreeItem::getFont() const { return Font (getItemHeight() * 0.7f); }
 
 float BCMTreeItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
+bool BCMTreeItem::isIconCrossedOut() { return false; }
+
 void BCMTreeItem::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver)
 {
     TreeViewItem::paintOpenCloseButton(g, area, backgroundColour, isMouseOver);
@@ -235,7 +237,7 @@ Colour BCMTreeItem::getContrastingColour(float contrast) const { return getBackg
 
 Colour BCMTreeItem::getContrastingColour(Colour target, float minContrast) const { return getBackgroundColour().contrasting(target, minContrast); }
 
-void BCMTreeItem::paintContent(Graphics& g, const Rectangle<int>& area)
+void BCMTreeItem::paintContent(Graphics& g, const Rectangle<int>& area) const
 {
     g.setFont(getFont());
     g.setColour(getContrastingColour(0.8f));
@@ -339,7 +341,7 @@ void BCMTreeItem::showMultiSelectionPopupMenu()
     m.showMenuAsync(PopupMenu::Options(), nullptr);
 }
 
-void BCMTreeItem::deleteAllSelectedItems()
+void BCMTreeItem::deleteAllSelectedItems() const
 {
     TreeView* treeView = getOwnerView();
     StringArray identifiers;
@@ -394,7 +396,7 @@ void BCMTreeItem::cancelDelayedSelectionTimer()
     delayedSelectionTimer = nullptr;
 }
 
-void BCMTreeItem::storeSelectionOnAdd()
+void BCMTreeItem::storeSelectionOnAdd() const
 {
     DBG("BCMTreeItem::storeSelectionOnAdd - Row Number: " + String(getRowNumberInTree() + 1));
 
@@ -402,7 +404,7 @@ void BCMTreeItem::storeSelectionOnAdd()
     bcmTree->storeSelectedItem(getRowNumberInTree() + 1);
 }
 
-void BCMTreeItem::storeSelectionOnDelete()
+void BCMTreeItem::storeSelectionOnDelete() const
 {
     int rowNumber = getRowNumberInTree();
 
@@ -415,4 +417,9 @@ void BCMTreeItem::storeSelectionOnDelete()
 
     BCMTreeView* bcmTree = dynamic_cast<BCMTreeView*> (getOwnerView()->getParentComponent());
     bcmTree->storeSelectedItem(rowNumber);
+}
+
+int BCMTreeItem::getMillisecsAllowedForDragGesture()
+{
+    return 120;
 }

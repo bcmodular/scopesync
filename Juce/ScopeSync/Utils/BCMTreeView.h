@@ -24,16 +24,16 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
-    void saveTreeViewState();
+    void saveTreeViewState() const;
 
-    void copyItem();
-    void pasteItem();
-    bool canPasteItem();
+    void copyItem() const;
+    void pasteItem() const;
+    bool canPasteItem() const;
 
-    void addItem();
-    void addItemFromClipboard();
-    void deleteSelectedItems();
-    void changePanel();
+    void addItem() const;
+    void addItemFromClipboard() const;
+    void deleteSelectedItems() const;
+    void changePanel() const;
 
     void storeSelectedItem(int row);
     void moveToSelectedItem();
@@ -71,8 +71,8 @@ public:
     virtual Font   getFont() const;
     virtual Icon   getIcon() const = 0;
     virtual float  getIconSize() const;
-    bool           isIconCrossedOut() const { return false; }
-    void           paintContent(Graphics& g, const Rectangle<int>& area);
+    static bool isIconCrossedOut();
+    void           paintContent(Graphics& g, const Rectangle<int>& area) const;
     void           paintOpenCloseButton(Graphics&, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver) override;
     Component*     createItemComponent() override;
     void           itemOpennessChanged(bool isNowOpen) override;
@@ -95,10 +95,10 @@ public:
     virtual void showPopupMenu() = 0;
     virtual void showMultiSelectionPopupMenu();
     
-    void         storeSelectionOnAdd();
-    void         storeSelectionOnDelete();
+    void         storeSelectionOnAdd() const;
+    void         storeSelectionOnDelete() const;
 
-    int          getMillisecsAllowedForDragGesture() { return 120; };
+    static int   getMillisecsAllowedForDragGesture();;
     void         cancelDelayedSelectionTimer();
     
     virtual String getDisplayName() const;
@@ -132,8 +132,6 @@ protected:
     ApplicationCommandManager* commandManager;
     UndoManager& undoManager;
 
-    static void treeViewMultiSelectItemChosen(int resultCode, BCMTreeItem* item);
-    
 private:
     class        ItemSelectionTimer;
     friend class ItemSelectionTimer;
@@ -154,7 +152,7 @@ private:
     void treeChildrenChanged (const ValueTree& parentTree);
     void invokeChangePanel();
 
-    void deleteAllSelectedItems();
+    void deleteAllSelectedItems() const;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BCMTreeItem)
 };

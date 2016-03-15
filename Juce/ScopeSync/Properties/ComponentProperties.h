@@ -52,7 +52,7 @@ private:
     void initialise();
     void copyProperties(ComponentProperties& parentComponentProperties);
     void setValuesFromXML(XmlElement& componentXML);
-    void getRectanglePlacementFromString(String string, RectanglePlacement& placement);
+    static void getRectanglePlacementFromString(String string, RectanglePlacement& placement);
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ComponentProperties);

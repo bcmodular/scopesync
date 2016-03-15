@@ -28,7 +28,6 @@
 #define BCMMISC_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID();
 
@@ -72,7 +71,7 @@ public:
         outlineColourId    = 0x100e403,
     };
 
-    void refresh();
+    void refresh() override;
     void labelTextChanged(Label* labelThatHasChanged) override;
 
 protected:
@@ -82,7 +81,6 @@ protected:
     ScopedPointer<LabelComp> textEditor;
 
 private:
-    void textWasEdited();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NumericProperty)
 };
@@ -133,141 +131,54 @@ class ColourPropertyComponent : public PropertyComponent
 {
 public:
     ColourPropertyComponent(const String& name,
-                            const bool canReset)
-        : PropertyComponent (name)
-    {
-        colourPropEditor = new ColourPropEditorComponent(this, canReset);
-        addAndMakeVisible(colourPropEditor);
-    }
+                            const bool canReset);
 
     virtual void   setColour(Colour newColour) = 0;
     virtual Colour getColour() const = 0;
     virtual void   resetToDefault() = 0;
 
-    void refresh()
-    {
-        ((ColourPropEditorComponent*)getChildComponent(0))->refresh();
-    }
+    void refresh() override;
 
     class ColourEditorComponent : public Component,
                                   public ChangeListener
     {
     public:
-        ColourEditorComponent (const bool canReset)
-            : canResetToDefault (canReset)
-        {}
+        ColourEditorComponent(const bool canReset);
 
-        void paint (Graphics& g)
-        {
-            g.fillAll (Colours::grey);
-
-            g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
-                                10, 10,
-                                Colour (0xffdddddd).overlaidWith (colour),
-                                Colour (0xffffffff).overlaidWith (colour));
-
-            g.setColour (Colours::white.overlaidWith (colour).contrasting());
-            g.setFont (Font (getHeight() * 0.6f, Font::bold));
-            g.drawFittedText (colour.toDisplayString (true),
-                              2, 1, getWidth() - 4, getHeight() - 1,
-                              Justification::centred, 1);
-        }
+        void paint(Graphics& g) override;
 
         virtual void setColour (Colour newColour) = 0;
         virtual void resetToDefault() = 0;
         virtual Colour getColour() const = 0;
 
-        void refresh()
-        {
-            const Colour col (getColour());
+        void refresh();
 
-            if (col != colour)
-            {
-                colour = col;
-                repaint();
-            }
-        }
+        void mouseDown(const MouseEvent&) override;
 
-        void mouseDown (const MouseEvent&)
-        {
-            CallOutBox::launchAsynchronously (new ColourSelectorComp (this, canResetToDefault),
-                                              getScreenBounds(), nullptr);
-        }
-
-        void changeListenerCallback (ChangeBroadcaster* source)
-        {
-            const ColourSelector* const cs = (const ColourSelector*) source;
-
-            if (cs->getCurrentColour() != getColour())
-                setColour(cs->getCurrentColour());
-        }
+        void changeListenerCallback(ChangeBroadcaster* source) override;
 
         class ColourSelectorComp : public Component,
                                    public ButtonListener
         {
         public:
-            ColourSelectorComp (ColourEditorComponent* owner_,
-                                const bool canReset)
-                : owner (owner_),
-                  defaultButton ("Reset to Default")
-            {
-                addAndMakeVisible (selector);
-                selector.setName ("Colour");
-                selector.setCurrentColour (owner->getColour());
-                selector.addChangeListener (owner);
+            ColourSelectorComp(ColourEditorComponent* owner_,
+                               const bool canReset);
 
-                if (canReset)
-                {
-                    addAndMakeVisible (defaultButton);
-                    defaultButton.addListener (this);
-                }
+            void resized() override;
 
-                setSize (300, 400);
-            }
-
-            void resized()
-            {
-                if (defaultButton.isVisible())
-                {
-                    selector.setBounds (0, 0, getWidth(), getHeight() - 30);
-                    defaultButton.changeWidthToFitText (22);
-                    defaultButton.setTopLeftPosition (10, getHeight() - 26);
-                }
-                else
-                {
-                    selector.setBounds (getLocalBounds());
-                }
-            }
-
-            void buttonClicked (Button*)
-            {
-                owner->resetToDefault();
-                owner->refresh();
-                selector.setCurrentColour (owner->getColour());
-            }
+            void buttonClicked(Button*) override;
 
         private:
             class ColourSelectorWithSwatches : public ColourSelector
             {
             public:
-                ColourSelectorWithSwatches()
-                {
-                }
+                ColourSelectorWithSwatches();
 
-                int getNumSwatches() const override
-                {
-                    return UserSettings::getInstance()->swatchColours.size();
-                }
+                int getNumSwatches() const override;
 
-                Colour getSwatchColour (int index) const override
-                {
-                    return UserSettings::getInstance()->swatchColours [index];
-                }
+                Colour getSwatchColour(int index) const override;
 
-                void setSwatchColour (int index, const Colour& newColour) const override
-                {
-                    UserSettings::getInstance()->swatchColours.set(index, newColour);
-                }
+                void setSwatchColour(int index, const Colour& newColour) const override;
             };
 
             ColourEditorComponent* owner;
@@ -286,25 +197,13 @@ public:
 
     public:
         ColourPropEditorComponent(ColourPropertyComponent* const owner_,
-                                  const bool canReset)
-            : ColourEditorComponent(canReset),
-              owner (owner_)
-        {}
+                                  const bool canReset);
 
-        void setColour (Colour newColour) override
-        {
-            owner->setColour(newColour);
-        }
+        void setColour(Colour newColour) override;
 
-        Colour getColour() const override
-        {
-            return owner->getColour();
-        }
+        Colour getColour() const override;
 
-        void resetToDefault()
-        {
-            owner->resetToDefault();
-        }
+        void resetToDefault() override;
     };
 
     ScopedPointer<ColourPropEditorComponent> colourPropEditor;

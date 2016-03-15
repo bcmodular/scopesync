@@ -1,12 +1,29 @@
-/*
-  ==============================================================================
-
-    PresetManager.cpp
-    Created: 2 Nov 2014 10:12:07am
-    Author:  giles
-
-  ==============================================================================
-*/
+/**
+ * The Preset Manager allows users to set up and manage Parameter
+ * Presets
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #include "PresetManager.h"
 #include "PresetItem.h"
@@ -19,8 +36,7 @@
  * PresetManager
  */
 PresetManager::PresetManager(PresetManagerWindow& parent) 
-    : parentWindow(parent),
-      addButton("New"),
+    : addButton("New"),
       openButton("Open"),
       saveButton("Save"),
       saveAsButton("Save As..."),
@@ -28,7 +44,8 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
       discardChangesButton("Discard All Unsaved Changes"),
       undoButton("Undo"),
       redoButton("Redo"),
-      presetFile(parent.getPresetFile())
+      presetFile(parent.getPresetFile()),
+      parentWindow(parent)
 {
     UserSettings::getInstance()->addActionListener(this);
     
@@ -124,6 +141,11 @@ void PresetManager::changePanel(Component* newComponent)
     panel = newComponent;
     addAndMakeVisible(panel);
     resized();
+}
+
+ApplicationCommandManager* PresetManager::getCommandManager() const
+{
+    return commandManager;
 }
 
 void PresetManager::unload()
@@ -252,31 +274,31 @@ bool PresetManager::perform(const InvocationInfo& info)
     return true;
 }
 
-void PresetManager::copyItem()
+void PresetManager::copyItem() const
 {
     treeView->copyItem();
     parentWindow.incrNumActions();
 }
 
-void PresetManager::pasteItem()
+void PresetManager::pasteItem() const
 {
      treeView->pasteItem();
      parentWindow.incrNumActions();
 }
  
-void PresetManager::deleteItems()
+void PresetManager::deleteItems() const
 {
     treeView->deleteSelectedItems();
     parentWindow.incrNumActions();
 }
 
-void PresetManager::addItem()
+void PresetManager::addItem() const
 {
     treeView->addItem();
     parentWindow.incrNumActions();
 }
 
-void PresetManager::addItemFromClipboard()
+void PresetManager::addItemFromClipboard() const
 {
     treeView->addItemFromClipboard();
     parentWindow.incrNumActions();
@@ -300,7 +322,7 @@ void PresetManager::redo()
     }
 }
 
-bool PresetManager::canPasteItem()
+bool PresetManager::canPasteItem() const
 {
     if (treeView != nullptr)
         return treeView->canPasteItem();
@@ -319,7 +341,7 @@ void PresetManager::childBoundsChanged(Component* child)
         resized();
 }
 
-void PresetManager::saveTreeViewState()
+void PresetManager::saveTreeViewState() const
 {
     treeView->saveTreeViewState();
 }
@@ -376,8 +398,8 @@ void PresetManager::paintOverChildren(Graphics& g)
     
         const int resizerX = resizerBar->getX();
 
-        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), (float) resizerX, 0,
-                                  Colours::transparentBlack,        (float) (resizerX - shadowSize), 0, false);
+        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), static_cast<float>(resizerX), 0,
+                                  Colours::transparentBlack,        static_cast<float>(resizerX - shadowSize), 0, false);
         resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
         resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
@@ -397,12 +419,12 @@ void PresetManager::actionListenerCallback(const String& message)
         parentWindow.showPresetManager();
 }
 
-void PresetManager::save()
+void PresetManager::save() const
 {
     presetFile.save(true, true);
 }
 
-void PresetManager::saveAs()
+void PresetManager::saveAs() const
 {
     File presetFileDirectory = presetFile.getFile().getParentDirectory();
     
@@ -445,6 +467,10 @@ PopupMenu PresetMenuBarModel::getMenuForIndex (int /*topLevelMenuIndex*/, const 
     return menu;
 }
 
+void PresetMenuBarModel::menuItemSelected(int, int)
+{
+}
+
 /* =========================================================================
  * PresetManagerWindow
  */
@@ -458,8 +484,8 @@ PresetManagerWindow::PresetManagerWindow(const String& filePath,
                      DocumentWindow::allButtons,
                      true),
       undoManager(um),
-      numActions(0),
-      offerToSaveOnExit(true)
+      offerToSaveOnExit(true),
+      numActions(0)
 {
     commandManager = acm;
     setUsingNativeTitleBar (true);
@@ -487,8 +513,8 @@ PresetManagerWindow::PresetManagerWindow(const String& filePath,
     addKeyListener(commandManager->getKeyMappings());
 
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+    Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -499,6 +525,11 @@ PresetManagerWindow::PresetManagerWindow(const String& filePath,
 PresetManagerWindow::~PresetManagerWindow()
 {
     unload();
+}
+
+ApplicationCommandManager* PresetManagerWindow::getCommandManager() const
+{
+    return commandManager;
 }
 
 void PresetManagerWindow::showPresetFileChooser()
@@ -535,7 +566,7 @@ void PresetManagerWindow::showPresetManager()
         showPresetFileChooser();
 }
 
-bool PresetManagerWindow::presetsHaveChanged()
+bool PresetManagerWindow::presetsHaveChanged() const
 {
     return numActions > 0;
 }
@@ -546,14 +577,14 @@ StringArray PresetManagerWindow::getMenuNames()
     return StringArray (names);
 }
 
-void PresetManagerWindow::createMenu(PopupMenu& menu, const String& menuName)
+void PresetManagerWindow::createMenu(PopupMenu& menu, const String& menuName) const
 {
          if (menuName == "File") createFileMenu(menu);
     else if (menuName == "Edit") createEditMenu(menu);
     else                         jassertfalse; // names have changed?
 }
 
-void PresetManagerWindow::createFileMenu(PopupMenu& menu)
+void PresetManagerWindow::createFileMenu(PopupMenu& menu) const
 {
     menu.addCommandItem(commandManager, CommandIDs::addPresetFile);
     menu.addCommandItem(commandManager, CommandIDs::savePresetFile);
@@ -565,7 +596,7 @@ void PresetManagerWindow::createFileMenu(PopupMenu& menu)
     menu.addCommandItem(commandManager, CommandIDs::closePresetFile);   
 }
 
-void PresetManagerWindow::createEditMenu(PopupMenu& menu)
+void PresetManagerWindow::createEditMenu(PopupMenu& menu) const
 {
     menu.addCommandItem(commandManager, CommandIDs::undo);
     menu.addCommandItem(commandManager, CommandIDs::redo);

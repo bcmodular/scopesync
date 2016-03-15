@@ -26,7 +26,6 @@
  */
 
 #include "ComponentProperties.h"
-#include "PropertiesHelper.h"
 
 ComponentProperties::ComponentProperties()
 {

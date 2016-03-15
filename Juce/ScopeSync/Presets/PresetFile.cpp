@@ -1,20 +1,35 @@
-/*
-  ==============================================================================
-
-    Presets.cpp
-    Created: 2 Nov 2014 7:31:28am
-    Author:  giles
-
-  ==============================================================================
-*/
+/**
+ * Classes used in managing Parameter Preset files
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #include "PresetFile.h"
 #include "../Core/Global.h"
-#include "../Utils/BCMMath.h"
 #include "../Utils/BCMMisc.h"
-#include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationPanel.h"
 #include "../Configuration/SettingsTable.h"
+#include "../Windows/UserSettings.h"
 
 /* =========================================================================
  * PresetFilePanel
@@ -22,7 +37,7 @@
 PresetFilePanel::PresetFilePanel(ValueTree& node, UndoManager& um, ApplicationCommandManager* acm)
     : BasePanel(node, um, acm)
 {
-    rebuildProperties();
+    PresetFilePanel::rebuildProperties();
 }
 
 PresetFilePanel::~PresetFilePanel() {}
@@ -54,7 +69,7 @@ PresetPanel::PresetPanel(ValueTree& preset, UndoManager& um, PresetFile& pf,
     valueType = valueTree.getPropertyAsValue(Ids::valueType, &undoManager);
     valueType.addListener(this);
 
-    rebuildProperties();
+    PresetPanel::rebuildProperties();
 
     if (int(valueType.getValue()) == 1)
         createSettingsTable();
@@ -97,8 +112,8 @@ void PresetPanel::paintOverChildren(Graphics& g)
     
         const int resizerY = resizerBar->getY();
 
-        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), 0, (float) resizerY, 
-                                  Colours::transparentBlack,        0, (float) (resizerY + shadowSize), false);
+        ColourGradient resizerCG (Colours::black.withAlpha (0.25f), 0, static_cast<float>(resizerY), 
+                                  Colours::transparentBlack,        0, static_cast<float>(resizerY + shadowSize), false);
         resizerCG.addColour (0.4, Colours::black.withAlpha (0.07f));
         resizerCG.addColour (0.6, Colours::black.withAlpha (0.02f));
 
@@ -221,7 +236,7 @@ void PresetFile::setupPresetProperties()
     properties = new PropertiesFile(options);
 }
 
-PropertiesFile& PresetFile::getPresetProperties()
+PropertiesFile& PresetFile::getPresetProperties() const
 {
     return *properties;
 }
@@ -307,7 +322,7 @@ ValueTree PresetFile::getDefaultPreset()
     return defaultPreset;
 }
 
-bool PresetFile::presetNameExists(const String& presetName)
+bool PresetFile::presetNameExists(const String& presetName) const
 {
     if (presetFileRoot.getChildWithProperty(Ids::name, presetName).isValid())
         return true;
@@ -331,6 +346,16 @@ static File lastDocumentOpened;
 
 File PresetFile::getLastDocumentOpened()                   { return lastDocumentOpened; }
 void PresetFile::setLastDocumentOpened (const File& file)  { lastDocumentOpened = file; }
+
+const String& PresetFile::getLastError() const
+{
+    return lastError;
+}
+
+const String& PresetFile::getLastErrorDetails() const
+{
+    return lastErrorDetails;
+}
 
 FileBasedDocument::SaveResult PresetFile::saveIfNeededAndUserAgrees(bool offerCancelOption)
 {
@@ -382,7 +407,7 @@ void PresetFile::valueTreePropertyChanged(ValueTree& treeWhosePropertyHasChanged
         float skewFactor = 1.0f;
 
         if (maximum > minimum && midpoint > minimum && midpoint < maximum)
-            skewFactor = (float)(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
+            skewFactor = static_cast<float>(log(0.5) / log((midpoint - minimum) / (maximum - minimum)));
 
         treeWhosePropertyHasChanged.setProperty(Ids::uiSkewFactor, skewFactor, nullptr);
     }
@@ -394,3 +419,8 @@ void PresetFile::valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* 
 void PresetFile::valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved*/, int /* oldIndex */ ) { changed(); }
 void PresetFile::valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) { changed(); }
 void PresetFile::valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) { changed(); }
+
+ValueTree PresetFile::getPresetFileRoot() const
+{
+    return presetFileRoot;
+}

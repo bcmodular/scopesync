@@ -26,7 +26,6 @@
  */
 
 #include "TextButtonProperties.h"
-#include "PropertiesHelper.h"
 
 TextButtonProperties::TextButtonProperties()
 {

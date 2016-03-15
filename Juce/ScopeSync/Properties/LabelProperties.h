@@ -59,7 +59,7 @@ private:
     void copyProperties(const LabelProperties& parentLabelProperties);
     void setValuesFromXML(const XmlElement& labelXML);
 
-    void getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& paramTextDisplay);
+    static void getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& paramTextDisplay);
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LabelProperties);

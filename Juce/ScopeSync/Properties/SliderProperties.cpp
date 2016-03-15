@@ -36,14 +36,14 @@ SliderProperties::SliderProperties(ScopeSyncGUI& owner)
 }
 
 SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML)
-    : scopeSyncGUI(owner), WidgetProperties(sliderXML)
+    : WidgetProperties(sliderXML), scopeSyncGUI(owner)
 {
     initialise();
     setValuesFromXML(sliderXML);
 }
 
 SliderProperties::SliderProperties(ScopeSyncGUI& owner, XmlElement& sliderXML, SliderProperties& parentSliderProperties)
-    : scopeSyncGUI(owner), WidgetProperties(sliderXML, parentSliderProperties)
+    : WidgetProperties(sliderXML, parentSliderProperties), scopeSyncGUI(owner)
 {
     copyProperties(parentSliderProperties);
     setValuesFromXML(sliderXML);
@@ -138,7 +138,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     }
 }
 
-void SliderProperties::getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle)
+void SliderProperties::getSliderStyleFromXml(const String& styleText, Slider::SliderStyle& sliderStyle) const
 {
          if (styleText.equalsIgnoreCase("linearhorizontal"))             sliderStyle = Slider::LinearHorizontal;
     else if (styleText.equalsIgnoreCase("linearvertical"))               sliderStyle = Slider::LinearVertical;
