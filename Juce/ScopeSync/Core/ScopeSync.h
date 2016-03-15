@@ -74,67 +74,71 @@ public:
 	static void reloadAllGUIs();
     static void shutDownIfLastInstance();
     static const String& getScopeCode(int scopeSyncId);
-    static const StringArray& getScopeCodes() { return scopeCodes; };
-	static const BCMParameter::ParameterType getScopeCodeType(const String& scopeCode);
-	static const BCMParameter::ParameterType getScopeCodeType(const int scopeCodeId) { return scopeCodeTypes[scopeCodeId]; };
-    static const int ScopeSync::getScopeCodeId(const String& scopeCode);
-    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
+    static const StringArray& getScopeCodes();;
+	static BCMParameter::ParameterType getScopeCodeType(const String& scopeCode);
+    static BCMParameter::ParameterType getScopeCodeType(const int scopeCodeId);;
+    static int ScopeSync::getScopeCodeId(const String& scopeCode);
     static void snapshotAll();
-    void setGUIEnabled(bool shouldBeEnabled);
-    bool guiNeedsReloading();
+    void setGUIEnabled(bool shouldBeEnabled) const;
+    bool guiNeedsReloading() const;
     void setGUIReload(bool reloadGUIFlag);
     void reloadLayout();
     void unloadConfiguration();
     void addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel);
-    BCMLookAndFeel* getBCMLookAndFeelById(String id);
+    BCMLookAndFeel* getBCMLookAndFeelById(String id) const;
     void clearBCMLookAndFeels();
-    int  getNumBCMLookAndFeels();
-    StringArray getBCMLookAndFeelIds(const Identifier& componentType);
+    int  getNumBCMLookAndFeels() const;
+    StringArray getBCMLookAndFeelIds(const Identifier& componentType) const;
 
-    ConfigurationManagerWindow* getConfigurationManagerWindow() { return configurationManagerWindow; }
+    ConfigurationManagerWindow* getConfigurationManagerWindow() const;
     void showConfigurationManager(int posX, int posY);
     void hideConfigurationManager();
-    ApplicationCommandManager* getCommandManager() { return commandManager; }
-    BCMParameterController* getParameterController() { return parameterController; }
+    ApplicationCommandManager* getCommandManager() const;
+
+    BCMParameterController* getParameterController() const;
 
 #ifdef __DLL_EFFECT__
     ScopeSyncAsync& getScopeSyncAsync() { return scopeSyncAsync; }
 #else
-    PluginProcessor* getPluginProcessor() { return pluginProcessor; }
+    PluginProcessor* getPluginProcessor() const;
 #endif // __DLL_EFFECT__
     
 
     UndoManager& getUndoManager() { return undoManager; }
 
     void toggleEditToolbar()     { showEditToolbar = !showEditToolbar; }
-    bool shouldShowEditToolbar() { return showEditToolbar; }
+
+    bool shouldShowEditToolbar() const;
 
     /* =================== Public Configuration Methods ====================== */
     void           applyConfiguration();
-	bool           isInitialised();
-    void           saveConfiguration();
+	bool           isInitialised() const;
+    void           saveConfiguration() const;
     bool           saveConfigurationAs();
     void           addConfiguration(juce::Rectangle<int> windowPosition);
     void           reloadSavedConfiguration();
-    bool           configurationHasUnsavedChanges();
-    Configuration& getConfiguration() { return *configuration; };
-    ValueTree      getConfigurationRoot() { return configuration->getConfigurationRoot(); };
-    String         getConfigurationName(bool showUnsavedIndicator);
-    bool           configurationIsReadOnly();
-    const File&    getConfigurationFile() { return configuration->getFile(); };
-    const File&    getLastFailedConfigurationFile() { return configuration->getLastFailedFile(); }
-    String         getConfigurationDirectory() { return configuration->getConfigurationDirectory(); }
-    int            getConfigurationUID() { return configuration->getConfigurationUID(); }
-    String         getLayoutDirectory() { return configuration->getLayoutDirectory(); }
+    bool           configurationHasUnsavedChanges() const;
+    Configuration& getConfiguration() const;
+    ValueTree      getConfigurationRoot() const;
+    String         getConfigurationName(bool showUnsavedIndicator) const;
+    bool           configurationIsReadOnly() const;
+    const File&    getConfigurationFile() const;
+    const File&    getLastFailedConfigurationFile() const;
+
+    String         getConfigurationDirectory() const;
+
+    int            getConfigurationUID() const;
+
+    String         getLayoutDirectory() const;
     bool           hasConfigurationUpdate(String& fileName);
     void           changeConfiguration(const String& fileName);
     void           changeConfiguration(int uid);
     bool           processConfigurationChange();
-        
-	ValueTree      getMapping() { return configuration->getMapping(); };
-    XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) { return configuration->getLayout(errorText, errorDetails, forceReload); };
-    XmlElement*    getSystemLookAndFeels();
-    XmlElement*    getStandardContent(const String& contentToShow);
+
+    ValueTree      getMapping() const;
+    XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) const;
+    static XmlElement*    getSystemLookAndFeels();
+    static XmlElement*    getStandardContent(const String& contentToShow);
 
     Value&         getSystemError();
     Value&         getSystemErrorDetails();

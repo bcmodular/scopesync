@@ -46,8 +46,8 @@ public:
 
     // Callback for timer. Used to check whether this component needs resizing to accommodate a
     // ScopeSyncGUI with a different size
-    void timerCallback();
-    void setGUIEnabled(bool shouldBeEnabled);
+    void timerCallback() override;
+    void setGUIEnabled(bool shouldBeEnabled) const;
 
 private:
     WeakReference<PluginGUI>::Master masterReference;
@@ -57,7 +57,7 @@ private:
 
     static const int timerInterval;
     bool initialising;
-    void paint(Graphics& g);
+    void paint(Graphics& g) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginGUI)
 };

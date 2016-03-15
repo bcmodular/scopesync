@@ -29,14 +29,12 @@
 #include "ScopeSyncGUI.h"
 #include "ScopeSync.h"
 #include "BCMParameter.h"
-#include "../Utils/BCMMath.h"
 #include "../Windows/UserSettings.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "../Components/BCMLookAndFeel.h"
 #include "../Components/BCMComponent.h"
 #include "../Components/BCMTabbedComponent.h"
-#include "../Configuration/ConfigurationManager.h"
 #include "../Properties/ComponentProperties.h"
 #include "../Properties/SliderProperties.h"
 #include "../Properties/LabelProperties.h"
@@ -57,7 +55,7 @@ AboutBoxWindow::AboutBoxWindow()
     : DocumentWindow ("About", Colour::fromString("ff2e2e2e"), closeButton, true)
 {
     setContentOwned(new AboutBox(), true);
-    setVisible(true);
+    Component::setVisible(true);
     setResizable(false, false);
 }
     
@@ -144,7 +142,7 @@ void ScopeSyncGUI::hideUserSettings()
     UserSettings::getInstance()->hide();
 }
 
-void ScopeSyncGUI::showUserSettings()
+void ScopeSyncGUI::showUserSettings() const
 {
     UserSettings::getInstance()->show(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
 }
@@ -174,7 +172,7 @@ void ScopeSyncGUI::hideConfigurationChooserWindow()
     configurationChooserWindow = nullptr;
 }
 
-BCMParameter* ScopeSyncGUI::getUIMapping(Identifier compTypeId, const String& compName, ValueTree& mapping)
+BCMParameter* ScopeSyncGUI::getUIMapping(Identifier compTypeId, const String& compName, ValueTree& mapping) const
 {
     ValueTree componentMapping = deviceMapping.getChildWithName(compTypeId);
 
@@ -202,7 +200,7 @@ void ScopeSyncGUI::addTabbedComponent(BCMTabbedComponent* tabbedComponent)
     tabbedComponents.add(tabbedComponent);
 }
 
-void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray)
+void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray) const
 {
     tabbedComponentArray.clear();
 
@@ -217,7 +215,7 @@ void ScopeSyncGUI::getTabbedComponentsByName(const String& name, Array<BCMTabbed
     }
 }
 
-Slider::SliderStyle ScopeSyncGUI::getDefaultRotarySliderStyle()
+Slider::SliderStyle ScopeSyncGUI::getDefaultRotarySliderStyle() const
 {
     if (settings.rotaryMovement == BCMSlider::rotary)
         return Slider::Rotary;
@@ -334,7 +332,7 @@ void ScopeSyncGUI::setupStandardLookAndFeels(XmlElement& xml, bool useImageCache
         setupLookAndFeels(*standardLookAndFeels, useImageCache);
 }
 
-void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache)
+void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache) const
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
@@ -640,7 +638,7 @@ bool ScopeSyncGUI::perform(const InvocationInfo& info)
         case CommandIDs::saveConfigAs:             saveAs(); break;
         case CommandIDs::showHideEditToolbar:      mainComponent->showHideEditToolbar(); break;
         case CommandIDs::snapshot:                 snapshot(); break;
-        case CommandIDs::snapshotAll:              snapshotAll(); break;
+        case CommandIDs::snapshotAll:              ScopeSync::snapshotAll(); break;
         case CommandIDs::showUserSettings:         showUserSettings(); break;
         case CommandIDs::showConfigurationManager: showConfigurationManager(); break;
         case CommandIDs::chooseConfiguration:      chooseConfiguration(); break;
@@ -662,45 +660,40 @@ void ScopeSyncGUI::alertBoxReloadConfirm(int result, ScopeSyncGUI* scopeSyncGUI)
     }
 }
 
-void ScopeSyncGUI::addConfig()
+void ScopeSyncGUI::addConfig() const
 {
     scopeSync.addConfiguration(getParentMonitorArea());
 }
 
-void ScopeSyncGUI::save()
+void ScopeSyncGUI::save() const
 {
     scopeSync.saveConfiguration();
     scopeSync.applyConfiguration();
 }
 
-void ScopeSyncGUI::saveAs()
+void ScopeSyncGUI::saveAs() const
 {
     scopeSync.saveConfigurationAs();
 }
 
-void ScopeSyncGUI::undo()
+void ScopeSyncGUI::undo() const
 {
     scopeSync.getUndoManager().undo();
     scopeSync.applyConfiguration();
 }
 
-void ScopeSyncGUI::redo()
+void ScopeSyncGUI::redo() const
 {
     scopeSync.getUndoManager().redo();
     scopeSync.applyConfiguration();
 }
 
-void ScopeSyncGUI::snapshot()
+void ScopeSyncGUI::snapshot() const
 {
     scopeSync.getParameterController()->snapshot();
 }
 
-void ScopeSyncGUI::snapshotAll()
-{
-    ScopeSync::snapshotAll();
-}
-
-void ScopeSyncGUI::showConfigurationManager()
+void ScopeSyncGUI::showConfigurationManager() const
 {
     scopeSync.showConfigurationManager(getScreenPosition().getX(), getScreenPosition().getY());
 }
@@ -719,7 +712,7 @@ void ScopeSyncGUI::reloadSavedConfiguration()
         scopeSync.reloadSavedConfiguration();
 }
 
-void ScopeSyncGUI::showAboutBox()
+void ScopeSyncGUI::showAboutBox() const
 {
     AboutBoxWindow* dw = AboutBoxWindow::getInstance();
     dw->setVisible(true);

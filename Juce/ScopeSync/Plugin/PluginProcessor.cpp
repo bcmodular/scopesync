@@ -31,13 +31,7 @@
 
 #include "PluginProcessor.h"
 
-#include "../Utils/BCMMath.h"
-#include "../Utils/BCMXml.h"
 #include "PluginGUI.h"
-#include "../Resources/ImageLoader.h"
-#include "../Resources/Icons.h"
-#include "../Windows/UserSettings.h"
-#include "../Core/ScopeSyncApplication.h"
 #include "../Core/BCMParameterController.h"
 
 PluginProcessor::PluginProcessor()
@@ -164,7 +158,7 @@ void PluginProcessor::releaseResources()
 
 void PluginProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    scopeSync->processBlock(buffer, midiMessages);
+    (void)midiMessages;
 
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't
@@ -240,7 +234,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
 
-            scopeSync->getParameterController()->getParameterByScopeCode("osc")->setUIValue((float)oscUID);
+            scopeSync->getParameterController()->getParameterByScopeCode("osc")->setUIValue(static_cast<float>(oscUID));
         }
     }
     else

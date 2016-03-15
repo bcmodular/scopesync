@@ -50,7 +50,6 @@ class BCMParameter;
 class ConfigurationChooserWindow;
 class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
-#include "../Utils/BCMMisc.h"
 
 class AboutBoxWindow : public DocumentWindow
 {
@@ -94,15 +93,15 @@ public:
     ~ScopeSyncGUI();
 
     /* ========================== Public Actions ============================= */
-    void          hideUserSettings();
-    void          showUserSettings();
+    static void          hideUserSettings();
+    void          showUserSettings() const;
     void          chooseConfiguration();
-    BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping);
+    BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping) const;
     void          addTabbedComponent(BCMTabbedComponent* tabbedComponent);
     
     ScopeSync& getScopeSync() const { return scopeSync; };
-    void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray);
-    Slider::SliderStyle getDefaultRotarySliderStyle();
+    void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray) const;
+    Slider::SliderStyle getDefaultRotarySliderStyle() const;
     
     static void deleteTooltipWindow() { tooltipWindow = nullptr; }
     void hideConfigurationChooserWindow();
@@ -155,14 +154,13 @@ private:
     void createGUI(bool forceReload);
     void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache); 
     void setupStandardLookAndFeels(XmlElement& xml, bool useImageCache);
-    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache);
+    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache) const;
     void setupDefaults(XmlElement& defaultsXML);
     void clearWidgetTemplates();
-    void resetWidgetTemplates();
     void setupWidgetTemplates(XmlElement& widgetTemplatesXML);
     void readSettingsXml(XmlElement& defaultsXML);
     void createComponent(XmlElement& componentXML);
-    void timerCallback();
+    void timerCallback() override;
     
     /* ================= Application Command Target overrides ================= */
     void getAllCommands(Array<CommandID>& commands) override;
@@ -172,16 +170,15 @@ private:
     
     static void alertBoxReloadConfirm(int result, ScopeSyncGUI*);
 
-    void addConfig();
-    void save();
-    void saveAs();
-    void undo();
-    void redo();
-    void snapshot();
-    void snapshotAll();
-    void showConfigurationManager();
+    void addConfig() const;
+    void save() const;
+    void saveAs() const;
+    void undo() const;
+    void redo() const;
+    void snapshot() const;
+    void showConfigurationManager() const;
     void reloadSavedConfiguration();
-    void showAboutBox();
+    void showAboutBox() const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSyncGUI)
 };

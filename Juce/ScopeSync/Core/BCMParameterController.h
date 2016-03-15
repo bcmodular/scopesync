@@ -53,9 +53,9 @@ public:
 
     void toggleAsyncUpdates(bool enable) { shouldReceiveAsyncUpdates = enable; }
     
-    void beginParameterChangeGesture(int hostIdx) const;
+    void beginParameterChangeGesture(int hostIdx);
     void endParameterChangeGesture(int hostIdx);
-    void endAllParameterChangeGestures() const;
+    void endAllParameterChangeGestures();
 
     void receiveUpdatesFromScopeAsync();
     

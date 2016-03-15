@@ -226,7 +226,7 @@ void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float 
     parameter.setUIValue(newValue);
 }
 
-void BCMParameterController::endAllParameterChangeGestures() const
+void BCMParameterController::endAllParameterChangeGestures()
 {
     for (int i = 0; i < hostParameters.size(); i++)
     {
@@ -279,7 +279,7 @@ void BCMParameterController::updateHost(int hostIdx, float newValue) const
 #endif
 }
 
-void BCMParameterController::beginParameterChangeGesture(int hostIdx) const
+void BCMParameterController::beginParameterChangeGesture(int hostIdx)
 {
 #ifndef __DLL_EFFECT__
     if (hostIdx >= 0 && !changingParams[hostIdx])

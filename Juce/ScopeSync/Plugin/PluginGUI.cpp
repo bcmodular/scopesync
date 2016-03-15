@@ -57,7 +57,7 @@ PluginGUI::~PluginGUI()
     masterReference.clear();
 }
 
-void PluginGUI::setGUIEnabled(bool shouldBeEnabled)
+void PluginGUI::setGUIEnabled(bool shouldBeEnabled) const
 {
     if (scopeSyncGUI != nullptr)
         scopeSyncGUI->setEnabled(shouldBeEnabled);

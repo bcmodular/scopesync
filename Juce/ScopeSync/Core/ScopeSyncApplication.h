@@ -41,20 +41,20 @@ namespace ScopeSyncApplication
     const AppContext appContext = scopefx;
 #endif // __DLL_EFFECT__
 
-	const bool inPluginContext();
-    const bool inScopeFXContext();
+    bool inPluginContext();
+    bool inScopeFXContext();
 };
 
 class ScopeSyncClipboard
 {
 public:
     ScopeSyncClipboard();
-    ~ScopeSyncClipboard();
+    virtual ~ScopeSyncClipboard();
 
     void copy (const ValueTree& source);
     virtual void paste(ValueTree& target, UndoManager* undoManager) = 0;
 
-    bool clipboardIsNotEmpty() { return clipboard.isValid(); };
+    bool clipboardIsNotEmpty() const;;
 
 protected:
     ValueTree clipboard;
@@ -73,8 +73,8 @@ public:
     juce_DeclareSingleton(ParameterClipboard, false)
 
 private:
-    void pastePreset(ValueTree& target, UndoManager* undoManager);
-    void pasteParameter(ValueTree& target, UndoManager* undoManager);
+    void pastePreset(ValueTree& target, UndoManager* undoManager) const;
+    void pasteParameter(ValueTree& target, UndoManager* undoManager) const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterClipboard)
 };

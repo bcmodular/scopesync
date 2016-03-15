@@ -42,40 +42,37 @@ public:
     PluginProcessor();
     ~PluginProcessor();
 
-    void prepareToPlay (double sampleRate, int samplesPerBlock);
-    void releaseResources();
+    void prepareToPlay (double sampleRate, int samplesPerBlock) override;
+    void releaseResources() override;
 
-    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
+    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) override;
 
-    AudioProcessorEditor* createEditor();
-    bool hasEditor() const;
+    AudioProcessorEditor* createEditor() override;
+    bool hasEditor() const override;
 
-    const String getName() const;
+    const String getName() const override;
 
-    int getNumParameters();
+    int getNumParameters() override;
 
-    float getParameter (int index);
-    void setParameter (int index, float newValue);
+    float getParameter (int index) override;
+    void setParameter (int index, float newValue) override;
 
-    const String getParameterName (int index);
-    const String getParameterText (int index);
+    const String getParameterName (int index) override;
+    const String getParameterText (int index) override;
 
-    bool   acceptsMidi() const;
-    bool   producesMidi() const;
-    double getTailLengthSeconds() const;
+    bool   acceptsMidi() const override;
+    bool   producesMidi() const override;
+    double getTailLengthSeconds() const override;
 
-    int    getNumPrograms();
-    int    getCurrentProgram();
-    void   setCurrentProgram (int index);
-    const  String getProgramName (int index);
-    void   changeProgramName (int index, const String& newName);
+    int    getNumPrograms() override;
+    int    getCurrentProgram() override;
+    void   setCurrentProgram (int index) override;
+    const  String getProgramName (int index) override;
+    void   changeProgramName (int index, const String& newName) override;
 
-    void   getStateInformation (MemoryBlock& destData);
-    void   setStateInformation (const void* data, int sizeInBytes);
+    void   getStateInformation (MemoryBlock& destData) override;
+    void   setStateInformation (const void* data, int sizeInBytes) override;
     
-    String floatArrayToString(const Array<float>& floatData, int numFloat);
-    int    stringToFloatArray(const String& sFloatCSV, Array<float>& floatData, int maxNumFloat);
-
     void updateListeners(int index, float newHostValue);
     
     ScopeSync& getScopeSync() const { return *scopeSync; };
@@ -85,8 +82,6 @@ private:
     ScopedPointer<ScopeSync> scopeSync;
     WeakReference<PluginGUI> pluginGUI;
 
-    void readStateInformation(XmlElement& data);
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginProcessor)
 };
 

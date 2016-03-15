@@ -28,12 +28,12 @@
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 
-const bool ScopeSyncApplication::inPluginContext() 
+bool ScopeSyncApplication::inPluginContext() 
 { 
     return (appContext == plugin) ? true : false;
 };
 
-const bool ScopeSyncApplication::inScopeFXContext() 
+bool ScopeSyncApplication::inScopeFXContext() 
 { 
     return (appContext == scopefx) ? true : false; 
 };
@@ -53,6 +53,11 @@ void ScopeSyncClipboard::copy(const ValueTree& source)
     clipboard = source.createCopy();
 }
 
+bool ScopeSyncClipboard::clipboardIsNotEmpty() const
+{
+    return clipboard.isValid();
+}
+
 juce_ImplementSingleton (ParameterClipboard)
 
 void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
@@ -66,7 +71,7 @@ void ParameterClipboard::paste(ValueTree& target, UndoManager* undoManager)
     }
 }
 
-void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoManager)
+void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoManager) const
 {
     // Backup the parameter's identifying values
     String name      = target.getProperty(Ids::name);
@@ -99,7 +104,7 @@ void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoMana
     target.setProperty(Ids::scopeCode,        scopeCode,  undoManager);
 }
 
-void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager)
+void ParameterClipboard::pastePreset(ValueTree& target, UndoManager* undoManager) const
 {
     // Backup the Preset's identifying values
     String name  = target.getProperty(Ids::name);

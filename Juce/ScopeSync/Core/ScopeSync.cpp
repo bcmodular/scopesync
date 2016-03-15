@@ -38,6 +38,7 @@
 #include "BCMParameterController.h"
 #include "BCMParameter.h"
 #include "../Comms/ScopeSyncOSC.h"
+#include "../Utils/BCMMisc.h"
 
 #ifndef __DLL_EFFECT__
     #include "../Plugin/PluginProcessor.h"
@@ -159,11 +160,22 @@ BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMParameter::fixedBiDir,BCMPa
 BCMParameter::fixedInputOnly,BCMParameter::fixedInputOnly
 };
 
-const String& ScopeSync::getScopeCode(int scopeCodeId) { return scopeCodes[scopeCodeId]; }
+const String& ScopeSync::getScopeCode(int scopeCodeId)
+{
+    return scopeCodes[scopeCodeId];
+}
 
-const int ScopeSync::getScopeCodeId(const String& scopeCode) { return scopeCodes.indexOf(scopeCode); }
+const StringArray& ScopeSync::getScopeCodes()
+{
+    return scopeCodes;
+}
 
-const BCMParameter::ParameterType ScopeSync::getScopeCodeType(const String& scopeCode)
+int ScopeSync::getScopeCodeId(const String& scopeCode)
+{
+    return scopeCodes.indexOf(scopeCode);
+}
+
+BCMParameter::ParameterType ScopeSync::getScopeCodeType(const String& scopeCode)
 {
 	int index = scopeCodes.indexOf(scopeCode);
 
@@ -171,6 +183,11 @@ const BCMParameter::ParameterType ScopeSync::getScopeCodeType(const String& scop
 		return scopeCodeTypes[index];
 	else
 		return BCMParameter::none;
+}
+
+BCMParameter::ParameterType ScopeSync::getScopeCodeType(const int scopeCodeId)
+{
+    return scopeCodeTypes[scopeCodeId];
 };
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
@@ -251,6 +268,21 @@ void ScopeSync::hideConfigurationManager()
 	configurationManagerWindow = nullptr;
 }
 
+ApplicationCommandManager* ScopeSync::getCommandManager() const
+{
+    return commandManager;
+}
+
+BCMParameterController* ScopeSync::getParameterController() const
+{
+    return parameterController;
+}
+
+PluginProcessor* ScopeSync::getPluginProcessor() const
+{
+    return pluginProcessor;
+}
+
 void ScopeSync::unload()
 {
     if (configurationManagerWindow != nullptr)
@@ -292,19 +324,13 @@ void ScopeSync::shutDownIfLastInstance()
     }
 }
 
-void ScopeSync::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
-{
-    (void)midiMessages;
-    (void)buffer;
-}
-
 void ScopeSync::snapshotAll()
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->getParameterController()->snapshot();
 }
 	
-bool ScopeSync::guiNeedsReloading()
+bool ScopeSync::guiNeedsReloading() const
 {
     const ScopedLock lock(flagLock);
     return reloadGUI;
@@ -398,6 +424,16 @@ bool ScopeSync::processConfigurationChange()
     }
 }
 
+ValueTree ScopeSync::getMapping() const
+{
+    return configuration->getMapping();
+}
+
+XmlElement& ScopeSync::getLayout(String& errorText, String& errorDetails, bool forceReload) const
+{
+    return configuration->getLayout(errorText, errorDetails, forceReload);
+}
+
 void ScopeSync::changeConfiguration(const String& fileName)
 {
     configurationChanges.add(fileName);
@@ -424,6 +460,11 @@ void ScopeSync::unloadConfiguration()
 void ScopeSync::reloadLayout()
 {
     setGUIReload(true);
+}
+
+bool ScopeSync::shouldShowEditToolbar() const
+{
+    return showEditToolbar;
 }
 
 void ScopeSync::applyConfiguration()
@@ -478,12 +519,12 @@ void ScopeSync::applyConfiguration()
     parameterController->toggleAsyncUpdates(true);
 }
 
-bool ScopeSync::isInitialised()
+bool ScopeSync::isInitialised() const
 {
 	return initialised;
 }
 
-void ScopeSync::setGUIEnabled(bool shouldBeEnabled)
+void ScopeSync::setGUIEnabled(bool shouldBeEnabled) const
 {
 #ifndef __DLL_EFFECT__
     pluginProcessor->setGUIEnabled(shouldBeEnabled);
@@ -492,7 +533,7 @@ void ScopeSync::setGUIEnabled(bool shouldBeEnabled)
 #endif // __DLL_EFFECT__
 }
 
-void ScopeSync::saveConfiguration()
+void ScopeSync::saveConfiguration() const
 {
     configuration->save(true, true);
 }
@@ -642,7 +683,7 @@ void ScopeSync::reloadSavedConfiguration()
     undoManager.clearUndoHistory();
 }
 
-String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
+String ScopeSync::getConfigurationName(bool showUnsavedIndicator) const
 {
     String name = configuration->getDocumentTitle();
 
@@ -652,19 +693,57 @@ String ScopeSync::getConfigurationName(bool showUnsavedIndicator)
     return name;
 }
 
-bool ScopeSync::configurationHasUnsavedChanges()
+bool ScopeSync::configurationHasUnsavedChanges() const
 {
     return configuration->hasChangedSinceSaved();
 }
 
-bool ScopeSync::configurationIsReadOnly()
+Configuration& ScopeSync::getConfiguration() const
+{
+    return *configuration;
+}
+
+ValueTree ScopeSync::getConfigurationRoot() const
+{
+    return configuration->getConfigurationRoot();
+}
+
+bool ScopeSync::configurationIsReadOnly() const
 {
     return getConfigurationRoot().getProperty(Ids::readOnly, false);
 }
 
-void ScopeSync::addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel) { bcmLookAndFeels.add(bcmLookAndFeel); }
+const File& ScopeSync::getConfigurationFile() const
+{
+    return configuration->getFile();
+}
 
-BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id)
+const File& ScopeSync::getLastFailedConfigurationFile() const
+{
+    return configuration->getLastFailedFile();
+}
+
+String ScopeSync::getConfigurationDirectory() const
+{
+    return configuration->getConfigurationDirectory();
+}
+
+int ScopeSync::getConfigurationUID() const
+{
+    return configuration->getConfigurationUID();
+}
+
+String ScopeSync::getLayoutDirectory() const
+{
+    return configuration->getLayoutDirectory();
+}
+
+void ScopeSync::addBCMLookAndFeel(BCMLookAndFeel* bcmLookAndFeel)
+{
+    bcmLookAndFeels.add(bcmLookAndFeel);
+}
+
+BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id) const
 {
     // Try to find the LookAndFeel with a matching id
     for (int i = 0; i < bcmLookAndFeels.size(); i++)
@@ -680,12 +759,12 @@ BCMLookAndFeel* ScopeSync::getBCMLookAndFeelById(String id)
 
 void ScopeSync::clearBCMLookAndFeels() { bcmLookAndFeels.clear(); }
 
-int ScopeSync::getNumBCMLookAndFeels()
+int ScopeSync::getNumBCMLookAndFeels() const
 {
     return bcmLookAndFeels.size();
 }
 
-StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType)
+StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType) const
 {
     StringArray specificList;
     StringArray genericList;
@@ -704,4 +783,9 @@ StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType)
     specificList.addArray(genericList);
 
     return specificList;
+}
+
+ConfigurationManagerWindow* ScopeSync::getConfigurationManagerWindow() const
+{
+    return configurationManagerWindow;
 }
