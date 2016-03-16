@@ -43,7 +43,7 @@ public:
                                ApplicationCommandManager* acm);
     ~ConfigurationChooserWindow();
 
-    void closeWindow();
+    void closeWindow() const;
 
 private:
     ScopeSyncGUI& scopeSyncGUI;
@@ -74,14 +74,14 @@ public:
     void paint(Graphics& g) override;
     void resized() override;
     
-    int  getNumRows();
+    int  getNumRows() override;
     void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     void sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void selectedRowsChanged(int lastRowSelected) override;
     void backgroundClicked(const MouseEvent&) override;
-    void cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
-    void returnKeyPressed(int lastRowSelected);
+    void cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e) override;
+    void returnKeyPressed(int lastRowSelected) override;
     
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
@@ -108,13 +108,13 @@ private:
     void chooseConfiguration(const String& newFileName);
     static void alertBoxReloadConfirm(int result, ConfigurationChooser* configurationChooser);
     void chooseSelectedConfiguration();
-    void closeWindow();
+    void closeWindow() const;
     void removeExcludedConfigurations();
     void selectCurrentConfiguration(const String& filePath);
 
-    void rebuildFileLibrary();
+    static void rebuildFileLibrary();
     void attachToTree();
-    void unloadConfiguration();
+    void unloadConfiguration() const;
 
 	void timerCallback() override;
 
@@ -122,7 +122,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConfigurationChooser)
 };

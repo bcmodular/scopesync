@@ -49,14 +49,14 @@ public:
     void paint(Graphics& g) override;
     void resized() override;
     
-    int  getNumRows();
+    int  getNumRows() override;
     void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     void sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void selectedRowsChanged(int lastRowSelected) override;
     void backgroundClicked(const MouseEvent&) override;
-    void cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
-    void returnKeyPressed(int lastRowSelected);
+    void cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e) override;
+    void returnKeyPressed(int lastRowSelected) override;
     
     // Overridden methods for ValueTree::Listener
     void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override { table.updateContent(); };
@@ -81,9 +81,9 @@ private:
     Label        blurb;
     Label        fileNameLabel;
     
-    void editFileLocations();
+    void editFileLocations() const;
     void chooseSelectedPreset();
-    void showPresetManager();
+    void showPresetManager() const;
 
     void rebuildFileLibrary();
     void removePresetFileEntries();
@@ -93,7 +93,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PresetChooser)
 };

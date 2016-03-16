@@ -27,7 +27,6 @@
 #ifndef FILELOCATIONSEDITOR_H_INCLUDED
 #define FILELOCATIONSEDITOR_H_INCLUDED
 #include <JuceHeader.h>
-#include "../Core/Global.h"
 
 class FileLocationEditorWindow : public DocumentWindow
 {
@@ -37,8 +36,8 @@ public:
                              UndoManager& um);
     ~FileLocationEditorWindow();
 
-    ValueTree getFileLocations();
-    bool      locationsHaveChanged();
+    ValueTree getFileLocations() const;
+    bool      locationsHaveChanged() const;
 
 private:
     void closeButtonPressed() override;
@@ -58,13 +57,13 @@ public:
 	FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm);
 	~FileLocationEditor();
 
-	ValueTree getFileLocations();
-	bool      locationsHaveChanged() { return locationsChanged; }
+	ValueTree getFileLocations() const;
+    bool locationsHaveChanged() const;
 
-	void paint(Graphics& g) override;
+    void paint(Graphics& g) override;
 	void resized() override;
 
-	int        getNumRows();
+	int        getNumRows() override;
 	void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
 	void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
 	Component* refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component* existingComponentToUpdate) override;
@@ -74,19 +73,15 @@ public:
 	void       deleteKeyPressed(int) override;
 
 	// Overridden methods for ValueTree::Listener
-	void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override
-	{
-		table.updateContent();
-		locationsChanged = true;
-	};
+    void valueTreePropertyChanged(ValueTree& /* treeWhosePropertyHasChanged */, const Identifier& /* property */) override;;
 
-	void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override { table.updateContent(); };
-	void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */, int /* oldIndex */) override { table.updateContent(); };
-	void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) override { table.updateContent(); };
-	void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override { table.updateContent(); };
+    void valueTreeChildAdded(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenAdded */) override;;
+    void valueTreeChildRemoved(ValueTree& /* parentTree */, ValueTree& /* childWhichHasBeenRemoved */, int /* oldIndex */) override;;
+    void valueTreeChildOrderChanged(ValueTree& /* parentTreeWhoseChildrenHaveMoved */, int /* oldIndex */, int /* newIndex */) override;;
+    void valueTreeParentChanged(ValueTree& /* treeWhoseParentHasChanged */) override;;
 
-	UndoManager& getUndoManager() { return undoManager; }
-	void addFileLocation(const String& newFileLocation);
+    UndoManager& getUndoManager() const;
+    void addFileLocation(const String& newFileLocation);
 
 private:
     TableListBox   table;
@@ -115,14 +110,13 @@ private:
 												FileLocationEditor* fileLocationEditor,
 												String stockFileName);
 
-    void textWasEdited();
     void addFileLocation();
 	void removeFileLocations();
     void moveFileLocations(bool moveUp);
     void rebuildFileLibrary();
 
-    void undo();
-    void redo();
+    void undo() const;
+    void redo() const;
 
 	void timerCallback() override;
 
@@ -130,7 +124,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileLocationEditor)
 };

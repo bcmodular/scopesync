@@ -27,7 +27,6 @@
 #include "LayoutChooser.h"
 #include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
-#include "../Windows/FileLocationEditor.h"
 #include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
@@ -49,8 +48,8 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
     setContentOwned(new LayoutChooser(layoutName, layoutLibrarySet, acm), true);
     
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+    Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -60,7 +59,7 @@ LayoutChooserWindow::LayoutChooserWindow(int posX, int posY,
 
 LayoutChooserWindow::~LayoutChooserWindow() {}
 
-void LayoutChooserWindow::closeWindow()
+void LayoutChooserWindow::closeWindow() const
 {
     configurationPanel.updateLayout();
     configurationPanel.hideLayoutChooser();
@@ -436,7 +435,7 @@ bool LayoutChooser::perform(const InvocationInfo& info)
 }
 
 
-void LayoutChooser::editFileLocations()
+void LayoutChooser::editFileLocations() const
 {
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
@@ -473,9 +472,9 @@ void LayoutChooser::attachToTree()
     table.updateContent();
 }
 
-void LayoutChooser::closeWindow()
+void LayoutChooser::closeWindow() const
 {
-    LayoutChooserWindow* window = (LayoutChooserWindow*)getParentComponent();
+    LayoutChooserWindow* window = static_cast<LayoutChooserWindow*>(getParentComponent());
     window->closeWindow();
 }
 

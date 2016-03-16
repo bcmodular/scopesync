@@ -41,8 +41,8 @@ FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY,
     setContentOwned(new FileLocationEditor(um, acm), true);
     
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+    Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -52,13 +52,13 @@ FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY,
 
 FileLocationEditorWindow::~FileLocationEditorWindow() {}
 
-ValueTree FileLocationEditorWindow::getFileLocations()
+ValueTree FileLocationEditorWindow::getFileLocations() const
 {
     FileLocationEditor* fileLocationEditor = dynamic_cast<FileLocationEditor*>(getContentComponent());
     return fileLocationEditor->getFileLocations();
 }
 
-bool FileLocationEditorWindow::locationsHaveChanged()
+bool FileLocationEditorWindow::locationsHaveChanged() const
 {
     FileLocationEditor* fileLocationEditor = dynamic_cast<FileLocationEditor*>(getContentComponent());
     return fileLocationEditor->locationsHaveChanged();
@@ -147,15 +147,15 @@ private:
 };
 
 FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManager* acm)
-    : undoManager(um), font(14.0f), commandManager(acm),
+    : font(14.0f), undoManager(um), commandManager(acm),
+      sizeWarning("Size Warning"),
       addFileLocationButton("Add"),
       removeFileLocationButton("Remove"),
       moveUpButton("Move Up"),
       moveDownButton("Move Down"),
       rebuildButton("Rebuild library"),
       undoButton("Undo"),
-      redoButton("Redo"),
-      sizeWarning("Size Warning")
+      redoButton("Redo")
 {
     DBG("FileLocationEditor::FileLocationEditor");
     locationsChanged = false;
@@ -249,9 +249,14 @@ void FileLocationEditor::alertBoxAddStockLocationConfirm(int result,
 		fileLocationEditor->addFileLocation(stockFileName);
 }
 
-ValueTree FileLocationEditor::getFileLocations()
+ValueTree FileLocationEditor::getFileLocations() const
 {
     return tree;
+}
+
+bool FileLocationEditor::locationsHaveChanged() const
+{
+    return locationsChanged;
 }
 
 void FileLocationEditor::paint(Graphics& g)
@@ -303,7 +308,7 @@ Component* FileLocationEditor::refreshComponentForCell(int rowNumber, int column
     
     if (columnId == 2)
     {
-        LabelComp* labelComp = (LabelComp*)existingComponentToUpdate;
+        LabelComp* labelComp = static_cast<LabelComp*>(existingComponentToUpdate);
 
         if (labelComp == nullptr)
             labelComp = new LabelComp(valueToEdit);
@@ -314,7 +319,7 @@ Component* FileLocationEditor::refreshComponentForCell(int rowNumber, int column
     }
     else
     {
-        ButtonComp* buttonComp = (ButtonComp*)existingComponentToUpdate;
+        ButtonComp* buttonComp = static_cast<ButtonComp*>(existingComponentToUpdate);
 
         if (buttonComp == nullptr)
             buttonComp = new ButtonComp(valueToEdit);
@@ -355,6 +360,32 @@ void FileLocationEditor::backgroundClicked(const MouseEvent&)
 void FileLocationEditor::deleteKeyPressed(int)
 {
     removeFileLocations();
+}
+
+void FileLocationEditor::valueTreePropertyChanged(ValueTree&, const Identifier&)
+{
+    table.updateContent();
+    locationsChanged = true;
+}
+
+void FileLocationEditor::valueTreeChildAdded(ValueTree&, ValueTree&)
+{
+    table.updateContent();
+}
+
+void FileLocationEditor::valueTreeChildRemoved(ValueTree&, ValueTree&, int)
+{
+    table.updateContent();
+}
+
+void FileLocationEditor::valueTreeChildOrderChanged(ValueTree&, int, int)
+{
+    table.updateContent();
+}
+
+void FileLocationEditor::valueTreeParentChanged(ValueTree&)
+{
+    table.updateContent();
 }
 
 void FileLocationEditor::getAllCommands(Array <CommandID>& commands)
@@ -423,12 +454,12 @@ bool FileLocationEditor::perform(const InvocationInfo& info)
     return true;
 }
 
-void FileLocationEditor::undo()
+void FileLocationEditor::undo() const
 {
     undoManager.undo();
 }
 
-void FileLocationEditor::redo()
+void FileLocationEditor::redo() const
 {
     undoManager.redo();
 }
@@ -442,6 +473,11 @@ void FileLocationEditor::addFileLocation()
 		String result = fileChooser.getResult().getFullPathName();
 		addFileLocation(result);
 	}
+}
+
+UndoManager& FileLocationEditor::getUndoManager() const
+{
+    return undoManager;
 }
 
 void FileLocationEditor::addFileLocation(const String& newFileLocation)

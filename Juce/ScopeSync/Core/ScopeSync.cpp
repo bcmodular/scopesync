@@ -278,10 +278,17 @@ BCMParameterController* ScopeSync::getParameterController() const
     return parameterController;
 }
 
-PluginProcessor* ScopeSync::getPluginProcessor() const
+#ifdef __DLL_EFFECT__
+ScopeSyncAsync& ScopeSync::getScopeSyncAsync()
+{
+    return scopeSyncAsync;
+}
+#else
+PluginProcessor* ScopeSync::getPluginProcessor()
 {
     return pluginProcessor;
 }
+#endif // __DLL_EFFECT__
 
 void ScopeSync::unload()
 {

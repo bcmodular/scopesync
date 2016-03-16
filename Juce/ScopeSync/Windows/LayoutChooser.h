@@ -43,7 +43,7 @@ public:
                         ApplicationCommandManager* acm);
     ~LayoutChooserWindow();
 
-    void closeWindow();
+    void closeWindow() const;
 
 private:
     ConfigurationPanel& configurationPanel;
@@ -70,19 +70,19 @@ public:
                   ApplicationCommandManager* acm);
     ~LayoutChooser();
 
-    void actionListenerCallback(const String& message);
+    void actionListenerCallback(const String& message) override;
    
     void paint(Graphics& g) override;
     void resized() override;
     
-    int        getNumRows();
+    int        getNumRows() override;
     void       paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected) override;
     void       paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     void       sortOrderChanged(int newSortColumnId, bool isForwards) override;
     void       selectedRowsChanged(int lastRowSelected) override;
     void       backgroundClicked(const MouseEvent&) override;
-    void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e);
-    void       returnKeyPressed(int lastRowSelected);
+    void       cellDoubleClicked (int rowNumber, int columnId, const MouseEvent& e) override;
+    void       returnKeyPressed(int lastRowSelected) override;
     
 	void timerCallback() override;
 
@@ -109,11 +109,11 @@ private:
     Image  thumbImage;
     bool   useImageCache;
 
-    void editFileLocations();
+    void editFileLocations() const;
     void chooseSelectedLayout();
     void rebuildFileLibrary();
     void attachToTree();
-    void closeWindow();
+    void closeWindow() const;
     void removeExcludedLayouts();
     void selectCurrentLayout();
 
@@ -121,7 +121,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LayoutChooser)
 };

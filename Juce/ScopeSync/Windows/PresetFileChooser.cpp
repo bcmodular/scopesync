@@ -25,10 +25,7 @@
  */
 
 #include "PresetFileChooser.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
-#include "../Core/ScopeSync.h"
-#include "../Windows/FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
 
 /* =========================================================================
@@ -90,17 +87,17 @@ private:
  * PresetFileChooser
  */
 PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, UndoManager& um, PresetManagerWindow& parent)
-    : parentWindow(parent),
+    : font(14.0f),
       undoManager(um),
       presetFile(pf),
-      font(14.0f), 
-      commandManager(acm),
+      commandManager(acm), 
       addButton("New Preset File"),
       chooseButton("Choose Preset File"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
       blurb(String::empty),
-      fileNameLabel(String::empty)
+      fileNameLabel(String::empty),
+      parentWindow(parent)
 {
     UserSettings::getInstance()->addActionListener(this);
     attachToTree();
@@ -320,12 +317,12 @@ bool PresetFileChooser::perform(const InvocationInfo& info)
     return true;
 }
 
-void PresetFileChooser::editFileLocations()
+void PresetFileChooser::editFileLocations() const
 {
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
-void PresetFileChooser::chooseSelectedPresetFile()
+void PresetFileChooser::chooseSelectedPresetFile() const
 {
     int selectedRow = table.getSelectedRow();
     

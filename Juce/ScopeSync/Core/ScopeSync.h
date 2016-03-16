@@ -98,9 +98,9 @@ public:
     BCMParameterController* getParameterController() const;
 
 #ifdef __DLL_EFFECT__
-    ScopeSyncAsync& getScopeSyncAsync() { return scopeSyncAsync; }
+    ScopeSyncAsync& getScopeSyncAsync();
 #else
-    PluginProcessor* getPluginProcessor() const;
+    PluginProcessor* getPluginProcessor();
 #endif // __DLL_EFFECT__
     
 

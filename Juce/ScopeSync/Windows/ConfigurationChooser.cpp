@@ -25,11 +25,9 @@
  */
 
 #include "ConfigurationChooser.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
-#include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
  * ConfigurationChooserWindow
@@ -49,8 +47,8 @@ ConfigurationChooserWindow::ConfigurationChooserWindow(int posX, int posY,
     setContentOwned(new ConfigurationChooser(ss, acm), true);
     
     restoreWindowPosition(posX, posY);
-    
-    setVisible(true);
+
+    Component::setVisible(true);
     setResizable(true, false);
 
     setWantsKeyboardFocus (false);
@@ -65,7 +63,7 @@ void ConfigurationChooserWindow::closeButtonPressed()
     closeWindow();
 }
 
-void ConfigurationChooserWindow::closeWindow()
+void ConfigurationChooserWindow::closeWindow() const
 {
     scopeSyncGUI.hideConfigurationChooserWindow();
 }
@@ -157,14 +155,14 @@ private:
 ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
                                            ApplicationCommandManager* acm)
     : font(14.0f), 
+      scopeSync(ss),
       commandManager(acm),
       chooseButton("Choose Configuration"),
       rebuildLibraryButton("Rebuild Library"),
       unloadConfigButton("Unload Configuration"),
       editLocationsButton("File Locations..."),
       blurb(String::empty),
-      fileNameLabel(String::empty),
-      scopeSync(ss)
+      fileNameLabel(String::empty)
 {
     UserSettings::getInstance()->addActionListener(this);
     attachToTree();
@@ -455,9 +453,9 @@ void ConfigurationChooser::chooseSelectedConfiguration()
     chooseConfiguration(newFileName);
 }
 
-void ConfigurationChooser::closeWindow()
+void ConfigurationChooser::closeWindow() const
 {
-    ConfigurationChooserWindow* window = (ConfigurationChooserWindow*)getParentComponent();
+    ConfigurationChooserWindow* window = static_cast<ConfigurationChooserWindow*>(getParentComponent());
     window->closeWindow();
 }
 
@@ -482,7 +480,7 @@ void ConfigurationChooser::attachToTree()
     table.updateContent();
 }
 
-void ConfigurationChooser::unloadConfiguration()
+void ConfigurationChooser::unloadConfiguration() const
 {
     scopeSync.unloadConfiguration();
     closeWindow();

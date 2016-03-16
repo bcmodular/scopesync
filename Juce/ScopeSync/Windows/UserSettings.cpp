@@ -188,8 +188,8 @@ UserSettings::UserSettings()
     addAndMakeVisible(propertyPanel);
     setWantsKeyboardFocus(true);
     propertyPanel.setWantsKeyboardFocus(true);
-    
-    setName("User Settings");
+
+    Component::setName("User Settings");
 
 	oscLocalPortNum.addListener(this);
 	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8000 : 9000));
@@ -784,7 +784,7 @@ void UserSettings::RebuildFileLibrary::run()
         if (threadShouldExit())
             break;
         
-        setProgress((i + 1) / (double)(numLocations - 1));
+        setProgress((i + 1) / static_cast<double>(numLocations - 1));
         
         String locationFolder = fileLocations.getChild(i).getProperty(Ids::folder);
 
@@ -853,7 +853,7 @@ void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activ
         if (threadShouldExit())
             break;
         
-        setProgress(i / (double)(libraryToTrim.getNumChildren() - 1));
+        setProgress(i / static_cast<double>(libraryToTrim.getNumChildren() - 1));
         
         ValueTree libraryItem = libraryToTrim.getChild(i);
         String    filePath    = libraryItem.getProperty(Ids::filePath);
@@ -892,7 +892,7 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
         if (threadShouldExit())
             break;
         
-        setProgress(i / (double)(layoutFiles.size() - 1));
+        setProgress(i / static_cast<double>(layoutFiles.size() - 1));
         
         ValueTree layout(Ids::layout);
             
@@ -951,7 +951,7 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
         if (threadShouldExit())
             break;
         
-        setProgress(i / (double)(configurationFiles.size() - 1));
+        setProgress(i / static_cast<double>(configurationFiles.size() - 1));
         
         ScopedPointer<XmlElement> loadedConfigurationXml(XmlDocument::parse(configurationFiles[i]));
 
@@ -999,7 +999,7 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
         if (threadShouldExit())
             break;
         
-        setProgress(i / (double)(presetFiles.size() - 1));
+        setProgress(i / static_cast<double>(presetFiles.size() - 1));
         
         ScopedPointer<XmlElement> loadedPresetFileXml(XmlDocument::parse(presetFiles[i]));
 

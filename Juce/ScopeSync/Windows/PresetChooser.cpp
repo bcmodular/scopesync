@@ -25,10 +25,8 @@
  */
 
 #include "PresetChooser.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
-#include "../Windows/FileLocationEditor.h"
 
 /* =========================================================================
  * PresetSorter - A comparator used to sort our data when the user clicks a column header
@@ -89,10 +87,10 @@ private:
  * PresetChooser
  */
 PresetChooser::PresetChooser(ValueTree& param, ScopeSync& ss, ApplicationCommandManager* acm, UndoManager& um)
-    : undoManager(um),
-      parameter(param),
+    : font(14.0f),
       scopeSync(ss),
-      font(14.0f), 
+      undoManager(um),
+      parameter(param), 
       commandManager(acm),
       chooseButton("Choose Preset"),
       rebuildLibraryButton("Rebuild Library"),
@@ -306,7 +304,7 @@ bool PresetChooser::perform(const InvocationInfo& info)
     return true;
 }
 
-void PresetChooser::showPresetManager()
+void PresetChooser::showPresetManager() const
 {
     String filePath;
     
@@ -318,7 +316,7 @@ void PresetChooser::showPresetManager()
     UserSettings::getInstance()->showPresetManagerWindow(filePath, getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
-void PresetChooser::editFileLocations()
+void PresetChooser::editFileLocations() const
 {
     UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }

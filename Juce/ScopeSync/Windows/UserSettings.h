@@ -50,12 +50,12 @@ public:
     ValueTree getLayoutLibrary();
     ValueTree getConfigurationLibrary();
     ValueTree getPresetLibrary();
-    ValueTree getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary);
+    static ValueTree getLayoutFromFilePath(const String& filePath, const ValueTree& layoutLibrary);
     String    getLayoutFilename(const String& name, const String& librarySet);
-    ValueTree getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary);
+    static ValueTree getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary);
     String    getConfigurationFilePathFromUID(int uid);
-    ValueTree getPresetFileFromFilePath(const String& filePath, const ValueTree& presetLibrary);
-    ValueTree getPresetFromNameAndFilePath(const String& name, const String& filePath, const ValueTree& presetLibrary);
+    static ValueTree getPresetFileFromFilePath(const String& filePath, const ValueTree& presetLibrary);
+    static ValueTree getPresetFromNameAndFilePath(const String& name, const String& filePath, const ValueTree& presetLibrary);
     
     void editFileLocations(int posX, int posY);
     void hideFileLocationsWindow();
@@ -126,24 +126,24 @@ private:
     ValueTree getValueTreeFromGlobalProperties(const String& valueTreeToGet);
     
     void setupPanel();
-    
-    void updateLayoutLibraryEntry(const String&     filePath,
+
+    static void updateLayoutLibraryEntry(const String&     filePath,
                                   const XmlElement& sourceXmlElement,
                                   ValueTree&        layoutLibrary);
-    void updateConfigurationLibraryEntry(const String&    filePath,
+    static void updateConfigurationLibraryEntry(const String&    filePath,
                                          const String&    fileName,
                                          const ValueTree& sourceValueTree,
                                                ValueTree& configurationLibrary);
-    void updatePresetLibraryEntry(const String&    filePath,
+    static void updatePresetLibraryEntry(const String&    filePath,
                                   const String&    fileName,
                                   const ValueTree& sourceValueTree,
                                         ValueTree& presetLibrary);
-    void updatePresets(const String&    filePath,
+    static void updatePresets(const String&    filePath,
                        const String&    fileName,
                        const ValueTree& sourceValueTree,
                              ValueTree& presetLibrary);
 
-    void timerCallback();
+    void timerCallback() override;
 
     void valueChanged(Value& valueThatChanged) override;
 
@@ -151,7 +151,7 @@ private:
     void getAllCommands(Array<CommandID>& commands) override;
     void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
-    ApplicationCommandTarget* getNextCommandTarget();
+    ApplicationCommandTarget* getNextCommandTarget() override;
 
     void loadSwatchColours();
     void saveSwatchColours();
@@ -170,7 +170,7 @@ private:
               rebuildPresets(scanPresets)
         {}
 
-        void run();
+        void run() override;
 
     private:
         ValueTree fileLocations;
