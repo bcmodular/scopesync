@@ -206,11 +206,11 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
         j++;
     }
 	
-	int enableScopeInputs = asyncIn[INPAD_ENABLE_SCOPE_INPUTS]->itg;
+	int enableScopeInputs = asyncValues[i];
 
-	if (enableScopeInputs != currentValues[numParameters - 1])
+	if (enableScopeInputs != currentValues[i])
 		ScopeSyncAsync::setScopeInputEnablement(enableScopeInputs > 0);
-
+	
     // Get ScopeSync to process the inputs and pass on changes from the SS system
     if (scopeSync != nullptr)
         scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues);

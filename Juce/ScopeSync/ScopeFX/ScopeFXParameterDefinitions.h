@@ -36,7 +36,7 @@ namespace ScopeFXParameterDefinitions {
     static const int numLocalParameters = 128;
     static const int numFeedbackParameters = 128;
 	static const int numFixedBiDirParameters = 12;
-	static const int numFixedInputOnlyParameters = 2;
+	static const int numFixedInputOnlyParameters = 3;
 	static const int numParameters = numScopeParameters 
 		                           + numLocalParameters 
 								   + numFixedBiDirParameters
