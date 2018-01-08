@@ -85,7 +85,7 @@ void PresetPanel::rebuildProperties()
     propertyPanel.clear();
 
     PropertyListBuilder props;
-    ParameterPanel::createDescriptionProperties(props, undoManager, valueTree, BCMParameter::preset);
+    ParameterPanel::createDescriptionProperties(props, undoManager, valueTree, true);
     propertyPanel.addSection("Main Properties", props.components, true);
 
     ParameterPanel::createScopeProperties(props, undoManager, valueTree, valueType.getValue());
@@ -307,6 +307,8 @@ ValueTree PresetFile::getDefaultPreset()
     ValueTree defaultPreset(Ids::preset);
     defaultPreset.setProperty(Ids::name,             "Preset ",     nullptr);
     defaultPreset.setProperty(Ids::blurb,            String::empty, nullptr);
+    defaultPreset.setProperty(Ids::scopeParamGroup,  1,             nullptr);
+    defaultPreset.setProperty(Ids::scopeParamID,     1,             nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultPreset.setProperty(Ids::scopeDBRef,       0,             nullptr);

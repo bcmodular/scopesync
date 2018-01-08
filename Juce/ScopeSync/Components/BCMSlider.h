@@ -102,7 +102,7 @@ private:
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
     bool fixed; // Is this a fixed Slider, i.e. one that is mapped to a parameter based on its name, not via a mapping tag
-	void setupFixedSlider(const String& scopeCode, SliderProperties& props);
+	void setupFixedSlider(const int scopeCodeId, SliderProperties& props);
 
     // Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v) override;

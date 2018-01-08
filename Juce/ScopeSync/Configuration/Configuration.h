@@ -252,8 +252,6 @@ private:
     bool parameterNameExists(const String& parameterName) const;
     void generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager) const;
 
-	void migrateFromV101();
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };
 

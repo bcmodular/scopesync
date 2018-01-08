@@ -29,11 +29,9 @@
 #define BCMPARAMETER_H_INCLUDED
 
 #include <JuceHeader.h>
-class BCMParameterController;
+#include "../Comms/OSCServer.h"
 
-#ifdef __DLL_EFFECT__
-class ScopeSyncAsync;
-#endif // __DLL_EFFECT__
+class BCMParameterController;
 
 class BCMParameter : public Value::Listener,
 					 public Timer,
@@ -41,16 +39,11 @@ class BCMParameter : public Value::Listener,
 {
 public:
     /* ============================ Enumerations ============================== */
-    enum ParameterType         {none, scope, local, feedback, fixedBiDir, fixedInputOnly, preset};
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
-	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, asyncUpdate};
+	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate};
 
-	#ifdef __DLL_EFFECT__
-		BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, ScopeSyncAsync& ssa, bool oscAble);
-	#else
-		BCMParameter(ValueTree parameterDefinition, ParameterType parameterType, BCMParameterController& pc, bool oscAble);
-	#endif // __DLL_EFFECT__
-    
+	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble);
+	
 	void initialise();
     ~BCMParameter();
 
@@ -64,8 +57,6 @@ public:
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
     int           getHostIdx() const { return hostIdx; }
     int           getScopeCodeId() const;
-    String        getScopeCode() const;
-    ParameterType getParameterType() const { return type; }
     ValueTree&    getDefinition() { return definition; }
     void          getSettings(ValueTree& settings) const;
     void          getDescriptions(String& shortDesc, String& fullDesc) const;
@@ -81,7 +72,6 @@ public:
     int           getScopeIntValue() const;
 
     bool          isDiscrete() const;
-    bool          isScopeInputOnly() const;
     
     void          setHostValue(float newValue);
     void          setScopeIntValue(int newValue);
@@ -91,10 +81,19 @@ public:
 	void          registerOSCListener();
 	String        getOSCPath() const;
 	void          sendOSCParameterUpdate() const;
+#ifdef __DLL_EFFECT__
+	String        getScopeOSCPath() const;
+	void          sendScopeOSCParameterUpdate() const;
+#endif // __DLL_EFFECT__
 
 private:
     WeakReference<BCMParameter>::Master masterReference;
     friend class WeakReference<BCMParameter>;
+
+	SharedResourcePointer<OSCServer>      oscServer;
+#ifdef __DLL_EFFECT__
+	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
+#endif // __DLL_EFFECT__
 
 	void oscMessageReceived (const OSCMessage& message) override;
 
@@ -114,18 +113,14 @@ private:
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
 
-	void  sendToScopeSyncAsync() const;
+	void  sendToScopeOSC() const;
 
 	void  decDeadTimes();
     
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;
-#ifdef __DLL_EFFECT__
-	ScopeSyncAsync&  scopeSyncAsync;
-#endif // __DLL_EFFECT__
 
     bool             oscEnabled;
-    ParameterType    type;
     ValueTree        definition;
     Value            uiValue;
     Value            linearNormalisedValue;
@@ -136,12 +131,9 @@ private:
 	int              numDecimalPlaces;
 	
 	int oscDeadTimeCounter;
-	int asyncDeadTimeCounter;
 
 	static const int deadTimeTimerInterval;
 	static const int maxOSCDeadTime;
-	static const int maxAsyncDeadTime;
-
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

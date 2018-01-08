@@ -79,7 +79,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByScopeCode("show")->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters::show)->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 }
 
@@ -99,9 +99,6 @@ ScopeFX::~ScopeFX()
 void ScopeFX::initValues()
 {
     shouldShowWindow = false;
-
-	for (int i = 0; i < numParameters; i++)
-		currentValues[i] = 0;
 }
 
 void ScopeFX::toggleWindow(bool show)
@@ -139,95 +136,7 @@ void ScopeFX::valueChanged(Value& valueThatChanged)
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	int asyncValues[numParameters];
-
-	int i = 0;
-	int j = 0;
-
-    int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
-    
-    // Grab ScopeSync values from input
-	while (i < numScopeParameters)
-	{
-		if (parameterArray != nullptr)
-			asyncValues[i] = parameterArray[j];
-		else
-			asyncValues[i] = 0;
-		
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-		j++;
-	}
-
-    int* localArray = (int*)asyncIn[INPAD_LOCALS]->itg;
-
-    j = 0;
-	// Grab ScopeLocal values from input
-	while (j < numLocalParameters)
-	{
-		if (localArray != nullptr)
-			asyncValues[i] = localArray[j];
-		else
-			asyncValues[i] = 0;
-
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-		j++;
-	}
-
-	int* feedbackArray = (int*)asyncIn[INPAD_FEEDBACK]->itg;
-	
-	j = 0;
-    // Grab Feedback values from input
-    while (j < numFeedbackParameters)
-    {
-        if (feedbackArray != nullptr)
-			asyncValues[i] = feedbackArray[j];
-		else
-			asyncValues[i] = 0;
-        
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-        j++;
-    }
-
-    // Grab fixed parameters values from input
-    j = INPAD_X;
-    while (j < INPAD_X + numFixedBiDirParameters + numFixedInputOnlyParameters)
-    {
-        asyncValues[i] = asyncIn[j]->itg;
-        
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-        j++;
-    }
-	
-	int enableScopeInputs = asyncValues[i];
-
-	if (enableScopeInputs != currentValues[i])
-		ScopeSyncAsync::setScopeInputEnablement(enableScopeInputs > 0);
-	
-    // Get ScopeSync to process the inputs and pass on changes from the SS system
-    if (scopeSync != nullptr)
-        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues);
-    
-	i = 0;
-
-	// Write to the async outputs for all output parameters
-    for (int k = 0; k < numParameters; k++)
-    {
-		if (   ScopeSync::getScopeCodeType(k) != BCMParameter::feedback
-			&& ScopeSync::getScopeCodeType(k) != BCMParameter::fixedInputOnly)
-		{
-			//DBG("OUTPUT: i = " + String(i) + ", k = " + String(k) + ", value = " + String(asyncValues[k]));
-			asyncOut[i].itg  = asyncValues[k];
-			i++;
-		}
-    }
+	// TODO: Process OSC UID
 	
 	// Tell Scope when the DLL has been loaded
 	asyncOut[OUTPAD_LOADED].itg = (scopeSync != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;

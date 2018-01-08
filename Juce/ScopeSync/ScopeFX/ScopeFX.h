@@ -75,9 +75,6 @@ private:
     Value shouldShowWindow;
 
     ScopedPointer<ScopeSync> scopeSync;	
-        
-	int currentValues[numParameters];
-
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
 };
 

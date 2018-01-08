@@ -26,25 +26,24 @@ parameterValueStore("parametervalues"), scopeSync(owner)
 {
 	shouldReceiveAsyncUpdates = false;
 
-    resetScopeCodeIndexes();
-
-    const StringArray scopeCodes = StringArray::fromTokens("osc,X,Y,show,cfg,spr,spa,mono,byp,sspr,vc,midc,type,mida",",", "");
+    const StringArray scopeFixedParameters = StringArray::fromTokens("X,Y,Show,Config ID,Device Instance,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
-    for (int i = 0; i < scopeCodes.size(); i++)
-        addFixedScopeParameter(scopeCodes[i]);
+    for (int i = 0; i < scopeFixedParameters.size(); i++)
+        addFixedScopeParameter(scopeFixedParameters[i], i);
     
 	initOSCUID();
 
     startTimer(timerFrequency);
 }
 
-void BCMParameterController::addFixedScopeParameter(const String& scopeCode)
+void BCMParameterController::addFixedScopeParameter(const String& scopeCode, const int scopeCodeId)
 {
     ValueTree tmpParameter = Configuration::getDefaultFixedParameter();
     tmpParameter.setProperty(Ids::name, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::scopeCode, scopeCode, nullptr);
+    tmpParameter.setProperty(Ids::scopeParamID, scopeCodeId, nullptr);
+	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
     addParameter(tmpParameter, true, (scopeCode != "osc"));
 }
@@ -58,12 +57,10 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
 {
 	BCMParameter* parameter;
 
-	BCMParameter::ParameterType type = ScopeSync::getScopeCodeType(parameterDefinition.getProperty(Ids::scopeCode).toString());
-
 #ifdef __DLL_EFFECT__
-    parameter = new BCMParameter(parameterDefinition, type, *this, scopeSync->getScopeSyncAsync(), oscAble);
+    parameter = new BCMParameter(parameterDefinition, *this, scopeSync->getScopeSyncAsync(), oscAble);
 #else									   
-	parameter = new BCMParameter(parameterDefinition, type, *this, oscAble);
+	parameter = new BCMParameter(parameterDefinition, *this, oscAble);
 #endif __DLL_EFFECT__
 
     if (fixedParameter)
@@ -100,24 +97,25 @@ void BCMParameterController::setupHostParameters()
 	paramCounter = 0;
 
 	// Add the fixed parameters (excluding a few that don't make much sense)
-    while (paramCounter < fixedParameters.size())
-    {
-        parameter = fixedParameters[paramCounter];
-		
-		String scopeCode = parameter->getScopeCode();
-		StringArray scopeCodes = StringArray::fromTokens("X,Y,show,cfg,osc,mida",",","");
-
-		if (scopeCodes.indexOf(scopeCode) == -1)
-		{
-			parameter->setHostIdx(hostIdx);
-			parameter->registerOSCListener();
-
-	        hostParameters.add(parameter);
-			hostIdx++;
-		}
-
-        paramCounter++;
-    }
+	// TODO: Not sure whether this is valuable anyway. Needs some thought
+    //while (paramCounter < fixedParameters.size())
+    //{
+    //    parameter = fixedParameters[paramCounter];
+	//	
+	//	String scopeCode = parameter->getScopeCode();
+	//	StringArray scopeCodes = StringArray::fromTokens("X,Y,show,cfg,osc,mida",",","");
+	//
+	//	if (scopeCodes.indexOf(scopeCode) == -1)
+	//	{
+	//		parameter->setHostIdx(hostIdx);
+	//		parameter->registerOSCListener();
+	//
+	//        hostParameters.add(parameter);
+	//		hostIdx++;
+	//	}
+	//
+    //    paramCounter++;
+    //}
 }
 
 void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId)
@@ -141,20 +139,6 @@ void BCMParameterController::reset()
 
     hostParameters.clear();
     dynamicParameters.clear();
-    resetScopeCodeIndexes();
-}
-
-void BCMParameterController::resetScopeCodeIndexes()
-{
-	//DBG("BCMParameterController::resetScopeCodeIndexes - clearing parametersByScopeCodeId array");
-    
-	parametersByScopeCodeId.clear();
-
-    for (int i = 0; i < fixedParameters.size(); i++)
-	{
-		//DBG("BCMParameterController::resetScopeCodeIndexes - adding fixed parameter back in: " + fixedParameters[i]->getName() + "(" + String(fixedParameters[i]->getScopeCodeId()) + ")");
-        addToParametersByScopeCodeId(fixedParameters[i], fixedParameters[i]->getScopeCodeId());
-	}
 }
 
 void BCMParameterController::snapshot() const
@@ -179,9 +163,9 @@ BCMParameter* BCMParameterController::getParameterByName(const String& name) con
     return nullptr;
 }
 
-BCMParameter* BCMParameterController::getParameterByScopeCode(const String& scopeCode) const
+BCMParameter* BCMParameterController::getParameterByScopeCodeId(const int scopeCodeId) const
 {
-    BCMParameter* parameter = parametersByScopeCodeId[ScopeSync::getScopeCodeId(scopeCode)];
+    BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
 
 	//DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
 
@@ -243,30 +227,6 @@ void BCMParameterController::endAllParameterChangeGestures()
         parameter->setAffectedByUI(false);
 #endif // __DLL_EFFECT__
     }
-}
-
-void BCMParameterController::initOSCUID() const
-{
-	int initialOSCUID = 0;
-
-	while (initialOSCUID < INT_MAX && scopeSync->oscUIDInUse(initialOSCUID, scopeSync))
-		initialOSCUID++;
-	
-    getParameterByScopeCode("osc")->setUIValue(static_cast<float>(initialOSCUID), false);
-}
-
-void BCMParameterController::referToOSCUID(Value & valueToLink) const
-{
-    BCMParameter* param = getParameterByScopeCode("osc");
-
-    param->mapToUIValue(valueToLink);
-}
-
-int BCMParameterController::getOSCUID() const
-{
-    BCMParameter* param = getParameterByScopeCode("osc");
-
-    return roundDoubleToInt(param->getUIValue());
 }
 
 void BCMParameterController::updateHost(int hostIdx, float newValue) const
@@ -352,37 +312,38 @@ void BCMParameterController::restoreParameterValues() const
 
 void BCMParameterController::timerCallback()
 {
-    if (ScopeSyncApplication::inScopeFXContext() && !scopeSync->processConfigurationChange())
-        receiveUpdatesFromScopeAsync();
+// TODO: Replace with OSC Listener
+//    if (ScopeSyncApplication::inScopeFXContext() && !scopeSync->processConfigurationChange())
+//        receiveUpdatesFromScopeAsync();
 }
 
 void BCMParameterController::receiveUpdatesFromScopeAsync()
 {
 #ifdef __DLL_EFFECT__
 	// DBG("BCMParameterController::receiveUpdatesFromScopeAsync");
-
-	if (shouldReceiveAsyncUpdates)
-	{
-		scopeSync->getScopeSyncAsync().getAsyncUpdates(asyncControlUpdates);
-
-		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
-		{
-    		int scopeCodeId   = i.getKey();
-			int newScopeValue = i.getValue();
-			
-			if (scopeCodeId < ScopeSync::getScopeCodes().size())
-			{
-				BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
-                
-				if (parameter != nullptr)
-                {
-                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCode: " + ScopeSync::getScopeCodes()[scopeCodeId] + "(" + String(scopeCodeId) + ")" + ", value: " + String(newScopeValue));
-                    parameter->setScopeIntValue(newScopeValue);
-                }
-			}
-		}
-		asyncControlUpdates.clear();
-	}
+// TODO: Replace with OSC Listener
+//	if (shouldReceiveAsyncUpdates)
+//	{
+//		scopeSync->getScopeSyncAsync().getAsyncUpdates(asyncControlUpdates);
+//
+//		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
+//		{
+//    		int scopeCodeId   = i.getKey();
+//			int newScopeValue = i.getValue();
+//			
+//			if (scopeCodeId < ScopeSync::getScopeCodes().size())
+//			{
+//				BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
+//                
+//				if (parameter != nullptr)
+//                {
+//                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCode: " + ScopeSync::getScopeCodes()[scopeCodeId] + "(" + String(scopeCodeId) + ")" + ", value: " + String(newScopeValue));
+//                    parameter->setScopeIntValue(newScopeValue);
+//                }
+//			}
+//		}
+//		asyncControlUpdates.clear();
+//	}
 #endif // __DLL_EFFECT__
 } 
 

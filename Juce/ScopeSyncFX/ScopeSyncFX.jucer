@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.2"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="4.1.0" defines="">
+              jucerVersion="5.2.0" defines="" displaySplashScreen="1" reportAppUsage="1"
+              splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
       <GROUP id="{9A72096E-0E21-B6CC-11C5-DCAD6BB11A9E}" name="Presets">
@@ -230,13 +231,8 @@
         <FILE id="rVfpd8" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSync/Resources/ImageLoader.h"/>
       </GROUP>
       <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
-        <FILE id="DddHDz" name="ScopeSyncAsync.cpp" compile="1" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncAsync.cpp"/>
-        <FILE id="F3VBH6" name="ScopeSyncAsync.h" compile="0" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncAsync.h"/>
-        <FILE id="QM4U5v" name="ScopeSyncOSC.cpp" compile="1" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncOSC.cpp"/>
-        <FILE id="CJugOz" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSync/Comms/ScopeSyncOSC.h"/>
+        <FILE id="mkUslb" name="OSCServer.cpp" compile="1" resource="0" file="../ScopeSync/Comms/OSCServer.cpp"/>
+        <FILE id="X3oEiH" name="OSCServer.h" compile="0" resource="0" file="../ScopeSync/Comms/OSCServer.h"/>
       </GROUP>
       <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
         <FILE id="K9cWrE" name="ComboBoxProperties.cpp" compile="1" resource="0"
@@ -356,11 +352,14 @@
                        isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_2"
                        headerPath="../../../../External/SonicCore" libraryPath="..\..\..\..\External\SonicCore"
                        defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
-                       useRuntimeLibDLL="1"/>
+                       useRuntimeLibDLL="1" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" headerPath="../../../../External/SonicCore"
                        libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
-                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
+                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>

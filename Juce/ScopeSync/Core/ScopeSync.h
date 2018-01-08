@@ -44,10 +44,6 @@ class ScopeFX;
 class Configuration;
 class ConfigurationManagerWindow;
 
-#ifdef __DLL_EFFECT__
-    #include "../Comms/ScopeSyncAsync.h"
-#endif // __DLL_EFFECT__
-
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
@@ -65,19 +61,21 @@ public:
     ~ScopeSync();
     void unload();
 
-    static const String scopeSyncVersionString;
-	static const int numScopeCodes;       // Number of Scope codes
-    
+	static const String scopeSyncVersionString;
+	static const StringArray fixedParameters;
+
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
 	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
+	int  getOSCUID() {return int(oscUID.getValue());}
+	void setOSCUID(int newUID) {oscUID.setValue(newUID);}
+
+	void initOSCUID();
+    void referToOSCUID(Value& valueToLink) const;
+    int  getOSCUID() const;
+
 	static void reloadAllGUIs();
     static void shutDownIfLastInstance();
-    static const String& getScopeCode(int scopeSyncId);
-    static const StringArray& getScopeCodes();;
-	static BCMParameter::ParameterType getScopeCodeType(const String& scopeCode);
-    static BCMParameter::ParameterType getScopeCodeType(const int scopeCodeId);;
-    static int ScopeSync::getScopeCodeId(const String& scopeCode);
     static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled) const;
     bool guiNeedsReloading() const;
@@ -97,12 +95,9 @@ public:
 
     BCMParameterController* getParameterController() const;
 
-#ifdef __DLL_EFFECT__
-    ScopeSyncAsync& getScopeSyncAsync();
-#else
+#ifndef __DLL_EFFECT__
     PluginProcessor* getPluginProcessor();
 #endif // __DLL_EFFECT__
-    
 
     UndoManager& getUndoManager() { return undoManager; }
 
@@ -161,7 +156,6 @@ private:
     PluginProcessor* pluginProcessor;
 #else
     ScopeFX*       scopeFX;
-    ScopeSyncAsync scopeSyncAsync;
 #endif // __DLL_EFFECT__
 
     Value configurationID;
@@ -189,14 +183,10 @@ private:
 	Array<String, CriticalSection> configurationChanges;
     ScopedPointer<Configuration>   configuration;
 
-	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
-	static int performanceModeGlobalDisable;
-
-	static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
-	static const BCMParameter::ParameterType scopeCodeTypes[]; // Types of each of the scope codes
-    
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text
+
+	Value oscUID;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSync)

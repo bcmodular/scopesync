@@ -96,9 +96,6 @@ public:
     BCMParameter* getParameter() const { return parameter.get(); };
 
 protected:
-    static const StringArray fixedWidgetNames;
-    static const StringArray widgetScopeCodes;
-    
     bool          mapsToParameter;         // Flag for whether the widget maps to a parameter
     WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
 

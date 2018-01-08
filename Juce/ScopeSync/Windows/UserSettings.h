@@ -76,6 +76,9 @@ public:
                                   const String&    fileName,
                                   const ValueTree& sourceValueTree);
 
+	void referToOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
+	void referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
+
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
 
@@ -93,9 +96,9 @@ public:
     public:
         ColourSelectorWithSwatches() {}
 
-        int getNumSwatches() const override;
+        int    getNumSwatches() const override;
         Colour getSwatchColour (int index) const override;
-        void setSwatchColour (int index, const Colour& newColour) const override;
+        void   setSwatchColour (int index, const Colour& newColour) override;
     };
 
     juce_DeclareSingleton (UserSettings, false)
@@ -118,7 +121,13 @@ private:
 	Value oscLocalPortNum;
 	Value oscRemoteHost;
 	Value oscRemotePortNum;
-	
+
+#ifdef __DLL_EFFECT__
+	Value scopeOSCLocalPortNum;
+	Value scopeOSCRemoteHost;
+	Value scopeOSCRemotePortNum;
+#endif // __DLL_EFFECT__
+
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
     void resized() override;

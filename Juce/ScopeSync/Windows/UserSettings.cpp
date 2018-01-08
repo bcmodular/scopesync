@@ -31,7 +31,7 @@
 #include "../Utils/BCMMisc.h"
 #include "FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
-#include "../Comms/ScopeSyncOSC.h"
+#include "../Comms/OSCServer.h"
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -192,13 +192,24 @@ UserSettings::UserSettings()
     Component::setName("User Settings");
 
 	oscLocalPortNum.addListener(this);
-	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8000 : 9000));
+	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8003 : 8001));
     
 	oscRemoteHost.addListener(this);
 	oscRemoteHost.setValue(getPropertyValue("oscremotehost", "127.0.0.1"));
     
 	oscRemotePortNum.addListener(this);
-	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  ScopeSyncApplication::inPluginContext() ? 9000 : 8000));
+	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  ScopeSyncApplication::inPluginContext() ? 8001 : 8003));
+
+#ifdef __DLL_EFFECT__
+	scopeOSCLocalPortNum.addListener(this);
+	scopeOSCLocalPortNum.setValue(getPropertyIntValue("scopeosclocalportnum", 8002));
+    
+	scopeOSCRemoteHost.addListener(this);
+	scopeOSCRemoteHost.setValue(getPropertyValue("scopeoscremotehost", "127.0.0.1"));
+    
+	scopeOSCRemotePortNum.addListener(this);
+	scopeOSCRemotePortNum.setValue(getPropertyIntValue("scopeoscremoteportnum", 8000));
+#endif // __DLL_EFFECT__
     
     tooltipDelayTime.addListener(this);
 	tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
@@ -326,6 +337,20 @@ void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValu
     getAppProperties()->setValue(propertyName, newValue);
 }
 
+void UserSettings::referToOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+{
+	localPort.referTo(oscLocalPortNum);
+	remoteHost.referTo(oscRemoteHost);
+	remotePort.referTo(oscRemotePortNum);
+}
+
+void UserSettings::referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+{
+	localPort.referTo(scopeOSCLocalPortNum);
+	remoteHost.referTo(scopeOSCRemoteHost);
+	remotePort.referTo(scopeOSCRemotePortNum);
+}
+
 void UserSettings::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(tooltipDelayTime))
@@ -334,21 +359,20 @@ void UserSettings::valueChanged(Value& valueThatChanged)
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
-    else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
-	{
+	else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
 		setPropertyIntValue("osclocalportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setLocalPortNumber(valueThatChanged.getValue());
-	}
-    else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
-	{
-        setPropertyValue("oscremotehost", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setRemoteHostname(valueThatChanged.getValue());
-	}
+	else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
+	    setPropertyValue("oscremotehost", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
-	{
 		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setRemotePortNumber(valueThatChanged.getValue());
-	}
+#ifdef __DLL_EFFECT__
+	else if (valueThatChanged.refersToSameSourceAs(scopeOSCLocalPortNum))
+		setPropertyIntValue("scopeosclocalportnum", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(scopeOSCRemoteHost))
+	    setPropertyValue("scopeoscremotehost", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(scopeOSCRemotePortNum))
+		setPropertyIntValue("scopeoscremoteportnum", valueThatChanged.getValue());
+#endif // __DLL_EFFECT__
 }
 
 void UserSettings::userTriedToCloseWindow()
@@ -1130,7 +1154,7 @@ Colour UserSettings::ColourSelectorWithSwatches::getSwatchColour (int index) con
     return UserSettings::getInstance()->swatchColours[index];
 }
 
-void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour) const
+void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour)
 {
     UserSettings::getInstance()->swatchColours.set(index, newColour);
 }

@@ -31,23 +31,20 @@ public:
     void reset();
 
     void addParameter(ValueTree parameterDefinition, bool fixedParameter = false, bool oscAble = true);
-    void addFixedScopeParameter(const String& scopeCode);
+    void addFixedScopeParameter(const String& scopeCode, const int scopeCodeId);
     void setupHostParameters();
 
+	ScopeSync* getScopeSync() {return scopeSync;}
+
 	BCMParameter* getParameterByName(const String& name) const;
-    BCMParameter* getParameterByScopeCode(const String& scopeCode) const;
+    BCMParameter* getParameterByScopeCodeId(const int scopeCodeId) const;
 
     float getParameterHostValue(int hostIdx) const;
     void  setParameterFromHost(int hostIdx, float newValue) const;
 	static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
     void  getParameterNameForHost(int hostIdx, String& parameterName) const;
     void  getParameterText(int hostIdx, String& parameterText) const;
-    void  resetScopeCodeIndexes();
     void  snapshot() const;
-
-	void initOSCUID() const;
-    void referToOSCUID(Value& valueToLink) const;
-    int  getOSCUID() const;
 
 	void updateHost(int hostIdx, float newValue) const;
 

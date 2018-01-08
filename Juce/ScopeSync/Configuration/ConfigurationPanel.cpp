@@ -252,18 +252,18 @@ void ParameterPanel::rebuildProperties()
     propertyPanel.addSection("UI Properties", props.components, true);
 }
 
-void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType)
+void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, bool isPreset)
 {
     props.clear();
 
     String nameTooltip("Mapping name for parameter");
 
-    if (parameterType == BCMParameter::preset)
+    if (isPreset)
         nameTooltip = "Name of Preset";
 
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), "Name", 256, false), nameTooltip);
     
-    if (parameterType != BCMParameter::preset)
+    if (!isPreset)
     {
         props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::shortDescription, &undoManager), "Short Description", 256, false), "Short Description of parameter");
         props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::fullDescription, &undoManager),  "Full Description", 256, false),  "Full Description of parameter");
@@ -273,20 +273,15 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, Und
         props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::blurb, &undoManager), "Blurb", 1024, true), "Textual description of Preset (shown in Chooser)");
     }
 
-    StringArray scopeCodes = ScopeSync::getScopeCodes();
-    Array<var>  scopeCodeValues;
-
-    for (int i = 0; i < scopeCodes.size(); i++)
-        scopeCodeValues.add(scopeCodes[i]);
-
-    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::scopeCode, &undoManager), "Scope Code", scopeCodes, scopeCodeValues), "Scope Code");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeParamGroup, &undoManager), "Scope Param Group"), "Parameter Group of parameter in Scope");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeParamID, &undoManager),    "Scope Param ID"),    "Parameter ID for parameter in Scope");
 }
 
 void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)
 {
     props.clear();
-    props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
-    props.add(new IntRangeProperty        (valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMin, &undoManager), "Min Scope Value"),             "Minimum Scope Value (Integer)");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeRangeMax, &undoManager), "Max Scope Value"),             "Maximum Scope Value (Integer)");
     
     if (valueType == 0)
     {

@@ -70,11 +70,11 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxHeight);
 
     // Set up sliders for fixed Scope parameters
-    int fixedSliderIndex = fixedWidgetNames.indexOf(getName(), true);
+    int fixedSliderIndex = ScopeSync::fixedParameters.indexOf(getName(), true);
 
     if (fixedSliderIndex != -1)
     {
-        setupFixedSlider(widgetScopeCodes[fixedSliderIndex], props);
+        setupFixedSlider(fixedSliderIndex, props);
         return;
     }
 
@@ -149,10 +149,10 @@ void BCMSlider::applyProperties(SliderProperties& props)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupFixedSlider(const String& scopeCode, SliderProperties& props)
+void BCMSlider::setupFixedSlider(const int scopeCodeId, SliderProperties& props)
 {
     fixed = true;
-    setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
+    setParameter(scopeSync.getParameterController()->getParameterByScopeCodeId(scopeCodeId));
 
     parameter->mapToUIValue(getValueObject());
 	

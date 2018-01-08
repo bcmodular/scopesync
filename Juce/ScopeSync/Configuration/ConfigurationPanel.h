@@ -121,7 +121,7 @@ public:
     void childBoundsChanged(Component* child) override;
     
     static void setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree);
-    static void createDescriptionProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType);
+    static void createDescriptionProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, bool isPreset);
     static void createScopeProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
     static void createUIProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
 
@@ -135,8 +135,6 @@ private:
 
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer settingsTableConstrainer;
-
-    BCMParameter::ParameterType parameterType;
 
     void rebuildProperties() override;
     
