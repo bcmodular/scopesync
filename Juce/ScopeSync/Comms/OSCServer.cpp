@@ -160,6 +160,11 @@ void OSCServer::valueChanged(Value& valueThatChanged)
 		setRemotePortNumber(valueThatChanged.getValue());
 }
 
+ScopeOSCServer::ScopeOSCServer()
+{
+	setup();
+}
+
 void ScopeOSCServer::setup()
 {
 	oscLocalPortNum.addListener(this);
@@ -167,4 +172,11 @@ void ScopeOSCServer::setup()
 	oscRemotePortNum.addListener(this);
 
 	UserSettings::getInstance()->referToScopeOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+}
+
+ScopeOSCServer::~ScopeOSCServer()
+{
+	oscLocalPortNum.removeListener(this);
+	oscRemoteHost.removeListener(this);
+	oscRemotePortNum.removeListener(this);
 }

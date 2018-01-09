@@ -79,7 +79,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters::show)->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("show"))->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 }
 

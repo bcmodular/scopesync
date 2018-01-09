@@ -367,7 +367,7 @@ private:
 
 void BCMTreeItem::itemSelectionChanged(bool isNowSelected)
 {
-    DBG("BCMTreeItem::itemSelectionChanged - isNowSelected: " + String(isNowSelected) + ", item: " + getUniqueName());
+    DBG("BCMTreeItem::itemSelectionChanged - isNowSelected: " + String((isNowSelected) ? "True" : "False") + ", item: " + getUniqueName());
 
     if (isNowSelected)
     {

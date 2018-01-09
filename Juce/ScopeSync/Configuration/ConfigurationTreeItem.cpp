@@ -953,8 +953,11 @@ String ParameterItem::getDisplayName() const
     String displayName = tree[Ids::name].toString();
     displayName += " (" + tree[Ids::fullDescription].toString() + ")";
 
-	if (tree[Ids::scopeCode].toString().isNotEmpty())
-        displayName += " - " + tree[Ids::scopeCode].toString();
+	int scopeParamGroup = tree[Ids::scopeParamGroup];
+	int scopeParamId    = tree[Ids::scopeParamId];
+
+	if (scopeParamGroup != -1 && scopeParamId != -1)
+        displayName += " - " + String(scopeParamGroup) + ":" + String(scopeParamId);
 
     return displayName;
 }

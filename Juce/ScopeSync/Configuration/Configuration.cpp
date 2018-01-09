@@ -483,17 +483,21 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
 
     generateUniqueParameterNames(newParameter, um);
 
-    newParameter.setProperty(Ids::scopeCode, String::empty, um);
+	newParameter.setProperty(Ids::scopeParamGroup, -1, um);
+	newParameter.setProperty(Ids::scopeParamId, -1, um);
+    //newParameter.setProperty(Ids::scopeCode, String::empty, um);
     
     getParameters().addChild(newParameter, targetIndex, um);
 }
 
 void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const
 {
-    String name      = parameter.getProperty(Ids::name);
-    String shortDesc = parameter.getProperty(Ids::shortDescription);
-    String fullDesc  = parameter.getProperty(Ids::fullDescription);
-    String scopeCode = parameter.getProperty(Ids::scopeCode);
+    String name            = parameter.getProperty(Ids::name);
+    String shortDesc       = parameter.getProperty(Ids::shortDescription);
+    String fullDesc        = parameter.getProperty(Ids::fullDescription);
+    //String scopeCode       = parameter.getProperty(Ids::scopeCode);
+	String scopeParamGroup = parameter.getProperty(Ids::scopeParamGroup);
+	String scopeParamId    = parameter.getProperty(Ids::scopeParamId);
 
 	parameter.copyPropertiesFrom(preset, undoManager);
     parameter.removeProperty(Ids::presetFileName, undoManager);
@@ -511,7 +515,9 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     if (settings.isValid())
         parameter.addChild(settings, -1, undoManager);
 
-    parameter.setProperty(Ids::scopeCode, scopeCode, undoManager);
+    //parameter.setProperty(Ids::scopeCode, scopeCode, undoManager);
+	parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, undoManager);
+	parameter.setProperty(Ids::scopeParamId, scopeParamId, undoManager);
     
     if (!overwriteNames)
     {
@@ -556,8 +562,8 @@ ValueTree Configuration::getDefaultParameter()
     defaultParameter.setProperty(Ids::name,             "PARAM",       nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeParamGroup,  1,             nullptr);
-    defaultParameter.setProperty(Ids::scopeParamID,     1,             nullptr);
+    defaultParameter.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeParamId,     -1,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -579,8 +585,8 @@ ValueTree Configuration::getDefaultFixedParameter()
     defaultParameter.setProperty(Ids::name,            "PARAM",        nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeParamGroup,  1,             nullptr);
-    defaultParameter.setProperty(Ids::scopeParamID,     1,             nullptr);
+    defaultParameter.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeParamId,     -1,            nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    -2147483647,   nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);

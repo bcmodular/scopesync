@@ -91,7 +91,7 @@ private:
     
     ValueTree settings; // Discrete parameter settings
     
-	void setupFixedButton(const String& scopeCode, TextButtonProperties& props);
+	void setupFixedButton(const int scopeCodeId, TextButtonProperties& props);
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs() const;

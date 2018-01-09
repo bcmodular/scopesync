@@ -79,7 +79,7 @@ namespace BCMMath
 
     inline void skewValue(double& valueToSkew, double skewFactor, double minValue, double maxValue, bool invert)
     {
-        DBG("BCMMath::skewValue - valueToSkew: " + String(valueToSkew) + ", skewFactor: " + String(skewFactor) + ", minValue: " + String(minValue) + ", maxValue: " + String(maxValue) + ", invert: " + String(invert));
+        DBG("BCMMath::skewValue - valueToSkew: " + String(valueToSkew) + ", skewFactor: " + String(skewFactor) + ", minValue: " + String(minValue) + ", maxValue: " + String(maxValue) + ", invert: " + String((invert) ? "True" : "False"));
         
         if (skewFactor != 1.0)
         {

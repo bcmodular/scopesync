@@ -31,7 +31,7 @@ parameterValueStore("parametervalues"), scopeSync(owner)
     for (int i = 0; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
     
-	initOSCUID();
+	scopeSync->initOSCUID();
 
     startTimer(timerFrequency);
 }
@@ -42,7 +42,7 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode, con
     tmpParameter.setProperty(Ids::name, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
     tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::scopeParamID, scopeCodeId, nullptr);
+    tmpParameter.setProperty(Ids::scopeParamId, scopeCodeId, nullptr);
 	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
     addParameter(tmpParameter, true, (scopeCode != "osc"));
@@ -55,13 +55,7 @@ BCMParameterController::~BCMParameterController()
 
 void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
 {
-	BCMParameter* parameter;
-
-#ifdef __DLL_EFFECT__
-    parameter = new BCMParameter(parameterDefinition, *this, scopeSync->getScopeSyncAsync(), oscAble);
-#else									   
-	parameter = new BCMParameter(parameterDefinition, *this, oscAble);
-#endif __DLL_EFFECT__
+	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble);
 
     if (fixedParameter)
         fixedParameters.add(parameter);
@@ -122,7 +116,7 @@ void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* paramete
 {
     //DBG("BCMParameterController::addToParametersByScopeCodeId - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
         
-    if (scopeCodeId > -1 && scopeCodeId < ScopeSync::getScopeCodes().size())
+    if (scopeCodeId > -1)
         parametersByScopeCodeId.set(scopeCodeId, parameter);
 }
 

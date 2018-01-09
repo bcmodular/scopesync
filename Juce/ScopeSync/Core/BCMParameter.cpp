@@ -50,7 +50,17 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
 void BCMParameter::initialise()
 {
 	hostIdx = -1;
-	scopeCodeId = (int(definition.getProperty(Ids::scopeParamGroup, 0)) * 16) + int(definition.getProperty(Ids::scopeParamID, 0));
+	scopeParamGroup = int(definition.getProperty(Ids::scopeParamGroup, -1));
+	scopeParamId    = int(definition.getProperty(Ids::scopeParamId, -1));
+
+	if (scopeParamGroup == -1 || scopeParamId == -1)
+		scopeCodeId = -1;
+	else
+		scopeCodeId = (scopeParamGroup * 16) + scopeParamId;
+
+	// TODO: Read this from config file - 
+	readOnly = false;
+
 	oscDeadTimeCounter = 0;
 
 	startTimer(deadTimeTimerInterval);
@@ -168,6 +178,11 @@ String BCMParameter::getName() const
 int BCMParameter::getScopeCodeId() const
 {
     return scopeCodeId;
+}
+
+String BCMParameter::getScopeParamGroupAndId() const
+{
+    return String(scopeParamGroup) + ":" + String(scopeParamId);
 }
 
 void BCMParameter::getSettings(ValueTree& settings) const
@@ -301,6 +316,11 @@ bool BCMParameter::isDiscrete() const
     }
 
     return false;
+}
+
+bool BCMParameter::isReadOnly() const
+{
+	return readOnly;
 }
 
 double BCMParameter::convertLinearNormalisedToUIValue(double lnValue) const

@@ -57,7 +57,8 @@ public:
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
     int           getHostIdx() const { return hostIdx; }
     int           getScopeCodeId() const;
-    ValueTree&    getDefinition() { return definition; }
+	String        getScopeParamGroupAndId() const;
+	ValueTree&    getDefinition() { return definition; }
     void          getSettings(ValueTree& settings) const;
     void          getDescriptions(String& shortDesc, String& fullDesc) const;
     void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix) const;
@@ -72,6 +73,7 @@ public:
     int           getScopeIntValue() const;
 
     bool          isDiscrete() const;
+	bool          isReadOnly() const;
     
     void          setHostValue(float newValue);
     void          setScopeIntValue(int newValue);
@@ -120,15 +122,18 @@ private:
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;
 
-    bool             oscEnabled;
-    ValueTree        definition;
-    Value            uiValue;
-    Value            linearNormalisedValue;
-	Value            oscUID;
-    bool             affectedByUI;
-    int              hostIdx;
-    int              scopeCodeId;
-	int              numDecimalPlaces;
+    bool      oscEnabled;
+	bool	  readOnly;
+    ValueTree definition;
+    Value     uiValue;
+    Value     linearNormalisedValue;
+	Value     oscUID;
+    bool      affectedByUI;
+    int       hostIdx;
+	int       scopeParamGroup;
+	int       scopeParamId;
+    int       scopeCodeId;
+	int       numDecimalPlaces;
 	
 	int oscDeadTimeCounter;
 

@@ -149,12 +149,7 @@ BCMParameterController* ScopeSync::getParameterController() const
     return parameterController;
 }
 
-#ifdef __DLL_EFFECT__
-ScopeSyncAsync& ScopeSync::getScopeSyncAsync()
-{
-    return scopeSyncAsync;
-}
-#else
+#ifndef __DLL_EFFECT__
 PluginProcessor* ScopeSync::getPluginProcessor()
 {
     return pluginProcessor;
@@ -347,9 +342,7 @@ bool ScopeSync::shouldShowEditToolbar() const
 void ScopeSync::applyConfiguration()
 {
 	DBG("ScopeSync::applyConfiguration");
-#ifdef __DLL_EFFECT__
-    scopeSyncAsync.toggleUpdateProcessing(false);
-#endif
+	// TODO: Disable OSC here?
 	parameterController->toggleAsyncUpdates(false);
     
 	setGUIEnabled(false);
@@ -378,8 +371,10 @@ void ScopeSync::applyConfiguration()
 #ifndef __DLL_EFFECT__
     parameterController->restoreParameterValues();
 #else
-	scopeSyncAsync.snapshot();
-    scopeSyncAsync.toggleUpdateProcessing(true);
+	// TODO: Enable OSC here and snapshot?
+	
+	//scopeSyncAsync.snapshot();
+    //scopeSyncAsync.toggleUpdateProcessing(true);
 #endif // __DLL_EFFECT__
 
     UserSettings::getInstance()->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),

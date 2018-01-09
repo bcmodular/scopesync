@@ -242,7 +242,7 @@ void ParameterPanel::rebuildProperties()
     propertyPanel.clear();
 
     PropertyListBuilder props;
-    createDescriptionProperties(props, undoManager, valueTree, parameterType);
+    createDescriptionProperties(props, undoManager, valueTree, false);
     propertyPanel.addSection("Main Properties", props.components, true);
 
     createScopeProperties(props, undoManager, valueTree, valueType.getValue());
@@ -274,7 +274,7 @@ void ParameterPanel::createDescriptionProperties(PropertyListBuilder& props, Und
     }
 
     props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeParamGroup, &undoManager), "Scope Param Group"), "Parameter Group of parameter in Scope");
-    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeParamID, &undoManager),    "Scope Param ID"),    "Parameter ID for parameter in Scope");
+    props.add(new IntRangeProperty(valueTree.getPropertyAsValue(Ids::scopeParamId, &undoManager),    "Scope Param ID"),    "Parameter ID for parameter in Scope");
 }
 
 void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManager& undoManager, ValueTree& valueTree, int valueType)

@@ -322,15 +322,13 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
             editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
         
             Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
-        
-            bool showEditToolbar = scopeSync.shouldShowEditToolbar();
-            DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
+
+	        bool showEditToolbar = scopeSync.shouldShowEditToolbar();
+            DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String((showEditToolbar) ? "True" : "False"));
             
             if (!showEditToolbar)
-            {
                 editToolbarBounds.translate(-120, 0);
-            }
-        
+           
             editToolbar->setBounds(editToolbarBounds);
             addAndMakeVisible(editToolbar);
         }
@@ -739,7 +737,7 @@ void BCMComponent::showHideEditToolbar() const
     Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
     
     bool showEditToolbar = scopeSync.shouldShowEditToolbar();
-    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String(showEditToolbar));
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String((showEditToolbar) ? "True" : "False"));
         
     if (showEditToolbar)
         editToolbarBounds.translate(-120, 0);
@@ -749,7 +747,7 @@ void BCMComponent::showHideEditToolbar() const
     scopeSync.toggleEditToolbar();
 
     showEditToolbar = scopeSync.shouldShowEditToolbar();
-    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String(showEditToolbar));
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String((showEditToolbar) ? "True" : "False"));
 }
 
 void BCMComponent::hideSystemErrorBar()

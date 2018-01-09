@@ -132,8 +132,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
         setRange(rangeMin, rangeMax, rangeInt);
         setTextValueSuffix(uiSuffix);
 
-        setDoubleClickReturnValue(!parameter->isScopeInputOnly(), parameter->getUIResetValue());
-        setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
+        setDoubleClickReturnValue(!parameter->isReadOnly(), parameter->getUIResetValue());
+        setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
 
         setSkewFactor(parameter->getUISkewFactor());
         
@@ -160,7 +160,7 @@ void BCMSlider::setupFixedSlider(const int scopeCodeId, SliderProperties& props)
 	setTooltip(props.name);
 	setPopupMenuEnabled(false);
 
-    setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
+    setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
@@ -207,7 +207,7 @@ void BCMSlider::mouseDown(const MouseEvent& event)
     {
         switchToTabs();
 
-        if (!hasParameter() || !parameter->isScopeInputOnly())
+        if (!hasParameter() || !parameter->isReadOnly())
             Slider::mouseDown(event);
     }
 }
@@ -284,7 +284,7 @@ void BCMSlider::overridePopupEnabled(bool popupEnabledFlag)
     if (popupEnabledUserSetting != noOverride_PE)
         popupEnabledFlag = (popupEnabledUserSetting == popupEnabled);
     
-    setPopupDisplayEnabled(popupEnabledFlag, nullptr);
+    setPopupDisplayEnabled(popupEnabledFlag, popupEnabledFlag, nullptr);
 }
 
 void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)

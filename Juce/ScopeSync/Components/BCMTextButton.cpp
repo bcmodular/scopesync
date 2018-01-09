@@ -89,11 +89,11 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 	isCommandButton = false;
 	
     // Set up buttons for fixed Scope parameters
-    int fixedButtonIndex = fixedWidgetNames.indexOf(getName(), true);
+    int fixedButtonIndex = ScopeSync::fixedParameters.indexOf(getName(), true);
 
     if (fixedButtonIndex != -1)
     {
-        setupFixedButton(widgetScopeCodes[fixedButtonIndex], props);
+        setupFixedButton(fixedButtonIndex, props);
         return;
     }
 	
@@ -254,7 +254,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupFixedButton(const String& scopeCode, TextButtonProperties& props)
+void BCMTextButton::setupFixedButton(const int scopeCodeId, TextButtonProperties& props)
 {
     mappingType = toggle;
 	setClickingTogglesState(true);
@@ -262,7 +262,7 @@ void BCMTextButton::setupFixedButton(const String& scopeCode, TextButtonProperti
 	upSettingIdx   = 0;
 	downSettingIdx = 1;
 	
-	setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
+	setParameter(scopeSync.getParameterController()->getParameterByScopeCodeId(scopeCodeId));
     
     setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
 
@@ -345,7 +345,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     {
 		if (hasParameter())
 		{
-            if (parameter->isScopeInputOnly())
+            if (parameter->isReadOnly())
                 return;
 
 			int hostIdx = getParameter()->getHostIdx();
@@ -368,7 +368,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
     {
         if (hasParameter())
 		{
-            if (parameter->isScopeInputOnly())
+            if (parameter->isReadOnly())
                 return;
 
             if (!isCommandButton && mappingType == noToggle)
@@ -417,7 +417,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
     if (hasParameter())
     {
-        if (parameter->isScopeInputOnly())
+        if (parameter->isReadOnly())
             return;
 
         float valueToSet;
@@ -439,7 +439,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 void BCMTextButton::mouseDrag(const MouseEvent& e)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::mouseDrag(e);
@@ -447,7 +447,7 @@ void BCMTextButton::mouseDrag(const MouseEvent& e)
 
 void BCMTextButton::focusGained(FocusChangeType f)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::focusGained(f);
@@ -455,7 +455,7 @@ void BCMTextButton::focusGained(FocusChangeType f)
 
 void BCMTextButton::focusLost(FocusChangeType f)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::focusLost(f);

@@ -60,7 +60,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 
     if (mapsToParameter)
     {
-		setEditableText(!parameter->isScopeInputOnly() ? props.editableText : false);
+		setEditableText(!parameter->isReadOnly() ? props.editableText : false);
 		clear(juce::dontSendNotification);
 
 		parameter->mapToUIValue(parameterValue);
@@ -96,7 +96,7 @@ void BCMComboBox::mouseDown(const MouseEvent& event)
     if (event.mods.isPopupMenu())
         showPopupMenu();
     else
-		if (hasParameter() && parameter->isScopeInputOnly())
+		if (hasParameter() && parameter->isReadOnly())
 			return;
 		else
 			ComboBox::mouseDown(event);

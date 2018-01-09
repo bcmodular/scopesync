@@ -312,7 +312,7 @@ void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::buttonC
     selector.setCurrentColour (owner->getColour());
 }
 
-ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::ColourSelectorWithSwatches() {}
+ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::ColourSelectorWithSwatches() = default;
 
 int ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getNumSwatches() const
 {
@@ -324,7 +324,7 @@ Colour ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::Colou
     return UserSettings::getInstance()->swatchColours [index];
 }
 
-void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour) const
+void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour)
 {
     UserSettings::getInstance()->swatchColours.set(index, newColour);
 }
