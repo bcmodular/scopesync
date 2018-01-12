@@ -136,11 +136,25 @@ void ScopeFX::valueChanged(Value& valueThatChanged)
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	// TODO: Process OSC UID
-	
+	int newOSCUID = asyncIn[INPAD_OSCUID]->itg;
+
+	if (newOSCUID != oscUID)
+	{
+		oscUID = newOSCUID;
+		scopeSync->setOSCUID(oscUID);
+	}
+	else
+	{
+		oscUID = scopeSync->getOSCUID();
+	}
+
+	asyncOut[OUTPAD_OSCUID].itg = oscUID;
+
 	// Tell Scope when the DLL has been loaded
 	asyncOut[OUTPAD_LOADED].itg = (scopeSync != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
 
+	// TODO: Process Snapshot
+	
 	return 0;
 }
 

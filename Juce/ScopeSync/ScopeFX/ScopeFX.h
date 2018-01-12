@@ -76,6 +76,7 @@ private:
 
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
+	int oscUID;
 };
 
 

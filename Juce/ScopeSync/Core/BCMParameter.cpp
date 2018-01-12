@@ -114,7 +114,9 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 	if (updateSource == oscUpdate)
 		oscDeadTimeCounter = maxOSCDeadTime;
 
-	#ifndef __DLL_EFFECT__
+	#ifdef __DLL_EFFECT__
+		(void)updateHost;
+	#else
 		if (updateHost && getHostIdx() >= 0)
 			parameterController.updateHost(getHostIdx(), getHostValue());
 	#endif // __DLL_EFFECT__

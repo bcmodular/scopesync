@@ -98,7 +98,7 @@ private:
 class Configuration : public FileBasedDocument, public ValueTree::Listener
 {
 public:
-    Configuration();
+	Configuration();
     ~Configuration();
 
     // Overridden methods for FileBasedDocument
@@ -139,8 +139,9 @@ public:
     ValueTree getEmptyConfiguration() const;
     
     bool replaceConfiguration(const String& newFileName);
+	void migrateFromV102();
 
-    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
+	void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
     void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const;
 
     void deleteMapping(const Identifier& mappingType, 
@@ -206,6 +207,7 @@ private:
 
     bool       layoutLoaded;
     
+    static const StringArray v102scopeCodes;
     static const char*  configurationFileExtension;
 
     void        setConfigurationRoot(const ValueTree& newRoot);
