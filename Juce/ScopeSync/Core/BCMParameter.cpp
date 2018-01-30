@@ -116,6 +116,7 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 
 	#ifdef __DLL_EFFECT__
 		(void)updateHost;
+		scopeOSCServer->sendIntMessage(getScopeOSCPath(), getScopeIntValue());
 	#else
 		if (updateHost && getHostIdx() >= 0)
 			parameterController.updateHost(getHostIdx(), getHostValue());
@@ -521,12 +522,15 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 			sendOSCParameterUpdate();
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))
-		registerOSCListener();
+		registerOSCListeners();
 }
 
-void BCMParameter::registerOSCListener()
+void BCMParameter::registerOSCListeners()
 {
 	oscServer->registerOSCListener(this, getOSCPath());
+#ifdef __DLL_EFFECT__
+	scopeOSCServer->registerOSCListener(this, getScopeOSCPath());
+#endif __DLL_EFFECT__
 }
 
 String BCMParameter::getOSCPath() const
@@ -540,7 +544,8 @@ String BCMParameter::getOSCPath() const
 String BCMParameter::getScopeOSCPath() const
 {
 	String oscUIDStr = oscUID.getValue();
-	String address = "/" + oscUIDStr + "/0/" + String(scopeCodeId);
+	String address = "/" + oscUIDStr + "/0/" + String(scopeParamGroup) + "/" + String(scopeParamId);
+	DBG("ScopeSyncFX::BCMParameter::getScopeOSCPath = " + address);
 
 	return address;
 }
@@ -552,15 +557,33 @@ void BCMParameter::sendOSCParameterUpdate() const
 
 void BCMParameter::oscMessageReceived (const OSCMessage& message)
 {
-	DBG("BCMParameter::oscMessageReceived - " + message.getAddressPattern().toString());
+	String address = message.getAddressPattern().toString();
 
-	if (message.size() == 1 && message[0].isFloat32())
+	DBG("BCMParameter::oscMessageReceived - " + address);
+
+	if (message.size() == 1)
 	{
-		float newValue = message[0].getFloat32();
-		setOSCValue(newValue);
+		if (message[0].isFloat32() && address == getOSCPath())
+		{
+			float newValue = message[0].getFloat32();
+			DBG("BCMParameter::oscMessageReceived - new OSC Value: " + String(newValue));
+			
+			setOSCValue(newValue);
+		}
+		else if (message[0].isInt32() && address == getScopeOSCPath())
+		{
+			int newValue = message[0].getInt32();
+			DBG("BCMParameter::oscMessageReceived - new Scope OSC Value: " + String(newValue));
+			
+			setScopeIntValue(newValue);
+		}
+		else
+		{
+			DBG("BCMParameter::handleOSCMessage - OSC message not processed");
+		}
 	}
 	else
-		DBG("BCMParameter::handleOSCMessage - received other OSC message");
+		DBG("BCMParameter::handleOSCMessage - empty OSC message");
 }
 
 void BCMParameter::sendToScopeOSC() const

@@ -80,7 +80,7 @@ public:
     void          setUIValue(float newValue, bool updateHost = true);
 	void          setOSCValue(float newValue);
 
-	void          registerOSCListener();
+	void          registerOSCListeners();
 	String        getOSCPath() const;
 	void          sendOSCParameterUpdate() const;
 #ifdef __DLL_EFFECT__

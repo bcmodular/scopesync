@@ -72,15 +72,13 @@ void BCMParameterController::setupHostParameters()
 	int hostIdx = 0;
     int paramCounter = 0;
 
-    BCMParameter* parameter;
-
     // Add the dynamic parameters
     while (paramCounter < dynamicParameters.size())
     {
-        parameter = dynamicParameters[paramCounter];
+        BCMParameter* parameter = dynamicParameters[paramCounter];
 		
 		parameter->setHostIdx(hostIdx);
-		parameter->registerOSCListener();
+		parameter->registerOSCListeners();
 
         hostParameters.add(parameter);
 
@@ -125,10 +123,10 @@ void BCMParameterController::reset()
 	//DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
 
-    for (int i = 0; i < fixedParameters.size(); i++)
+    for (auto fixedParameter : fixedParameters)
 	{
 		//DBG("BCMParameterController::reset - Added parameter: " + fixedParameters[i]->getName());
-		parameters.add(fixedParameters[i]);
+		parameters.add(fixedParameter);
 	}
 
     hostParameters.clear();
@@ -137,8 +135,8 @@ void BCMParameterController::reset()
 
 void BCMParameterController::snapshot() const
 {
-	for (int i = 0; i < parameters.size(); i++)
-		parameters[i]->sendOSCParameterUpdate();
+	for (auto parameter : parameters)
+		parameter->sendOSCParameterUpdate();
 }
 
 int BCMParameterController::getNumParametersForHost()

@@ -39,8 +39,8 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     setVisible(true);
     setName("ScopeSync");
 
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("X"))->mapToUIValue(xPos);
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("Y"))->mapToUIValue(yPos);
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posX"))->mapToUIValue(xPos);
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posY"))->mapToUIValue(yPos);
 
     xPos.addListener(this);
     yPos.addListener(this);
@@ -128,8 +128,8 @@ void ScopeFXGUI::userTriedToCloseWindow()
 void ScopeFXGUI::moved()
 {
     DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("X"))->setUIValue((float)getScreenPosition().getX());
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("Y"))->setUIValue((float)getScreenPosition().getY());
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posX"))->setUIValue((float)getScreenPosition().getX());
+    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posY"))->setUIValue((float)getScreenPosition().getY());
 }
 
 void ScopeFXGUI::paint(Graphics& g)

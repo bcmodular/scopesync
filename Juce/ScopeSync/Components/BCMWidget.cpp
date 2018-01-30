@@ -69,6 +69,7 @@ void BCMWidget::applyBounds() const
     if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
     {
         DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
+		// TODO: This is deprecated in Juce...
         parentWidget->setBounds(componentBounds.relativeRectangleString);
         DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
     }
