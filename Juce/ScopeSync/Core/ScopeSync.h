@@ -116,6 +116,7 @@ public:
     Configuration& getConfiguration() const;
     ValueTree      getConfigurationRoot() const;
     String         getConfigurationName(bool showUnsavedIndicator) const;
+	void		   listenForConfigurationNameChanges(Value& listener) const;
     bool           configurationIsReadOnly() const;
     const File&    getConfigurationFile() const;
     const File&    getLastFailedConfigurationFile() const;
@@ -159,6 +160,7 @@ private:
 #endif // __DLL_EFFECT__
 
     Value configurationID;
+	Value configurationName;
 
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
     ScopedPointer<ApplicationCommandManager> commandManager;

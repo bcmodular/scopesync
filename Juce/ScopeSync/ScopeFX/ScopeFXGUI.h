@@ -33,36 +33,40 @@ class ScopeFX;
 #include <JuceHeader.h>
 #include "../Core/ScopeSyncGUI.h"
 #include <Windows.h>
+#include "../Core/BCMParameterController.h"
 
 class BCMParameter;
 
 class ScopeFXGUI : public Component,
                    public Value::Listener,
-				   public Timer
+				   public ComponentListener
 {
 public:
-    ScopeFXGUI (ScopeFX* owner, HWND scopeWindow);
+    ScopeFXGUI (ScopeFX* owner);
     ~ScopeFXGUI();
+
+	void open(HWND scopeWindow);
 
     // Handles resizing the window if the contents have changed in size
     // and updating the window title
     void refreshWindow();
 
     void valueChanged(Value& valueThatChanged) override;
-	void timerCallback() override;
-    
+	void componentMovedOrResized(Component&	component, bool wasMoved, bool wasResized) override;
+	    
 private:
     ScopeFX*                    scopeFX;
+	BCMParameterController*     parameterController;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
     
     Value xPos;
     Value yPos;
+	Value configurationName;
 
-    void userTriedToCloseWindow();
-    void moved();
+    void userTriedToCloseWindow() override;
+    void moved() override;
 
-    String windowName;
-    bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
+    bool firstTimeShow; // Little hack to get the window to resize correctly on initial load
     
     void paint(Graphics& g) override;
 

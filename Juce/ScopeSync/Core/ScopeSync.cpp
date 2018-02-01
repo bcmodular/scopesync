@@ -343,8 +343,7 @@ void ScopeSync::applyConfiguration()
 {
 	DBG("ScopeSync::applyConfiguration");
 	// TODO: Disable OSC here?
-	parameterController->toggleAsyncUpdates(false);
-    
+	
 	setGUIEnabled(false);
     parameterController->endAllParameterChangeGestures();
 
@@ -388,7 +387,7 @@ void ScopeSync::applyConfiguration()
         configurationManagerWindow->restoreWindowPosition();
     }
 
-    parameterController->toggleAsyncUpdates(true);
+	configurationName = configuration->getDocumentTitle();
 }
 
 bool ScopeSync::isInitialised() const
@@ -557,12 +556,17 @@ void ScopeSync::reloadSavedConfiguration()
 
 String ScopeSync::getConfigurationName(bool showUnsavedIndicator) const
 {
-    String name = configuration->getDocumentTitle();
+    String name = configurationName.toString();
 
     if (showUnsavedIndicator && configuration->hasChangedSinceSaved())
         name += " *";
 
     return name;
+}
+
+void ScopeSync::listenForConfigurationNameChanges(Value& listener) const
+{
+	listener.referTo(configurationName);
 }
 
 bool ScopeSync::configurationHasUnsavedChanges() const

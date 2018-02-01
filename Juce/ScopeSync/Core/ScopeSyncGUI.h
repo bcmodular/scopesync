@@ -158,7 +158,7 @@ private:
     void setupDefaults(XmlElement& defaultsXML);
     void clearWidgetTemplates();
     void setupWidgetTemplates(XmlElement& widgetTemplatesXML);
-    void readSettingsXml(XmlElement& defaultsXML);
+    void readSettingsXml(XmlElement& settingsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback() override;
     

@@ -30,18 +30,32 @@
 #include "ScopeFXGUI.h"
 #include "ScopeFX.h"
 #include "../Core/ScopeSync.h"
-#include "../Core/BCMParameterController.h"
 
-ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
-    scopeFX(owner)
+ScopeFXGUI::ScopeFXGUI(ScopeFX* owner) :
+    scopeFX(owner),
+	parameterController(owner->getScopeSync().getParameterController())
+{
+
+}
+
+ScopeFXGUI::~ScopeFXGUI()
+{
+	scopeSyncGUI->removeComponentListener(this);
+	configurationName.removeListener(this);
+    xPos.removeListener(this);
+    yPos.removeListener(this);
+}
+
+void ScopeFXGUI::open(HWND scopeWindow)
 {
     setOpaque(true);
     setVisible(true);
     setName("ScopeSync");
 
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posX"))->mapToUIValue(xPos);
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posY"))->mapToUIValue(yPos);
+    parameterController->getFixedParameterByName("posX")->mapToUIValue(xPos);
+    parameterController->getFixedParameterByName("posY")->mapToUIValue(yPos);
 
+	configurationName.addListener(this);
     xPos.addListener(this);
     yPos.addListener(this);
 
@@ -59,56 +73,9 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     
     setSize(width, height);
     addAndMakeVisible(scopeSyncGUI);
-
-	startTimer(100);
-}
-
-ScopeFXGUI::~ScopeFXGUI()
-{
-	stopTimer();
-    xPos.removeListener(this);
-    yPos.removeListener(this);
-    scopeFX = nullptr;
-}
-
-void ScopeFXGUI::timerCallback()
-{
-	refreshWindow();
-}
-
-void ScopeFXGUI::refreshWindow()
-{
-    // In case the mainComponent of the scopeSyncGUI has been changed
-    // such that the size has changed, then change our plugin size
-    bool sizeChanged = false;
-    int newWidth  = jmax(scopeSyncGUI->getWidth(), 100);
-    int newHeight = jmax(scopeSyncGUI->getHeight(), 100);
-
-    if (getWidth() != newWidth)
-    {
-        sizeChanged = true;
-    }
-
-    if (getHeight() != newHeight)
-    {
-        sizeChanged = true;
-    }
-
-    if (sizeChanged || firstTimeShow)
-    {
-        DBG("refreshWindow::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
-        setSize(newWidth, newHeight);
-        grabKeyboardFocus();
-        firstTimeShow = false;
-    }
-
-    String newWindowName = scopeFX->getScopeSync().getConfigurationName(true);
-
-    if (windowName != newWindowName)
-    {
-        windowName = newWindowName;
-        setName(windowName);
-    }
+	
+	scopeSyncGUI->addComponentListener(this);
+	scopeFX->getScopeSync().listenForConfigurationNameChanges(configurationName);
 }
 
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
@@ -118,18 +85,35 @@ void ScopeFXGUI::valueChanged(Value & valueThatChanged)
         DBG("ScopeFXGUI::valueChanged - new position: X = " + xPos.getValue().toString() + " Y = " + yPos.getValue().toString());
         setTopLeftPosition(xPos.getValue(), yPos.getValue());
     }
+	else if (valueThatChanged.refersToSameSourceAs(configurationName))
+    {
+		setName(configurationName.toString());
+    }
+}
+
+void ScopeFXGUI::componentMovedOrResized(Component& component, bool wasMoved, bool wasResized)
+{
+	(void)wasMoved;
+
+    if (wasResized || firstTimeShow)
+    {
+        setSize(jmax(component.getWidth(), 100), jmax(component.getHeight(), 100));
+        grabKeyboardFocus();
+    	firstTimeShow = false;
+    }
+
 }
 
 void ScopeFXGUI::userTriedToCloseWindow()
 {
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("show"))->setUIValue(0);
+   parameterController->getFixedParameterByName("show")->setUIValue(0);
 }
 
 void ScopeFXGUI::moved()
 {
     DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posX"))->setUIValue((float)getScreenPosition().getX());
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("posY"))->setUIValue((float)getScreenPosition().getY());
+    parameterController->getFixedParameterByName("posX")->setUIValue(float(getScreenPosition().getX()));
+    parameterController->getFixedParameterByName("posY")->setUIValue(float(getScreenPosition().getY()));
 }
 
 void ScopeFXGUI::paint(Graphics& g)

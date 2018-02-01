@@ -114,7 +114,8 @@ void ScopeFX::toggleWindow(bool show)
 		void* scopeWindow = nullptr;
 #endif
 
-		scopeFXGUI = new ScopeFXGUI(this, scopeWindow);
+		scopeFXGUI = new ScopeFXGUI(this);
+		scopeFXGUI->open(scopeWindow);
 	}
 	else if (!show)
 		scopeFXGUI = nullptr;

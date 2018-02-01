@@ -15,12 +15,11 @@
 #include "BCMParameter.h"
 #include "ScopeSync.h"
 
-class BCMParameterController : public Timer
+class BCMParameterController
 {
 public:
 
     BCMParameterController(ScopeSync* owner);
-    ~BCMParameterController();
     
 	/* ====================== Public Parameter Methods ======================= */
     // Returns the number of parameters to inform the host about. Actually returns
@@ -36,9 +35,10 @@ public:
 
 	ScopeSync* getScopeSync() {return scopeSync;}
 
-	BCMParameter* getParameterByName(const String& name) const;
-    BCMParameter* getParameterByScopeCodeId(const int scopeCodeId) const;
-
+	BCMParameter* getParameterByName(const StringRef name) const;
+    BCMParameter* getFixedParameterByName(const StringRef name) const;
+	BCMParameter* getParameterByScopeCodeId(const int scopeCodeId) const;
+	
     float getParameterHostValue(int hostIdx) const;
     void  setParameterFromHost(int hostIdx, float newValue) const;
 	static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
@@ -48,8 +48,6 @@ public:
 
 	void updateHost(int hostIdx, float newValue) const;
 
-    void toggleAsyncUpdates(bool enable) { shouldReceiveAsyncUpdates = enable; }
-    
     void beginParameterChangeGesture(int hostIdx);
     void endParameterChangeGesture(int hostIdx);
     void endAllParameterChangeGestures();
@@ -61,8 +59,6 @@ public:
     void         restoreParameterValues() const;
     XmlElement&  getParameterValueStore() { return parameterValueStore; };
     
-    void timerCallback() override;
-
 private:
 
 	void addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId);
@@ -74,10 +70,6 @@ private:
 
     HashMap<int, BCMParameter*> parametersByScopeCodeId;  // Index of parameters by their scopeCodeId
     XmlElement                  parameterValueStore;
-    
-    bool shouldReceiveAsyncUpdates;
-    
-    HashMap<int, int, DefaultHashFunctions, CriticalSection> asyncControlUpdates;    // Updates received from the ScopeFX async input to be passed on to the ScopeSync system
     
     ScopeSync* scopeSync;
     

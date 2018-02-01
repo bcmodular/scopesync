@@ -24,16 +24,12 @@ const int BCMParameterController::timerFrequency    = 100;
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
 {
-	shouldReceiveAsyncUpdates = false;
-
-    const StringArray scopeFixedParameters = StringArray::fromTokens("X,Y,Show,Config ID,Device Instance,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
+	const StringArray scopeFixedParameters = StringArray::fromTokens("X,Y,Show,Config ID,Device Instance,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
     for (int i = 0; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
     
 	scopeSync->initOSCUID();
-
-    startTimer(timerFrequency);
 }
 
 void BCMParameterController::addFixedScopeParameter(const String& scopeCode, const int scopeCodeId)
@@ -46,11 +42,6 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode, con
 	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
     addParameter(tmpParameter, true, (scopeCode != "osc"));
-}
-
-BCMParameterController::~BCMParameterController()
-{
-    stopTimer();
 }
 
 void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
@@ -144,7 +135,7 @@ int BCMParameterController::getNumParametersForHost()
     return minHostParameters;
 }
 
-BCMParameter* BCMParameterController::getParameterByName(const String& name) const
+BCMParameter* BCMParameterController::getParameterByName(const StringRef name) const
 {
 	for (int i = 0; i < parameters.size(); i++)
     {
@@ -162,6 +153,11 @@ BCMParameter* BCMParameterController::getParameterByScopeCodeId(const int scopeC
 	//DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
 
     return parameter;
+}
+
+BCMParameter* BCMParameterController::getFixedParameterByName(const StringRef name) const
+{
+	 return getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf(name));
 }
 
 float BCMParameterController::getParameterHostValue(int hostIdx) const
@@ -300,42 +296,5 @@ void BCMParameterController::restoreParameterValues() const
     }
 
     //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
-}
-
-void BCMParameterController::timerCallback()
-{
-// TODO: Replace with OSC Listener
-//    if (ScopeSyncApplication::inScopeFXContext() && !scopeSync->processConfigurationChange())
-//        receiveUpdatesFromScopeAsync();
-}
-
-void BCMParameterController::receiveUpdatesFromScopeAsync()
-{
-#ifdef __DLL_EFFECT__
-	// DBG("BCMParameterController::receiveUpdatesFromScopeAsync");
-// TODO: Replace with OSC Listener
-//	if (shouldReceiveAsyncUpdates)
-//	{
-//		scopeSync->getScopeSyncAsync().getAsyncUpdates(asyncControlUpdates);
-//
-//		for (HashMap<int, int, DefaultHashFunctions, CriticalSection>::Iterator i(asyncControlUpdates); i.next();)
-//		{
-//    		int scopeCodeId   = i.getKey();
-//			int newScopeValue = i.getValue();
-//			
-//			if (scopeCodeId < ScopeSync::getScopeCodes().size())
-//			{
-//				BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
-//                
-//				if (parameter != nullptr)
-//                {
-//                    DBG("BCMParameterController::receiveUpdatesFromScopeAsync - Processing async update for param with ScopeCode: " + ScopeSync::getScopeCodes()[scopeCodeId] + "(" + String(scopeCodeId) + ")" + ", value: " + String(newScopeValue));
-//                    parameter->setScopeIntValue(newScopeValue);
-//                }
-//			}
-//		}
-//		asyncControlUpdates.clear();
-//	}
-#endif // __DLL_EFFECT__
 } 
 
