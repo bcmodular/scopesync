@@ -31,6 +31,7 @@
 #define __BCMLOOKANDFEEL_HEADER__
 
 #include <JuceHeader.h>
+#include "../Resources/ImageLoader.h"
 
 class FilmStripImage
 {
@@ -53,6 +54,8 @@ public:
     Image getImageAtIndex(int frameIndex, bool isMouseOver) const;
     
 private:
+	SharedResourcePointer<ImageLoader> imageLoader;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilmStripImage);
 };
 
@@ -166,7 +169,8 @@ private:
     
     Array<Identifier> appliesTo; // Array of component types the BCMLookAndFeel is relevant to (used to
     // restrict drop-down lists for Style Overrides)
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     FilmStripImage rotary;
     Image rotaryFillBackground;

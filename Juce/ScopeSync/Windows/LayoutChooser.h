@@ -28,6 +28,8 @@
 #define LAYOUTCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+#include "../Resources/ImageLoader.h"
+
 class ConfigurationPanel;
 
 /* =========================================================================
@@ -108,6 +110,8 @@ private:
 
     Image  thumbImage;
     bool   useImageCache;
+	
+	SharedResourcePointer<ImageLoader> imageLoader;
 
     void editFileLocations() const;
     void chooseSelectedLayout();

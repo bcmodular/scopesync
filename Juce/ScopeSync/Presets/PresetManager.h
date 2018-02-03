@@ -30,6 +30,8 @@
 
 #include <JuceHeader.h>
 #include "PresetFile.h"
+#include "../Resources/ImageLoader.h"
+
 class BCMTreeView;
 class PresetManagerWindow;
 class PresetFileChooser;
@@ -73,7 +75,8 @@ private:
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
     PresetFile&                presetFile;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
     PresetManagerWindow&        parentWindow;
@@ -86,7 +89,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
 
-    static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+    static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader);
 
     void timerCallback() override;
     void actionListenerCallback(const String& message) override;

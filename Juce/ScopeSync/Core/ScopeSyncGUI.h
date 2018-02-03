@@ -50,6 +50,7 @@ class BCMParameter;
 class ConfigurationChooserWindow;
 class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
+#include "../Resources/ImageLoader.h"
 
 class AboutBoxWindow : public DocumentWindow
 {
@@ -76,6 +77,8 @@ private:
         Label           moduleVersion;
         Label           credits;
         HyperlinkButton scopeSyncLink;
+
+		SharedResourcePointer<ImageLoader> imageLoader;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutBox)
     };
@@ -134,7 +137,7 @@ public:
         int  tooltipDelayTime;
     };
     
-    Settings settings;
+    Settings settings{};
 
 private:
     

@@ -34,13 +34,13 @@
 #include "../Configuration/ConfigurationManager.h"
 
 BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
-    : Label(name, text), BCMParameterWidget(owner)
+    : Label(name, text), BCMParameterWidget(owner), maxTextLines(1)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 
-BCMLabel::~BCMLabel() {}
+BCMLabel::~BCMLabel() = default;
 
 void BCMLabel::applyProperties(LabelProperties& props) 
 {

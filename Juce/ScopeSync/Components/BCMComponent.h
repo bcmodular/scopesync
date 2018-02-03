@@ -31,6 +31,7 @@
 #define BCMCOMPONENT_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Resources/ImageLoader.h"
 
 class ComponentProperties;
 class BCMSlider;
@@ -105,6 +106,7 @@ private:
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
 
     BCMParameterController& parameterController;
+	SharedResourcePointer<ImageLoader> imageLoader;
 
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;

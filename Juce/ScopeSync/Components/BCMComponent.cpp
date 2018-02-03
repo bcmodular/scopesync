@@ -72,9 +72,9 @@ public:
         addAndMakeVisible(systemErrorLabel);
         
         systemErrorDetailsButton.setImages(false, true, true,
-            ImageLoader::getInstance()->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
 
         details = errorDetails;
         addAndMakeVisible(systemErrorDetailsButton);
@@ -82,9 +82,9 @@ public:
         systemErrorDetailsButton.addListener(this);
 
         closeButton.setImages(false, true, true,
-            ImageLoader::getInstance()->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
 
         addAndMakeVisible(closeButton);
         closeButton.addListener(this);
@@ -116,6 +116,8 @@ private:
     ImageButton   systemErrorDetailsButton;
     ImageButton   closeButton;
     bool          showDetails;
+
+	SharedResourcePointer<ImageLoader> imageLoader;
 
     void paint(Graphics& g) override
     {
@@ -186,23 +188,23 @@ public:
     {
         commandManager = scopeSync.getCommandManager();
         
-        setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+        setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack, imageLoader);
         saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
         addAndMakeVisible(saveButton);
 
-        setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+        setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack, imageLoader);
         saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
         addAndMakeVisible(saveAsButton);
 
-        setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+        setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack, imageLoader);
         undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
         addAndMakeVisible(undoButton);
 
-        setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+        setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack, imageLoader);
         redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
         addAndMakeVisible(redoButton);
 
-        setButtonImages(editToolbarShowButton, "toolbarOff", "toolbarOver", "toolbarOn", Colours::transparentBlack);
+        setButtonImages(editToolbarShowButton, "toolbarOff", "toolbarOver", "toolbarOn", Colours::transparentBlack, imageLoader);
         editToolbarShowButton.setCommandToTrigger(commandManager, CommandIDs::showHideEditToolbar, true);
         addAndMakeVisible(editToolbarShowButton);
 
@@ -212,7 +214,8 @@ public:
 private:
     ScopeSync&                 scopeSync;
     ApplicationCommandManager* commandManager;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     ImageButton saveButton;
     ImageButton saveAsButton;
     ImageButton undoButton;
@@ -237,16 +240,16 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("toolbarBevel", true, String::empty), 0, 7);
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);       
+        g.drawImageAt(imageLoader->loadImage("toolbarBevel", true, String::empty), 0, 7);
+        g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 65, 8);       
     }
 
-	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
     {
         button.setImages(true, true, true,
-                         ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                         ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                         ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                         imgLoader->loadImage(normalImage, true, ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(overImage,   true, ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
     }
 };
 
@@ -300,7 +303,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     {
         bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
-        backgroundImage = ImageLoader::getInstance()->loadImage(props.backgroundImageFileName, useImageCache, layoutDirectory);
+        backgroundImage = imageLoader->loadImage(props.backgroundImageFileName, useImageCache, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
         {
@@ -451,7 +454,7 @@ void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image) const
 {
     bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
 
-    Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, layoutDirectory);
+    Image loadedImage = imageLoader->loadImage(image.fileName, useImageCache, layoutDirectory);
 
     if (loadedImage.isValid())
     {

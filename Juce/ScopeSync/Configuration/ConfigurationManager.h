@@ -78,7 +78,8 @@ private:
     ScopedPointer<Component>   panel;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     ScopeSync&                  scopeSync;
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
@@ -90,7 +91,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
 
-	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader);
 
     void timerCallback() override;
     void changeListenerCallback(ChangeBroadcaster* source) override;

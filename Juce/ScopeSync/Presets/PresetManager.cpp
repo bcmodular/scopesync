@@ -28,7 +28,6 @@
 #include "PresetManager.h"
 #include "PresetItem.h"
 #include "../Utils/BCMTreeView.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/PresetFileChooser.h"
 #include "../Windows/UserSettings.h"
 
@@ -61,35 +60,35 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
 
     commandManager->registerAllCommandsForTarget(this);
     
-    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack);
+    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack, imageLoader);
     addButton.setCommandToTrigger(commandManager, CommandIDs::addPresetFile, true);
     addAndMakeVisible(addButton);
 
-    setButtonImages(openButton, "loadConfigButtonOff", "loadConfigButtonOver", "loadConfigButtonOn", Colours::transparentBlack);
+    setButtonImages(openButton, "loadConfigButtonOff", "loadConfigButtonOver", "loadConfigButtonOn", Colours::transparentBlack, imageLoader);
     openButton.setCommandToTrigger(commandManager, CommandIDs::choosePresetFile, true);
     addAndMakeVisible(openButton);
     
-    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack, imageLoader);
     saveButton.setCommandToTrigger(commandManager, CommandIDs::savePresetFile, true);
     addAndMakeVisible(saveButton);
 
-    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack, imageLoader);
     saveAsButton.setCommandToTrigger(commandManager, CommandIDs::savePresetFileAs, true);
     addAndMakeVisible(saveAsButton);
 
-    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
+    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack, imageLoader);
     applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyPresetFileChanges, true);
     addAndMakeVisible(applyChangesButton);
 
-    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
+    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack, imageLoader);
     discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardPresetFileChanges, true);
     addAndMakeVisible(discardChangesButton);
 
-    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack, imageLoader);
     undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
     addAndMakeVisible(undoButton);
 
-    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack, imageLoader);
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
     addAndMakeVisible(redoButton);
 
@@ -123,12 +122,12 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
     startTimer(500);
 }
 
-void PresetManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+void PresetManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
 {
     button.setImages(true, true, true,
-                     ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                     imgLoader->loadImage(normalImage, true, ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(overImage,   true, ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
 }
 
 PresetManager::~PresetManager()
@@ -385,8 +384,8 @@ void PresetManager::paint(Graphics& g)
         g.fillRect(0, 0, getWidth(), 40);
         g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 174, 8);
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 268, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 174, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 268, 8);
     }
 }
 

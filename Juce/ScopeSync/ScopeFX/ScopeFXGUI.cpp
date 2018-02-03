@@ -40,6 +40,8 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner) :
 
 ScopeFXGUI::~ScopeFXGUI()
 {
+	stopTimer();
+	
 	scopeSyncGUI->removeComponentListener(this);
 	configurationName.removeListener(this);
     xPos.removeListener(this);
@@ -80,14 +82,15 @@ void ScopeFXGUI::open(HWND scopeWindow)
 
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
 {
-    if (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos))
+	// This will be called when Scope sets the values, typically on Project/Preset/Screenset load
+    if (!ignoreXYFromScope && (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos)))
     {
         DBG("ScopeFXGUI::valueChanged - new position: X = " + xPos.getValue().toString() + " Y = " + yPos.getValue().toString());
         setTopLeftPosition(xPos.getValue(), yPos.getValue());
     }
 	else if (valueThatChanged.refersToSameSourceAs(configurationName))
     {
-		setName(configurationName.toString());
+		setName(scopeFX->getScopeSync().getConfigurationName(true));
     }
 }
 
@@ -111,14 +114,25 @@ void ScopeFXGUI::userTriedToCloseWindow()
 
 void ScopeFXGUI::moved()
 {
+	// This is called when someone is physically moving the window
     DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
     parameterController->getFixedParameterByName("posX")->setUIValue(float(getScreenPosition().getX()));
     parameterController->getFixedParameterByName("posY")->setUIValue(float(getScreenPosition().getY()));
+
+	// We don't want to be affected by values coming back from Scope, so ignore for half a second
+	ignoreXYFromScope = true;
+	startTimer(500);
 }
 
 void ScopeFXGUI::paint(Graphics& g)
 {
     g.fillAll(Colour::fromString("FF2D3035"));
+}
+
+void ScopeFXGUI::timerCallback()
+{
+	stopTimer();
+	ignoreXYFromScope = false;
 }
 
 #endif  // __DLLEFFECT__

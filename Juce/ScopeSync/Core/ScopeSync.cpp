@@ -69,7 +69,7 @@ ScopeSync::ScopeSync(ScopeFX* owner)
 
 ScopeSync::~ScopeSync()
 {
-    configurationID.removeListener(this);
+	configurationID.removeListener(this);
 	UserSettings::getInstance()->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -185,7 +185,6 @@ void ScopeSync::shutDownIfLastInstance()
 		StyleOverrideClipboard::deleteInstance();
         ParameterClipboard::deleteInstance();
         Icons::deleteInstance();
-        ImageLoader::deleteInstance();
         UserSettings::deleteInstance();
         AboutBoxWindow::deleteInstance();
 

@@ -39,7 +39,8 @@ class BCMParameter;
 
 class ScopeFXGUI : public Component,
                    public Value::Listener,
-				   public ComponentListener
+				   public ComponentListener,
+				   public Timer
 {
 public:
     ScopeFXGUI (ScopeFX* owner);
@@ -67,8 +68,13 @@ private:
     void moved() override;
 
     bool firstTimeShow; // Little hack to get the window to resize correctly on initial load
-    
-    void paint(Graphics& g) override;
+
+	bool ignoreXYFromScope; // If the user has recently been moving the window themselves,
+						    // then don't respond to incoming Scope values
+
+	void paint(Graphics& g) override;
+
+	void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFXGUI)
 };

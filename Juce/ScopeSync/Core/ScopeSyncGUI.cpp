@@ -102,7 +102,7 @@ AboutBoxWindow::AboutBox::AboutBox()
     
 void AboutBoxWindow::AboutBox::paint(Graphics& g)
 {
-    Image scopeSyncImage = ImageLoader::getInstance()->loadImage("scopeSyncLogo",  true, String::empty);
+    Image scopeSyncImage = imageLoader->loadImage("scopeSyncLogo",  true, String::empty);
     g.drawImageWithin(scopeSyncImage, 0, 0, getWidth(), 40, RectanglePlacement::doNotResize);
 }
 
@@ -126,8 +126,8 @@ ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
     scopeSync.getCommandManager()->registerAllCommandsForTarget(this);
     
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
-    createGUI(false);
-    scopeSync.setGUIReload(false);
+	//createGUI(false);
+    scopeSync.setGUIReload(true);
     startTimer(timerFrequency);
 }
 
@@ -339,7 +339,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
         String layoutDirectory = scopeSync.getLayoutDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
-        // DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
+        DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
         BCMLookAndFeel* bcmLookAndFeel;
 
@@ -350,7 +350,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 
             if (parentBCMLookAndFeel != nullptr)
             {
-                // DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
+                DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
                 bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, layoutDirectory);
             }
             else

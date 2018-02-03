@@ -32,7 +32,6 @@
 #include "BCMComboBox.h"
 #include "BCMLabel.h"
 #include "../Properties/PropertiesHelper.h"
-#include "../Resources/ImageLoader.h"
 #include "../Configuration/Configuration.h"
 
 void FilmStripImage::initialise()
@@ -59,8 +58,8 @@ void FilmStripImage::setUp(const String& fileName,       const String& mouseOver
                            int           numberOfFrames, bool          fsIsHorizontal, 
                            bool          useImageCache,  const String& layoutDirectory)
 {
-    Image newImage          = ImageLoader::getInstance()->loadImage(fileName, useImageCache, layoutDirectory);
-    Image newMouseOverImage = ImageLoader::getInstance()->loadImage(mouseOverFileName, useImageCache, layoutDirectory);
+    Image newImage          = imageLoader->loadImage(fileName, useImageCache, layoutDirectory);
+    Image newMouseOverImage = imageLoader->loadImage(mouseOverFileName, useImageCache, layoutDirectory);
 
     if (newImage.isValid())
     {
@@ -321,7 +320,7 @@ void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& 
 {
     if (fileName.isNotEmpty())
     {
-        Image newImage = ImageLoader::getInstance()->loadImage(fileName, useImageCache, layoutDirectory);
+        Image newImage = imageLoader->loadImage(fileName, useImageCache, layoutDirectory);
         
         if (newImage.isValid())
             imageToOverride = newImage;

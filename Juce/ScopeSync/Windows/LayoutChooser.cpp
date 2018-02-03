@@ -25,7 +25,6 @@
  */
 
 #include "LayoutChooser.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
@@ -374,7 +373,7 @@ void LayoutChooser::selectedRowsChanged(int lastRowSelected)
         File   layoutFile(viewTree.getChild(lastRowSelected).getProperty(Ids::filePath));
         String layoutDirectory(layoutFile.getParentDirectory().getFullPathName());
             
-        thumbImage = ImageLoader::getInstance()->loadImage(thumbFileName, useImageCache, layoutDirectory);
+        thumbImage = imageLoader->loadImage(thumbFileName, useImageCache, layoutDirectory);
         repaint();
     }
     else
