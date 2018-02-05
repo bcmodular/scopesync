@@ -29,7 +29,6 @@
 #include "../Utils/BCMMisc.h"
 #include "../Configuration/ConfigurationPanel.h"
 #include "../Configuration/SettingsTable.h"
-#include "../Windows/UserSettings.h"
 
 /* =========================================================================
  * PresetFilePanel
@@ -334,7 +333,7 @@ bool PresetFile::presetNameExists(const String& presetName) const
 
 Result PresetFile::saveDocument (const File& /* file */)
 {
-    UserSettings::getInstance()->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
+    userSettings->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
 
     ScopedPointer<XmlElement> outputXml = presetFileRoot.createXml();
 

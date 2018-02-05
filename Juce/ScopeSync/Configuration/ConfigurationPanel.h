@@ -30,6 +30,8 @@
 
 #include <JuceHeader.h>
 #include "../Core/BCMParameter.h"
+#include "../Windows/UserSettings.h"
+
 class SettingsTable;
 class Configuration;
 class PropertyListBuilder;
@@ -99,8 +101,8 @@ private:
     Value          layoutLibrarySet;
     bool           isNewConfiguration;
 
-    
     ScopedPointer<LayoutChooserWindow> layoutChooserWindow;
+	SharedResourcePointer<UserSettings> userSettings;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationPanel)
 };

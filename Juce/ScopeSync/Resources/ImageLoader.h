@@ -29,6 +29,8 @@
 #define IMAGELOADER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Windows/UserSettings.h"
+
 class BCMLookAndFeel;
 
 class ImageLoader
@@ -44,7 +46,7 @@ public:
     };
     
     // Load image, either direct from file, via Image Cache, or from resources
-    Image loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const;
+    Image loadImage(const String& imageFileName, const String& directoryPath) const;
     
 private:
     // Initialise image resources
@@ -52,8 +54,8 @@ private:
     void addImageResource(String imageName, const char* image, int imageSize);
 
     OwnedArray<ImageResource> imageResources;
-//    ScopedPointer<BCMLookAndFeel> defaultBCMLookAndFeel;
-
+	SharedResourcePointer<UserSettings> userSettings;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageLoader)
 };
 

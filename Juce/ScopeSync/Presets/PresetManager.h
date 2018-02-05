@@ -31,6 +31,7 @@
 #include <JuceHeader.h>
 #include "PresetFile.h"
 #include "../Resources/ImageLoader.h"
+#include "../Windows/UserSettings.h"
 
 class BCMTreeView;
 class PresetManagerWindow;
@@ -76,6 +77,7 @@ private:
     ComponentBoundsConstrainer treeSizeConstrainer;
     PresetFile&                presetFile;
     SharedResourcePointer<ImageLoader> imageLoader;
+	SharedResourcePointer<UserSettings> userSettings;
 
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
@@ -150,7 +152,7 @@ public:
     void unload();
     void discardChanges();
     void restoreWindowPosition();
-    static void updatePresetLibrary();
+    void updatePresetLibrary();
     void hidePresetManager(bool offerToSave = true);
 
     void showPresetFileChooser();
@@ -162,6 +164,8 @@ public:
 
     PresetFile& getPresetFile() { return presetFile; }
 
+	UserSettings* getUserSettings() { return userSettings; }
+
 private:
     ApplicationCommandManager*         commandManager;
     UndoManager&                       undoManager;
@@ -171,6 +175,8 @@ private:
     ScopedPointer<PresetMenuBarModel>  menuModel;
     File                               newPresetFile;
     bool                               offerToSaveOnExit;
+
+	SharedResourcePointer<UserSettings> userSettings;
 
     int numActions;
 

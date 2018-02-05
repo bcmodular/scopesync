@@ -26,7 +26,6 @@
 
 #include "BCMMisc.h"
 #include "BCMMath.h"
-#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID()
 {
@@ -316,17 +315,17 @@ ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelect
 
 int ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getNumSwatches() const
 {
-    return UserSettings::getInstance()->swatchColours.size();
+    return userSettings->swatchColours.size();
 }
 
 Colour ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getSwatchColour(int index) const
 {
-    return UserSettings::getInstance()->swatchColours [index];
+    return userSettings->swatchColours [index];
 }
 
 void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour)
 {
-    UserSettings::getInstance()->swatchColours.set(index, newColour);
+    userSettings->swatchColours.set(index, newColour);
 }
 
 ColourPropertyComponent::ColourPropEditorComponent::ColourPropEditorComponent(ColourPropertyComponent* const owner_, const bool canReset): ColourEditorComponent(canReset), owner (owner_) {}

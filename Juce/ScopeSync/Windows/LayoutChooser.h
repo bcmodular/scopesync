@@ -29,6 +29,7 @@
 
 #include "../Core/Global.h"
 #include "../Resources/ImageLoader.h"
+#include "../Windows/UserSettings.h"
 
 class ConfigurationPanel;
 
@@ -112,6 +113,7 @@ private:
     bool   useImageCache;
 	
 	SharedResourcePointer<ImageLoader> imageLoader;
+	SharedResourcePointer<UserSettings> userSettings;
 
     void editFileLocations() const;
     void chooseSelectedLayout();

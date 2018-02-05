@@ -99,9 +99,9 @@ public:
         int    getNumSwatches() const override;
         Colour getSwatchColour (int index) const override;
         void   setSwatchColour (int index, const Colour& newColour) override;
+    private:
+	    SharedResourcePointer<UserSettings> userSettings;
     };
-
-    juce_DeclareSingleton (UserSettings, false)
 
 private:
     ScopedPointer<ApplicationCommandManager> commandManager;
@@ -113,7 +113,7 @@ private:
     TextButton            presetManagerButton;
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
     ScopedPointer<PresetManagerWindow>      presetManagerWindow;
-    
+
     Value useImageCache;
     Value tooltipDelayTime;
 	Value autoRebuildLibrary;
@@ -183,6 +183,7 @@ private:
 
     private:
         ValueTree fileLocations;
+		SharedResourcePointer<UserSettings> userSettings;
 
         bool rebuildConfigurations;
         bool rebuildLayouts;

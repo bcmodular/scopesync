@@ -28,6 +28,7 @@
 #define CONFIGURATION_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Configuration/ConfigurationPanel.h"
+#include "../Windows/UserSettings.h"
 
 class ScopeSync;
 
@@ -200,6 +201,7 @@ private:
     StringArray textButtonNames;
 
     ScopedPointer<PropertiesFile> properties;
+	SharedResourcePointer<UserSettings> userSettings;
 
     File       lastFailedFile;
     String     lastError;

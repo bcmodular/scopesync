@@ -27,6 +27,7 @@
 #ifndef FILELOCATIONSEDITOR_H_INCLUDED
 #define FILELOCATIONSEDITOR_H_INCLUDED
 #include <JuceHeader.h>
+#include "UserSettings.h"
 
 class FileLocationEditorWindow : public DocumentWindow
 {
@@ -40,6 +41,8 @@ public:
     bool      locationsHaveChanged() const;
 
 private:
+	SharedResourcePointer<UserSettings> userSettings;
+
     void closeButtonPressed() override;
     void restoreWindowPosition(int posX, int posY);
 
@@ -97,6 +100,7 @@ private:
     TextButton     rebuildButton;
     TextButton     undoButton;
     TextButton     redoButton;
+	SharedResourcePointer<UserSettings> userSettings;
 
     bool           locationsChanged;
     

@@ -28,6 +28,8 @@
 #define PRESETCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+#include "../Windows/UserSettings.h"
+
 class ScopeSync;
 
 /* =========================================================================
@@ -80,6 +82,8 @@ private:
     TextButton   presetManagerButton;
     Label        blurb;
     Label        fileNameLabel;
+
+	SharedResourcePointer<UserSettings> userSettings;
     
     void editFileLocations() const;
     void chooseSelectedPreset();

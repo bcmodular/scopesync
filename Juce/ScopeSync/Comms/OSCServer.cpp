@@ -25,7 +25,6 @@
  */
 
 #include "OSCServer.h"
-#include "..\Windows\UserSettings.h"
 
 OSCServer::OSCServer()
 {
@@ -45,7 +44,7 @@ void OSCServer::setup()
 	oscRemoteHost.addListener(this);
 	oscRemotePortNum.addListener(this);
 
-	UserSettings::getInstance()->referToOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+	userSettings->referToOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
 }
 
 void OSCServer::setLocalPortNumber(int portNumber)
@@ -171,7 +170,7 @@ void ScopeOSCServer::setup()
 	oscRemoteHost.addListener(this);
 	oscRemotePortNum.addListener(this);
 
-	UserSettings::getInstance()->referToScopeOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+	userSettings->referToScopeOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
 }
 
 ScopeOSCServer::~ScopeOSCServer()

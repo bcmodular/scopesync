@@ -47,6 +47,7 @@ class ConfigurationManagerWindow;
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
+#include "../Windows/UserSettings.h"
 
 class ScopeSync : public ActionListener,
                   public Value::Listener
@@ -140,6 +141,7 @@ public:
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
     bool           newConfigIsInLocation();
+	UserSettings*  getUserSettings() const;
     static void    alertBoxLaunchLocationEditor(int result, juce::Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync);
     void           addConfiguration(File newFile, ValueTree newSettings);
     void           hideAddConfigurationWindow();
@@ -171,6 +173,8 @@ private:
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
 	
+	BCMDefaultLookAndFeel bcmDefaultLookAndFeel;
+
     juce::Rectangle<int> newConfigWindowPosition;
     
     CriticalSection flagLock;
@@ -184,6 +188,8 @@ private:
 
 	Array<String, CriticalSection> configurationChanges;
     ScopedPointer<Configuration>   configuration;
+
+	SharedResourcePointer<UserSettings> userSettings;
 
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text

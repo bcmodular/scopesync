@@ -26,7 +26,6 @@
 
 #include "FileLocationEditor.h"
 #include "../Core/Global.h"
-#include "UserSettings.h"
 
 FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY, 
                                                    ApplicationCommandManager* acm, 
@@ -66,7 +65,7 @@ bool FileLocationEditorWindow::locationsHaveChanged() const
 
 void FileLocationEditorWindow::closeButtonPressed()
 {
-    UserSettings::getInstance()->hideFileLocationsWindow();
+    userSettings->hideFileLocationsWindow();
 }
 
 void FileLocationEditorWindow::restoreWindowPosition(int posX, int posY)
@@ -160,7 +159,7 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     DBG("FileLocationEditor::FileLocationEditor");
     locationsChanged = false;
 
-    tree = UserSettings::getInstance()->getFileLocations();
+    tree = userSettings->getFileLocations();
     commandManager->registerAllCommandsForTarget(this);
 
     addAndMakeVisible(table);
@@ -557,7 +556,7 @@ void FileLocationEditor::moveFileLocations(bool moveUp)
 
 void FileLocationEditor::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->updateFileLocations(tree);
+    userSettings->updateFileLocations(tree);
     locationsChanged = false;
 }
 

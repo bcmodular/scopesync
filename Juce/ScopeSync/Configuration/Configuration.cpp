@@ -28,7 +28,6 @@
 #include "../Core/Global.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
-#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
@@ -461,7 +460,7 @@ bool Configuration::replaceConfiguration(const String& newFileName)
                 if (result.wasOk())
                 {
                     lastFailedFile = File();
-                    UserSettings::getInstance()->setLastTimeConfigurationLoaded(newFileName);
+                    userSettings->setLastTimeConfigurationLoaded(newFileName);
                     setMissingDefaultValues();
 					migrateFromV102();
     
@@ -775,7 +774,7 @@ void Configuration::addStyleOverrideToAll(const Identifier& componentType,
 Result Configuration::saveDocument (const File& /* file */)
 {
     generateConfigurationUID();
-    UserSettings::getInstance()->updateConfigurationLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), configurationRoot);
+    userSettings->updateConfigurationLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), configurationRoot);
 
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
 
@@ -900,7 +899,7 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
     String layoutName       = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
     String layoutLibrarySet = configurationRoot.getProperty(Ids::layoutLibrarySet, String::empty).toString();
 
-    String layoutFilename = UserSettings::getInstance()->getLayoutFilename(layoutName, layoutLibrarySet);
+    String layoutFilename = userSettings->getLayoutFilename(layoutName, layoutLibrarySet);
 
     if (layoutFilename.isEmpty())
     {

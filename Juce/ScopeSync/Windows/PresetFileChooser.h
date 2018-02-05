@@ -28,6 +28,8 @@
 #define PRESETFILECHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+#include "../Windows/UserSettings.h"
+
 class ScopeSync;
 class PresetManagerWindow;
 
@@ -81,11 +83,13 @@ private:
     Label        blurb;
     Label        fileNameLabel;
     PresetManagerWindow& parentWindow;
+
+	SharedResourcePointer<UserSettings> userSettings;
     
     void editFileLocations() const;
     void chooseSelectedPresetFile() const;
 
-    static void rebuildFileLibrary();
+    void rebuildFileLibrary();
     void removePresetEntries();
     void attachToTree();
     

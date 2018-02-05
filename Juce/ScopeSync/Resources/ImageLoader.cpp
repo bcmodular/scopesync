@@ -31,9 +31,6 @@
 ImageLoader::ImageLoader()
 {
     loadImageResources();
-//    defaultBCMLookAndFeel = new BCMLookAndFeel(true);
-//    LookAndFeel::setDefaultLookAndFeel(defaultBCMLookAndFeel);
-	LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 ImageLoader::~ImageLoader()
@@ -174,7 +171,7 @@ void ImageLoader::addImageResource(String imageName, const char* image, int imag
     imageResources.add(imageResource);
 }
 
-Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const
+Image ImageLoader::loadImage(const String& imageFileName, const String& directoryPath) const
 {
     for (int i = 0; i < imageResources.size(); i++)
     {
@@ -192,7 +189,7 @@ Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, co
         {
             File imageFile = directory.getChildFile(imageFileName);
 
-            if (useImageCache)
+            if (userSettings->getPropertyBoolValue("useimagecache", true))
                 return ImageCache::getFromFile(imageFile);
             else
                 return ImageFileFormat::loadFrom(imageFile);

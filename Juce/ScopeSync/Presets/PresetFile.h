@@ -29,6 +29,7 @@
 
 #include <JuceHeader.h>
 #include "../Configuration/ConfigurationPanel.h"
+#include "../Windows/UserSettings.h"
 
 class ScopeSync;
 class PresetFile;
@@ -120,6 +121,7 @@ public:
 private:
     ValueTree  presetFileRoot;
     ScopedPointer<PropertiesFile> properties;
+	SharedResourcePointer<UserSettings> userSettings;
 
     String     lastError;
     String     lastErrorDetails;

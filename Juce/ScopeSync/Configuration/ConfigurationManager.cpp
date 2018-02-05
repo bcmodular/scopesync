@@ -117,13 +117,14 @@ ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWi
 void ConfigurationManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
 {
     button.setImages(true, true, true,
-                     imgLoader->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                     imgLoader->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                     imgLoader->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                     imgLoader->loadImage(normalImage, ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(overImage,   ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(downImage,   ""), 1.0f, overlayColour, 0);
 }
 
 ConfigurationManager::~ConfigurationManager()
 {
+	setLookAndFeel(nullptr);
     stopTimer();
 	removeKeyListener(commandManager->getKeyMappings());
 }
@@ -359,8 +360,8 @@ void ConfigurationManager::paint(Graphics& g)
     g.fillRect(0, 0, getWidth(), 40);
     g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-    g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 134, 8);
-    g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 228, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 134, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 228, 8);
 }
 
 void ConfigurationManager::paintOverChildren(Graphics& g)
@@ -410,6 +411,7 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(
 
 ConfigurationManagerCallout::~ConfigurationManagerCallout()
 {
+	setLookAndFeel(nullptr);
     stopTimer();
     undoManager.beginNewTransaction();
     

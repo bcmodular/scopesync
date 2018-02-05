@@ -25,7 +25,6 @@
  */
 
 #include "LayoutChooser.h"
-#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
@@ -177,9 +176,9 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
       editLocationsButton("File Locations..."),
       blurb(String::empty)
 {
-    UserSettings::getInstance()->addActionListener(this);
+    userSettings->addActionListener(this);
     
-    useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
+    useImageCache = userSettings->getPropertyBoolValue("useimagecache", true);
 
     attachToTree();
 
@@ -236,7 +235,7 @@ LayoutChooser::~LayoutChooser()
 	stopTimer();
 	removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeActionListener(this);
+    userSettings->removeActionListener(this);
 }
 
 void LayoutChooser::timerCallback()
@@ -245,7 +244,7 @@ void LayoutChooser::timerCallback()
 
 	if (viewTree.getNumChildren() == 0)
 		editFileLocations();
-	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+	else if (userSettings->getPropertyBoolValue("autorebuildlibrary", false))
 		rebuildFileLibrary();
 }
 
@@ -373,7 +372,7 @@ void LayoutChooser::selectedRowsChanged(int lastRowSelected)
         File   layoutFile(viewTree.getChild(lastRowSelected).getProperty(Ids::filePath));
         String layoutDirectory(layoutFile.getParentDirectory().getFullPathName());
             
-        thumbImage = imageLoader->loadImage(thumbFileName, useImageCache, layoutDirectory);
+        thumbImage = imageLoader->loadImage(thumbFileName, layoutDirectory);
         repaint();
     }
     else
@@ -436,7 +435,7 @@ bool LayoutChooser::perform(const InvocationInfo& info)
 
 void LayoutChooser::editFileLocations() const
 {
-    UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    userSettings->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void LayoutChooser::chooseSelectedLayout()
@@ -449,7 +448,7 @@ void LayoutChooser::chooseSelectedLayout()
 
 void LayoutChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary(false, true, false);
+    userSettings->rebuildFileLibrary(false, true, false);
     attachToTree();
 }
 
@@ -457,7 +456,7 @@ void LayoutChooser::attachToTree()
 {
     viewTree.removeListener(this);
     
-    tree = UserSettings::getInstance()->getLayoutLibrary();
+    tree = userSettings->getLayoutLibrary();
     viewTree = tree.createCopy();
     
     ScopedPointer<XmlElement> xml(viewTree.createXml());

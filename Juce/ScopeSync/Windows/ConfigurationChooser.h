@@ -28,6 +28,8 @@
 #define CONFIGURATIONCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+#include "../Windows/UserSettings.h"
+
 class ScopeSync;
 class ScopeSyncGUI;
 
@@ -103,6 +105,8 @@ private:
     TextButton   editLocationsButton;
     Label        blurb;
     Label        fileNameLabel;
+
+	SharedResourcePointer<UserSettings> userSettings;
     
     void editFileLocations();
     void chooseConfiguration(const String& newFileName);
@@ -112,7 +116,7 @@ private:
     void removeExcludedConfigurations();
     void selectCurrentConfiguration(const String& filePath);
 
-    static void rebuildFileLibrary();
+    void rebuildFileLibrary();
     void attachToTree();
     void unloadConfiguration() const;
 

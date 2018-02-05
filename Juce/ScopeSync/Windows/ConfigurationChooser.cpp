@@ -25,7 +25,6 @@
  */
 
 #include "ConfigurationChooser.h"
-#include "../Windows/UserSettings.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 
@@ -164,7 +163,7 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
       blurb(String::empty),
       fileNameLabel(String::empty)
 {
-    UserSettings::getInstance()->addActionListener(this);
+    userSettings->addActionListener(this);
     attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
@@ -224,7 +223,7 @@ ConfigurationChooser::~ConfigurationChooser()
 	stopTimer();
     removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeActionListener(this);
+    userSettings->removeActionListener(this);
 }
 
 void ConfigurationChooser::timerCallback()
@@ -233,7 +232,7 @@ void ConfigurationChooser::timerCallback()
 
 	if (viewTree.getNumChildren() == 0)
 		editFileLocations();
-	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+	else if (userSettings->getPropertyBoolValue("autorebuildlibrary", false))
 		rebuildFileLibrary();
 }
 
@@ -408,8 +407,8 @@ bool ConfigurationChooser::perform(const InvocationInfo& info)
 
 void ConfigurationChooser::editFileLocations()
 {
-    UserSettings::getInstance()->addActionListener(this);
-    UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    userSettings->addActionListener(this);
+    userSettings->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void ConfigurationChooser::chooseConfiguration(const String& newFileName)
@@ -461,14 +460,14 @@ void ConfigurationChooser::closeWindow() const
 
 void ConfigurationChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
+    userSettings->rebuildFileLibrary(true, false, false);
 }
 
 void ConfigurationChooser::attachToTree()
 {
     viewTree.removeListener(this);
     
-    tree = UserSettings::getInstance()->getConfigurationLibrary();
+    tree = userSettings->getConfigurationLibrary();
     viewTree = tree.createCopy();
     
     removeExcludedConfigurations();

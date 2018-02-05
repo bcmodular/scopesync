@@ -34,6 +34,7 @@ class SliderProperties;
 
 #include <JuceHeader.h>
 #include "BCMWidget.h"
+#include "../Windows/UserSettings.h"
 
 class BCMSlider : public Slider,
                   public BCMParameterWidget
@@ -101,6 +102,8 @@ private:
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
+	SharedResourcePointer<UserSettings> userSettings;
+
     bool fixed; // Is this a fixed Slider, i.e. one that is mapped to a parameter based on its name, not via a mapping tag
 	void setupFixedSlider(const int scopeCodeId, SliderProperties& props);
 
@@ -119,7 +122,7 @@ private:
     void overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode);
     void overridePopupEnabled(bool popupEnabledFlag);
     void overrideVelocityBasedMode(bool velocityBasedMode);
-	static bool getEncoderSnap(bool encoderSnap);
+    bool getEncoderSnap(bool encoderSnap);
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs() const;

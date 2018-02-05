@@ -35,6 +35,7 @@
 #define SCOPESYNCGUI_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMLookAndFeel.h"
 class ScopeSync;
 class Configuration;
 class BCMComponent;
@@ -51,6 +52,7 @@ class ConfigurationChooserWindow;
 class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
 #include "../Resources/ImageLoader.h"
+#include "../Windows/UserSettings.h"
 
 class AboutBoxWindow : public DocumentWindow
 {
@@ -96,7 +98,7 @@ public:
     ~ScopeSyncGUI();
 
     /* ========================== Public Actions ============================= */
-    static void          hideUserSettings();
+    void          hideUserSettings();
     void          showUserSettings() const;
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping) const;
@@ -106,7 +108,6 @@ public:
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray) const;
     Slider::SliderStyle getDefaultRotarySliderStyle() const;
     
-    static void deleteTooltipWindow() { tooltipWindow = nullptr; }
     void hideConfigurationChooserWindow();
     
     /* ====================== Public member variables ========================= */
@@ -149,15 +150,17 @@ private:
     
     ScopeSync& scopeSync;
     ValueTree  deviceMapping;
-    static ScopedPointer<TooltipWindow> tooltipWindow;
-    
+    SharedResourcePointer<TooltipWindow>  tooltipWindow;
+    SharedResourcePointer<BCMDefaultLookAndFeel> defaultBCMLookAndFeel;
+	SharedResourcePointer<UserSettings> userSettings;
+
     static const int timerFrequency;
 
     /* =================== Private Configuration Methods =======================*/
     void createGUI(bool forceReload);
-    void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache); 
-    void setupStandardLookAndFeels(XmlElement& xml, bool useImageCache);
-    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache) const;
+    void setupLookAndFeels(XmlElement& lookAndFeelsXML); 
+    void setupStandardLookAndFeels(XmlElement& xml);
+    void setupLookAndFeel(XmlElement& lookAndFeelXML) const;
     void setupDefaults(XmlElement& defaultsXML);
     void clearWidgetTemplates();
     void setupWidgetTemplates(XmlElement& widgetTemplatesXML);

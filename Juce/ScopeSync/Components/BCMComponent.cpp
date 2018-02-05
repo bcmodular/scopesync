@@ -37,7 +37,6 @@
 #include "../Components/BCMRectangle.h"
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
-#include "../Windows/UserSettings.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 #include "../Properties/TabbedComponentProperties.h"
@@ -72,9 +71,9 @@ public:
         addAndMakeVisible(systemErrorLabel);
         
         systemErrorDetailsButton.setImages(false, true, true,
-            imageLoader->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("helpOff",  String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOver", String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOn",   String::empty), 1.0f, Colours::transparentBlack);
 
         details = errorDetails;
         addAndMakeVisible(systemErrorDetailsButton);
@@ -82,9 +81,9 @@ public:
         systemErrorDetailsButton.addListener(this);
 
         closeButton.setImages(false, true, true,
-            imageLoader->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("closeOff",  String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOver", String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOn",   String::empty), 1.0f, Colours::transparentBlack);
 
         addAndMakeVisible(closeButton);
         closeButton.addListener(this);
@@ -240,16 +239,16 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(imageLoader->loadImage("toolbarBevel", true, String::empty), 0, 7);
-        g.drawImageAt(imageLoader->loadImage("divider", true, String::empty), 65, 8);       
+        g.drawImageAt(imageLoader->loadImage("toolbarBevel", String::empty), 0, 7);
+        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 65, 8);       
     }
 
 	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
     {
         button.setImages(true, true, true,
-                         imgLoader->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                         imgLoader->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                         imgLoader->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                         imgLoader->loadImage(normalImage, ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(overImage,   ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(downImage,   ""), 1.0f, overlayColour, 0);
     }
 };
 
@@ -301,9 +300,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     if (props.backgroundImageFileName.isNotEmpty())
     {
-        bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-
-        backgroundImage = imageLoader->loadImage(props.backgroundImageFileName, useImageCache, layoutDirectory);
+        backgroundImage = imageLoader->loadImage(props.backgroundImageFileName, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
         {
@@ -452,9 +449,7 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
 
 void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image) const
 {
-    bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-
-    Image loadedImage = imageLoader->loadImage(image.fileName, useImageCache, layoutDirectory);
+    Image loadedImage = imageLoader->loadImage(image.fileName, layoutDirectory);
 
     if (loadedImage.isValid())
     {

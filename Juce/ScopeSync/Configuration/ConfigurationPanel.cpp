@@ -33,7 +33,6 @@
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
 #include "../Windows/LayoutChooser.h"
-#include "../Windows/UserSettings.h"
 
 //==============================================================================
 class ComponentBackgroundColourProperty : public  ColourPropertyComponent,
@@ -187,9 +186,9 @@ void ConfigurationPanel::hideLayoutChooser()
 void ConfigurationPanel::updateLayout()
 { 
     rebuildProperties();
-    String newLayoutFilePath = UserSettings::getInstance()->getLayoutFilename(valueTree.getProperty(Ids::layoutName),
+    String newLayoutFilePath = userSettings->getLayoutFilename(valueTree.getProperty(Ids::layoutName),
                                                                               valueTree.getProperty(Ids::layoutLibrarySet));
-    UserSettings::getInstance()->setLastTimeLayoutLoaded(newLayoutFilePath);
+    userSettings->setLastTimeLayoutLoaded(newLayoutFilePath);
 }
 
 void ConfigurationPanel::chooseLayout()

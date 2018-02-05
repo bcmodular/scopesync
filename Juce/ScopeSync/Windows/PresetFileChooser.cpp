@@ -25,7 +25,6 @@
  */
 
 #include "PresetFileChooser.h"
-#include "../Windows/UserSettings.h"
 #include "../Presets/PresetManager.h"
 
 /* =========================================================================
@@ -99,7 +98,7 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
       fileNameLabel(String::empty),
       parentWindow(parent)
 {
-    UserSettings::getInstance()->addActionListener(this);
+    userSettings->addActionListener(this);
     attachToTree();
 
     commandManager->registerAllCommandsForTarget(this);
@@ -156,7 +155,7 @@ PresetFileChooser::~PresetFileChooser()
     stopTimer();
 	removeKeyListener(commandManager->getKeyMappings());
     viewTree.removeListener(this);
-    UserSettings::getInstance()->removeActionListener(this);
+    userSettings->removeActionListener(this);
 }
 
 void PresetFileChooser::timerCallback()
@@ -165,7 +164,7 @@ void PresetFileChooser::timerCallback()
 
 	if (viewTree.getNumChildren() == 0)
 		editFileLocations();
-	else if (UserSettings::getInstance()->getPropertyBoolValue("autorebuildlibrary", false))
+	else if (userSettings->getPropertyBoolValue("autorebuildlibrary", false))
 		rebuildFileLibrary();
 }
 
@@ -319,7 +318,7 @@ bool PresetFileChooser::perform(const InvocationInfo& info)
 
 void PresetFileChooser::editFileLocations() const
 {
-    UserSettings::getInstance()->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    userSettings->editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }
 
 void PresetFileChooser::chooseSelectedPresetFile() const
@@ -335,7 +334,7 @@ void PresetFileChooser::chooseSelectedPresetFile() const
 
 void PresetFileChooser::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
+    userSettings->rebuildFileLibrary(false, false, true);
 }
 
 
@@ -352,7 +351,7 @@ void PresetFileChooser::attachToTree()
 {
     viewTree.removeListener(this);
     
-    tree = UserSettings::getInstance()->getPresetLibrary();
+    tree = userSettings->getPresetLibrary();
     viewTree = tree.createCopy();
     
     removePresetEntries();

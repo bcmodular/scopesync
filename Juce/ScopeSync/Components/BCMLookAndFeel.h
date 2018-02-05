@@ -48,7 +48,7 @@ public:
     void copyFrom(const FilmStripImage& source);
     void setUp(const String& fileName,       const String& mouseOverFileName,
                int           numberOfFrames, bool          fsIsHorizontal,
-               bool          useImageCache,  const String& layoutDirectory);
+               const String& layoutDirectory);
     
     // Cut a specific slice from a film-strip image
     Image getImageAtIndex(int frameIndex, bool isMouseOver) const;
@@ -63,11 +63,11 @@ class BCMLookAndFeel : public LookAndFeel_V3
 {
 public:
     // In case no lookandfeel element provided, default constructor
-    BCMLookAndFeel(bool cacheImages);
+    BCMLookAndFeel();
     
     // Constructor for use when setting up LookAndFeel object from XML where we
     // are not copying values from a parent
-    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir, bool cacheImages);
+    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir);
     
     // Constructor for use when overriding parent values for a specific LookAndFeel
     BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& layoutDirectory);
@@ -165,7 +165,6 @@ public:
     
 private:
     String id;            // Identifier for a BCMLookAndFeel
-    bool   useImageCache; // Flags as to whether the Image Cache should be used
     
     Array<Identifier> appliesTo; // Array of component types the BCMLookAndFeel is relevant to (used to
     // restrict drop-down lists for Style Overrides)
@@ -217,7 +216,7 @@ private:
     void setupColourIds();
     
     // Set sensible defaults for a LookAndFeel
-    void initialise(bool cacheImages);
+    void initialise();
     
     // Copy the properties from a parent LookAndFeel
     void copyProperties(const BCMLookAndFeel& parentLookAndFeel);
@@ -242,6 +241,18 @@ private:
     void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLookAndFeel);
+};
+
+class BCMDefaultLookAndFeel
+{
+public:
+	BCMDefaultLookAndFeel();
+	~BCMDefaultLookAndFeel();
+
+private:
+	BCMLookAndFeel bcmLookAndFeel;
+
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMDefaultLookAndFeel);
 };
 
 #endif

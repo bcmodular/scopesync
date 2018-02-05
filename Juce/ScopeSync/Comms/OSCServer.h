@@ -28,6 +28,8 @@
 #define OSCSERVER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "..\Windows\UserSettings.h"
+
 class ScopeSync;
 
 class OSCServer : private OSCReceiver, protected Value::Listener
@@ -56,6 +58,8 @@ protected:
 	Value oscLocalPortNum;
 	Value oscRemoteHost;
 	Value oscRemotePortNum;
+	
+	SharedResourcePointer<UserSettings> userSettings;
 
 	bool connectToListener();
 
@@ -70,7 +74,7 @@ private:
 	bool   remoteChanged;
 
 	OSCSender sender;
-
+	
 	void valueChanged(Value& valueThatChanged) override;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OSCServer)

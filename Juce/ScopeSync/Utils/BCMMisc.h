@@ -28,6 +28,7 @@
 #define BCMMISC_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID();
 
@@ -179,6 +180,9 @@ public:
                 Colour getSwatchColour(int index) const override;
 
                 void setSwatchColour(int index, const Colour& newColour) override;
+            
+            private:
+				SharedResourcePointer<UserSettings> userSettings;
             };
 
             ColourEditorComponent* owner;

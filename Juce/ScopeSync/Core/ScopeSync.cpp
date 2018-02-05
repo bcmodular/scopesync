@@ -32,7 +32,6 @@
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Windows/UserSettings.h"
 #include "../Resources/Icons.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "BCMParameterController.h"
@@ -70,7 +69,7 @@ ScopeSync::ScopeSync(ScopeFX* owner)
 ScopeSync::~ScopeSync()
 {
 	configurationID.removeListener(this);
-	UserSettings::getInstance()->removeActionListener(this);        
+	userSettings->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
 }
@@ -185,10 +184,7 @@ void ScopeSync::shutDownIfLastInstance()
 		StyleOverrideClipboard::deleteInstance();
         ParameterClipboard::deleteInstance();
         Icons::deleteInstance();
-        UserSettings::deleteInstance();
         AboutBoxWindow::deleteInstance();
-
-        ScopeSyncGUI::deleteTooltipWindow();
 
         if (ScopeSyncApplication::inScopeFXContext())
             shutdownJuce_GUI();
@@ -315,7 +311,7 @@ void ScopeSync::changeConfiguration(int uid)
 {
     if (uid != 0)
     {
-        String fileName = UserSettings::getInstance()->getConfigurationFilePathFromUID(uid);
+        String fileName = userSettings->getConfigurationFilePathFromUID(uid);
 
         if (fileName.isNotEmpty())
             configurationChanges.add(fileName);
@@ -375,9 +371,9 @@ void ScopeSync::applyConfiguration()
     //scopeSyncAsync.toggleUpdateProcessing(true);
 #endif // __DLL_EFFECT__
 
-    UserSettings::getInstance()->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),
-                                                                 getConfigurationFile().getFileName(),
-                                                                 getConfigurationRoot());
+    userSettings->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),
+                                                  getConfigurationFile().getFileName(),
+                                                  getConfigurationRoot());
     setGUIReload(true);
 
     if (configurationManagerWindow != nullptr)
@@ -430,8 +426,8 @@ bool ScopeSync::saveConfigurationAs()
 
         applyConfiguration();
 
-        UserSettings::getInstance()->addActionListener(this);
-        UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
+        userSettings->addActionListener(this);
+        userSettings->rebuildFileLibrary(true, false, false);
 
         return true;
     }
@@ -489,8 +485,8 @@ void ScopeSync::addConfiguration(File newFile, ValueTree newSettings)
     // Rebuild the library, so we can check whether the new configuration
     // was put into a File Location. We will get an action callback
     // once the rebuild is complete
-    UserSettings::getInstance()->addActionListener(this);
-    UserSettings::getInstance()->rebuildFileLibrary(true, false, false);
+    userSettings->addActionListener(this);
+    userSettings->rebuildFileLibrary(true, false, false);
 }
 
 void ScopeSync::actionListenerCallback(const String& message)
@@ -499,7 +495,7 @@ void ScopeSync::actionListenerCallback(const String& message)
     {
         if (newConfigIsInLocation())
         {
-            UserSettings::getInstance()->removeActionListener(this);
+            userSettings->removeActionListener(this);
             
             if (configurationManagerWindow != nullptr)
                 configurationManagerWindow->refreshContent();
@@ -511,7 +507,7 @@ bool ScopeSync::newConfigIsInLocation()
 {
     int uid = configuration->getConfigurationUID();
 
-    if (UserSettings::getInstance()->getConfigurationFilePathFromUID(uid).isEmpty())
+    if (userSettings->getConfigurationFilePathFromUID(uid).isEmpty())
     {
 		String errorMessage = "Your new Configuration was not automatically added to the library. You probably need to add a new location.";
         errorMessage << newLine;
@@ -530,18 +526,23 @@ bool ScopeSync::newConfigIsInLocation()
     return true;
 }
 
+UserSettings* ScopeSync::getUserSettings() const
+{
+	return userSettings;
+}
+
 void ScopeSync::alertBoxLaunchLocationEditor(int result, Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync)
 {
     if (result)
     {
         // User clicked OK, so launch the location editor
-        UserSettings::getInstance()->editFileLocations(newConfigWindowPosition.getCentreX(),
-                                                       newConfigWindowPosition.getCentreY());    
+        scopeSync->getUserSettings()->editFileLocations(newConfigWindowPosition.getCentreX(),
+                                                        newConfigWindowPosition.getCentreY());    
     }
     else
     {
         // User clicked cancel, so we just give up for now
-        UserSettings::getInstance()->removeActionListener(scopeSync);
+        scopeSync->getUserSettings()->removeActionListener(scopeSync);
     }
 }
 

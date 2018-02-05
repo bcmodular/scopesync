@@ -157,8 +157,6 @@ private:
     UserSettings& owner;
 };
 
-juce_ImplementSingleton(UserSettings)
-
 /* =========================================================================
  * UserSettings
  */
@@ -243,7 +241,6 @@ UserSettings::~UserSettings()
     presetManagerWindow = nullptr;
     fileLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
-    clearSingletonInstance();
 }
 
 void UserSettings::setupPanel()
@@ -852,22 +849,22 @@ void UserSettings::RebuildFileLibrary::run()
     if (rebuildLayouts)
     {
         updateLayoutLibrary(layoutFiles);
-        UserSettings::getInstance()->sendActionMessage("layoutlibraryupdated");
+        userSettings->sendActionMessage("layoutlibraryupdated");
     }
 
     if (rebuildConfigurations)
     {
         updateConfigurationLibrary(configurationFiles);
-        UserSettings::getInstance()->sendActionMessage("configurationlibraryupdated");
+        userSettings->sendActionMessage("configurationlibraryupdated");
     }
 
     if (rebuildPresets)
     {
         updatePresetLibrary(presetFiles);
-        UserSettings::getInstance()->sendActionMessage("presetlibraryupdated");
+        userSettings->sendActionMessage("presetlibraryupdated");
     }
 
-    UserSettings::getInstance()->getGlobalProperties()->saveIfNeeded();
+    userSettings->getGlobalProperties()->saveIfNeeded();
 }
 
 void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim)
@@ -903,7 +900,7 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
     setStatusMessage("Removing Layouts that no longer exist...");
     setProgress(0.0f);
         
-    ValueTree layoutLibrary = UserSettings::getInstance()->getLayoutLibrary();
+    ValueTree layoutLibrary = userSettings->getLayoutLibrary();
 
     trimMissingFiles(layoutFiles, layoutLibrary);
 
@@ -950,11 +947,11 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
         }
 
         if (layoutName.isNotEmpty())
-            UserSettings::getInstance()->updateLayoutLibraryEntry(layoutFiles[i].getFullPathName(), layoutXml, layoutLibrary);
+            userSettings->updateLayoutLibraryEntry(layoutFiles[i].getFullPathName(), layoutXml, layoutLibrary);
     }
 
     ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
 }
 
 void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<File>& configurationFiles)
@@ -962,7 +959,7 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
     setStatusMessage("Removing Configurations that no longer exist...");
     setProgress(0.0f);
 
-    ValueTree configurationLibrary = UserSettings::getInstance()->getConfigurationLibrary();
+    ValueTree configurationLibrary = userSettings->getConfigurationLibrary();
 
     trimMissingFiles(configurationFiles, configurationLibrary);
 
@@ -996,13 +993,13 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
         String configurationName = configuration.getProperty(Ids::name);
 
         if (configurationName.isNotEmpty())
-            UserSettings::getInstance()->updateConfigurationLibraryEntry(configurationFiles[i].getFullPathName(),
+            userSettings->updateConfigurationLibraryEntry(configurationFiles[i].getFullPathName(),
                                                                          configurationFiles[i].getFileName(),
                                                                          configuration, configurationLibrary);
     }
 
     ScopedPointer<XmlElement> xml = configurationLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
 }
 
 void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& presetFiles)
@@ -1010,7 +1007,7 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
     setStatusMessage("Removing Preset Files that no longer exist...");
     setProgress(0.0f);
 
-    ValueTree presetLibrary = UserSettings::getInstance()->getPresetLibrary();
+    ValueTree presetLibrary = userSettings->getPresetLibrary();
 
     trimMissingFiles(presetFiles, presetLibrary);
 
@@ -1044,13 +1041,13 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
         //String presetFileName = presetFile.getProperty(Ids::name);
         //
         //if (presetFileName.isNotEmpty())
-            UserSettings::getInstance()->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
+            userSettings->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
                                                                   presetFiles[i].getFileName(),
                                                                   presetFile, presetLibrary);
     }
 
     ScopedPointer<XmlElement> xml = presetLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
 }
 
 void UserSettings::timerCallback()
@@ -1146,15 +1143,15 @@ void UserSettings::saveSwatchColours()
 
 int UserSettings::ColourSelectorWithSwatches::getNumSwatches() const
 {
-    return UserSettings::getInstance()->swatchColours.size();
+    return userSettings->swatchColours.size();
 }
 
 Colour UserSettings::ColourSelectorWithSwatches::getSwatchColour (int index) const
 {
-    return UserSettings::getInstance()->swatchColours[index];
+    return userSettings->swatchColours[index];
 }
 
 void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour)
 {
-    UserSettings::getInstance()->swatchColours.set(index, newColour);
+    userSettings->swatchColours.set(index, newColour);
 }
