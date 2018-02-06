@@ -31,6 +31,8 @@
 #include <JuceHeader.h>
 #include "../Utils/BCMTreeView.h"
 #include "../Resources/Icons.h"
+#include "../Core/Clipboard.h"
+
 class ConfigurationManager;
 class Configuration;
 

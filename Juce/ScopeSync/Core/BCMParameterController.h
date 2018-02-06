@@ -51,8 +51,6 @@ public:
     void beginParameterChangeGesture(int hostIdx);
     void endParameterChangeGesture(int hostIdx);
     void endAllParameterChangeGestures();
-
-    void receiveUpdatesFromScopeAsync();
     
     void         storeParameterValues();
     void         storeParameterValues(XmlElement& parameterValues);

@@ -29,7 +29,6 @@
 #include "../Utils/BCMTreeView.h"
 #include "PresetManager.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
  * PresetItem: Preset TreeViewItems
@@ -49,7 +48,7 @@ public:
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -62,7 +61,7 @@ public:
         presetManager.changePanel(new PresetPanel(tree, undoManager, presetFile, commandManager));
     }
 private:
-    void refreshSubItems() override;
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetItem);
@@ -107,10 +106,10 @@ void PresetItem::addItemFromClipboard()
 {
     ValueTree definition;
     
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::preset);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
     
     insertPresetAt(definition, tree.getParent().indexOf(tree) + 1);
@@ -127,13 +126,13 @@ void PresetItem::insertPresetAt(const ValueTree& definition, int index)
 
 void PresetItem::copyItem()
 {
-    ParameterClipboard::getInstance()->copy(tree);
+    parameterClipboard->copy(tree);
 }
 
 void PresetItem::pasteItem()
 {
     storeSelectionOnDelete();
-    ParameterClipboard::getInstance()->paste(tree, &undoManager);
+    parameterClipboard->paste(tree, &undoManager);
     changePanel();
 }
 
@@ -208,7 +207,7 @@ void PresetRootItem::changePanel()
 
 bool PresetRootItem::canPasteItem()
 { 
-    return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
+    return parameterClipboard->clipboardIsNotEmpty();
 }
 
 void PresetRootItem::addItem()
@@ -221,10 +220,10 @@ void PresetRootItem::addItemFromClipboard()
 {
     ValueTree definition;
 
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::preset);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
 
     addPreset(definition);

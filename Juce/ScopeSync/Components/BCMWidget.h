@@ -29,6 +29,8 @@
 
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
+#include "../Core/Clipboard.h"
+
 class ScopeSyncGUI;
 class ScopeSync;
 class WidgetProperties;
@@ -53,8 +55,8 @@ protected:
     ValueTree          styleOverride;
     String             bcmLookAndFeelId;
     String             widgetTemplateId;
-
-    virtual const Identifier getComponentType() const = 0;
+	
+	virtual const Identifier getComponentType() const = 0;
 
     virtual void applyLookAndFeel(bool noStyleOverride);
     void applyWidgetProperties(WidgetProperties& properties);
@@ -64,7 +66,7 @@ protected:
     void copyStyleOverride() const;
     void copyStyleOverrideToAll() const;
     void pasteStyleOverride();
-	static bool canPasteStyleOverride();
+    bool canPasteStyleOverride() const;
 
     virtual void showPopupMenu();
 
@@ -77,7 +79,9 @@ protected:
 	virtual void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-    void applyBounds() const;
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	void applyBounds() const;
     
 };
 
@@ -110,14 +114,15 @@ protected:
     void showPopupMenu() override;
 
 private:
-    
+    SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
     void deleteMappedParameter();
     void copyParameter();
     void pasteParameter();
-	static bool canPasteParameter();
+	bool canPasteParameter() const;
     void addParameter(bool fromClipboard) const;
 	void copyOSCPath();
 

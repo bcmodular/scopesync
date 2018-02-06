@@ -31,7 +31,6 @@
 #include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Properties/WidgetProperties.h"
-#include "../Core/ScopeSyncApplication.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner)
     : scopeSyncGUI(owner), scopeSync(owner.getScopeSync()),
@@ -225,7 +224,7 @@ void BCMWidget::clearStyleOverride()
 
 void BCMWidget::copyStyleOverride() const
 {
-    StyleOverrideClipboard::getInstance()->copy(styleOverride);
+    styleOverrideClipboard->copy(styleOverride);
 
 }
 
@@ -248,13 +247,13 @@ void BCMWidget::pasteStyleOverride()
                                                                         -1, 
                                                                         &undoManager);
     
-    StyleOverrideClipboard::getInstance()->paste(styleOverride, &undoManager);
+    styleOverrideClipboard->paste(styleOverride, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
-bool BCMWidget::canPasteStyleOverride()
+bool BCMWidget::canPasteStyleOverride() const
 {
-    return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty();
+    return styleOverrideClipboard->clipboardIsNotEmpty();
 }
 
 void BCMWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
@@ -486,18 +485,18 @@ void BCMParameterWidget::deleteMappedParameter()
 
 void BCMParameterWidget::copyParameter()
 {
-    ParameterClipboard::getInstance()->copy(parameter->getDefinition());
+    parameterClipboard->copy(parameter->getDefinition());
 }
 
 void BCMParameterWidget::pasteParameter()
 {
-    ParameterClipboard::getInstance()->paste(parameter->getDefinition(), &undoManager);
+    parameterClipboard->paste(parameter->getDefinition(), &undoManager);
     scopeSync.applyConfiguration();
 }
 
-bool BCMParameterWidget::canPasteParameter()
+bool BCMParameterWidget::canPasteParameter() const
 {
-    return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
+    return parameterClipboard->clipboardIsNotEmpty();
 }
 
 void BCMParameterWidget::addParameter(bool fromClipboard) const
@@ -508,7 +507,7 @@ void BCMParameterWidget::addParameter(bool fromClipboard) const
     if (fromClipboard)
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, &undoManager);
+        parameterClipboard->paste(definition, &undoManager);
     }        
 
     scopeSync.getConfiguration().addNewParameter(newParameter, definition, -1, &undoManager);

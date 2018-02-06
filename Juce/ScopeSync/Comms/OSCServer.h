@@ -51,8 +51,8 @@ public:
 	bool   sendFloatMessage(const OSCAddressPattern pattern, float valueToSend);
 	bool   sendIntMessage(const OSCAddressPattern pattern, int valueToSend);
 
-	void   registerOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* newListener, OSCAddress address);
-	void   unregisterOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* listenerToRemove);
+	void   registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address);
+	void   unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove);
 
 protected:
 	Value oscLocalPortNum;

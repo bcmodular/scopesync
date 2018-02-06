@@ -35,7 +35,7 @@ class BCMParameterController;
 
 class BCMParameter : public Value::Listener,
 					 public Timer,
-					 private OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
+					 OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
 {
 public:
     /* ============================ Enumerations ============================== */

@@ -28,7 +28,6 @@
 
 #include "ScopeSync.h"
 
-#include "../Resources/ImageLoader.h"
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 #include "../Configuration/ConfigurationManager.h"
@@ -181,9 +180,7 @@ void ScopeSync::shutDownIfLastInstance()
 {
     if (getNumScopeSyncInstances() == 0)
     {
-		StyleOverrideClipboard::deleteInstance();
-        ParameterClipboard::deleteInstance();
-        Icons::deleteInstance();
+		Icons::deleteInstance();
         AboutBoxWindow::deleteInstance();
 
         if (ScopeSyncApplication::inScopeFXContext())

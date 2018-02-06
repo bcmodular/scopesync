@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.2"
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.3"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="5.2.0" defines="" displaySplashScreen="1" reportAppUsage="1"
+              jucerVersion="5.2.0" defines="" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
@@ -331,6 +331,8 @@
               file="../ScopeSync/Core/BCMParameterController.cpp"/>
         <FILE id="SqbKCJ" name="BCMParameterController.h" compile="0" resource="0"
               file="../ScopeSync/Core/BCMParameterController.h"/>
+        <FILE id="iJBsZX" name="Clipboard.cpp" compile="1" resource="0" file="../ScopeSync/Core/Clipboard.cpp"/>
+        <FILE id="bKosiY" name="Clipboard.h" compile="0" resource="0" file="../ScopeSync/Core/Clipboard.h"/>
         <FILE id="Bequ8I" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
         <FILE id="TWAtId" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
         <FILE id="a76cHR" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>

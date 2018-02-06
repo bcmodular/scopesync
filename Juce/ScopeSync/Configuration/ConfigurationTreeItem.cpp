@@ -30,7 +30,6 @@
 #include "Configuration.h"
 #include "ConfigurationPanel.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
  * ParameterRootItem: Parameter root node TreeViewItems
@@ -53,13 +52,15 @@ public:
     void addItem() override;
     void addItemFromClipboard() override;
 
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
 protected:
     void addNewSubItem() = delete;
     
 private:
-    void refreshSubItems() override;
+	SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     void addParameter(const ValueTree& definition);
@@ -85,7 +86,7 @@ public:
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -96,7 +97,9 @@ public:
 	void changePanel() override;
 
 private:
-    void refreshSubItems() override;
+	SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterItem);
@@ -454,7 +457,7 @@ public:
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return styleOverrideClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -464,8 +467,9 @@ public:
     virtual String getDisplayName() const override;
 
 private:
-    void refreshSubItems() override;
-    
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideItem);
@@ -623,15 +627,16 @@ public:
     
     Icon getIcon() const override { return Icon(Icons::getInstance()->styleoverrides, Colours::lightblue); }
     
-    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return styleOverrideClipboard->clipboardIsNotEmpty(); }
 
 protected:
     void addGenericStyleOverride(const Identifier& componentType);
     void addGenericItemFromClipboard(const Identifier& componentType);
 
 private:
-    virtual void refreshSubItems() override;
-    
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	virtual void refreshSubItems() override;
     void showPopupMenu() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideRootItem);
@@ -926,10 +931,10 @@ void ParameterRootItem::addItemFromClipboard()
 {
     ValueTree definition;
 
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
 
     addParameter(definition);
@@ -999,10 +1004,10 @@ void ParameterItem::addItemFromClipboard()
 {
     ValueTree definition;
     
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
     
     insertParameterAt(definition, tree.getParent().indexOf(tree) + 1);
@@ -1019,13 +1024,13 @@ void ParameterItem::insertParameterAt(const ValueTree& definition, int index)
 
 void ParameterItem::copyItem()
 {
-    ParameterClipboard::getInstance()->copy(tree);
+    parameterClipboard->copy(tree);
 }
 
 void ParameterItem::pasteItem()
 {
     storeSelectionOnDelete();
-    ParameterClipboard::getInstance()->paste(tree, &undoManager);
+    parameterClipboard->paste(tree, &undoManager);
     changePanel();
 }
 
@@ -1183,10 +1188,10 @@ void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& compon
 {
     ValueTree styleOverride;
     
-    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    if (styleOverrideClipboard->clipboardIsNotEmpty())
     {
         styleOverride = ValueTree(componentType);
-        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+        styleOverrideClipboard->paste(styleOverride, nullptr);
     }
     
     storeSelectionOnAdd();
@@ -1244,10 +1249,10 @@ void StyleOverrideItem::addItemFromClipboard()
 {
     ValueTree styleOverride;
     
-    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    if (styleOverrideClipboard->clipboardIsNotEmpty())
     {
         styleOverride = ValueTree(tree.getType());
-        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+        styleOverrideClipboard->paste(styleOverride, nullptr);
     }
     
     storeSelectionOnAdd();
@@ -1256,12 +1261,12 @@ void StyleOverrideItem::addItemFromClipboard()
 
 void StyleOverrideItem::copyItem()
 {
-    StyleOverrideClipboard::getInstance()->copy(tree);
+    styleOverrideClipboard->copy(tree);
 }
 
 void StyleOverrideItem::pasteItem()
 {
     storeSelectionOnDelete();
-    StyleOverrideClipboard::getInstance()->paste(tree, &undoManager);
+    styleOverrideClipboard->paste(tree, &undoManager);
     changePanel();
 }

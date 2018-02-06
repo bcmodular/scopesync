@@ -30,6 +30,8 @@
 #include <JuceHeader.h>
 #include "../Resources/Icons.h"
 #include "../Utils/BCMTreeView.h"
+#include "../Core/Clipboard.h"
+
 class PresetManager;
 class PresetFile;
 
@@ -65,7 +67,8 @@ public:
 protected:
     PresetManager& presetManager;
     PresetFile&    presetFile;
-    
+	SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
 private:
     virtual void refreshSubItems() override;
 

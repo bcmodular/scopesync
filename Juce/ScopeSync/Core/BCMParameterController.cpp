@@ -103,7 +103,7 @@ void BCMParameterController::setupHostParameters()
 
 void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId)
 {
-    //DBG("BCMParameterController::addToParametersByScopeCodeId - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
+    DBG("BCMParameterController::addToParametersByScopeCodeId - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
         
     if (scopeCodeId > -1)
         parametersByScopeCodeId.set(scopeCodeId, parameter);
@@ -111,12 +111,12 @@ void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* paramete
 
 void BCMParameterController::reset()
 {
-	//DBG("BCMParameterController::reset - clearing parameters array");
+	DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
 
     for (auto fixedParameter : fixedParameters)
 	{
-		//DBG("BCMParameterController::reset - Added parameter: " + fixedParameters[i]->getName());
+		DBG("BCMParameterController::reset - Added parameter: " + fixedParameter->getName());
 		parameters.add(fixedParameter);
 	}
 
@@ -150,7 +150,7 @@ BCMParameter* BCMParameterController::getParameterByScopeCodeId(const int scopeC
 {
     BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
 
-	//DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
+	DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
 
     return parameter;
 }
