@@ -30,8 +30,51 @@
 
 #include <JuceHeader.h>
 #include "../Comms/OSCServer.h"
+#include "../Core/ScopeIDs.h"
 
 class BCMParameterController;
+class BCMParameter;
+
+class ScopeOSCParameter : OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
+{
+public:
+	ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, int min, int max, bool discrete, double scopedBRef);
+
+	void getRanges(int& min, int& max) const;
+	int  getValue() const {return intValue;}
+
+	void setOSCUID(int newUID);
+	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
+
+	void startListening() {isListening = true;}
+	void stopListening() {isListening = false;}
+
+	void startSending() {isSending = true;}
+	void stopSending() {isSending = false;}
+
+private:
+	SharedResourcePointer<ScopeOSCServer> oscServer;
+	BCMParameter* parameter;
+	
+	ScopeOSCParamID paramID;
+	int oscUID;
+    
+	int intValue;
+	
+	int    minValue;
+	int    maxValue;
+	bool   isDiscrete;
+	double dbRef;
+
+	bool isListening;
+	bool isSending;
+
+	double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
+
+	String getOSCPath() const;
+	
+	void oscMessageReceived(const OSCMessage& message) override;
+};
 
 class BCMParameter : public Value::Listener,
 					 public Timer,
@@ -42,7 +85,8 @@ public:
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate};
 
-	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble);
+	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble,
+			     ScopeOSCParamID scopeOSCParamID, int scopeMin, int scopeMax, bool isDiscrete, double dbRef);
 	
 	void initialise();
     ~BCMParameter();
@@ -56,13 +100,10 @@ public:
     String        getName() const;
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
     int           getHostIdx() const { return hostIdx; }
-    int           getScopeCodeId() const;
-	String        getScopeParamGroupAndId() const;
 	ValueTree&    getDefinition() { return definition; }
     void          getSettings(ValueTree& settings) const;
     void          getDescriptions(String& shortDesc, String& fullDesc) const;
     void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix) const;
-    void          getScopeRanges(int& min, int& max) const;
     double        getUIResetValue() const;
     double        getUISkewFactor() const;
 
@@ -70,7 +111,8 @@ public:
     int           getUIValue() const { return uiValue.getValue(); };
 
     float         getHostValue() const;
-    int           getScopeIntValue() const;
+    
+	ScopeOSCParameter& getScopeOSCParameter() {return scopeOSCParameter;}
 
     bool          isDiscrete() const;
 	bool          isReadOnly() const;
@@ -80,22 +122,16 @@ public:
     void          setUIValue(float newValue, bool updateHost = true);
 	void          setOSCValue(float newValue);
 
-	void          registerOSCListeners();
+	void          registerOSCListener();
 	String        getOSCPath() const;
 	void          sendOSCParameterUpdate() const;
-#ifdef __DLL_EFFECT__
-	String        getScopeOSCPath() const;
-	void          sendScopeOSCParameterUpdate() const;
-#endif // __DLL_EFFECT__
 
 private:
     WeakReference<BCMParameter>::Master masterReference;
     friend class WeakReference<BCMParameter>;
 
-	SharedResourcePointer<OSCServer>      oscServer;
-#ifdef __DLL_EFFECT__
-	SharedResourcePointer<ScopeOSCServer> scopeOSCServer;
-#endif // __DLL_EFFECT__
+	SharedResourcePointer<OSCServer> oscServer;
+	ScopeOSCParameter scopeOSCParameter;
 
 	void oscMessageReceived (const OSCMessage& message) override;
 
@@ -105,7 +141,6 @@ private:
     void   putValuesInRange(bool initialise);
     void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert) const;
-    double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
     double convertLinearNormalisedToUIValue(double lnValue) const;
 	double convertUIToLinearNormalisedValue(double newValue) const;
 
@@ -114,8 +149,6 @@ private:
 
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
-
-	void  sendToScopeOSC() const;
 
 	void  decDeadTimes();
     
@@ -130,9 +163,6 @@ private:
 	Value     oscUID;
     bool      affectedByUI;
     int       hostIdx;
-	int       scopeParamGroup;
-	int       scopeParamId;
-    int       scopeCodeId;
 	int       numDecimalPlaces;
 	
 	int oscDeadTimeCounter;

@@ -38,9 +38,114 @@
 const int BCMParameter::deadTimeTimerInterval = 100;
 const int BCMParameter::maxOSCDeadTime   = 3;
 
-BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble)
-    : parameterController(pc),
-      oscEnabled(oscAble),
+ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, int min, int max, bool discrete, double scopedBRef)
+	: parameter(owner), paramID(oscParamID), minValue(min), maxValue(max), isDiscrete(discrete), dbRef(scopedBRef)
+{
+}
+
+void ScopeOSCParameter::setOSCUID(int newUID)
+{
+	oscUID = newUID;
+	oscServer->registerOSCListener(this, getOSCPath());
+}
+
+void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue)
+{
+	int oldIntValue = intValue;
+
+    if (isDiscrete)
+    {
+        int newValue = 0;
+        
+		ValueTree paramSettings;
+		parameter->getSettings(paramSettings);
+
+        if (paramSettings.isValid())
+        {
+            const int settingIdx = roundToInt(uiValue);
+        
+            if (settingIdx < paramSettings.getNumChildren())
+                newValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
+        }
+        
+        intValue = newValue;
+    }
+    else
+    {
+        double valueToScale = linearNormalisedValue;
+
+        if (dbRef != 0.0f)
+            valueToScale = dbSkew(valueToScale, dbRef, uiMinValue, uiMaxValue, true);
+
+        intValue = roundToInt(scaleDouble(0.0f, 1.0f, minValue, maxValue, valueToScale));
+    }
+
+	if (oldIntValue != intValue)
+		oscServer->sendIntMessage(getOSCPath(), intValue);
+}
+
+double ScopeOSCParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const
+{
+    if (!invert)
+    {
+        const double minNormalised = ref * pow(10, (uiMinValue/20));
+
+        if (valueToSkew > minNormalised)
+            return scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, (20 * log10(valueToSkew / ref)));
+        else
+            return minNormalised;
+    }
+    else
+    {
+        valueToSkew = scaleDouble(0.0f, 1.0f, uiMinValue, uiMaxValue, valueToSkew);
+
+        if (valueToSkew > uiMinValue && valueToSkew < uiMaxValue)
+            return ref * pow(10, (valueToSkew / 20));
+        else if (valueToSkew >= 0)
+            return 1;
+        else
+            return 0;
+    }
+}
+
+String ScopeOSCParameter::getOSCPath() const
+{
+	const String oscUIDStr(oscUID);
+	String address = "/" + oscUIDStr + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
+	DBG("ScopeSyncFX::ScopeOSCParameter::getScopeOSCPath = " + address);
+
+	return address;
+}
+
+void ScopeOSCParameter::oscMessageReceived (const OSCMessage& message)
+{
+	String address = message.getAddressPattern().toString();
+
+	DBG("ScopeOSCParameter::oscMessageReceived - " + address);
+
+	if (message.size() == 1)
+	{
+		if (message[0].isInt32() && address == getOSCPath())
+		{
+			intValue = message[0].getInt32();
+			DBG("ScopeOSCParameter::oscMessageReceived - new Scope OSC Value: " + String(intValue));
+			
+			parameter->setScopeIntValue(intValue);
+		}
+		else
+		{
+			DBG("BCMParameter::handleOSCMessage - OSC message not processed");
+		}
+	}
+	else
+		DBG("BCMParameter::handleOSCMessage - empty OSC message");
+}
+
+BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble,
+	ScopeOSCParamID scopeOSCParamID, int scopeMin, int scopeMax, bool isDiscrete, double dbRef)
+    : scopeOSCParameter(scopeOSCParamID, this, scopeMin, scopeMax, isDiscrete, dbRef),
+      parameterController(pc),
+	  oscEnabled(oscAble),
 	  definition(parameterDefinition),
       affectedByUI(false)
 {
@@ -50,14 +155,7 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
 void BCMParameter::initialise()
 {
 	hostIdx = -1;
-	scopeParamGroup = int(definition.getProperty(Ids::scopeParamGroup, -1));
-	scopeParamId    = int(definition.getProperty(Ids::scopeParamId, -1));
-
-	if (scopeParamGroup == -1 || scopeParamId == -1)
-		scopeCodeId = -1;
-	else
-		scopeCodeId = (scopeParamGroup * 16) + scopeParamId;
-
+	
 	// TODO: Read this from config file - 
 	readOnly = false;
 
@@ -114,12 +212,12 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 	if (updateSource == oscUpdate)
 		oscDeadTimeCounter = maxOSCDeadTime;
 
-	#ifdef __DLL_EFFECT__
-		(void)updateHost;
-		scopeOSCServer->sendIntMessage(getScopeOSCPath(), getScopeIntValue());
-	#else
-		if (updateHost && getHostIdx() >= 0)
-			parameterController.updateHost(getHostIdx(), getHostValue());
+	if (updateSource != scopeOSCUpdate)
+		scopeOSCParameter.updateValue(linearNormalisedValue.getValue(), uiValue.getValue(), definition.getProperty(Ids::uiRangeMin), definition.getProperty(Ids::uiRangeMax));
+
+	#ifndef __DLL_EFFECT__
+	if (updateHost && getHostIdx() >= 0)
+		parameterController.updateHost(getHostIdx(), getHostValue());
 	#endif // __DLL_EFFECT__
 }
 
@@ -176,16 +274,6 @@ bool BCMParameter::isAffectedByUI() const
 String BCMParameter::getName() const
 {
     return definition.getProperty(Ids::name).toString();
-}
-
-int BCMParameter::getScopeCodeId() const
-{
-    return scopeCodeId;
-}
-
-String BCMParameter::getScopeParamGroupAndId() const
-{
-    return String(scopeParamGroup) + ":" + String(scopeParamId);
 }
 
 void BCMParameter::getSettings(ValueTree& settings) const
@@ -253,57 +341,6 @@ float BCMParameter::getHostValue() const
 
     // DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
     return hostValue;
-}
-
-void BCMParameter::getScopeRanges(int& min, int& max) const
-{
-    min = definition.getProperty(Ids::scopeRangeMin);
-    max = definition.getProperty(Ids::scopeRangeMax);
-}
-
-int BCMParameter::getScopeIntValue() const
-{
-    int minScopeIntValue;
-    int maxScopeIntValue;
-
-    getScopeRanges(minScopeIntValue, maxScopeIntValue);
-
-    int parameterValueType = definition.getProperty(Ids::valueType);
-
-    if (parameterValueType == discrete)
-    {
-        int intValue = 0;
-        
-        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
-
-        if (paramSettings.isValid())
-        {
-            int settingIdx = roundToInt(uiValue.getValue());
-        
-            if (settingIdx < paramSettings.getNumChildren())
-                intValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
-        }
-        
-        return intValue;
-    }
-    else
-    {
-        double valueToScale = linearNormalisedValue.getValue();
-
-        double ref        = definition.getProperty(Ids::scopeDBRef);
-        
-        if (ref != 0.0f)
-        {
-            double uiMinValue = definition.getProperty(Ids::uiRangeMin);
-            double uiMaxValue = definition.getProperty(Ids::uiRangeMax);
-
-            valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
-        }
-
-        int scopeValue = roundToInt(scaleDouble(0.0f, 1.0f, minScopeIntValue, maxScopeIntValue, valueToScale));
-
-        return scopeValue;
-    }
 }
 
 bool BCMParameter::isDiscrete() const
@@ -383,7 +420,7 @@ void BCMParameter::setScopeIntValue(int newValue)
             int minScopeValue;
             int maxScopeValue;
 
-            getScopeRanges(minScopeValue, maxScopeValue);
+            scopeOSCParameter.getRanges(minScopeValue, maxScopeValue);
             newLinearNormalisedValue = scaleDouble(minScopeValue, maxScopeValue, 0.0f, 1.0f, newValue);
 
             double ref        = definition.getProperty(Ids::scopeDBRef);
@@ -406,7 +443,7 @@ void BCMParameter::setScopeIntValue(int newValue)
         
 		setParameterValues(scopeOSCUpdate, newLinearNormalisedValue, newUIValue);
 
-        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(getScopeIntValue()));
+        DBG("BCMParameter::setScopeIntValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
     }
     else
     {
@@ -425,7 +462,7 @@ void BCMParameter::setUIValue(float newValue, bool updateHost)
 	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
 
 	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue, updateHost);
-    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(getScopeIntValue()));
+    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
 }
 
 void BCMParameter::setOSCValue(float newValue)
@@ -458,31 +495,6 @@ float BCMParameter::skewHostValue(float hostValue, bool invert) const
     }
     
     return static_cast<float>(skewedValue);
-}
-
-
-double BCMParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const
-{
-    if (!invert)
-    {
-        double minNormalised = ref * pow(10, (uiMinValue/20));
-
-        if (valueToSkew > minNormalised)
-            return scaleDouble(uiMinValue, uiMaxValue, 0.0f, 1.0f, (20 * log10(valueToSkew / ref)));
-        else
-            return minNormalised;
-    }
-    else
-    {
-        valueToSkew = scaleDouble(0.0f, 1.0f, uiMinValue, uiMaxValue, valueToSkew);
-
-        if (valueToSkew > uiMinValue && valueToSkew < uiMaxValue)
-            return ref * pow(10, (valueToSkew / 20));
-        else if (valueToSkew >= 0)
-            return 1;
-        else
-            return 0;
-    }
 }
 
 int BCMParameter::findNearestParameterSetting(int value) const
@@ -522,15 +534,9 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 			sendOSCParameterUpdate();
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))
-		registerOSCListeners();
-}
-
-void BCMParameter::registerOSCListeners()
-{
-	oscServer->registerOSCListener(this, getOSCPath());
-#ifdef __DLL_EFFECT__
-	scopeOSCServer->registerOSCListener(this, getScopeOSCPath());
-#endif __DLL_EFFECT__
+	{
+		oscServer->registerOSCListener(this, getOSCPath());
+	}
 }
 
 String BCMParameter::getOSCPath() const
@@ -540,16 +546,7 @@ String BCMParameter::getOSCPath() const
 
 	return address;
 }
-
-String BCMParameter::getScopeOSCPath() const
-{
-	String oscUIDStr = oscUID.getValue();
-	String address = "/" + oscUIDStr + "/0/" + String(scopeParamGroup) + "/" + String(scopeParamId);
-	DBG("ScopeSyncFX::BCMParameter::getScopeOSCPath = " + address);
-
-	return address;
-}
-    
+  
 void BCMParameter::sendOSCParameterUpdate() const
 {
     oscServer->sendFloatMessage(getOSCPath(), uiValue.getValue());
@@ -570,42 +567,11 @@ void BCMParameter::oscMessageReceived (const OSCMessage& message)
 			
 			setOSCValue(newValue);
 		}
-		else if (message[0].isInt32() && address == getScopeOSCPath())
-		{
-			int newValue = message[0].getInt32();
-			DBG("BCMParameter::oscMessageReceived - new Scope OSC Value: " + String(newValue));
-			
-			setScopeIntValue(newValue);
-		}
 		else
-		{
 			DBG("BCMParameter::handleOSCMessage - OSC message not processed");
-		}
 	}
 	else
 		DBG("BCMParameter::handleOSCMessage - empty OSC message");
-}
-
-void BCMParameter::sendToScopeOSC() const
-{
-#ifdef __DLL_EFFECT__
-    int scopeCodeId = getScopeCodeId();
-
-    if (scopeCodeId != -1)
-    {
-        int newScopeValue = getScopeIntValue();
-
-        DBG("BCMParameter::sendToScopeOSC: " + String(scopeCodeId) + ", scaled value: " + String(newScopeValue));
-        scopeOSCServer->sendIntMessage(getScopeOSCPath(), newScopeValue);
-    }
-    else
-    {
-        String shortDesc;
-        String longDesc;
-        getDescriptions(shortDesc, longDesc);
-        DBG("BCMParameter::sendToScopeOSC: couldn't find Scope code for parameter: " + longDesc);
-    }
-#endif // __DLL_EFFECT__
 }
 
 void BCMParameter::beginParameterChangeGesture()

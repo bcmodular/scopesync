@@ -46,7 +46,15 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode, con
 
 void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
 {
-	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble);
+	ScopeOSCParamID scopeOSCParamID(int(parameterDefinition.getProperty(Ids::scopeParamGroup, -1)), 
+									int(parameterDefinition.getProperty(Ids::scopeParamId, -1)));
+
+	int  scopeMin = parameterDefinition.getProperty(Ids::scopeRangeMin);
+    int  scopeMax = parameterDefinition.getProperty(Ids::scopeRangeMax);
+	int  parameterValueType = parameterDefinition.getProperty(Ids::valueType);
+	bool isDiscrete	= (parameterValueType == BCMParameter::discrete);
+
+	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble, scopeOSCParamID, scopeMin, scopeMax, isDiscrete);
 
     if (fixedParameter)
         fixedParameters.add(parameter);
