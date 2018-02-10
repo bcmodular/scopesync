@@ -82,7 +82,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 				addItem(settingName, i + 1);
 			}
             
-			setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
+			setSelectedItemIndex(roundToInt(parameterValue.getValue()), juce::dontSendNotification);
 		}
     }
     
@@ -105,7 +105,7 @@ void BCMComboBox::mouseDown(const MouseEvent& event)
 void BCMComboBox::valueChanged(Value& value)
 {
     if (value.refersToSameSourceAs(parameterValue))
-        setSelectedItemIndex(roundDoubleToInt(value.getValue()), juce::dontSendNotification);
+        setSelectedItemIndex(roundToInt(value.getValue()), juce::dontSendNotification);
     else
         ComboBox::valueChanged(value);
 }

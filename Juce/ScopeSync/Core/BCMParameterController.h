@@ -30,14 +30,14 @@ public:
     void reset();
 
     void addParameter(ValueTree parameterDefinition, bool fixedParameter = false, bool oscAble = true);
-    void addFixedScopeParameter(const String& scopeCode, const int scopeCodeId);
+    void addFixedScopeParameter(const String& scopeCode, int scopeCodeId);
     void setupHostParameters();
 
 	ScopeSync* getScopeSync() {return scopeSync;}
 
-	BCMParameter* getParameterByName(const StringRef name) const;
-    BCMParameter* getFixedParameterByName(const StringRef name) const;
-	BCMParameter* getParameterByScopeCodeId(const int scopeCodeId) const;
+	BCMParameter* getParameterByName(StringRef name) const;
+    BCMParameter* getFixedParameterByName(StringRef name) const;
+	BCMParameter* getParameterByScopeCodeId(int scopeCodeId) const;
 	
     float getParameterHostValue(int hostIdx) const;
     void  setParameterFromHost(int hostIdx, float newValue) const;

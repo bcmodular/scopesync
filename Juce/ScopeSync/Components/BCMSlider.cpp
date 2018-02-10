@@ -172,7 +172,7 @@ String BCMSlider::getTextFromValue(double v)
     }
     else
     {
-        return settingsNames[roundDoubleToInt(v)];
+        return settingsNames[roundToInt(v)];
     }
 }
 

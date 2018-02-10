@@ -29,6 +29,7 @@
 #include <JuceHeader.h>
 #include "../Configuration/ConfigurationPanel.h"
 #include "../Windows/UserSettings.h"
+#include "../Core/ScopeIDs.h"
 
 class ScopeSync;
 
@@ -202,6 +203,7 @@ private:
 
     ScopedPointer<PropertiesFile> properties;
 	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<ScopeCodeMapper> scopeCodeMapper;
 
     File       lastFailedFile;
     String     lastError;
@@ -209,7 +211,6 @@ private:
 
     bool       layoutLoaded;
     
-    static const StringArray v102scopeCodes;
     static const char*  configurationFileExtension;
 
     void        setConfigurationRoot(const ValueTree& newRoot);

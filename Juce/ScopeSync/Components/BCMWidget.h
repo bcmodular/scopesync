@@ -71,12 +71,12 @@ protected:
     virtual void showPopupMenu();
 
     /* ================= Application Command Target overrides ================= */
-	virtual void getAllCommands(Array<CommandID>& commands) override;
-    virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    virtual bool perform(const InvocationInfo& info) override;
-	virtual ApplicationCommandTarget* getNextCommandTarget() override;
+	void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+	ApplicationCommandTarget* getNextCommandTarget() override;
 
-	virtual void changeListenerCallback (ChangeBroadcaster* source) override;
+	void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
 	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;

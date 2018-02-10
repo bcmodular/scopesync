@@ -442,7 +442,7 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
         if (rectangle.outlineThickness > 0.0f)
         {
             g.setColour(Colour::fromString(rectangle.outlineColour));
-            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundDoubleToInt(rectangle.outlineThickness));
+            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundToInt(rectangle.outlineThickness));
         }
     }
 }

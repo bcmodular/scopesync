@@ -230,7 +230,7 @@ void BCMParameter::getUITextValue(String& textValue) const
 
         if (paramSettings.isValid())
         {
-            int settingIdx = roundDoubleToInt(uiValue.getValue());
+            int settingIdx = roundToInt(uiValue.getValue());
             String settingName = paramSettings.getChild(settingIdx).getProperty(Ids::name);
                     
             if (settingName.isNotEmpty())
@@ -278,7 +278,7 @@ int BCMParameter::getScopeIntValue() const
 
         if (paramSettings.isValid())
         {
-            int settingIdx = roundDoubleToInt(uiValue.getValue());
+            int settingIdx = roundToInt(uiValue.getValue());
         
             if (settingIdx < paramSettings.getNumChildren())
                 intValue = paramSettings.getChild(settingIdx).getProperty(Ids::intValue);
@@ -300,7 +300,7 @@ int BCMParameter::getScopeIntValue() const
             valueToScale = dbSkew(linearNormalisedValue.getValue(), ref, uiMinValue, uiMaxValue, true);
         }
 
-        int scopeValue = roundDoubleToInt(scaleDouble(0.0f, 1.0f, minScopeIntValue, maxScopeIntValue, valueToScale));
+        int scopeValue = roundToInt(scaleDouble(0.0f, 1.0f, minScopeIntValue, maxScopeIntValue, valueToScale));
 
         return scopeValue;
     }

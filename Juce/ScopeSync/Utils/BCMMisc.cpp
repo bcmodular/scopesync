@@ -236,10 +236,10 @@ void ColourPropertyComponent::ColourEditorComponent::paint(Graphics& g)
 {
     g.fillAll (Colours::grey);
 
-    g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
-                        10, 10,
-                        Colour (0xffdddddd).overlaidWith (colour),
-                        Colour (0xffffffff).overlaidWith (colour));
+	g.fillCheckerBoard (getLocalBounds().reduced (2, 2).toFloat(),
+						10.0f, 10.0f,
+						Colour (0xffdddddd).overlaidWith (colour),
+						Colour (0xffffffff).overlaidWith (colour));
 
     g.setColour (Colours::white.overlaidWith (colour).contrasting());
     g.setFont (Font (getHeight() * 0.6f, Font::bold));

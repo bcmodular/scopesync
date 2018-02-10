@@ -159,11 +159,11 @@ public:
         void changeListenerCallback(ChangeBroadcaster* source) override;
 
         class ColourSelectorComp : public Component,
-                                   public ButtonListener
+								   public Button::Listener
         {
         public:
             ColourSelectorComp(ColourEditorComponent* owner_,
-                               const bool canReset);
+                               bool canReset);
 
             void resized() override;
 

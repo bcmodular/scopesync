@@ -401,7 +401,7 @@ void SettingsTable::autoFill() const
 
     for (int i = 0; i < numSettings; i++)
     {
-        int newValue = roundDoubleToInt((i * ((scopeRangeMax - scopeRangeMin) / (numSettings - 1))) + scopeRangeMin);
+        int newValue = roundToInt((i * ((scopeRangeMax - scopeRangeMin) / (numSettings - 1))) + scopeRangeMin);
 
         tree.getChild(i).setProperty(Ids::intValue, newValue, &undoManager);
     }

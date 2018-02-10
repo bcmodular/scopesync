@@ -77,8 +77,8 @@ void BCMTabbedComponent::valueChanged(Value& value)
 	}
 	else
 	{
-		DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundDoubleToInt(value.getValue())));
-		setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
+		DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundToInt(value.getValue())));
+		setCurrentTabIndex(roundToInt(value.getValue()), true);
 	}	
 }
 
@@ -106,8 +106,8 @@ void BCMTabbedComponent::attachToParameter()
 			parameterValue.addListener(this);
 		}
 
-		DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
-		setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), false);
+		DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundToInt(parameterValue.getValue())));
+		setCurrentTabIndex(roundToInt(parameterValue.getValue()), false);
 	}
 }
 

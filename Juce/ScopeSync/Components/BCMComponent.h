@@ -49,8 +49,8 @@ class EditToolbar;
 
 class BCMComponent : public BCMWidget,
                      public Component,
-                     public SliderListener,
-                     public ComboBoxListener,
+					 public Slider::Listener,
+					 public ComboBox::Listener,
                      public Value::Listener                                     
 {
 public:

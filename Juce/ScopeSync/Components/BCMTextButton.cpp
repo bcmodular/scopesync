@@ -150,7 +150,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         if (mappingType != toggle)
             setTriggeredOnMouseDown(true);
                 
-        int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
+        int currentSettingIdx   = roundToInt(parameterValue.getValue());
         int maxSettingIdx       = settings.getNumChildren() - 1;
 
         if (mapping.getProperty(Ids::radioGroup).isInt())
@@ -302,7 +302,7 @@ void BCMTextButton::switchToTabs() const
 
 void BCMTextButton::setNextValues()
 {
-    int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
+    int currentSettingIdx   = roundToInt(parameterValue.getValue());
     int maxSettingIdx       = settings.getNumChildren() - 1;
         
     if (mappingType == inc)
@@ -480,7 +480,7 @@ void BCMTextButton::valueChanged(Value& value)
         setButtonText(buttonText);
     }
 
-    if (roundDoubleToInt(value.getValue()) == downSettingIdx && getClickingTogglesState())
+    if (roundToInt(value.getValue()) == downSettingIdx && getClickingTogglesState())
     {
         setToggleState(true, dontSendNotification);
 

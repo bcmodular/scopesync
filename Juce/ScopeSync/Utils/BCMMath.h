@@ -65,9 +65,9 @@ namespace BCMMath
     inline int doubleToScopeInt(double doubleToConvert)
     {
         if (doubleToConvert > 0.0)
-            return roundDoubleToInt(doubleToConvert * 0x7FFFFFFF);
+            return roundToInt(doubleToConvert * 0x7FFFFFFF);
         else if (doubleToConvert < 0.0)
-            return roundDoubleToInt(doubleToConvert * 0x80000000);
+            return roundToInt(doubleToConvert * 0x80000000);
         else
             return 0;
     }

@@ -187,10 +187,10 @@ void BCMParameterController::getParameterText(int hostIdx, String& parameterText
         hostParameters[hostIdx]->getUITextValue(parameterText);
 }
 
-void BCMParameterController::setParameterFromHost(int hostIdx, float newHostValue) const
+void BCMParameterController::setParameterFromHost(int hostIdx, float newValue) const
 {
     if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        hostParameters[hostIdx]->setHostValue(newHostValue);
+        hostParameters[hostIdx]->setHostValue(newValue);
 }
 
 void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float newValue)
