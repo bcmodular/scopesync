@@ -49,12 +49,9 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
 	ScopeOSCParamID scopeOSCParamID(int(parameterDefinition.getProperty(Ids::scopeParamGroup, -1)), 
 									int(parameterDefinition.getProperty(Ids::scopeParamId, -1)));
 
-	int  scopeMin = parameterDefinition.getProperty(Ids::scopeRangeMin);
-    int  scopeMax = parameterDefinition.getProperty(Ids::scopeRangeMax);
-	int  parameterValueType = parameterDefinition.getProperty(Ids::valueType);
-	bool isDiscrete	= (parameterValueType == BCMParameter::discrete);
-
-	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble, scopeOSCParamID, scopeMin, scopeMax, isDiscrete);
+	String name               = parameterDefinition.getProperty(Ids::name);
+	
+	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble, scopeOSCParamID);
 
     if (fixedParameter)
         fixedParameters.add(parameter);
@@ -62,59 +59,20 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
         dynamicParameters.add(parameter);
 
     parameters.add(parameter);
-
-    addToParametersByScopeCodeId(parameter, parameter->getScopeCodeId());
+	parametersByName.set(name, parameter);
 }
 
 void BCMParameterController::setupHostParameters()
 {
 	int hostIdx = 0;
-    int paramCounter = 0;
-
-    // Add the dynamic parameters
-    while (paramCounter < dynamicParameters.size())
+    
+    for (auto parameter : dynamicParameters)
     {
-        BCMParameter* parameter = dynamicParameters[paramCounter];
-		
-		parameter->setHostIdx(hostIdx);
-		parameter->registerOSCListeners();
-
+        parameter->setHostIdx(hostIdx);
         hostParameters.add(parameter);
 
-        paramCounter++;
         hostIdx++;
     }
-
-	paramCounter = 0;
-
-	// Add the fixed parameters (excluding a few that don't make much sense)
-	// TODO: Not sure whether this is valuable anyway. Needs some thought
-    //while (paramCounter < fixedParameters.size())
-    //{
-    //    parameter = fixedParameters[paramCounter];
-	//	
-	//	String scopeCode = parameter->getScopeCode();
-	//	StringArray scopeCodes = StringArray::fromTokens("X,Y,show,cfg,osc,mida",",","");
-	//
-	//	if (scopeCodes.indexOf(scopeCode) == -1)
-	//	{
-	//		parameter->setHostIdx(hostIdx);
-	//		parameter->registerOSCListener();
-	//
-	//        hostParameters.add(parameter);
-	//		hostIdx++;
-	//	}
-	//
-    //    paramCounter++;
-    //}
-}
-
-void BCMParameterController::addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId)
-{
-    DBG("BCMParameterController::addToParametersByScopeCodeId - Added parameter: " + parameter->getName() + ", ScopeCodeId: " + String(scopeCodeId));
-        
-    if (scopeCodeId > -1)
-        parametersByScopeCodeId.set(scopeCodeId, parameter);
 }
 
 void BCMParameterController::reset()
@@ -143,29 +101,12 @@ int BCMParameterController::getNumParametersForHost()
     return minHostParameters;
 }
 
-BCMParameter* BCMParameterController::getParameterByName(const StringRef name) const
+BCMParameter* BCMParameterController::getParameterByName(StringRef name) const
 {
-	for (int i = 0; i < parameters.size(); i++)
-    {
-        if (parameters[i]->getName().equalsIgnoreCase(name))
-			return parameters[i];
-    }
-
-    return nullptr;
-}
-
-BCMParameter* BCMParameterController::getParameterByScopeCodeId(const int scopeCodeId) const
-{
-    BCMParameter* parameter = parametersByScopeCodeId[scopeCodeId];
-
-	DBG("BCMParameterController::getParameterByScopeCode: " + parameter->getName());
-
-    return parameter;
-}
-
-BCMParameter* BCMParameterController::getFixedParameterByName(const StringRef name) const
-{
-	 return getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf(name));
+	if (parametersByName.contains(name))
+		return parametersByName[name];
+	
+	return nullptr;
 }
 
 float BCMParameterController::getParameterHostValue(int hostIdx) const
@@ -220,7 +161,7 @@ void BCMParameterController::endAllParameterChangeGestures()
             changingParams.clearBit(hostIdx);
         }
 #else
-        parameter->setAffectedByUI(false);
+        parameter->getScopeOSCParameter().startListening();
 #endif // __DLL_EFFECT__
     }
 }

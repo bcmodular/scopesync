@@ -655,6 +655,7 @@
     		<enumeration value="shortdescription"></enumeration>
     		<enumeration value="fulldescription"></enumeration>
     		<enumeration value="scopecode"></enumeration>
+	      <enumeration value="scopeparam"></enumeration>
     	</restriction>
     </simpleType>
 

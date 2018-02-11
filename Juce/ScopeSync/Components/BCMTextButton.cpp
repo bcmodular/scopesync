@@ -88,14 +88,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 	// so let's do the remaining set up for parameter buttons
 	isCommandButton = false;
 	
-    // Set up buttons for fixed Scope parameters
-    int fixedButtonIndex = ScopeSync::fixedParameters.indexOf(getName(), true);
-
-    if (fixedButtonIndex != -1)
-    {
-        setupFixedButton(fixedButtonIndex, props);
+    if (setupFixedButton(props))
         return;
-    }
 	
     String tooltip(props.tooltip);
     String buttonText(props.text);
@@ -254,24 +248,36 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupFixedButton(const int scopeCodeId, TextButtonProperties& props)
+bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
 {
-    mappingType = toggle;
-	setClickingTogglesState(true);
+	if (ScopeSync::fixedParameterNames.contains(props.name))
+	{
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+
+		if (bcmParameter != nullptr)
+		{
+			mappingType = toggle;
+			setClickingTogglesState(true);
 	
-	upSettingIdx   = 0;
-	downSettingIdx = 1;
+			upSettingIdx   = 0;
+			downSettingIdx = 1;
 	
-	setParameter(scopeSync.getParameterController()->getParameterByScopeCodeId(scopeCodeId));
+			setParameter(bcmParameter);
     
-    setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
+			setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
 
-    getParameter()->mapToUIValue(parameterValue);
+			getParameter()->mapToUIValue(parameterValue);
 
-    parameterValue.addListener(this);
+			parameterValue.addListener(this);
 
-	setTooltip(props.tooltip);
-	setButtonText(props.text);
+			setTooltip(props.tooltip);
+			setButtonText(props.text);
+
+			return true;
+		}
+	}
+
+    return false;
 }
 
 

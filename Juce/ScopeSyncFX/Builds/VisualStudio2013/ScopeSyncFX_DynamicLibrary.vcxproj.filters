@@ -421,6 +421,9 @@
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeIDs.cpp">
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSync.cpp">
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClCompile>
@@ -533,9 +536,6 @@
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_HashMap_test.cpp">
-      <Filter>JUCE Modules\juce_core\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_ListenerList.cpp">
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_NamedValueSet.cpp">
@@ -1963,6 +1963,9 @@
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeIDs.h">
+      <Filter>ScopeSyncFX\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ScopeSync\Core\ScopeOSCParameter.h">
       <Filter>ScopeSyncFX\Source\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSync.h">

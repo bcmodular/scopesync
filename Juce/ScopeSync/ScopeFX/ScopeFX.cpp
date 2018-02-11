@@ -31,10 +31,6 @@
  */
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
-#include "../Resources/ImageLoader.h"
-#include "../Resources/Icons.h"
-#include "../Core/ScopeSyncApplication.h"
-#include "../Windows/UserSettings.h"
 #include "../Core/BCMParameterController.h"
 #include "../Core/BCMParameter.h"
 
@@ -79,7 +75,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByScopeCodeId(ScopeSync::fixedParameters.indexOf("show"))->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getParameterByName("show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 }
 

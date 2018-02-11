@@ -68,14 +68,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxWidth,
         props.textBoxHeight);
 
-    // Set up sliders for fixed Scope parameters
-    int fixedSliderIndex = ScopeSync::fixedParameters.indexOf(getName(), true);
-
-    if (fixedSliderIndex != -1)
-    {
-        setupFixedSlider(fixedSliderIndex, props);
+    if (setupFixedSlider(props))
         return;
-    }
 
 	double rangeMin = props.rangeMin;
     double rangeMax = props.rangeMax;
@@ -148,18 +142,30 @@ void BCMSlider::applyProperties(SliderProperties& props)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupFixedSlider(const int scopeCodeId, SliderProperties& props)
-{
-    fixed = true;
-    setParameter(scopeSync.getParameterController()->getParameterByScopeCodeId(scopeCodeId));
+bool BCMSlider::setupFixedSlider(SliderProperties& props)
+{	
+	if (ScopeSync::fixedParameterNames.contains(props.name))
+	{
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
 
-    parameter->mapToUIValue(getValueObject());
+		if (bcmParameter != nullptr)
+		{
+			fixed = true;
+			setParameter(bcmParameter);
+
+			parameter->mapToUIValue(getValueObject());
 	
-	setRange(props.rangeMin, props.rangeMax, 1);
-	setTooltip(props.name);
-	setPopupMenuEnabled(false);
+			setRange(props.rangeMin, props.rangeMax, 1);
+			setTooltip(props.name);
+			setPopupMenuEnabled(false);
 
-    setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
+			setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
+
+			return true;
+		}
+	}
+
+	return false;   
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
@@ -167,41 +173,29 @@ const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
 String BCMSlider::getTextFromValue(double v)
 {
     if (settingsNames.size() == 0)
-    {
 		return Slider::getTextFromValue(v);
-    }
-    else
-    {
-        return settingsNames[roundToInt(v)];
-    }
+    
+	return settingsNames[roundToInt(v)];
 }
 
 double BCMSlider::getValueFromText(const String& text)
 {
     if (settingsNames.size() == 0)
-    {
         return Slider::getValueFromText(text);
-    }
-    else
-    {
-        for (int i = 0; i < settingsNames.size(); i++)
-        {
-            if (settingsNames[i].containsIgnoreCase(text))
-            {
-                return i;
-            }
-        }
 
-        return text.getIntValue();
+	for (int i = 0; i < settingsNames.size(); i++)
+    {
+        if (settingsNames[i].containsIgnoreCase(text))
+            return i;
     }
+
+    return text.getIntValue();
 }
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
     if (!fixed && event.mods.isPopupMenu())
-    {
         showPopupMenu();
-    }
     else
     {
         switchToTabs();

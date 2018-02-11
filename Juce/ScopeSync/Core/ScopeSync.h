@@ -63,7 +63,7 @@ public:
     void unload();
 
 	static const String scopeSyncVersionString;
-	static const StringArray fixedParameters;
+	static const StringArray fixedParameterNames;
 
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();

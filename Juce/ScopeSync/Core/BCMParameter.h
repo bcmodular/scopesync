@@ -31,54 +31,13 @@
 #include <JuceHeader.h>
 #include "../Comms/OSCServer.h"
 #include "../Core/ScopeIDs.h"
+#include "../Core/ScopeOSCParameter.h"
 
 class BCMParameterController;
-class BCMParameter;
-
-class ScopeOSCParameter : OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
-{
-public:
-	ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, int min, int max, bool discrete, double scopedBRef);
-
-	void getRanges(int& min, int& max) const;
-	int  getValue() const {return intValue;}
-
-	void setOSCUID(int newUID);
-	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
-
-	void startListening() {isListening = true;}
-	void stopListening() {isListening = false;}
-
-	void startSending() {isSending = true;}
-	void stopSending() {isSending = false;}
-
-private:
-	SharedResourcePointer<ScopeOSCServer> oscServer;
-	BCMParameter* parameter;
-	
-	ScopeOSCParamID paramID;
-	int oscUID;
-    
-	int intValue;
-	
-	int    minValue;
-	int    maxValue;
-	bool   isDiscrete;
-	double dbRef;
-
-	bool isListening;
-	bool isSending;
-
-	double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
-
-	String getOSCPath() const;
-	
-	void oscMessageReceived(const OSCMessage& message) override;
-};
 
 class BCMParameter : public Value::Listener,
 					 public Timer,
-					 OSCReceiver::ListenerWithOSCAddress<OSCReceiver::RealtimeCallback>
+					 OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
 {
 public:
     /* ============================ Enumerations ============================== */
@@ -86,24 +45,23 @@ public:
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate};
 
 	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble,
-			     ScopeOSCParamID scopeOSCParamID, int scopeMin, int scopeMax, bool isDiscrete, double dbRef);
-	
-	void initialise();
+			     ScopeOSCParamID scopeOSCParamID);
     ~BCMParameter();
 
     void beginParameterChangeGesture();
     void endParameterChangeGesture();
     
     void          mapToUIValue(Value& valueToMapTo) const;
-    void          setAffectedByUI(bool isAffected);
-    bool          isAffectedByUI() const;
     String        getName() const;
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
     int           getHostIdx() const { return hostIdx; }
 	ValueTree&    getDefinition() { return definition; }
     void          getSettings(ValueTree& settings) const;
     void          getDescriptions(String& shortDesc, String& fullDesc) const;
-    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& uiSuffix) const;
+    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
+	double        getUIRangeMin() const {return uiRangeMin;}
+	double        getUIRangeMax() const {return uiRangeMax;}
+
     double        getUIResetValue() const;
     double        getUISkewFactor() const;
 
@@ -114,15 +72,18 @@ public:
     
 	ScopeOSCParameter& getScopeOSCParameter() {return scopeOSCParameter;}
 
-    bool          isDiscrete() const;
-	bool          isReadOnly() const;
+    bool isDiscrete() const;
+	bool isReadOnly() const;
     
-    void          setHostValue(float newValue);
-    void          setScopeIntValue(int newValue);
-    void          setUIValue(float newValue, bool updateHost = true);
-	void          setOSCValue(float newValue);
+    void setHostValue(float newValue);
+    void setUIValue(float newValue, bool updateHost = true);
+	void setOSCValue(float newValue);
 
-	void          registerOSCListener();
+	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
+
+	double        convertLinearNormalisedToUIValue(double lnValue) const;
+	double        convertUIToLinearNormalisedValue(double newValue) const;
+
 	String        getOSCPath() const;
 	void          sendOSCParameterUpdate() const;
 
@@ -141,11 +102,6 @@ private:
     void   putValuesInRange(bool initialise);
     void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert) const;
-    double convertLinearNormalisedToUIValue(double lnValue) const;
-	double convertUIToLinearNormalisedValue(double newValue) const;
-
-    void  setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
-    int   findNearestParameterSetting(int value) const;
 
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
@@ -161,9 +117,14 @@ private:
     Value     uiValue;
     Value     linearNormalisedValue;
 	Value     oscUID;
-    bool      affectedByUI;
     int       hostIdx;
 	int       numDecimalPlaces;
+
+	double    uiRangeMin;
+	double    uiRangeMax;
+	double    uiRangeInterval;
+	double    uiResetValue;
+	String    uiSuffix;
 	
 	int oscDeadTimeCounter;
 

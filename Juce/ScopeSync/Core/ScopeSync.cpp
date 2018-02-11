@@ -44,7 +44,7 @@
 #endif // __DLL_EFFECT__
 
 const String ScopeSync::scopeSyncVersionString = "0.6.0-Prerelease";
-const StringArray ScopeSync::fixedParameters = StringArray::fromTokens("DUMMY,posX,posY,show,configID,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow,voicecount,midichannel,Device Type,midiactivity", ",", "");
+const StringArray ScopeSync::fixedParameterNames = StringArray::fromTokens("DUMMY,posX,posY,show,configID,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow,voicecount,midichannel,Device Type,midiactivity", ",", "");
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
@@ -77,7 +77,7 @@ void ScopeSync::initialise()
 {
 	parameterController = new BCMParameterController(this);
 
-    parameterController->getParameterByScopeCodeId(fixedParameters.indexOf("configID"))->mapToUIValue(configurationID);
+    parameterController->getParameterByName("configID")->mapToUIValue(configurationID);
     configurationID.addListener(this);
 
     showEditToolbar = false;

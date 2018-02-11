@@ -50,14 +50,17 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     setTabBarDepth(props.tabBarDepth);
     
-    int fixedWidgetIndex = ScopeSync::fixedParameters.indexOf(getName(), true);
-
-    if (fixedWidgetIndex != -1)
+    if (ScopeSync::fixedParameterNames.contains(getName()))
     {
-	    setParameter(scopeSync.getParameterController()->getParameterByScopeCodeId(fixedWidgetIndex));
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(name));
+
+		if (bcmParameter != nullptr)
+		{
+			setParameter(bcmParameter);
         
-		parameterValue.addListener(this);
-        getParameter()->mapToUIValue(parameterValue);
+			parameterValue.addListener(this);
+			getParameter()->mapToUIValue(parameterValue);
+		}
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), props.mappingParentType, props.mappingParent);

@@ -64,13 +64,13 @@ void OSCServer::setLocalPortNumber(int portNumber)
 	}
 }
 
-void OSCServer::registerOSCListener(ListenerWithOSCAddress<RealtimeCallback>* newListener, OSCAddress address)
+void OSCServer::registerOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* newListener, OSCAddress address)
 {
 	removeListener(newListener);
 	addListener(newListener, address);
 }
 
-void OSCServer::unregisterOSCListener(ListenerWithOSCAddress<RealtimeCallback>* listenerToRemove)
+void OSCServer::unregisterOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* listenerToRemove)
 {
 	removeListener(listenerToRemove);
 }

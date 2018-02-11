@@ -336,6 +336,10 @@
         <FILE id="Bequ8I" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
         <FILE id="Dmu4ec" name="ScopeIDs.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeIDs.cpp"/>
         <FILE id="n9br4o" name="ScopeIDs.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeIDs.h"/>
+        <FILE id="P9Dkpd" name="ScopeOSCParameter.cpp" compile="1" resource="0"
+              file="../ScopeSync/Core/ScopeOSCParameter.cpp"/>
+        <FILE id="GsUENP" name="ScopeOSCParameter.h" compile="0" resource="0"
+              file="../ScopeSync/Core/ScopeOSCParameter.h"/>
         <FILE id="TWAtId" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
         <FILE id="a76cHR" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>
         <FILE id="Gv5boE" name="ScopeSyncApplication.cpp" compile="1" resource="0"

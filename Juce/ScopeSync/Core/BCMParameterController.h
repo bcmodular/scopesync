@@ -36,8 +36,6 @@ public:
 	ScopeSync* getScopeSync() {return scopeSync;}
 
 	BCMParameter* getParameterByName(StringRef name) const;
-    BCMParameter* getFixedParameterByName(StringRef name) const;
-	BCMParameter* getParameterByScopeCodeId(int scopeCodeId) const;
 	
     float getParameterHostValue(int hostIdx) const;
     void  setParameterFromHost(int hostIdx, float newValue) const;
@@ -66,8 +64,8 @@ private:
     Array<BCMParameter*>        hostParameters;
     Array<BCMParameter*>        parameters;
 
-    HashMap<int, BCMParameter*> parametersByScopeCodeId;  // Index of parameters by their scopeCodeId
-    XmlElement                  parameterValueStore;
+    HashMap<String, BCMParameter*> parametersByName;
+    XmlElement                     parameterValueStore;
     
     ScopeSync* scopeSync;
     

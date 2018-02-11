@@ -212,6 +212,7 @@
     <ClCompile Include="..\..\..\ScopeSync\Core\BCMParameterController.cpp"/>
     <ClCompile Include="..\..\..\ScopeSync\Core\Clipboard.cpp"/>
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeIDs.cpp"/>
+    <ClCompile Include="..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp"/>
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\ScopeSync\Core\ScopeSyncGUI.cpp"/>
@@ -315,9 +316,6 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_HashMap_test.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_ListenerList.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_NamedValueSet.cpp">
@@ -1546,6 +1544,7 @@
     <ClInclude Include="..\..\..\ScopeSync\Core\Clipboard.h"/>
     <ClInclude Include="..\..\..\ScopeSync\Core\Global.h"/>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeIDs.h"/>
+    <ClInclude Include="..\..\..\ScopeSync\Core\ScopeOSCParameter.h"/>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSyncApplication.h"/>
     <ClInclude Include="..\..\..\ScopeSync\Core\ScopeSyncGUI.h"/>
