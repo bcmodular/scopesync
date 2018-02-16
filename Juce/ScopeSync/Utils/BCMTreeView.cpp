@@ -10,7 +10,6 @@
 
 #include "BCMTreeView.h"
 #include "../Core/Global.h"
-#include "../Resources/Icons.h"
 
 BCMTreeView::BCMTreeView(UndoManager& um, BCMTreeItem* root, PropertiesFile& props)
     : undoManager(um),

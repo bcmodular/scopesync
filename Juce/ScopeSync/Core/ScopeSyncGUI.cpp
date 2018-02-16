@@ -47,8 +47,6 @@
 
 const int ScopeSyncGUI::timerFrequency = 100;
 
-juce_ImplementSingleton(AboutBoxWindow)
-
 AboutBoxWindow::AboutBoxWindow()
     : DocumentWindow ("About", Colour::fromString("ff2e2e2e"), closeButton, true)
 {
@@ -60,11 +58,6 @@ AboutBoxWindow::AboutBoxWindow()
 void AboutBoxWindow::closeButtonPressed()
 {
     setVisible(false);
-}
-
-AboutBoxWindow::~AboutBoxWindow()
-{ 
-    clearSingletonInstance(); 
 }
 
 AboutBoxWindow::AboutBox::AboutBox()
@@ -712,8 +705,7 @@ void ScopeSyncGUI::reloadSavedConfiguration()
 
 void ScopeSyncGUI::showAboutBox() const
 {
-    AboutBoxWindow* dw = AboutBoxWindow::getInstance();
-    dw->setVisible(true);
-    dw->toFront(true);
-    dw->setCentrePosition(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    aboutBox->setVisible(true);
+    aboutBox->toFront(true);
+    aboutBox->setCentrePosition(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }

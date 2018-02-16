@@ -11,7 +11,7 @@
 #ifndef BCMTREEVIEW_H_INCLUDED
 #define BCMTREEVIEW_H_INCLUDED
 #include <JuceHeader.h>
-struct Icon;
+#include "../Resources/Icons.h"
 class BCMTreeItem;
 
 class BCMTreeView : public Component,
@@ -60,24 +60,24 @@ private:
  * BCMTreeItem: Base class for BCM TreeViewItems
  */
 class BCMTreeItem  : public  TreeViewItem,
-                     private ValueTree::Listener
+                     ValueTree::Listener
 {
 public:
     BCMTreeItem(const ValueTree& v, UndoManager& um, ApplicationCommandManager* acm);
     ~BCMTreeItem();
 
     String         getUniqueName() const override;
-    virtual bool   mightContainSubItems() override;
+    bool		   mightContainSubItems() override;
     virtual Font   getFont() const;
     virtual Icon   getIcon() const = 0;
     virtual float  getIconSize() const;
-    static bool isIconCrossedOut();
+    static bool    isIconCrossedOut();
     void           paintContent(Graphics& g, const Rectangle<int>& area) const;
     void           paintOpenCloseButton(Graphics&, const Rectangle<float>& area, Colour backgroundColour, bool isMouseOver) override;
     Component*     createItemComponent() override;
     void           itemOpennessChanged(bool isNowOpen) override;
-    virtual var    getDragSourceDescription() override = 0;
-    virtual bool   isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override = 0;
+    var			   getDragSourceDescription() override = 0;
+    bool		   isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override = 0;
     void           itemDropped(const DragAndDropTarget::SourceDetails&, int insertIndex) override;
     void           itemClicked(const MouseEvent& e) override;
     void           itemSelectionChanged(bool isNowSelected) override;
@@ -107,7 +107,7 @@ public:
                            ValueTree newParent, int insertIndex, UndoManager& undoManager);
     static Array<ValueTree> getSelectedTreeViewItems (TreeView& treeView);
     
-    struct WholeTreeOpennessRestorer   : public OpennessRestorer
+    struct WholeTreeOpennessRestorer : OpennessRestorer
     {
         WholeTreeOpennessRestorer (TreeViewItem& item)  : OpennessRestorer (getTopLevelItem (item))
         {}
@@ -131,6 +131,7 @@ protected:
     ValueTree tree;
     ApplicationCommandManager* commandManager;
     UndoManager& undoManager;
+	SharedResourcePointer<Icons> icons;
 
 private:
     class        ItemSelectionTimer;

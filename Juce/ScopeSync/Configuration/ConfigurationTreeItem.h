@@ -45,29 +45,30 @@ public:
     ConfigurationItem(ConfigurationManager& cm, const ValueTree& v, UndoManager& um);
     ~ConfigurationItem();
 
-    virtual bool mightContainSubItems() override;
+    bool mightContainSubItems() override;
     Font         getFont() const override;
-    virtual Icon getIcon() const override;
+    Icon getIcon() const override;
     float        getIconSize() const override;
-    virtual var  getDragSourceDescription() override;
-    virtual bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
-    virtual void changePanel() override;
+    var  getDragSourceDescription() override;
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+    void changePanel() override;
     
-    virtual void copyItem() override {}
-    virtual void pasteItem() override {}
-    virtual bool canPasteItem() override { return false; }
+    void copyItem() override {}
+    void pasteItem() override {}
+    bool canPasteItem() override { return false; }
 
-    virtual void deleteItem() override {}
-    virtual void addItem() override {}
-    virtual void addItemFromClipboard() override {}
+    void deleteItem() override {}
+    void addItem() override {}
+    void addItemFromClipboard() override {}
     
-    virtual void showPopupMenu() override {};
+    void showPopupMenu() override {};
     
-    virtual String getDisplayName() const override;
+    String getDisplayName() const override;
     
 protected:
     ConfigurationManager& configurationManager;
     Configuration&        configuration;
+	SharedResourcePointer<Icons> icons;
 
 private:
     virtual void refreshSubItems() override;

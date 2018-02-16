@@ -31,7 +31,6 @@
 #include "ScopeSyncApplication.h"
 #include "Global.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Resources/Icons.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "BCMParameterController.h"
 #include "BCMParameter.h"
@@ -77,7 +76,7 @@ void ScopeSync::initialise()
 {
 	parameterController = new BCMParameterController(this);
 
-    parameterController->getParameterByName("configID")->mapToUIValue(configurationID);
+    parameterController->getParameterByName("Config ID")->mapToUIValue(configurationID);
     configurationID.addListener(this);
 
     showEditToolbar = false;
@@ -174,18 +173,6 @@ void ScopeSync::reloadAllGUIs()
 {
     for (int i = 0; i < scopeSyncInstances.size(); i++)
         scopeSyncInstances[i]->setGUIReload(true);
-}
-
-void ScopeSync::shutDownIfLastInstance()
-{
-    if (getNumScopeSyncInstances() == 0)
-    {
-		Icons::deleteInstance();
-        AboutBoxWindow::deleteInstance();
-
-        if (ScopeSyncApplication::inScopeFXContext())
-            shutdownJuce_GUI();
-    }
 }
 
 void ScopeSync::snapshotAll()

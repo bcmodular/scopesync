@@ -37,6 +37,7 @@ class ScopeOSCParameter : OSCReceiver::ListenerWithOSCAddress<OSCReceiver::Messa
 {
 public:
 	ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, ValueTree parameterDefinition);
+	~ScopeOSCParameter();
 
 	int  getValue() const {return intValue;}
 

@@ -68,6 +68,8 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
         parameterController.getScopeSync()->referToOSCUID(oscUID);
         oscUID.addListener(this);
 		oscServer->registerOSCListener(this, getOSCPath());
+		scopeOSCParameter.setOSCUID(oscUID.getValue());
+		scopeOSCParameter.startListening();
     }
 }
 
@@ -336,6 +338,7 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))
 	{
 		oscServer->registerOSCListener(this, getOSCPath());
+		scopeOSCParameter.setOSCUID(oscUID.getValue());
 	}
 }
 
@@ -349,7 +352,7 @@ String BCMParameter::getOSCPath() const
   
 void BCMParameter::sendOSCParameterUpdate() const
 {
-    oscServer->sendFloatMessage(getOSCPath(), uiValue.getValue());
+    oscServer->sendIntMessage(getOSCPath(), scopeOSCParameter.getValue());
 }
 
 void BCMParameter::oscMessageReceived (const OSCMessage& message)

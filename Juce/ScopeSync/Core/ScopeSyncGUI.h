@@ -58,12 +58,9 @@ class AboutBoxWindow : public DocumentWindow
 {
 public:
     AboutBoxWindow();
-    ~AboutBoxWindow();
     
     void closeButtonPressed() override;
     
-    juce_DeclareSingleton (AboutBoxWindow, false)
-
 private:
 
     class AboutBox : public Component
@@ -153,6 +150,7 @@ private:
     SharedResourcePointer<TooltipWindow>  tooltipWindow;
     SharedResourcePointer<BCMDefaultLookAndFeel> defaultBCMLookAndFeel;
 	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<AboutBoxWindow> aboutBox;
 
     static const int timerFrequency;
 

@@ -33,6 +33,8 @@ OSCServer::OSCServer()
 
 OSCServer::~OSCServer()
 {
+	removeListener(this);
+
 	oscLocalPortNum.removeListener(this);
 	oscRemoteHost.removeListener(this);
 	oscRemotePortNum.removeListener(this);
@@ -45,6 +47,8 @@ void OSCServer::setup()
 	oscRemotePortNum.addListener(this);
 
 	userSettings->referToOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+
+	addListener(this);
 }
 
 void OSCServer::setLocalPortNumber(int portNumber)
@@ -66,6 +70,7 @@ void OSCServer::setLocalPortNumber(int portNumber)
 
 void OSCServer::registerOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* newListener, OSCAddress address)
 {
+	DBG("OSCServer::registerOSCListener - " + address.toString());
 	removeListener(newListener);
 	addListener(newListener, address);
 }
@@ -77,7 +82,7 @@ void OSCServer::unregisterOSCListener(ListenerWithOSCAddress<MessageLoopCallback
 
 void OSCServer::setRemoteHostname(String hostname)
 {
-	DBG("ScopeSyncOSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
+	DBG("OSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
 	remoteHostname = hostname;
 	remoteChanged  = true;
 }
@@ -89,7 +94,7 @@ String OSCServer::getRemoteHostname() const
 
 void OSCServer::setRemotePortNumber(int portNumber)
 {
-	DBG("ScopeSyncOSCServer::setRemotePortNumber - changed remote port number to: " + String(portNumber));
+	DBG("OSCServer::setRemotePortNumber - changed remote port number to: " + String(portNumber));
 	remotePortNumber = portNumber;
 	remoteChanged    = true;
 }
@@ -101,10 +106,14 @@ int OSCServer::getRemotePortNumber() const
 
 bool OSCServer::sendFloatMessage(const OSCAddressPattern pattern, float valueToSend)
 {
+	DBG("OSCServer::sendFloatMessage");
+
 	if (connectToListener())
 	{
 		OSCMessage message(pattern);
 		message.addFloat32(valueToSend);
+
+		DBG("OSCServer::sendFloatMessage: address - " + pattern.toString() + " value: " + String(valueToSend));
 
 		sender.send(message);
 		return true;
@@ -147,6 +156,11 @@ bool OSCServer::connectToListener()
     }
 	else
 		return true;
+}
+
+void OSCServer::oscMessageReceived(const OSCMessage& message)
+{
+	DBG("OSCServer::oscMessageReceived: address - " + message.getAddressPattern().toString() + " type: " + message[0].getType());
 }
 
 void OSCServer::valueChanged(Value& valueThatChanged)

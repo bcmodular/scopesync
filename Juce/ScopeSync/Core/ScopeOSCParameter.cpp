@@ -39,6 +39,11 @@ ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* o
 	  isListening(false),
 	  isSending(false)
 {
+	DBG("ScopeOSCParameter::ScopeOSCParameter - creating new parameter with paramID: " + String(paramID.paramGroup) + ":" + String(paramID.paramId) + " and scopeCode: " + scopeCode);
+}
+
+ScopeOSCParameter::~ScopeOSCParameter()
+{
 }
 
 String ScopeOSCParameter::getScopeCode()
@@ -53,7 +58,9 @@ String ScopeOSCParameter::getScopeParamText()
 
 void ScopeOSCParameter::setOSCUID(int newUID)
 {
+	DBG("ScopeOSCParameter::setOSCUID - " + String(newUID));
 	oscUID = newUID;
+	DBG("ScopeOSCParameter::setOSCUID - Registering as listener to " + getOSCPath());
 	oscServer->registerOSCListener(this, getOSCPath());
 }
 

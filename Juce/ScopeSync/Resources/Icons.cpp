@@ -27,8 +27,6 @@
 
 #include "Icons.h"
 
-juce_ImplementSingleton (Icons)
-
 namespace IconPathData
 {
 const uint8 config[] = {110,109,16,232,166,67,172,156,99,67,108,16,232,166,67,215,99,61,67,108,155,148,156,67,199,11,54,67,98,155,164,152,67,60,63,51,67,153,121,149,67,101,59,45,67,32,224,147,67,209,130,37,67,98,222,223,147,67,78,130,37,67,157,223,147,67,72,129,37,67,157,223,
@@ -281,9 +279,4 @@ Icons::Icons()
     JUCE_LOAD_PATH_DATA (styleoverrides);
     JUCE_LOAD_PATH_DATA (components);
     JUCE_LOAD_PATH_DATA (component);
-}
-
-Icons::~Icons()
-{
-    clearSingletonInstance();
 }

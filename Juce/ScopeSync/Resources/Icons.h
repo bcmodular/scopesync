@@ -67,7 +67,6 @@ class Icons
 {
 public:
     Icons();
-    ~Icons();
 
     Path config, mapping, 
          parameters, parameter, 
@@ -77,8 +76,6 @@ public:
          comboboxes, combobox,
          tabbedcomponents, tabbedcomponent,
          styleoverrides, components, component;
-
-    juce_DeclareSingleton(Icons, false)
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Icons)

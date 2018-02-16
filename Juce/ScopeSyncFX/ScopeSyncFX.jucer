@@ -357,13 +357,13 @@
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_2"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_3"
                        headerPath="../../../../External/SonicCore" libraryPath="..\..\..\..\External\SonicCore"
                        defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
                        useRuntimeLibDLL="1" debugInformationFormat="ProgramDatabase"
                        enablePluginBinaryCopyStep="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" headerPath="../../../../External/SonicCore"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_3" headerPath="../../../../External/SonicCore"
                        libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
                        useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
                        debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"

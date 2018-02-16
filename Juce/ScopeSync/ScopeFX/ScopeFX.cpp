@@ -75,7 +75,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByName("show")->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getParameterByName("Show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 }
 
@@ -86,10 +86,6 @@ ScopeFX::~ScopeFX()
     scopeFXGUI = nullptr;
     scopeSync->unload();
     scopeSync = nullptr;
-
-    DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
-    
-    ScopeSync::shutDownIfLastInstance();
 }
    
 void ScopeFX::initValues()

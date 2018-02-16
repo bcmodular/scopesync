@@ -48,6 +48,7 @@ class ConfigurationManagerWindow;
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
 #include "../Windows/UserSettings.h"
+#include "../Resources/Icons.h"
 
 class ScopeSync : public ActionListener,
                   public Value::Listener
@@ -76,7 +77,6 @@ public:
     int  getOSCUID() const;
 
 	static void reloadAllGUIs();
-    static void shutDownIfLastInstance();
     static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled) const;
     bool guiNeedsReloading() const;
@@ -190,6 +190,7 @@ private:
     ScopedPointer<Configuration>   configuration;
 
 	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<Icons> icons;
 
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text

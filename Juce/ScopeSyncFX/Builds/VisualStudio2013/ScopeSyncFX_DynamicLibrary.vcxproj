@@ -51,12 +51,12 @@
     <TargetExt>.dll</TargetExt>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\Dynamic Library\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\Dynamic Library\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSync-Debug_1_0_2</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ScopeSync-Debug_1_0_3</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(LibraryPath);..\..\..\..\External\SonicCore</LibraryPath>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\Dynamic Library\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\Dynamic Library\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSync_1_0_2</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ScopeSync_1_0_3</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(LibraryPath);..\..\..\..\External\SonicCore</LibraryPath>
     <PlatformToolset>v120</PlatformToolset>
@@ -90,11 +90,11 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\ScopeSync-Debug_1_0_2.dll</OutputFile>
+      <OutputFile>$(OutDir)\ScopeSync-Debug_1_0_3.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>libcmt.lib; msvcrt.lib;;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)\ScopeSync-Debug_1_0_2.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(IntDir)\ScopeSync-Debug_1_0_3.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -104,7 +104,7 @@
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>$(IntDir)\ScopeSync-Debug_1_0_2.bsc</OutputFile>
+      <OutputFile>$(IntDir)\ScopeSync-Debug_1_0_3.bsc</OutputFile>
     </Bscmake>
     <Lib>
       <AdditionalDependencies>ScopeDLLd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -141,11 +141,11 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\ScopeSync_1_0_2.dll</OutputFile>
+      <OutputFile>$(OutDir)\ScopeSync_1_0_3.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)\ScopeSync_1_0_2.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(IntDir)\ScopeSync_1_0_3.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>
@@ -157,7 +157,7 @@
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>$(IntDir)\ScopeSync_1_0_2.bsc</OutputFile>
+      <OutputFile>$(IntDir)\ScopeSync_1_0_3.bsc</OutputFile>
     </Bscmake>
     <Lib>
       <AdditionalDependencies>ScopeDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -32,7 +32,7 @@
 
 class ScopeSync;
 
-class OSCServer : private OSCReceiver, protected Value::Listener
+class OSCServer : private OSCReceiver, protected Value::Listener, OSCReceiver::Listener<OSCReceiver::MessageLoopCallback>
 {
 public:
 	OSCServer();
@@ -62,6 +62,7 @@ protected:
 	SharedResourcePointer<UserSettings> userSettings;
 
 	bool connectToListener();
+	void oscMessageReceived (const OSCMessage& message) override;
 
 private:
 

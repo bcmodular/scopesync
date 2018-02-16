@@ -81,7 +81,7 @@ public:
     var  getDragSourceDescription() override { return "Parameter"; }
     bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->parameter, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->parameter, Colours::grey); }
     virtual String getDisplayName() const override;
 
     void copyItem() override;
@@ -115,14 +115,14 @@ public:
         : ConfigurationItem(cm, v, um) {}
 
     bool mightContainSubItems() override { return false; }
-    virtual var getDragSourceDescription() override;
-    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+    var getDragSourceDescription() override;
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
 
     void deleteItem() override;
     void addItem() override;
     
-    virtual Icon getIcon() const override { return Icon(); };
-    virtual String getDisplayName() const override;
+    Icon getIcon() const override { return Icon(); };
+    String getDisplayName() const override;
 
 private:
     void refreshSubItems() override;
@@ -143,7 +143,7 @@ public:
 
     var  getDragSourceDescription() override { return "SliderMapping"; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->slider, Colours::grey); }
     
     void changePanel() override
     {
@@ -166,7 +166,7 @@ public:
 
     var  getDragSourceDescription() override { return "LabelMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->label, Colours::grey); }
     
     void changePanel() override
     {
@@ -189,7 +189,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComboBoxMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->combobox, Colours::grey); }
     
     void changePanel() override
     {
@@ -212,7 +212,7 @@ public:
 
     var  getDragSourceDescription() override { return "TabbedComponentMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponent, Colours::grey); }
     
     void changePanel() override
     {
@@ -234,7 +234,7 @@ public:
         : MappingItem(cm, v, um) {}
 
     var  getDragSourceDescription() override { return "TextButtonMapping"; }
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->textbutton, Colours::grey); }
     void changePanel() override
     {
         configurationManager.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManager.getScopeSync(), commandManager));
@@ -280,7 +280,7 @@ public:
         : ConfigurationItem(cm, v, um) {}
 
     virtual var  getDragSourceDescription() override { return "Mapping Root Item"; }
-    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->mapping, Colours::bisque); }
+    virtual Icon getIcon() const override { return Icon(icons->mapping, Colours::bisque); }
 
     void addGenericMapping(const Identifier& mappingType);
 
@@ -306,7 +306,7 @@ public:
         return dragSourceDetails.description.toString() == "SliderMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->sliders, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::slider); }
     
 private:
@@ -336,7 +336,7 @@ public:
         return dragSourceDetails.description.toString() == "LabelMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->labels, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::label); }
     
 private:
@@ -366,7 +366,7 @@ public:
         return dragSourceDetails.description.toString() == "ComboBoxMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->comboboxes, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::comboBox); }
     
 private:
@@ -396,7 +396,7 @@ public:
         return dragSourceDetails.description.toString() == "TabbedComponentMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponents, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::tabbedComponent); }
     
 private:
@@ -426,7 +426,7 @@ public:
         return dragSourceDetails.description.toString() == "TextButtonMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->textbuttons, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::textButton); }
     
 private:
@@ -486,7 +486,7 @@ public:
 
     var  getDragSourceDescription() override { return "SliderStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->slider, Colours::grey); }
     
     void changePanel() override
     {
@@ -509,7 +509,7 @@ public:
 
     var  getDragSourceDescription() override { return "LabelStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->label, Colours::grey); }
     
     void changePanel() override
     {
@@ -532,7 +532,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComboBoxStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->combobox, Colours::grey); }
     
     void changePanel() override
     {
@@ -555,7 +555,7 @@ public:
 
     var  getDragSourceDescription() override { return "TabbedComponentStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponent, Colours::grey); }
     
     void changePanel() override
     {
@@ -578,7 +578,7 @@ public:
 
     var  getDragSourceDescription() override { return "TextButtonStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->textbutton, Colours::grey); }
     
     void changePanel() override
     {
@@ -601,7 +601,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComponentStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->component, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->component, Colours::grey); }
     
     void changePanel() override
     {
@@ -625,7 +625,7 @@ public:
     virtual var  getDragSourceDescription() override { return "StyleOverrideRoot"; }
     virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->styleoverrides, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->styleoverrides, Colours::lightblue); }
     
     bool canPasteItem() override { return styleOverrideClipboard->clipboardIsNotEmpty(); }
 
@@ -656,7 +656,7 @@ public:
         return dragSourceDetails.description.toString() == "SliderStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->sliders, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::slider); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::slider); }
     
@@ -687,7 +687,7 @@ public:
         return dragSourceDetails.description.toString() == "LabelStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->labels, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::label); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::label); }
     
@@ -718,7 +718,7 @@ public:
         return dragSourceDetails.description.toString() == "ComboBoxStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->comboboxes, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::comboBox); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::comboBox); }
     
@@ -749,7 +749,7 @@ public:
         return dragSourceDetails.description.toString() == "TabbedComponentStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponents, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::tabbedComponent); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::tabbedComponent); }
     
@@ -780,7 +780,7 @@ public:
         return dragSourceDetails.description.toString() == "TextButtonStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->textbuttons, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::textButton); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::textButton); }
     
@@ -811,7 +811,7 @@ public:
         return dragSourceDetails.description.toString() == "ComponentStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->components, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->components, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::component); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::component); }
     
@@ -855,7 +855,7 @@ Font ConfigurationItem::getFont() const { return Font (getItemHeight() * 0.7f); 
 
 float ConfigurationItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
-Icon ConfigurationItem::getIcon() const { return Icon(Icons::getInstance()->config, Colours::lightgreen); }
+Icon ConfigurationItem::getIcon() const { return Icon(icons->config, Colours::lightgreen); }
 
 var ConfigurationItem::getDragSourceDescription() { return "Configuration Root Item"; }
 
@@ -894,7 +894,7 @@ void ConfigurationItem::changePanel()
 Icon ParameterRootItem::getIcon() const
 {
     if (tree.hasType(Ids::parameters))
-        return Icon(Icons::getInstance()->parameters, Colours::aliceblue);
+        return Icon(icons->parameters, Colours::aliceblue);
     else
         return Icon();
 }
