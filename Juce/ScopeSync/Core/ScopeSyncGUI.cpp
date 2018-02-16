@@ -51,7 +51,7 @@ AboutBoxWindow::AboutBoxWindow()
     : DocumentWindow ("About", Colour::fromString("ff2e2e2e"), closeButton, true)
 {
     setContentOwned(new AboutBox(), true);
-    Component::setVisible(true);
+    //Component::setVisible(true);
     setResizable(false, false);
 }
     

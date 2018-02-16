@@ -2,7 +2,7 @@
 
 <configuration name="Sliders Demo" layoutName="Sliders Demo" layoutLibrarySet="ScopeSyncTutorials" ID="RmkmEB" librarySet="ScopeSyncTutorials"
                author="ScopeSync" blurb="Demonstrates some of the ways to use Sliders in your Configurations." UID="-596374388">
-  <hostParameters>
+  <parameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Osc2 Waveform" scopeSync="0" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
@@ -33,8 +33,6 @@
     <parameter name="PARAM7" shortDescription="Param 7" fullDescription="Output Level" scopeSync="6" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="1.0" valueType="0" uiResetValue="-6" uiSkewFactor="5.034695882" skewUIOnly="0"
                uiRangeMin="-186.6" uiRangeMax="0" uiRangeInterval="0.01" uiSuffix=" dB"/>
-  </hostParameters>
-  <scopeParameters>
     <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
                skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
@@ -67,7 +65,7 @@
         <setting name="ON" value="1" intValue="2147483647"/>
       </settings>
     </parameter>
-  </scopeParameters>
+  </parameters>
   <mapping>
     <sliders>
       <slider name="S1" mapTo="PARAM1"/>

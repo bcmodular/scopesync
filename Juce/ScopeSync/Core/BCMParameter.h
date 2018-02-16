@@ -88,8 +88,7 @@ public:
 	void          sendOSCParameterUpdate() const;
 
 private:
-    WeakReference<BCMParameter>::Master masterReference;
-    friend class WeakReference<BCMParameter>;
+	JUCE_DECLARE_WEAK_REFERENCEABLE(BCMParameter)
 
 	SharedResourcePointer<OSCServer> oscServer;
 	ScopeOSCParameter scopeOSCParameter;

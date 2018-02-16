@@ -57,9 +57,7 @@ public:
     
 private:
 
-	void addToParametersByScopeCodeId(BCMParameter* parameter, int scopeCodeId);
-
-    OwnedArray<BCMParameter>    fixedParameters;
+	OwnedArray<BCMParameter>    fixedParameters;
     OwnedArray<BCMParameter>    dynamicParameters;
     Array<BCMParameter*>        hostParameters;
     Array<BCMParameter*>        parameters;

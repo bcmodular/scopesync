@@ -57,9 +57,15 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
 	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble, scopeOSCParamID);
 
     if (fixedParameter)
-        fixedParameters.add(parameter);
+	{
+		DBG("BCMParameterController::addParameter - added Fixed Parameter: " + name);
+    	fixedParameters.add(parameter);
+	}
     else
+	{
+		DBG("BCMParameterController::addParameter - added Dynamic Parameter: " + name);
         dynamicParameters.add(parameter);
+	}
 
     parameters.add(parameter);
 	parametersByName.set(name, parameter);
@@ -82,15 +88,16 @@ void BCMParameterController::reset()
 {
 	DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
+	parametersByName.clear();
+    hostParameters.clear();
+    dynamicParameters.clear();
 
-    for (auto fixedParameter : fixedParameters)
+	for (auto fixedParameter : fixedParameters)
 	{
 		DBG("BCMParameterController::reset - Added parameter: " + fixedParameter->getName());
 		parameters.add(fixedParameter);
+		parametersByName.set(fixedParameter->getName(), fixedParameter);
 	}
-
-    hostParameters.clear();
-    dynamicParameters.clear();
 }
 
 void BCMParameterController::snapshot() const
