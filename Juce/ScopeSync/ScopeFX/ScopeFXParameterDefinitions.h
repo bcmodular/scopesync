@@ -47,7 +47,6 @@ namespace ScopeFXParameterDefinitions {
     enum asyncOutPads {
         OUTPAD_OSCUID,
         OUTPAD_SNAPSHOT,
-		OUTPAD_LOADED,
 		NUM_ASYNCOUTPADS
     };
 
@@ -64,7 +63,6 @@ namespace ScopeFXParameterDefinitions {
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SNAPSHOT
-		{ DTYPE_INT, 0, FRAC_MAX },         // OUTPAD_LOADED
 	};
 
     //--------------------------------------------------------------------------
@@ -75,7 +73,6 @@ namespace ScopeFXParameterDefinitions {
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
         { "osc",  "osc uid" },
         { "snap", "snapshot" },
-		{ "load", "ScopeSync Loaded" },
 };
 
 	//--------------------------------------------------------------------------

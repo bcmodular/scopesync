@@ -24,7 +24,7 @@ const int BCMParameterController::timerFrequency    = 100;
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
 {
-	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Config ID,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity,Device Instance",",", "");
+	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Config ID,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
     for (int i = 1; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
@@ -44,17 +44,17 @@ void BCMParameterController::addFixedScopeParameter(const String& scopeCode, con
     tmpParameter.setProperty(Ids::scopeParamId, scopeCodeId, nullptr);
 	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
-    addParameter(tmpParameter, true, (scopeCode != "Device Instance"));
+    addParameter(tmpParameter, true);
 }
 
-void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter, bool oscAble)
+void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fixedParameter)
 {
 	ScopeOSCParamID scopeOSCParamID(int(parameterDefinition.getProperty(Ids::scopeParamGroup, -1)), 
 									int(parameterDefinition.getProperty(Ids::scopeParamId, -1)));
 
 	String name               = parameterDefinition.getProperty(Ids::name);
 	
-	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, oscAble, scopeOSCParamID);
+	BCMParameter* parameter = new BCMParameter(parameterDefinition, *this, scopeOSCParamID);
 
     if (fixedParameter)
 	{

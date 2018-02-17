@@ -38,11 +38,10 @@
 const int BCMParameter::deadTimeTimerInterval = 100;
 const int BCMParameter::maxOSCDeadTime   = 3;
 
-BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble,
+BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc,
 	ScopeOSCParamID scopeOSCParamID)
     : scopeOSCParameter(scopeOSCParamID, this, parameterDefinition),
       parameterController(pc),
-	  oscEnabled(oscAble),
 	  definition(parameterDefinition),
       uiRangeMin(definition.getProperty(Ids::uiRangeMin)),
 	  uiRangeMax(definition.getProperty(Ids::uiRangeMax)),
@@ -63,20 +62,16 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
-    if (oscEnabled)
-    {
-        parameterController.getScopeSync()->referToOSCUID(oscUID);
-        oscUID.addListener(this);
-		oscServer->registerOSCListener(this, getOSCPath());
-		scopeOSCParameter.setOSCUID(oscUID.getValue());
-		scopeOSCParameter.startListening();
-    }
+    parameterController.getScopeSync()->referToOSCUID(oscUID);
+    oscUID.addListener(this);
+	oscServer->registerOSCListener(this, getOSCPath());
+	scopeOSCParameter.setOSCUID(oscUID.getValue());
+	scopeOSCParameter.startListening();
 }
 
 BCMParameter::~BCMParameter()
 {
-    if (oscEnabled)
-        oscServer->unregisterOSCListener(this);
+	oscServer->unregisterOSCListener(this);
 
 	DBG("BCMParameter::~BCMParameter - deleting parameter: " + getName());
 	masterReference.clear();

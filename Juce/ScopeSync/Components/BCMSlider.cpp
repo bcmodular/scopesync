@@ -68,6 +68,12 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxWidth,
         props.textBoxHeight);
 
+	if (props.name.equalsIgnoreCase("oscuid"))
+	{
+		setupOSCUIDSlider(props);
+		return;
+	}
+
     if (setupFixedSlider(props))
         return;
 
@@ -166,6 +172,19 @@ bool BCMSlider::setupFixedSlider(SliderProperties& props)
 	}
 
 	return false;   
+}
+
+void BCMSlider::setupOSCUIDSlider(SliderProperties& props)
+{	
+	fixed = true;
+	
+	scopeSyncGUI.getScopeSync().referToOSCUID(getValueObject());
+	
+	setRange(props.rangeMin, props.rangeMax, 1);
+	setTooltip(props.name);
+	setPopupMenuEnabled(false);
+
+	setTextBoxIsEditable(!props.textBoxReadOnly);
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };

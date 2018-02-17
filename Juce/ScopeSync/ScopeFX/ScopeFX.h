@@ -62,6 +62,8 @@ public:
     ScopeSync& getScopeSync() { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 
+	void snapshot();
+
     void valueChanged(Value& valueThatChanged) override;
 
 private:	
@@ -77,6 +79,7 @@ private:
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
 	int oscUID;
+	std::atomic<int> snapshotValue;
 
 	ScopedJuceInitialiser_GUI guiInitialiser;
 };

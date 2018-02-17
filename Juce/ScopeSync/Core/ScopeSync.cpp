@@ -349,10 +349,7 @@ void ScopeSync::applyConfiguration()
 #ifndef __DLL_EFFECT__
     parameterController->restoreParameterValues();
 #else
-	// TODO: Enable OSC here and snapshot?
-	
-	//scopeSyncAsync.snapshot();
-    //scopeSyncAsync.toggleUpdateProcessing(true);
+	scopeFX->snapshot();
 #endif // __DLL_EFFECT__
 
     userSettings->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),

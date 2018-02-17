@@ -117,7 +117,7 @@ ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
     scopeSync.getCommandManager()->registerAllCommandsForTarget(this);
     
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
-	//createGUI(false);
+	createGUI(false);
     scopeSync.setGUIReload(true);
     startTimer(timerFrequency);
 }
@@ -297,7 +297,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
 
-    grabKeyboardFocus();
+//    grabKeyboardFocus();
 }
 
 void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML)

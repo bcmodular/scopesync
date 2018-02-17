@@ -29,7 +29,7 @@ public:
 
     void reset();
 
-    void addParameter(ValueTree parameterDefinition, bool fixedParameter = false, bool oscAble = true);
+    void addParameter(ValueTree parameterDefinition, bool fixedParameter = false);
     void addFixedScopeParameter(const String& scopeCode, int scopeCodeId);
     void setupHostParameters();
 

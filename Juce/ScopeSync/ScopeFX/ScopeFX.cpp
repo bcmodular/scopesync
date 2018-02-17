@@ -97,14 +97,8 @@ void ScopeFX::toggleWindow(bool show)
 {
 	if (show && scopeFXGUI == nullptr)
 	{
-#ifdef _WIN32
 		if (scopeWindow == nullptr)
 			EnumWindows(EnumWindowsProc, 0);
-#else
-		// If Scope ever ends up on non-Windows, we'll
-		// probably want to implement something here
-		void* scopeWindow = nullptr;
-#endif
 
 		scopeFXGUI = new ScopeFXGUI(this);
 		scopeFXGUI->open(scopeWindow);
@@ -117,6 +111,11 @@ void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
 {
     if (scopeFXGUI != nullptr)
         scopeFXGUI->setEnabled(shouldBeEnabled);
+}
+
+void ScopeFX::snapshot()
+{
+	snapshotValue.fetch_add(1, std::memory_order_relaxed);
 }
 
 void ScopeFX::valueChanged(Value& valueThatChanged)
@@ -137,17 +136,11 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		scopeSync->setOSCUID(oscUID);
 	}
 	else
-	{
 		oscUID = scopeSync->getOSCUID();
-	}
-
-	asyncOut[OUTPAD_OSCUID].itg = oscUID;
-
-	// Tell Scope when the DLL has been loaded
-	asyncOut[OUTPAD_LOADED].itg = (scopeSync != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
-
-	// TODO: Process Snapshot
 	
+	asyncOut[OUTPAD_OSCUID].itg   = oscUID;
+	asyncOut[OUTPAD_SNAPSHOT].itg = snapshotValue.load(std::memory_order_relaxed);
+
 	return 0;
 }
 

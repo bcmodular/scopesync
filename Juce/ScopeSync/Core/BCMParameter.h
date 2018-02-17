@@ -44,8 +44,7 @@ public:
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
 	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate};
 
-	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, bool oscAble,
-			     ScopeOSCParamID scopeOSCParamID);
+	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, ScopeOSCParamID scopeOSCParamID);
     ~BCMParameter();
 
     void beginParameterChangeGesture();

@@ -78,6 +78,8 @@ void ScopeFXGUI::open(HWND scopeWindow)
 	
 	scopeSyncGUI->addComponentListener(this);
 	scopeFX->getScopeSync().listenForConfigurationNameChanges(configurationName);
+
+	grabKeyboardFocus();
 }
 
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
@@ -104,7 +106,6 @@ void ScopeFXGUI::componentMovedOrResized(Component& component, bool wasMoved, bo
         grabKeyboardFocus();
     	firstTimeShow = false;
     }
-
 }
 
 void ScopeFXGUI::userTriedToCloseWindow()

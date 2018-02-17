@@ -173,7 +173,7 @@ private:
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
 	
-	BCMDefaultLookAndFeel bcmDefaultLookAndFeel;
+	SharedResourcePointer<BCMDefaultLookAndFeel> bcmDefaultLookAndFeel;
 
     juce::Rectangle<int> newConfigWindowPosition;
     
