@@ -375,7 +375,7 @@ void Configuration::createConfiguration(const File& newFile, const ValueTree& in
     }
 }
 
-bool Configuration::replaceConfiguration(const String& newFileName)
+bool Configuration::replaceConfiguration(StringRef newFileName)
 {
     if (!(File::isAbsolutePath(newFileName)))
     {

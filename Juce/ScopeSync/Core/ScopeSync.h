@@ -127,10 +127,8 @@ public:
     int            getConfigurationUID() const;
 
     String         getLayoutDirectory() const;
-    bool           hasConfigurationUpdate(String& fileName);
-    void           changeConfiguration(const String& fileName);
-    void           changeConfiguration(int uid);
-    bool           processConfigurationChange();
+    void           changeConfiguration(StringRef fileName);
+    void           changeConfigurationByUID(int uid);
 
     ValueTree      getMapping() const;
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) const;
@@ -186,8 +184,7 @@ private:
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
-	Array<String, CriticalSection> configurationChanges;
-    ScopedPointer<Configuration>   configuration;
+	ScopedPointer<Configuration>   configuration;
 
 	SharedResourcePointer<UserSettings> userSettings;
 	SharedResourcePointer<Icons> icons;

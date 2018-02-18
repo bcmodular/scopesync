@@ -330,7 +330,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML) const
         String layoutDirectory = scopeSync.getLayoutDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
-        DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
+        //DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
         BCMLookAndFeel* bcmLookAndFeel;
 
@@ -341,7 +341,7 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML) const
 
             if (parentBCMLookAndFeel != nullptr)
             {
-                DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
+                //DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
                 bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, layoutDirectory);
             }
             else

@@ -91,7 +91,7 @@ void ScopeSync::initialise()
 void ScopeSync::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(configurationID))
-        changeConfiguration(int(valueThatChanged.getValue()));
+        changeConfigurationByUID(int(valueThatChanged.getValue()));
 }
 
 bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
@@ -233,48 +233,6 @@ XmlElement* ScopeSync::getStandardContent(const String& contentToShow)
     return standardContentElement;
 }
 
-bool ScopeSync::hasConfigurationUpdate(String& fileName)
-{
-    const ScopedLock lock(configurationChanges.getLock());
-
-    if (configurationChanges.size() > 0)
-    {
-        fileName = configurationChanges.getLast();
-        configurationChanges.clear();
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-};
-
-bool ScopeSync::processConfigurationChange()
-{
-    if (ScopeSyncApplication::inPluginContext())
-        parameterController->storeParameterValues(); 
-
-    String newFileName;
-
-    if (hasConfigurationUpdate(newFileName))
-    {
-        if (configuration->replaceConfiguration(newFileName))
-        {
-            applyConfiguration();
-            return true;
-        }
-        else
-        {
-            setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
 ValueTree ScopeSync::getMapping() const
 {
     return configuration->getMapping();
@@ -285,20 +243,25 @@ XmlElement& ScopeSync::getLayout(String& errorText, String& errorDetails, bool f
     return configuration->getLayout(errorText, errorDetails, forceReload);
 }
 
-void ScopeSync::changeConfiguration(const String& fileName)
+void ScopeSync::changeConfiguration(StringRef fileName)
 {
-    configurationChanges.add(fileName);
-    processConfigurationChange();
+    if (ScopeSyncApplication::inPluginContext())
+    parameterController->storeParameterValues(); 
+
+    if (configuration->replaceConfiguration(fileName))
+        applyConfiguration();
+    else
+        setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
 }
 
-void ScopeSync::changeConfiguration(int uid)
+void ScopeSync::changeConfigurationByUID(int uid)
 {
     if (uid != 0)
     {
         String fileName = userSettings->getConfigurationFilePathFromUID(uid);
 
         if (fileName.isNotEmpty())
-            configurationChanges.add(fileName);
+            changeConfiguration(fileName);
     }
 }
 
@@ -344,9 +307,6 @@ void ScopeSync::applyConfiguration()
 
 #ifndef __DLL_EFFECT__
     pluginProcessor->updateHostDisplay();
-#endif // __DLL_EFFECT__
-
-#ifndef __DLL_EFFECT__
     parameterController->restoreParameterValues();
 #else
 	scopeFX->snapshot();
@@ -364,6 +324,7 @@ void ScopeSync::applyConfiguration()
     }
 
 	configurationName = configuration->getDocumentTitle();
+	parameterController->getParameterByName("Config ID")->getScopeOSCParameter().updateValue(configuration->getConfigurationUID());
 }
 
 bool ScopeSync::isInitialised() const

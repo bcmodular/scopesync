@@ -140,7 +140,7 @@ public:
     void      createConfiguration(const File& filePath, const ValueTree& initialSettings);
     ValueTree getEmptyConfiguration() const;
     
-    bool replaceConfiguration(const String& newFileName);
+    bool replaceConfiguration(StringRef newFileName);
 	void migrateFromV102();
 
 	void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;

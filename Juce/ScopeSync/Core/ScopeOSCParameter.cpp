@@ -44,6 +44,7 @@ ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* o
 
 ScopeOSCParameter::~ScopeOSCParameter()
 {
+	oscServer->unregisterOSCListener(this);
 }
 
 String ScopeOSCParameter::getScopeCode()
@@ -62,6 +63,12 @@ void ScopeOSCParameter::setOSCUID(int newUID)
 	oscUID = newUID;
 	DBG("ScopeOSCParameter::setOSCUID - Registering as listener to " + getOSCPath());
 	oscServer->registerOSCListener(this, getOSCPath());
+}
+
+void ScopeOSCParameter::updateValue(int newValue)
+{
+	intValue = newValue;
+	oscServer->sendIntMessage(getOSCPath(), intValue);
 }
 
 void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue)

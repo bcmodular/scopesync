@@ -368,8 +368,8 @@ void BCMComponent::setupStandardContent(XmlElement& contentXML)
 
         ScopedPointer<XmlElement> standardContent = scopeSync.getStandardContent(contentToShow);
 
-		DBG("BCMComponent::setupStandardContent: type = " + contentToShow + ", XML - ");
-		DBG(standardContent->createDocument(String::empty));
+		//DBG("BCMComponent::setupStandardContent: type = " + contentToShow + ", XML - ");
+		//DBG(standardContent->createDocument(String::empty));
 
         if (standardContent != nullptr)
             setupContent(*standardContent);

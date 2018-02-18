@@ -42,16 +42,16 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
 	ScopeOSCParamID scopeOSCParamID)
     : scopeOSCParameter(scopeOSCParamID, this, parameterDefinition),
       parameterController(pc),
-	  definition(parameterDefinition),
-      uiRangeMin(definition.getProperty(Ids::uiRangeMin)),
+	  readOnly(false),
+      definition(parameterDefinition),
+	  hostIdx(-1),
+	  numDecimalPlaces(7),
+	  uiRangeMin(definition.getProperty(Ids::uiRangeMin)),
 	  uiRangeMax(definition.getProperty(Ids::uiRangeMax)),
 	  uiRangeInterval(definition.getProperty(Ids::uiRangeInterval)),
 	  uiResetValue(definition.getProperty(Ids::uiResetValue)),
 	  uiSuffix(definition.getProperty(Ids::uiSuffix).toString()),
-	  hostIdx(-1),
-	  readOnly(false),
-	  oscDeadTimeCounter(0),
-	  numDecimalPlaces(7)
+	  oscDeadTimeCounter(0)
 {
     if (uiRangeMin == uiRangeMax)
         uiRangeMax = uiRangeMin + 1.0f;

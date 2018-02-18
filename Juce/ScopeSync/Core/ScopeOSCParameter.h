@@ -45,6 +45,7 @@ public:
 	String getScopeParamText();
 
 	void setOSCUID(int newUID);
+	void updateValue(int newValue);
 	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
 
 	void startListening() {isListening = true;}
