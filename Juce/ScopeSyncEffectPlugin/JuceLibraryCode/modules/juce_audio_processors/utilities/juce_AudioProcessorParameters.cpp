@@ -2,39 +2,52 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
+namespace juce
+{
+
 // This file contains the implementations of the various AudioParameter[XYZ] classes..
 
 
-AudioProcessorParameterWithID::AudioProcessorParameterWithID (String pid, String nm)  : paramID (pid), name (nm) {}
+AudioProcessorParameterWithID::AudioProcessorParameterWithID (const String& idToUse,
+                                                              const String& nameToUse,
+                                                              const String& labelToUse,
+                                                              AudioProcessorParameter::Category categoryToUse)
+    : paramID (idToUse), name (nameToUse), label (labelToUse), category (categoryToUse) {}
 AudioProcessorParameterWithID::~AudioProcessorParameterWithID() {}
 
-String AudioProcessorParameterWithID::getName (int maximumStringLength) const     { return name.substring (0, maximumStringLength); }
-String AudioProcessorParameterWithID::getLabel() const                            { return label; }
+String AudioProcessorParameterWithID::getName (int maximumStringLength) const        { return name.substring (0, maximumStringLength); }
+String AudioProcessorParameterWithID::getLabel() const                               { return label; }
+AudioProcessorParameter::Category AudioProcessorParameterWithID::getCategory() const { return category; }
 
 
 //==============================================================================
-AudioParameterFloat::AudioParameterFloat (String pid, String nm, NormalisableRange<float> r, float def)
-   : AudioProcessorParameterWithID (pid, nm), range (r), value (def), defaultValue (def)
+AudioParameterFloat::AudioParameterFloat (const String& idToUse, const String& nameToUse,
+                                          NormalisableRange<float> r, float def,
+                                          const String& labelToUse, Category categoryToUse)
+   : AudioProcessorParameterWithID (idToUse, nameToUse, labelToUse, categoryToUse),
+     range (r), value (def), defaultValue (def)
 {
 }
 
@@ -46,10 +59,11 @@ AudioParameterFloat::AudioParameterFloat (String pid, String nm, float minValue,
 AudioParameterFloat::~AudioParameterFloat() {}
 
 float AudioParameterFloat::getValue() const                              { return range.convertTo0to1 (value); }
-void AudioParameterFloat::setValue (float newValue)                      { value = range.convertFrom0to1 (newValue); }
+void AudioParameterFloat::setValue (float newValue)                      { value = range.convertFrom0to1 (newValue); valueChanged (get()); }
 float AudioParameterFloat::getDefaultValue() const                       { return range.convertTo0to1 (defaultValue); }
 int AudioParameterFloat::getNumSteps() const                             { return AudioProcessorParameterWithID::getNumSteps(); }
 float AudioParameterFloat::getValueForText (const String& text) const    { return range.convertTo0to1 (text.getFloatValue()); }
+void AudioParameterFloat::valueChanged (float)                           {}
 
 String AudioParameterFloat::getText (float v, int length) const
 {
@@ -66,9 +80,11 @@ AudioParameterFloat& AudioParameterFloat::operator= (float newValue)
 }
 
 //==============================================================================
-AudioParameterInt::AudioParameterInt (String pid, String nm, int mn, int mx, int def)
-   : AudioProcessorParameterWithID (pid, nm),
-     minValue (mn), maxValue (mx),
+AudioParameterInt::AudioParameterInt (const String& idToUse, const String& nameToUse,
+                                      int mn, int mx, int def,
+                                      const String& labelToUse)
+   : AudioProcessorParameterWithID (idToUse, nameToUse, labelToUse),
+     minValue (mn), maxValue (mx), rangeOfValues (maxValue - minValue),
      value ((float) def),
      defaultValue (convertTo0to1 (def))
 {
@@ -78,15 +94,16 @@ AudioParameterInt::AudioParameterInt (String pid, String nm, int mn, int mx, int
 AudioParameterInt::~AudioParameterInt() {}
 
 int AudioParameterInt::limitRange (int v) const noexcept                 { return jlimit (minValue, maxValue, v); }
-float AudioParameterInt::convertTo0to1 (int v) const noexcept            { return (limitRange (v) - minValue) / (float) (maxValue - minValue); }
-int AudioParameterInt::convertFrom0to1 (float v) const noexcept          { return limitRange (roundToInt ((v * (float) (maxValue - minValue)) + minValue)); }
+float AudioParameterInt::convertTo0to1 (int v) const noexcept            { return (limitRange (v) - minValue) / (float) rangeOfValues; }
+int AudioParameterInt::convertFrom0to1 (float v) const noexcept          { return limitRange (roundToInt ((v * (float) rangeOfValues) + minValue)); }
 
 float AudioParameterInt::getValue() const                                { return convertTo0to1 (roundToInt (value)); }
-void AudioParameterInt::setValue (float newValue)                        { value = (float) convertFrom0to1 (newValue); }
+void AudioParameterInt::setValue (float newValue)                        { value = (float) convertFrom0to1 (newValue); valueChanged (get()); }
 float AudioParameterInt::getDefaultValue() const                         { return defaultValue; }
-int AudioParameterInt::getNumSteps() const                               { return AudioProcessorParameterWithID::getNumSteps(); }
+int AudioParameterInt::getNumSteps() const                               { return rangeOfValues + 1; }
 float AudioParameterInt::getValueForText (const String& text) const      { return convertTo0to1 (text.getIntValue()); }
 String AudioParameterInt::getText (float v, int /*length*/) const        { return String (convertFrom0to1 (v)); }
+void AudioParameterInt::valueChanged (int)                               {}
 
 AudioParameterInt& AudioParameterInt::operator= (int newValue)
 {
@@ -98,8 +115,9 @@ AudioParameterInt& AudioParameterInt::operator= (int newValue)
 
 
 //==============================================================================
-AudioParameterBool::AudioParameterBool (String pid, String nm, bool def)
-   : AudioProcessorParameterWithID (pid, nm),
+AudioParameterBool::AudioParameterBool (const String& idToUse, const String& nameToUse,
+                                        bool def, const String& labelToUse)
+   : AudioProcessorParameterWithID (idToUse, nameToUse, labelToUse),
      value (def ? 1.0f : 0.0f),
      defaultValue (value)
 {
@@ -108,11 +126,13 @@ AudioParameterBool::AudioParameterBool (String pid, String nm, bool def)
 AudioParameterBool::~AudioParameterBool() {}
 
 float AudioParameterBool::getValue() const                               { return value; }
-void AudioParameterBool::setValue (float newValue)                       { value = newValue; }
+void AudioParameterBool::setValue (float newValue)                       { value = newValue; valueChanged (get()); }
 float AudioParameterBool::getDefaultValue() const                        { return defaultValue; }
 int AudioParameterBool::getNumSteps() const                              { return 2; }
+bool AudioParameterBool::isDiscrete() const                              { return true; }
 float AudioParameterBool::getValueForText (const String& text) const     { return text.getIntValue() != 0 ? 1.0f : 0.0f; }
 String AudioParameterBool::getText (float v, int /*length*/) const       { return String ((int) (v > 0.5f ? 1 : 0)); }
+void AudioParameterBool::valueChanged (bool)                             {}
 
 AudioParameterBool& AudioParameterBool::operator= (bool newValue)
 {
@@ -124,9 +144,11 @@ AudioParameterBool& AudioParameterBool::operator= (bool newValue)
 
 
 //==============================================================================
-AudioParameterChoice::AudioParameterChoice (String pid, String nm, const StringArray& c, int def)
-   : AudioProcessorParameterWithID (pid, nm), choices (c),
+AudioParameterChoice::AudioParameterChoice (const String& idToUse, const String& nameToUse,
+                                            const StringArray& c, int def, const String& labelToUse)
+   : AudioProcessorParameterWithID (idToUse, nameToUse, labelToUse), choices (c),
      value ((float) def),
+     maxIndex (choices.size() - 1),
      defaultValue (convertTo0to1 (def))
 {
     jassert (choices.size() > 0); // you must supply an actual set of items to choose from!
@@ -134,16 +156,18 @@ AudioParameterChoice::AudioParameterChoice (String pid, String nm, const StringA
 
 AudioParameterChoice::~AudioParameterChoice() {}
 
-int AudioParameterChoice::limitRange (int v) const noexcept              { return jlimit (0, choices.size() - 1, v); }
-float AudioParameterChoice::convertTo0to1 (int v) const noexcept         { return jlimit (0.0f, 1.0f, (v + 0.5f) / (float) choices.size()); }
-int AudioParameterChoice::convertFrom0to1 (float v) const noexcept       { return limitRange ((int) (v * (float) choices.size())); }
+int AudioParameterChoice::limitRange (int v) const noexcept              { return jlimit (0, maxIndex, v); }
+float AudioParameterChoice::convertTo0to1 (int v) const noexcept         { return jlimit (0.0f, 1.0f, v / (float) maxIndex); }
+int AudioParameterChoice::convertFrom0to1 (float v) const noexcept       { return limitRange (roundToInt (v * (float) maxIndex)); }
 
 float AudioParameterChoice::getValue() const                             { return convertTo0to1 (roundToInt (value)); }
-void AudioParameterChoice::setValue (float newValue)                     { value = (float) convertFrom0to1 (newValue); }
+void AudioParameterChoice::setValue (float newValue)                     { value = (float) convertFrom0to1 (newValue); valueChanged (getIndex()); }
 float AudioParameterChoice::getDefaultValue() const                      { return defaultValue; }
 int AudioParameterChoice::getNumSteps() const                            { return choices.size(); }
+bool AudioParameterChoice::isDiscrete() const                            { return true; }
 float AudioParameterChoice::getValueForText (const String& text) const   { return convertTo0to1 (choices.indexOf (text)); }
 String AudioParameterChoice::getText (float v, int /*length*/) const     { return choices [convertFrom0to1 (v)]; }
+void AudioParameterChoice::valueChanged (int)                            {}
 
 AudioParameterChoice& AudioParameterChoice::operator= (int newValue)
 {
@@ -152,3 +176,5 @@ AudioParameterChoice& AudioParameterChoice::operator= (int newValue)
 
     return *this;
 }
+
+} // namespace juce

@@ -1,30 +1,27 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
-
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
-
-   For more details, visit www.juce.com
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
+
+namespace juce
+{
 
 HWND juce_messageWindowHandle = 0;  // (this is used by other parts of the codebase)
 
@@ -36,37 +33,11 @@ void* getUser32Function (const char* functionName)
 }
 
 //==============================================================================
-#if ! JUCE_USE_MSVC_INTRINSICS
-// In newer compilers, the inline versions of these are used (in juce_Atomic.h), but in
-// older ones we have to actually call the ops as win32 functions..
-long juce_InterlockedExchange (volatile long* a, long b) noexcept                { return InterlockedExchange (a, b); }
-long juce_InterlockedIncrement (volatile long* a) noexcept                       { return InterlockedIncrement (a); }
-long juce_InterlockedDecrement (volatile long* a) noexcept                       { return InterlockedDecrement (a); }
-long juce_InterlockedExchangeAdd (volatile long* a, long b) noexcept             { return InterlockedExchangeAdd (a, b); }
-long juce_InterlockedCompareExchange (volatile long* a, long b, long c) noexcept { return InterlockedCompareExchange (a, b, c); }
-
-__int64 juce_InterlockedCompareExchange64 (volatile __int64* value, __int64 newValue, __int64 valueToCompare) noexcept
-{
-    jassertfalse; // This operation isn't available in old MS compiler versions!
-
-    __int64 oldValue = *value;
-    if (oldValue == valueToCompare)
-        *value = newValue;
-
-    return oldValue;
-}
-
-#endif
-
-//==============================================================================
 CriticalSection::CriticalSection() noexcept
 {
     // (just to check the MS haven't changed this structure and broken things...)
-   #if JUCE_VC7_OR_EARLIER
-    static_jassert (sizeof (CRITICAL_SECTION) <= 24);
-   #else
-    static_jassert (sizeof (CRITICAL_SECTION) <= sizeof (lock));
-   #endif
+    static_assert (sizeof (CRITICAL_SECTION) <= sizeof (lock),
+                   "win32 lock array too small to hold CRITICAL_SECTION: please report this JUCE bug!");
 
     InitializeCriticalSection ((CRITICAL_SECTION*) lock);
 }
@@ -116,19 +87,19 @@ void Thread::launchThread()
 
 void Thread::closeThreadHandle()
 {
-    CloseHandle ((HANDLE) threadHandle);
+    CloseHandle ((HANDLE) threadHandle.get());
     threadId = 0;
     threadHandle = 0;
 }
 
 void Thread::killThread()
 {
-    if (threadHandle != 0)
+    if (threadHandle.get() != 0)
     {
        #if JUCE_DEBUG
         OutputDebugStringA ("** Warning - Forced thread termination **\n");
        #endif
-        TerminateThread (threadHandle, 0);
+        TerminateThread (threadHandle.get(), 0);
     }
 }
 
@@ -270,7 +241,14 @@ static void* currentModuleHandle = nullptr;
 void* JUCE_CALLTYPE Process::getCurrentModuleInstanceHandle() noexcept
 {
     if (currentModuleHandle == nullptr)
-        currentModuleHandle = GetModuleHandleA (nullptr);
+    {
+        auto status = GetModuleHandleEx (GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                         (LPCTSTR) &currentModuleHandle,
+                                         (HMODULE*) &currentModuleHandle);
+
+        if (status == 0 || currentModuleHandle == nullptr)
+            currentModuleHandle = GetModuleHandleA (nullptr);
+    }
 
     return currentModuleHandle;
 }
@@ -402,10 +380,10 @@ bool InterProcessLock::enter (const int timeOutMillisecs)
 
     if (pimpl == nullptr)
     {
-        pimpl = new Pimpl (name, timeOutMillisecs);
+        pimpl.reset (new Pimpl (name, timeOutMillisecs));
 
         if (pimpl->handle == 0)
-            pimpl = nullptr;
+            pimpl.reset();
     }
     else
     {
@@ -423,7 +401,7 @@ void InterProcessLock::exit()
     jassert (pimpl != nullptr);
 
     if (pimpl != nullptr && --(pimpl->refCount) == 0)
-        pimpl = nullptr;
+        pimpl.reset();
 }
 
 //==============================================================================
@@ -561,7 +539,7 @@ bool ChildProcess::start (const StringArray& args, int streamFlags)
 //==============================================================================
 struct HighResolutionTimer::Pimpl
 {
-    Pimpl (HighResolutionTimer& t) noexcept  : owner (t), periodMs (0)
+    Pimpl (HighResolutionTimer& t) noexcept  : owner (t)
     {
     }
 
@@ -595,7 +573,7 @@ struct HighResolutionTimer::Pimpl
     }
 
     HighResolutionTimer& owner;
-    int periodMs;
+    int periodMs = 0;
 
 private:
     unsigned int timerID;
@@ -609,3 +587,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
+
+} // namespace juce

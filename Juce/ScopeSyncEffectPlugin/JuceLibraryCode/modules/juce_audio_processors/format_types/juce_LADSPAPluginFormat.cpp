@@ -2,29 +2,29 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
 #if JUCE_PLUGINHOST_LADSPA && JUCE_LINUX
-
-} // (juce namespace)
 
 #include <ladspa.h>
 
@@ -60,9 +60,9 @@ public:
 
     typedef ReferenceCountedObjectPtr<LADSPAModuleHandle> Ptr;
 
-    static Array <LADSPAModuleHandle*>& getActiveModules()
+    static Array<LADSPAModuleHandle*>& getActiveModules()
     {
-        static Array <LADSPAModuleHandle*> activeModules;
+        static Array<LADSPAModuleHandle*> activeModules;
         return activeModules;
     }
 
@@ -286,9 +286,9 @@ public:
         tempBuffer.setSize (1, 1);
     }
 
-    void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+    void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
     {
-        const int numSamples = buffer.getNumSamples();
+        auto numSamples = buffer.getNumSamples();
 
         if (initialised && plugin != nullptr && handle != nullptr)
         {
@@ -338,7 +338,7 @@ public:
         if (isPositiveAndBelow (index, getTotalNumInputChannels()))
             return String (plugin->PortNames [inputs [index]]).trim();
 
-        return String();
+        return {};
     }
 
     const String getOutputChannelName (const int index) const
@@ -346,7 +346,7 @@ public:
         if (isPositiveAndBelow (index, getTotalNumInputChannels()))
             return String (plugin->PortNames [outputs [index]]).trim();
 
-        return String();
+        return {};
     }
 
     //==============================================================================
@@ -390,7 +390,7 @@ public:
             return String (plugin->PortNames [parameters [index]]).trim();
         }
 
-        return String();
+        return {};
     }
 
     const String getParameterText (int index)
@@ -407,7 +407,7 @@ public:
             return String (parameterValues[index].scaled, 4);
         }
 
-        return String();
+        return {};
     }
 
     //==============================================================================
@@ -424,7 +424,7 @@ public:
     const String getProgramName (int index)
     {
         // XXX
-        return String();
+        return {};
     }
 
     void changeProgramName (int index, const String& newName)
@@ -484,7 +484,7 @@ private:
     String name;
     CriticalSection lock;
     bool initialised;
-    AudioSampleBuffer tempBuffer;
+    AudioBuffer<float> tempBuffer;
     Array<int> inputs, outputs, parameters;
 
     struct ParameterValue
@@ -571,7 +571,7 @@ private:
 LADSPAPluginFormat::LADSPAPluginFormat() {}
 LADSPAPluginFormat::~LADSPAPluginFormat() {}
 
-void LADSPAPluginFormat::findAllTypesForFile (OwnedArray <PluginDescription>& results,
+void LADSPAPluginFormat::findAllTypesForFile (OwnedArray<PluginDescription>& results,
                                               const String& fileOrIdentifier)
 {
     if (! fileMightContainThisPluginType (fileOrIdentifier))
@@ -610,10 +610,13 @@ void LADSPAPluginFormat::findAllTypesForFile (OwnedArray <PluginDescription>& re
     }
 }
 
-AudioPluginInstance* LADSPAPluginFormat::createInstanceFromDescription (const PluginDescription& desc,
-                                                                        double sampleRate, int blockSize)
+void LADSPAPluginFormat::createPluginInstance (const PluginDescription& desc,
+                                               double sampleRate, int blockSize,
+                                               void* userData,
+                                               void (*callback) (void*, AudioPluginInstance*, const String&))
 {
     ScopedPointer<LADSPAPluginInstance> result;
+
 
     if (fileMightContainThisPluginType (desc.fileOrIdentifier))
     {
@@ -639,7 +642,17 @@ AudioPluginInstance* LADSPAPluginFormat::createInstanceFromDescription (const Pl
         previousWorkingDirectory.setAsCurrentWorkingDirectory();
     }
 
-    return result.release();
+    String errorMsg;
+
+    if (result == nullptr)
+        errorMsg = String (NEEDS_TRANS ("Unable to load XXX plug-in file")).replace ("XXX", "LADSPA");
+
+    callback (userData, result.release(), errorMsg);
+}
+
+bool LADSPAPluginFormat::requiresUnblockedMessageThreadDuringCreation (const PluginDescription&) const noexcept
+{
+    return false;
 }
 
 bool LADSPAPluginFormat::fileMightContainThisPluginType (const String& fileOrIdentifier)
@@ -663,7 +676,7 @@ bool LADSPAPluginFormat::doesPluginStillExist (const PluginDescription& desc)
     return File::createFileWithoutCheckingPath (desc.fileOrIdentifier).exists();
 }
 
-StringArray LADSPAPluginFormat::searchPathsForPlugins (const FileSearchPath& directoriesToSearch, const bool recursive)
+StringArray LADSPAPluginFormat::searchPathsForPlugins (const FileSearchPath& directoriesToSearch, const bool recursive, bool)
 {
     StringArray results;
 
@@ -699,5 +712,7 @@ FileSearchPath LADSPAPluginFormat::getDefaultLocationsToSearch()
                                                                 "/usr/lib/ladspa;/usr/local/lib/ladspa;~/.ladspa")
                              .replace (":", ";"));
 }
+
+} // namespace juce
 
 #endif

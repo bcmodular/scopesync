@@ -2,22 +2,24 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
@@ -30,12 +32,13 @@
 #include "../utility/juce_IncludeSystemHeaders.h"
 #include "../utility/juce_IncludeModuleHeaders.h"
 #include "../utility/juce_WindowsHooks.h"
-#include "../utility/juce_PluginBusUtilities.h"
+#include "../utility/juce_FakeMouseMoveGenerator.h"
 
 #ifdef __clang__
  #pragma clang diagnostic push
  #pragma clang diagnostic ignored "-Wnon-virtual-dtor"
  #pragma clang diagnostic ignored "-Wsign-conversion"
+ #pragma clang diagnostic ignored "-Wextra-semi"
 #endif
 
 #ifdef _MSC_VER
@@ -43,23 +46,30 @@
  #pragma warning (disable : 4127 4512)
 #endif
 
-#include "AAX_Exports.cpp"
-#include "AAX_ICollection.h"
-#include "AAX_IComponentDescriptor.h"
-#include "AAX_IEffectDescriptor.h"
-#include "AAX_IPropertyMap.h"
-#include "AAX_CEffectParameters.h"
-#include "AAX_Errors.h"
-#include "AAX_CBinaryTaperDelegate.h"
-#include "AAX_CBinaryDisplayDelegate.h"
-#include "AAX_CLinearTaperDelegate.h"
-#include "AAX_CNumberDisplayDelegate.h"
-#include "AAX_CEffectGUI.h"
-#include "AAX_IViewContainer.h"
-#include "AAX_ITransport.h"
-#include "AAX_IMIDINode.h"
-#include "AAX_UtilsNative.h"
-#include "AAX_Enums.h"
+#include <AAX_Version.h>
+
+static_assert (AAX_SDK_CURRENT_REVISION >= AAX_SDK_2p3p0_REVISION, "JUCE requires AAX SDK version 2.3.0 or higher");
+
+#include <AAX_Exports.cpp>
+#include <AAX_ICollection.h>
+#include <AAX_IComponentDescriptor.h>
+#include <AAX_IEffectDescriptor.h>
+#include <AAX_IPropertyMap.h>
+#include <AAX_CEffectParameters.h>
+#include <AAX_Errors.h>
+#include <AAX_CBinaryTaperDelegate.h>
+#include <AAX_CBinaryDisplayDelegate.h>
+#include <AAX_CLinearTaperDelegate.h>
+#include <AAX_CNumberDisplayDelegate.h>
+#include <AAX_CEffectGUI.h>
+#include <AAX_IViewContainer.h>
+#include <AAX_ITransport.h>
+#include <AAX_IMIDINode.h>
+#include <AAX_UtilsNative.h>
+#include <AAX_Enums.h>
+#include <AAX_IDescriptionHost.h>
+#include <AAX_IFeatureInfo.h>
+#include <AAX_UIDs.h>
 
 #ifdef _MSC_VER
  #pragma warning (pop)
@@ -71,7 +81,7 @@
 
 #if JUCE_WINDOWS
  #ifndef JucePlugin_AAXLibs_path
-  #error "You need to define the JucePlugin_AAXLibs_path macro. (This is best done via the introjucer)"
+  #error "You need to define the JucePlugin_AAXLibs_path macro. (This is best done via the Projucer)"
  #endif
 
  #if JUCE_64BIT
@@ -93,19 +103,32 @@
 
 #undef check
 
-const int32_t juceChunkType = 'juce';
+#include "juce_AAX_Modifier_Injector.h"
+
+using namespace juce;
+
+#ifndef JucePlugin_AAX_Chunk_Identifier
+ #define JucePlugin_AAX_Chunk_Identifier     'juce'
+#endif
+
+const int32_t juceChunkType = JucePlugin_AAX_Chunk_Identifier;
 
 //==============================================================================
-struct AAXClasses
+namespace AAXClasses
 {
+    static int32 getAAXParamHash (AAX_CParamID paramID) noexcept
+    {
+        int32 result = 0;
+
+        while (*paramID != 0)
+            result = (31 * result) + (*paramID++);
+
+        return result;
+    }
+
     static void check (AAX_Result result)
     {
         jassert (result == AAX_SUCCESS); ignoreUnused (result);
-    }
-
-    static int getParamIndexFromID (AAX_CParamID paramID) noexcept
-    {
-        return atoi (paramID);
     }
 
     static bool isBypassParam (AAX_CParamID paramID) noexcept
@@ -117,48 +140,117 @@ struct AAXClasses
     struct AAXChannelStreamOrder
     {
         AAX_EStemFormat aaxStemFormat;
-        AudioChannelSet::ChannelType speakerOrder[8];
+        AudioChannelSet::ChannelType speakerOrder[10];
     };
 
-    static AAXChannelStreamOrder aaxChannelOrder[];
+    static AAX_EStemFormat stemFormatForAmbisonicOrder (int order)
+    {
+        switch (order)
+        {
+            case 1:   return AAX_eStemFormat_Ambi_1_ACN;
+            case 2:   return AAX_eStemFormat_Ambi_2_ACN;
+            case 3:   return AAX_eStemFormat_Ambi_3_ACN;
+            default:  break;
+        }
+
+        return AAX_eStemFormat_INT32_MAX;
+    }
+
+    static AAXChannelStreamOrder aaxChannelOrder[] =
+    {
+        { AAX_eStemFormat_Mono,     { AudioChannelSet::centre, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_Stereo,   { AudioChannelSet::left, AudioChannelSet::right, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_LCR,      { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_LCRS,     { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::centreSurround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_Quad,     { AudioChannelSet::left, AudioChannelSet::right,  AudioChannelSet::leftSurround, AudioChannelSet::rightSurround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_5_0,      { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::rightSurround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_5_1,      { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::rightSurround, AudioChannelSet::LFE, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_6_0,      { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::centreSurround, AudioChannelSet::rightSurround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_6_1,      { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::centreSurround, AudioChannelSet::rightSurround, AudioChannelSet::LFE, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_0_SDDS, { AudioChannelSet::left, AudioChannelSet::leftCentre, AudioChannelSet::centre, AudioChannelSet::rightCentre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::rightSurround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_0_DTS,  { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurroundSide, AudioChannelSet::rightSurroundSide, AudioChannelSet::leftSurroundRear, AudioChannelSet::rightSurroundRear, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_1_SDDS, { AudioChannelSet::left, AudioChannelSet::leftCentre, AudioChannelSet::centre, AudioChannelSet::rightCentre, AudioChannelSet::right, AudioChannelSet::leftSurround, AudioChannelSet::rightSurround, AudioChannelSet::LFE, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_1_DTS,  { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurroundSide, AudioChannelSet::rightSurroundSide, AudioChannelSet::leftSurroundRear, AudioChannelSet::rightSurroundRear, AudioChannelSet::LFE, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_0_2,    { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurroundSide, AudioChannelSet::rightSurroundSide, AudioChannelSet::leftSurroundRear, AudioChannelSet::rightSurroundRear, AudioChannelSet::topSideLeft, AudioChannelSet::topSideRight, AudioChannelSet::unknown } },
+        { AAX_eStemFormat_7_1_2,    { AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::leftSurroundSide, AudioChannelSet::rightSurroundSide, AudioChannelSet::leftSurroundRear, AudioChannelSet::rightSurroundRear, AudioChannelSet::LFE, AudioChannelSet::topSideLeft, AudioChannelSet::topSideRight } },
+        { AAX_eStemFormat_None,     { AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown } },
+    };
+
+    static AAX_EStemFormat aaxFormats[] =
+    {
+        AAX_eStemFormat_Mono,
+        AAX_eStemFormat_Stereo,
+        AAX_eStemFormat_LCR,
+        AAX_eStemFormat_LCRS,
+        AAX_eStemFormat_Quad,
+        AAX_eStemFormat_5_0,
+        AAX_eStemFormat_5_1,
+        AAX_eStemFormat_6_0,
+        AAX_eStemFormat_6_1,
+        AAX_eStemFormat_7_0_SDDS,
+        AAX_eStemFormat_7_1_SDDS,
+        AAX_eStemFormat_7_0_DTS,
+        AAX_eStemFormat_7_1_DTS,
+        AAX_eStemFormat_7_0_2,
+        AAX_eStemFormat_7_1_2,
+        AAX_eStemFormat_Ambi_1_ACN,
+        AAX_eStemFormat_Ambi_2_ACN,
+        AAX_eStemFormat_Ambi_3_ACN
+    };
 
     static AAX_EStemFormat getFormatForAudioChannelSet (const AudioChannelSet& set, bool ignoreLayout) noexcept
     {
         // if the plug-in ignores layout, it is ok to convert between formats only by their numchannnels
         if (ignoreLayout)
         {
-            switch (set.size())
+            auto numChannels = set.size();
+
+            switch (numChannels)
             {
-                case 0: return AAX_eStemFormat_None;
-                case 1: return AAX_eStemFormat_Mono;
-                case 2: return AAX_eStemFormat_Stereo;
-                case 3: return AAX_eStemFormat_LCR;
-                case 4: return AAX_eStemFormat_Quad;
-                case 5: return AAX_eStemFormat_5_0;
-                case 6: return AAX_eStemFormat_5_1;
-                case 7: return AAX_eStemFormat_7_0_DTS;
-                case 8: return AAX_eStemFormat_7_1_DTS;
-                default:
-                    break;
+                case 0:   return AAX_eStemFormat_None;
+                case 1:   return AAX_eStemFormat_Mono;
+                case 2:   return AAX_eStemFormat_Stereo;
+                case 3:   return AAX_eStemFormat_LCR;
+                case 4:   return AAX_eStemFormat_Quad;
+                case 5:   return AAX_eStemFormat_5_0;
+                case 6:   return AAX_eStemFormat_5_1;
+                case 7:   return AAX_eStemFormat_7_0_DTS;
+                case 8:   return AAX_eStemFormat_7_1_DTS;
+                case 9:   return AAX_eStemFormat_7_0_2;
+                case 10:  return AAX_eStemFormat_7_1_2;
+                default:  break;
             }
+
+            // check for ambisonics support
+            auto sqrtMinusOne   = std::sqrt (static_cast<float> (numChannels)) - 1.0f;
+            auto ambisonicOrder = jmax (0, static_cast<int> (std::floor (sqrtMinusOne)));
+
+            if (static_cast<float> (ambisonicOrder) == sqrtMinusOne)
+                return stemFormatForAmbisonicOrder (ambisonicOrder);
 
             return AAX_eStemFormat_INT32_MAX;
         }
 
-        if (set == AudioChannelSet::disabled())           return AAX_eStemFormat_None;
-        if (set == AudioChannelSet::mono())               return AAX_eStemFormat_Mono;
-        if (set == AudioChannelSet::stereo())             return AAX_eStemFormat_Stereo;
-        if (set == AudioChannelSet::createLCR())          return AAX_eStemFormat_LCR;
-        if (set == AudioChannelSet::createLCRS())         return AAX_eStemFormat_LCRS;
-        if (set == AudioChannelSet::quadraphonic())       return AAX_eStemFormat_Quad;
-        if (set == AudioChannelSet::create5point0())      return AAX_eStemFormat_5_0;
-        if (set == AudioChannelSet::create5point1())      return AAX_eStemFormat_5_1;
-        if (set == AudioChannelSet::create6point0())      return AAX_eStemFormat_6_0;
-        if (set == AudioChannelSet::create6point1())      return AAX_eStemFormat_6_1;
-        if (set == AudioChannelSet::create7point0())      return AAX_eStemFormat_7_0_DTS;
-        if (set == AudioChannelSet::create7point1())      return AAX_eStemFormat_7_1_DTS;
-        if (set == AudioChannelSet::createFront7point0()) return AAX_eStemFormat_7_0_SDDS;
-        if (set == AudioChannelSet::createFront7point1()) return AAX_eStemFormat_7_1_SDDS;
+        if (set == AudioChannelSet::disabled())             return AAX_eStemFormat_None;
+        if (set == AudioChannelSet::mono())                 return AAX_eStemFormat_Mono;
+        if (set == AudioChannelSet::stereo())               return AAX_eStemFormat_Stereo;
+        if (set == AudioChannelSet::createLCR())            return AAX_eStemFormat_LCR;
+        if (set == AudioChannelSet::createLCRS())           return AAX_eStemFormat_LCRS;
+        if (set == AudioChannelSet::quadraphonic())         return AAX_eStemFormat_Quad;
+        if (set == AudioChannelSet::create5point0())        return AAX_eStemFormat_5_0;
+        if (set == AudioChannelSet::create5point1())        return AAX_eStemFormat_5_1;
+        if (set == AudioChannelSet::create6point0())        return AAX_eStemFormat_6_0;
+        if (set == AudioChannelSet::create6point1())        return AAX_eStemFormat_6_1;
+        if (set == AudioChannelSet::create7point0())        return AAX_eStemFormat_7_0_DTS;
+        if (set == AudioChannelSet::create7point1())        return AAX_eStemFormat_7_1_DTS;
+        if (set == AudioChannelSet::create7point0SDDS())    return AAX_eStemFormat_7_0_SDDS;
+        if (set == AudioChannelSet::create7point1SDDS())    return AAX_eStemFormat_7_1_SDDS;
+        if (set == AudioChannelSet::create7point0point2())  return AAX_eStemFormat_7_0_2;
+        if (set == AudioChannelSet::create7point1point2())  return AAX_eStemFormat_7_1_2;
+
+        auto order = set.getAmbisonicOrder();
+        if (order >= 0)
+            return stemFormatForAmbisonicOrder (order);
 
         return AAX_eStemFormat_INT32_MAX;
     }
@@ -169,51 +261,43 @@ struct AAXClasses
         {
             switch (format)
             {
-                case AAX_eStemFormat_None:     return AudioChannelSet::disabled();
-                case AAX_eStemFormat_Mono:     return AudioChannelSet::mono();
-                case AAX_eStemFormat_Stereo:   return AudioChannelSet::stereo();
-                case AAX_eStemFormat_LCR:      return AudioChannelSet::createLCR();
-                case AAX_eStemFormat_LCRS:     return AudioChannelSet::createLCRS();
-                case AAX_eStemFormat_Quad:     return AudioChannelSet::quadraphonic();
-                case AAX_eStemFormat_5_0:      return AudioChannelSet::create5point0();
-                case AAX_eStemFormat_5_1:      return AudioChannelSet::create5point1();
-                case AAX_eStemFormat_6_0:      return AudioChannelSet::create6point0();
-                case AAX_eStemFormat_6_1:      return AudioChannelSet::create6point1();
-                case AAX_eStemFormat_7_0_SDDS: return AudioChannelSet::createFront7point0();
-                case AAX_eStemFormat_7_0_DTS:  return AudioChannelSet::create7point0();
-                case AAX_eStemFormat_7_1_SDDS: return AudioChannelSet::createFront7point1();
-                case AAX_eStemFormat_7_1_DTS:  return AudioChannelSet::create7point1();
-                default:
-                    break;
+                case AAX_eStemFormat_None:       return AudioChannelSet::disabled();
+                case AAX_eStemFormat_Mono:       return AudioChannelSet::mono();
+                case AAX_eStemFormat_Stereo:     return AudioChannelSet::stereo();
+                case AAX_eStemFormat_LCR:        return AudioChannelSet::createLCR();
+                case AAX_eStemFormat_LCRS:       return AudioChannelSet::createLCRS();
+                case AAX_eStemFormat_Quad:       return AudioChannelSet::quadraphonic();
+                case AAX_eStemFormat_5_0:        return AudioChannelSet::create5point0();
+                case AAX_eStemFormat_5_1:        return AudioChannelSet::create5point1();
+                case AAX_eStemFormat_6_0:        return AudioChannelSet::create6point0();
+                case AAX_eStemFormat_6_1:        return AudioChannelSet::create6point1();
+                case AAX_eStemFormat_7_0_SDDS:   return AudioChannelSet::create7point0SDDS();
+                case AAX_eStemFormat_7_0_DTS:    return AudioChannelSet::create7point0();
+                case AAX_eStemFormat_7_1_SDDS:   return AudioChannelSet::create7point1SDDS();
+                case AAX_eStemFormat_7_1_DTS:    return AudioChannelSet::create7point1();
+                case AAX_eStemFormat_7_0_2:      return AudioChannelSet::create7point0point2();
+                case AAX_eStemFormat_7_1_2:      return AudioChannelSet::create7point1point2();
+                case AAX_eStemFormat_Ambi_1_ACN: return AudioChannelSet::ambisonic (1);
+                case AAX_eStemFormat_Ambi_2_ACN: return AudioChannelSet::ambisonic (2);
+                case AAX_eStemFormat_Ambi_3_ACN: return AudioChannelSet::ambisonic (3);
+                default:                         return AudioChannelSet::disabled();
             }
-
-            return AudioChannelSet::disabled();
         }
 
         return AudioChannelSet::discreteChannels (jmax (0, static_cast<int> (AAX_STEM_FORMAT_CHANNEL_COUNT (format))));
     }
 
-    static const char* getSpeakerArrangementString (AAX_EStemFormat format) noexcept
+    static AAX_EMeterType getMeterTypeForCategory (AudioProcessorParameter::Category category)
     {
-        switch (format)
+        switch (category)
         {
-            case AAX_eStemFormat_Mono:      return "M";
-            case AAX_eStemFormat_Stereo:    return "L R";
-            case AAX_eStemFormat_LCR:       return "L C R";
-            case AAX_eStemFormat_LCRS:      return "L C R S";
-            case AAX_eStemFormat_Quad:      return "L R Ls Rs";
-            case AAX_eStemFormat_5_0:       return "L C R Ls Rs";
-            case AAX_eStemFormat_5_1:       return "L C R Ls Rs LFE";
-            case AAX_eStemFormat_6_0:       return "L C R Ls Cs Rs";
-            case AAX_eStemFormat_6_1:       return "L C R Ls Cs Rs LFE";
-            case AAX_eStemFormat_7_0_SDDS:  return "L Lc C Rc R Ls Rs";
-            case AAX_eStemFormat_7_1_SDDS:  return "L Lc C Rc R Ls Rs LFE";
-            case AAX_eStemFormat_7_0_DTS:   return "L C R Lss Rss Lsr Rsr";
-            case AAX_eStemFormat_7_1_DTS:   return "L C R Lss Rss Lsr Rsr LFE";
-            default:                        break;
+            case AudioProcessorParameter::inputMeter:                           return AAX_eMeterType_Input;
+            case AudioProcessorParameter::outputMeter:                          return AAX_eMeterType_Output;
+            case AudioProcessorParameter::compressorLimiterGainReductionMeter:  return AAX_eMeterType_CLGain;
+            case AudioProcessorParameter::expanderGateGainReductionMeter:       return AAX_eMeterType_EGGain;
+            case AudioProcessorParameter::analysisMeter:                        return AAX_eMeterType_Analysis;
+            default:                                                            return AAX_eMeterType_Other;
         }
-
-        return nullptr;
     }
 
     static Colour getColourFromHighlightEnum (AAX_EHighlightColor colour) noexcept
@@ -232,16 +316,21 @@ struct AAXClasses
 
     static int juceChannelIndexToAax (int juceIndex, const AudioChannelSet& channelSet)
     {
-        AAX_EStemFormat currentLayout = getFormatForAudioChannelSet (channelSet, false);
-
+        auto isAmbisonic = (channelSet.getAmbisonicOrder() >= 0);
+        auto currentLayout = getFormatForAudioChannelSet (channelSet, false);
         int layoutIndex;
+
+        if (isAmbisonic && currentLayout != AAX_eStemFormat_INT32_MAX)
+            return juceIndex;
+
         for (layoutIndex = 0; aaxChannelOrder[layoutIndex].aaxStemFormat != currentLayout; ++layoutIndex)
             if (aaxChannelOrder[layoutIndex].aaxStemFormat == 0) return juceIndex;
 
-        const AAXChannelStreamOrder& channelOrder = aaxChannelOrder[layoutIndex];
-        const AudioChannelSet::ChannelType channelType = channelSet.getTypeOfChannel (static_cast<int> (juceIndex));
+        auto& channelOrder = aaxChannelOrder[layoutIndex];
+        auto channelType = channelSet.getTypeOfChannel (static_cast<int> (juceIndex));
+        auto numSpeakers = numElementsInArray (channelOrder.speakerOrder);
 
-        for (int i = 0; i < 8 && channelOrder.speakerOrder[i] != 0; ++i)
+        for (int i = 0; i < numSpeakers && channelOrder.speakerOrder[i] != 0; ++i)
             if (channelOrder.speakerOrder[i] == channelType)
                 return i;
 
@@ -278,6 +367,7 @@ struct AAXClasses
 
         PluginInstanceInfo* pluginInstance;
         int32_t* isPrepared;
+        float* const* meterTapBuffers;
         int32_t* sideChainBuffers;
     };
 
@@ -285,21 +375,23 @@ struct AAXClasses
     {
         enum
         {
-            inputChannels   = AAX_FIELD_INDEX (JUCEAlgorithmContext, inputChannels),
-            outputChannels  = AAX_FIELD_INDEX (JUCEAlgorithmContext, outputChannels),
-            bufferSize      = AAX_FIELD_INDEX (JUCEAlgorithmContext, bufferSize),
-            bypass          = AAX_FIELD_INDEX (JUCEAlgorithmContext, bypass),
+            inputChannels     = AAX_FIELD_INDEX (JUCEAlgorithmContext, inputChannels),
+            outputChannels    = AAX_FIELD_INDEX (JUCEAlgorithmContext, outputChannels),
+            bufferSize        = AAX_FIELD_INDEX (JUCEAlgorithmContext, bufferSize),
+            bypass            = AAX_FIELD_INDEX (JUCEAlgorithmContext, bypass),
 
            #if JucePlugin_WantsMidiInput || JucePlugin_IsMidiEffect
-            midiNodeIn      = AAX_FIELD_INDEX (JUCEAlgorithmContext, midiNodeIn),
+            midiNodeIn        = AAX_FIELD_INDEX (JUCEAlgorithmContext, midiNodeIn),
            #endif
 
            #if JucePlugin_ProducesMidiOutput || JucePlugin_IsSynth || JucePlugin_IsMidiEffect
-            midiNodeOut     = AAX_FIELD_INDEX (JUCEAlgorithmContext, midiNodeOut),
+            midiNodeOut       = AAX_FIELD_INDEX (JUCEAlgorithmContext, midiNodeOut),
            #endif
 
-            pluginInstance  = AAX_FIELD_INDEX (JUCEAlgorithmContext, pluginInstance),
-            preparedFlag    = AAX_FIELD_INDEX (JUCEAlgorithmContext, isPrepared),
+            pluginInstance    = AAX_FIELD_INDEX (JUCEAlgorithmContext, pluginInstance),
+            preparedFlag      = AAX_FIELD_INDEX (JUCEAlgorithmContext, isPrepared),
+
+            meterTapBuffers   = AAX_FIELD_INDEX (JUCEAlgorithmContext, meterTapBuffers),
 
             sideChainBuffers  = AAX_FIELD_INDEX (JUCEAlgorithmContext, sideChainBuffers)
         };
@@ -319,24 +411,18 @@ struct AAXClasses
    #endif
 
     //==============================================================================
-    class JuceAAX_GUI   : public AAX_CEffectGUI
+    class JuceAAX_Processor;
+
+    class JuceAAX_GUI   : public AAX_CEffectGUI,
+                          public ModifierKeyProvider
     {
     public:
         JuceAAX_GUI() {}
-        ~JuceAAX_GUI()  { DeleteViewContainer(); }
+        ~JuceAAX_GUI() { DeleteViewContainer(); }
 
         static AAX_IEffectGUI* AAX_CALLBACK Create()   { return new JuceAAX_GUI(); }
 
-        void CreateViewContents() override
-        {
-            if (component == nullptr)
-            {
-                if (JuceAAX_Processor* params = dynamic_cast<JuceAAX_Processor*> (GetEffectParameters()))
-                    component = new ContentWrapperComponent (*this, params->getPluginInstance());
-                else
-                    jassertfalse;
-            }
-        }
+        void CreateViewContents() override;
 
         void CreateViewContainer() override
         {
@@ -352,6 +438,9 @@ struct AAXClasses
                 {
                     component->setVisible (true);
                     component->addToDesktop (0, nativeViewToAttachTo);
+
+                    if (ModifierKeyReceiver* modReceiver = dynamic_cast<ModifierKeyReceiver*> (component->getPeer()))
+                        modReceiver->setModifierKeyProvider (this);
                 }
             }
         }
@@ -362,6 +451,9 @@ struct AAXClasses
             {
                 JUCE_AUTORELEASEPOOL
                 {
+                    if (auto* modReceiver = dynamic_cast<ModifierKeyReceiver*> (component->getPeer()))
+                        modReceiver->removeModifierKeyProvider();
+
                     component->removeFromDesktop();
                     component = nullptr;
                 }
@@ -405,7 +497,28 @@ struct AAXClasses
             return AAX_ERROR_NULL_OBJECT;
         }
 
+        int getWin32Modifiers() const override
+        {
+            int modifierFlags = 0;
+
+            if (auto* viewContainer = GetViewContainer())
+            {
+                uint32 aaxViewMods = 0;
+                const_cast<AAX_IViewContainer*> (viewContainer)->GetModifiers (&aaxViewMods);
+
+                if ((aaxViewMods & AAX_eModifiers_Shift) != 0) modifierFlags |= ModifierKeys::shiftModifier;
+                if ((aaxViewMods & AAX_eModifiers_Alt )  != 0) modifierFlags |= ModifierKeys::altModifier;
+            }
+
+            return modifierFlags;
+        }
+
     private:
+        //==============================================================================
+        int getParamIndexFromID (AAX_CParamID paramID) const noexcept;
+        AAX_CParamID getAAXParamIDFromJuceIndex (int index) const noexcept;
+
+        //==============================================================================
         struct ContentWrapperComponent  : public Component
         {
             ContentWrapperComponent (JuceAAX_GUI& gui, AudioProcessor& plugin)
@@ -421,6 +534,8 @@ struct AAXClasses
                     setBounds (pluginEditor->getLocalBounds());
                     pluginEditor->addMouseListener (this, true);
                 }
+
+                ignoreUnused (fakeMouseGenerator);
             }
 
             ~ContentWrapperComponent()
@@ -441,15 +556,16 @@ struct AAXClasses
             template <typename MethodType>
             void callMouseMethod (const MouseEvent& e, MethodType method)
             {
-                if (AAX_IViewContainer* vc = owner.GetViewContainer())
+                if (auto* vc = owner.GetViewContainer())
                 {
-                    const int parameterIndex = pluginEditor->getControlParameterIndex (*e.eventComponent);
+                    auto parameterIndex = pluginEditor->getControlParameterIndex (*e.eventComponent);
 
-                    if (parameterIndex >= 0)
+                    if (auto aaxParamID = owner.getAAXParamIDFromJuceIndex (parameterIndex))
                     {
                         uint32_t mods = 0;
                         vc->GetModifiers (&mods);
-                        (vc->*method) (IndexAsParamID (parameterIndex), mods);
+
+                        (vc->*method) (aaxParamID, mods);
                     }
                 }
             }
@@ -462,8 +578,8 @@ struct AAXClasses
             {
                 if (pluginEditor != nullptr)
                 {
-                    const int w = pluginEditor->getWidth();
-                    const int h = pluginEditor->getHeight();
+                    auto w = pluginEditor->getWidth();
+                    auto h = pluginEditor->getHeight();
                     setSize (w, h);
 
                     AAX_Point newSize ((float) h, (float) w);
@@ -477,44 +593,66 @@ struct AAXClasses
            #if JUCE_WINDOWS
             WindowsHooks hooks;
            #endif
+            FakeMouseMoveGenerator fakeMouseGenerator;
 
             JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ContentWrapperComponent)
         };
 
         ScopedPointer<ContentWrapperComponent> component;
-
         ScopedJuceInitialiser_GUI libraryInitialiser;
+
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceAAX_GUI)
     };
+
+    static void AAX_CALLBACK algorithmProcessCallback (JUCEAlgorithmContext* const instancesBegin[], const void* const instancesEnd);
 
     //==============================================================================
     class JuceAAX_Processor   : public AAX_CEffectParameters,
                                 public juce::AudioPlayHead,
-                                public AudioProcessorListener
+                                public AudioProcessorListener,
+                                private AsyncUpdater
     {
     public:
-        JuceAAX_Processor()  : pluginInstance (createPluginFilterOfType (AudioProcessor::wrapperType_AAX)),
-                               busUtils (*pluginInstance, false),
-                               sampleRate (0), lastBufferSize (1024), maxBufferSize (1024),
-                               hasSidechain (false)
+        JuceAAX_Processor()
+            : pluginInstance (createPluginFilterOfType (AudioProcessor::wrapperType_AAX))
         {
             pluginInstance->setPlayHead (this);
             pluginInstance->addListener (this);
 
-            busUtils.findAllCompatibleLayouts();
+            rebuildChannelMapArrays();
 
             AAX_CEffectParameters::GetNumberOfChunks (&juceChunkIndex);
         }
 
-        static AAX_CEffectParameters* AAX_CALLBACK Create()   { return new JuceAAX_Processor(); }
+        static AAX_CEffectParameters* AAX_CALLBACK Create()
+        {
+            PluginHostType::jucePlugInClientCurrentWrapperType = AudioProcessor::wrapperType_AAX;
+            return new JuceAAX_Processor();
+        }
+
+        AAX_Result Uninitialize() override
+        {
+            cancelPendingUpdate();
+
+            if (isPrepared && pluginInstance != nullptr)
+            {
+                isPrepared = false;
+                processingSidechainChange.set (0);
+
+                pluginInstance->releaseResources();
+            }
+
+            return AAX_CEffectParameters::Uninitialize();
+        }
 
         AAX_Result EffectInit() override
         {
-            AAX_Result err;
-
+            cancelPendingUpdate();
             check (Controller()->GetSampleRate (&sampleRate));
+            processingSidechainChange.set (0);
+            auto err = preparePlugin();
 
-            if ((err = preparePlugin()) != AAX_SUCCESS)
+            if (err != AAX_SUCCESS)
                 return err;
 
             addBypassParameter();
@@ -539,29 +677,18 @@ struct AAXClasses
             return AAX_SUCCESS;
         }
 
-        juce::MemoryBlock& getTemporaryChunkMemory() const
-        {
-            ScopedLock sl (perThreadDataLock);
-            const Thread::ThreadID currentThread = Thread::getCurrentThreadId();
-
-            if (ChunkMemoryBlock::Ptr m = perThreadFilterData [currentThread])
-                return m->data;
-
-            ChunkMemoryBlock::Ptr m (new ChunkMemoryBlock());
-            perThreadFilterData.set (currentThread, m);
-            return m->data;
-        }
-
         AAX_Result GetChunkSize (AAX_CTypeID chunkID, uint32_t* oSize) const override
         {
             if (chunkID != juceChunkType)
                 return AAX_CEffectParameters::GetChunkSize (chunkID, oSize);
 
-            juce::MemoryBlock& tempFilterData = getTemporaryChunkMemory();
-            tempFilterData.reset();
-            pluginInstance->getStateInformation (tempFilterData);
+            auto& chunkMemoryBlock = perThreadFilterData.get();
 
-            *oSize = (uint32_t) tempFilterData.getSize();
+            chunkMemoryBlock.data.reset();
+            pluginInstance->getStateInformation (chunkMemoryBlock.data);
+            chunkMemoryBlock.isValid = true;
+
+            *oSize = (uint32_t) chunkMemoryBlock.data.getSize();
             return AAX_SUCCESS;
         }
 
@@ -570,14 +697,14 @@ struct AAXClasses
             if (chunkID != juceChunkType)
                 return AAX_CEffectParameters::GetChunk (chunkID, oChunk);
 
-            juce::MemoryBlock& tempFilterData = getTemporaryChunkMemory();
+            auto& chunkMemoryBlock = perThreadFilterData.get();
 
-            if (tempFilterData.getSize() == 0)
-                return 20700 /*AAX_ERROR_PLUGIN_API_INVALID_THREAD*/;
+            if (! chunkMemoryBlock.isValid)
+                return 20700; // AAX_ERROR_PLUGIN_API_INVALID_THREAD
 
-            oChunk->fSize = (int32_t) tempFilterData.getSize();
-            tempFilterData.copyTo (oChunk->fData, 0, tempFilterData.getSize());
-            tempFilterData.reset();
+            oChunk->fSize = (int32_t) chunkMemoryBlock.data.getSize();
+            chunkMemoryBlock.data.copyTo (oChunk->fData, 0, chunkMemoryBlock.data.getSize());
+            chunkMemoryBlock.isValid = false;
 
             return AAX_SUCCESS;
         }
@@ -595,10 +722,11 @@ struct AAXClasses
             // * The preset is loaded in PT 10 using the AAX version.
             // * The session is then saved, and closed.
             // * The saved session is loaded, but acting as if the preset was never loaded.
-            const int numParameters = pluginInstance->getNumParameters();
+            auto numParameters = pluginInstance->getNumParameters();
 
             for (int i = 0; i < numParameters; ++i)
-                SetParameterNormalizedValue (IndexAsParamID (i), (double) pluginInstance->getParameter(i));
+                if (auto paramID = getAAXParamIDFromJuceIndex(i))
+                    SetParameterNormalizedValue (paramID, (double) pluginInstance->getParameter(i));
 
             return AAX_SUCCESS;
         }
@@ -609,8 +737,8 @@ struct AAXClasses
             {
                 case JUCEAlgorithmIDs::pluginInstance:
                 {
-                    const size_t numObjects = dataSize / sizeof (PluginInstanceInfo);
-                    PluginInstanceInfo* const objects = static_cast<PluginInstanceInfo*> (data);
+                    auto numObjects = dataSize / sizeof (PluginInstanceInfo);
+                    auto* objects = static_cast<PluginInstanceInfo*> (data);
 
                     jassert (numObjects == 1); // not sure how to handle more than one..
 
@@ -624,12 +752,27 @@ struct AAXClasses
                 {
                     const_cast<JuceAAX_Processor*>(this)->preparePlugin();
 
-                    const size_t numObjects = dataSize / sizeof (uint32_t);
-                    uint32_t* const objects = static_cast<uint32_t*> (data);
+                    auto numObjects = dataSize / sizeof (uint32_t);
+                    auto* objects = static_cast<uint32_t*> (data);
 
                     for (size_t i = 0; i < numObjects; ++i)
-                        new (objects + i) uint32_t (1);
+                        objects[i] = 1;
 
+                    break;
+                }
+
+                case JUCEAlgorithmIDs::meterTapBuffers:
+                {
+                    // this is a dummy field only when there are no aaxMeters
+                    jassert (aaxMeters.size() == 0);
+
+                    {
+                        auto numObjects = dataSize / sizeof (float*);
+                        auto* objects = static_cast<float**> (data);
+
+                        for (size_t i = 0; i < numObjects; ++i)
+                            objects[i] = nullptr;
+                    }
                     break;
                 }
             }
@@ -639,7 +782,7 @@ struct AAXClasses
 
         AAX_Result UpdateParameterNormalizedValue (AAX_CParamID paramID, double value, AAX_EUpdateSource source) override
         {
-            AAX_Result result = AAX_CEffectParameters::UpdateParameterNormalizedValue (paramID, value, source);
+            auto result = AAX_CEffectParameters::UpdateParameterNormalizedValue (paramID, value, source);
 
             if (! isBypassParam (paramID))
                 pluginInstance->setParameter (getParamIndexFromID (paramID), (float) value);
@@ -651,7 +794,7 @@ struct AAXClasses
         {
             if (isBypassParam (paramID))
             {
-                *result = (text.Get()[0] == 'B') ? 1 : 0;
+                *result = (text.Get()[0] == 'B') ? 1.0 : 0.0;
                 return AAX_SUCCESS;
             }
 
@@ -672,10 +815,10 @@ struct AAXClasses
             }
             else
             {
-                const int paramIndex = getParamIndexFromID (paramID);
+                auto paramIndex = getParamIndexFromID (paramID);
                 juce::String text;
 
-                if (AudioProcessorParameter* param = pluginInstance->getParameters() [paramIndex])
+                if (auto* param = pluginInstance->getParameters() [paramIndex])
                     text = param->getText ((float) value, maxLen);
                 else
                     text = pluginInstance->getParameterText (paramIndex, maxLen);
@@ -710,7 +853,7 @@ struct AAXClasses
             if (isBypassParam (paramID))
                 return AAX_CEffectParameters::SetParameterNormalizedValue (paramID, newValue);
 
-            if (AAX_IParameter* p = const_cast<AAX_IParameter*> (mParameterManager.GetParameterByID (paramID)))
+            if (auto* p = mParameterManager.GetParameterByID (paramID))
                 p->SetValueWithFloat ((float) newValue);
 
             pluginInstance->setParameter (getParamIndexFromID (paramID), (float) newValue);
@@ -722,11 +865,11 @@ struct AAXClasses
             if (isBypassParam (paramID))
                 return AAX_CEffectParameters::SetParameterNormalizedRelative (paramID, newDeltaValue);
 
-            const int paramIndex = getParamIndexFromID (paramID);
-            const float newValue = pluginInstance->getParameter (paramIndex) + (float) newDeltaValue;
+            auto paramIndex = getParamIndexFromID (paramID);
+            auto newValue = pluginInstance->getParameter (paramIndex) + (float) newDeltaValue;
             pluginInstance->setParameter (paramIndex, jlimit (0.0f, 1.0f, newValue));
 
-            if (AAX_IParameter* p = const_cast<AAX_IParameter*> (mParameterManager.GetParameterByID (paramID)))
+            if (auto* p = mParameterManager.GetParameterByID (paramID))
                 p->SetValueWithFloat (newValue);
 
             return AAX_SUCCESS;
@@ -779,7 +922,6 @@ struct AAXClasses
             transport.GetCurrentMeter (&num, &den);
             info.timeSigNumerator   = (int) num;
             info.timeSigDenominator = (int) den;
-
             info.timeInSamples = 0;
 
             if (transport.IsTransportPlaying (&info.isPlaying) != AAX_SUCCESS)
@@ -816,11 +958,11 @@ struct AAXClasses
                     case AAX_eFrameRate_Undeclared:    break;
                     case AAX_eFrameRate_24Frame:       info.frameRate = AudioPlayHead::fps24;       break;
                     case AAX_eFrameRate_25Frame:       info.frameRate = AudioPlayHead::fps25;       framesPerSec = 25.0; break;
-                    case AAX_eFrameRate_2997NonDrop:   info.frameRate = AudioPlayHead::fps2997;     framesPerSec = 29.97002997; break;
-                    case AAX_eFrameRate_2997DropFrame: info.frameRate = AudioPlayHead::fps2997drop; framesPerSec = 29.97002997; break;
+                    case AAX_eFrameRate_2997NonDrop:   info.frameRate = AudioPlayHead::fps2997;     framesPerSec = 30.0 * 1000.0 / 1001.0; break;
+                    case AAX_eFrameRate_2997DropFrame: info.frameRate = AudioPlayHead::fps2997drop; framesPerSec = 30.0 * 1000.0 / 1001.0; break;
                     case AAX_eFrameRate_30NonDrop:     info.frameRate = AudioPlayHead::fps30;       framesPerSec = 30.0; break;
                     case AAX_eFrameRate_30DropFrame:   info.frameRate = AudioPlayHead::fps30drop;   framesPerSec = 30.0; break;
-                    case AAX_eFrameRate_23976:         info.frameRate = AudioPlayHead::fps24;       framesPerSec = 23.976; break;
+                    case AAX_eFrameRate_23976:         info.frameRate = AudioPlayHead::fps23976;    framesPerSec = 24.0 * 1000.0 / 1001.0; break;
                     default:                           break;
                 }
 
@@ -836,23 +978,40 @@ struct AAXClasses
 
         void audioProcessorParameterChanged (AudioProcessor* /*processor*/, int parameterIndex, float newValue) override
         {
-            SetParameterNormalizedValue (IndexAsParamID (parameterIndex), (double) newValue);
+            if (auto paramID = getAAXParamIDFromJuceIndex (parameterIndex))
+                SetParameterNormalizedValue (paramID, (double) newValue);
         }
 
         void audioProcessorChanged (AudioProcessor* processor) override
         {
             ++mNumPlugInChanges;
+
+            auto numParameters = pluginInstance->getNumParameters();
+
+            for (int i = 0; i < numParameters; ++i)
+            {
+                if (auto* p = mParameterManager.GetParameterByID (getAAXParamIDFromJuceIndex (i)))
+                {
+                    auto newName = processor->getParameterName (i, 31);
+
+                    if (p->Name() != newName.toRawUTF8())
+                        p->SetName (AAX_CString (newName.toRawUTF8()));
+                }
+            }
+
             check (Controller()->SetSignalLatency (processor->getLatencySamples()));
         }
 
-        void audioProcessorParameterChangeGestureBegin (AudioProcessor* /*processor*/, int parameterIndex) override
+        void audioProcessorParameterChangeGestureBegin (AudioProcessor*, int parameterIndex) override
         {
-            TouchParameter (IndexAsParamID (parameterIndex));
+            if (auto paramID = getAAXParamIDFromJuceIndex (parameterIndex))
+                TouchParameter (paramID);
         }
 
-        void audioProcessorParameterChangeGestureEnd (AudioProcessor* /*processor*/, int parameterIndex) override
+        void audioProcessorParameterChangeGestureEnd (AudioProcessor*, int parameterIndex) override
         {
-            ReleaseParameter (IndexAsParamID (parameterIndex));
+            if (auto paramID = getAAXParamIDFromJuceIndex (parameterIndex))
+                ReleaseParameter (paramID);
         }
 
         AAX_Result NotificationReceived (AAX_CTypeID type, const void* data, uint32_t size) override
@@ -860,10 +1019,18 @@ struct AAXClasses
             if (type == AAX_eNotificationEvent_EnteringOfflineMode)  pluginInstance->setNonRealtime (true);
             if (type == AAX_eNotificationEvent_ExitingOfflineMode)   pluginInstance->setNonRealtime (false);
 
+            if (type == AAX_eNotificationEvent_TrackNameChanged && data != nullptr)
+            {
+                AudioProcessor::TrackProperties props;
+                props.name = static_cast<const AAX_IString*> (data)->Get();
+
+                pluginInstance->updateTrackProperties (props);
+            }
+
             return AAX_CEffectParameters::NotificationReceived (type, data, size);
         }
 
-        const float* getAudioBufferForInput (const float* const* inputs, const int sidechain, const int mainNumIns, int idx) const noexcept
+        const float* getAudioBufferForInput (const float* const* inputs, int sidechain, int mainNumIns, int idx) const noexcept
         {
             jassert (idx < (mainNumIns + 1));
 
@@ -875,23 +1042,45 @@ struct AAXClasses
 
         void process (const float* const* inputs, float* const* outputs, const int sideChainBufferIdx,
                       const int bufferSize, const bool bypass,
-                      AAX_IMIDINode* midiNodeIn, AAX_IMIDINode* midiNodesOut)
+                      AAX_IMIDINode* midiNodeIn, AAX_IMIDINode* midiNodesOut,
+                      float* const meterBuffers)
         {
-            const int numIns  = pluginInstance->getTotalNumInputChannels();
-            const int numOuts = pluginInstance->getTotalNumOutputChannels();
+            auto numIns    = pluginInstance->getTotalNumInputChannels();
+            auto numOuts   = pluginInstance->getTotalNumOutputChannels();
+            auto numMeters = aaxMeters.size();
 
-            if (pluginInstance->isSuspended())
+            bool processWantsSidechain = (sideChainBufferIdx != -1);
+            bool isSuspended = pluginInstance->isSuspended();
+
+            if (processingSidechainChange.get() == 0)
+            {
+                if (hasSidechain && canDisableSidechain && (sidechainDesired.get() != 0) != processWantsSidechain)
+                {
+                    isSuspended = true;
+                    sidechainDesired.set (processWantsSidechain ? 1 : 0);
+                    processingSidechainChange.set (1);
+                    triggerAsyncUpdate();
+                }
+            }
+            else
+                isSuspended = true;
+
+            if (isSuspended)
             {
                 for (int i = 0; i < numOuts; ++i)
                     FloatVectorOperations::clear (outputs[i], bufferSize);
+
+                if (meterBuffers != nullptr)
+                    FloatVectorOperations::clear (meterBuffers, numMeters);
             }
             else
             {
-                const int mainNumIns = numIns > 0 ? pluginInstance->busArrangement.inputBuses.getReference (0).channels.size() : 0;
-                const int sidechain = busUtils.getNumEnabledBuses (true) >= 2 ? sideChainBufferIdx : -1;
-                const int numChans = jmax (numIns, numOuts);
+                auto mainNumIns = pluginInstance->getMainBusNumInputChannels();
+                auto sidechain = (pluginInstance->getChannelCountOfBus (true, 1) > 0 ? sideChainBufferIdx : -1);
+                auto numChans = jmax (numIns, numOuts);
 
-                if (numChans == 0) return;
+                if (numChans == 0)
+                    return;
 
                 if (channelList.size() <= numChans)
                     channelList.insertMultiple (-1, nullptr, 1 + numChans - channelList.size());
@@ -905,6 +1094,9 @@ struct AAXClasses
 
                     for (int i = 0; i < numIns; ++i)
                         memcpy (channels[i], getAudioBufferForInput (inputs, sidechain, mainNumIns, i), (size_t) bufferSize * sizeof (float));
+
+                    for (int i = numIns; i < numOuts; ++i)
+                        zeromem (channels[i], (size_t) bufferSize * sizeof (float));
 
                     process (channels, numOuts, bufferSize, bypass, midiNodeIn, midiNodesOut);
                 }
@@ -921,31 +1113,197 @@ struct AAXClasses
 
                     process (channels, numIns, bufferSize, bypass, midiNodeIn, midiNodesOut);
                 }
+
+                if (meterBuffers != nullptr)
+                    for (int i = 0; i < numMeters; ++i)
+                        meterBuffers[i] = pluginInstance->getParameter (aaxMeters[i]);
             }
         }
 
-        bool supportsSidechain() const noexcept { return hasSidechain; };
+        //==============================================================================
+        // In aax, the format of the aux and sidechain buses need to be fully determined
+        // by the format on the main buses. This function tried to provide such a mapping.
+        // Returns false if the in/out main layout is not supported
+        static bool fullBusesLayoutFromMainLayout (const AudioProcessor& p,
+                                                   const AudioChannelSet& mainInput, const AudioChannelSet& mainOutput,
+                                                   AudioProcessor::BusesLayout& fullLayout)
+        {
+            auto currentLayout = getDefaultLayout (p, true);
+            bool success = p.checkBusesLayoutSupported (currentLayout);
+            jassert (success);
+            ignoreUnused (success);
+
+            auto numInputBuses  = p.getBusCount (true);
+            auto numOutputBuses = p.getBusCount (false);
+
+            if (auto* bus = p.getBus (true, 0))
+                if (! bus->isLayoutSupported (mainInput, &currentLayout))
+                    return false;
+
+            if (auto* bus = p.getBus (false, 0))
+                if (! bus->isLayoutSupported (mainOutput, &currentLayout))
+                    return false;
+
+            // did this change the input again
+            if (numInputBuses > 0 && currentLayout.inputBuses.getReference (0) != mainInput)
+                return false;
+
+           #ifdef JucePlugin_PreferredChannelConfigurations
+            short configs[][2] = { JucePlugin_PreferredChannelConfigurations };
+
+            if (! AudioProcessor::containsLayout (currentLayout, configs))
+                return false;
+           #endif
+
+            bool foundValid = false;
+            {
+                auto onlyMains = currentLayout;
+
+                for (int i = 1; i < numInputBuses; ++i)
+                    onlyMains.inputBuses.getReference  (i) = AudioChannelSet::disabled();
+
+                for (int i = 1; i < numOutputBuses; ++i)
+                    onlyMains.outputBuses.getReference (i) = AudioChannelSet::disabled();
+
+                if (p.checkBusesLayoutSupported (onlyMains))
+                {
+                    foundValid = true;
+                    fullLayout = onlyMains;
+                }
+            }
+
+            if (numInputBuses > 1)
+            {
+                // can the first bus be a sidechain or disabled, if not then we can't use this layout combination
+                if (auto* bus = p.getBus (true, 1))
+                    if (! bus->isLayoutSupported (AudioChannelSet::mono(), &currentLayout) && ! bus->isLayoutSupported (AudioChannelSet::disabled(), &currentLayout))
+                        return foundValid;
+
+                // can all the other inputs be disabled, if not then we can't use this layout combination
+                for (int i = 2; i < numInputBuses; ++i)
+                    if (auto* bus = p.getBus (true, i))
+                        if (! bus->isLayoutSupported (AudioChannelSet::disabled(), &currentLayout))
+                            return foundValid;
+
+                if (auto* bus = p.getBus (true, 0))
+                    if (! bus->isLayoutSupported (mainInput, &currentLayout))
+                        return foundValid;
+
+                if (auto* bus = p.getBus (false, 0))
+                    if (! bus->isLayoutSupported (mainOutput, &currentLayout))
+                        return foundValid;
+
+                // recheck if the format is correct
+                if ((numInputBuses  > 0 && currentLayout.inputBuses .getReference (0) != mainInput)
+                 || (numOutputBuses > 0 && currentLayout.outputBuses.getReference (0) != mainOutput))
+                    return foundValid;
+
+                auto& sidechainBus = currentLayout.inputBuses.getReference (1);
+
+                if (sidechainBus != AudioChannelSet::mono() && sidechainBus != AudioChannelSet::disabled())
+                    return foundValid;
+
+                for (int i = 2; i < numInputBuses; ++i)
+                    if (currentLayout.outputBuses.getReference (i) != AudioChannelSet::disabled())
+                        return foundValid;
+            }
+
+            const bool hasSidechain = (numInputBuses > 1 && currentLayout.inputBuses.getReference (1) == AudioChannelSet::mono());
+
+            if (hasSidechain)
+            {
+                auto onlyMainsAndSidechain = currentLayout;
+
+                for (int i = 1; i < numOutputBuses; ++i)
+                    onlyMainsAndSidechain.outputBuses.getReference (i) = AudioChannelSet::disabled();
+
+                if (p.checkBusesLayoutSupported (onlyMainsAndSidechain))
+                {
+                    foundValid = true;
+                    fullLayout = onlyMainsAndSidechain;
+                }
+            }
+
+            if (numOutputBuses > 1)
+            {
+                auto copy = currentLayout;
+                int maxAuxBuses = jmin (16, numOutputBuses);
+
+                for (int i = 1; i < maxAuxBuses; ++i)
+                    copy.outputBuses.getReference (i) = mainOutput;
+
+                for (int i = maxAuxBuses; i < numOutputBuses; ++i)
+                    copy.outputBuses.getReference (i) = AudioChannelSet::disabled();
+
+                if (p.checkBusesLayoutSupported (copy))
+                {
+                    fullLayout = copy;
+                    foundValid = true;
+                }
+                else
+                {
+                    for (int i = 1; i < maxAuxBuses; ++i)
+                        if (currentLayout.outputBuses.getReference (i).isDisabled())
+                            return foundValid;
+
+                    for (int i = maxAuxBuses; i < numOutputBuses; ++i)
+                        if (auto* bus = p.getBus (false, i))
+                            if (! bus->isLayoutSupported (AudioChannelSet::disabled(), &currentLayout))
+                                return foundValid;
+
+                    if (auto* bus = p.getBus (true, 0))
+                        if (! bus->isLayoutSupported (mainInput, &currentLayout))
+                            return foundValid;
+
+                    if (auto* bus = p.getBus (false, 0))
+                        if (! bus->isLayoutSupported (mainOutput, &currentLayout))
+                            return foundValid;
+
+                    if ((numInputBuses  > 0 && currentLayout.inputBuses .getReference (0) != mainInput)
+                     || (numOutputBuses > 0 && currentLayout.outputBuses.getReference (0) != mainOutput))
+                        return foundValid;
+
+                    if (numInputBuses > 1)
+                    {
+                        auto& sidechainBus = currentLayout.inputBuses.getReference (1);
+
+                        if (sidechainBus != AudioChannelSet::mono() && sidechainBus != AudioChannelSet::disabled())
+                            return foundValid;
+                    }
+
+                    for (int i = maxAuxBuses; i < numOutputBuses; ++i)
+                        if (! currentLayout.outputBuses.getReference (i).isDisabled())
+                            return foundValid;
+
+                    fullLayout = currentLayout;
+                    foundValid = true;
+                }
+            }
+
+            return foundValid;
+        }
 
     private:
+        friend class JuceAAX_GUI;
+        friend void AAX_CALLBACK AAXClasses::algorithmProcessCallback (JUCEAlgorithmContext* const instancesBegin[], const void* const instancesEnd);
+
         void process (float* const* channels, const int numChans, const int bufferSize,
                       const bool bypass, AAX_IMIDINode* midiNodeIn, AAX_IMIDINode* midiNodesOut)
         {
-            AudioSampleBuffer buffer (channels, numChans, bufferSize);
-
+            AudioBuffer<float> buffer (channels, numChans, bufferSize);
             midiBuffer.clear();
-
             ignoreUnused (midiNodeIn, midiNodesOut);
 
            #if JucePlugin_WantsMidiInput || JucePlugin_IsMidiEffect
             {
-                AAX_CMidiStream* const midiStream = midiNodeIn->GetNodeBuffer();
-                const uint32_t numMidiEvents = midiStream->mBufferSize;
+                auto* midiStream = midiNodeIn->GetNodeBuffer();
+                auto numMidiEvents = midiStream->mBufferSize;
 
                 for (uint32_t i = 0; i < numMidiEvents; ++i)
                 {
-                    const AAX_CMidiPacket& m = midiStream->mBuffer[i];
-
+                    auto& m = midiStream->mBuffer[i];
                     jassert ((int) m.mTimestamp < bufferSize);
+
                     midiBuffer.addEvent (m.mData, (int) m.mLength,
                                          jlimit (0, (int) bufferSize - 1, (int) m.mTimestamp));
                 }
@@ -967,7 +1325,7 @@ struct AAXClasses
                         // value during initialisation.
                         pluginInstance->prepareToPlay (sampleRate, bufferSize);
                         maxBufferSize = bufferSize;
-                        sideChainBuffer.realloc (static_cast<size_t> (maxBufferSize));
+                        sideChainBuffer.calloc (static_cast<size_t> (maxBufferSize));
                     }
                 }
 
@@ -1007,12 +1365,12 @@ struct AAXClasses
 
         void addBypassParameter()
         {
-            AAX_IParameter* masterBypass = new AAX_CParameter<bool> (cDefaultMasterBypassID,
-                                                                     AAX_CString ("Master Bypass"),
-                                                                     false,
-                                                                     AAX_CBinaryTaperDelegate<bool>(),
-                                                                     AAX_CBinaryDisplayDelegate<bool> ("bypass", "on"),
-                                                                     true);
+            auto* masterBypass = new AAX_CParameter<bool> (cDefaultMasterBypassID,
+                                                           AAX_CString ("Master Bypass"),
+                                                           false,
+                                                           AAX_CBinaryTaperDelegate<bool>(),
+                                                           AAX_CBinaryDisplayDelegate<bool> ("bypass", "on"),
+                                                           true);
             masterBypass->SetNumberOfSteps (2);
             masterBypass->SetType (AAX_eParameterType_Discrete);
             mParameterManager.AddParameter (masterBypass);
@@ -1021,27 +1379,52 @@ struct AAXClasses
 
         void addAudioProcessorParameters()
         {
-            AudioProcessor& audioProcessor = getPluginInstance();
-            const int numParameters = audioProcessor.getNumParameters();
+            auto& audioProcessor = getPluginInstance();
+            auto numParameters = audioProcessor.getNumParameters();
+
+           #if JUCE_FORCE_USE_LEGACY_PARAM_IDS
+            const bool usingManagedParameters = false;
+           #else
+            const bool usingManagedParameters = (audioProcessor.getParameters().size() == numParameters);
+           #endif
 
             for (int parameterIndex = 0; parameterIndex < numParameters; ++parameterIndex)
             {
-                AAX_CString paramName (audioProcessor.getParameterName (parameterIndex, 31).toRawUTF8());
+                auto category = audioProcessor.getParameterCategory (parameterIndex);
 
-                AAX_IParameter* parameter
-                    = new AAX_CParameter<float> (IndexAsParamID (parameterIndex),
-                                                 paramName,
-                                                 audioProcessor.getParameterDefaultValue (parameterIndex),
-                                                 AAX_CLinearTaperDelegate<float, 0>(),
-                                                 AAX_CNumberDisplayDelegate<float, 3>(),
-                                                 audioProcessor.isParameterAutomatable (parameterIndex));
+                aaxParamIDs.add (usingManagedParameters ? audioProcessor.getParameterID (parameterIndex)
+                                                        : String (parameterIndex));
+
+                auto paramID = aaxParamIDs.getReference (parameterIndex).getCharPointer();
+
+                paramMap.set (AAXClasses::getAAXParamHash (paramID), parameterIndex);
+
+                // is this a meter?
+                if (((category & 0xffff0000) >> 16) == 2)
+                {
+                    aaxMeters.add (parameterIndex);
+                    continue;
+                }
+
+                auto parameter = new AAX_CParameter<float> (paramID,
+                                                            AAX_CString (audioProcessor.getParameterName (parameterIndex, 31).toRawUTF8()),
+                                                            audioProcessor.getParameterDefaultValue (parameterIndex),
+                                                            AAX_CLinearTaperDelegate<float, 0>(),
+                                                            AAX_CNumberDisplayDelegate<float, 3>(),
+                                                            audioProcessor.isParameterAutomatable (parameterIndex));
 
                 parameter->AddShortenedName (audioProcessor.getParameterName (parameterIndex, 4).toRawUTF8());
 
-                const int parameterNumSteps = audioProcessor.getParameterNumSteps (parameterIndex);
+                auto parameterNumSteps = audioProcessor.getParameterNumSteps (parameterIndex);
                 parameter->SetNumberOfSteps ((uint32_t) parameterNumSteps);
+
+               #if JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
                 parameter->SetType (parameterNumSteps > 1000 ? AAX_eParameterType_Continuous
                                                              : AAX_eParameterType_Discrete);
+               #else
+                parameter->SetType (audioProcessor.isParameterDiscrete (parameterIndex) ? AAX_eParameterType_Discrete
+                                                                                        : AAX_eParameterType_Continuous);
+               #endif
 
                 parameter->SetOrientation (audioProcessor.isParameterOrientationInverted (parameterIndex)
                                             ? (AAX_eParameterOrientation_RightMinLeftMax | AAX_eParameterOrientation_TopMinBottomMax
@@ -1053,14 +1436,21 @@ struct AAXClasses
             }
         }
 
-        AAX_Result preparePlugin()
+        bool getMainBusFormats (AudioChannelSet& inputSet, AudioChannelSet& outputSet)
         {
-            AudioProcessor& audioProcessor = getPluginInstance();
+            auto& audioProcessor = getPluginInstance();
+           #if ! JucePlugin_IsMidiEffect
+            auto inputBuses  = audioProcessor.getBusCount (true);
+            auto outputBuses = audioProcessor.getBusCount (false);
+           #endif
 
            #if JucePlugin_IsMidiEffect
             // MIDI effect plug-ins do not support any audio channels
-            jassert (audioProcessor.busArrangement.getTotalNumInputChannels()  == 0
-                  && audioProcessor.busArrangement.getTotalNumOutputChannels() == 0);
+            jassert (audioProcessor.getTotalNumInputChannels()  == 0
+                  && audioProcessor.getTotalNumOutputChannels() == 0);
+
+            inputSet = outputSet = AudioChannelSet();
+            return true;
            #else
             AAX_EStemFormat inputStemFormat = AAX_eStemFormat_None;
             check (Controller()->GetInputStemFormat (&inputStemFormat));
@@ -1068,89 +1458,264 @@ struct AAXClasses
             AAX_EStemFormat outputStemFormat = AAX_eStemFormat_None;
             check (Controller()->GetOutputStemFormat (&outputStemFormat));
 
-            const AudioChannelSet inputSet  = channelSetFromStemFormat (inputStemFormat,  busUtils.busIgnoresLayout (true, 0));
-            const AudioChannelSet outputSet = channelSetFromStemFormat (outputStemFormat, busUtils.busIgnoresLayout (false, 0));
-
-            if (  (inputSet  == AudioChannelSet::disabled() && inputStemFormat  != AAX_eStemFormat_None)
-               || (outputSet == AudioChannelSet::disabled() && outputStemFormat != AAX_eStemFormat_None))
-                return AAX_ERROR_UNIMPLEMENTED;
-
-            bool success = true;
-
-            if (busUtils.getBusCount (true) > 0)
-                success = audioProcessor.setPreferredBusArrangement (true, 0, inputSet);
-
-            if (success && busUtils.getBusCount (false) > 0)
-                success = audioProcessor.setPreferredBusArrangement (false, 0, outputSet);
-
-            // This should never happen as the plugin reported that this layout is supported
-            jassert (success);
-
-            hasSidechain = enableAuxBusesForCurrentFormat (busUtils, inputSet, outputSet);
-            if (hasSidechain)
-                sideChainBuffer.realloc (static_cast<size_t> (maxBufferSize));
-
-            // recheck the format
-            if ( (busUtils.getBusCount (true)  > 0 && busUtils.getChannelSet (true, 0)  != inputSet)
-              || (busUtils.getBusCount (false) > 0 && busUtils.getChannelSet (false, 0) != outputSet)
-              || (hasSidechain && busUtils.getNumChannels(true, 1) != 1))
-                return AAX_ERROR_UNIMPLEMENTED;
-
-            rebuildChannelMapArrays (true);
-            rebuildChannelMapArrays (false);
+           #if JucePlugin_IsSynth
+            if (inputBuses == 0)
+                inputStemFormat = AAX_eStemFormat_None;
            #endif
 
-            audioProcessor.setRateAndBufferSizeDetails (sampleRate, maxBufferSize);
-            audioProcessor.prepareToPlay (sampleRate, lastBufferSize);
-            maxBufferSize = lastBufferSize;
+            inputSet  = (inputBuses  > 0 ? channelSetFromStemFormat (inputStemFormat,  false) : AudioChannelSet());
+            outputSet = (outputBuses > 0 ? channelSetFromStemFormat (outputStemFormat, false) : AudioChannelSet());
+
+            if (  (inputSet  == AudioChannelSet::disabled() && inputStemFormat  != AAX_eStemFormat_None)
+                || (outputSet == AudioChannelSet::disabled() && outputStemFormat != AAX_eStemFormat_None)
+                || (inputSet  != AudioChannelSet::disabled() && inputBuses  == 0)
+                || (outputSet != AudioChannelSet::disabled() && outputBuses == 0))
+                return false;
+
+            return true;
+           #endif
+        }
+
+        AAX_Result preparePlugin()
+        {
+            auto& audioProcessor = getPluginInstance();
+            auto oldLayout = audioProcessor.getBusesLayout();
+            AudioChannelSet inputSet, outputSet;
+
+            if (! getMainBusFormats (inputSet, outputSet))
+            {
+                if (isPrepared)
+                {
+                    isPrepared = false;
+                    audioProcessor.releaseResources();
+                }
+
+                return AAX_ERROR_UNIMPLEMENTED;
+            }
+
+            AudioProcessor::BusesLayout newLayout;
+
+            if (! fullBusesLayoutFromMainLayout (audioProcessor, inputSet, outputSet, newLayout))
+            {
+                if (isPrepared)
+                {
+                    isPrepared = false;
+                    audioProcessor.releaseResources();
+                }
+
+                return AAX_ERROR_UNIMPLEMENTED;
+            }
+
+            hasSidechain = (newLayout.getNumChannels (true, 1) == 1);
+
+            if (hasSidechain)
+            {
+                sidechainDesired.set (1);
+
+                auto disabledSidechainLayout = newLayout;
+                disabledSidechainLayout.inputBuses.getReference (1) = AudioChannelSet::disabled();
+
+                canDisableSidechain = audioProcessor.checkBusesLayoutSupported (disabledSidechainLayout);
+
+                if (canDisableSidechain)
+                {
+                    sidechainDesired.set (0);
+                    newLayout = disabledSidechainLayout;
+                }
+            }
+
+            const bool layoutChanged = (oldLayout != newLayout);
+
+            if (layoutChanged)
+            {
+                if (! audioProcessor.setBusesLayout (newLayout))
+                {
+                    if (isPrepared)
+                    {
+                        isPrepared = false;
+                        audioProcessor.releaseResources();
+                    }
+
+                    return AAX_ERROR_UNIMPLEMENTED;
+                }
+
+                rebuildChannelMapArrays();
+            }
+
+            if (layoutChanged || (! isPrepared))
+            {
+                if (isPrepared)
+                {
+                    isPrepared = false;
+                    audioProcessor.releaseResources();
+                }
+
+                audioProcessor.setRateAndBufferSizeDetails (sampleRate, lastBufferSize);
+                audioProcessor.prepareToPlay (sampleRate, lastBufferSize);
+                maxBufferSize = lastBufferSize;
+
+                sideChainBuffer.calloc (static_cast<size_t> (maxBufferSize));
+            }
 
             check (Controller()->SetSignalLatency (audioProcessor.getLatencySamples()));
+            isPrepared = true;
 
             return AAX_SUCCESS;
         }
 
-        void rebuildChannelMapArrays (bool isInput)
+        void rebuildChannelMapArrays()
         {
-            Array<int>& layoutMap = isInput ? inputLayoutMap : outputLayoutMap;
-            layoutMap.clear();
+            auto& audioProcessor = getPluginInstance();
 
-            const int n  = isInput ? jmin (busUtils.getBusCount (true), 1) : busUtils.getBusCount (false);
-
-            int chOffset = 0;
-            for (int busIdx = 0; busIdx < n; ++busIdx)
+            for (int dir = 0; dir < 2; ++dir)
             {
-                const AudioChannelSet channelFormat = busUtils.getChannelSet (isInput, busIdx);
+                bool isInput = (dir == 0);
+                auto& layoutMap = isInput ? inputLayoutMap : outputLayoutMap;
+                layoutMap.clear();
 
-                if (channelFormat != AudioChannelSet::disabled())
+                auto numBuses = audioProcessor.getBusCount (isInput);
+                int chOffset = 0;
+
+                for (int busIdx = 0; busIdx < numBuses; ++busIdx)
                 {
-                    const int numChannels = channelFormat.size();
+                    auto channelFormat = audioProcessor.getChannelLayoutOfBus (isInput, busIdx);
 
-                    for (int ch = 0; ch < numChannels; ++ch)
-                        layoutMap.add (juceChannelIndexToAax (ch, channelFormat) + chOffset);
+                    if (channelFormat != AudioChannelSet::disabled())
+                    {
+                        auto numChannels = channelFormat.size();
 
-                    chOffset += numChannels;
+                        for (int ch = 0; ch < numChannels; ++ch)
+                            layoutMap.add (juceChannelIndexToAax (ch, channelFormat) + chOffset);
+
+                        chOffset += numChannels;
+                    }
                 }
             }
         }
 
+        static void algorithmCallback (JUCEAlgorithmContext* const instancesBegin[], const void* const instancesEnd)
+        {
+            for (auto iter = instancesBegin; iter < instancesEnd; ++iter)
+            {
+                auto& i = **iter;
+
+                int sideChainBufferIdx = i.pluginInstance->parameters.hasSidechain && i.sideChainBuffers != nullptr
+                                             ? static_cast<int> (*i.sideChainBuffers) : -1;
+
+                // sidechain index of zero is an invalid index
+                if (sideChainBufferIdx <= 0)
+                    sideChainBufferIdx = -1;
+
+                auto numMeters = i.pluginInstance->parameters.aaxMeters.size();
+                float* const meterTapBuffers = (i.meterTapBuffers != nullptr && numMeters > 0 ? *i.meterTapBuffers : nullptr);
+
+                i.pluginInstance->parameters.process (i.inputChannels, i.outputChannels, sideChainBufferIdx,
+                                                      *(i.bufferSize), *(i.bypass) != 0,
+                                                      getMidiNodeIn(i), getMidiNodeOut(i),
+                                                      meterTapBuffers);
+            }
+        }
+
+        //==============================================================================
+        void handleAsyncUpdate() override
+        {
+            if (processingSidechainChange.get() == 0)
+                return;
+
+            auto& audioProcessor = getPluginInstance();
+            bool sidechainActual = audioProcessor.getChannelCountOfBus (true, 1) > 0;
+
+            if (hasSidechain && canDisableSidechain && (sidechainDesired.get() != 0) != sidechainActual)
+            {
+                if (isPrepared)
+                {
+                    isPrepared = false;
+                    audioProcessor.releaseResources();
+                }
+
+                if (auto* bus = audioProcessor.getBus (true, 1))
+                    bus->setCurrentLayout (sidechainDesired.get() != 0 ? AudioChannelSet::mono()
+                                                                       : AudioChannelSet::disabled());
+
+                audioProcessor.prepareToPlay (audioProcessor.getSampleRate(), audioProcessor.getBlockSize());
+                isPrepared = true;
+            }
+
+            processingSidechainChange.set (0);
+        }
+
+        //==============================================================================
+        inline int getParamIndexFromID (AAX_CParamID paramID) const noexcept
+        {
+            return paramMap [AAXClasses::getAAXParamHash (paramID)];
+        }
+
+        inline AAX_CParamID getAAXParamIDFromJuceIndex (int index) const noexcept
+        {
+            if (isPositiveAndBelow (index, aaxParamIDs.size()))
+                return aaxParamIDs.getReference (index).getCharPointer();
+
+            return nullptr;
+        }
+
+        //==============================================================================
+        static AudioProcessor::BusesLayout getDefaultLayout (const AudioProcessor& p, bool enableAll)
+        {
+            AudioProcessor::BusesLayout defaultLayout;
+
+            for (int dir = 0; dir < 2; ++dir)
+            {
+                bool isInput = (dir == 0);
+                auto numBuses = p.getBusCount (isInput);
+                auto& layouts = (isInput ? defaultLayout.inputBuses : defaultLayout.outputBuses);
+
+                for (int i = 0; i < numBuses; ++i)
+                    if (auto* bus = p.getBus (isInput, i))
+                        layouts.add (enableAll || bus->isEnabledByDefault() ? bus->getDefaultLayout() : AudioChannelSet());
+            }
+
+            return defaultLayout;
+        }
+
+        static AudioProcessor::BusesLayout getDefaultLayout (AudioProcessor& p)
+        {
+            auto defaultLayout = getDefaultLayout (p, true);
+
+            if (! p.checkBusesLayoutSupported (defaultLayout))
+                defaultLayout = getDefaultLayout (p, false);
+
+            // Your processor must support the default layout
+            jassert (p.checkBusesLayoutSupported (defaultLayout));
+            return defaultLayout;
+        }
+
+        //==============================================================================
         ScopedJuceInitialiser_GUI libraryInitialiser;
 
         ScopedPointer<AudioProcessor> pluginInstance;
-        PluginBusUtilities busUtils;
+
+        bool isPrepared = false;
         MidiBuffer midiBuffer;
         Array<float*> channelList;
-        int32_t juceChunkIndex;
-        AAX_CSampleRate sampleRate;
-        int lastBufferSize, maxBufferSize;
-        bool hasSidechain;
+        int32_t juceChunkIndex = 0;
+        AAX_CSampleRate sampleRate = 0;
+        int lastBufferSize = 1024, maxBufferSize = 1024;
+        bool hasSidechain = false, canDisableSidechain = false;
+
+        Atomic<int> processingSidechainChange, sidechainDesired;
+
         HeapBlock<float> sideChainBuffer;
         Array<int> inputLayoutMap, outputLayoutMap;
 
-        struct ChunkMemoryBlock  : public ReferenceCountedObject
+        Array<String> aaxParamIDs;
+        HashMap<int32, int> paramMap;
+
+        Array<int> aaxMeters;
+
+        struct ChunkMemoryBlock
         {
             juce::MemoryBlock data;
-
-            typedef ReferenceCountedObjectPtr<ChunkMemoryBlock> Ptr;
+            bool isValid;
         };
 
         // temporary filter data is generated in GetChunkSize
@@ -1159,169 +1724,108 @@ struct AAXClasses
         // However, as GetChunkSize and GetChunk can be called
         // on different threads, we store it in thread dependant storage
         // in a hash map with the thread id as a key.
-        mutable HashMap<Thread::ThreadID, ChunkMemoryBlock::Ptr> perThreadFilterData;
+        mutable ThreadLocalValue<ChunkMemoryBlock> perThreadFilterData;
         CriticalSection perThreadDataLock;
 
         JUCE_DECLARE_NON_COPYABLE (JuceAAX_Processor)
     };
 
     //==============================================================================
-    struct IndexAsParamID
+    void JuceAAX_GUI::CreateViewContents()
     {
-        inline explicit IndexAsParamID (int i) noexcept : index (i) {}
-
-        operator AAX_CParamID() noexcept
+        if (component == nullptr)
         {
-            jassert (index >= 0);
-
-            char* t = name + sizeof (name);
-            *--t = 0;
-            int v = index;
-
-            do
-            {
-                *--t = (char) ('0' + (v % 10));
-                v /= 10;
-
-            } while (v > 0);
-
-            return static_cast<AAX_CParamID> (t);
+            if (auto* params = dynamic_cast<JuceAAX_Processor*> (GetEffectParameters()))
+                component = new ContentWrapperComponent (*this, params->getPluginInstance());
+            else
+                jassertfalse;
         }
+    }
 
-    private:
-        int index;
-        char name[32];
+    int JuceAAX_GUI::getParamIndexFromID (AAX_CParamID paramID) const noexcept
+    {
+        if (auto* params = dynamic_cast<const JuceAAX_Processor*> (GetEffectParameters()))
+            return params->getParamIndexFromID (paramID);
 
-        JUCE_DECLARE_NON_COPYABLE (IndexAsParamID)
-    };
+        return -1;
+    }
+
+    AAX_CParamID JuceAAX_GUI::getAAXParamIDFromJuceIndex (int index) const noexcept
+    {
+        if (auto* params = dynamic_cast<const JuceAAX_Processor*> (GetEffectParameters()))
+            return params->getAAXParamIDFromJuceIndex (index);
+
+        return nullptr;
+    }
 
     //==============================================================================
     struct AAXFormatConfiguration
     {
-        AAXFormatConfiguration() noexcept
-            : inputFormat (AAX_eStemFormat_None), outputFormat (AAX_eStemFormat_None) {}
+        AAXFormatConfiguration() noexcept {}
 
         AAXFormatConfiguration (AAX_EStemFormat inFormat, AAX_EStemFormat outFormat) noexcept
             : inputFormat (inFormat), outputFormat (outFormat) {}
 
+        AAX_EStemFormat inputFormat  = AAX_eStemFormat_None,
+                        outputFormat = AAX_eStemFormat_None;
 
-        AAX_EStemFormat inputFormat, outputFormat;
+        bool operator== (const AAXFormatConfiguration other) const noexcept
+        {
+            return inputFormat == other.inputFormat && outputFormat == other.outputFormat;
+        }
 
-        bool operator== (const AAXFormatConfiguration other) const noexcept { return (inputFormat == other.inputFormat) && (outputFormat == other.outputFormat); }
         bool operator< (const AAXFormatConfiguration other) const noexcept
         {
-            return (inputFormat == other.inputFormat) ? (outputFormat < other.outputFormat) : (inputFormat < other.inputFormat);
+            return inputFormat == other.inputFormat ? (outputFormat < other.outputFormat)
+                                                    : (inputFormat  < other.inputFormat);
         }
     };
 
     //==============================================================================
-    static void AAX_CALLBACK algorithmProcessCallback (JUCEAlgorithmContext* const instancesBegin[],
-                                                       const void* const instancesEnd)
+    static int addAAXMeters (AudioProcessor& p, AAX_IEffectDescriptor& descriptor)
     {
-        for (JUCEAlgorithmContext* const* iter = instancesBegin; iter < instancesEnd; ++iter)
+        const int n = p.getNumParameters();
+        int meterIdx = 0;
+
+        for (int i = 0; i < n; ++i)
         {
-            const JUCEAlgorithmContext& i = **iter;
+            auto category = p.getParameterCategory (i);
 
-            int sideChainBufferIdx = i.pluginInstance->parameters.supportsSidechain() && i.sideChainBuffers != nullptr
-                                         ? static_cast<int> (*i.sideChainBuffers)
-                                         : -1;
-
-            i.pluginInstance->parameters.process (i.inputChannels, i.outputChannels, sideChainBufferIdx,
-                                                  *(i.bufferSize), *(i.bypass) != 0,
-                                                  getMidiNodeIn(i), getMidiNodeOut(i));
-        }
-    }
-
-    static bool enableAuxBusesForCurrentFormat (PluginBusUtilities& busUtils, const AudioChannelSet& inputLayout,
-                                                                              const AudioChannelSet& outputLayout)
-    {
-        const int numOutBuses = busUtils.getBusCount (false);
-        const int numInputBuses = busUtils.getBusCount(true);
-
-        if (numOutBuses > 1)
-        {
-            PluginBusUtilities::ScopedBusRestorer layoutRestorer (busUtils);
-
-            // enable all possible output buses
-            for (int busIdx = 1; busIdx < busUtils.getBusCount (false); ++busIdx)
+            // is this a meter?
+            if (((category & 0xffff0000) >> 16) == 2)
             {
-                AudioChannelSet layout = busUtils.getChannelSet (false, busIdx);
-
-                // bus disabled by default? try to enable it with the default layout
-                if (layout == AudioChannelSet::disabled())
+                if (auto* meterProperties = descriptor.NewPropertyMap())
                 {
-                    layout = busUtils.getDefaultLayoutForBus (false, busIdx);
-                    busUtils.processor.setPreferredBusArrangement (false, busIdx, layout);
+                    meterProperties->AddProperty (AAX_eProperty_Meter_Type,        getMeterTypeForCategory (category));
+                    meterProperties->AddProperty (AAX_eProperty_Meter_Orientation, AAX_eMeterOrientation_TopRight);
+
+                    descriptor.AddMeterDescription ('Metr' + static_cast<AAX_CTypeID> (meterIdx++),
+                                                    p.getParameterName (i).toRawUTF8(), meterProperties);
                 }
             }
-
-            // changing output buses may have changed main bus layout
-            bool success = true;
-
-            if (numInputBuses > 0)
-                success = busUtils.processor.setPreferredBusArrangement (true, 0, inputLayout);
-
-            if (success)
-                success = busUtils.processor.setPreferredBusArrangement (false, 0, outputLayout);
-
-            // was the above successful
-            if (success && (numInputBuses == 0 || busUtils.getChannelSet (true,  0) == inputLayout)
-                        && busUtils.getChannelSet (false, 0) == outputLayout)
-                layoutRestorer.release();
         }
 
-        // does the plug-in have side-chain support? Check the following:
-        // 1) does it have an input bus with index = 1 which supports mono
-        // 2) can all other input buses be disabled
-        // 3) does the format of the main buses not change when enabling the first bus
-        if (numInputBuses > 1)
-        {
-            bool success = true;
-            bool hasSidechain = false;
-
-            if (const AudioChannelSet* set = busUtils.getSupportedBusLayouts (true, 1).getDefaultLayoutForChannelNum (1))
-                hasSidechain = busUtils.processor.setPreferredBusArrangement (true, 1, *set);
-
-            if (! hasSidechain)
-                success = busUtils.processor.setPreferredBusArrangement (true, 1, AudioChannelSet::disabled());
-
-            // AAX requires your processor's first sidechain to be either mono or that
-            // it can be disabled
-            jassert(success);
-
-            // disable all other input buses
-            for (int busIdx = 2; busIdx < numInputBuses; ++busIdx)
-            {
-                success = busUtils.processor.setPreferredBusArrangement (true, busIdx, AudioChannelSet::disabled());
-
-                // AAX can only have a single side-chain input. Therefore, your processor must either
-                // only have a single side-chain input or allow disabling all other side-chains
-                jassert (success);
-            }
-
-            if (hasSidechain)
-            {
-                if (busUtils.getBusCount (false) == 0 || busUtils.getBusCount (true) == 0 ||
-                   (busUtils.getChannelSet (true, 0)  == inputLayout && busUtils.getChannelSet (false, 0) == outputLayout))
-                    return true;
-
-                // restore the old layout
-                if (busUtils.getBusCount(true) > 0)
-                    busUtils.processor.setPreferredBusArrangement (true,  0, inputLayout);
-
-                if (busUtils.getBusCount (false) > 0)
-                    busUtils.processor.setPreferredBusArrangement (false, 0, outputLayout);
-            }
-        }
-
-        return false;
+        return meterIdx;
     }
 
-    //==============================================================================
-    static void createDescriptor (AAX_IComponentDescriptor& desc, int configIndex, PluginBusUtilities& busUtils,
-                                  const AudioChannelSet& inputLayout, const AudioChannelSet& outputLayout,
-                                  const AAX_EStemFormat aaxInputFormat, const AAX_EStemFormat aaxOutputFormat)
+    static void createDescriptor (AAX_IComponentDescriptor& desc,
+                                  const AudioProcessor::BusesLayout& fullLayout,
+                                  AudioProcessor& processor,
+                                  Array<int32>& pluginIds,
+                                  const int numMeters)
     {
+        auto aaxInputFormat  = getFormatForAudioChannelSet (fullLayout.getMainInputChannelSet(),  false);
+        auto aaxOutputFormat = getFormatForAudioChannelSet (fullLayout.getMainOutputChannelSet(), false);
+
+       #if JucePlugin_IsSynth
+        if (aaxInputFormat == AAX_eStemFormat_None)
+            aaxInputFormat = aaxOutputFormat;
+       #endif
+
+       #if JucePlugin_IsMidiEffect
+        aaxInputFormat = aaxOutputFormat = AAX_eStemFormat_Mono;
+       #endif
+
         check (desc.AddAudioIn  (JUCEAlgorithmIDs::inputChannels));
         check (desc.AddAudioOut (JUCEAlgorithmIDs::outputChannels));
 
@@ -1341,6 +1845,22 @@ struct AAXClasses
         check (desc.AddPrivateData (JUCEAlgorithmIDs::pluginInstance, sizeof (PluginInstanceInfo)));
         check (desc.AddPrivateData (JUCEAlgorithmIDs::preparedFlag, sizeof (int32_t)));
 
+        if (numMeters > 0)
+        {
+            HeapBlock<AAX_CTypeID> meterIDs (static_cast<size_t> (numMeters));
+
+            for (int i = 0; i < numMeters; ++i)
+                meterIDs[i] = 'Metr' + static_cast<AAX_CTypeID> (i);
+
+            check (desc.AddMeters (JUCEAlgorithmIDs::meterTapBuffers, meterIDs.getData(), static_cast<uint32_t> (numMeters)));
+        }
+        else
+        {
+            // AAX does not allow there to be any gaps in the fields of the algorithm context structure
+            // so just add a dummy one here if there aren't any meters
+            check (desc.AddPrivateData (JUCEAlgorithmIDs::meterTapBuffers, sizeof (uintptr_t)));
+        }
+
         // Create a property map
         AAX_IPropertyMap* const properties = desc.NewPropertyMap();
         jassert (properties != nullptr);
@@ -1359,10 +1879,22 @@ struct AAXClasses
 
         // This value needs to match the RTAS wrapper's Type ID, so that
         // the host knows that the RTAS/AAX plugins are equivalent.
-        properties->AddProperty (AAX_eProperty_PlugInID_Native,     'jcaa' + configIndex);
+        const int32 pluginID = processor.getAAXPluginIDForMainBusConfig (fullLayout.getMainInputChannelSet(),
+                                                                         fullLayout.getMainOutputChannelSet(),
+                                                                         false);
+
+        // The plugin id generated from your AudioProcessor's getAAXPluginIDForMainBusConfig callback
+        // it not unique. Please fix your implementation!
+        jassert (! pluginIds.contains (pluginID));
+        pluginIds.add (pluginID);
+
+        properties->AddProperty (AAX_eProperty_PlugInID_Native, pluginID);
 
        #if ! JucePlugin_AAXDisableAudioSuite
-        properties->AddProperty (AAX_eProperty_PlugInID_AudioSuite, 'jyaa' + configIndex);
+        properties->AddProperty (AAX_eProperty_PlugInID_AudioSuite,
+                                 processor.getAAXPluginIDForMainBusConfig (fullLayout.getMainInputChannelSet(),
+                                                                           fullLayout.getMainOutputChannelSet(),
+                                                                           true));
        #endif
 
        #if JucePlugin_AAXDisableMultiMono
@@ -1375,49 +1907,86 @@ struct AAXClasses
         properties->AddProperty (AAX_eProperty_Constraint_AlwaysProcess, true);
        #endif
 
-        if (enableAuxBusesForCurrentFormat (busUtils, inputLayout, outputLayout))
+       #if JucePlugin_AAXDisableSaveRestore
+        properties->AddProperty (AAX_eProperty_SupportsSaveRestore, false);
+       #endif
+
+        if (fullLayout.getChannelSet (true, 1) == AudioChannelSet::mono())
         {
             check (desc.AddSideChainIn (JUCEAlgorithmIDs::sideChainBuffers));
             properties->AddProperty (AAX_eProperty_SupportsSideChainInput, true);
         }
+
+        auto maxAuxBuses = jmax (0, jmin (15, fullLayout.outputBuses.size() - 1));
 
         // add the output buses
         // This is incrdibly dumb: the output bus format must be well defined
         // for every main bus in/out format pair. This means that there cannot
         // be two configurations with different aux formats but
         // identical main bus in/out formats.
-        for (int busIdx = 1; busIdx < busUtils.getBusCount (false); ++busIdx)
+        for (int busIdx = 1; busIdx < maxAuxBuses + 1; ++busIdx)
         {
-            AudioChannelSet outBusLayout = busUtils.getChannelSet (false, busIdx);
+            auto set = fullLayout.getChannelSet (false, busIdx);
 
-            if (outBusLayout != AudioChannelSet::disabled())
+            if (set.isDisabled())
+                break;
+
+            auto auxFormat = getFormatForAudioChannelSet (set, true);
+
+            if (auxFormat != AAX_eStemFormat_INT32_MAX && auxFormat != AAX_eStemFormat_None)
             {
-                AAX_EStemFormat auxFormat  = getFormatForAudioChannelSet (outBusLayout, busUtils.busIgnoresLayout (false,  busIdx));
-                if (auxFormat != AAX_eStemFormat_INT32_MAX && auxFormat != AAX_eStemFormat_None)
-                {
-                    const String& name = busUtils.processor.busArrangement.outputBuses.getReference (busIdx).name;
-                    check (desc.AddAuxOutputStem (0, static_cast<int32_t> (auxFormat), name.toRawUTF8()));
-                }
+                auto& name = processor.getBus (false, busIdx)->getName();
+                check (desc.AddAuxOutputStem (0, static_cast<int32_t> (auxFormat), name.toRawUTF8()));
             }
         }
-
-        // this assertion should be covered by the assertions above
-        // if not please report a bug
-        jassert (busUtils.getNumEnabledBuses (true) <= 2);
 
         check (desc.AddProcessProc_Native (algorithmProcessCallback, properties));
     }
 
-    static void getPlugInDescription (AAX_IEffectDescriptor& descriptor)
+    static bool hostSupportsStemFormat (AAX_EStemFormat stemFormat, const AAX_IFeatureInfo* featureInfo)
     {
+        if (featureInfo != nullptr)
+        {
+            AAX_ESupportLevel supportLevel;
+
+            if (featureInfo->SupportLevel (supportLevel) == AAX_SUCCESS && supportLevel == AAX_eSupportLevel_ByProperty)
+            {
+                ScopedPointer<const AAX_IPropertyMap> props (featureInfo->AcquireProperties());
+
+                // Due to a bug in ProTools 12.8, ProTools thinks that AAX_eStemFormat_Ambi_1_ACN is not supported
+                // To workaround this bug, check if ProTools supports AAX_eStemFormat_Ambi_2_ACN, and, if yes,
+                // we can safely assume that it will also support AAX_eStemFormat_Ambi_1_ACN
+                if (stemFormat == AAX_eStemFormat_Ambi_1_ACN)
+                    stemFormat = AAX_eStemFormat_Ambi_2_ACN;
+
+                if (props != nullptr && props->GetProperty ((AAX_EProperty) stemFormat, (AAX_CPropertyValue*) &supportLevel) != 0)
+                    return (supportLevel == AAX_eSupportLevel_Supported);
+            }
+        }
+
+        return (AAX_STEM_FORMAT_INDEX (stemFormat) <= 12);
+    }
+
+    static void getPlugInDescription (AAX_IEffectDescriptor& descriptor, const AAX_IFeatureInfo* featureInfo)
+    {
+        PluginHostType::jucePlugInClientCurrentWrapperType = AudioProcessor::wrapperType_AAX;
         ScopedPointer<AudioProcessor> plugin = createPluginFilterOfType (AudioProcessor::wrapperType_AAX);
-        PluginBusUtilities busUtils (*plugin, false);
+        auto numInputBuses  = plugin->getBusCount (true);
+        auto numOutputBuses = plugin->getBusCount (false);
 
-        busUtils.findAllCompatibleLayouts();
+        auto pluginNames = plugin->getAlternateDisplayNames();
 
-        descriptor.AddName (JucePlugin_Desc);
-        descriptor.AddName (JucePlugin_Name);
+        pluginNames.insert (0, JucePlugin_Desc);
+        pluginNames.insert (0, JucePlugin_Name);
+
+        pluginNames.removeDuplicates (false);
+
+        for (auto name : pluginNames)
+            descriptor.AddName (name.toRawUTF8());
+
         descriptor.AddCategory (JucePlugin_AAXCategory);
+
+        const int numMeters = addAAXMeters (*plugin, descriptor);
 
        #ifdef JucePlugin_AAXPageTableFile
         // optional page table setting - define this macro in your project if you want
@@ -1428,75 +1997,43 @@ struct AAXClasses
         check (descriptor.AddProcPtr ((void*) JuceAAX_GUI::Create,        kAAX_ProcPtrID_Create_EffectGUI));
         check (descriptor.AddProcPtr ((void*) JuceAAX_Processor::Create,  kAAX_ProcPtrID_Create_EffectParameters));
 
-        SortedSet<AAXFormatConfiguration> aaxFormats;
-        SortedSet<AudioChannelSet> inLayouts =  busUtils.getBusCount (true)  > 0 ? busUtils.getSupportedBusLayouts (true,  0).supportedLayouts : SortedSet<AudioChannelSet>();
-        SortedSet<AudioChannelSet> outLayouts = busUtils.getBusCount (false) > 0 ? busUtils.getSupportedBusLayouts (false, 0).supportedLayouts : SortedSet<AudioChannelSet>();
-
-        const int numIns  = inLayouts. size();
-        const int numOuts = outLayouts.size();
-
        #if JucePlugin_IsMidiEffect
         // MIDI effect plug-ins do not support any audio channels
-        jassert (numIns == 0 && numOuts == 0);
+        jassert (numInputBuses == 0 && numOutputBuses == 0);
 
-        if (AAX_IComponentDescriptor* const desc = descriptor.NewComponentDescriptor())
+        if (auto* desc = descriptor.NewComponentDescriptor())
         {
-            createDescriptor (*desc, 0, busUtils,
-                              AudioChannelSet::disabled(), AudioChannelSet::disabled(),
-                              AAX_eStemFormat_Mono, AAX_eStemFormat_Mono);
+            createDescriptor (*desc, 0, plugin->getBusesLayout(), *plugin, numMeters);
             check (descriptor.AddComponent (desc));
         }
 
        #else
-        int configIndex = 0;
+        Array<int32> pluginIds;
+
+        const int numIns  = numInputBuses  > 0 ? numElementsInArray (aaxFormats) : 0;
+        const int numOuts = numOutputBuses > 0 ? numElementsInArray (aaxFormats) : 0;
 
         for (int inIdx = 0; inIdx < jmax (numIns, 1); ++inIdx)
         {
+            auto aaxInFormat = numIns > 0 ? aaxFormats[inIdx] : AAX_eStemFormat_None;
+            auto inLayout = channelSetFromStemFormat (aaxInFormat, false);
+
             for (int outIdx = 0; outIdx < jmax (numOuts, 1); ++outIdx)
             {
-                bool success = true;
+                auto aaxOutFormat = numOuts > 0 ? aaxFormats[outIdx] : AAX_eStemFormat_None;
+                auto outLayout = channelSetFromStemFormat (aaxOutFormat, false);
 
-                if (numIns > 0)
-                    success = busUtils.processor.setPreferredBusArrangement (true, 0, inLayouts.getReference (inIdx));
-
-                if (numOuts > 0 && success)
-                    success = busUtils.processor.setPreferredBusArrangement (false, 0, outLayouts.getReference (outIdx));
-
-                // We should never hit this assertion: PluginBusUtilities reported this as supported.
-                // Please report this as a bug!
-                jassert (success);
-
-                AudioChannelSet inLayout  = numIns  > 0 ? busUtils.getChannelSet (true,  0) : AudioChannelSet();
-                AudioChannelSet outLayout = numOuts > 0 ? busUtils.getChannelSet (false, 0) : AudioChannelSet();
-
-                // if we can't set both in AND out formats simultaneously then ignore this format!
-                if (numIns > 0 && numOuts > 0 && (inLayout != inLayouts.getReference (inIdx) || (outLayout != outLayouts.getReference (outIdx))))
-                    continue;
-
-                AAX_EStemFormat aaxInFormat  = getFormatForAudioChannelSet (inLayout,  busUtils.busIgnoresLayout (true,  0));
-                AAX_EStemFormat aaxOutFormat = getFormatForAudioChannelSet (outLayout, busUtils.busIgnoresLayout (false, 0));
-
-                // does AAX support this layout?
-                if (aaxInFormat == AAX_eStemFormat_INT32_MAX || aaxOutFormat == AAX_eStemFormat_INT32_MAX)
-                    continue;
-
-                // AAX requires a single input if this plug-in is a synth
-               #if JucePlugin_IsSynth
-                if (numIns == 0)
-                    aaxInFormat = aaxOutFormat;
-               #endif
-
-                if (aaxInFormat == AAX_eStemFormat_None && aaxOutFormat == AAX_eStemFormat_None)
-                    continue;
-
-                AAXFormatConfiguration aaxFormat (aaxInFormat, aaxOutFormat);
-                if (aaxFormats.indexOf (aaxFormat) < 0)
+                if (hostSupportsStemFormat (aaxInFormat, featureInfo)
+                     && hostSupportsStemFormat (aaxOutFormat, featureInfo))
                 {
-                    aaxFormats.add (aaxFormat);
+                    AudioProcessor::BusesLayout fullLayout;
 
-                    if (AAX_IComponentDescriptor* const desc = descriptor.NewComponentDescriptor())
+                    if (! JuceAAX_Processor::fullBusesLayoutFromMainLayout (*plugin, inLayout, outLayout, fullLayout))
+                        continue;
+
+                    if (auto* desc = descriptor.NewComponentDescriptor())
                     {
-                        createDescriptor (*desc, configIndex++, busUtils, inLayout, outLayout, aaxInFormat, aaxOutFormat);
+                        createDescriptor (*desc, fullLayout, *plugin, pluginIds, numMeters);
                         check (descriptor.AddComponent (desc));
                     }
                 }
@@ -1504,29 +2041,15 @@ struct AAXClasses
         }
 
         // You don't have any supported layouts
-        jassert (configIndex > 0);
+        jassert (pluginIds.size() > 0);
        #endif
     }
-};
+}
 
-//==============================================================================
-AAXClasses::AAXChannelStreamOrder AAXClasses::aaxChannelOrder[] =
+void AAX_CALLBACK AAXClasses::algorithmProcessCallback (JUCEAlgorithmContext* const instancesBegin[], const void* const instancesEnd)
 {
-    {AAX_eStemFormat_Mono,     {AudioChannelSet::centre, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_Stereo,   {AudioChannelSet::left, AudioChannelSet::right, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_LCR,      {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_LCRS,     {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::surround, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_Quad,     {AudioChannelSet::left, AudioChannelSet::right,  AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_5_0,      {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_5_1,      {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::subbass, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_6_0,      {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surround, AudioChannelSet::surroundRight, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_6_1,      {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surround, AudioChannelSet::surroundRight, AudioChannelSet::subbass, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_7_0_SDDS, {AudioChannelSet::left, AudioChannelSet::centreLeft, AudioChannelSet::centre, AudioChannelSet::centreRight, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_7_0_DTS,  {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::sideLeft, AudioChannelSet::sideRight, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::unknown}},
-    {AAX_eStemFormat_7_1_SDDS, {AudioChannelSet::left, AudioChannelSet::centreLeft, AudioChannelSet::centre, AudioChannelSet::centreRight, AudioChannelSet::right, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::subbass}},
-    {AAX_eStemFormat_7_1_DTS,  {AudioChannelSet::left, AudioChannelSet::centre, AudioChannelSet::right, AudioChannelSet::sideLeft, AudioChannelSet::sideRight, AudioChannelSet::surroundLeft, AudioChannelSet::surroundRight, AudioChannelSet::subbass}},
-    {AAX_eStemFormat_None,     {AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown, AudioChannelSet::unknown}},
-};
+    AAXClasses::JuceAAX_Processor::algorithmCallback (instancesBegin, instancesEnd);
+}
 
 //==============================================================================
 AAX_Result JUCE_CDECL GetEffectDescriptions (AAX_ICollection*);
@@ -1534,9 +2057,14 @@ AAX_Result JUCE_CDECL GetEffectDescriptions (AAX_ICollection* collection)
 {
     ScopedJuceInitialiser_GUI libraryInitialiser;
 
-    if (AAX_IEffectDescriptor* const descriptor = collection->NewDescriptor())
+    ScopedPointer<const AAX_IFeatureInfo> stemFormatFeatureInfo;
+
+    if (const auto* hostDescription = collection->DescriptionHost())
+        stemFormatFeatureInfo = hostDescription->AcquireFeatureProperties (AAXATTR_ClientFeature_StemFormat);
+
+    if (auto* descriptor = collection->NewDescriptor())
     {
-        AAXClasses::getPlugInDescription (*descriptor);
+        AAXClasses::getPlugInDescription (*descriptor, stemFormatFeatureInfo);
         collection->AddEffect (JUCE_STRINGIFY (JucePlugin_AAXIdentifier), descriptor);
 
         collection->SetManufacturerName (JucePlugin_Manufacturer);
@@ -1549,5 +2077,10 @@ AAX_Result JUCE_CDECL GetEffectDescriptions (AAX_ICollection* collection)
 
     return AAX_ERROR_NULL_OBJECT;
 }
+
+//==============================================================================
+#if _MSC_VER || JUCE_MINGW
+extern "C" BOOL WINAPI DllMain (HINSTANCE instance, DWORD reason, LPVOID) { if (reason == DLL_PROCESS_ATTACH) Process::setCurrentModuleInstanceHandle (instance); return true; }
+#endif
 
 #endif

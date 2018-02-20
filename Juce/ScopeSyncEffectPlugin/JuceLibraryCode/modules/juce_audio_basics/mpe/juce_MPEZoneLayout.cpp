@@ -2,29 +2,28 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-   ------------------------------------------------------------------------------
-
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-MPEZoneLayout::MPEZoneLayout() noexcept
+namespace juce
 {
-}
+
+MPEZoneLayout::MPEZoneLayout() noexcept {}
 
 MPEZoneLayout::MPEZoneLayout (const MPEZoneLayout& other)
     : zones (other.zones)
@@ -34,8 +33,13 @@ MPEZoneLayout::MPEZoneLayout (const MPEZoneLayout& other)
 MPEZoneLayout& MPEZoneLayout::operator= (const MPEZoneLayout& other)
 {
     zones = other.zones;
-    listeners.call (&MPEZoneLayout::Listener::zoneLayoutChanged, *this);
+    sendLayoutChangeMessage();
     return *this;
+}
+
+void MPEZoneLayout::sendLayoutChangeMessage()
+{
+    listeners.call ([this] (Listener& l) { l.zoneLayoutChanged (*this); });
 }
 
 //==============================================================================
@@ -45,7 +49,7 @@ bool MPEZoneLayout::addZone (MPEZone newZone)
 
     for (int i = zones.size(); --i >= 0;)
     {
-        MPEZone& zone = zones.getReference (i);
+        auto& zone = zones.getReference (i);
 
         if (zone.overlapsWith (newZone))
         {
@@ -58,7 +62,7 @@ bool MPEZoneLayout::addZone (MPEZone newZone)
     }
 
     zones.add (newZone);
-    listeners.call (&MPEZoneLayout::Listener::zoneLayoutChanged, *this);
+    sendLayoutChangeMessage();
     return noOtherZonesModified;
 }
 
@@ -68,7 +72,7 @@ int MPEZoneLayout::getNumZones() const noexcept
     return zones.size();
 }
 
-MPEZone* MPEZoneLayout::getZoneByIndex (int index) const noexcept
+const MPEZone* MPEZoneLayout::getZoneByIndex (int index) const noexcept
 {
     if (zones.size() < index)
         return nullptr;
@@ -76,10 +80,15 @@ MPEZone* MPEZoneLayout::getZoneByIndex (int index) const noexcept
     return &(zones.getReference (index));
 }
 
+MPEZone* MPEZoneLayout::getZoneByIndex (int index) noexcept
+{
+    return const_cast<MPEZone*> (static_cast<const MPEZoneLayout&> (*this).getZoneByIndex (index));
+}
+
 void MPEZoneLayout::clearAllZones()
 {
     zones.clear();
-    listeners.call (&MPEZoneLayout::Listener::zoneLayoutChanged, *this);
+    sendLayoutChangeMessage();
 }
 
 //==============================================================================
@@ -118,22 +127,22 @@ void MPEZoneLayout::processZoneLayoutRpnMessage (MidiRPNMessage rpn)
 //==============================================================================
 void MPEZoneLayout::processPitchbendRangeRpnMessage (MidiRPNMessage rpn)
 {
-    if (MPEZone* zone = getZoneByFirstNoteChannel (rpn.channel))
+    if (auto* zone = getZoneByFirstNoteChannel (rpn.channel))
     {
         if (zone->getPerNotePitchbendRange() != rpn.value)
         {
             zone->setPerNotePitchbendRange (rpn.value);
-            listeners.call (&MPEZoneLayout::Listener::zoneLayoutChanged, *this);
+            sendLayoutChangeMessage();
             return;
         }
     }
 
-    if (MPEZone* zone = getZoneByMasterChannel (rpn.channel))
+    if (auto* zone = getZoneByMasterChannel (rpn.channel))
     {
         if (zone->getMasterPitchbendRange() != rpn.value)
         {
             zone->setMasterPitchbendRange (rpn.value);
-            listeners.call (&MPEZoneLayout::Listener::zoneLayoutChanged, *this);
+            sendLayoutChangeMessage();
             return;
         }
     }
@@ -151,40 +160,60 @@ void MPEZoneLayout::processNextMidiBuffer (const MidiBuffer& buffer)
 }
 
 //==============================================================================
-MPEZone* MPEZoneLayout::getZoneByChannel (int channel) const noexcept
+const MPEZone* MPEZoneLayout::getZoneByChannel (int channel) const noexcept
 {
-    for (MPEZone* zone = zones.begin(); zone != zones.end(); ++zone)
-        if (zone->isUsingChannel (channel))
-            return zone;
+    for (auto& zone : zones)
+        if (zone.isUsingChannel (channel))
+            return &zone;
 
     return nullptr;
 }
 
-MPEZone* MPEZoneLayout::getZoneByMasterChannel (int channel) const noexcept
+MPEZone* MPEZoneLayout::getZoneByChannel (int channel) noexcept
 {
-    for (MPEZone* zone = zones.begin(); zone != zones.end(); ++zone)
-        if (zone->getMasterChannel() == channel)
-            return zone;
+    return const_cast<MPEZone*> (static_cast<const MPEZoneLayout&> (*this).getZoneByChannel (channel));
+}
+
+const MPEZone* MPEZoneLayout::getZoneByMasterChannel (int channel) const noexcept
+{
+    for (auto& zone : zones)
+        if (zone.getMasterChannel() == channel)
+            return &zone;
 
     return nullptr;
 }
 
-MPEZone* MPEZoneLayout::getZoneByFirstNoteChannel (int channel) const noexcept
+MPEZone* MPEZoneLayout::getZoneByMasterChannel (int channel) noexcept
 {
-    for (MPEZone* zone = zones.begin(); zone != zones.end(); ++zone)
-        if (zone->getFirstNoteChannel() == channel)
-            return zone;
+    return const_cast<MPEZone*> (static_cast<const MPEZoneLayout&> (*this).getZoneByMasterChannel (channel));
+}
+
+const MPEZone* MPEZoneLayout::getZoneByFirstNoteChannel (int channel) const noexcept
+{
+    for (auto& zone : zones)
+        if (zone.getFirstNoteChannel() == channel)
+            return &zone;
 
     return nullptr;
 }
 
-MPEZone* MPEZoneLayout::getZoneByNoteChannel (int channel) const noexcept
+MPEZone* MPEZoneLayout::getZoneByFirstNoteChannel (int channel) noexcept
 {
-    for (MPEZone* zone = zones.begin(); zone != zones.end(); ++zone)
-        if (zone->isUsingChannelAsNoteChannel (channel))
-            return zone;
+    return const_cast<MPEZone*> (static_cast<const MPEZoneLayout&> (*this).getZoneByFirstNoteChannel (channel));
+}
+
+const MPEZone* MPEZoneLayout::getZoneByNoteChannel (int channel) const noexcept
+{
+    for (auto& zone : zones)
+        if (zone.isUsingChannelAsNoteChannel (channel))
+            return &zone;
 
     return nullptr;
+}
+
+MPEZone* MPEZoneLayout::getZoneByNoteChannel (int channel) noexcept
+{
+    return const_cast<MPEZone*> (static_cast<const MPEZoneLayout&> (*this).getZoneByNoteChannel (channel));
 }
 
 //==============================================================================
@@ -206,7 +235,7 @@ void MPEZoneLayout::removeListener (Listener* const listenerToRemove) noexcept
 class MPEZoneLayoutTests  : public UnitTest
 {
 public:
-    MPEZoneLayoutTests() : UnitTest ("MPEZoneLayout class") {}
+    MPEZoneLayoutTests() : UnitTest ("MPEZoneLayout class", "MIDI/MPE") {}
 
     void runTest() override
     {
@@ -380,3 +409,5 @@ static MPEZoneLayoutTests MPEZoneLayoutUnitTests;
 
 
 #endif // JUCE_UNIT_TESTS
+
+} // namespace juce

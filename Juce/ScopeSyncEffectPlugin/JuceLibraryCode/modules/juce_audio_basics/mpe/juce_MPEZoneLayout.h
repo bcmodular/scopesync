@@ -2,29 +2,26 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-   ------------------------------------------------------------------------------
-
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCE_MPEZONELAYOUT_H_INCLUDED
-#define JUCE_MPEZONELAYOUT_H_INCLUDED
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -104,27 +101,32 @@ public:
         is no such zone. Zones are sorted by insertion order (most recently added
         zone last).
     */
-    MPEZone* getZoneByIndex (int index) const noexcept;
+    MPEZone* getZoneByIndex (int index) noexcept;
+    const MPEZone* getZoneByIndex (int index) const noexcept;
 
     /** Returns a pointer to the zone which uses the specified channel (1-16),
         or nullptr if there is no such zone.
     */
-    MPEZone* getZoneByChannel (int midiChannel) const noexcept;
+    MPEZone* getZoneByChannel (int midiChannel) noexcept;
+    const MPEZone* getZoneByChannel (int midiChannel) const noexcept;
 
     /** Returns a pointer to the zone which has the specified channel (1-16)
         as its master channel, or nullptr if there is no such zone.
     */
-    MPEZone* getZoneByMasterChannel (int midiChannel) const noexcept;
+    MPEZone* getZoneByMasterChannel (int midiChannel) noexcept;
+    const MPEZone* getZoneByMasterChannel (int midiChannel) const noexcept;
 
     /** Returns a pointer to the zone which has the specified channel (1-16)
         as its first note channel, or nullptr if there is no such zone.
     */
-    MPEZone* getZoneByFirstNoteChannel (int midiChannel) const noexcept;
+    MPEZone* getZoneByFirstNoteChannel (int midiChannel) noexcept;
+    const MPEZone* getZoneByFirstNoteChannel (int midiChannel) const noexcept;
 
     /** Returns a pointer to the zone which has the specified channel (1-16)
         as one of its note channels, or nullptr if there is no such zone.
     */
-    MPEZone* getZoneByNoteChannel (int midiChannel) const noexcept;
+    MPEZone* getZoneByNoteChannel (int midiChannel) noexcept;
+    const MPEZone* getZoneByNoteChannel (int midiChannel) const noexcept;
 
     //==============================================================================
     /** Listener class. Derive from this class to allow your class to be
@@ -159,7 +161,7 @@ private:
     void processRpnMessage (MidiRPNMessage);
     void processZoneLayoutRpnMessage (MidiRPNMessage);
     void processPitchbendRangeRpnMessage (MidiRPNMessage);
+    void sendLayoutChangeMessage();
 };
 
-
-#endif // JUCE_MPEZONELAYOUT_H_INCLUDED
+} // namespace juce

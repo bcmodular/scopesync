@@ -2,28 +2,26 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-   ------------------------------------------------------------------------------
-
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCE_INTERPROCESSCONNECTION_H_INCLUDED
-#define JUCE_INTERPROCESSCONNECTION_H_INCLUDED
+namespace juce
+{
 
 class InterprocessConnectionServer;
 class MemoryBlock;
@@ -124,10 +122,10 @@ public:
     bool isConnected() const;
 
     /** Returns the socket that this connection is using (or nullptr if it uses a pipe). */
-    StreamingSocket* getSocket() const noexcept                 { return socket; }
+    StreamingSocket* getSocket() const noexcept                 { return socket.get(); }
 
     /** Returns the pipe that this connection is using (or nullptr if it uses a socket). */
-    NamedPipe* getPipe() const noexcept                         { return pipe; }
+    NamedPipe* getPipe() const noexcept                         { return pipe.get(); }
 
     /** Returns the name of the machine at the other end of this connection.
         This may return an empty string if the name is unknown.
@@ -178,15 +176,13 @@ public:
 
 private:
     //==============================================================================
-    WeakReference<InterprocessConnection>::Master masterReference;
-    friend class WeakReference<InterprocessConnection>;
     CriticalSection pipeAndSocketLock;
     ScopedPointer<StreamingSocket> socket;
     ScopedPointer<NamedPipe> pipe;
-    bool callbackConnectionState;
+    bool callbackConnectionState = false;
     const bool useMessageThread;
     const uint32 magicMessageHeader;
-    int pipeReceiveMessageTimeout;
+    int pipeReceiveMessageTimeout = -1;
 
     friend class InterprocessConnectionServer;
     void initialiseWithSocket (StreamingSocket*);
@@ -204,7 +200,8 @@ private:
     void runThread();
     int writeData (void*, int);
 
+    JUCE_DECLARE_WEAK_REFERENCEABLE (InterprocessConnection)
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InterprocessConnection)
 };
 
-#endif   // JUCE_INTERPROCESSCONNECTION_H_INCLUDED
+} // namespace juce

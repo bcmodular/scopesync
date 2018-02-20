@@ -1,34 +1,27 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
-
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
-
-   For more details, visit www.juce.com
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCE_SPARSESET_H_INCLUDED
-#define JUCE_SPARSESET_H_INCLUDED
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -46,16 +39,13 @@ class SparseSet
 {
 public:
     //==============================================================================
-    /** Creates a new empty set. */
-    SparseSet()
-    {
-    }
+    SparseSet() noexcept {}
 
-    /** Creates a copy of another SparseSet. */
-    SparseSet (const SparseSet<Type>& other)
-        : values (other.values)
-    {
-    }
+    SparseSet (const SparseSet&) = default;
+    SparseSet& operator= (const SparseSet&) = default;
+
+    SparseSet (SparseSet&& other) noexcept : values (static_cast<Array<Type, DummyCriticalSection>&&> (other.values)) {}
+    SparseSet& operator= (SparseSet&& other) noexcept { values = static_cast<Array<Type, DummyCriticalSection>&&> (other.values); return *this; }
 
     //==============================================================================
     /** Clears the set. */
@@ -65,12 +55,11 @@ public:
     }
 
     /** Checks whether the set is empty.
-
         This is much quicker than using (size() == 0).
     */
     bool isEmpty() const noexcept
     {
-        return values.size() == 0;
+        return values.isEmpty();
     }
 
     /** Returns the number of values in the set.
@@ -79,9 +68,9 @@ public:
         are a lot of items in the set. Use isEmpty() for a quick test of whether there
         are any items.
     */
-    Type size() const
+    Type size() const noexcept
     {
-        Type total (0);
+        Type total = {};
 
         for (int i = 0; i < values.size(); i += 2)
             total += values.getUnchecked (i + 1) - values.getUnchecked (i);
@@ -94,12 +83,12 @@ public:
         @param index    the index of the value to retrieve, in the range 0 to (size() - 1).
         @returns        the value at this index, or 0 if it's out-of-range
     */
-    Type operator[] (Type index) const
+    Type operator[] (Type index) const noexcept
     {
         for (int i = 0; i < values.size(); i += 2)
         {
-            const Type start (values.getUnchecked (i));
-            const Type len (values.getUnchecked (i + 1) - start);
+            auto start = values.getUnchecked (i);
+            auto len = values.getUnchecked (i + 1) - start;
 
             if (index < len)
                 return start + index;
@@ -111,7 +100,7 @@ public:
     }
 
     /** Checks whether a particular value is in the set. */
-    bool contains (const Type valueToLookFor) const
+    bool contains (Type valueToLookFor) const noexcept
     {
         for (int i = 0; i < values.size(); ++i)
             if (valueToLookFor < values.getUnchecked(i))
@@ -134,38 +123,36 @@ public:
                             and (getNumRanges() - 1)
         @see getTotalRange
     */
-    const Range<Type> getRange (const int rangeIndex) const
+    const Range<Type> getRange (int rangeIndex) const noexcept
     {
         if (isPositiveAndBelow (rangeIndex, getNumRanges()))
-            return Range<Type> (values.getUnchecked (rangeIndex << 1),
-                                values.getUnchecked ((rangeIndex << 1) + 1));
+            return { values.getUnchecked (rangeIndex << 1),
+                     values.getUnchecked ((rangeIndex << 1) + 1) };
 
-        return Range<Type>();
+        return {};
     }
 
     /** Returns the range between the lowest and highest values in the set.
         @see getRange
     */
-    Range<Type> getTotalRange() const
+    Range<Type> getTotalRange() const noexcept
     {
-        if (values.size() > 0)
+        if (auto num = values.size())
         {
-            jassert ((values.size() & 1) == 0);
-            return Range<Type> (values.getUnchecked (0),
-                                values.getUnchecked (values.size() - 1));
+            jassert ((num & 1) == 0);
+            return { values.getUnchecked (0), values.getUnchecked (num - 1) };
         }
 
-        return Range<Type>();
+        return {};
     }
 
     //==============================================================================
     /** Adds a range of contiguous values to the set.
         e.g. addRange (Range \<int\> (10, 14)) will add (10, 11, 12, 13) to the set.
     */
-    void addRange (const Range<Type> range)
+    void addRange (Range<Type> range)
     {
-        jassert (range.getLength() >= 0);
-        if (range.getLength() > 0)
+        if (! range.isEmpty())
         {
             removeRange (range);
 
@@ -179,18 +166,16 @@ public:
     /** Removes a range of values from the set.
         e.g. removeRange (Range\<int\> (10, 14)) will remove (10, 11, 12, 13) from the set.
     */
-    void removeRange (const Range<Type> rangeToRemove)
+    void removeRange (Range<Type> rangeToRemove)
     {
-        jassert (rangeToRemove.getLength() >= 0);
-
         if (rangeToRemove.getLength() > 0
              && values.size() > 0
              && rangeToRemove.getStart() < values.getUnchecked (values.size() - 1)
              && values.getUnchecked(0) < rangeToRemove.getEnd())
         {
-            const bool onAtStart = contains (rangeToRemove.getStart() - 1);
-            const Type lastValue (jmin (rangeToRemove.getEnd(), values.getLast()));
-            const bool onAtEnd = contains (lastValue);
+            bool onAtStart = contains (rangeToRemove.getStart() - 1);
+            auto lastValue = jmin (rangeToRemove.getEnd(), values.getLast());
+            bool onAtEnd = contains (lastValue);
 
             for (int i = values.size(); --i >= 0;)
             {
@@ -216,7 +201,7 @@ public:
     }
 
     /** Does an XOR of the values in a given range. */
-    void invertRange (const Range<Type> range)
+    void invertRange (Range<Type> range)
     {
         SparseSet newItems;
         newItems.addRange (range);
@@ -231,7 +216,7 @@ public:
     }
 
     /** Checks whether any part of a given range overlaps any part of this set. */
-    bool overlapsRange (const Range<Type> range)
+    bool overlapsRange (Range<Type> range) const noexcept
     {
         if (range.getLength() > 0)
         {
@@ -249,7 +234,7 @@ public:
     }
 
     /** Checks whether the whole of a given range is contained within this one. */
-    bool containsRange (const Range<Type> range)
+    bool containsRange (Range<Type> range) const noexcept
     {
         if (range.getLength() > 0)
         {
@@ -268,15 +253,8 @@ public:
     }
 
     //==============================================================================
-    bool operator== (const SparseSet<Type>& other) noexcept
-    {
-        return values == other.values;
-    }
-
-    bool operator!= (const SparseSet<Type>& other) noexcept
-    {
-        return values != other.values;
-    }
+    bool operator== (const SparseSet& other) const noexcept    { return values == other.values; }
+    bool operator!= (const SparseSet& other) const noexcept    { return values != other.values; }
 
 private:
     //==============================================================================
@@ -293,6 +271,4 @@ private:
     }
 };
 
-
-
-#endif   // JUCE_SPARSESET_H_INCLUDED
+} // namespace juce

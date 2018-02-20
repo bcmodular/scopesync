@@ -2,29 +2,26 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   The code included in this file is provided under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license. Permission
+   To use, copy, modify, and/or distribute this software for any purpose with or
+   without fee is hereby granted provided that the above copyright notice and
+   this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-   ------------------------------------------------------------------------------
-
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCE_MPEZONE_H_INCLUDED
-#define JUCE_MPEZONE_H_INCLUDED
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -69,27 +66,35 @@ struct JUCE_API  MPEZone
              int perNotePitchbendRange = 48,
              int masterPitchbendRange = 2) noexcept;
 
-    /* Returns the MIDI master channel of this zone. */
+    /* Returns the MIDI master channel number (in the range 1-16) of this zone. */
     int getMasterChannel() const noexcept;
 
     /** Returns the number of note channels occupied by this zone. */
     int getNumNoteChannels() const noexcept;
 
-    /* Returns the MIDI channel number of the lowest-numbered note channel of this zone.  */
+    /* Returns the MIDI channel number (in the range 1-16) of the
+       lowest-numbered note channel of this zone.
+    */
     int getFirstNoteChannel() const noexcept;
 
-    /* Returns the MIDI channel number of the highest-numbered note channel of this zone.  */
+    /* Returns the MIDI channel number (in the range 1-16) of the
+       highest-numbered note channel of this zone.
+    */
     int getLastNoteChannel() const noexcept;
 
-    /** Returns the MIDI channel numbers of the note channels of this zone as a Range. */
+    /** Returns the MIDI channel numbers (in the range 1-16) of the
+        note channels of this zone as a Range.
+    */
     Range<int> getNoteChannelRange() const noexcept;
 
     /** Returns true if the MIDI channel (in the range 1-16) is used by this zone
-        either as a note channel or as the master channel; false otherwise. */
+        either as a note channel or as the master channel; false otherwise.
+    */
     bool isUsingChannel (int channel) const noexcept;
 
     /** Returns true if the MIDI channel (in the range 1-16) is used by this zone
-        as a note channel; false otherwise. */
+        as a note channel; false otherwise.
+    */
     bool isUsingChannelAsNoteChannel (int channel) const noexcept;
 
     /** Returns the per-note pitchbend range in semitones set for this zone. */
@@ -134,5 +139,4 @@ private:
     int masterPitchbendRange;
 };
 
-
-#endif // JUCE_MPEZONE_H_INCLUDED
+} // namespace juce
