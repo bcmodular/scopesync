@@ -75,8 +75,6 @@ void BCMLabel::applyProperties(LabelProperties& props)
                 labelText = shortDescription;
             else if (props.parameterTextDisplay == LabelProperties::fullDescription)
                 labelText = fullDescription;
-            else if (props.parameterTextDisplay == LabelProperties::scopeCode)
-                labelText = parameter->getScopeOSCParameter().getScopeCode();
             else if (props.parameterTextDisplay == LabelProperties::scopeParam)
                 labelText = parameter->getScopeOSCParameter().getScopeParamText();
         }

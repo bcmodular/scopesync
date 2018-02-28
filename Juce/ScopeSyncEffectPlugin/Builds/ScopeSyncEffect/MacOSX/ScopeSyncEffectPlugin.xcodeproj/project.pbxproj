@@ -50,6 +50,9 @@
 		D6FE72C411162F7F8B91695D = {isa = PBXBuildFile; fileRef = 090D9767E49CA6E538B5AD8B; };
 		076373DD6FD9720CFF6E1896 = {isa = PBXBuildFile; fileRef = 4C10E6A9B4BC04C9B3CAAD3E; };
 		C6F8F73FFA4C2E9B71B202A3 = {isa = PBXBuildFile; fileRef = F282D2490ADB877D77364F21; };
+		C5C9D374549C490239FD784E = {isa = PBXBuildFile; fileRef = 631374364B8414CEC1935F7B; };
+		8ABB93ECDF46774B8A03B11A = {isa = PBXBuildFile; fileRef = F5744373E81BB12D12F2A36C; };
+		7E359B631F18D739E20A434E = {isa = PBXBuildFile; fileRef = 69AB7B68083F8B97EB25A3E8; };
 		DEC1B242FB1AF7D03B1E717E = {isa = PBXBuildFile; fileRef = FFF75D4CAB2E90A24387A6C4; };
 		B4F9B16A7C5298E55A040D69 = {isa = PBXBuildFile; fileRef = 74A154928D2C3EA44D350BA1; };
 		84109F75B763BC11673AFBE3 = {isa = PBXBuildFile; fileRef = 7E61868EAB2A7A0247DC5D80; };
@@ -64,7 +67,7 @@
 		3BD568692D5BA5FC8B82AE6A = {isa = PBXBuildFile; fileRef = FE5780DE4AAABC6458C3C89E; };
 		C7553FFC0898DB04365DD02E = {isa = PBXBuildFile; fileRef = 1DC71205360FC63B9D19EA8F; };
 		E19C6C1DF016022B7205FD19 = {isa = PBXBuildFile; fileRef = 70743E2B3C323AF12E11A41C; };
-		B26C8C00A79F270D9786EC14 = {isa = PBXBuildFile; fileRef = A7CEE7086D426B5D8A4C9408; };
+		D8E4146E939036CE3112A160 = {isa = PBXBuildFile; fileRef = 2BABD2A5CC9AAF0DAA894D74; };
 		169D1FA5A9F489BDD6E54B95 = {isa = PBXBuildFile; fileRef = 35B40A83D7A1E57E56025487; };
 		C91236283C4B6E78559F7734 = {isa = PBXBuildFile; fileRef = 469C4FCE23C0A5B413004BCE; };
 		7FACA8E7F82394551E992681 = {isa = PBXBuildFile; fileRef = E8CA81FC0A69C26A4872AE6B; };
@@ -115,6 +118,7 @@
 		29B4885470049C75A16BA68C = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2A3DC4600DF61928D7138564 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMComponentBounds.h; path = ../../../../ScopeSync/Components/BCMComponentBounds.h; sourceTree = "SOURCE_ROOT"; };
 		2A872EC29B36154DD55AED85 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Configuration.h; path = ../../../../ScopeSync/Configuration/Configuration.h; sourceTree = "SOURCE_ROOT"; };
+		2BABD2A5CC9AAF0DAA894D74 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OSCServer.cpp; path = ../../../../ScopeSync/Comms/OSCServer.cpp; sourceTree = "SOURCE_ROOT"; };
 		2C45D6666703B909DEAD04D8 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "erbos_draco_1st_open_nbp.ttf"; path = "../../../../ScopeSync/Resources/font/erbos_draco_1st_open_nbp.ttf"; sourceTree = "SOURCE_ROOT"; };
 		2CED3D05C137D1DF3C3FA743 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TabbedComponentProperties.cpp; path = ../../../../ScopeSync/Properties/TabbedComponentProperties.cpp; sourceTree = "SOURCE_ROOT"; };
 		328EAFBDF031E334D2892468 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_audio_plugin_client_AU_2.mm"; path = "../../../JuceLibraryCode/include_juce_audio_plugin_client_AU_2.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -168,16 +172,17 @@
 		5F631CACB5F309F56C563B5B = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings_button_off.png"; path = "../../../../ScopeSync/Resources/image/settings_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		61486AB3F701EFE245CF6D1D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Paste_button_over.png"; path = "../../../../ScopeSync/Resources/image/Paste_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		61787917A72538DC84219B6C = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Snapshot_button_on.png"; path = "../../../../ScopeSync/Resources/image/Snapshot_button_on.png"; sourceTree = "SOURCE_ROOT"; };
+		631374364B8414CEC1935F7B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Clipboard.cpp; path = ../../../../ScopeSync/Core/Clipboard.cpp; sourceTree = "SOURCE_ROOT"; };
 		65B46ECF2BD9667C1697D334 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_data_structures.mm"; path = "../../../JuceLibraryCode/include_juce_data_structures.mm"; sourceTree = "SOURCE_ROOT"; };
 		65E0A459F3A1196F0A28FB1D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ImageLoader.h; path = ../../../../ScopeSync/Resources/ImageLoader.h; sourceTree = "SOURCE_ROOT"; };
 		674FE16CB726B440009218AC = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_plugin_client"; path = "../../../JuceLibraryCode/modules/juce_audio_plugin_client"; sourceTree = "SOURCE_ROOT"; };
 		69136E62B5E6AA23A4B7B2C2 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Paste_button_on.png"; path = "../../../../ScopeSync/Resources/image/Paste_button_on.png"; sourceTree = "SOURCE_ROOT"; };
+		69AB7B68083F8B97EB25A3E8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeOSCParameter.cpp; path = ../../../../ScopeSync/Core/ScopeOSCParameter.cpp; sourceTree = "SOURCE_ROOT"; };
 		6AC67648C7CDF92DFD6E1D96 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FXbypass_button_over.png"; path = "../../../../ScopeSync/Resources/image/FXbypass_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		6B689763B343C0E7F443EC95 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_gui_extra"; path = "../../../JuceLibraryCode/modules/juce_gui_extra"; sourceTree = "SOURCE_ROOT"; };
 		6BAF607D6B02D1536A255365 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "remove_button_off.png"; path = "../../../../ScopeSync/Resources/image/remove_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		6BBDA111705C03D81263B044 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMMisc.cpp; path = ../../../../ScopeSync/Utils/BCMMisc.cpp; sourceTree = "SOURCE_ROOT"; };
 		6BF8CAC1BD50768F07EDA96C = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		6D41EADA0CC136B8CC6010A4 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScopeSyncOSC.h; path = ../../../../ScopeSync/Comms/ScopeSyncOSC.h; sourceTree = "SOURCE_ROOT"; };
 		6F39CE7F69852275F4EF152A = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload_button_on.png"; path = "../../../../ScopeSync/Resources/image/reload_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		706424EA28289C83C126EEA9 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Patch_Window_button_off.png"; path = "../../../../ScopeSync/Resources/image/Patch_Window_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		70743E2B3C323AF12E11A41C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMWidget.cpp; path = ../../../../ScopeSync/Components/BCMWidget.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -206,6 +211,7 @@
 		872926744C37FBECD87FADAE = {isa = PBXFileReference; lastKnownFileType = image.png; name = "load_config_button_off.png"; path = "../../../../ScopeSync/Resources/image/load_config_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		87CE0317E43DF90EBC69EB13 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMComboBox.h; path = ../../../../ScopeSync/Components/BCMComboBox.h; sourceTree = "SOURCE_ROOT"; };
 		886578B56B56706B393199CA = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Perf_Mode_button_on.png"; path = "../../../../ScopeSync/Resources/image/Perf_Mode_button_on.png"; sourceTree = "SOURCE_ROOT"; };
+		8B095A47574E626D4A0D1DE8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScopeOSCParameter.h; path = ../../../../ScopeSync/Core/ScopeOSCParameter.h; sourceTree = "SOURCE_ROOT"; };
 		8B0AD167C4D5B07A474D671F = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FXmono_button_off.png"; path = "../../../../ScopeSync/Resources/image/FXmono_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		8C8D36122A45614B5214D4FD = {isa = PBXFileReference; lastKnownFileType = image.png; name = "load_config_button_on.png"; path = "../../../../ScopeSync/Resources/image/load_config_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		8D068D0F40FC1695B429B0D9 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FXmono_button_on.png"; path = "../../../../ScopeSync/Resources/image/FXmono_button_on.png"; sourceTree = "SOURCE_ROOT"; };
@@ -213,6 +219,7 @@
 		8FB256564E2BCF215EE2F3B5 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UserSettings.cpp; path = ../../../../ScopeSync/Windows/UserSettings.cpp; sourceTree = "SOURCE_ROOT"; };
 		92C0407066DAC54C4B8BE576 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Presets_button_on.png"; path = "../../../../ScopeSync/Resources/image/Presets_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		9320943F4DAFE552D236D77E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMComboBox.cpp; path = ../../../../ScopeSync/Components/BCMComboBox.cpp; sourceTree = "SOURCE_ROOT"; };
+		939E9FF6C63BE3E60974EC29 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Clipboard.h; path = ../../../../ScopeSync/Core/Clipboard.h; sourceTree = "SOURCE_ROOT"; };
 		93AA4E746DDDCAF4E0040616 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PresetFileChooser.cpp; path = ../../../../ScopeSync/Windows/PresetFileChooser.cpp; sourceTree = "SOURCE_ROOT"; };
 		948ABE164652C66CF5B2A51B = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-AU.plist"; path = "Info-AU.plist"; sourceTree = "SOURCE_ROOT"; };
 		981D09D4F91AF074D3C511BD = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_audio_processors.mm"; path = "../../../JuceLibraryCode/include_juce_audio_processors.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -234,7 +241,6 @@
 		A50627911A47BFF4AB6C2649 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_processors"; path = "../../../JuceLibraryCode/modules/juce_audio_processors"; sourceTree = "SOURCE_ROOT"; };
 		A57D792C3F40BC4BFBE361B1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PresetManager.h; path = ../../../../ScopeSync/Presets/PresetManager.h; sourceTree = "SOURCE_ROOT"; };
 		A5B4CBE4B6AEAA528A2BBF44 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "config_manager_button_on.png"; path = "../../../../ScopeSync/Resources/image/config_manager_button_on.png"; sourceTree = "SOURCE_ROOT"; };
-		A7CEE7086D426B5D8A4C9408 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeSyncOSC.cpp; path = ../../../../ScopeSync/Comms/ScopeSyncOSC.cpp; sourceTree = "SOURCE_ROOT"; };
 		A834F9D67D2BC4EE94935A35 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMParameter.h; path = ../../../../ScopeSync/Core/BCMParameter.h; sourceTree = "SOURCE_ROOT"; };
 		A8855B46AD4746FBC640F0A8 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Montserrat-Regular.ttf"; path = "../../../../ScopeSync/Resources/font/Montserrat-Regular.ttf"; sourceTree = "SOURCE_ROOT"; };
 		A893704FF2731DC209177D35 = {isa = PBXFileReference; lastKnownFileType = file.nib; name = RecentFilesMenuTemplate.nib; path = RecentFilesMenuTemplate.nib; sourceTree = "SOURCE_ROOT"; };
@@ -261,11 +267,11 @@
 		BF6D0480168B8D810D8430EE = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScopeSyncApplication.h; path = ../../../../ScopeSync/Core/ScopeSyncApplication.h; sourceTree = "SOURCE_ROOT"; };
 		C0134416B96A8F23D0540C82 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Perf_Mode_button_over.png"; path = "../../../../ScopeSync/Resources/image/Perf_Mode_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		C441CDC65F090A13E6E59F80 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
-		C483C0D600AE2C347456F84F = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Global.h; path = ../../../../ScopeSync/Core/Global.h; sourceTree = "SOURCE_ROOT"; };
 		C4AB77675FD4FA4D2AF01571 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ScopeSyncAUFX-Debug_1_0_3.vst3"; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		4C991533AE649DC6A6124881 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ScopeSyncAUFX-Debug_1_0_3.component"; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		C2A8CC5FDD065C820A2BF923 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "confirm_button_off.png"; path = "../../../../ScopeSync/Resources/image/confirm_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		C2CE116F86F526ED2D45BDE3 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "config_manager_button_off.png"; path = "../../../../ScopeSync/Resources/image/config_manager_button_off.png"; sourceTree = "SOURCE_ROOT"; };
+		C483C0D600AE2C347456F84F = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Global.h; path = ../../../../ScopeSync/Core/Global.h; sourceTree = "SOURCE_ROOT"; };
 		C4FF57592EB1216D6F707256 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "confirm_button_on.png"; path = "../../../../ScopeSync/Resources/image/confirm_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		C53432FDFA0FE6BB87736357 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SliderProperties.h; path = ../../../../ScopeSync/Properties/SliderProperties.h; sourceTree = "SOURCE_ROOT"; };
 		C580577F998B72891F353C28 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMWidget.h; path = ../../../../ScopeSync/Components/BCMWidget.h; sourceTree = "SOURCE_ROOT"; };
@@ -281,6 +287,7 @@
 		D35D8C51E02D246A927FC724 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Save_button_over.png"; path = "../../../../ScopeSync/Resources/image/Save_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		D439F615EE04E7B67EEFAD09 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScopeSync_Logo.png"; path = "../../../../ScopeSync/Resources/image/ScopeSync_Logo.png"; sourceTree = "SOURCE_ROOT"; };
 		D454D68AF6A7E5FFA111DE1E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileLocationEditor.h; path = ../../../../ScopeSync/Windows/FileLocationEditor.h; sourceTree = "SOURCE_ROOT"; };
+		D69E9A5E99E2D0C2589EA9ED = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OSCServer.h; path = ../../../../ScopeSync/Comms/OSCServer.h; sourceTree = "SOURCE_ROOT"; };
 		D7233B621E8345A84505049E = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Close_button_on.png"; path = "../../../../ScopeSync/Resources/image/Close_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		D7475120D22371F5AD952FDE = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_core.mm"; path = "../../../JuceLibraryCode/include_juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
 		DB3536BE3C62DC3C21363C9A = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Undo_button_on.png"; path = "../../../../ScopeSync/Resources/image/Undo_button_on.png"; sourceTree = "SOURCE_ROOT"; };
@@ -303,6 +310,7 @@
 		F348A9563C3B8D2952DB87DF = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMGraphic.h; path = ../../../../ScopeSync/Components/BCMGraphic.h; sourceTree = "SOURCE_ROOT"; };
 		F4568D8D9BFDD3756B4C1623 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_data_structures"; path = "../../../JuceLibraryCode/modules/juce_data_structures"; sourceTree = "SOURCE_ROOT"; };
 		F4BFF8D96E593CE88CB2A96B = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMSlider.h; path = ../../../../ScopeSync/Components/BCMSlider.h; sourceTree = "SOURCE_ROOT"; };
+		F5744373E81BB12D12F2A36C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeIDs.cpp; path = ../../../../ScopeSync/Core/ScopeIDs.cpp; sourceTree = "SOURCE_ROOT"; };
 		F5B2824013A1565FB858EB35 = {isa = PBXFileReference; lastKnownFileType = file.configuration; name = empty.configuration; path = ../../../../ScopeSync/Resources/xml/empty.configuration; sourceTree = "SOURCE_ROOT"; };
 		F5EC2849111949A112883269 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigurationManager.cpp; path = ../../../../ScopeSync/Configuration/ConfigurationManager.cpp; sourceTree = "SOURCE_ROOT"; };
 		F6C366EFA0B1042D3553C7E8 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_bevel.png"; path = "../../../../ScopeSync/Resources/image/toolbar_bevel.png"; sourceTree = "SOURCE_ROOT"; };
@@ -463,7 +471,12 @@
 					A834F9D67D2BC4EE94935A35,
 					F282D2490ADB877D77364F21,
 					EBFBC18B49DA3317497BCE21,
+					631374364B8414CEC1935F7B,
+					939E9FF6C63BE3E60974EC29,
 					C483C0D600AE2C347456F84F,
+					F5744373E81BB12D12F2A36C,
+					69AB7B68083F8B97EB25A3E8,
+					8B095A47574E626D4A0D1DE8,
 					FFF75D4CAB2E90A24387A6C4,
 					54D7CBBAC5837BA998807815,
 					74A154928D2C3EA44D350BA1,
@@ -495,8 +508,8 @@
 					70743E2B3C323AF12E11A41C,
 					C580577F998B72891F353C28, ); name = Components; sourceTree = "<group>"; };
 		D708B0711C10AA1E26A5B39D = {isa = PBXGroup; children = (
-					A7CEE7086D426B5D8A4C9408,
-					6D41EADA0CC136B8CC6010A4, ); name = Comms; sourceTree = "<group>"; };
+					2BABD2A5CC9AAF0DAA894D74,
+					D69E9A5E99E2D0C2589EA9ED, ); name = Comms; sourceTree = "<group>"; };
 		771507E2E518EA82F68FAD4E = {isa = PBXGroup; children = (
 					35B40A83D7A1E57E56025487,
 					24FBD2581DFDA4FED9258B81,
@@ -605,7 +618,7 @@
 					"JucePlugin_Build_Standalone=0", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
@@ -644,7 +657,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
@@ -683,7 +696,7 @@
 					"JucePlugin_Build_Standalone=0", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
@@ -722,7 +735,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
@@ -761,7 +774,7 @@
 					"JucePlugin_Build_Standalone=0", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
@@ -801,7 +814,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
@@ -839,7 +852,7 @@
 					"JucePlugin_Build_Standalone=0",
 					"JUCE_SHARED_CODE=1", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
@@ -871,7 +884,7 @@
 					"JUCE_SHARED_CODE=1", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("\"../../../../../External/VST3 SDK\"", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../../../../../../SDKs/VST_SDK/VST3_SDK", "../../../JuceLibraryCode", "../../../JuceLibraryCode/modules", "../../../JuceLibraryCode/modules/juce_audio_plugin_client", "$(inherited)");
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -962,9 +975,7 @@
 		B915F4985D49EF816A7EFF10 = {isa = XCConfigurationList; buildConfigurations = (
 					DFED0041321609B7B73636EA,
 					3C82379F80CAEA65642ADAD1, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
-		C95323932BBE7F7E103F43CD = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME\n\necho \"Copying to AudioUnit folder...\"\nAUDir=~/Library/Audio/Plug-Ins/Components\nmkdir -p \"$AUDir\"\nAU=$AUDir/$PRODUCT_NAME.component\nif [ -d \"$AU\" ]; then \n  rm -r \"$AU\"\nfi\n\ncp -r \"$original\" \"$AU\"\nsed -i \"\" -e 's/TDMwPTul/BNDLPTul/g' \"$AU/Contents/PkgInfo\"\nsed -i \"\" -e 's/TDMw/BNDL/g' \"$AU/Contents/$INFOPLIST_FILE\""; };
-		458981E46325D7EBA34483DD = {isa = PBXAggregateTarget; buildConfigurationList = B915F4985D49EF816A7EFF10; buildPhases = (
-					C95323932BBE7F7E103F43CD, ); buildRules = ( ); dependencies = (
+		458981E46325D7EBA34483DD = {isa = PBXAggregateTarget; buildConfigurationList = B915F4985D49EF816A7EFF10; buildPhases = (  ); buildRules = ( ); dependencies = (
 					7F7F8AA1AFE086E7DF9BE175,
 					8218F46ADBFA114579253D64,
 					F614470DA04CC1D33C11B89A,
@@ -986,12 +997,10 @@
 					1EE238543E688C8D17C8DBBF,
 					5A1B2CBAA7D0BC05A557ED59,
 					33B529EAEC284DF43589CC38, ); runOnlyForDeploymentPostprocessing = 0; };
-		3438EFFCF07475F4F4F384C6 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME\n\necho \"Copying to AudioUnit folder...\"\nAUDir=~/Library/Audio/Plug-Ins/Components\nmkdir -p \"$AUDir\"\nAU=$AUDir/$PRODUCT_NAME.component\nif [ -d \"$AU\" ]; then \n  rm -r \"$AU\"\nfi\n\ncp -r \"$original\" \"$AU\"\nsed -i \"\" -e 's/TDMwPTul/BNDLPTul/g' \"$AU/Contents/PkgInfo\"\nsed -i \"\" -e 's/TDMw/BNDL/g' \"$AU/Contents/$INFOPLIST_FILE\""; };
 		A77BD4A7B2FC979B8872929B = {isa = PBXNativeTarget; buildConfigurationList = 864AC0E9CDBAC7ACBF008661; buildPhases = (
 					F779214DACAB0B5E65C90604,
 					DC44EEB51416F7AF91C69F7A,
-					7D5384ABBAE883E09E4B669A,
-					3438EFFCF07475F4F4F384C6, ); buildRules = ( ); dependencies = (
+					7D5384ABBAE883E09E4B669A, ); buildRules = ( ); dependencies = (
 					E9AA905667F8698B5D346EC0, ); name = "ScopeSyncEffectPlugin - VST"; productName = ScopeSyncEffectPlugin; productReference = 51EA19BE3AFABD4DBB6BD72E; productType = "com.apple.product-type.bundle"; };
 		23BF0355DEC479DD84069D17 = {isa = XCConfigurationList; buildConfigurations = (
 					E51A565CC79526E9388918E3,
@@ -1010,12 +1019,10 @@
 					1EE238543E688C8D17C8DBBF,
 					5A1B2CBAA7D0BC05A557ED59,
 					33B529EAEC284DF43589CC38, ); runOnlyForDeploymentPostprocessing = 0; };
-		13560C17DB4937366E774A30 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME\n\necho \"Copying to AudioUnit folder...\"\nAUDir=~/Library/Audio/Plug-Ins/Components\nmkdir -p \"$AUDir\"\nAU=$AUDir/$PRODUCT_NAME.component\nif [ -d \"$AU\" ]; then \n  rm -r \"$AU\"\nfi\n\ncp -r \"$original\" \"$AU\"\nsed -i \"\" -e 's/TDMwPTul/BNDLPTul/g' \"$AU/Contents/PkgInfo\"\nsed -i \"\" -e 's/TDMw/BNDL/g' \"$AU/Contents/$INFOPLIST_FILE\""; };
 		1A9EB072CB3049305CAABFB3 = {isa = PBXNativeTarget; buildConfigurationList = 23BF0355DEC479DD84069D17; buildPhases = (
 					754FCE9FBE9B43C511F0E8A0,
 					AB384B362B1FF626AF396A79,
-					3A9146B2034DDD678EFEF864,
-					13560C17DB4937366E774A30, ); buildRules = ( ); dependencies = (
+					3A9146B2034DDD678EFEF864, ); buildRules = ( ); dependencies = (
 					E9AA905667F8698B5D346EC0, ); name = "ScopeSyncEffectPlugin - VST3"; productName = ScopeSyncEffectPlugin; productReference = C4AB77675FD4FA4D2AF01571; productType = "com.apple.product-type.bundle"; };
 		4A0D8AF7B0B2C3B054DFDC4A = {isa = XCConfigurationList; buildConfigurations = (
 					4F4AA3815BDB744DBB89D005,
@@ -1039,13 +1046,11 @@
 					1EE238543E688C8D17C8DBBF,
 					5A1B2CBAA7D0BC05A557ED59,
 					33B529EAEC284DF43589CC38, ); runOnlyForDeploymentPostprocessing = 0; };
-		CAD15FE3D3D0F31C8A1EB402 = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME\n\necho \"Copying to AudioUnit folder...\"\nAUDir=~/Library/Audio/Plug-Ins/Components\nmkdir -p \"$AUDir\"\nAU=$AUDir/$PRODUCT_NAME.component\nif [ -d \"$AU\" ]; then \n  rm -r \"$AU\"\nfi\n\ncp -r \"$original\" \"$AU\"\nsed -i \"\" -e 's/TDMwPTul/BNDLPTul/g' \"$AU/Contents/PkgInfo\"\nsed -i \"\" -e 's/TDMw/BNDL/g' \"$AU/Contents/$INFOPLIST_FILE\""; };
 		9D560354E09A801581BD397C = {isa = PBXNativeTarget; buildConfigurationList = 4A0D8AF7B0B2C3B054DFDC4A; buildPhases = (
 					9EF84306575658C3CEF0A3D2,
 					1788FAE384E1B7B9CD663AB6,
 					DA7C7AAC4795EDAD7FA8FA66,
-					71321387BE584F2AE21708DF,
-					CAD15FE3D3D0F31C8A1EB402, ); buildRules = ( ); dependencies = (
+					71321387BE584F2AE21708DF, ); buildRules = ( ); dependencies = (
 					E9AA905667F8698B5D346EC0, ); name = "ScopeSyncEffectPlugin - AU"; productName = ScopeSyncEffectPlugin; productReference = 4C991533AE649DC6A6124881; productType = "com.apple.product-type.bundle"; };
 		4069565A9BD5CFC3EC239045 = {isa = XCConfigurationList; buildConfigurations = (
 					96037738D815402CE9DC52C1,
@@ -1079,6 +1084,9 @@
 					D6FE72C411162F7F8B91695D,
 					076373DD6FD9720CFF6E1896,
 					C6F8F73FFA4C2E9B71B202A3,
+					C5C9D374549C490239FD784E,
+					8ABB93ECDF46774B8A03B11A,
+					7E359B631F18D739E20A434E,
 					DEC1B242FB1AF7D03B1E717E,
 					B4F9B16A7C5298E55A040D69,
 					84109F75B763BC11673AFBE3,
@@ -1093,7 +1101,7 @@
 					3BD568692D5BA5FC8B82AE6A,
 					C7553FFC0898DB04365DD02E,
 					E19C6C1DF016022B7205FD19,
-					B26C8C00A79F270D9786EC14,
+					D8E4146E939036CE3112A160,
 					169D1FA5A9F489BDD6E54B95,
 					C91236283C4B6E78559F7734,
 					7FACA8E7F82394551E992681,
@@ -1108,10 +1116,8 @@
 					9A8DDC0E102B3AA9F2902191,
 					943E6E5C1F52B54B4CE8CD45,
 					F6A43FDC4A7B6FF09C2334E8, ); runOnlyForDeploymentPostprocessing = 0; };
-		B301E3602250CF3050D13BCB = {isa = PBXShellScriptBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; name = "Post-build script"; shellPath = /bin/sh; shellScript = "original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME\n\necho \"Copying to AudioUnit folder...\"\nAUDir=~/Library/Audio/Plug-Ins/Components\nmkdir -p \"$AUDir\"\nAU=$AUDir/$PRODUCT_NAME.component\nif [ -d \"$AU\" ]; then \n  rm -r \"$AU\"\nfi\n\ncp -r \"$original\" \"$AU\"\nsed -i \"\" -e 's/TDMwPTul/BNDLPTul/g' \"$AU/Contents/PkgInfo\"\nsed -i \"\" -e 's/TDMw/BNDL/g' \"$AU/Contents/$INFOPLIST_FILE\""; };
 		A6B16C78B04727B7EAB11A65 = {isa = PBXNativeTarget; buildConfigurationList = 4069565A9BD5CFC3EC239045; buildPhases = (
-					B969F2C35187F9BB88F47273,
-					B301E3602250CF3050D13BCB, ); buildRules = ( ); dependencies = (  ); name = "ScopeSyncEffectPlugin - Shared Code"; productName = ScopeSyncEffectPlugin; productReference = E681E04690F2CA0EC66D682E; productType = "com.apple.product-type.library.static"; };
+					B969F2C35187F9BB88F47273, ); buildRules = ( ); dependencies = (  ); name = "ScopeSyncEffectPlugin - Shared Code"; productName = ScopeSyncEffectPlugin; productReference = E681E04690F2CA0EC66D682E; productType = "com.apple.product-type.library.static"; };
 		4095045EB1BE3A51656709E7 = {isa = PBXProject; buildConfigurationList = CB4040D3F3340EDC2FE88700; attributes = { LastUpgradeCheck = 0830; ORGANIZATIONNAME = "BC Modular"; TargetAttributes = { 458981E46325D7EBA34483DD = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; };A77BD4A7B2FC979B8872929B = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; };1A9EB072CB3049305CAABFB3 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; };9D560354E09A801581BD397C = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; };A6B16C78B04727B7EAB11A65 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; }; }; }; compatibilityVersion = "Xcode 3.2"; hasScannedForEncodings = 0; mainGroup = B8F92F13D5E0415F030D5607; projectDirPath = ""; projectRoot = ""; targets = (458981E46325D7EBA34483DD, A77BD4A7B2FC979B8872929B, 1A9EB072CB3049305CAABFB3, 9D560354E09A801581BD397C, A6B16C78B04727B7EAB11A65); };
 	};
 	rootObject = 4095045EB1BE3A51656709E7;

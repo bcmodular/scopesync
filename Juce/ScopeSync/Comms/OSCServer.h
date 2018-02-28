@@ -28,7 +28,7 @@
 #define OSCSERVER_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "..\Windows\UserSettings.h"
+#include "../Windows/UserSettings.h"
 
 class ScopeSync;
 

@@ -152,7 +152,7 @@ private:
     void drawBCMImage(Graphics& g, BCMImage& image) const;
 
     // To handle the right-click menu
-    void mouseDown(const MouseEvent& event);
+    void mouseDown(const MouseEvent& event) override;
 
     // Open the specific Style Override Panel for components as appropriate
     void overrideStyle() override;

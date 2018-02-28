@@ -45,7 +45,7 @@ public:
 
     ~LabelProperties();
 
-    enum ParameterTextDisplay {parameterName, shortDescription, fullDescription, scopeCode, scopeParam};
+    enum ParameterTextDisplay {parameterName, shortDescription, fullDescription, scopeParam};
 
     String               text;
     float                fontHeight;

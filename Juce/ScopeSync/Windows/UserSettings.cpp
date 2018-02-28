@@ -341,12 +341,14 @@ void UserSettings::referToOSCSettings(Value& localPort, Value& remoteHost, Value
 	remotePort.referTo(oscRemotePortNum);
 }
 
+#ifdef __DLL_EFFECT__
 void UserSettings::referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
 {
 	localPort.referTo(scopeOSCLocalPortNum);
 	remoteHost.referTo(scopeOSCRemoteHost);
 	remotePort.referTo(scopeOSCRemotePortNum);
 }
+#endif //__DLL_EFFECT__
 
 void UserSettings::valueChanged(Value& valueThatChanged)
 {

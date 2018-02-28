@@ -36,29 +36,34 @@
 #endif // __DLL_EFFECT__
 
 const int BCMParameter::deadTimeTimerInterval = 100;
-const int BCMParameter::maxOSCDeadTime   = 3;
 
 BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc,
 	ScopeOSCParamID scopeOSCParamID)
     : scopeOSCParameter(scopeOSCParamID, this, parameterDefinition),
       parameterController(pc),
-	  readOnly(false),
+      name(parameterDefinition.getProperty(Ids::name).toString()),
+      shortDescription(parameterDefinition.getProperty(Ids::shortDescription).toString()),
+      fullDescription(parameterDefinition.getProperty(Ids::fullDescription).toString()),
+      readOnly(false),
       definition(parameterDefinition),
+      settings(parameterDefinition.getChildWithName(Ids::settings)),
 	  hostIdx(-1),
 	  numDecimalPlaces(7),
-	  uiRangeMin(definition.getProperty(Ids::uiRangeMin)),
-	  uiRangeMax(definition.getProperty(Ids::uiRangeMax)),
-	  uiRangeInterval(definition.getProperty(Ids::uiRangeInterval)),
-	  uiResetValue(definition.getProperty(Ids::uiResetValue)),
-	  uiSuffix(definition.getProperty(Ids::uiSuffix).toString()),
-	  oscDeadTimeCounter(0)
+      paramDiscrete(checkDiscrete(parameterDefinition)),
+	  uiRangeMin(parameterDefinition.getProperty(Ids::uiRangeMin)),
+	  uiRangeMax(parameterDefinition.getProperty(Ids::uiRangeMax)),
+	  uiRangeInterval(parameterDefinition.getProperty(Ids::uiRangeInterval)),
+	  uiResetValue(parameterDefinition.getProperty(Ids::uiResetValue)),
+      uiSkewFactor(parameterDefinition.getProperty(Ids::uiSkewFactor)),
+	  uiSuffix(parameterDefinition.getProperty(Ids::uiSuffix).toString()),
+      skewUIOnly(parameterDefinition.getProperty(Ids::skewUIOnly))
 {
     if (uiRangeMin == uiRangeMax)
         uiRangeMax = uiRangeMin + 1.0f;
 
 	startTimer(deadTimeTimerInterval);
 	
-	putValuesInRange(true);
+	putValuesInRange();
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
@@ -80,15 +85,11 @@ BCMParameter::~BCMParameter()
 
 void BCMParameter::setNumDecimalPlaces()
 {
-    float uiInterval = definition.getProperty(Ids::uiRangeInterval);
-    
     // figure out the number of DPs needed to display all values at this
     // interval setting.
-    numDecimalPlaces = 7;
-
-    if (uiInterval != 0)
+    if (uiRangeInterval != 0)
     {
-        int v = std::abs (roundToInt(uiInterval * 10000000));
+        int v = std::abs (roundToInt(uiRangeInterval * 10000000));
 
         while ((v % 10) == 0)
         {
@@ -104,7 +105,9 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 	uiValue               = newUIValue;
 
 	if (updateSource == oscUpdate)
-		oscDeadTimeCounter = maxOSCDeadTime;
+    {
+        // TODO: Replace with simpler timer method
+    }
 
 	if (updateSource != scopeOSCUpdate)
 		scopeOSCParameter.updateValue(linearNormalisedValue.getValue(), uiValue.getValue(), uiRangeMin, uiRangeMax);
@@ -117,35 +120,12 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 	#endif // __DLL_EFFECT__
 }
 
-void BCMParameter::putValuesInRange(bool initialise)
+void BCMParameter::putValuesInRange()
 {
-    DBG("BCMParameter::putValuesInRange - " + String(getName()));
-    DBG("BCMParameter::putValuesInRange - uiMinValue: " + String(uiRangeMin) + ", uiMaxValue: " + String(uiRangeMax));
-    
-	double newUIValue = 0.0f;
+    DBG("BCMParameter::putValuesInRange - Initialise to: " + String(uiResetValue));
+    double newLinearNormalisedValue = scaleDouble(uiRangeMin, uiRangeMax, 0.0f, 1.0f, uiResetValue);
 
-    if (initialise)
-    {
-        DBG("BCMParameter::putValuesInRange - Initialise to: " + String(uiResetValue));
-        newUIValue = uiResetValue;
-    }
-    else
-    {
-        if (float(uiValue.getValue()) < uiRangeMin)
-        {
-            DBG("BCMParameter::putValuesInRange - Bumping up to: " + String(uiRangeMin));
-            newUIValue = uiRangeMin;
-        }
-        else if (float(uiValue.getValue()) > uiRangeMax)
-        {
-            DBG("BCMParameter::putValuesInRange - Dropping down to: " + String(uiRangeMax));
-            newUIValue = uiRangeMax;
-        }
-    }
-
-	double newLinearNormalisedValue = scaleDouble(uiRangeMin, uiRangeMax, 0.0f, 1.0f, newUIValue);
-
-	setParameterValues(internalUpdate, newLinearNormalisedValue, newUIValue, false);
+	setParameterValues(internalUpdate, newLinearNormalisedValue, uiResetValue, false);
 }
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo) const
@@ -154,20 +134,10 @@ void BCMParameter::mapToUIValue(Value& valueToMapTo) const
     valueToMapTo.referTo(uiValue);
 }
 
-String BCMParameter::getName() const
-{
-    return definition.getProperty(Ids::name).toString();
-}
-
-void BCMParameter::getSettings(ValueTree& settings) const
-{
-    settings = definition.getChildWithName(Ids::settings);
-}
-
 void BCMParameter::getDescriptions(String& shortDesc, String& fullDesc) const
 {
-    shortDesc = definition.getProperty(Ids::shortDescription).toString();
-    fullDesc  = definition.getProperty(Ids::fullDescription).toString();
+    shortDesc = shortDescription;
+    fullDesc  = fullDescription;
 }
 
 void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const
@@ -178,28 +148,14 @@ void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& range
     suffix   = uiSuffix;
 }
 
-double BCMParameter::getUIResetValue() const
-{
-    return definition.getProperty(Ids::uiResetValue);
-}
-
-double BCMParameter::getUISkewFactor() const
-{
-    return definition.getProperty(Ids::uiSkewFactor);
-}
-
 void BCMParameter::getUITextValue(String& textValue) const
 {
-    int parameterValueType = definition.getProperty(Ids::valueType);
-
-    if (parameterValueType == discrete)
+    if (paramDiscrete)
     {
-        ValueTree paramSettings = definition.getChildWithName(Ids::settings);
-
-        if (paramSettings.isValid())
+        if (settings.isValid())
         {
             int settingIdx = roundToInt(uiValue.getValue());
-            String settingName = paramSettings.getChild(settingIdx).getProperty(Ids::name);
+            String settingName = settings.getChild(settingIdx).getProperty(Ids::name);
                     
             if (settingName.isNotEmpty())
                 textValue = settingName;
@@ -207,7 +163,7 @@ void BCMParameter::getUITextValue(String& textValue) const
     }
     else
     {
-        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + definition.getProperty(Ids::uiSuffix).toString();
+        textValue = String(float(uiValue.getValue()), numDecimalPlaces) + uiSuffix;
     }
     //DBG("BCMParameter::getUITextValue - " + definition.getProperty(paramNameId).toString() + ": " + textValue);
 }
@@ -216,14 +172,14 @@ float BCMParameter::getHostValue() const
 {
 	float hostValue = linearNormalisedValue.getValue();
 
-	if (!definition.getProperty(Ids::skewUIOnly))
+	if (!skewUIOnly)
 		hostValue = skewHostValue(hostValue, true);
 
     // DBG("BCMParameter::getHostValue - " + definition.getProperty(Ids::name).toString() + ": " + String(hostValue));
     return hostValue;
 }
 
-bool BCMParameter::isDiscrete() const
+bool BCMParameter::checkDiscrete(ValueTree& definition)
 {
     int parameterValueType = definition.getProperty(Ids::valueType);
 
@@ -236,11 +192,6 @@ bool BCMParameter::isDiscrete() const
     }
 
     return false;
-}
-
-bool BCMParameter::isReadOnly() const
-{
-	return readOnly;
 }
 
 double BCMParameter::convertLinearNormalisedToUIValue(double lnValue) const
@@ -269,14 +220,14 @@ double BCMParameter::convertUIToLinearNormalisedValue(double newValue) const
 
 void BCMParameter::setHostValue(float newValue)
 {
-	if (!definition.getProperty(Ids::skewUIOnly))
+	if (!skewUIOnly)
 		newValue = skewHostValue(newValue, false);
 
 	double newUIValue               = convertLinearNormalisedToUIValue(newValue);
     
 	setParameterValues(hostUpdate, newValue, newUIValue, false);
     
-	DBG("BCMParameter::setHostValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
+	DBG("BCMParameter::setHostValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
 void BCMParameter::setUIValue(float newValue, bool updateHost)
@@ -288,7 +239,7 @@ void BCMParameter::setUIValue(float newValue, bool updateHost)
 	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
 
 	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue, updateHost);
-    DBG("BCMParameter::setUIValue - " + definition.getProperty(Ids::name).toString() + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
+    DBG("BCMParameter::setUIValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
 }
 
 void BCMParameter::setOSCValue(float newValue)
@@ -301,33 +252,23 @@ void BCMParameter::setOSCValue(float newValue)
 
 void BCMParameter::timerCallback()
 {
-	decDeadTimes();
-}
-
-void BCMParameter::decDeadTimes()
-{
-	if (oscDeadTimeCounter > 0)
-        oscDeadTimeCounter--;
 }
 
 float BCMParameter::skewHostValue(float hostValue, bool invert) const
 {
     double skewedValue = hostValue;
-    double skewFactor = definition.getProperty(Ids::uiSkewFactor);
-
-    if ((skewFactor != 1.0f))
-    {
-        skewValue(skewedValue, skewFactor, 0.0f, 1.0f, invert);
-    }
     
-    return static_cast<float>(skewedValue);
+    if ((uiSkewFactor != 1.0f))
+        skewValue(skewedValue, uiSkewFactor, 0.0f, 1.0f, invert);
+    
+    return float(skewedValue);
 }
 
 void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		if (oscEnabled && oscDeadTimeCounter == 0)
+		if (oscEnabled)
 			sendOSCParameterUpdate();
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))

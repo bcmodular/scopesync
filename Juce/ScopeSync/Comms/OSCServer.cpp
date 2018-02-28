@@ -184,7 +184,9 @@ void ScopeOSCServer::setup()
 	oscRemoteHost.addListener(this);
 	oscRemotePortNum.addListener(this);
 
+#ifdef __DLL_EFFECT__
 	userSettings->referToScopeOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+#endif //__DLL_EFFECT__
 }
 
 ScopeOSCServer::~ScopeOSCServer()

@@ -41,7 +41,6 @@ public:
 
 	int  getValue() const {return intValue;}
 
-	String getScopeCode();
 	String getScopeParamText();
 
 	void setOSCUID(int newUID);
@@ -59,8 +58,7 @@ private:
 	BCMParameter* parameter;
 	
 	ScopeOSCParamID paramID;
-	String          scopeCode;
-
+	
 	int oscUID{};
     
 	int intValue{};

@@ -43,8 +43,6 @@ PluginProcessor::~PluginProcessor()
 {
     scopeSync->unload();
     scopeSync = nullptr;
-
-    ScopeSync::shutDownIfLastInstance();
 }
 
 const String PluginProcessor::getName() const
@@ -198,7 +196,7 @@ void PluginProcessor::getStateInformation(MemoryBlock& destData)
     configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
 	XmlElement* oscUIDXml = root.createNewChildElement("oscuid");
-    oscUIDXml->addTextElement(String(scopeSync->getParameterController()->getOSCUID()));
+    oscUIDXml->addTextElement(String(scopeSync->getOSCUID()));
 
     copyXmlToBinary(root, destData);
 
@@ -234,7 +232,7 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
         {
             int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
 
-            scopeSync->getParameterController()->getParameterByScopeCode("osc")->setUIValue(static_cast<float>(oscUID));
+            scopeSync->setOSCUID(oscUID);
         }
     }
     else

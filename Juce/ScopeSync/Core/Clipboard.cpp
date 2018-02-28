@@ -64,8 +64,7 @@ void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoMana
     String name            = target.getProperty(Ids::name);
     String shortDesc       = target.getProperty(Ids::shortDescription);
     String fullDesc        = target.getProperty(Ids::fullDescription);
-    //String scopeCode = target.getProperty(Ids::scopeCode);
-	String scopeParamGroup = target.getProperty(Ids::scopeParamGroup);
+    String scopeParamGroup = target.getProperty(Ids::scopeParamGroup);
 	String scopeParamId    = target.getProperty(Ids::scopeParamId);
     
     target.copyPropertiesFrom(clipboard, undoManager);
@@ -90,8 +89,7 @@ void ParameterClipboard::pasteParameter(ValueTree& target, UndoManager* undoMana
     target.setProperty(Ids::name,             name,       undoManager);
     target.setProperty(Ids::shortDescription, shortDesc,  undoManager);
     target.setProperty(Ids::fullDescription,  fullDesc,   undoManager);
-    //target.setProperty(Ids::scopeCode,        scopeCode,  undoManager);
-	target.setProperty(Ids::scopeParamGroup,  scopeParamGroup, undoManager);
+    target.setProperty(Ids::scopeParamGroup,  scopeParamGroup, undoManager);
 	target.setProperty(Ids::scopeParamId,     scopeParamId, undoManager);
 }
 

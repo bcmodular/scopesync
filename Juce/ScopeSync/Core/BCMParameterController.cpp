@@ -17,9 +17,7 @@
     #include "../Plugin/PluginProcessor.h"
 #endif // __DLL_EFFECT__
 
-const int BCMParameterController::minHostParameters = 128;
-const int BCMParameterController::maxHostParameters = 128;
-const int BCMParameterController::timerFrequency    = 100;
+const int BCMParameterController::hostParameterCount = 128;
 
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
@@ -32,16 +30,15 @@ parameterValueStore("parametervalues"), scopeSync(owner)
 	scopeSync->initOSCUID();
 }
 
-void BCMParameterController::addFixedScopeParameter(const String& scopeCode, const int scopeCodeId)
+void BCMParameterController::addFixedScopeParameter(const String& name, const int scopeParamId)
 {
-	DBG("BCMParameterController::addFixedScopeParameter - adding scopeCode: " + scopeCode + ", scopeCodeId: " + String(scopeCodeId));
+	DBG("BCMParameterController::addFixedScopeParameter - adding: " + name + ", scopeParamId: " + String(scopeParamId));
 
     ValueTree tmpParameter = Configuration::getDefaultFixedParameter();
-    tmpParameter.setProperty(Ids::scopeCode, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::name, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::shortDescription, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::fullDescription, scopeCode, nullptr);
-    tmpParameter.setProperty(Ids::scopeParamId, scopeCodeId, nullptr);
+    tmpParameter.setProperty(Ids::name, name, nullptr);
+    tmpParameter.setProperty(Ids::shortDescription, name, nullptr);
+    tmpParameter.setProperty(Ids::fullDescription, name, nullptr);
+    tmpParameter.setProperty(Ids::scopeParamId, scopeParamId, nullptr);
 	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
     addParameter(tmpParameter, true);
@@ -108,7 +105,7 @@ void BCMParameterController::snapshot() const
 
 int BCMParameterController::getNumParametersForHost()
 {
-    return minHostParameters;
+    return hostParameterCount;
 }
 
 BCMParameter* BCMParameterController::getParameterByName(StringRef name) const

@@ -31,7 +31,6 @@
 ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, ValueTree parameterDefinition)
 	: parameter(owner),
       paramID(oscParamID), 
-	  scopeCode(parameterDefinition.getProperty(Ids::scopeCode).toString()),
 	  oscUID(0),
 	  minValue(parameterDefinition.getProperty(Ids::scopeRangeMin)),
 	  maxValue(parameterDefinition.getProperty(Ids::scopeRangeMax)),
@@ -39,17 +38,12 @@ ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* o
 	  isListening(false),
 	  isSending(false)
 {
-	DBG("ScopeOSCParameter::ScopeOSCParameter - creating new parameter with paramID: " + String(paramID.paramGroup) + ":" + String(paramID.paramId) + " and scopeCode: " + scopeCode);
+	DBG("ScopeOSCParameter::ScopeOSCParameter - creating new parameter with paramID: " + String(paramID.paramGroup) + ":" + String(paramID.paramId));
 }
 
 ScopeOSCParameter::~ScopeOSCParameter()
 {
 	oscServer->unregisterOSCListener(this);
-}
-
-String ScopeOSCParameter::getScopeCode()
-{
-	return (scopeCode.isEmpty() ? getScopeParamText() : scopeCode);
 }
 
 String ScopeOSCParameter::getScopeParamText()

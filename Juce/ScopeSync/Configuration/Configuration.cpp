@@ -458,6 +458,8 @@ void Configuration::migrateFromV102()
 				DBG("Configuration::migrateFromV102 - migrating scopeCode: " + scopeCode + " to: " + String(scopeParamGroup) + ":" + String(scopeParamId));
 				parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, nullptr);
 				parameter.setProperty(Ids::scopeParamId,    scopeParamId, nullptr);
+                
+                parameter.removeProperty(Ids::scopeCode, nullptr);
 			}
 		}
 	}
@@ -518,7 +520,6 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
 
 	newParameter.setProperty(Ids::scopeParamGroup, -1, um);
 	newParameter.setProperty(Ids::scopeParamId, -1, um);
-    //newParameter.setProperty(Ids::scopeCode, String::empty, um);
     
     getParameters().addChild(newParameter, targetIndex, um);
 }
@@ -528,8 +529,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     String name            = parameter.getProperty(Ids::name);
     String shortDesc       = parameter.getProperty(Ids::shortDescription);
     String fullDesc        = parameter.getProperty(Ids::fullDescription);
-    //String scopeCode       = parameter.getProperty(Ids::scopeCode);
-	String scopeParamGroup = parameter.getProperty(Ids::scopeParamGroup);
+    String scopeParamGroup = parameter.getProperty(Ids::scopeParamGroup);
 	String scopeParamId    = parameter.getProperty(Ids::scopeParamId);
 
 	parameter.copyPropertiesFrom(preset, undoManager);
@@ -548,8 +548,7 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     if (settings.isValid())
         parameter.addChild(settings, -1, undoManager);
 
-    //parameter.setProperty(Ids::scopeCode, scopeCode, undoManager);
-	parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, undoManager);
+    parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, undoManager);
 	parameter.setProperty(Ids::scopeParamId, scopeParamId, undoManager);
     
     if (!overwriteNames)

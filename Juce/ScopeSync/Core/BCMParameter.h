@@ -51,28 +51,29 @@ public:
     void endParameterChangeGesture();
     
     void          mapToUIValue(Value& valueToMapTo) const;
-    String        getName() const;
+    String        getName() const { return name; }
+    ValueTree&    getDefinition() { return definition; }
 	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
     int           getHostIdx() const { return hostIdx; }
-	ValueTree&    getDefinition() { return definition; }
-    void          getSettings(ValueTree& settings) const;
+    void          getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
     void          getDescriptions(String& shortDesc, String& fullDesc) const;
     void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
 	double        getUIRangeMin() const {return uiRangeMin;}
 	double        getUIRangeMax() const {return uiRangeMax;}
 
-    double        getUIResetValue() const;
-    double        getUISkewFactor() const;
+    double        getUIResetValue() const { return uiResetValue; }
+    double        getUISkewFactor() const { return uiSkewFactor; }
 
     void          getUITextValue(String& textValue) const;
     int           getUIValue() const { return uiValue.getValue(); };
 
     float         getHostValue() const;
     
-	ScopeOSCParameter& getScopeOSCParameter() {return scopeOSCParameter;}
+	ScopeOSCParameter& getScopeOSCParameter() { return scopeOSCParameter; }
 
-    bool isDiscrete() const;
-	bool isReadOnly() const;
+    static bool checkDiscrete(ValueTree& definition);
+    bool isDiscrete() const { return discrete; }
+    bool isReadOnly() const { return readOnly; }
     
     void setHostValue(float newValue);
     void setUIValue(float newValue, bool updateHost = true);
@@ -97,37 +98,39 @@ private:
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
     // ensure the UI and LinearNormalised values are within the ranges
-    void   putValuesInRange(bool initialise);
+    void   putValuesInRange();
     void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert) const;
 
 	void  valueChanged(Value& valueThatChanged) override;
 	void  timerCallback() override;
-
-	void  decDeadTimes();
     
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;
 
+    String    name;
+    String    shortDescription;
+    String    fullDescription;
     bool      oscEnabled;
 	bool	  readOnly;
     ValueTree definition;
+    ValueTree settings;
     Value     uiValue;
     Value     linearNormalisedValue;
 	Value     oscUID;
     int       hostIdx;
 	int       numDecimalPlaces;
-
+    bool      paramDiscrete;
+    
 	double    uiRangeMin;
 	double    uiRangeMax;
 	double    uiRangeInterval;
 	double    uiResetValue;
+    double    uiSkewFactor;
 	String    uiSuffix;
+    bool      skewUIOnly;
 	
-	int oscDeadTimeCounter;
-
 	static const int deadTimeTimerInterval;
-	static const int maxOSCDeadTime;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

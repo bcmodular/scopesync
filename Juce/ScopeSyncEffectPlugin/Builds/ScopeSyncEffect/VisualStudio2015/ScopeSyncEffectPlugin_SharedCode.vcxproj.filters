@@ -400,6 +400,15 @@
     <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\Clipboard.cpp">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSync.cpp">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClCompile>
@@ -442,7 +451,7 @@
     <ClCompile Include="..\..\..\..\ScopeSync\Components\BCMWidget.cpp">
       <Filter>ScopeSyncEffectPlugin\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Comms\ScopeSyncOSC.cpp">
+    <ClCompile Include="..\..\..\..\ScopeSync\Comms\OSCServer.cpp">
       <Filter>ScopeSyncEffectPlugin\Comms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Plugin\PluginGUI.cpp">
@@ -2061,7 +2070,13 @@
     <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\Clipboard.h">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Global.h">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSync.h">
@@ -2109,7 +2124,7 @@
     <ClInclude Include="..\..\..\..\ScopeSync\Components\BCMWidget.h">
       <Filter>ScopeSyncEffectPlugin\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Comms\ScopeSyncOSC.h">
+    <ClInclude Include="..\..\..\..\ScopeSync\Comms\OSCServer.h">
       <Filter>ScopeSyncEffectPlugin\Comms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Plugin\PluginGUI.h">

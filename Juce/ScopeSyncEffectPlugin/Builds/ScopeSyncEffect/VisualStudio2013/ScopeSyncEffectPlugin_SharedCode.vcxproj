@@ -311,6 +311,9 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameter.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\Clipboard.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSyncGUI.cpp"/>
@@ -325,7 +328,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSync\Components\BCMTabbedComponent.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Components\BCMTextButton.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Components\BCMWidget.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Comms\ScopeSyncOSC.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Comms\OSCServer.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Plugin\PluginGUI.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Plugin\PluginProcessor.cpp"/>
     <ClCompile Include="..\..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1758,7 +1761,9 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameter.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\Clipboard.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Global.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSyncApplication.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSyncGUI.h"/>
@@ -1774,7 +1779,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSync\Components\BCMTabbedComponent.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Components\BCMTextButton.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Components\BCMWidget.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Comms\ScopeSyncOSC.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Comms\OSCServer.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Plugin\PluginGUI.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Plugin\PluginProcessor.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>

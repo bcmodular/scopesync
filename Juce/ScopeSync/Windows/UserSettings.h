@@ -77,7 +77,9 @@ public:
                                   const ValueTree& sourceValueTree);
 
 	void referToOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
+#ifdef __DLL_EFFECT__
 	void referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
+#endif // __DLL_EFFECT__
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();

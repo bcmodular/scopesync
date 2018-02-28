@@ -97,7 +97,7 @@ void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML,
     else if (parameterTextDisplayString.equalsIgnoreCase("fulldescription"))
 		paramTextDisplay = fullDescription;
     else if (parameterTextDisplayString.equalsIgnoreCase("scopecode"))
-		paramTextDisplay = scopeCode;
+		paramTextDisplay = scopeParam;
 	else if (parameterTextDisplayString.equalsIgnoreCase("scopeparam"))
 		paramTextDisplay = scopeParam;
 }

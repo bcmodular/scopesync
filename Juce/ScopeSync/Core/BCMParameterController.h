@@ -30,7 +30,7 @@ public:
     void reset();
 
     void addParameter(ValueTree parameterDefinition, bool fixedParameter = false);
-    void addFixedScopeParameter(const String& scopeCode, int scopeCodeId);
+    void addFixedScopeParameter(const String& name, int scopeParamId);
     void setupHostParameters();
 
 	ScopeSync* getScopeSync() {return scopeSync;}
@@ -69,9 +69,7 @@ private:
     
     BigInteger changingParams;
     
-    static const int minHostParameters;       // Minimum parameter count to return to host
-    static const int maxHostParameters;       // Minimum parameter count to return to host
-    static const int timerFrequency;
+    static const int hostParameterCount;       // Parameter count to return to host
 };
 
 #endif  // BCMPARAMETERCONTROLLER_H_INCLUDED
