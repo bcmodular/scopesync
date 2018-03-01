@@ -100,7 +100,7 @@ void BCMParameterController::reset()
 void BCMParameterController::snapshot() const
 {
 	for (auto parameter : parameters)
-		parameter->sendOSCParameterUpdate();
+		parameter->getScopeOSCParameter().sendCurrentValue();
 }
 
 int BCMParameterController::getNumParametersForHost()

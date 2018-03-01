@@ -35,8 +35,6 @@
     #include "../Plugin/PluginProcessor.h"
 #endif // __DLL_EFFECT__
 
-const int BCMParameter::deadTimeTimerInterval = 100;
-
 BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc,
 	ScopeOSCParamID scopeOSCParamID)
     : scopeOSCParameter(scopeOSCParamID, this, parameterDefinition),
@@ -61,26 +59,21 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
     if (uiRangeMin == uiRangeMax)
         uiRangeMax = uiRangeMin + 1.0f;
 
-	startTimer(deadTimeTimerInterval);
-	
 	putValuesInRange();
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
     parameterController.getScopeSync()->referToOSCUID(oscUID);
     oscUID.addListener(this);
-	oscServer->registerOSCListener(this, getOSCPath());
+	
 	scopeOSCParameter.setOSCUID(oscUID.getValue());
 	scopeOSCParameter.startListening();
 }
 
 BCMParameter::~BCMParameter()
 {
-	oscServer->unregisterOSCListener(this);
-
 	DBG("BCMParameter::~BCMParameter - deleting parameter: " + getName());
 	masterReference.clear();
-	stopTimer();
 };
 
 void BCMParameter::setNumDecimalPlaces()
@@ -103,11 +96,6 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 {
 	linearNormalisedValue = newLinearNormalisedValue;
 	uiValue               = newUIValue;
-
-	if (updateSource == oscUpdate)
-    {
-        // TODO: Replace with simpler timer method
-    }
 
 	if (updateSource != scopeOSCUpdate)
 		scopeOSCParameter.updateValue(linearNormalisedValue.getValue(), uiValue.getValue(), uiRangeMin, uiRangeMax);
@@ -242,18 +230,6 @@ void BCMParameter::setUIValue(float newValue, bool updateHost)
     DBG("BCMParameter::setUIValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
 }
 
-void BCMParameter::setOSCValue(float newValue)
-{
-	double newUIValue = newValue;
-    double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
-
-	setParameterValues(oscUpdate, newLinearNormalisedValue, newUIValue);
-}
-
-void BCMParameter::timerCallback()
-{
-}
-
 float BCMParameter::skewHostValue(float hostValue, bool invert) const
 {
     double skewedValue = hostValue;
@@ -268,49 +244,12 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		if (oscEnabled)
-			sendOSCParameterUpdate();
+		// TODO: Probably this is where buttons need to be handled (i.e. send to scopeInt)
 	}
 	else if (valueThatChanged.refersToSameSourceAs(oscUID))
 	{
-		oscServer->registerOSCListener(this, getOSCPath());
 		scopeOSCParameter.setOSCUID(oscUID.getValue());
 	}
-}
-
-String BCMParameter::getOSCPath() const
-{
-	String oscUIDStr = oscUID.getValue();
-	String address = "/" + oscUIDStr + "/" + String(hostIdx);
-
-	return address;
-}
-  
-void BCMParameter::sendOSCParameterUpdate() const
-{
-    oscServer->sendIntMessage(getOSCPath(), scopeOSCParameter.getValue());
-}
-
-void BCMParameter::oscMessageReceived (const OSCMessage& message)
-{
-	String address = message.getAddressPattern().toString();
-
-	DBG("BCMParameter::oscMessageReceived - " + address);
-
-	if (message.size() == 1)
-	{
-		if (message[0].isFloat32() && address == getOSCPath())
-		{
-			float newValue = message[0].getFloat32();
-			DBG("BCMParameter::oscMessageReceived - new OSC Value: " + String(newValue));
-			
-			setOSCValue(newValue);
-		}
-		else
-			DBG("BCMParameter::handleOSCMessage - OSC message not processed");
-	}
-	else
-		DBG("BCMParameter::handleOSCMessage - empty OSC message");
 }
 
 void BCMParameter::beginParameterChangeGesture()

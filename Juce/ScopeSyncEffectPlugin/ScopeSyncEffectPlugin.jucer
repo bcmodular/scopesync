@@ -355,7 +355,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2015 targetFolder="Builds/ScopeSyncEffect/VisualStudio2015" vstFolder=""
-            vst3Folder="../../External/VST3 SDK" extraDefs="">
+            vst3Folder="../../../vst3sdk" extraDefs="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="ScopeSyncVSTFX-Debug_1_0_3"
@@ -384,7 +384,7 @@
       </MODULEPATHS>
     </VS2015>
     <VS2013 targetFolder="Builds/ScopeSyncEffect/VisualStudio2013" vstFolder=""
-            vst3Folder="../../External/VST3 SDK" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
+            vst3Folder="../../../vst3sdk" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"

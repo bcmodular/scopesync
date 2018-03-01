@@ -136,4 +136,4 @@ void ScopeFXGUI::timerCallback()
 	ignoreXYFromScope = false;
 }
 
-#endif  // __DLLEFFECT__
+#endif  // __DLL_EFFECT__

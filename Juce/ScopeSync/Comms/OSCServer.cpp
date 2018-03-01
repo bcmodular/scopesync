@@ -46,7 +46,11 @@ void OSCServer::setup()
 	oscRemoteHost.addListener(this);
 	oscRemotePortNum.addListener(this);
 
-	userSettings->referToOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+	#ifdef __DLL_EFFECT__
+		userSettings->referToScopeFXOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+	#else
+		userSettings->referToPluginOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+	#endif __DLL_EFFECT__
 
 	addListener(this);
 }
@@ -171,27 +175,4 @@ void OSCServer::valueChanged(Value& valueThatChanged)
 		setRemoteHostname(valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
 		setRemotePortNumber(valueThatChanged.getValue());
-}
-
-ScopeOSCServer::ScopeOSCServer()
-{
-	setup();
-}
-
-void ScopeOSCServer::setup()
-{
-	oscLocalPortNum.addListener(this);
-	oscRemoteHost.addListener(this);
-	oscRemotePortNum.addListener(this);
-
-#ifdef __DLL_EFFECT__
-	userSettings->referToScopeOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
-#endif //__DLL_EFFECT__
-}
-
-ScopeOSCServer::~ScopeOSCServer()
-{
-	oscLocalPortNum.removeListener(this);
-	oscRemoteHost.removeListener(this);
-	oscRemotePortNum.removeListener(this);
 }

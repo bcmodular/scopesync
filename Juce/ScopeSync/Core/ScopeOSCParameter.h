@@ -41,9 +41,11 @@ public:
 
 	int  getValue() const {return intValue;}
 
-	String getScopeParamText();
-
+	String getScopeParamText() const;
+	String getOSCPath() const;
+	
 	void setOSCUID(int newUID);
+	void sendCurrentValue() const;
 	void updateValue(int newValue);
 	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
 
@@ -54,7 +56,7 @@ public:
 	void stopSending() {isSending = false;}
 
 private:
-	SharedResourcePointer<ScopeOSCServer> oscServer;
+	SharedResourcePointer<OSCServer> oscServer;
 	BCMParameter* parameter;
 	
 	ScopeOSCParamID paramID;
@@ -73,8 +75,6 @@ private:
 	int   findNearestParameterSetting(int value) const;
 	double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
 
-	String getOSCPath() const;
-	
 	void oscMessageReceived(const OSCMessage& message) override;
 };
 

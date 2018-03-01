@@ -46,7 +46,7 @@ ScopeOSCParameter::~ScopeOSCParameter()
 	oscServer->unregisterOSCListener(this);
 }
 
-String ScopeOSCParameter::getScopeParamText()
+String ScopeOSCParameter::getScopeParamText() const
 {
 	return String(paramID.paramGroup) + ":" + String(paramID.paramId);
 }
@@ -59,10 +59,15 @@ void ScopeOSCParameter::setOSCUID(int newUID)
 	oscServer->registerOSCListener(this, getOSCPath());
 }
 
+void ScopeOSCParameter::sendCurrentValue() const
+{
+	oscServer->sendIntMessage(getOSCPath(), intValue);
+}
+
 void ScopeOSCParameter::updateValue(int newValue)
 {
 	intValue = newValue;
-	oscServer->sendIntMessage(getOSCPath(), intValue);
+	sendCurrentValue();
 }
 
 void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue)

@@ -35,9 +35,7 @@
 
 class BCMParameterController;
 
-class BCMParameter : public Value::Listener,
-					 public Timer,
-					 OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
+class BCMParameter : public Value::Listener
 {
 public:
     /* ============================ Enumerations ============================== */
@@ -72,28 +70,21 @@ public:
 	ScopeOSCParameter& getScopeOSCParameter() { return scopeOSCParameter; }
 
     static bool checkDiscrete(ValueTree& definition);
-    bool isDiscrete() const { return discrete; }
+    bool isDiscrete() const { return paramDiscrete; }
     bool isReadOnly() const { return readOnly; }
     
     void setHostValue(float newValue);
     void setUIValue(float newValue, bool updateHost = true);
-	void setOSCValue(float newValue);
-
+	
 	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
 
 	double        convertLinearNormalisedToUIValue(double lnValue) const;
 	double        convertUIToLinearNormalisedValue(double newValue) const;
 
-	String        getOSCPath() const;
-	void          sendOSCParameterUpdate() const;
-
 private:
 	JUCE_DECLARE_WEAK_REFERENCEABLE(BCMParameter)
 
-	SharedResourcePointer<OSCServer> oscServer;
 	ScopeOSCParameter scopeOSCParameter;
-
-	void oscMessageReceived (const OSCMessage& message) override;
 
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
@@ -103,8 +94,7 @@ private:
     float  skewHostValue(float hostValue, bool invert) const;
 
 	void  valueChanged(Value& valueThatChanged) override;
-	void  timerCallback() override;
-    
+	
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;
 
@@ -129,8 +119,6 @@ private:
     double    uiSkewFactor;
 	String    uiSuffix;
     bool      skewUIOnly;
-	
-	static const int deadTimeTimerInterval;
 };
 
 #endif  // BCMPARAMETER_H_INCLUDED

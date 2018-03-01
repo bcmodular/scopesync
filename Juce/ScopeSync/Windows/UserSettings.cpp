@@ -189,26 +189,18 @@ UserSettings::UserSettings()
 
     Component::setName("User Settings");
 
-	oscLocalPortNum.addListener(this);
-	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8003 : 8001));
+	scopeFXOSCLocalPortNum.addListener(this);
+	scopeFXOSCLocalPortNum.setValue(getPropertyIntValue("scopefxosclocalportnum", 8001));
+    
+	pluginOSCLocalPortNum.addListener(this);
+	pluginOSCLocalPortNum.setValue(getPropertyIntValue("pluginosclocalportnum", 8002));
     
 	oscRemoteHost.addListener(this);
 	oscRemoteHost.setValue(getPropertyValue("oscremotehost", "127.0.0.1"));
     
 	oscRemotePortNum.addListener(this);
-	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  ScopeSyncApplication::inPluginContext() ? 8001 : 8003));
-
-#ifdef __DLL_EFFECT__
-	scopeOSCLocalPortNum.addListener(this);
-	scopeOSCLocalPortNum.setValue(getPropertyIntValue("scopeosclocalportnum", 8002));
-    
-	scopeOSCRemoteHost.addListener(this);
-	scopeOSCRemoteHost.setValue(getPropertyValue("scopeoscremotehost", "127.0.0.1"));
-    
-	scopeOSCRemotePortNum.addListener(this);
-	scopeOSCRemotePortNum.setValue(getPropertyIntValue("scopeoscremoteportnum", 8000));
-#endif // __DLL_EFFECT__
-    
+	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  8000));
+	    
     tooltipDelayTime.addListener(this);
 	tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
     
@@ -263,7 +255,8 @@ void UserSettings::setupPanel()
     propertyPanel.addSection("Slider Settings", props.components, true);
 
 	props.clear();
-	props.add(new IntRangeProperty(oscLocalPortNum, "OSC Local Port", 1, 65535),       "Enter the port number that the local OSC Server should listen on");
+	props.add(new IntRangeProperty(scopeFXOSCLocalPortNum, "ScopeFX OSC Local Port", 1, 65535), "Enter the port number that the local ScopeFX OSC Server should listen on");
+	props.add(new IntRangeProperty(pluginOSCLocalPortNum, "Plugin OSC Local Port", 1, 65535),   "Enter the port number that the local Plugin OSC Server should listen on");
 	props.add(new TextPropertyComponent(oscRemoteHost, "OSC Remote Host", 256, false), "Enter the host name or IP address that the remote OSC is hosted at (use localhost if on this machine)");
 	props.add(new IntRangeProperty(oscRemotePortNum, "OSC Remote Port", 1, 65535),     "Enter the port number that the remote OSC Server is listening on");
 
@@ -334,19 +327,19 @@ void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValu
     getAppProperties()->setValue(propertyName, newValue);
 }
 
-void UserSettings::referToOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+void UserSettings::referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
 {
-	localPort.referTo(oscLocalPortNum);
+	localPort.referTo(pluginOSCLocalPortNum);
 	remoteHost.referTo(oscRemoteHost);
 	remotePort.referTo(oscRemotePortNum);
 }
 
 #ifdef __DLL_EFFECT__
-void UserSettings::referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+void UserSettings::referToScopeFXOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
 {
-	localPort.referTo(scopeOSCLocalPortNum);
-	remoteHost.referTo(scopeOSCRemoteHost);
-	remotePort.referTo(scopeOSCRemotePortNum);
+	localPort.referTo(scopeFXOSCLocalPortNum);
+	remoteHost.referTo(oscRemoteHost);
+	remotePort.referTo(oscRemotePortNum);
 }
 #endif //__DLL_EFFECT__
 
@@ -358,20 +351,14 @@ void UserSettings::valueChanged(Value& valueThatChanged)
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
-		setPropertyIntValue("osclocalportnum", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(scopeFXOSCLocalPortNum))
+		setPropertyIntValue("scopefxosclocalportnum", valueThatChanged.getValue());
+	else if (valueThatChanged.refersToSameSourceAs(pluginOSCLocalPortNum))
+		setPropertyIntValue("pluginosclocalportnum", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
 	    setPropertyValue("oscremotehost", valueThatChanged.getValue());
 	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
 		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
-#ifdef __DLL_EFFECT__
-	else if (valueThatChanged.refersToSameSourceAs(scopeOSCLocalPortNum))
-		setPropertyIntValue("scopeosclocalportnum", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(scopeOSCRemoteHost))
-	    setPropertyValue("scopeoscremotehost", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(scopeOSCRemotePortNum))
-		setPropertyIntValue("scopeoscremoteportnum", valueThatChanged.getValue());
-#endif // __DLL_EFFECT__
 }
 
 void UserSettings::userTriedToCloseWindow()

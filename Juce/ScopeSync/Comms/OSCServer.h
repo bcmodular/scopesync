@@ -30,8 +30,6 @@
 #include <JuceHeader.h>
 #include "../Windows/UserSettings.h"
 
-class ScopeSync;
-
 class OSCServer : private OSCReceiver, protected Value::Listener, OSCReceiver::Listener<OSCReceiver::MessageLoopCallback>
 {
 public:
@@ -79,17 +77,6 @@ private:
 	void valueChanged(Value& valueThatChanged) override;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OSCServer)
-};
-
-class ScopeOSCServer : public OSCServer
-{
-public:
-	ScopeOSCServer();
-	~ScopeOSCServer();
-
-	void setup() override;
-	
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScopeOSCServer)
 };
 
 #endif  // OSCSERVER_H_INCLUDED

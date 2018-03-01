@@ -76,10 +76,8 @@ public:
                                   const String&    fileName,
                                   const ValueTree& sourceValueTree);
 
-	void referToOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
-#ifdef __DLL_EFFECT__
-	void referToScopeOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
-#endif // __DLL_EFFECT__
+	void referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
+	void referToScopeFXOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort);
 
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
@@ -120,15 +118,10 @@ private:
     Value tooltipDelayTime;
 	Value autoRebuildLibrary;
 		  
-	Value oscLocalPortNum;
+	Value pluginOSCLocalPortNum;
+	Value scopeFXOSCLocalPortNum;
 	Value oscRemoteHost;
 	Value oscRemotePortNum;
-
-#ifdef __DLL_EFFECT__
-	Value scopeOSCLocalPortNum;
-	Value scopeOSCRemoteHost;
-	Value scopeOSCRemotePortNum;
-#endif // __DLL_EFFECT__
 
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;

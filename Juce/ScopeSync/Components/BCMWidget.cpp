@@ -396,7 +396,7 @@ void BCMParameterWidget::showPopupMenu()
 	if (parameter != nullptr) 
 	{
 		m.addSeparator();
-		m.addSectionHeader("OSC Path: " + parameter->getOSCPath());
+		m.addSectionHeader("OSC Path: " + parameter->getScopeOSCParameter().getOSCPath());
 		m.addCommandItem(commandManager, CommandIDs::copyOSCPath, "Copy OSC Path");
 	}
     
@@ -521,5 +521,5 @@ void BCMParameterWidget::addParameter(bool fromClipboard) const
 
 void BCMParameterWidget::copyOSCPath()
 {
-	SystemClipboard::copyTextToClipboard(parameter->getOSCPath());
+	SystemClipboard::copyTextToClipboard(parameter->getScopeOSCParameter().getOSCPath());
 }
