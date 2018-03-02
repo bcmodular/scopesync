@@ -33,7 +33,7 @@
 
 class BCMParameter;
 
-class ScopeOSCParameter : OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>
+class ScopeOSCParameter : OSCReceiver::ListenerWithOSCAddress<OSCReceiver::MessageLoopCallback>, Timer
 {
 public:
 	ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, ValueTree parameterDefinition);
@@ -45,7 +45,7 @@ public:
 	String getOSCPath() const;
 	
 	void setOSCUID(int newUID);
-	void sendCurrentValue() const;
+	void sendCurrentValue();
 	void updateValue(int newValue);
 	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
 
@@ -76,6 +76,7 @@ private:
 	double dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const;
 
 	void oscMessageReceived(const OSCMessage& message) override;
+	void timerCallback() override;
 };
 
 #endif  // SCOPEOSCPARAMETER_H_INCLUDED

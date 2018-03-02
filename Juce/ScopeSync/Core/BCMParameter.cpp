@@ -184,26 +184,12 @@ bool BCMParameter::checkDiscrete(ValueTree& definition)
 
 double BCMParameter::convertLinearNormalisedToUIValue(double lnValue) const
 {
-    double minUIValue;
-    double maxUIValue;
-    double uiInterval;
-    String uiSuffix;
-    
-    getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
-    
-    return scaleDouble(0.0f, 1.0f, minUIValue, maxUIValue, lnValue);
+   return scaleDouble(0.0f, 1.0f, uiRangeMin, uiRangeMax, lnValue);
 }
 
 double BCMParameter::convertUIToLinearNormalisedValue(double newValue) const
 {
-    double minUIValue;
-    double maxUIValue;
-    double uiInterval;
-    String uiSuffix;
-    
-    getUIRanges(minUIValue, maxUIValue, uiInterval, uiSuffix);
-    
-    return scaleDouble(minUIValue, maxUIValue, 0.0f, 1.0f, newValue);
+   return scaleDouble(uiRangeMin, uiRangeMax, 0.0f, 1.0f, newValue);
 }
 
 void BCMParameter::setHostValue(float newValue)
@@ -211,7 +197,7 @@ void BCMParameter::setHostValue(float newValue)
 	if (!skewUIOnly)
 		newValue = skewHostValue(newValue, false);
 
-	double newUIValue               = convertLinearNormalisedToUIValue(newValue);
+	double newUIValue = convertLinearNormalisedToUIValue(newValue);
     
 	setParameterValues(hostUpdate, newValue, newUIValue, false);
     

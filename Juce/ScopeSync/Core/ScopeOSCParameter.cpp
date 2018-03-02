@@ -43,6 +43,7 @@ ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* o
 
 ScopeOSCParameter::~ScopeOSCParameter()
 {
+	stopTimer();
 	oscServer->unregisterOSCListener(this);
 }
 
@@ -59,9 +60,12 @@ void ScopeOSCParameter::setOSCUID(int newUID)
 	oscServer->registerOSCListener(this, getOSCPath());
 }
 
-void ScopeOSCParameter::sendCurrentValue() const
+void ScopeOSCParameter::sendCurrentValue()
 {
+	DBG("ScopeOSCParameter::sendCurrentValue - " + getOSCPath() + " " + String(intValue));
 	oscServer->sendIntMessage(getOSCPath(), intValue);
+	stopListening();
+	startTimer(500);
 }
 
 void ScopeOSCParameter::updateValue(int newValue)
@@ -102,7 +106,7 @@ void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue
     }
 
 	if (oldIntValue != intValue)
-		oscServer->sendIntMessage(getOSCPath(), intValue);
+		sendCurrentValue();
 }
 
 double ScopeOSCParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const
@@ -133,7 +137,7 @@ String ScopeOSCParameter::getOSCPath() const
 {
 	const String oscUIDStr(oscUID);
 	String address = "/" + oscUIDStr + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
-	DBG("ScopeSyncFX::ScopeOSCParameter::getScopeOSCPath = " + address);
+	//DBG("ScopeOSCParameter::getScopeOSCPath = " + address);
 
 	return address;
 }
@@ -145,14 +149,14 @@ void ScopeOSCParameter::oscMessageReceived (const OSCMessage& message)
 
 	String address = message.getAddressPattern().toString();
 
-	DBG("ScopeOSCParameter::oscMessageReceived - " + address);
+	//DBG("ScopeOSCParameter::oscMessageReceived - " + address);
 
 	if (message.size() == 1)
 	{
 		if (message[0].isInt32() && address == getOSCPath())
 		{
 			intValue = message[0].getInt32();
-			DBG("ScopeOSCParameter::oscMessageReceived - new Scope OSC Value: " + String(intValue));
+			//DBG("ScopeOSCParameter::oscMessageReceived - new Scope OSC Value: " + String(intValue));
 			
 			double newUIValue;
 			double newLinearNormalisedValue;
@@ -180,11 +184,17 @@ void ScopeOSCParameter::oscMessageReceived (const OSCMessage& message)
 		}
 		else
 		{
-			DBG("ScopeOSCParameter::handleOSCMessage - OSC message not processed");
+			DBG("ScopeOSCParameter::oscMessageReceived - OSC message not processed");
 		}
 	}
 	else
-		DBG("ScopeOSCParameter::handleOSCMessage - empty OSC message");
+		DBG("ScopeOSCParameter::oscMessageReceived - empty OSC message");
+}
+
+void ScopeOSCParameter::timerCallback()
+{
+	startListening();
+	stopTimer();
 }
 
 int ScopeOSCParameter::findNearestParameterSetting(int value) const
