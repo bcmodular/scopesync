@@ -354,67 +354,6 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2015 targetFolder="Builds/ScopeSyncEffect/VisualStudio2015" vstFolder=""
-            vst3Folder="../../../vst3sdk" extraDefs="">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTFX-Debug_1_0_3"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" targetName="ScopeSyncVSTFX-Debug-x64_1_0_3" optimisation="1"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSyncVSTFX_1_0_3"
-                       useRuntimeLibDLL="0" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
-        <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
-                       winArchitecture="32-bit" targetName="ScopeSyncVSTFX-x64_1_0_3"
-                       useRuntimeLibDLL="0" optimisation="2" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
-      </MODULEPATHS>
-    </VS2015>
-    <VS2013 targetFolder="Builds/ScopeSyncEffect/VisualStudio2013" vstFolder=""
-            vst3Folder="../../../vst3sdk" externalLibraries="" extraDefs="_CRT_SECURE_NO_DEPRECATE"
-            extraLinkerFlags="">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTFX-Debug_1_0_3"
-                       headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Debug (x64)" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="ScopeSyncVSTFX-Debug-x64_1_0_3"
-                       headerPath="" postbuildCommand="" useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSyncVSTFX_1_0_3"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
-                       useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release (x64)" winWarningLevel="4" generateManifest="1"
-                       winArchitecture="x64" isDebug="0" optimisation="2" targetName="ScopeSyncVSTFX-x64_1_0_3"
-                       headerPath="" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\64bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\64bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
-                       useRuntimeLibDLL="0"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
-      </MODULEPATHS>
-    </VS2013>
     <XCODE_MAC targetFolder="Builds/ScopeSyncEffect/MacOSX" vstFolder="" vst3Folder="../../../../SDKs/VST_SDK/VST3_SDK"
                iosScreenOrientation="portraitlandscape">
       <CONFIGURATIONS>
@@ -464,16 +403,16 @@
     </VS2017>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WASAPI="disabled" JUCE_DIRECTSOUND="disabled"
                JUCE_ALSA="disabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
