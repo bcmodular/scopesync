@@ -292,6 +292,9 @@
       <FILE id="yPAgZs" name="Clipboard.cpp" compile="1" resource="0" file="../ScopeSync/Core/Clipboard.cpp"/>
       <FILE id="nLMIqX" name="Clipboard.h" compile="0" resource="0" file="../ScopeSync/Core/Clipboard.h"/>
       <FILE id="XYSeRt" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
+      <FILE id="OyU24Q" name="HostParameter.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/HostParameter.cpp"/>
+      <FILE id="yD1IXp" name="HostParameter.h" compile="0" resource="0" file="../ScopeSync/Core/HostParameter.h"/>
       <FILE id="GzUfWn" name="ScopeIDs.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeIDs.cpp"/>
       <FILE id="V7uRdh" name="ScopeOSCParameter.cpp" compile="1" resource="0"
             file="../ScopeSync/Core/ScopeOSCParameter.cpp"/>

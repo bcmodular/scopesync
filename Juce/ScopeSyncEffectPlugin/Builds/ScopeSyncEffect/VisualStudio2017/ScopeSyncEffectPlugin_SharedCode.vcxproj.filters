@@ -403,6 +403,9 @@
     <ClCompile Include="..\..\..\..\ScopeSync\Core\Clipboard.cpp">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\HostParameter.cpp">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClCompile>
@@ -2074,6 +2077,9 @@
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Global.h">
+      <Filter>ScopeSyncEffectPlugin\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\HostParameter.h">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h">

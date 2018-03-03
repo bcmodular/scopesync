@@ -51,6 +51,7 @@
 		78742314561DA8D716CB36EC = {isa = PBXBuildFile; fileRef = 0855AD61AA043EDE103B13DE; };
 		0F2B34FF22B5790A5C2589B2 = {isa = PBXBuildFile; fileRef = C63F141F3941BBC04A962F35; };
 		A233C50CB412E6E541A4ED33 = {isa = PBXBuildFile; fileRef = 9DBEA4E05AEB38BB7338602D; };
+		EDCCB9152263F27750C60F7D = {isa = PBXBuildFile; fileRef = 8808CB9ED872E00789117E0E; };
 		3382ACE36DE6BC2843201582 = {isa = PBXBuildFile; fileRef = BE9B5B2FA19639BAA5FB2851; };
 		02CF1B17BE406172EADF5EE9 = {isa = PBXBuildFile; fileRef = 03567A4262E6BECCF8AC8DEF; };
 		5D99A691C9470F4852F04A37 = {isa = PBXBuildFile; fileRef = 0A1A2536CCBBDEA126866763; };
@@ -214,6 +215,7 @@
 		84EC600D8524B6887E59B520 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UserSettings.h; path = ../../../ScopeSync/Windows/UserSettings.h; sourceTree = "SOURCE_ROOT"; };
 		853A6EBB80D94C0AF6187797 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WidgetProperties.cpp; path = ../../../ScopeSync/Properties/WidgetProperties.cpp; sourceTree = "SOURCE_ROOT"; };
 		857B9601968ECCF77A4F3949 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginGUI.h; path = ../../../ScopeSync/Plugin/PluginGUI.h; sourceTree = "SOURCE_ROOT"; };
+		8808CB9ED872E00789117E0E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HostParameter.cpp; path = ../../../ScopeSync/Core/HostParameter.cpp; sourceTree = "SOURCE_ROOT"; };
 		88F7C0D89D1D63601D74618D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Close_button_on.png"; path = "../../../ScopeSync/Resources/image/Close_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		8BB02F3A014A0492D01011AA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PresetItem.h; path = ../../../ScopeSync/Presets/PresetItem.h; sourceTree = "SOURCE_ROOT"; };
 		8C060E355FA168C57BA1A749 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_core.mm"; path = "../../JuceLibraryCode/include_juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -298,6 +300,7 @@
 		E689B9D4B6CFA4A9898EB6B6 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConfigurationManager.h; path = ../../../ScopeSync/Configuration/ConfigurationManager.h; sourceTree = "SOURCE_ROOT"; };
 		E6F10A96E4B8CD330E641D5B = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMGraphic.h; path = ../../../ScopeSync/Components/BCMGraphic.h; sourceTree = "SOURCE_ROOT"; };
 		E742D996BECDDAAFC09B378D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Presets_button_off.png"; path = "../../../ScopeSync/Resources/image/Presets_button_off.png"; sourceTree = "SOURCE_ROOT"; };
+		E8B99DD825EA8F76764F8711 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HostParameter.h; path = ../../../ScopeSync/Core/HostParameter.h; sourceTree = "SOURCE_ROOT"; };
 		E91E5C4E627749A7C0E7633C = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Copy_button_over.png"; path = "../../../ScopeSync/Resources/image/Copy_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		EA56F11C68E6816C0BF7266E = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_graphics"; path = "../../../../../../JUCE/modules/juce_graphics"; sourceTree = "SOURCE_ROOT"; };
 		EB030617A3168E1BFB2B56C7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_audio_plugin_client_VST_utils.mm"; path = "../../JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -474,6 +477,8 @@
 					9DBEA4E05AEB38BB7338602D,
 					8E41A3BB22F09FAF3A3CC506,
 					99F2373EE280C147FF510011,
+					8808CB9ED872E00789117E0E,
+					E8B99DD825EA8F76764F8711,
 					BE9B5B2FA19639BAA5FB2851,
 					03567A4262E6BECCF8AC8DEF,
 					1631E3BFC3B9001DA3C8B814,
@@ -1078,6 +1083,7 @@
 					78742314561DA8D716CB36EC,
 					0F2B34FF22B5790A5C2589B2,
 					A233C50CB412E6E541A4ED33,
+					EDCCB9152263F27750C60F7D,
 					3382ACE36DE6BC2843201582,
 					02CF1B17BE406172EADF5EE9,
 					5D99A691C9470F4852F04A37,
