@@ -234,22 +234,22 @@ namespace BinaryData
     const int            Undo_button_over_pngSize = 913;
 
     extern const char*   empty_configuration;
-    const int            empty_configurationSize = 216;
+    const int            empty_configurationSize = 204;
 
     extern const char*   loader_layout;
-    const int            loader_layoutSize = 511;
+    const int            loader_layoutSize = 499;
 
     extern const char*   standardFooterContent_layout;
-    const int            standardFooterContent_layoutSize = 798;
+    const int            standardFooterContent_layoutSize = 780;
 
     extern const char*   standardHeaderContent_layout;
-    const int            standardHeaderContent_layoutSize = 4823;
+    const int            standardHeaderContent_layoutSize = 4736;
 
     extern const char*   standardSliderLnFs_layout;
-    const int            standardSliderLnFs_layoutSize = 22039;
+    const int            standardSliderLnFs_layoutSize = 21563;
 
     extern const char*   system_lookandfeels;
-    const int            system_lookandfeelsSize = 6264;
+    const int            system_lookandfeelsSize = 6150;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

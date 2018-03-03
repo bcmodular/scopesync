@@ -50,7 +50,7 @@ void OSCServer::setup()
 		userSettings->referToScopeFXOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
 	#else
 		userSettings->referToPluginOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
-	#endif __DLL_EFFECT__
+	#endif //__DLL_EFFECT__
 
 	addListener(this);
 }
