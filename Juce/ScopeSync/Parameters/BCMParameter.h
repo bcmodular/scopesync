@@ -34,6 +34,9 @@
 #include "../Parameters/ScopeOSCParameter.h"
 
 class BCMParameterController;
+#ifndef __DLL_EFFECT__
+class HostParameter;
+#endif // __DLL_EFFECT__
 
 class BCMParameter : public Value::Listener
 {
@@ -45,15 +48,16 @@ public:
 	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, ScopeOSCParamID scopeOSCParamID);
     ~BCMParameter();
 
-    void beginParameterChangeGesture();
-    void endParameterChangeGesture();
-    
     void       mapToUIValue(Value& valueToMapTo) const;
     String     getName() const { return name; }
     ValueTree& getDefinition() { return definition; }
-	void       setHostIdx(int newIndex) { hostIdx = newIndex; }
-    int        getHostIdx() const { return hostIdx; }
-    void       getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
+
+#ifndef __DLL_EFFECT__
+	void           setHostParameter(HostParameter* hostParam);
+	HostParameter* getHostParameter() const;
+#endif // __DLL_EFFECT__
+
+	void       getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
 	int        getNumSettings() const { return settings.getNumChildren(); }
     void       getDescriptions(String& shortDesc, String& fullDesc) const;
     void       getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
@@ -85,11 +89,16 @@ public:
 	double convertUIToLinearNormalisedValue(double newValue) const;
 
 	double convertHostToUIValue(double newValue) const;
+	void beginChangeGesture();
+	void endChangeGesture();
 
 private:
 	JUCE_DECLARE_WEAK_REFERENCEABLE(BCMParameter)
 
 	ScopeOSCParameter scopeOSCParameter;
+#ifndef __DLL_EFFECT__
+	WeakReference<HostParameter> hostParameter;
+#endif // __DLL_EFFECT__
 
     /* ====================== Private Parameter Methods ======================= */
     // Either on initialisation, or after ranges have changed, this method will
@@ -99,6 +108,7 @@ private:
     float  skewHostValue(float hostValue, bool invert) const;
 
 	void  valueChanged(Value& valueThatChanged) override;
+
 	
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;

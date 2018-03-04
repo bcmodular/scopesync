@@ -51,6 +51,7 @@ float HostParameter::getDefaultValue() const
 
 String HostParameter::getName(int maximumStringLength) const
 {
+	// TODO: need to do something with the maximumStringLength
 	if (bcmParameter != nullptr)
 	{
 		String shortDesc;

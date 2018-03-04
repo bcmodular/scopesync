@@ -33,6 +33,7 @@
 
 #ifndef __DLL_EFFECT__
     #include "../Plugin/PluginProcessor.h"
+	#include "../Parameters/HostParameter.h"
 #endif // __DLL_EFFECT__
 
 BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc,
@@ -101,8 +102,8 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 		scopeOSCParameter.updateValue(linearNormalisedValue.getValue(), uiValue.getValue(), uiRangeMin, uiRangeMax);
 
 	#ifndef __DLL_EFFECT__
-	if (updateHost && getHostIdx() >= 0)
-		parameterController.updateHost(getHostIdx(), getHostValue());
+	if (updateHost && hostParameter != nullptr)
+		hostParameter->setValueNotifyingHost(getHostValue());
 	#else
 	(void)updateHost;
 	#endif // __DLL_EFFECT__
@@ -121,6 +122,18 @@ void BCMParameter::mapToUIValue(Value& valueToMapTo) const
     // DBG("BCMParameter::mapToUIValue - current uiValue: " + uiValue.getValue().toString());
     valueToMapTo.referTo(uiValue);
 }
+
+#ifndef __DLL_EFFECT__
+void BCMParameter::setHostParameter(HostParameter * hostParam)
+{
+	hostParameter = hostParam;
+}
+
+HostParameter * BCMParameter::getHostParameter() const
+{ 
+	return hostParameter;
+}
+#endif // __DLL_EFFECT__
 
 void BCMParameter::getDescriptions(String& shortDesc, String& fullDesc) const
 {
@@ -170,7 +183,7 @@ float BCMParameter::getHostValue() const
 
 float BCMParameter::getDefaultHostValue() const
 {
-	float hostValue = convertUIToLinearNormalisedValue(uiResetValue);
+	float hostValue = float(convertUIToLinearNormalisedValue(uiResetValue));
 
 	if (!skewUIOnly)
 		hostValue = skewHostValue(hostValue, true);
@@ -206,7 +219,7 @@ double BCMParameter::convertUIToLinearNormalisedValue(double newValue) const
 double BCMParameter::convertHostToUIValue(double newValue) const
 {
 	if (!skewUIOnly)
-		newValue = skewHostValue(newValue, false);
+		newValue = double(skewHostValue(float(newValue), false));
 
 	return convertLinearNormalisedToUIValue(newValue);
 }
@@ -254,20 +267,18 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	}
 }
 
-void BCMParameter::beginParameterChangeGesture()
+void BCMParameter::beginChangeGesture()
 {
 #ifndef __DLL_EFFECT__
-    parameterController.beginParameterChangeGesture(getHostIdx());
-#else
-     scopeOSCParameter.stopListening();
+	if (hostParameter != nullptr)
+		hostParameter->beginChangeGesture();
 #endif // __DLL_EFFECT__
 }
 
-void BCMParameter::endParameterChangeGesture()
+void BCMParameter::endChangeGesture()
 {
 #ifndef __DLL_EFFECT__
-    parameterController.endParameterChangeGesture(getHostIdx()); 
-#else
-    scopeOSCParameter.startListening();
+	if (hostParameter != nullptr)
+		hostParameter->endChangeGesture();
 #endif // __DLL_EFFECT__
 }

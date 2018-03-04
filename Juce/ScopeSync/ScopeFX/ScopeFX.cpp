@@ -31,8 +31,8 @@
  */
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
-#include "../Core/BCMParameterController.h"
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameterController.h"
+#include "../Parameters/BCMParameter.h"
 
 #ifdef _WIN32
 #include <Windows.h>

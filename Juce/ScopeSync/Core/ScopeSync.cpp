@@ -245,7 +245,6 @@ XmlElement& ScopeSync::getLayout(String& errorText, String& errorDetails, bool f
 
 void ScopeSync::changeConfiguration(StringRef fileName)
 {
-    if (ScopeSyncApplication::inPluginContext())
     parameterController->storeParameterValues(); 
 
     if (configuration->replaceConfiguration(fileName))
@@ -287,13 +286,11 @@ void ScopeSync::applyConfiguration()
 	// TODO: Disable OSC here?
 	
 	setGUIEnabled(false);
-    parameterController->endAllParameterChangeGestures();
-
+    
     systemError        = String::empty;
     systemErrorDetails = String::empty;
     
-    if (ScopeSyncApplication::inPluginContext())
-        parameterController->storeParameterValues();
+    parameterController->storeParameterValues();
 
     parameterController->reset();
     

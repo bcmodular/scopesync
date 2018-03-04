@@ -33,7 +33,7 @@ class ScopeFX;
 #include <JuceHeader.h>
 #include "../Core/ScopeSyncGUI.h"
 #include <Windows.h>
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 class BCMParameter;
 

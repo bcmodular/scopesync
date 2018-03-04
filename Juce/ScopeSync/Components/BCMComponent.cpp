@@ -780,9 +780,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
     BCMSlider* bcmSlider = dynamic_cast<BCMSlider*>(slider);
 
     if (bcmSlider && bcmSlider->hasParameter())
-    {
-        parameterController.beginParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
-    }
+		bcmSlider->getParameter()->beginChangeGesture();
 }
 
 void BCMComponent::sliderDragEnded(Slider* slider)
@@ -790,9 +788,7 @@ void BCMComponent::sliderDragEnded(Slider* slider)
     BCMSlider* bcmSlider = dynamic_cast<BCMSlider*>(slider);
 
     if (bcmSlider && bcmSlider->hasParameter())
-    {
-        parameterController.endParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
-    }
+		bcmSlider->getParameter()->endChangeGesture();
 }
 
 void BCMComponent::overrideStyle()

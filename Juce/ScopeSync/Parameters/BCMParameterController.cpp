@@ -34,8 +34,6 @@
     #include "../Plugin/PluginProcessor.h"
 #endif // __DLL_EFFECT__
 
-const int BCMParameterController::hostParameterCount = 128;
-
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
 {
@@ -87,15 +85,34 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
 
 void BCMParameterController::setupHostParameters()
 {
-	int hostIdx = 0;
-    
-    for (auto parameter : dynamicParameters)
-    {
-        parameter->setHostIdx(hostIdx);
-        hostParameters.add(parameter);
+#ifndef __DLL_EFFECT__
+	// We assume that the hostParameters array is empty at this point
+	jassert(hostParameters.isEmpty());
 
-        hostIdx++;
+	int i = 0;
+    
+	const OwnedArray<AudioProcessorParameter>& pluginParameters(scopeSync->getPluginProcessor()->getParameters());
+
+	// Loop through all the non-fixed parameters and attach them to a host/plugin parameter
+    for (auto dynamicParameter : dynamicParameters)
+    {
+		HostParameter* hostParameter;
+
+		// Try to bind to existing parameters first
+		if (i < pluginParameters.size())
+			hostParameter = static_cast<HostParameter*>(pluginParameters[i]);
+		else
+			scopeSync->getPluginProcessor()->addParameter(hostParameter = new HostParameter());
+		
+		// TODO: Do we even need this array now?
+		hostParameters.add(hostParameter);
+
+		hostParameter->setBCMParameter(dynamicParameter);
+		dynamicParameter->setHostParameter(hostParameter);
+		
+		++i;
     }
+#endif // __DLL_EFFECT__
 }
 
 void BCMParameterController::reset()
@@ -103,7 +120,9 @@ void BCMParameterController::reset()
 	DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
 	parametersByName.clear();
+#ifndef __DLL_EFFECT__
     hostParameters.clear();
+#endif // __DLL_EFFECT__
     dynamicParameters.clear();
 
 	for (auto fixedParameter : fixedParameters)
@@ -120,11 +139,6 @@ void BCMParameterController::snapshot() const
 		parameter->getScopeOSCParameter().sendCurrentValue();
 }
 
-int BCMParameterController::getNumParametersForHost()
-{
-    return hostParameterCount;
-}
-
 BCMParameter* BCMParameterController::getParameterByName(StringRef name) const
 {
 	if (parametersByName.contains(name))
@@ -138,81 +152,19 @@ void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float 
     parameter.setUIValue(newValue);
 }
 
-void BCMParameterController::endAllParameterChangeGestures()
-{
-    for (int i = 0; i < hostParameters.size(); i++)
-    {
-        BCMParameter* parameter = hostParameters[i];
-#ifndef __DLL_EFFECT__
-        int hostIdx = parameter->getHostIdx();
-
-        if (changingParams[hostIdx])
-        {
-            scopeSync->getPluginProcessor()->endParameterChangeGesture(hostIdx); 
-            changingParams.clearBit(hostIdx);
-        }
-#else
-        parameter->getScopeOSCParameter().startListening();
-#endif // __DLL_EFFECT__
-    }
-}
-
-void BCMParameterController::updateHost(int hostIdx, float newValue) const
-{
-#ifndef __DLL_EFFECT__
-	scopeSync->getPluginProcessor()->updateListeners(hostIdx, newValue);
-#else
-	(void)hostIdx;
-	(void)newValue;
-#endif
-}
-
-void BCMParameterController::beginParameterChangeGesture(int hostIdx)
-{
-#ifndef __DLL_EFFECT__
-    if (hostIdx >= 0 && !changingParams[hostIdx])
-    {
-        scopeSync->getPluginProcessor()->beginParameterChangeGesture(hostIdx);
-        changingParams.setBit(hostIdx);
-    }
-#else
-    (void)hostIdx;
-#endif
-}
-
-void BCMParameterController::endParameterChangeGesture(int hostIdx)
-{
-#ifndef __DLL_EFFECT__
-    if (hostIdx >= 0 && changingParams[hostIdx])
-    {
-        scopeSync->getPluginProcessor()->endParameterChangeGesture(hostIdx); 
-        changingParams.clearBit(hostIdx);
-    }
-#else
-    (void)hostIdx;
-#endif
-}
-
 void BCMParameterController::storeParameterValues()
 {
-    int numHostParameters = hostParameters.size();
-    
-    if (numHostParameters > 0)
-    {
-        Array<float> currentParameterValues;
-    
-        for (int i = 0; i < numHostParameters; i++)
-            currentParameterValues.set(i, getParameterHostValue(i));
+#ifndef __DLL_EFFECT__
+	Array<float> currentParameterValues;
 
-        parameterValueStore = XmlElement("parametervalues");
-        parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, numHostParameters)));
+	for (auto hostParameter : hostParameters)
+        currentParameterValues.add(hostParameter->getValue());
 
-        //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
-    }
-    else
-    {
-        //DBG("ScopeSync::storeParameterValues - leaving storage alone, as we don't have any host parameters");
-    }
+	parameterValueStore = XmlElement("parametervalues");
+	parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, currentParameterValues.size())));
+	//DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+
+#endif // __DLL_EFFECT__
 }
 
 void BCMParameterController::storeParameterValues(XmlElement& parameterValues)
@@ -224,17 +176,16 @@ void BCMParameterController::storeParameterValues(XmlElement& parameterValues)
 
 void BCMParameterController::restoreParameterValues() const
 {
-    Array<float> parameterValues;
-    int numHostParameters = getNumParametersForHost();
+#ifndef __DLL_EFFECT__
+	Array<float> parameterValues;
 
-    String floatCSV = parameterValueStore.getAllSubText();
-    int numParametersToRead = jmin(numHostParameters, stringToFloatArray(floatCSV, parameterValues, numHostParameters));
+	String floatCSV = parameterValueStore.getAllSubText();
+	stringToFloatArray(floatCSV, parameterValues, hostParameters.size());
 
-    for (int i = 0; i < numParametersToRead; i++)
-    {
-        setParameterFromHost(i, parameterValues[i]);
-    }
-
+	for (int i = 0; i < hostParameters.size(); i++)
+		hostParameters[i]->setValue(parameterValues[i]);
+    
     //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
+#endif // __DLL_EFFECT__
 } 
 

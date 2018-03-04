@@ -58,12 +58,6 @@ public:
     static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
     void  snapshot() const;
 
-	void updateHost(int hostIdx, float newValue) const;
-
-    void beginParameterChangeGesture(int hostIdx);
-    void endParameterChangeGesture(int hostIdx);
-    void endAllParameterChangeGestures();
-    
     void         storeParameterValues();
     void         storeParameterValues(XmlElement& parameterValues);
     void         restoreParameterValues() const;
@@ -73,17 +67,15 @@ private:
 
 	OwnedArray<BCMParameter>    fixedParameters;
     OwnedArray<BCMParameter>    dynamicParameters;
+#ifndef __DLL_EFFECT__
     Array<HostParameter*>       hostParameters;
+#endif // __DLL_EFFECT__
     Array<BCMParameter*>        parameters;
 
     HashMap<String, BCMParameter*> parametersByName;
     XmlElement                     parameterValueStore;
     
     ScopeSync* scopeSync;
-    
-    BigInteger changingParams;
-    
-    static const int hostParameterCount;       // Parameter count to return to host
 };
 
 #endif  // BCMPARAMETERCONTROLLER_H_INCLUDED

@@ -201,11 +201,6 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
     }
 }
 
-void PluginProcessor::updateListeners(int index, float newValue)
-{
-    sendParamChangeMessageToListeners(index, newValue);
-}
-
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     PluginProcessor* pp = new PluginProcessor();

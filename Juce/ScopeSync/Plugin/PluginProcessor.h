@@ -64,9 +64,7 @@ public:
 
     void   getStateInformation (MemoryBlock& destData) override;
     void   setStateInformation (const void* data, int sizeInBytes) override;
-    
-    void updateListeners(int index, float newHostValue);
-    
+        
     ScopeSync& getScopeSync() const { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 

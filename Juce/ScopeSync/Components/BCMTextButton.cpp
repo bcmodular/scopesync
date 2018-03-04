@@ -354,10 +354,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
             if (parameter->isReadOnly())
                 return;
 
-			int hostIdx = getParameter()->getHostIdx();
-
-			if (hostIdx != -1)
-				scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
+			getParameter()->beginChangeGesture();
 		}
 		else
 			DBG("BCMTextButton::mouseDown - button " + getName() + " doesn't have a parameter");
@@ -385,10 +382,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
                     scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
             }
 
-			int hostIdx = parameter->getHostIdx();
-			
-            if (hostIdx != -1)
-				scopeSync.getParameterController()->endParameterChangeGesture(hostIdx);
+			parameter->endChangeGesture();
 		}
 
         TextButton::mouseUp(event);
