@@ -116,39 +116,6 @@ BCMParameter* BCMParameterController::getParameterByName(StringRef name) const
 	return nullptr;
 }
 
-float BCMParameterController::getParameterHostValue(int hostIdx) const
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        return hostParameters[hostIdx]->getHostValue();
-    else
-        return 0.0f;
-}
-
-void BCMParameterController::getParameterNameForHost(int hostIdx, String& parameterName) const
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-    {
-        String shortDesc;
-        hostParameters[hostIdx]->getDescriptions(shortDesc, parameterName);
-    }
-    else
-    {
-        parameterName = "Dummy Param";
-    }
-}
-
-void BCMParameterController::getParameterText(int hostIdx, String& parameterText) const
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        hostParameters[hostIdx]->getUITextValue(parameterText);
-}
-
-void BCMParameterController::setParameterFromHost(int hostIdx, float newValue) const
-{
-    if (isPositiveAndBelow(hostIdx, hostParameters.size()))
-        hostParameters[hostIdx]->setHostValue(newValue);
-}
-
 void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float newValue)
 {
     parameter.setUIValue(newValue);

@@ -14,6 +14,23 @@
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
   <MAINGROUP id="zkEMvA" name="ScopeSyncEffectPlugin">
+    <GROUP id="{D0A793C8-A8A1-CD4C-83AD-0834F74514E8}" name="Parameters">
+      <FILE id="KrYOCU" name="BCMParameter.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/BCMParameter.cpp"/>
+      <FILE id="Qd4Mj7" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSync/Core/BCMParameter.h"/>
+      <FILE id="jLSu3x" name="BCMParameterController.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/BCMParameterController.cpp"/>
+      <FILE id="PBCnqd" name="BCMParameterController.h" compile="0" resource="0"
+            file="../ScopeSync/Core/BCMParameterController.h"/>
+      <FILE id="OyU24Q" name="HostParameter.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/HostParameter.cpp"/>
+      <FILE id="yD1IXp" name="HostParameter.h" compile="0" resource="0" file="../ScopeSync/Core/HostParameter.h"/>
+      <FILE id="GzUfWn" name="ScopeIDs.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeIDs.cpp"/>
+      <FILE id="V7uRdh" name="ScopeOSCParameter.cpp" compile="1" resource="0"
+            file="../ScopeSync/Core/ScopeOSCParameter.cpp"/>
+      <FILE id="ePM1fN" name="ScopeOSCParameter.h" compile="0" resource="0"
+            file="../ScopeSync/Core/ScopeOSCParameter.h"/>
+    </GROUP>
     <GROUP id="{5DDFDA23-4E61-4495-F913-536F2D9C1306}" name="Presets">
       <FILE id="wqkbPH" name="PresetFile.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetFile.cpp"/>
       <FILE id="AElhR3" name="PresetFile.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetFile.h"/>
@@ -282,24 +299,9 @@
             file="../ScopeSync/Properties/WidgetProperties.h"/>
     </GROUP>
     <GROUP id="{A90256BC-0931-D4CF-5E54-B2B8168D64C9}" name="Core">
-      <FILE id="KrYOCU" name="BCMParameter.cpp" compile="1" resource="0"
-            file="../ScopeSync/Core/BCMParameter.cpp"/>
-      <FILE id="Qd4Mj7" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSync/Core/BCMParameter.h"/>
-      <FILE id="jLSu3x" name="BCMParameterController.cpp" compile="1" resource="0"
-            file="../ScopeSync/Core/BCMParameterController.cpp"/>
-      <FILE id="PBCnqd" name="BCMParameterController.h" compile="0" resource="0"
-            file="../ScopeSync/Core/BCMParameterController.h"/>
       <FILE id="yPAgZs" name="Clipboard.cpp" compile="1" resource="0" file="../ScopeSync/Core/Clipboard.cpp"/>
       <FILE id="nLMIqX" name="Clipboard.h" compile="0" resource="0" file="../ScopeSync/Core/Clipboard.h"/>
       <FILE id="XYSeRt" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
-      <FILE id="OyU24Q" name="HostParameter.cpp" compile="1" resource="0"
-            file="../ScopeSync/Core/HostParameter.cpp"/>
-      <FILE id="yD1IXp" name="HostParameter.h" compile="0" resource="0" file="../ScopeSync/Core/HostParameter.h"/>
-      <FILE id="GzUfWn" name="ScopeIDs.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeIDs.cpp"/>
-      <FILE id="V7uRdh" name="ScopeOSCParameter.cpp" compile="1" resource="0"
-            file="../ScopeSync/Core/ScopeOSCParameter.cpp"/>
-      <FILE id="ePM1fN" name="ScopeOSCParameter.h" compile="0" resource="0"
-            file="../ScopeSync/Core/ScopeOSCParameter.h"/>
       <FILE id="oO2cmh" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
       <FILE id="gVty51" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>
       <FILE id="rUzeUM" name="ScopeSyncApplication.cpp" compile="1" resource="0"

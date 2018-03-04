@@ -50,46 +50,6 @@ const String PluginProcessor::getName() const
     return JucePlugin_Name;
 }
 
-int PluginProcessor::getNumParameters()
-{
-    int numParameters = scopeSync->getParameterController()->getNumParametersForHost();
-    
-    //DBG("PluginProcessor::getNumParameters - " + String(numParameters));
-    return numParameters;
-}
-
-float PluginProcessor::getParameter (int index)
-{
-    float parameterValue = scopeSync->getParameterController()->getParameterHostValue(index);
-    
-    DBG("PluginProcessor::getParameter - " + String(parameterValue));
-    return parameterValue;
-}
-
-void PluginProcessor::setParameter(int index, float newValue)
-{
-    DBG("PluginProcessor::setParameter - index: " + String(index) + ", newValue: " + String(newValue));
-    scopeSync->getParameterController()->setParameterFromHost(index, newValue);
-}
-
-const String PluginProcessor::getParameterName(int index)
-{
-    String parameterName = String::empty;
-    scopeSync->getParameterController()->getParameterNameForHost(index, parameterName);
-    
-    DBG("PluginProcessor::getParameterName - " + parameterName);
-    return parameterName;
-}
-
-const String PluginProcessor::getParameterText (int index)
-{
-    String parameterText = String::empty;
-    scopeSync->getParameterController()->getParameterText(index, parameterText);
-
-    DBG("PluginProcessor::getParameterText - " + parameterText);
-    return parameterText;
-}
-
 bool PluginProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput

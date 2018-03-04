@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="ScopeSyncEffectPlugin\Parameters">
+      <UniqueIdentifier>{89FE0546-6842-297D-D85F-0E1DAFE81B25}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ScopeSyncEffectPlugin\Presets">
       <UniqueIdentifier>{94DB7C59-1E56-3D66-417B-51DA0604D063}</UniqueIdentifier>
     </Filter>
@@ -316,6 +319,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameter.cpp">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\HostParameter.cpp">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Presets\PresetFile.cpp">
       <Filter>ScopeSyncEffectPlugin\Presets</Filter>
     </ClCompile>
@@ -394,22 +412,7 @@
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.cpp">
       <Filter>ScopeSyncEffectPlugin\Properties</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameter.cpp">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\Clipboard.cpp">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\HostParameter.cpp">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSync.cpp">
@@ -1980,6 +1983,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameter.h">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\HostParameter.h">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h">
+      <Filter>ScopeSyncEffectPlugin\Parameters</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Presets\PresetFile.h">
       <Filter>ScopeSyncEffectPlugin\Presets</Filter>
     </ClInclude>
@@ -2067,22 +2082,10 @@
     <ClInclude Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.h">
       <Filter>ScopeSyncEffectPlugin\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameter.h">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Clipboard.h">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Global.h">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\HostParameter.h">
-      <Filter>ScopeSyncEffectPlugin\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h">
       <Filter>ScopeSyncEffectPlugin\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSync.h">
@@ -2253,7 +2256,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\synthesisers\juce_Synthesiser.h">
       <Filter>JUCE Modules\juce_audio_basics\synthesisers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h">
       <Filter>JUCE Modules\juce_audio_basics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBase.h">
@@ -2391,7 +2394,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST\juce_VSTCallbackHandler.h">
       <Filter>JUCE Modules\juce_audio_plugin_client\VST</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h">
       <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.h">
@@ -2478,7 +2481,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\utilities\juce_AudioProcessorValueTreeState.h">
       <Filter>JUCE Modules\juce_audio_processors\utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h">
       <Filter>JUCE Modules\juce_audio_processors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\containers\juce_AbstractFifo.h">
@@ -2871,7 +2874,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\zip\juce_ZipFile.h">
       <Filter>JUCE Modules\juce_core\zip</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_core\juce_core.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\juce_core.h">
       <Filter>JUCE Modules\juce_core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.h">
@@ -2901,7 +2904,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\values\juce_ValueWithDefault.h">
       <Filter>JUCE Modules\juce_data_structures\values</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_data_structures\juce_data_structures.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\juce_data_structures.h">
       <Filter>JUCE Modules\juce_data_structures</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\broadcasters\juce_ActionBroadcaster.h">
@@ -2973,7 +2976,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\timers\juce_Timer.h">
       <Filter>JUCE Modules\juce_events\timers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_events\juce_events.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\juce_events.h">
       <Filter>JUCE Modules\juce_events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\colour\juce_Colour.h">
@@ -3147,7 +3150,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\placement\juce_RectanglePlacement.h">
       <Filter>JUCE Modules\juce_graphics\placement</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_graphics.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_graphics.h">
       <Filter>JUCE Modules\juce_graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\application\juce_Application.h">
@@ -3561,7 +3564,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\windows\juce_TopLevelWindow.h">
       <Filter>JUCE Modules\juce_gui_basics\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h">
       <Filter>JUCE Modules\juce_gui_basics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\code_editor\juce_CodeDocument.h">
@@ -3642,7 +3645,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h">
       <Filter>JUCE Modules\juce_gui_extra\native</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
       <Filter>JUCE Modules\juce_gui_extra</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.h">
@@ -3669,7 +3672,7 @@
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.h">
       <Filter>JUCE Modules\juce_osc\osc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h">
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h">
       <Filter>JUCE Modules\juce_osc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JuceLibraryCode\AppConfig.h">

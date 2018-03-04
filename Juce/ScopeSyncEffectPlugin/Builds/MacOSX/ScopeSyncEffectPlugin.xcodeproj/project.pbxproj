@@ -22,6 +22,11 @@
 		5A1B2CBAA7D0BC05A557ED59 = {isa = PBXBuildFile; fileRef = 4E5878516BE1AF2D39FEBAD6; };
 		33B529EAEC284DF43589CC38 = {isa = PBXBuildFile; fileRef = 6BF8CAC1BD50768F07EDA96C; };
 		808FF2EF3A334B244F957F97 = {isa = PBXBuildFile; fileRef = A893704FF2731DC209177D35; };
+		78742314561DA8D716CB36EC = {isa = PBXBuildFile; fileRef = 0855AD61AA043EDE103B13DE; };
+		0F2B34FF22B5790A5C2589B2 = {isa = PBXBuildFile; fileRef = C63F141F3941BBC04A962F35; };
+		EDCCB9152263F27750C60F7D = {isa = PBXBuildFile; fileRef = 8808CB9ED872E00789117E0E; };
+		3382ACE36DE6BC2843201582 = {isa = PBXBuildFile; fileRef = BE9B5B2FA19639BAA5FB2851; };
+		02CF1B17BE406172EADF5EE9 = {isa = PBXBuildFile; fileRef = 03567A4262E6BECCF8AC8DEF; };
 		B5087941BB9A442845CBB18C = {isa = PBXBuildFile; fileRef = DDAD967591653BC02AAFE90E; };
 		E56C8D77C6FE0A00371D1812 = {isa = PBXBuildFile; fileRef = 7BD511D395604DBBCB3A6B10; };
 		93D6A7E8C32FD8F802CAEB80 = {isa = PBXBuildFile; fileRef = DE09F24F153BAF5E0B35E365; };
@@ -48,12 +53,7 @@
 		4961207C8D6D6FAA72BC1572 = {isa = PBXBuildFile; fileRef = D42AC9759CF2693FB678A8E3; };
 		3E2A3F7258A373D3D23DC982 = {isa = PBXBuildFile; fileRef = F0BB5579584DDA760CD9B21C; };
 		A8E7B2660785D002A9D4C8AE = {isa = PBXBuildFile; fileRef = 853A6EBB80D94C0AF6187797; };
-		78742314561DA8D716CB36EC = {isa = PBXBuildFile; fileRef = 0855AD61AA043EDE103B13DE; };
-		0F2B34FF22B5790A5C2589B2 = {isa = PBXBuildFile; fileRef = C63F141F3941BBC04A962F35; };
 		A233C50CB412E6E541A4ED33 = {isa = PBXBuildFile; fileRef = 9DBEA4E05AEB38BB7338602D; };
-		EDCCB9152263F27750C60F7D = {isa = PBXBuildFile; fileRef = 8808CB9ED872E00789117E0E; };
-		3382ACE36DE6BC2843201582 = {isa = PBXBuildFile; fileRef = BE9B5B2FA19639BAA5FB2851; };
-		02CF1B17BE406172EADF5EE9 = {isa = PBXBuildFile; fileRef = 03567A4262E6BECCF8AC8DEF; };
 		5D99A691C9470F4852F04A37 = {isa = PBXBuildFile; fileRef = 0A1A2536CCBBDEA126866763; };
 		08E98201A2EB266FF4675255 = {isa = PBXBuildFile; fileRef = B3F88902FF97C03E0A8655BA; };
 		1AE830E2D596B410001CD80E = {isa = PBXBuildFile; fileRef = 28C3593E13BF3BF9AF9BA49D; };
@@ -224,7 +224,6 @@
 		8ECED8755486D680321530BA = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMLabel.cpp; path = ../../../ScopeSync/Components/BCMLabel.cpp; sourceTree = "SOURCE_ROOT"; };
 		8FEA2C4A271C78F7B5841286 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BinaryData.cpp; path = ../../JuceLibraryCode/BinaryData.cpp; sourceTree = "SOURCE_ROOT"; };
 		9138934AE3A37FD08D7A549F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OSCServer.cpp; path = ../../../ScopeSync/Comms/OSCServer.cpp; sourceTree = "SOURCE_ROOT"; };
-		9279E05F2603718E29E2AC6E = {isa = PBXFileReference; lastKnownFileType = image.png; name = "config_manager_button_over.png"; path = "../../../ScopeSync/Resources/image/config_manager_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		92ABC39F63D7D6F93E0E26F9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMMath.h; path = ../../../ScopeSync/Utils/BCMMath.h; sourceTree = "SOURCE_ROOT"; };
 		93921EA9BF79E489EDCAF096 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigurationTreeItem.cpp; path = ../../../ScopeSync/Configuration/ConfigurationTreeItem.cpp; sourceTree = "SOURCE_ROOT"; };
 		948ABE164652C66CF5B2A51B = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-AU.plist"; path = "Info-AU.plist"; sourceTree = "SOURCE_ROOT"; };
@@ -236,39 +235,40 @@
 		9C0D5B21DD839849F778F97E = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-VST.plist"; path = "Info-VST.plist"; sourceTree = "SOURCE_ROOT"; };
 		9CE47F32C27CA74AA38023C5 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Montserrat-Bold.ttf"; path = "../../../ScopeSync/Resources/font/Montserrat-Bold.ttf"; sourceTree = "SOURCE_ROOT"; };
 		9DBEA4E05AEB38BB7338602D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Clipboard.cpp; path = ../../../ScopeSync/Core/Clipboard.cpp; sourceTree = "SOURCE_ROOT"; };
-		9DE52E3C0586170C7FCE382C = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Save_button_over.png"; path = "../../../ScopeSync/Resources/image/Save_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		9FF68BE00EA3156B241D2DF8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SliderProperties.h; path = ../../../ScopeSync/Properties/SliderProperties.h; sourceTree = "SOURCE_ROOT"; };
 		A00959DE6659BE18356B7512 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_events"; path = "../../../../../../JUCE/modules/juce_events"; sourceTree = "SOURCE_ROOT"; };
 		A1D310159BF5069FF6FB38F6 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Icons.h; path = ../../../ScopeSync/Resources/Icons.h; sourceTree = "SOURCE_ROOT"; };
 		A33F5D3DA210FB9C1C2CAA7F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PresetFileChooser.cpp; path = ../../../ScopeSync/Windows/PresetFileChooser.cpp; sourceTree = "SOURCE_ROOT"; };
-		A5A18EDBA20E38E82C8D6F41 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "remove_button_on.png"; path = "../../../ScopeSync/Resources/image/remove_button_on.png"; sourceTree = "SOURCE_ROOT"; };
 		A5EA87E3CF40B4B70859A75D = {isa = PBXFileReference; lastKnownFileType = file.r; name = "include_juce_audio_plugin_client_AU.r"; path = "../../JuceLibraryCode/include_juce_audio_plugin_client_AU.r"; sourceTree = "SOURCE_ROOT"; };
 		A893704FF2731DC209177D35 = {isa = PBXFileReference; lastKnownFileType = file.nib; name = RecentFilesMenuTemplate.nib; path = RecentFilesMenuTemplate.nib; sourceTree = "SOURCE_ROOT"; };
 		A94CDAF1E1EADE6F48E7EE7A = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_gui_extra"; path = "../../../../../../JUCE/modules/juce_gui_extra"; sourceTree = "SOURCE_ROOT"; };
 		A9F0D4ACCA30E6241A900E3D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NewConfig_button_over.png"; path = "../../../ScopeSync/Resources/image/NewConfig_button_over.png"; sourceTree = "SOURCE_ROOT"; };
-		ACD588A5756FBEB756E31E7D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_button_over.png"; path = "../../../ScopeSync/Resources/image/toolbar_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		ADB9758DA54FA5BE9BD2CA26 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Montserrat-Regular.ttf"; path = "../../../ScopeSync/Resources/font/Montserrat-Regular.ttf"; sourceTree = "SOURCE_ROOT"; };
 		AF2221E56BFCCA55BFA4E5A2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_gui_extra.mm"; path = "../../JuceLibraryCode/include_juce_gui_extra.mm"; sourceTree = "SOURCE_ROOT"; };
 		B11F8BC13B50D675405C5FAF = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PresetFile.h; path = ../../../ScopeSync/Presets/PresetFile.h; sourceTree = "SOURCE_ROOT"; };
 		B3520C91A95150BC174A6671 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		B377A36D2FAFE7B04EB8298E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BinaryData.h; path = ../../JuceLibraryCode/BinaryData.h; sourceTree = "SOURCE_ROOT"; };
-		B394A1BF47104FC5C2B87DC5 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload_button_off.png"; path = "../../../ScopeSync/Resources/image/reload_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		B3F88902FF97C03E0A8655BA = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeSyncApplication.cpp; path = ../../../ScopeSync/Core/ScopeSyncApplication.cpp; sourceTree = "SOURCE_ROOT"; };
-		B42EC68EE1AF25AC3DEC7EF1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComboBoxProperties.cpp; path = ../../../ScopeSync/Properties/ComboBoxProperties.cpp; sourceTree = "SOURCE_ROOT"; };
 		B7260B4E9A1550C7EECEF98F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FileLocationEditor.cpp; path = ../../../ScopeSync/Windows/FileLocationEditor.cpp; sourceTree = "SOURCE_ROOT"; };
 		B73A2C8B1AEAB58C24C09187 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMSlider.cpp; path = ../../../ScopeSync/Components/BCMSlider.cpp; sourceTree = "SOURCE_ROOT"; };
-		B951B2934ABF39FA1D7A58DA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMParameterController.h; path = ../../../ScopeSync/Core/BCMParameterController.h; sourceTree = "SOURCE_ROOT"; };
-		B9534BC61F8A29B1E9424980 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Undo_button_off.png"; path = "../../../ScopeSync/Resources/image/Undo_button_off.png"; sourceTree = "SOURCE_ROOT"; };
 		BAAEDC61E534CAE9C7AB6BCF = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		BC6540836530999C6389F2C9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PresetChooser.cpp; path = ../../../ScopeSync/Windows/PresetChooser.cpp; sourceTree = "SOURCE_ROOT"; };
 		BE70D5FBD7F49F17C66F5C69 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigurationChooser.cpp; path = ../../../ScopeSync/Windows/ConfigurationChooser.cpp; sourceTree = "SOURCE_ROOT"; };
-		BFD2FB0770AFF435E34E2D7A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentProperties.cpp; path = ../../../ScopeSync/Properties/ComponentProperties.cpp; sourceTree = "SOURCE_ROOT"; };
-		C2045775298B9AC06CED7BA7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMTreeView.cpp; path = ../../../ScopeSync/Utils/BCMTreeView.cpp; sourceTree = "SOURCE_ROOT"; };
 		C441CDC65F090A13E6E59F80 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		C4AB77675FD4FA4D2AF01571 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ScopeSyncAUFX-Debug_1_0_3.vst3"; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		4C991533AE649DC6A6124881 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ScopeSyncAUFX-Debug_1_0_3.component"; sourceTree = "BUILT_PRODUCTS_DIR"; };
+		9279E05F2603718E29E2AC6E = {isa = PBXFileReference; lastKnownFileType = image.png; name = "config_manager_button_over.png"; path = "../../../ScopeSync/Resources/image/config_manager_button_over.png"; sourceTree = "SOURCE_ROOT"; };
+		9DE52E3C0586170C7FCE382C = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Save_button_over.png"; path = "../../../ScopeSync/Resources/image/Save_button_over.png"; sourceTree = "SOURCE_ROOT"; };
+		A5A18EDBA20E38E82C8D6F41 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "remove_button_on.png"; path = "../../../ScopeSync/Resources/image/remove_button_on.png"; sourceTree = "SOURCE_ROOT"; };
+		ACD588A5756FBEB756E31E7D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "toolbar_button_over.png"; path = "../../../ScopeSync/Resources/image/toolbar_button_over.png"; sourceTree = "SOURCE_ROOT"; };
+		B394A1BF47104FC5C2B87DC5 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload_button_off.png"; path = "../../../ScopeSync/Resources/image/reload_button_off.png"; sourceTree = "SOURCE_ROOT"; };
+		B42EC68EE1AF25AC3DEC7EF1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComboBoxProperties.cpp; path = ../../../ScopeSync/Properties/ComboBoxProperties.cpp; sourceTree = "SOURCE_ROOT"; };
+		B951B2934ABF39FA1D7A58DA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMParameterController.h; path = ../../../ScopeSync/Core/BCMParameterController.h; sourceTree = "SOURCE_ROOT"; };
+		B9534BC61F8A29B1E9424980 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Undo_button_off.png"; path = "../../../ScopeSync/Resources/image/Undo_button_off.png"; sourceTree = "SOURCE_ROOT"; };
+		BC6540836530999C6389F2C9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PresetChooser.cpp; path = ../../../ScopeSync/Windows/PresetChooser.cpp; sourceTree = "SOURCE_ROOT"; };
 		BE9B5B2FA19639BAA5FB2851 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeIDs.cpp; path = ../../../ScopeSync/Core/ScopeIDs.cpp; sourceTree = "SOURCE_ROOT"; };
 		BF6E212D82CAD26AFB4AC3AB = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Perf_Mode_button_on.png"; path = "../../../ScopeSync/Resources/image/Perf_Mode_button_on.png"; sourceTree = "SOURCE_ROOT"; };
+		BFD2FB0770AFF435E34E2D7A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentProperties.cpp; path = ../../../ScopeSync/Properties/ComponentProperties.cpp; sourceTree = "SOURCE_ROOT"; };
+		C2045775298B9AC06CED7BA7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMTreeView.cpp; path = ../../../ScopeSync/Utils/BCMTreeView.cpp; sourceTree = "SOURCE_ROOT"; };
 		C63F141F3941BBC04A962F35 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BCMParameterController.cpp; path = ../../../ScopeSync/Core/BCMParameterController.cpp; sourceTree = "SOURCE_ROOT"; };
 		C73756BCA5D4E77B45B8B607 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Patch_Window_button_over.png"; path = "../../../ScopeSync/Resources/image/Patch_Window_button_over.png"; sourceTree = "SOURCE_ROOT"; };
 		C7D645C87B0C595B38E496BA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCMImage.h; path = ../../../ScopeSync/Components/BCMImage.h; sourceTree = "SOURCE_ROOT"; };
@@ -321,6 +321,16 @@
 		FD1A0A2B7031409DBA988DB3 = {isa = PBXFileReference; lastKnownFileType = file.layout; name = standardFooterContent.layout; path = ../../../ScopeSync/Resources/xml/standardFooterContent.layout; sourceTree = "SOURCE_ROOT"; };
 		FD8BA202FBB2F6C2E0D7B1AA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = "SOURCE_ROOT"; };
 		FF6EB9ACFB0667739D78E881 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Configuration.cpp; path = ../../../ScopeSync/Configuration/Configuration.cpp; sourceTree = "SOURCE_ROOT"; };
+		2A85ED5E2F3354C8218F1CCE = {isa = PBXGroup; children = (
+					0855AD61AA043EDE103B13DE,
+					EE5E905412F22C218B58557A,
+					C63F141F3941BBC04A962F35,
+					B951B2934ABF39FA1D7A58DA,
+					8808CB9ED872E00789117E0E,
+					E8B99DD825EA8F76764F8711,
+					BE9B5B2FA19639BAA5FB2851,
+					03567A4262E6BECCF8AC8DEF,
+					1631E3BFC3B9001DA3C8B814, ); name = Parameters; sourceTree = "<group>"; };
 		21D050D202D9410C9E638456 = {isa = PBXGroup; children = (
 					DDAD967591653BC02AAFE90E,
 					B11F8BC13B50D675405C5FAF,
@@ -470,18 +480,9 @@
 					853A6EBB80D94C0AF6187797,
 					8D6FF5274AB2434C81273CE7, ); name = Properties; sourceTree = "<group>"; };
 		B371227CAE8940E0069B6FD2 = {isa = PBXGroup; children = (
-					0855AD61AA043EDE103B13DE,
-					EE5E905412F22C218B58557A,
-					C63F141F3941BBC04A962F35,
-					B951B2934ABF39FA1D7A58DA,
 					9DBEA4E05AEB38BB7338602D,
 					8E41A3BB22F09FAF3A3CC506,
 					99F2373EE280C147FF510011,
-					8808CB9ED872E00789117E0E,
-					E8B99DD825EA8F76764F8711,
-					BE9B5B2FA19639BAA5FB2851,
-					03567A4262E6BECCF8AC8DEF,
-					1631E3BFC3B9001DA3C8B814,
 					0A1A2536CCBBDEA126866763,
 					D1B9EFBCF9121D464CC29609,
 					B3F88902FF97C03E0A8655BA,
@@ -521,6 +522,7 @@
 					C9F692C6DF10BEAFDF12C151,
 					2A81D857AB8160AFDCF2AF58, ); name = Plugin; sourceTree = "<group>"; };
 		4AD6D221EA8881B7B78A546F = {isa = PBXGroup; children = (
+					2A85ED5E2F3354C8218F1CCE,
 					21D050D202D9410C9E638456,
 					A93AC7615D0A4607EB2CCE50,
 					874B22AA7C20B68D35AF043D,
@@ -1054,6 +1056,11 @@
 					96037738D815402CE9DC52C1,
 					50444FDB528DB135CFD684EA, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
 		B969F2C35187F9BB88F47273 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+					78742314561DA8D716CB36EC,
+					0F2B34FF22B5790A5C2589B2,
+					EDCCB9152263F27750C60F7D,
+					3382ACE36DE6BC2843201582,
+					02CF1B17BE406172EADF5EE9,
 					B5087941BB9A442845CBB18C,
 					E56C8D77C6FE0A00371D1812,
 					93D6A7E8C32FD8F802CAEB80,
@@ -1080,12 +1087,7 @@
 					4961207C8D6D6FAA72BC1572,
 					3E2A3F7258A373D3D23DC982,
 					A8E7B2660785D002A9D4C8AE,
-					78742314561DA8D716CB36EC,
-					0F2B34FF22B5790A5C2589B2,
 					A233C50CB412E6E541A4ED33,
-					EDCCB9152263F27750C60F7D,
-					3382ACE36DE6BC2843201582,
-					02CF1B17BE406172EADF5EE9,
 					5D99A691C9470F4852F04A37,
 					08E98201A2EB266FF4675255,
 					1AE830E2D596B410001CD80E,

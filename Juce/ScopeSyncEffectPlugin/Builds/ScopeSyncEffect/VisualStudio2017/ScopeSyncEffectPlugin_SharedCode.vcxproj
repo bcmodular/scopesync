@@ -283,6 +283,11 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameter.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\HostParameter.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp"/>
+    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Presets\PresetFile.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Presets\PresetItem.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Presets\PresetManager.cpp"/>
@@ -309,12 +314,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\TabProperties.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\TextButtonProperties.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameter.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\BCMParameterController.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\Clipboard.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\HostParameter.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeIDs.cpp"/>
-    <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSync.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSyncApplication.cpp"/>
     <ClCompile Include="..\..\..\..\ScopeSync\Core\ScopeSyncGUI.cpp"/>
@@ -1731,6 +1731,10 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClCompile Include="..\..\..\JuceLibraryCode\include_juce_osc.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameter.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\HostParameter.h"/>
+    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Presets\PresetFile.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Presets\PresetItem.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Presets\PresetManager.h"/>
@@ -1760,12 +1764,8 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\ScopeSync\Properties\TabProperties.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Properties\TextButtonProperties.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Properties\WidgetProperties.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameter.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\BCMParameterController.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Clipboard.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\Global.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\HostParameter.h"/>
-    <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeOSCParameter.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSync.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSyncApplication.h"/>
     <ClInclude Include="..\..\..\..\ScopeSync\Core\ScopeSyncGUI.h"/>
@@ -1822,7 +1822,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\sources\juce_ReverbAudioSource.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\sources\juce_ToneGeneratorAudioSource.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\synthesisers\juce_Synthesiser.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBase.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBaseHelper.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBuffer.h"/>
@@ -1868,7 +1868,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\utility\juce_PluginHostType.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\utility\juce_WindowsHooks.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\VST\juce_VSTCallbackHandler.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormatManager.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.h"/>
@@ -1897,7 +1897,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\utilities\juce_AudioParameterInt.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\utilities\juce_AudioProcessorParameterWithID.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\utilities\juce_AudioProcessorValueTreeState.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\containers\juce_AbstractFifo.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\containers\juce_Array.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\containers\juce_ArrayAllocationBase.h"/>
@@ -2028,7 +2028,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\zip\juce_GZIPCompressorOutputStream.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\zip\juce_GZIPDecompressorInputStream.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\zip\juce_ZipFile.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_core\juce_core.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_core\juce_core.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\app_properties\juce_PropertiesFile.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\undomanager\juce_UndoableAction.h"/>
@@ -2038,7 +2038,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\values\juce_ValueTree.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\values\juce_ValueTreeSynchroniser.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\values\juce_ValueWithDefault.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_data_structures\juce_data_structures.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_data_structures\juce_data_structures.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\broadcasters\juce_ActionBroadcaster.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\broadcasters\juce_ActionListener.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\broadcasters\juce_AsyncUpdater.h"/>
@@ -2062,7 +2062,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\native\juce_win32_WinRTWrapper.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\timers\juce_MultiTimer.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\timers\juce_Timer.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_events\juce_events.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_events\juce_events.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\colour\juce_Colour.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\colour\juce_ColourGradient.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\colour\juce_Colours.h"/>
@@ -2120,7 +2120,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\placement\juce_Justification.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\placement\juce_RectanglePlacement.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_graphics.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_graphics\juce_graphics.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\application\juce_Application.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\buttons\juce_ArrowButton.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\buttons\juce_Button.h"/>
@@ -2258,7 +2258,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\windows\juce_ThreadWithProgressWindow.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\windows\juce_TooltipWindow.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\windows\juce_TopLevelWindow.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\code_editor\juce_CodeDocument.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\code_editor\juce_CodeEditorComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\code_editor\juce_CodeTokeniser.h"/>
@@ -2285,7 +2285,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_SystemTrayIconComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\misc\juce_WebBrowserComponent.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.h"/>
@@ -2294,7 +2294,7 @@ xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;</Command>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.h"/>
     <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.h"/>
-    <ClInclude Include="..\..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h"/>
+    <ClInclude Include="..\..\..\..\..\..\JUCE\modules\juce_osc\juce_osc.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\AppConfig.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\..\JuceLibraryCode\JuceHeader.h"/>

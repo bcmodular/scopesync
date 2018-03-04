@@ -136,6 +136,7 @@ void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& range
     suffix   = uiSuffix;
 }
 
+// TODO: Replace this with a version that takes in a value...
 void BCMParameter::getUITextValue(String& textValue) const
 {
     if (paramDiscrete)
@@ -167,6 +168,16 @@ float BCMParameter::getHostValue() const
     return hostValue;
 }
 
+float BCMParameter::getDefaultHostValue() const
+{
+	float hostValue = convertUIToLinearNormalisedValue(uiResetValue);
+
+	if (!skewUIOnly)
+		hostValue = skewHostValue(hostValue, true);
+
+	return hostValue;
+}
+
 bool BCMParameter::checkDiscrete(ValueTree& definition)
 {
     int parameterValueType = definition.getProperty(Ids::valueType);
@@ -192,12 +203,17 @@ double BCMParameter::convertUIToLinearNormalisedValue(double newValue) const
    return scaleDouble(uiRangeMin, uiRangeMax, 0.0f, 1.0f, newValue);
 }
 
-void BCMParameter::setHostValue(float newValue)
+double BCMParameter::convertHostToUIValue(double newValue) const
 {
 	if (!skewUIOnly)
 		newValue = skewHostValue(newValue, false);
 
-	double newUIValue = convertLinearNormalisedToUIValue(newValue);
+	return convertLinearNormalisedToUIValue(newValue);
+}
+
+void BCMParameter::setHostValue(float newValue)
+{
+	double newUIValue = convertHostToUIValue(newValue);
     
 	setParameterValues(hostUpdate, newValue, newUIValue, false);
     

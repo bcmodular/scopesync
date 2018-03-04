@@ -37,11 +37,7 @@ public:
 
 	BCMParameter* getParameterByName(StringRef name) const;
 	
-    float getParameterHostValue(int hostIdx) const;
-    void  setParameterFromHost(int hostIdx, float newValue) const;
-	static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
-    void  getParameterNameForHost(int hostIdx, String& parameterName) const;
-    void  getParameterText(int hostIdx, String& parameterText) const;
+    static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
     void  snapshot() const;
 
 	void updateHost(int hostIdx, float newValue) const;

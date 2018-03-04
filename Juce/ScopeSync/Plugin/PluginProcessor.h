@@ -52,14 +52,6 @@ public:
 
     const String getName() const override;
 
-    int getNumParameters() override;
-
-    float getParameter (int index) override;
-    void setParameter (int index, float newValue) override;
-
-    const String getParameterName (int index) override;
-    const String getParameterText (int index) override;
-
     bool   acceptsMidi() const override;
     bool   producesMidi() const override;
     double getTailLengthSeconds() const override;

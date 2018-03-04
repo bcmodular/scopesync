@@ -48,24 +48,27 @@ public:
     void beginParameterChangeGesture();
     void endParameterChangeGesture();
     
-    void          mapToUIValue(Value& valueToMapTo) const;
-    String        getName() const { return name; }
-    ValueTree&    getDefinition() { return definition; }
-	void          setHostIdx(int newIndex) { hostIdx = newIndex; }
-    int           getHostIdx() const { return hostIdx; }
-    void          getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
-    void          getDescriptions(String& shortDesc, String& fullDesc) const;
-    void          getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
-	double        getUIRangeMin() const {return uiRangeMin;}
-	double        getUIRangeMax() const {return uiRangeMax;}
+    void       mapToUIValue(Value& valueToMapTo) const;
+    String     getName() const { return name; }
+    ValueTree& getDefinition() { return definition; }
+	void       setHostIdx(int newIndex) { hostIdx = newIndex; }
+    int        getHostIdx() const { return hostIdx; }
+    void       getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
+	int        getNumSettings() const { return settings.getNumChildren(); }
+    void       getDescriptions(String& shortDesc, String& fullDesc) const;
+    void       getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
+	double     getUIRangeMin() const {return uiRangeMin;}
+	double     getUIRangeMax() const {return uiRangeMax;}
 
-    double        getUIResetValue() const { return uiResetValue; }
-    double        getUISkewFactor() const { return uiSkewFactor; }
+    double     getUIResetValue() const { return uiResetValue; }
+    double     getUISkewFactor() const { return uiSkewFactor; }
 
-    void          getUITextValue(String& textValue) const;
-    int           getUIValue() const { return uiValue.getValue(); };
+    void       getUITextValue(String& textValue) const;
+    int        getUIValue() const { return uiValue.getValue(); }
+	String     getUISuffix() const { return uiSuffix; }
 
-    float         getHostValue() const;
+    float      getHostValue() const;
+	float      getDefaultHostValue() const;
     
 	ScopeOSCParameter& getScopeOSCParameter() { return scopeOSCParameter; }
 
@@ -78,8 +81,10 @@ public:
 	
 	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
 
-	double        convertLinearNormalisedToUIValue(double lnValue) const;
-	double        convertUIToLinearNormalisedValue(double newValue) const;
+	double convertLinearNormalisedToUIValue(double lnValue) const;
+	double convertUIToLinearNormalisedValue(double newValue) const;
+
+	double convertHostToUIValue(double newValue) const;
 
 private:
 	JUCE_DECLARE_WEAK_REFERENCEABLE(BCMParameter)
