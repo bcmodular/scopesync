@@ -28,7 +28,7 @@
 
 #include "ScopeSyncGUI.h"
 #include "ScopeSync.h"
-#include "BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "../Components/BCMLookAndFeel.h"
@@ -43,7 +43,7 @@
 #include "../Properties/TabProperties.h"
 #include "../Windows/ConfigurationChooser.h"
 #include "../Resources/ImageLoader.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
 

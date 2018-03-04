@@ -32,8 +32,8 @@
 #include "Global.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Core/ScopeSyncGUI.h"
-#include "BCMParameterController.h"
-#include "BCMParameter.h"
+#include "../Parameters/BCMParameterController.h"
+#include "../Parameters/BCMParameter.h"
 #include "../Utils/BCMMisc.h"
 
 #ifndef __DLL_EFFECT__

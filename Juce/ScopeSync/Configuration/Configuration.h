@@ -29,7 +29,7 @@
 #include <JuceHeader.h>
 #include "../Configuration/ConfigurationPanel.h"
 #include "../Windows/UserSettings.h"
-#include "../Core/ScopeIDs.h"
+#include "../Parameters/ScopeIDs.h"
 
 class ScopeSync;
 

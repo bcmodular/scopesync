@@ -32,7 +32,7 @@
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 #include "BCMTabbedComponent.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)

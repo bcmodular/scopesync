@@ -32,7 +32,7 @@
 #include "PluginProcessor.h"
 
 #include "PluginGUI.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 PluginProcessor::PluginProcessor()
 {

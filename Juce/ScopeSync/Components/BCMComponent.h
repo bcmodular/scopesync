@@ -45,7 +45,7 @@ class BCMImage;
 class EditToolbar;
 #include "../Core/ScopeSyncGUI.h"
 #include "../Components/BCMWidget.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 class BCMComponent : public BCMWidget,
                      public Component,

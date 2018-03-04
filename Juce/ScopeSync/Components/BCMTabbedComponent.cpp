@@ -30,7 +30,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Core/Global.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
     : TabbedComponent(orientation), BCMParameterWidget(owner)

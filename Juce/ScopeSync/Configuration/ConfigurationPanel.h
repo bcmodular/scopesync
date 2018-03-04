@@ -29,7 +29,7 @@
 #define PARAMETERPANEL_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
 #include "../Windows/UserSettings.h"
 
 class SettingsTable;

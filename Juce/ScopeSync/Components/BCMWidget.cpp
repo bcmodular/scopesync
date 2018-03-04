@@ -26,7 +26,7 @@
 
 #include "BCMWidget.h"
 #include "../Core/Global.h"
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationManager.h"
