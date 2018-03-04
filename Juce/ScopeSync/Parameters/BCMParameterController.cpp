@@ -1,12 +1,29 @@
-/*
-  ==============================================================================
-
-    BCMParameterController.cpp
-    Created: 29 Nov 2015 8:33:20pm
-    Author:  giles
-
-  ==============================================================================
-*/
+/**
+ * Sets up all parameters and then provides access to them for
+ * other objects as necessary
+ *
+ *  (C) Copyright 2014 bcmodular (http://www.bcmodular.co.uk/)
+ *
+ * This file is part of ScopeSync.
+ *
+ * ScopeSync is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ScopeSync is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ScopeSync.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contributors:
+ *  Simon Russell
+ *  Will Ellis
+ *  Jessica Brandt
+ */
 
 #include "BCMParameterController.h"
 #include "../Core/ScopeSyncApplication.h"
