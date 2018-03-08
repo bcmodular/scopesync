@@ -37,6 +37,8 @@ float HostParameter::getValue() const
 
 void HostParameter::setValue(float newValue)
 {
+	DBG("HostParameter::setValue: " + String(newValue));
+
 	if (bcmParameter != nullptr)
 		bcmParameter->setHostValue(newValue);
 }

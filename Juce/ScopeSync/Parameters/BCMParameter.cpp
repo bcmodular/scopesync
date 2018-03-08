@@ -39,7 +39,8 @@
 BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc,
 	ScopeOSCParamID scopeOSCParamID)
     : scopeOSCParameter(scopeOSCParamID, this, parameterDefinition),
-      parameterController(pc),
+	  updateSourceBlock(none),
+	  parameterController(pc),
       name(parameterDefinition.getProperty(Ids::name).toString()),
       shortDescription(parameterDefinition.getProperty(Ids::shortDescription).toString()),
       fullDescription(parameterDefinition.getProperty(Ids::fullDescription).toString()),
@@ -73,6 +74,7 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
 
 BCMParameter::~BCMParameter()
 {
+	stopTimer();
 	DBG("BCMParameter::~BCMParameter - deleting parameter: " + getName());
 	masterReference.clear();
 };
@@ -93,8 +95,17 @@ void BCMParameter::setNumDecimalPlaces()
     }
 }
 
-void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost)
+void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue)
 {
+	// Enforce update block if one is in place
+	if (updateSourceBlock != none && updateSourceBlock != updateSource)
+		return;
+		
+	// Set update block
+	updateSourceBlock = updateSource;
+	startTimer(200);
+
+	DBG("BCMParameter::setParameterValues - updateSource: " + String(updateSource));
 	linearNormalisedValue = newLinearNormalisedValue;
 	uiValue               = newUIValue;
 
@@ -102,10 +113,8 @@ void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double
 		scopeOSCParameter.updateValue(linearNormalisedValue.getValue(), uiValue.getValue(), uiRangeMin, uiRangeMax);
 
 	#ifndef __DLL_EFFECT__
-	if (updateHost && hostParameter != nullptr)
+	if (updateSource != hostUpdate && updateSource != internalUpdate && hostParameter != nullptr)
 		hostParameter->setValueNotifyingHost(getHostValue());
-	#else
-	(void)updateHost;
 	#endif // __DLL_EFFECT__
 }
 
@@ -114,7 +123,7 @@ void BCMParameter::putValuesInRange()
     DBG("BCMParameter::putValuesInRange - Initialise to: " + String(uiResetValue));
     double newLinearNormalisedValue = scaleDouble(uiRangeMin, uiRangeMax, 0.0f, 1.0f, uiResetValue);
 
-	setParameterValues(internalUpdate, newLinearNormalisedValue, uiResetValue, false);
+	setParameterValues(internalUpdate, newLinearNormalisedValue, uiResetValue);
 }
 
 void BCMParameter::mapToUIValue(Value& valueToMapTo) const
@@ -228,12 +237,12 @@ void BCMParameter::setHostValue(float newValue)
 {
 	double newUIValue = convertHostToUIValue(newValue);
     
-	setParameterValues(hostUpdate, newValue, newUIValue, false);
+	setParameterValues(hostUpdate, newValue, newUIValue);
     
 	DBG("BCMParameter::setHostValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }
 
-void BCMParameter::setUIValue(float newValue, bool updateHost)
+void BCMParameter::setUIValue(float newValue)
 {
 	double newUIValue = newValue;
     double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
@@ -241,7 +250,7 @@ void BCMParameter::setUIValue(float newValue, bool updateHost)
 	//if (ScopeSyncApplication::inScopeFXContext() && definition.getProperty(Ids::skewUIOnly))
 	//	newLinearNormalisedValue = skewHostValue(newLinearNormalisedValue, true);
 
-	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue, updateHost);
+	setParameterValues(guiUpdate, newLinearNormalisedValue, newUIValue);
     DBG("BCMParameter::setUIValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString() + ", scopeValue: " + String(scopeOSCParameter.getValue()));
 }
 
@@ -265,6 +274,12 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	{
 		scopeOSCParameter.setOSCUID(oscUID.getValue());
 	}
+}
+
+void BCMParameter::timerCallback()
+{
+	updateSourceBlock = none;
+	stopTimer();
 }
 
 void BCMParameter::beginChangeGesture()

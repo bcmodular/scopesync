@@ -38,12 +38,12 @@ class BCMParameterController;
 class HostParameter;
 #endif // __DLL_EFFECT__
 
-class BCMParameter : public Value::Listener
+class BCMParameter : public Value::Listener, Timer
 {
 public:
     /* ============================ Enumerations ============================== */
     enum ParameterValueType    {continuous, discrete}; // Possible types of Parameter Value
-	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate};
+	enum ParameterUpdateSource {internalUpdate, hostUpdate, guiUpdate, oscUpdate, midiUpdate, scopeOSCUpdate, none};
 
 	BCMParameter(ValueTree parameterDefinition, BCMParameterController& pc, ScopeOSCParamID scopeOSCParamID);
     ~BCMParameter();
@@ -81,9 +81,9 @@ public:
     bool isReadOnly() const { return readOnly; }
     
     void setHostValue(float newValue);
-    void setUIValue(float newValue, bool updateHost = true);
+    void setUIValue(float newValue);
 	
-	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool updateHost = true);
+	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue);
 
 	double convertLinearNormalisedToUIValue(double lnValue) const;
 	double convertUIToLinearNormalisedValue(double newValue) const;
@@ -107,8 +107,10 @@ private:
     void   setNumDecimalPlaces();
     float  skewHostValue(float hostValue, bool invert) const;
 
-	void  valueChanged(Value& valueThatChanged) override;
+	void valueChanged(Value& valueThatChanged) override;
+	void timerCallback() override;
 
+	ParameterUpdateSource updateSourceBlock;
 	
     /* ===================== Private member variables ========================= */
 	BCMParameterController& parameterController;

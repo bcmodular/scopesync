@@ -39,12 +39,6 @@ public:
 
     BCMParameterController(ScopeSync* owner);
     
-	/* ====================== Public Parameter Methods ======================= */
-    // Returns the number of parameters to inform the host about. Actually returns
-    // the "minHostParameters" value to prevent issues with switching between 
-    // configurations that have different parameter counts.
-	static int  getNumParametersForHost();
-
     void reset();
 
     void addParameter(ValueTree parameterDefinition, bool fixedParameter = false);
@@ -67,9 +61,6 @@ private:
 
 	OwnedArray<BCMParameter>    fixedParameters;
     OwnedArray<BCMParameter>    dynamicParameters;
-#ifndef __DLL_EFFECT__
-    Array<HostParameter*>       hostParameters;
-#endif // __DLL_EFFECT__
     Array<BCMParameter*>        parameters;
 
     HashMap<String, BCMParameter*> parametersByName;

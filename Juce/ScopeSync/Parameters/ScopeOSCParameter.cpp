@@ -70,12 +70,15 @@ void ScopeOSCParameter::sendCurrentValue()
 
 void ScopeOSCParameter::updateValue(int newValue)
 {
+	DBG("ScopeOSCParameter::updateValue " + String(newValue));
 	intValue = newValue;
 	sendCurrentValue();
 }
 
 void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue)
 {
+	DBG("ScopeOSCParameter::updateValue " + String(linearNormalisedValue) + "," + String(uiValue));
+
 	int oldIntValue = intValue;
 
     if (parameter->isDiscrete())
@@ -144,10 +147,13 @@ String ScopeOSCParameter::getOSCPath() const
 
 void ScopeOSCParameter::oscMessageReceived (const OSCMessage& message)
 {
+	String address = message.getAddressPattern().toString();
+	DBG("ScopeOSCParameter::oscMessageReceived - " + address);
+	
 	if (!isListening)
 		return;
 
-	String address = message.getAddressPattern().toString();
+	DBG("ScopeOSCParameter::oscMessageReceived - Still Listening!");
 
 	//DBG("ScopeOSCParameter::oscMessageReceived - " + address);
 

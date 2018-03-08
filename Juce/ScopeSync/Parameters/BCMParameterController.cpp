@@ -37,6 +37,11 @@
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
 {
+#ifndef __DLL_EFFECT__
+	for (int i = 0; i < 512; i++)
+		scopeSync->getPluginProcessor()->addParameter(new HostParameter());
+#endif //__DLL_EFFECT__
+
 	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Config ID,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
     for (int i = 1; i < scopeFixedParameters.size(); i++)
@@ -86,31 +91,30 @@ void BCMParameterController::addParameter(ValueTree parameterDefinition, bool fi
 void BCMParameterController::setupHostParameters()
 {
 #ifndef __DLL_EFFECT__
-	// We assume that the hostParameters array is empty at this point
-	jassert(hostParameters.isEmpty());
-
 	int i = 0;
     
 	const OwnedArray<AudioProcessorParameter>& pluginParameters(scopeSync->getPluginProcessor()->getParameters());
 
-	// Loop through all the non-fixed parameters and attach them to a host/plugin parameter
+	// Loop through all the dynamic parameters and attach them to a host/plugin parameter until we run out of host parameters
     for (auto dynamicParameter : dynamicParameters)
     {
 		HostParameter* hostParameter;
+		int numPluginParameters = pluginParameters.size();
 
 		// Try to bind to existing parameters first
-		if (i < pluginParameters.size())
+		if (i < 512)
+		{
+			DBG("BCMParameterController::setupHostParameters: numPluginParameters = " + String(numPluginParameters) + ", binding to existing param: " + String(i));
 			hostParameter = static_cast<HostParameter*>(pluginParameters[i]);
-		else
-			scopeSync->getPluginProcessor()->addParameter(hostParameter = new HostParameter());
-		
-		// TODO: Do we even need this array now?
-		hostParameters.add(hostParameter);
+			hostParameter->setBCMParameter(dynamicParameter);
+			dynamicParameter->setHostParameter(hostParameter);
 
-		hostParameter->setBCMParameter(dynamicParameter);
-		dynamicParameter->setHostParameter(hostParameter);
-		
-		++i;
+			++i;
+		}
+		else
+		{
+			break;
+		}
     }
 #endif // __DLL_EFFECT__
 }
@@ -120,9 +124,6 @@ void BCMParameterController::reset()
 	DBG("BCMParameterController::reset - clearing parameters array");
     parameters.clear();
 	parametersByName.clear();
-#ifndef __DLL_EFFECT__
-    hostParameters.clear();
-#endif // __DLL_EFFECT__
     dynamicParameters.clear();
 
 	for (auto fixedParameter : fixedParameters)
@@ -157,8 +158,8 @@ void BCMParameterController::storeParameterValues()
 #ifndef __DLL_EFFECT__
 	Array<float> currentParameterValues;
 
-	for (auto hostParameter : hostParameters)
-        currentParameterValues.add(hostParameter->getValue());
+	for (auto dynamicParameter : dynamicParameters)
+        currentParameterValues.add(dynamicParameter->getHostValue());
 
 	parameterValueStore = XmlElement("parametervalues");
 	parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, currentParameterValues.size())));
@@ -180,10 +181,10 @@ void BCMParameterController::restoreParameterValues() const
 	Array<float> parameterValues;
 
 	String floatCSV = parameterValueStore.getAllSubText();
-	stringToFloatArray(floatCSV, parameterValues, hostParameters.size());
+	stringToFloatArray(floatCSV, parameterValues, dynamicParameters.size());
 
-	for (int i = 0; i < hostParameters.size(); i++)
-		hostParameters[i]->setValue(parameterValues[i]);
+	for (int i = 0; i < dynamicParameters.size(); i++)
+		dynamicParameters[i]->setHostValue(parameterValues[i]);
     
     //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 #endif // __DLL_EFFECT__
