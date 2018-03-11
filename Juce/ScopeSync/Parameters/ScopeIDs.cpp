@@ -60,6 +60,7 @@ P1,P2,P3,P4,P5,P6,P7,P8",
 	for (const auto& scopeCode : scopeCodes)
 	{
 		ScopeOSCParamID* scopeID = new ScopeOSCParamID(paramGroup, paramId);
+		scopeOSCParamIDs.add(scopeID);
 		scopeOSCParamIDsByCode.set(scopeCode, scopeID);
 		
 		if (paramId == 16)
@@ -72,6 +73,12 @@ P1,P2,P3,P4,P5,P6,P7,P8",
 
 		DBG("ScopeCodeMapper::ScopeCodeMapper - created mapping for scopeCode: " + scopeCode + ", to: " + String(scopeID->paramGroup) + ":" + String(scopeID->paramId));
 	}
+}
+
+ScopeCodeMapper::~ScopeCodeMapper()
+{
+	scopeOSCParamIDsByCode.clear();
+	scopeOSCParamIDs.clearQuick(true);
 }
 
 ScopeOSCParamID ScopeCodeMapper::getScopeOSCParamIDByCode(StringRef code) const

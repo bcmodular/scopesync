@@ -40,6 +40,7 @@ class ScopeCodeMapper
 {
 public:
 	ScopeCodeMapper();
+	~ScopeCodeMapper();
 
 	ScopeOSCParamID getScopeOSCParamIDByCode(StringRef code) const;
 	

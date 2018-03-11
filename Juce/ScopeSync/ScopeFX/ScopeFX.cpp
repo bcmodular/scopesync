@@ -61,6 +61,7 @@ using namespace ScopeFXParameterDefinitions;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
+	
     initValues();
     
     if (ScopeSync::getNumScopeSyncInstances() == 0)
@@ -70,7 +71,7 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 #endif
         initialiseJuce_GUI();
     }
-
+	
     scopeSync = new ScopeSync(this);
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
@@ -86,6 +87,9 @@ ScopeFX::~ScopeFX()
     scopeFXGUI = nullptr;
     scopeSync->unload();
     scopeSync = nullptr;
+
+	if (ScopeSync::getNumScopeSyncInstances() == 0)
+        shutdownJuce_GUI();
 }
    
 void ScopeFX::initValues()

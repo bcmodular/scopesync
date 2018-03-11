@@ -251,10 +251,10 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     if (child)
         setupLookAndFeels(*child);
 
-    BCMLookAndFeel* defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("default");
-
-    if (defaultLookAndFeel == nullptr)
-        defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("system:default");
+    //BCMLookAndFeel* defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("default");
+	//
+    //if (defaultLookAndFeel == nullptr)
+    //    defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("system:default");
 
     child = layoutXml.getChildByName("defaults");
 
@@ -268,9 +268,9 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
     int enableTooltipsUserSetting = userSettings->getAppProperties()->getIntValue("enabletooltips", 0);
     
-    if ((tooltipWindow.getReferenceCount() == 0 && enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
+    if ((enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
     {
-        tooltipWindow->setLookAndFeel(defaultLookAndFeel);
+        tooltipWindow->setLookAndFeel(&LookAndFeel::getDefaultLookAndFeel());
 
         int tooltipDelayTimeUserSetting = userSettings->getAppProperties()->getIntValue("tooltipdelaytime", -1);
 
@@ -279,6 +279,13 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
         tooltipWindow->setMillisecondsBeforeTipAppears(settings.tooltipDelayTime);
     }
+	else
+	{
+		// Don't know a better way than to just make it invisible...
+		tooltipWindow->setColour(TooltipWindow::backgroundColourId, Colour());
+		tooltipWindow->setColour(TooltipWindow::textColourId , Colour());
+		tooltipWindow->setColour(TooltipWindow::outlineColourId , Colour());
+	}
 
     child = layoutXml.getChildByName("widgettemplates");
 
