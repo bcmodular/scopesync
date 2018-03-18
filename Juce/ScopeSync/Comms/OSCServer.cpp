@@ -43,12 +43,13 @@ OSCServer::~OSCServer()
 void OSCServer::setup()
 {
 	oscLocalPortNum.addListener(this);
-	oscRemoteHost.addListener(this);
 	oscRemotePortNum.addListener(this);
 
 	#ifdef __DLL_EFFECT__
-		userSettings->referToScopeFXOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
+		oscRemoteHost.setValue("localhost");
+		userSettings->referToScopeSyncOSCSettings(oscLocalPortNum, oscRemotePortNum);
 	#else
+		oscRemoteHost.addListener(this);
 		userSettings->referToPluginOSCSettings(oscLocalPortNum, oscRemoteHost, oscRemotePortNum);
 	#endif // __DLL_EFFECT__
 

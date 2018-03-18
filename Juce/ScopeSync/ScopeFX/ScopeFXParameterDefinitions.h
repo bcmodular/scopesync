@@ -47,6 +47,12 @@ namespace ScopeFXParameterDefinitions {
     enum asyncOutPads {
         OUTPAD_OSCUID,
         OUTPAD_SNAPSHOT,
+		OUTPAD_PLUGIN_HOST_OCT1,
+		OUTPAD_PLUGIN_HOST_OCT2,
+		OUTPAD_PLUGIN_HOST_OCT3,
+		OUTPAD_PLUGIN_HOST_OCT4,
+		OUTPAD_PLUGIN_LISTENER_PORT,
+		OUTPAD_SCOPESYNC_LISTENER_PORT,
 		NUM_ASYNCOUTPADS
     };
 
@@ -63,6 +69,12 @@ namespace ScopeFXParameterDefinitions {
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SNAPSHOT
+		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT1
+		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT2
+		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT3
+		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT4
+		{ DTYPE_INT, 1, 65535 },  // OUTPAD_PLUGIN_LISTENER_PORT
+		{ DTYPE_INT, 1, 65535 },  // OUTPAD_SCOPESYNC_LISTENER_PORT
 	};
 
     //--------------------------------------------------------------------------
@@ -73,6 +85,12 @@ namespace ScopeFXParameterDefinitions {
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
         { "osc",  "osc uid" },
         { "snap", "snapshot" },
+		{ "oct1", "plugin host oct1" },
+		{ "oct2", "plugin host oct2" },
+		{ "oct3", "plugin host oct3" },
+		{ "oct4", "plugin host oct4" },
+		{ "pprt", "plugin listener port" },
+		{ "sprt", "scopesync listener port" },
 };
 
 	//--------------------------------------------------------------------------

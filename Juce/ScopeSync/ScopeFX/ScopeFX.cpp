@@ -61,7 +61,6 @@ using namespace ScopeFXParameterDefinitions;
 
 ScopeFX::ScopeFX() : Effect(&effectDescription)
 {
-	
     initValues();
     
     if (ScopeSync::getNumScopeSyncInstances() == 0)
@@ -78,6 +77,11 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
 	scopeSync->getParameterController()->getParameterByName("Show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
+
+	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
+	pluginHost.addListener(this);
+	pluginPort.addListener(this);
+	scopeSyncPort.addListener(this);
 }
 
 ScopeFX::~ScopeFX()
@@ -122,10 +126,55 @@ void ScopeFX::snapshot()
 	snapshotValue.fetch_add(1, std::memory_order_relaxed);
 }
 
+void ScopeFX::setPluginHostIP(StringRef address)
+{
+	StringArray const octets(address, ".", String::empty);
+	setPluginHostIP(octets[0].getIntValue(), octets[1].getIntValue(), octets[2].getIntValue(), octets[3].getIntValue());
+}
+
+void ScopeFX::setPluginHostIP(int oct1, int oct2, int oct3, int oct4)
+{
+	pluginHostOctet1.store(oct1, std::memory_order_relaxed);
+	pluginHostOctet2.store(oct2, std::memory_order_relaxed);
+	pluginHostOctet3.store(oct3, std::memory_order_relaxed);
+	pluginHostOctet4.store(oct4, std::memory_order_relaxed);
+}
+
+void ScopeFX::setPluginListenerPort(int port)
+{
+	pluginListenerPort.store(port, std::memory_order_relaxed);
+}
+
+void ScopeFX::setScopeSyncListenerPort(int port)
+{
+	scopeSyncListenerPort.store(port, std::memory_order_relaxed);
+}
+
 void ScopeFX::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(shouldShowWindow))
+	{
 		toggleWindow(int(shouldShowWindow.getValue()) > 0);
+		return;
+	}
+	
+	if (valueThatChanged.refersToSameSourceAs(pluginHost))
+	{
+		setPluginHostIP(pluginHost.toString());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(pluginPort))
+	{
+		setPluginListenerPort(pluginPort.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeSyncPort))
+	{
+		setScopeSyncListenerPort(scopeSyncPort.getValue());
+		return;
+	}
 }
 
 

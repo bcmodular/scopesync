@@ -63,6 +63,10 @@ public:
     void setGUIEnabled(bool shouldBeEnabled);
 
 	void snapshot();
+	void setPluginHostIP(StringRef address);
+	void setPluginHostIP(int oct1, int oct2, int oct3, int oct4);
+	void setPluginListenerPort(int port);
+	void setScopeSyncListenerPort(int port);
 
     void valueChanged(Value& valueThatChanged) override;
 
@@ -75,11 +79,21 @@ private:
 	void toggleWindow(bool show);
 	
     Value shouldShowWindow;
+	Value pluginHost;
+	Value pluginPort;
+	Value scopeSyncPort;
 
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
+
 	int oscUID;
 	std::atomic<int> snapshotValue;
+	std::atomic<int> pluginHostOctet1;
+	std::atomic<int> pluginHostOctet2;
+	std::atomic<int> pluginHostOctet3;
+	std::atomic<int> pluginHostOctet4;
+	std::atomic<int> pluginListenerPort;
+	std::atomic<int> scopeSyncListenerPort;
 
 	ScopedJuceInitialiser_GUI guiInitialiser;
 };

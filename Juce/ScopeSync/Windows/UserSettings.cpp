@@ -31,7 +31,12 @@
 #include "../Utils/BCMMisc.h"
 #include "FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
-#include "../Comms/OSCServer.h"
+
+#ifdef __DLL_EFFECT__
+#define NOGDI
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#endif // __DLL_EFFECT__
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -189,17 +194,20 @@ UserSettings::UserSettings()
 
     Component::setName("User Settings");
 
-	scopeFXOSCLocalPortNum.addListener(this);
-	scopeFXOSCLocalPortNum.setValue(getPropertyIntValue("scopefxosclocalportnum", 8001));
+	pluginHost.addListener(this);
+	pluginHost.setValue(getPropertyValue("pluginhost", "127.0.0.1"));
     
-	pluginOSCLocalPortNum.addListener(this);
-	pluginOSCLocalPortNum.setValue(getPropertyIntValue("pluginosclocalportnum", 8002));
+	pluginListenerPort.addListener(this);
+	pluginListenerPort.setValue(getPropertyIntValue("pluginlistenerport", 8002));
     
-	oscRemoteHost.addListener(this);
-	oscRemoteHost.setValue(getPropertyValue("oscremotehost", "127.0.0.1"));
+	scopeHost.addListener(this);
+	scopeHost.setValue(getPropertyValue("scopehost", "127.0.0.1"));
     
-	oscRemotePortNum.addListener(this);
-	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  8000));
+	scopeSyncModuleListenerPort.addListener(this);
+	scopeSyncModuleListenerPort.setValue(getPropertyIntValue("scopesyncmodulelistenerport", 8001));
+    
+	scopeOSCReceiverListenerPort.addListener(this);
+	scopeOSCReceiverListenerPort.setValue(getPropertyIntValue("scopeoscreceiverlistenerport",  8000));
 	    
     tooltipDelayTime.addListener(this);
 	tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
@@ -253,14 +261,15 @@ void UserSettings::setupPanel()
     props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for sliders");
     
     propertyPanel.addSection("Slider Settings", props.components, true);
-
+	
 	props.clear();
-	props.add(new IntRangeProperty(scopeFXOSCLocalPortNum, "ScopeFX OSC Local Port", 1, 65535), "Enter the port number that the local ScopeFX OSC Server should listen on");
-	props.add(new IntRangeProperty(pluginOSCLocalPortNum, "Plugin OSC Local Port", 1, 65535),   "Enter the port number that the local Plugin OSC Server should listen on");
-	props.add(new TextPropertyComponent(oscRemoteHost, "OSC Remote Host", 256, false), "Enter the host name or IP address that the remote OSC is hosted at (use localhost if on this machine)");
-	props.add(new IntRangeProperty(oscRemotePortNum, "OSC Remote Port", 1, 65535),     "Enter the port number that the remote OSC Server is listening on");
+	props.add(new TextPropertyComponent(pluginHost, "Plugin/DAW Host", 256, false), "Enter the host name or IP address for the computer that the ScopeSync Plugin is running on (leave as 127.0.0.1 if Scope and DAW on same machine)");
+	props.add(new IntRangeProperty(pluginListenerPort, "Plugin/DAW Listener Port", 1, 65535),  "Enter the port number that the ScopeSync Plugin should listen on (defaults to 8002)");
+	props.add(new TextPropertyComponent(scopeHost, "Scope Host", 256, false), "Enter the host name or IP address for the computer that Scope is running on (leave as 127.0.0.1 if Scope and DAW on same machine)");
+	props.add(new IntRangeProperty(scopeSyncModuleListenerPort, "ScopeSync Module Listener Port", 1, 65535), "Enter the port number that the ScopeSync module in Scope should listen on (defaults to 8001)");
+	props.add(new IntRangeProperty(scopeOSCReceiverListenerPort, "Scope OSC Receiver Listener Port", 1, 65535), "Enter the port number that the OSC Receiver module in Scope should listen on (defaults to 8000)");
 
-	propertyPanel.addSection("OSC Settings", props.components, true);
+	propertyPanel.addSection("Network Settings", props.components, true);
 
 	props.clear();
     props.add(new BooleanPropertyComponent(useImageCache,      "Image Cache",                   "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
@@ -327,38 +336,106 @@ void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValu
     getAppProperties()->setValue(propertyName, newValue);
 }
 
-void UserSettings::referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+void UserSettings::referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort) const
 {
-	localPort.referTo(pluginOSCLocalPortNum);
-	remoteHost.referTo(oscRemoteHost);
-	remotePort.referTo(oscRemotePortNum);
+	localPort.referTo(pluginListenerPort);
+	remoteHost.referTo(scopeHost);
+	remotePort.referTo(scopeOSCReceiverListenerPort);
 }
 
 #ifdef __DLL_EFFECT__
-void UserSettings::referToScopeFXOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort)
+void UserSettings::referToScopeSyncOSCSettings(Value& localPort, Value& remotePort) const
 {
-	localPort.referTo(scopeFXOSCLocalPortNum);
-	remoteHost.referTo(oscRemoteHost);
-	remotePort.referTo(oscRemotePortNum);
+	localPort.referTo(scopeSyncModuleListenerPort);
+	remotePort.referTo(scopeOSCReceiverListenerPort);
+}
+
+void UserSettings::referToScopeFXOSCSettings(Value& plugHost, Value& plugPort, Value& scopeSyncPort) const
+{
+	plugHost.referTo(pluginHost);
+	plugPort.referTo(pluginListenerPort);
+	scopeSyncPort.referTo(scopeSyncModuleListenerPort);
 }
 #endif //__DLL_EFFECT__
 
 void UserSettings::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(tooltipDelayTime))
+	{
         setPropertyIntValue("tooltipdelaytime", valueThatChanged.getValue());
-    else if (valueThatChanged.refersToSameSourceAs(useImageCache))
+		return;
+	}
+
+    if (valueThatChanged.refersToSameSourceAs(useImageCache))
+	{
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
+	{
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(scopeFXOSCLocalPortNum))
-		setPropertyIntValue("scopefxosclocalportnum", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(pluginOSCLocalPortNum))
-		setPropertyIntValue("pluginosclocalportnum", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
-	    setPropertyValue("oscremotehost", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
-		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
+		return;
+	}
+	
+	if (valueThatChanged.refersToSameSourceAs(pluginHost))
+	{
+		setPropertyValue("pluginhost", valueThatChanged.getValue());
+
+#ifdef __DLL_EFFECT__
+		// Look up IP address from address
+        struct addrinfo hints;
+        zerostruct (hints);
+
+        hints.ai_family   = AF_UNSPEC;
+        hints.ai_socktype = SOCK_DGRAM;
+        hints.ai_flags    = AI_NUMERICSERV;
+
+        struct addrinfo* info = nullptr;
+
+        if (getaddrinfo(pluginHost.toString().toRawUTF8(), pluginListenerPort.toString().toRawUTF8(), &hints, &info) == 0)
+        {
+	        if (info != nullptr)
+			{
+				for (auto* i = info; i != nullptr; i = i->ai_next)
+				{
+					if (i->ai_family == AF_INET)
+					{
+						auto sockaddr_ipv4 = reinterpret_cast<struct sockaddr_in*>(i->ai_addr);
+						DBG("UserSettings::valueChanged: IP Address - " + String(inet_ntoa(sockaddr_ipv4->sin_addr)));
+					}
+				}
+
+				freeaddrinfo(info);
+			}
+		}
+#endif // __DLL_EFFECT__
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(pluginListenerPort))
+	{
+		setPropertyIntValue("pluginlistenerport", valueThatChanged.getValue());
+		return;
+	}
+	
+	if (valueThatChanged.refersToSameSourceAs(scopeHost))
+	{
+		setPropertyValue("scopehost", valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeSyncModuleListenerPort))
+	{
+		setPropertyIntValue("scopesyncmodulelistenerport", valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeOSCReceiverListenerPort))
+	{
+		setPropertyIntValue("scopeoscreceiverlistenerport", valueThatChanged.getValue());
+		return;
+	}
 }
 
 void UserSettings::userTriedToCloseWindow()
