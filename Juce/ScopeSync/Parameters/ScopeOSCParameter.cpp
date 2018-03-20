@@ -31,7 +31,7 @@
 ScopeOSCParameter::ScopeOSCParameter(ScopeOSCParamID oscParamID, BCMParameter* owner, ValueTree parameterDefinition)
 	: parameter(owner),
       paramID(oscParamID), 
-	  oscUID(0),
+	  deviceInstance(0),
 	  minValue(parameterDefinition.getProperty(Ids::scopeRangeMin)),
 	  maxValue(parameterDefinition.getProperty(Ids::scopeRangeMax)),
 	  dBRef(parameterDefinition.getProperty(Ids::scopeDBRef)),
@@ -52,11 +52,11 @@ String ScopeOSCParameter::getScopeParamText() const
 	return String(paramID.paramGroup) + ":" + String(paramID.paramId);
 }
 
-void ScopeOSCParameter::setOSCUID(int newUID)
+void ScopeOSCParameter::setDeviceInstance(int newUID)
 {
-	DBG("ScopeOSCParameter::setOSCUID - " + String(newUID));
-	oscUID = newUID;
-	DBG("ScopeOSCParameter::setOSCUID - Registering as listener to " + getOSCPath());
+	DBG("ScopeOSCParameter::setDeviceInstance - " + String(newUID));
+	deviceInstance = newUID;
+	DBG("ScopeOSCParameter::setDeviceInstance - Registering as listener to " + getOSCPath());
 	oscServer->registerOSCListener(this, getOSCPath());
 }
 
@@ -138,8 +138,8 @@ double ScopeOSCParameter::dbSkew(double valueToSkew, double ref, double uiMinVal
 
 String ScopeOSCParameter::getOSCPath() const
 {
-	const String oscUIDStr(oscUID);
-	String address = "/" + oscUIDStr + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
+	const String deviceInstanceStr(deviceInstance);
+	String address = "/" + deviceInstanceStr + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
 	//DBG("ScopeOSCParameter::getScopeOSCPath = " + address);
 
 	return address;

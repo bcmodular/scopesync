@@ -94,28 +94,28 @@ void ScopeSync::valueChanged(Value& valueThatChanged)
         changeConfigurationByUID(int(valueThatChanged.getValue()));
 }
 
-bool ScopeSync::oscUIDInUse(int uid, ScopeSync* currentInstance)
+bool ScopeSync::deviceInstanceInUse(int uid, ScopeSync* currentInstance)
 {
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
-		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getOSCUID() == uid)
+		if (scopeSyncInstances[i] != currentInstance && scopeSyncInstances[i]->getDeviceInstance() == uid)
 			return true;
 	
 	return false;
 }
 
-void ScopeSync::initOSCUID()
+void ScopeSync::initDeviceInstance()
 {
-	int initialOSCUID = 0;
+	int initialDeviceInstance = 0;
 
-	while (initialOSCUID < INT_MAX && oscUIDInUse(initialOSCUID, this))
-		initialOSCUID++;
+	while (initialDeviceInstance < INT_MAX && deviceInstanceInUse(initialDeviceInstance, this))
+		initialDeviceInstance++;
 	
-   oscUID.setValue(initialOSCUID);
+   deviceInstance.setValue(initialDeviceInstance);
 }
 
-void ScopeSync::referToOSCUID(Value & valueToLink) const
+void ScopeSync::referToDeviceInstance(Value & valueToLink) const
 {
-    valueToLink.referTo(oscUID);
+    valueToLink.referTo(deviceInstance);
 }
 
 void ScopeSync::showConfigurationManager(int posX, int posY)

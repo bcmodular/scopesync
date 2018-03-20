@@ -124,7 +124,7 @@ private:
     ValueTree settings;
     Value     uiValue;
     Value     linearNormalisedValue;
-	Value     oscUID;
+	Value     deviceInstance;
     int       hostIdx;
 	int       numDecimalPlaces;
     bool      paramDiscrete;

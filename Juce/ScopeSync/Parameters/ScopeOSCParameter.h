@@ -44,7 +44,7 @@ public:
 	String getScopeParamText() const;
 	String getOSCPath() const;
 	
-	void setOSCUID(int newUID);
+	void setDeviceInstance(int newUID);
 	void sendCurrentValue();
 	void updateValue(int newValue);
 	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
@@ -61,7 +61,7 @@ private:
 	
 	ScopeOSCParamID paramID;
 	
-	int oscUID{};
+	int deviceInstance{};
     
 	int intValue{};
 	

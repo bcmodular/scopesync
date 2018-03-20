@@ -68,9 +68,9 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxWidth,
         props.textBoxHeight);
 
-	if (props.name.equalsIgnoreCase("oscuid"))
+	if (props.name.equalsIgnoreCase("deviceinstance"))
 	{
-		setupOSCUIDSlider(props);
+		setupDeviceInstanceSlider(props);
 		return;
 	}
 
@@ -174,11 +174,11 @@ bool BCMSlider::setupFixedSlider(SliderProperties& props)
 	return false;   
 }
 
-void BCMSlider::setupOSCUIDSlider(SliderProperties& props)
+void BCMSlider::setupDeviceInstanceSlider(SliderProperties& props)
 {	
 	fixed = true;
 	
-	scopeSyncGUI.getScopeSync().referToOSCUID(getValueObject());
+	scopeSyncGUI.getScopeSync().referToDeviceInstance(getValueObject());
 	
 	setRange(props.rangeMin, props.rangeMax, 1);
 	setTooltip(props.name);

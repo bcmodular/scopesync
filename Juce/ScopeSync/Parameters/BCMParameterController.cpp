@@ -47,7 +47,7 @@ parameterValueStore("parametervalues"), scopeSync(owner)
     for (int i = 1; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
     
-	scopeSync->initOSCUID();
+	scopeSync->initDeviceInstance();
 }
 
 void BCMParameterController::addFixedScopeParameter(const String& name, const int scopeParamId)

@@ -32,6 +32,8 @@
 
 String createAlphaNumericUID();
 
+String ipAddressFromHostName(StringRef hostName, StringRef port);
+
 /* =========================================================================
  * PropertyListBuilder: Utility class to help set up Property Lists
  */

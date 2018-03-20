@@ -44,6 +44,48 @@ String createAlphaNumericUID()
     return uid;
 }
 
+#ifndef NOGDI
+	#define NOGDI
+#endif
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+
+String ipAddressFromHostName(StringRef hostName, StringRef port)
+{
+	String ipAddress("127.0.0.1");
+
+	// Look up IP address from address
+    struct addrinfo hints;
+    zerostruct (hints);
+
+    hints.ai_family   = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags    = AI_NUMERICSERV;
+
+    struct addrinfo* info = nullptr;
+
+    if (getaddrinfo(String(hostName).toRawUTF8(), String(port).toRawUTF8(), &hints, &info) == 0)
+    {
+	    if (info != nullptr)
+		{
+			for (auto* i = info; i != nullptr; i = i->ai_next)
+			{
+				if (i->ai_family == AF_INET)
+				{
+					auto sockaddr_ipv4 = reinterpret_cast<struct sockaddr_in*>(i->ai_addr);
+					ipAddress = String(inet_ntoa(sockaddr_ipv4->sin_addr));
+
+					DBG("ipAddressFromHostName: IP Address - " + ipAddress);
+				}
+			}
+
+			freeaddrinfo(info);
+		}
+	}
+
+	return ipAddress;
+}
+
 /* =========================================================================
  * PropertyListBuilder
  */

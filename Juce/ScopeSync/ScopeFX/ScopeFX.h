@@ -86,7 +86,7 @@ private:
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
 
-	int oscUID;
+	int deviceInstance;
 	std::atomic<int> snapshotValue;
 	std::atomic<int> pluginHostOctet1;
 	std::atomic<int> pluginHostOctet2;
@@ -94,8 +94,6 @@ private:
 	std::atomic<int> pluginHostOctet4;
 	std::atomic<int> pluginListenerPort;
 	std::atomic<int> scopeSyncListenerPort;
-
-	ScopedJuceInitialiser_GUI guiInitialiser;
 };
 
 

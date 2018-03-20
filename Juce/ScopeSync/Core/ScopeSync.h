@@ -68,14 +68,13 @@ public:
 
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
-	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
-	int  getOSCUID() {return int(oscUID.getValue());}
-	void setOSCUID(int newUID) {oscUID.setValue(newUID);}
+	static bool deviceInstanceInUse(int uid, ScopeSync* currentInstance);
+	int  getDeviceInstance() const {return int(deviceInstance.getValue());}
+	void setDeviceInstance(int newUID) {deviceInstance.setValue(newUID);}
 
-	void initOSCUID();
-    void referToOSCUID(Value& valueToLink) const;
-    int  getOSCUID() const;
-
+	void initDeviceInstance();
+    void referToDeviceInstance(Value& valueToLink) const;
+    
 	static void reloadAllGUIs();
     static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled) const;
@@ -192,7 +191,7 @@ private:
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text
 
-	Value oscUID;
+	Value deviceInstance;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSync)

@@ -65,10 +65,10 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
     setNumDecimalPlaces();
 	uiValue.addListener(this);
 
-    parameterController.getScopeSync()->referToOSCUID(oscUID);
-    oscUID.addListener(this);
+    parameterController.getScopeSync()->referToDeviceInstance(deviceInstance);
+    deviceInstance.addListener(this);
 	
-	scopeOSCParameter.setOSCUID(oscUID.getValue());
+	scopeOSCParameter.setDeviceInstance(deviceInstance.getValue());
 	scopeOSCParameter.startListening();
 }
 
@@ -270,9 +270,9 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 	{
 		// TODO: Probably this is where buttons need to be handled (i.e. send to scopeInt)
 	}
-	else if (valueThatChanged.refersToSameSourceAs(oscUID))
+	else if (valueThatChanged.refersToSameSourceAs(deviceInstance))
 	{
-		scopeOSCParameter.setOSCUID(oscUID.getValue());
+		scopeOSCParameter.setDeviceInstance(deviceInstance.getValue());
 	}
 }
 

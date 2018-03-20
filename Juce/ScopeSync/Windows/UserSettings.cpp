@@ -32,12 +32,6 @@
 #include "FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
 
-#ifdef __DLL_EFFECT__
-#define NOGDI
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#endif // __DLL_EFFECT__
-
 /* =========================================================================
  * EncoderSnapProperty
  */
@@ -381,35 +375,6 @@ void UserSettings::valueChanged(Value& valueThatChanged)
 	if (valueThatChanged.refersToSameSourceAs(pluginHost))
 	{
 		setPropertyValue("pluginhost", valueThatChanged.getValue());
-
-#ifdef __DLL_EFFECT__
-		// Look up IP address from address
-        struct addrinfo hints;
-        zerostruct (hints);
-
-        hints.ai_family   = AF_UNSPEC;
-        hints.ai_socktype = SOCK_DGRAM;
-        hints.ai_flags    = AI_NUMERICSERV;
-
-        struct addrinfo* info = nullptr;
-
-        if (getaddrinfo(pluginHost.toString().toRawUTF8(), pluginListenerPort.toString().toRawUTF8(), &hints, &info) == 0)
-        {
-	        if (info != nullptr)
-			{
-				for (auto* i = info; i != nullptr; i = i->ai_next)
-				{
-					if (i->ai_family == AF_INET)
-					{
-						auto sockaddr_ipv4 = reinterpret_cast<struct sockaddr_in*>(i->ai_addr);
-						DBG("UserSettings::valueChanged: IP Address - " + String(inet_ntoa(sockaddr_ipv4->sin_addr)));
-					}
-				}
-
-				freeaddrinfo(info);
-			}
-		}
-#endif // __DLL_EFFECT__
 		return;
 	}
 

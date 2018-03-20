@@ -33,9 +33,13 @@
 #include "ScopeFXGUI.h"
 #include "../Parameters/BCMParameterController.h"
 #include "../Parameters/BCMParameter.h"
+#include "../Utils/BCMMisc.h"
 
 #ifdef _WIN32
-#include <Windows.h>
+	#ifndef WIN32_LEAN_AND_MEAN
+		#define WIN32_LEAN_AND_MEAN
+	#endif
+	#include <Windows.h>
 #endif
 #include <float.h>
 
@@ -78,10 +82,10 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 	scopeSync->getParameterController()->getParameterByName("Show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 
-	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
 	pluginHost.addListener(this);
 	pluginPort.addListener(this);
 	scopeSyncPort.addListener(this);
+	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
 }
 
 ScopeFX::~ScopeFX()
@@ -128,7 +132,9 @@ void ScopeFX::snapshot()
 
 void ScopeFX::setPluginHostIP(StringRef address)
 {
-	StringArray const octets(address, ".", String::empty);
+	StringArray const octets(StringArray::fromTokens(ipAddressFromHostName(address, pluginPort.toString()), ".", String::empty));
+	DBG("ScopeFX::setPluginHostIP - address passed in: " + address);
+	DBG("ScopeFX::setPluginHostIP - num octets: " + String(octets.size()) + ", " + octets[0] + ";" + octets[1] + ";" + octets[2] + ";" + octets[3]);
 	setPluginHostIP(octets[0].getIntValue(), octets[1].getIntValue(), octets[2].getIntValue(), octets[3].getIntValue());
 }
 
@@ -181,18 +187,24 @@ void ScopeFX::valueChanged(Value& valueThatChanged)
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	int newOSCUID = asyncIn[INPAD_OSCUID]->itg;
+	int newDeviceInstance = asyncIn[INPAD_DEVICE_INSTANCE]->itg;
 
-	if (newOSCUID != oscUID)
+	if (newDeviceInstance != deviceInstance)
 	{
-		oscUID = newOSCUID;
-		scopeSync->setOSCUID(oscUID);
+		deviceInstance = newDeviceInstance;
+		scopeSync->setDeviceInstance(deviceInstance);
 	}
 	else
-		oscUID = scopeSync->getOSCUID();
+		deviceInstance = scopeSync->getDeviceInstance();
 	
-	asyncOut[OUTPAD_OSCUID].itg   = oscUID;
+	asyncOut[OUTPAD_DEVICE_INSTANCE].itg   = deviceInstance;
 	asyncOut[OUTPAD_SNAPSHOT].itg = snapshotValue.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg = pluginHostOctet1.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT2].itg = pluginHostOctet2.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT3].itg = pluginHostOctet3.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg = pluginHostOctet4.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg = pluginListenerPort.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_SCOPESYNC_LISTENER_PORT].itg = scopeSyncListenerPort.load(std::memory_order_relaxed);
 
 	return 0;
 }

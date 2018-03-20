@@ -34,7 +34,7 @@ namespace ScopeFXParameterDefinitions {
 
     /** the async input numbers*/
     enum asyncInPads {
-		INPAD_OSCUID,
+		INPAD_DEVICE_INSTANCE,
 		NUM_ASYNCINPADS
     };
 
@@ -45,7 +45,7 @@ namespace ScopeFXParameterDefinitions {
 
     /** each control that should be connected to the sdk circuit needs an async outpad*/
     enum asyncOutPads {
-        OUTPAD_OSCUID,
+        OUTPAD_DEVICE_INSTANCE,
         OUTPAD_SNAPSHOT,
 		OUTPAD_PLUGIN_HOST_OCT1,
 		OUTPAD_PLUGIN_HOST_OCT2,
@@ -63,11 +63,11 @@ namespace ScopeFXParameterDefinitions {
    //-------------------------- Pad Definitions -------------------------------
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },                        // INPAD_OSCUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },	// INPAD_DEVICE_INSTANCE
 	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
-        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_OSCUID
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_DEVICE_INSTANCE
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SNAPSHOT
 		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT1
 		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT2
@@ -79,12 +79,12 @@ namespace ScopeFXParameterDefinitions {
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
-        { "osc",  "osc uid" },
+		{ "Inst", "Device Instance" },
 	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
-        { "osc",  "osc uid" },
-        { "snap", "snapshot" },
+		{ "Inst", "Device Instance" },
+		{ "snap", "snapshot" },
 		{ "oct1", "plugin host oct1" },
 		{ "oct2", "plugin host oct2" },
 		{ "oct3", "plugin host oct3" },
