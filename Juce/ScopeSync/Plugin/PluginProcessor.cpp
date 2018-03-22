@@ -155,8 +155,8 @@ void PluginProcessor::getStateInformation(MemoryBlock& destData)
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
     configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
-	XmlElement* oscUIDXml = root.createNewChildElement("oscuid");
-    oscUIDXml->addTextElement(String(scopeSync->getOSCUID()));
+	XmlElement* deviceInstanceXml = root.createNewChildElement("deviceinstance");
+    deviceInstanceXml->addTextElement(String(scopeSync->getDeviceInstance()));
 
     copyXmlToBinary(root, destData);
 
@@ -188,11 +188,11 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
             scopeSync->changeConfiguration(configurationFilePath);
         }
 
-		if (root->getChildByName("oscuid"))
+		if (root->getChildByName("deviceinstance"))
         {
-            int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
+            int deviceInstance = root->getChildByName("deviceinstance")->getAllSubText().getIntValue();
 
-            scopeSync->setOSCUID(oscUID);
+            scopeSync->setDeviceInstance(deviceInstance);
         }
     }
     else

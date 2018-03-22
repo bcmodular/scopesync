@@ -44,6 +44,7 @@ String createAlphaNumericUID()
     return uid;
 }
 
+#ifdef __DLL_EFFECT__
 #ifndef NOGDI
 	#define NOGDI
 #endif
@@ -85,6 +86,7 @@ String ipAddressFromHostName(StringRef hostName, StringRef port)
 
 	return ipAddress;
 }
+#endif // __DLL_EFFECT__
 
 /* =========================================================================
  * PropertyListBuilder
