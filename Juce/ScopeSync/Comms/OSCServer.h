@@ -39,13 +39,8 @@ public:
 	virtual void setup();
 
 	// UDP Setup
-	void   setLocalPortNumber(int portNumber);
+	void   updateListenerPort();
 	
-	void   setRemoteHostname(String hostname);
-	String getRemoteHostname() const;
-	void   setRemotePortNumber(int portNumber);
-	int    getRemotePortNumber() const;
-
 	bool   sendFloatMessage(const OSCAddressPattern pattern, float valueToSend);
 	bool   sendIntMessage(const OSCAddressPattern pattern, int valueToSend);
 
@@ -66,10 +61,6 @@ private:
 
 	static const int bufferSize = 4098;
 
-	int	   receivePortNumber;
-		   
-	String remoteHostname;
-	int	   remotePortNumber;
 	bool   remoteChanged;
 
 	OSCSender sender;

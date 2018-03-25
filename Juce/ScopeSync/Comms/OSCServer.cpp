@@ -26,9 +26,10 @@
 
 #include "OSCServer.h"
 
-OSCServer::OSCServer()
+OSCServer::OSCServer() :
+	remoteChanged(false)
 {
-	setup();
+	OSCServer::setup();
 }
 
 OSCServer::~OSCServer()
@@ -46,7 +47,7 @@ void OSCServer::setup()
 	oscRemotePortNum.addListener(this);
 
 	#ifdef __DLL_EFFECT__
-		oscRemoteHost.setValue("localhost");
+		oscRemoteHost.setValue("127.0.0.1");
 		userSettings->referToScopeSyncOSCSettings(oscLocalPortNum, oscRemotePortNum);
 	#else
 		oscRemoteHost.addListener(this);
@@ -56,21 +57,19 @@ void OSCServer::setup()
 	addListener(this);
 }
 
-void OSCServer::setLocalPortNumber(int portNumber)
+void OSCServer::updateListenerPort()
 {
-	if (connect(portNumber))
+	if (connect(oscLocalPortNum.getValue()))
 	{
-		DBG("OSCServer::setLocalPortNumber - set local port number to: " + String(portNumber));
-		receivePortNumber = portNumber;
+		DBG("OSCServer::setLocalPortNumber - set local port number to: " + oscLocalPortNum.toString());
+		return;
 	}
-	else
-	{
-        AlertWindow::showMessageBoxAsync (
-            AlertWindow::WarningIcon,
-            "Connection error",
-            "OSC Error: could not connect to UDP port: " + String(receivePortNumber),
-            "OK");		
-	}
+
+	AlertWindow::showMessageBoxAsync (
+        AlertWindow::WarningIcon,
+        "Connection error",
+        "OSC Error: could not connect to UDP port: " + oscLocalPortNum.toString(),
+        "OK");		
 }
 
 void OSCServer::registerOSCListener(ListenerWithOSCAddress<MessageLoopCallback>* newListener, OSCAddress address)
@@ -85,30 +84,6 @@ void OSCServer::unregisterOSCListener(ListenerWithOSCAddress<MessageLoopCallback
 	removeListener(listenerToRemove);
 }
 
-void OSCServer::setRemoteHostname(String hostname)
-{
-	DBG("OSCServer::setRemoteHostname - changed remote hostname to: " + hostname);
-	remoteHostname = hostname;
-	remoteChanged  = true;
-}
-
-String OSCServer::getRemoteHostname() const
-{
-	return remoteHostname;
-}
-
-void OSCServer::setRemotePortNumber(int portNumber)
-{
-	DBG("OSCServer::setRemotePortNumber - changed remote port number to: " + String(portNumber));
-	remotePortNumber = portNumber;
-	remoteChanged    = true;
-}
-
-int OSCServer::getRemotePortNumber() const
-{
-	return remotePortNumber;
-}
-
 bool OSCServer::sendFloatMessage(const OSCAddressPattern pattern, float valueToSend)
 {
 	DBG("OSCServer::sendFloatMessage");
@@ -118,13 +93,17 @@ bool OSCServer::sendFloatMessage(const OSCAddressPattern pattern, float valueToS
 		OSCMessage message(pattern);
 		message.addFloat32(valueToSend);
 
-		DBG("OSCServer::sendFloatMessage: address - " + pattern.toString() + " value: " + String(valueToSend));
+		DBG("OSCServer::sendFloatMessage: attempting to send to address - " + pattern.toString() + " value: " + String(valueToSend));
 
-		sender.send(message);
+		if (sender.send(message))
+			DBG("OSCServer::sendFloatMessage: attempt successful");
+		else
+			DBG("OSCServer::sendFloatMessage: attempt failed");
+
 		return true;
 	}
-	else
-		return false;
+
+	return false;
 }
 
 bool OSCServer::sendIntMessage(const OSCAddressPattern pattern, int valueToSend)
@@ -134,46 +113,50 @@ bool OSCServer::sendIntMessage(const OSCAddressPattern pattern, int valueToSend)
 		OSCMessage message(pattern);
 		message.addInt32(valueToSend);
 
-		sender.send(message);
+		DBG("OSCServer::sendIntMessage: attempting to send to address - " + pattern.toString() + " value: " + String(valueToSend));
+
+		if (sender.send(message))
+			DBG("OSCServer::sendIntMessage: attempt successful");
+		else
+			DBG("OSCServer::sendIntMessage: attempt failed");
+		
 		return true;
 	}
-	else
-		return false;
+
+	return false;
 }
 
 bool OSCServer::connectToListener()
 {
 	if (remoteChanged) {
-        if (sender.connect(remoteHostname, remotePortNumber))
-		{	remoteChanged = false;
+        if (sender.connect(oscRemoteHost.toString(), int(oscRemotePortNum.getValue())))
+		{
+        	remoteChanged = false;
 			return true;
 		}
-		else
-		{
-			AlertWindow::showMessageBoxAsync (
-				AlertWindow::WarningIcon,
-				"Connection error",
-				"OSC Error: could not connect to remote UDP port: " + String(remotePortNumber) + ", on host: " + remoteHostname,
-				"OK");
+		
+		AlertWindow::showMessageBoxAsync (
+			AlertWindow::WarningIcon,
+			"Connection error",
+			"OSC Error: could not connect to remote UDP port: " + oscRemotePortNum.toString() + ", on host: " + oscRemoteHost.toString(),
+			"OK");
 
-			return false;
-		}
+		return false;
     }
-	else
-		return true;
+	
+	return true;
 }
 
 void OSCServer::oscMessageReceived(const OSCMessage& message)
 {
+	(void)message;
 	DBG("OSCServer::oscMessageReceived: address - " + message.getAddressPattern().toString() + " type: " + message[0].getType());
 }
 
 void OSCServer::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
-		setLocalPortNumber(valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
-		setRemoteHostname(valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
-		setRemotePortNumber(valueThatChanged.getValue());
+		updateListenerPort();
+	else // if (valueThatChanged.refersToSameSourceAs(oscRemoteHost) || valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
+		remoteChanged = true;
 }
