@@ -42,7 +42,7 @@ class ScopeFXGUI;
 
 using namespace ScopeFXParameterDefinitions;
 
-class ScopeFX : public Effect, public Value::Listener
+class ScopeFX : public Effect, public Value::Listener, public Timer
 {
 public:
     ScopeFX();
@@ -77,6 +77,8 @@ private:
    
     // Show/hides the ScopeFX GUI window
 	void toggleWindow(bool show);
+
+	void timerCallback() override;
 	
     Value shouldShowWindow;
 	Value pluginHost;

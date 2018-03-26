@@ -90,6 +90,8 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 
 ScopeFX::~ScopeFX()
 {
+	stopTimer();
+	
 	shouldShowWindow.removeListener(this);
 
     scopeFXGUI = nullptr;
@@ -119,6 +121,12 @@ void ScopeFX::toggleWindow(bool show)
 		scopeFXGUI = nullptr;
 }
 
+void ScopeFX::timerCallback()
+{
+	stopTimer();
+	snapshotValue.fetch_add(1, std::memory_order_relaxed);
+}
+
 void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
 {
     if (scopeFXGUI != nullptr)
@@ -127,7 +135,9 @@ void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
 
 void ScopeFX::snapshot()
 {
-	snapshotValue.fetch_add(1, std::memory_order_relaxed);
+	// Race conditions on loading module mean we need to delay this
+	// for a little bit
+	startTimer(500);
 }
 
 void ScopeFX::setPluginHostIP(StringRef address)
