@@ -49,7 +49,7 @@ public:
     ~BCMParameter();
 
     void       mapToUIValue(Value& valueToMapTo) const;
-    String     getName() const { return name; }
+	String     getName() const;
     ValueTree& getDefinition() { return definition; }
 
 #ifndef __DLL_EFFECT__
@@ -59,8 +59,9 @@ public:
 
 	void       getSettings(ValueTree& paramSettings) const { paramSettings = settings; }
 	int        getNumSettings() const { return settings.getNumChildren(); }
-    void       getDescriptions(String& shortDesc, String& fullDesc) const;
-    void       getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
+	String     getShortDescription() const { return shortDescription; }
+	String     getFullDescription(bool includeScopeParam = false) const;
+	void       getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const;
 	double     getUIRangeMin() const {return uiRangeMin;}
 	double     getUIRangeMax() const {return uiRangeMax;}
 
@@ -80,10 +81,10 @@ public:
     bool isDiscrete() const { return paramDiscrete; }
     bool isReadOnly() const { return readOnly; }
     
-    void setHostValue(float newValue);
+    void setHostValue(float newValue, bool forceUpdate = false);
     void setUIValue(float newValue);
 	
-	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue);
+	void setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool forceUpdate = false);
 
 	double convertLinearNormalisedToUIValue(double lnValue) const;
 	double convertUIToLinearNormalisedValue(double newValue) const;

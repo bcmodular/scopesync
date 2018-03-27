@@ -128,9 +128,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     {
         // DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         
-        String paramShortDesc;
-        parameter->getDescriptions(buttonText, tooltip);
-        parameter->getSettings(settings);
+		buttonText = parameter->getShortDescription();
+		tooltip    = parameter->getFullDescription(true);
+		parameter->getSettings(settings);
         parameter->mapToUIValue(parameterValue);
         
         // Grab the correct mapping type

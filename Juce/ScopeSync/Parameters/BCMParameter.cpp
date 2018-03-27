@@ -95,10 +95,10 @@ void BCMParameter::setNumDecimalPlaces()
     }
 }
 
-void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue)
+void BCMParameter::setParameterValues(ParameterUpdateSource updateSource, double newLinearNormalisedValue, double newUIValue, bool forceUpdate)
 {
 	// Enforce update block if one is in place
-	if (updateSourceBlock != none && updateSourceBlock != updateSource)
+	if (!forceUpdate && updateSourceBlock != none && updateSourceBlock != updateSource)
 		return;
 		
 	// Set update block
@@ -132,6 +132,11 @@ void BCMParameter::mapToUIValue(Value& valueToMapTo) const
     valueToMapTo.referTo(uiValue);
 }
 
+String BCMParameter::getName() const 
+{
+	return name; 
+}
+
 #ifndef __DLL_EFFECT__
 void BCMParameter::setHostParameter(HostParameter * hostParam)
 {
@@ -144,10 +149,14 @@ HostParameter * BCMParameter::getHostParameter() const
 }
 #endif // __DLL_EFFECT__
 
-void BCMParameter::getDescriptions(String& shortDesc, String& fullDesc) const
+String BCMParameter::getFullDescription(bool includeScopeParam) const
 {
-    shortDesc = shortDescription;
-    fullDesc  = fullDescription;
+	String scopeParameterText(scopeOSCParameter.getScopeParamText());
+
+	if (includeScopeParam && !scopeParameterText.equalsIgnoreCase("-1:-1"))
+		return fullDescription + " (" + scopeParameterText + ")";
+
+	return fullDescription;
 }
 
 void BCMParameter::getUIRanges(double& rangeMin, double& rangeMax, double& rangeInt, String& suffix) const
@@ -233,11 +242,11 @@ double BCMParameter::convertHostToUIValue(double newValue) const
 	return convertLinearNormalisedToUIValue(newValue);
 }
 
-void BCMParameter::setHostValue(float newValue)
+void BCMParameter::setHostValue(float newValue, bool forceUpdate)
 {
 	double newUIValue = convertHostToUIValue(newValue);
     
-	setParameterValues(hostUpdate, newValue, newUIValue);
+	setParameterValues(hostUpdate, newValue, newUIValue, forceUpdate);
     
 	DBG("BCMParameter::setHostValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }

@@ -10,7 +10,7 @@
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
               pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="5.2.1"
+              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="5.3.0"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
   <MAINGROUP id="zkEMvA" name="ScopeSyncEffectPlugin">

@@ -55,15 +55,8 @@ String HostParameter::getName(int maximumStringLength) const
 {
 	// TODO: need to do something with the maximumStringLength
 	if (bcmParameter != nullptr)
-	{
-		String shortDesc;
-		String fullDesc;
-		bcmParameter->getDescriptions(shortDesc, fullDesc);
-
-		return fullDesc;
-	}
+		return bcmParameter->getFullDescription();
 	
-	//return String();
 	return "Dummy Param";
 }
 

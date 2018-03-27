@@ -71,8 +71,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 			ValueTree parameterSettings;
 			parameter->getSettings(parameterSettings);
             
-			String shortDesc;
-			parameter->getDescriptions(shortDesc, tooltip);
+			tooltip = parameter->getFullDescription(true);
 
 			for (int i = 0; i < parameterSettings.getNumChildren(); i++)
 			{

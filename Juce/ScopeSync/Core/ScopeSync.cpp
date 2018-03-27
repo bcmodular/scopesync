@@ -66,7 +66,9 @@ ScopeSync::ScopeSync(ScopeFX* owner)
 
 ScopeSync::~ScopeSync()
 {
+#ifdef __DLL_EFFECT__
 	configurationID.removeListener(this);
+#endif // __DLL_EFFECT__
 	userSettings->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -76,8 +78,10 @@ void ScopeSync::initialise()
 {
 	parameterController = new BCMParameterController(this);
 
-    parameterController->getParameterByName("Config ID")->mapToUIValue(configurationID);
+#ifdef __DLL_EFFECT__
+	parameterController->getParameterByName("Config ID")->mapToUIValue(configurationID);
     configurationID.addListener(this);
+#endif // __DLL_EFFECT__
 
     showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
@@ -321,7 +325,9 @@ void ScopeSync::applyConfiguration()
     }
 
 	configurationName = configuration->getDocumentTitle();
+#ifdef __DLL_EFFECT__
 	parameterController->getParameterByName("Config ID")->getScopeOSCParameter().updateValue(configuration->getConfigurationUID());
+#endif // __DLL_EFFECT__
 }
 
 bool ScopeSync::isInitialised() const

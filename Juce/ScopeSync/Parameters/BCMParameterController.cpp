@@ -40,13 +40,13 @@ parameterValueStore("parametervalues"), scopeSync(owner)
 #ifndef __DLL_EFFECT__
 	for (int i = 0; i < 512; i++)
 		scopeSync->getPluginProcessor()->addParameter(new HostParameter());
-#endif //__DLL_EFFECT__
-
+#else
 	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Config ID,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
     for (int i = 1; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
-    
+#endif //__DLL_EFFECT__
+
 	scopeSync->initDeviceInstance();
 }
 
@@ -126,12 +126,14 @@ void BCMParameterController::reset()
 	parametersByName.clear();
     dynamicParameters.clear();
 
+#ifdef __DLL_EFFECT__
 	for (auto fixedParameter : fixedParameters)
 	{
 		DBG("BCMParameterController::reset - Added parameter: " + fixedParameter->getName());
 		parameters.add(fixedParameter);
 		parametersByName.set(fixedParameter->getName(), fixedParameter);
 	}
+#endif // __DLL_EFFECT__
 }
 
 void BCMParameterController::snapshot() const
@@ -163,7 +165,7 @@ void BCMParameterController::storeParameterValues()
 
 	parameterValueStore = XmlElement("parametervalues");
 	parameterValueStore.addTextElement(String(floatArrayToString(currentParameterValues, currentParameterValues.size())));
-	//DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
+	DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
 
 #endif // __DLL_EFFECT__
 }
@@ -184,9 +186,9 @@ void BCMParameterController::restoreParameterValues() const
 	stringToFloatArray(floatCSV, parameterValues, dynamicParameters.size());
 
 	for (int i = 0; i < dynamicParameters.size(); i++)
-		dynamicParameters[i]->setHostValue(parameterValues[i]);
+		dynamicParameters[i]->setHostValue(parameterValues[i], true);
     
-    //DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
+    DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 #endif // __DLL_EFFECT__
 } 
 

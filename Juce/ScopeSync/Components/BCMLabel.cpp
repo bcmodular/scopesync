@@ -63,18 +63,14 @@ void BCMLabel::applyProperties(LabelProperties& props)
 
         if (mapsToParameter)
         {
-            String shortDescription;
-            String fullDescription;
-            
-            parameter->getDescriptions(shortDescription, fullDescription);
-            tooltip = fullDescription;
+            tooltip = parameter->getFullDescription(true);
             
             if (props.parameterTextDisplay == LabelProperties::parameterName)
                 labelText = parameter->getName();
             else if (props.parameterTextDisplay == LabelProperties::shortDescription)
-                labelText = shortDescription;
+                labelText = parameter->getShortDescription();
             else if (props.parameterTextDisplay == LabelProperties::fullDescription)
-                labelText = fullDescription;
+                labelText = parameter->getFullDescription();
             else if (props.parameterTextDisplay == LabelProperties::scopeParam)
                 labelText = parameter->getScopeOSCParameter().getScopeParamText();
         }
