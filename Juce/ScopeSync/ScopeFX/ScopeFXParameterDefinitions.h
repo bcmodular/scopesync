@@ -53,6 +53,7 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_PLUGIN_HOST_OCT4,
 		OUTPAD_PLUGIN_LISTENER_PORT,
 		OUTPAD_SCOPESYNC_LISTENER_PORT,
+		OUTPAD_SYNC_SCOPE,
 		NUM_ASYNCOUTPADS
     };
 
@@ -75,6 +76,7 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 0, 255 },  // OUTPAD_PLUGIN_HOST_OCT4
 		{ DTYPE_INT, 1, 65535 },  // OUTPAD_PLUGIN_LISTENER_PORT
 		{ DTYPE_INT, 1, 65535 },  // OUTPAD_SCOPESYNC_LISTENER_PORT
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SYNC_SCOPE
 	};
 
     //--------------------------------------------------------------------------
@@ -91,6 +93,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "oct4", "plugin host oct4" },
 		{ "pprt", "plugin listener port" },
 		{ "sprt", "scopesync listener port" },
+		{ "sync", "sync Scope" },
 };
 
 	//--------------------------------------------------------------------------

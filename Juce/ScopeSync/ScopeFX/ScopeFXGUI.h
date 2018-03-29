@@ -40,7 +40,7 @@ class BCMParameter;
 class ScopeFXGUI : public Component,
                    public Value::Listener,
 				   public ComponentListener,
-				   public Timer
+				   public MultiTimer
 {
 public:
     ScopeFXGUI (ScopeFX* owner);
@@ -48,14 +48,12 @@ public:
 
 	void open(HWND scopeWindow);
 
-    // Handles resizing the window if the contents have changed in size
-    // and updating the window title
-    void refreshWindow();
-
     void valueChanged(Value& valueThatChanged) override;
 	void componentMovedOrResized(Component&	component, bool wasMoved, bool wasResized) override;
 	    
 private:
+	enum MultiTimerType {userMoved, resizeOnLoad};
+
     ScopeFX*                    scopeFX;
 	BCMParameterController*     parameterController;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
@@ -74,7 +72,7 @@ private:
 
 	void paint(Graphics& g) override;
 
-	void timerCallback() override;
+	void timerCallback(int timerID) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFXGUI)
 };

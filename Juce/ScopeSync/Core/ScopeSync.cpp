@@ -310,7 +310,7 @@ void ScopeSync::applyConfiguration()
     pluginProcessor->updateHostDisplay();
     parameterController->restoreParameterValues();
 #else
-	scopeFX->snapshot();
+	scopeFX->syncScope();
 #endif // __DLL_EFFECT__
 
     userSettings->updateConfigurationLibraryEntry(getConfigurationFile().getFullPathName(),

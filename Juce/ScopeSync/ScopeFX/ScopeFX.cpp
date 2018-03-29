@@ -121,12 +121,6 @@ void ScopeFX::toggleWindow(bool show)
 		scopeFXGUI = nullptr;
 }
 
-void ScopeFX::timerCallback()
-{
-	stopTimer();
-	snapshotValue.fetch_add(1, std::memory_order_relaxed);
-}
-
 void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
 {
     if (scopeFXGUI != nullptr)
@@ -135,9 +129,20 @@ void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
 
 void ScopeFX::snapshot()
 {
+	snapshotValue.fetch_add(1, std::memory_order_relaxed);
+}
+
+void ScopeFX::syncScope()
+{
 	// Race conditions on loading module mean we need to delay this
 	// for a little bit
-	startTimer(500);
+	startTimer(1000);
+}
+
+void ScopeFX::timerCallback()
+{
+	stopTimer();
+	syncScopeValue.fetch_add(1, std::memory_order_relaxed);
 }
 
 void ScopeFX::setPluginHostIP(StringRef address)

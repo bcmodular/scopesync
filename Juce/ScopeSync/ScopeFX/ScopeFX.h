@@ -62,6 +62,7 @@ public:
     ScopeSync& getScopeSync() { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 
+	void syncScope();
 	void snapshot();
 	void setPluginHostIP(StringRef address);
 	void setPluginHostIP(int oct1, int oct2, int oct3, int oct4);
@@ -90,6 +91,7 @@ private:
 
 	int deviceInstance;
 	std::atomic<int> snapshotValue;
+	std::atomic<int> syncScopeValue;
 	std::atomic<int> pluginHostOctet1;
 	std::atomic<int> pluginHostOctet2;
 	std::atomic<int> pluginHostOctet3;

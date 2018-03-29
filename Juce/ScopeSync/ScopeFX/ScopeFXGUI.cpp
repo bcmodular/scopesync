@@ -32,15 +32,17 @@
 #include "../Core/ScopeSync.h"
 
 ScopeFXGUI::ScopeFXGUI(ScopeFX* owner) :
-    scopeFX(owner),
-	parameterController(owner->getScopeSync().getParameterController())
+	scopeFX(owner),
+	parameterController(owner->getScopeSync().getParameterController()),
+	firstTimeShow(true),
+	ignoreXYFromScope(false)
 {
-
 }
 
 ScopeFXGUI::~ScopeFXGUI()
 {
-	stopTimer();
+	stopTimer(resizeOnLoad);
+	stopTimer(userMoved);
 	
 	scopeSyncGUI->removeComponentListener(this);
 	configurationName.removeListener(this);
@@ -69,8 +71,6 @@ void ScopeFXGUI::open(HWND scopeWindow)
     int width  = jmax(scopeSyncGUI->getWidth(), 100);
     int height = jmax(scopeSyncGUI->getHeight(), 100);
 
-    firstTimeShow = true;
-    
     DBG("ScopeFXGUI::ScopeFXGUI - Creating scopeSyncGUI, width=" + String(width) + ", height=" + String(height));
     
     setSize(width, height);
@@ -80,6 +80,8 @@ void ScopeFXGUI::open(HWND scopeWindow)
 	scopeFX->getScopeSync().listenForConfigurationNameChanges(configurationName);
 
 	grabKeyboardFocus();
+
+	startTimer(resizeOnLoad, 10);
 }
 
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
@@ -122,7 +124,7 @@ void ScopeFXGUI::moved()
 
 	// We don't want to be affected by values coming back from Scope, so ignore for half a second
 	ignoreXYFromScope = true;
-	startTimer(500);
+	startTimer(userMoved, 500);
 }
 
 void ScopeFXGUI::paint(Graphics& g)
@@ -130,10 +132,14 @@ void ScopeFXGUI::paint(Graphics& g)
     g.fillAll(Colour::fromString("FF2D3035"));
 }
 
-void ScopeFXGUI::timerCallback()
+void ScopeFXGUI::timerCallback(int timerId)
 {
-	stopTimer();
-	ignoreXYFromScope = false;
+	switch (timerId)
+	{
+		case userMoved    : ignoreXYFromScope = false;
+		case resizeOnLoad : setSize(jmax(scopeSyncGUI->getWidth(), 100), jmax(scopeSyncGUI->getHeight(), 100));
+		default: stopTimer(timerId);
+	}	
 }
 
 #endif  // __DLL_EFFECT__
