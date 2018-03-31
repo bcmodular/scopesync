@@ -37,6 +37,10 @@
 BCMParameterController::BCMParameterController(ScopeSync* owner) :
 parameterValueStore("parametervalues"), scopeSync(owner)
 {
+}
+
+void BCMParameterController::initialise()
+{
 #ifndef __DLL_EFFECT__
 	for (int i = 0; i < 512; i++)
 		scopeSync->getPluginProcessor()->addParameter(new HostParameter());
@@ -46,8 +50,6 @@ parameterValueStore("parametervalues"), scopeSync(owner)
     for (int i = 1; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);
 #endif //__DLL_EFFECT__
-
-	scopeSync->initDeviceInstance();
 }
 
 void BCMParameterController::addFixedScopeParameter(const String& name, const int scopeParamId)

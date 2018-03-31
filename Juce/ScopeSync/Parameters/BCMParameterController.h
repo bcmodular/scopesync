@@ -39,6 +39,7 @@ public:
 
     BCMParameterController(ScopeSync* owner);
     
+	void initialise();
     void reset();
 
     void addParameter(ValueTree parameterDefinition, bool fixedParameter = false);

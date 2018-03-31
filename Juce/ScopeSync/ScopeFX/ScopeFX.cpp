@@ -86,6 +86,9 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 	pluginPort.addListener(this);
 	scopeSyncPort.addListener(this);
 	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
+
+	configurationUID.addListener(this);
+	scopeSync->referToConfigurationUID(configurationUID);
 }
 
 ScopeFX::~ScopeFX()
@@ -171,29 +174,40 @@ void ScopeFX::setScopeSyncListenerPort(int port)
 	scopeSyncListenerPort.store(port, std::memory_order_relaxed);
 }
 
+void ScopeFX::setConfigUID(int newConfigUID)
+{
+	configUID.store(newConfigUID, std::memory_order_relaxed);
+}
+
 void ScopeFX::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(shouldShowWindow))
 	{
-		toggleWindow(int(shouldShowWindow.getValue()) > 0);
+		toggleWindow(int(valueThatChanged.getValue()) > 0);
 		return;
 	}
 	
 	if (valueThatChanged.refersToSameSourceAs(pluginHost))
 	{
-		setPluginHostIP(pluginHost.toString());
+		setPluginHostIP(valueThatChanged.toString());
 		return;
 	}
 
 	if (valueThatChanged.refersToSameSourceAs(pluginPort))
 	{
-		setPluginListenerPort(pluginPort.getValue());
+		setPluginListenerPort(valueThatChanged.getValue());
 		return;
 	}
 
 	if (valueThatChanged.refersToSameSourceAs(scopeSyncPort))
 	{
-		setScopeSyncListenerPort(scopeSyncPort.getValue());
+		setScopeSyncListenerPort(valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(configurationUID))
+	{
+		setConfigUID(valueThatChanged.getValue());
 		return;
 	}
 }
@@ -202,6 +216,7 @@ void ScopeFX::valueChanged(Value& valueThatChanged)
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
+	// TODO: this needs to be tweaked to be thread-safe
 	int newDeviceInstance = asyncIn[INPAD_DEVICE_INSTANCE]->itg;
 
 	if (newDeviceInstance != deviceInstance)
@@ -212,6 +227,21 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	else
 		deviceInstance = scopeSync->getDeviceInstance();
 	
+	int oldScopeConfigUID = scopeConfigUID.load(std::memory_order_relaxed);
+	int newScopeConfigUID = asyncIn[INPAD_CONFIGUID]->itg;
+
+	if (!scopeConfigUID.compare_exchange_weak(oldScopeConfigUID, newScopeConfigUID))
+	{
+		// Scope value has changed since the last async call, so let's tell ScopeSync about it
+		scopeSync->setConfigurationUID(scopeConfigUID.load(std::memory_order_relaxed));
+	}
+	else
+	{
+		// Scope value hasn't changed, so let's swap in the one from ScopeSync (could have been 
+		// updated in the valueChanged() method)
+		scopeConfigUID.store(configUID.load(std::memory_order_relaxed), std::memory_order_relaxed);
+	}
+
 	asyncOut[OUTPAD_DEVICE_INSTANCE].itg   = deviceInstance;
 	asyncOut[OUTPAD_SNAPSHOT].itg = snapshotValue.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg = pluginHostOctet1.load(std::memory_order_relaxed);
@@ -220,7 +250,8 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg = pluginHostOctet4.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg = pluginListenerPort.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_SCOPESYNC_LISTENER_PORT].itg = scopeSyncListenerPort.load(std::memory_order_relaxed);
-
+	asyncOut[OUTPAD_CONFIGUID].itg = scopeConfigUID.load(std::memory_order_relaxed);
+	
 	return 0;
 }
 

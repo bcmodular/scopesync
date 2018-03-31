@@ -62,7 +62,7 @@ public:
 #endif // __DLL_EFFECT__
     ~ScopeSync();
     void unload();
-
+	
 	static const String scopeSyncVersionString;
 	static const StringArray fixedParameterNames;
 
@@ -74,6 +74,8 @@ public:
 
 	void initDeviceInstance();
     void referToDeviceInstance(Value& valueToLink) const;
+
+	void referToConfigurationUID(Value& valueToLink) const;
     
 	static void reloadAllGUIs();
     static void snapshotAll();
@@ -128,6 +130,8 @@ public:
     String         getLayoutDirectory() const;
     void           changeConfiguration(StringRef fileName);
     void           changeConfigurationByUID(int uid);
+	void           setConfigurationUID(int uid);
+
 
     ValueTree      getMapping() const;
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) const;
@@ -164,7 +168,9 @@ private:
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
     ScopedPointer<ApplicationCommandManager> commandManager;
     ScopedPointer<BCMParameterController>    parameterController;
-    static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
+	CriticalSection configUIDLock;
+
+	static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
 	
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;

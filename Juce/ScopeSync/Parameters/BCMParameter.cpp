@@ -68,6 +68,9 @@ BCMParameter::BCMParameter(ValueTree parameterDefinition, BCMParameterController
     parameterController.getScopeSync()->referToDeviceInstance(deviceInstance);
     deviceInstance.addListener(this);
 	
+	parameterController.getScopeSync()->referToConfigurationUID(configurationUID);
+    configurationUID.addListener(this);
+
 	scopeOSCParameter.setDeviceInstance(deviceInstance.getValue());
 	scopeOSCParameter.startListening();
 }
@@ -209,6 +212,11 @@ float BCMParameter::getDefaultHostValue() const
 	return hostValue;
 }
 
+int BCMParameter::getConfigurationUID() const
+{
+	return parameterController.getScopeSync()->getConfigurationUID();
+}
+
 bool BCMParameter::checkDiscrete(ValueTree& definition)
 {
     int parameterValueType = definition.getProperty(Ids::valueType);
@@ -280,9 +288,9 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 		// TODO: Probably this is where buttons need to be handled (i.e. send to scopeInt)
 	}
 	else if (valueThatChanged.refersToSameSourceAs(deviceInstance))
-	{
 		scopeOSCParameter.setDeviceInstance(deviceInstance.getValue());
-	}
+	else if (valueThatChanged.refersToSameSourceAs(configurationUID))
+		scopeOSCParameter.setConfigurationUID(configurationUID.getValue());
 }
 
 void BCMParameter::timerCallback()

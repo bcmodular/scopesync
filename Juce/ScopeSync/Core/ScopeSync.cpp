@@ -43,7 +43,7 @@
 #endif // __DLL_EFFECT__
 
 const String ScopeSync::scopeSyncVersionString = "0.6.0-Prerelease";
-const StringArray ScopeSync::fixedParameterNames = StringArray::fromTokens("DUMMY,posX,posY,show,configID,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow,voicecount,midichannel,Device Type,midiactivity", ",", "");
+const StringArray ScopeSync::fixedParameterNames = StringArray::fromTokens("DUMMY,posX,posY,show,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow,voicecount,midichannel,Device Type,midiactivity", ",", "");
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 
@@ -76,18 +76,21 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-	parameterController = new BCMParameterController(this);
-
 #ifdef __DLL_EFFECT__
-	parameterController->getParameterByName("Config ID")->mapToUIValue(configurationID);
-    configurationID.addListener(this);
+	configurationID.addListener(this);
 #endif // __DLL_EFFECT__
 
     showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
 
     configuration = new Configuration();
-    applyConfiguration();
+    
+	parameterController = new BCMParameterController(this);
+	parameterController->initialise();
+	
+	initDeviceInstance();
+
+	applyConfiguration();
 
 	initialised = true;
 }
@@ -120,6 +123,11 @@ void ScopeSync::initDeviceInstance()
 void ScopeSync::referToDeviceInstance(Value & valueToLink) const
 {
     valueToLink.referTo(deviceInstance);
+}
+
+void ScopeSync::referToConfigurationUID(Value & valueToLink) const
+{
+    valueToLink.referTo(configurationID);
 }
 
 void ScopeSync::showConfigurationManager(int posX, int posY)
@@ -268,6 +276,14 @@ void ScopeSync::changeConfigurationByUID(int uid)
     }
 }
 
+void ScopeSync::setConfigurationUID(int uid)
+{
+	// Try to update the ConfigUID and wait if it's already being updated
+	const ScopedLock scopedLock(configUIDLock);
+
+	configurationID.setValue(uid);
+}
+
 void ScopeSync::unloadConfiguration()
 {
     configuration->replaceConfiguration(String::empty);
@@ -326,7 +342,7 @@ void ScopeSync::applyConfiguration()
 
 	configurationName = configuration->getDocumentTitle();
 #ifdef __DLL_EFFECT__
-	parameterController->getParameterByName("Config ID")->getScopeOSCParameter().updateValue(configuration->getConfigurationUID());
+	setConfigurationUID(configuration->getConfigurationUID());
 #endif // __DLL_EFFECT__
 }
 

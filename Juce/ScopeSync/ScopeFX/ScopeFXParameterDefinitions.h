@@ -35,6 +35,7 @@ namespace ScopeFXParameterDefinitions {
     /** the async input numbers*/
     enum asyncInPads {
 		INPAD_DEVICE_INSTANCE,
+		INPAD_CONFIGUID,
 		NUM_ASYNCINPADS
     };
 
@@ -54,6 +55,7 @@ namespace ScopeFXParameterDefinitions {
 		OUTPAD_PLUGIN_LISTENER_PORT,
 		OUTPAD_SCOPESYNC_LISTENER_PORT,
 		OUTPAD_SYNC_SCOPE,
+		OUTPAD_CONFIGUID,
 		NUM_ASYNCOUTPADS
     };
 
@@ -65,6 +67,7 @@ namespace ScopeFXParameterDefinitions {
 
     static PadType inputPadTypes[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
         { DTYPE_INT, FRAC_MIN, FRAC_MAX },	// INPAD_DEVICE_INSTANCE
+		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },	// INPAD_CONFIGUID
 	};
 
     static PadType outputPadTypes[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -77,11 +80,13 @@ namespace ScopeFXParameterDefinitions {
 		{ DTYPE_INT, 1, 65535 },  // OUTPAD_PLUGIN_LISTENER_PORT
 		{ DTYPE_INT, 1, 65535 },  // OUTPAD_SCOPESYNC_LISTENER_PORT
 		{ DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_SYNC_SCOPE
+        { DTYPE_INT, FRAC_MIN, FRAC_MAX },  // OUTPAD_CONFIGUID
 	};
 
     //--------------------------------------------------------------------------
     static nameDesc inputNameDescs[NUM_ASYNCINPADS + NUM_SYNCINPADS] = {
 		{ "Inst", "Device Instance" },
+		{ "cfg",  "configuration uid" },
 	};
 
     static nameDesc outputNameDescs[NUM_ASYNCOUTPADS + NUM_SYNCOUTPADS] = {
@@ -94,6 +99,7 @@ namespace ScopeFXParameterDefinitions {
 		{ "pprt", "plugin listener port" },
 		{ "sprt", "scopesync listener port" },
 		{ "sync", "sync Scope" },
+		{ "cfg",  "configuration uid" },
 };
 
 	//--------------------------------------------------------------------------

@@ -68,8 +68,9 @@ public:
 	void setPluginHostIP(int oct1, int oct2, int oct3, int oct4);
 	void setPluginListenerPort(int port);
 	void setScopeSyncListenerPort(int port);
-
-    void valueChanged(Value& valueThatChanged) override;
+	void setConfigUID(int newConfigUID);
+    
+	void valueChanged(Value& valueThatChanged) override;
 
 private:	
 	
@@ -85,6 +86,7 @@ private:
 	Value pluginHost;
 	Value pluginPort;
 	Value scopeSyncPort;
+	Value configurationUID;
 
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
@@ -98,6 +100,8 @@ private:
 	std::atomic<int> pluginHostOctet4;
 	std::atomic<int> pluginListenerPort;
 	std::atomic<int> scopeSyncListenerPort;
+	std::atomic<int> configUID;
+	std::atomic<int> scopeConfigUID;
 };
 
 

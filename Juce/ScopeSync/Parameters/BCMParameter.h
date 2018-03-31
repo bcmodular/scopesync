@@ -76,6 +76,7 @@ public:
 	float      getDefaultHostValue() const;
     
 	ScopeOSCParameter& getScopeOSCParameter() { return scopeOSCParameter; }
+	int getConfigurationUID() const;
 
     static bool checkDiscrete(ValueTree& definition);
     bool isDiscrete() const { return paramDiscrete; }
@@ -126,6 +127,7 @@ private:
     Value     uiValue;
     Value     linearNormalisedValue;
 	Value     deviceInstance;
+	Value     configurationUID;
     int       hostIdx;
 	int       numDecimalPlaces;
     bool      paramDiscrete;

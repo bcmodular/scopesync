@@ -25,6 +25,7 @@
  */
 
 #include "BCMParameter.h"
+#include "BCMParameterController.h"
 #include "../Utils/BCMMath.h"
 #include "../Core/Global.h"
 
@@ -52,12 +53,24 @@ String ScopeOSCParameter::getScopeParamText() const
 	return String(paramID.paramGroup) + ":" + String(paramID.paramId);
 }
 
+void ScopeOSCParameter::registerAsListener()
+{
+	DBG("ScopeOSCParameter::setDeviceInstance - Registering as listener to " + getOSCPath());
+	oscServer->registerOSCListener(this, getOSCPath());
+}
+
 void ScopeOSCParameter::setDeviceInstance(int newUID)
 {
 	DBG("ScopeOSCParameter::setDeviceInstance - " + String(newUID));
 	deviceInstance = newUID;
-	DBG("ScopeOSCParameter::setDeviceInstance - Registering as listener to " + getOSCPath());
-	oscServer->registerOSCListener(this, getOSCPath());
+	registerAsListener();
+}
+
+void ScopeOSCParameter::setConfigurationUID(int newUID)
+{
+	DBG("ScopeOSCParameter::setConfigurationUID - " + String(newUID));
+	configurationUID = newUID;
+	registerAsListener();
 }
 
 void ScopeOSCParameter::sendCurrentValue()
@@ -138,9 +151,14 @@ double ScopeOSCParameter::dbSkew(double valueToSkew, double ref, double uiMinVal
 
 String ScopeOSCParameter::getOSCPath() const
 {
-	const String deviceInstanceStr(deviceInstance);
-	String address = "/" + deviceInstanceStr + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
-	//DBG("ScopeOSCParameter::getScopeOSCPath = " + address);
+	String address;
+
+	if (paramID.paramGroup == 0)
+		address = "/" + String(deviceInstance) + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId) + "/" + String(parameter->getConfigurationUID());
+	else
+		address = "/" + String(deviceInstance) + "/0/" + String(paramID.paramGroup) + "/" + String(paramID.paramId);
+	
+	DBG("ScopeOSCParameter::getScopeOSCPath = " + address);
 
 	return address;
 }

@@ -335,10 +335,15 @@ String Configuration::getConfigurationDirectory() const
 
 int Configuration::getConfigurationUID()
 {
-    if (configurationRoot.hasProperty(Ids::UID))
-        return configurationRoot.getProperty(Ids::UID);
-    else
-        return generateConfigurationUID();
+	if (configurationRoot.isValid())
+	{
+		if (configurationRoot.hasProperty(Ids::UID))
+			return configurationRoot.getProperty(Ids::UID);
+		
+		return generateConfigurationUID();
+	}
+
+	return 0;
 }
 
 int Configuration::generateConfigurationUID()
