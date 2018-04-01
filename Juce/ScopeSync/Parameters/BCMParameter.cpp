@@ -285,7 +285,8 @@ void BCMParameter::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(uiValue))
 	{
-		// TODO: Probably this is where buttons need to be handled (i.e. send to scopeInt)
+		DBG("BCMParameter::valueChanged (uiValue)");
+		setUIValue(float(valueThatChanged.getValue()));
 	}
 	else if (valueThatChanged.refersToSameSourceAs(deviceInstance))
 		scopeOSCParameter.setDeviceInstance(deviceInstance.getValue());
