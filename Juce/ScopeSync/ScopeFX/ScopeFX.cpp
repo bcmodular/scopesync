@@ -137,6 +137,7 @@ void ScopeFX::snapshot()
 
 void ScopeFX::syncScope()
 {
+	DBG("ScopeFX::syncScope - starting timer");
 	// Race conditions on loading module mean we need to delay this
 	// for a little bit
 	startTimer(1000);
@@ -144,6 +145,7 @@ void ScopeFX::syncScope()
 
 void ScopeFX::timerCallback()
 {
+	DBG("ScopeFX::timerCallback - setting sync Scope value");
 	stopTimer();
 	syncScopeValue.fetch_add(1, std::memory_order_relaxed);
 }
@@ -242,15 +244,16 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 		scopeConfigUID.store(configUID.load(std::memory_order_relaxed), std::memory_order_relaxed);
 	}
 
-	asyncOut[OUTPAD_DEVICE_INSTANCE].itg   = deviceInstance;
-	asyncOut[OUTPAD_SNAPSHOT].itg = snapshotValue.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg = pluginHostOctet1.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_PLUGIN_HOST_OCT2].itg = pluginHostOctet2.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_PLUGIN_HOST_OCT3].itg = pluginHostOctet3.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg = pluginHostOctet4.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg = pluginListenerPort.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_DEVICE_INSTANCE].itg         = deviceInstance;
+	asyncOut[OUTPAD_SNAPSHOT].itg                = snapshotValue.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg        = pluginHostOctet1.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT2].itg        = pluginHostOctet2.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT3].itg        = pluginHostOctet3.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg        = pluginHostOctet4.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg    = pluginListenerPort.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_SCOPESYNC_LISTENER_PORT].itg = scopeSyncListenerPort.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_CONFIGUID].itg = scopeConfigUID.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_CONFIGUID].itg               = scopeConfigUID.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_SYNC_SCOPE].itg              = syncScopeValue.load(std::memory_order_relaxed);
 	
 	return 0;
 }
