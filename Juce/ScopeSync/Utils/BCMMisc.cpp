@@ -59,6 +59,7 @@ String ipAddressFromHostName(StringRef hostName, StringRef port)
     struct addrinfo hints;
     zerostruct (hints);
 
+	// TODO - perhaps this should be changed to AF_INET
     hints.ai_family   = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags    = AI_NUMERICSERV;

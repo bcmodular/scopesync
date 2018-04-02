@@ -33,13 +33,13 @@
         <key>description</key>
         <string>ScopeSyncEffect</string>
         <key>factoryFunction</key>
-        <string>ScopeSyncAUFactory</string>
+        <string>ScopeSyncEffectAUFactory</string>
         <key>manufacturer</key>
         <string>BCMd</string>
         <key>type</key>
         <string>aumf</string>
         <key>subtype</key>
-        <string>sse2</string>
+        <string>Sse3</string>
         <key>version</key>
         <integer>65539</integer>
       </dict>

@@ -2,17 +2,18 @@
 
 <JUCERPROJECT id="aOrksy" name="ScopeSyncEffectPlugin" projectType="audioplug"
               version="1.0.3" bundleIdentifier="uk.co.bcmodular.scopesync"
-              includeBinaryInAppConfig="1" buildVST="1" buildVST3="1" buildAU="1"
+              includeBinaryInAppConfig="1" buildVST="1" buildVST3="0" buildAU="1"
               buildRTAS="0" buildAAX="0" pluginName="ScopeSyncEffect" pluginDesc="ScopeSyncEffect"
               pluginManufacturer="BCModular" pluginManufacturerWebsite="www.yourcompany.com"
               pluginManufacturerEmail="support@yourcompany.com" pluginManufacturerCode="BCMd"
-              pluginCode="sse2" pluginChannelConfigs="{2,2}" pluginIsSynth="0"
+              pluginCode="Sse3" pluginChannelConfigs="{2,2}" pluginIsSynth="0"
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
-              pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncAU"
+              pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncEffectAU"
               pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
               pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="5.3.0"
               companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
-              companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0">
+              companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0"
+              reportAppUsage="0" displaySplashScreen="0" buildStandalone="1">
   <MAINGROUP id="zkEMvA" name="ScopeSyncEffectPlugin">
     <GROUP id="{18C95006-FF59-C282-D9CF-1694B4AD1C49}" name="Source">
       <GROUP id="{A150B2E7-7C76-DAE0-FC32-F9929B5D5083}" name="Comms">
@@ -369,11 +370,10 @@
         <CONFIGURATION isDebug="1" name="Debug (x64)" targetName="ScopeSyncVSTFX-Debug-x64_1_0_3"
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncVSTFX_1_0_3"
-                       useRuntimeLibDLL="0" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
-                       winArchitecture="Win32" optimisation="4"/>
+                       useRuntimeLibDLL="0" winArchitecture="Win32" optimisation="4"
+                       postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;"/>
         <CONFIGURATION isDebug="0" name="Release (x64)" targetName="ScopeSyncVSTFX-x64_1_0_3"
-                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST2\32bit\&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\..\VST Plugin\VST3\32bit\*.vst3&quot;&#10;xcopy /Y &quot;$(TargetPath)&quot; &quot;$(VSTPluginFolder)&quot;"
-                       optimisation="4"/>
+                       optimisation="4" useRuntimeLibDLL="0" postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
@@ -386,12 +386,16 @@
         <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2017>
     <XCODE_MAC targetFolder="Builds/MacOSX" vst3Folder="../../../vst3sdk">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSyncAUFX-Debug_1_0_3"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncAUFX_1_0_3"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncAUFX_1_0_3" vstBinaryLocation="../../VST Plugin/OSX/VST2/"
+                       auBinaryLocation="../../VST Plugin/OSX/AU/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
@@ -404,13 +408,19 @@
         <MODULEPATH id="juce_audio_processors" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_plugin_client" path="../../../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
@@ -419,10 +429,9 @@
     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WASAPI="disabled" JUCE_DIRECTSOUND="disabled"
-               JUCE_ALSA="disabled" JUCE_JACK="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
-               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_USE_FLAC="disabled"
-               JUCE_USE_OGGVORBIS="disabled" JUCE_USE_MP3AUDIOFORMAT="disabled"
-               JUCE_USE_LAME_AUDIO_FORMAT="disabled" JUCE_USE_WINDOWS_MEDIA_FORMAT="disabled"
-               JUCE_PLUGINHOST_VST3="0" JUCE_PLUGINHOST_AU="0" JUCE_ASIO="disabled"/>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WASAPI="0" JUCE_DIRECTSOUND="0"
+               JUCE_ALSA="0" JUCE_JACK="0" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="0"
+               JUCE_USE_CDBURNER="0" JUCE_USE_FLAC="0" JUCE_USE_OGGVORBIS="0"
+               JUCE_USE_MP3AUDIOFORMAT="0" JUCE_USE_LAME_AUDIO_FORMAT="0" JUCE_USE_WINDOWS_MEDIA_FORMAT="0"
+               JUCE_PLUGINHOST_VST3="0" JUCE_PLUGINHOST_AU="0" JUCE_ASIO="0"/>
 </JUCERPROJECT>
