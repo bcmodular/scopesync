@@ -371,9 +371,9 @@
                        useRuntimeLibDLL="0"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncVSTFX_1_0_3"
                        useRuntimeLibDLL="0" winArchitecture="Win32" optimisation="4"
-                       postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;"/>
+                       postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;"/>
         <CONFIGURATION isDebug="0" name="Release (x64)" targetName="ScopeSyncVSTFX-x64_1_0_3"
-                       optimisation="4" useRuntimeLibDLL="0" postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;"/>
+                       optimisation="4" useRuntimeLibDLL="0" postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>

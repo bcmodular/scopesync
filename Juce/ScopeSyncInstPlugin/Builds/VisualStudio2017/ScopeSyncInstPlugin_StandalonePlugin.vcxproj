@@ -237,7 +237,7 @@
     </Lib>
     <PostBuildEvent>
       <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;
-if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;</Command>
+if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">
@@ -287,7 +287,7 @@ if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &q
     </Lib>
     <PostBuildEvent>
       <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;
-if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_Standalone&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;</Command>
+if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
