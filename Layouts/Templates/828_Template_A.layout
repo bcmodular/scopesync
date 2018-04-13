@@ -12,24 +12,38 @@
         </images>
         <appliesto componenttype="none" />
         <colours>
-          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="ffacb2b5" rotaryslideroutlinecolourid="ff212121" textboxbackgroundcolourid="00b8bbbf" textboxoutlinecolourid="00ffffff" textboxtextcolourid="ff000000" textboxhighlightcolourid="ff2d3035"></slider>
-          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"></label>
-          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae" buttononcolourid="ffffffff"></textbutton>
-          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
-          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
-          <texteditor backgroundcolourid="ffffffff" textcolourid="ffffffff" highlightcolourid="ff2d3035" highlightedtextcolourid="ffffffff" outlinecolourid="7f000000" focusedoutlinecolourid="7f2d3035" shadowcolourid="ff000000"></texteditor>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff"
+                  rotarysliderfillcolourid="ffacb2b5" rotaryslideroutlinecolourid="ff212121"
+                  textboxbackgroundcolourid="00b8bbbf" textboxoutlinecolourid="00ffffff" textboxtextcolourid="ff000000"
+                  textboxhighlightcolourid="ff2d3035"/>
+          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"/>
+          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae"
+                      buttononcolourid="ffffffff"/>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"/>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000"
+                  fronttextcolourid="00000000"/>
+          <texteditor backgroundcolourid="ffffffff" textcolourid="ffffffff" highlightcolourid="ff2d3035"
+                      highlightedtextcolourid="ffffffff" outlinecolourid="7f000000" focusedoutlinecolourid="7f2d3035"
+                      shadowcolourid="ff000000"/>
           <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="7f000000" buttoncolourid="7f000000" arrowcolourid="ff2d3035" />
         </colours>
       </lookandfeel>
       <standardcontent type="scopesyncsliderlnfs" />
       <lookandfeel id="Hide Control">
         <colours>
-          <slider backgroundcolourid="00000000" thumbcolourid="00000000" trackcolourid="00000000" rotarysliderfillcolourid="00000000" rotaryslideroutlinecolourid="00000000" textboxbackgroundcolourid="00000000" textboxoutlinecolourid="00000000" textboxtextcolourid="00000000" textboxhighlightcolourid="00000000"></slider>
-          <label backgroundcolourid="00000000" textcolourid="00000000" outlinecolourid="00000000"></label>
-          <textbutton textcolouroffid="00000000" textcolouronid="00000000" buttoncolourid="00000000" buttononcolourid="00000000"></textbutton>
-          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
-          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
-          <texteditor backgroundcolourid="00000000" textcolourid="00000000" highlightcolourid="00000000" highlightedtextcolourid="00000000" outlinecolourid="00000000" focusedoutlinecolourid="00000000" shadowcolourid="00000000"></texteditor>
+          <slider backgroundcolourid="00000000" thumbcolourid="00000000" trackcolourid="00000000"
+                  rotarysliderfillcolourid="00000000" rotaryslideroutlinecolourid="00000000"
+                  textboxbackgroundcolourid="00000000" textboxoutlinecolourid="00000000" textboxtextcolourid="00000000"
+                  textboxhighlightcolourid="00000000"/>
+          <label backgroundcolourid="00000000" textcolourid="00000000" outlinecolourid="00000000"/>
+          <textbutton textcolouroffid="00000000" textcolouronid="00000000" buttoncolourid="00000000"
+                      buttononcolourid="00000000"/>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"/>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000"
+                  fronttextcolourid="00000000"/>
+          <texteditor backgroundcolourid="00000000" textcolourid="00000000" highlightcolourid="00000000"
+                      highlightedtextcolourid="00000000" outlinecolourid="00000000" focusedoutlinecolourid="00000000"
+                      shadowcolourid="00000000"/>
           <combobox backgroundcolourid="00000000" textcolourid="00000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="00000000" />
         </colours>
         <images>
@@ -55,7 +69,8 @@
           </slider>
         </images>
         <colours>
-          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"></slider>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff"
+                  rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"/>
           <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
         </colours>
         <appliesto componenttype="none" />
@@ -69,27 +84,30 @@
           </slider>
         </images>
         <colours>
-          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff" rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"></slider>
+          <slider backgroundcolourid="ffb8bbbf" thumbcolourid="ffffffff" trackcolourid="ff0000ff"
+                  rotarysliderfillcolourid="8cffffff" rotaryslideroutlinecolourid="ff212121"/>
           <combobox backgroundcolourid="00b8bbbf" textcolourid="ff000000" outlinecolourid="00000000" buttoncolourid="00000000" arrowcolourid="ff2d3035" />
         </colours>
         <appliesto componenttype="none" />
       </lookandfeel>
       <lookandfeel id="default label">
         <colours>
-          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"></label>
+          <label backgroundcolourid="00000000" textcolourid="ff000000" outlinecolourid="00000000"/>
         </colours>
         <appliesto componenttype="label" />
       </lookandfeel>
       <lookandfeel id="default textbutton">
         <colours>
-          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae" buttononcolourid="ffffffff"></textbutton>
+          <textbutton textcolouroffid="ff2d3035" textcolouronid="ff000000" buttoncolourid="ffa7aaae"
+                      buttononcolourid="ffffffff"/>
         </colours>
         <appliesto componenttype="textbutton" />
       </lookandfeel>
       <lookandfeel id="default tabbed component">
         <colours>
-          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"></tabbedcomponent>
-          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000" fronttextcolourid="00000000"></tabbar>
+          <tabbedcomponent backgroundcolourid="00000000" outlinecolourid="00000000"/>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="00000000" frontoutlinecolourid="00000000"
+                  fronttextcolourid="00000000"/>
         </colours>
         <appliesto componenttype="tabbedcomponent" />
       </lookandfeel>
@@ -103,9 +121,9 @@
     <defaults>
       <slider style="rotaryverticaldrag">
         <bounds x="14" y="23" width="71" height="82" />
-        <range min="0" max="100" int="0.0001"></range>
+        <range min="0" max="100" int="0.0001"/>
         <textbox position="above" readonly="false" width="71" height="13">
-          <font height="12"></font>
+          <font height="12"/>
         </textbox>
       </slider>
       <textbutton name="defaultbutton" tooltip="defaultbutton tooltip">
@@ -119,20 +137,20 @@
     <widgettemplates>
       <label name="ScopeSync Label" parametertextdisplay="scopecode" text="Untitled" wtid="ScopeSync">
         <bounds x="18" y="39" width="24" height="10" />
-        <font height="10" bold="false"></font>
+        <font height="10" bold="false"/>
         <justification left="true" />
         <mappingparent componenttype="slider" />
       </label>
       <label name="ParamName Label" text="Untitled" wtid="ParamName">
         <bounds x="18" y="10" width="71" height="13" />
-        <font height="12"></font>
+        <font height="12"/>
         <justification horizontallycentred="true" top="true" />
         <mappingparent componenttype="slider" />
       </label>
       <slider style="rotaryverticaldrag" wtid="datawheel">
         <bounds x="5" y="60" width="75" height="75" />
-        <range min="0" max="100" int="0.0001"></range>
-        <textbox position="none" readonly="false"></textbox>
+        <range min="0" max="100" int="0.0001"/>
+        <textbox position="none" readonly="false"/>
       </slider>
     </widgettemplates>
     <!--Main Component-->
@@ -140,7 +158,7 @@
       <bounds x="0" y="0" width="740" height="285" />
       <!--Header Section-->
       <component>
-        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"></bounds>
+        <bounds relativerectangle="right - parent.width, 1, parent.width, top + 40"/>
         <standardcontent type="header" />
       </component>
       <!--Background-->
@@ -150,7 +168,7 @@
       <!--Control Pages-->
       <tabbedcomponent name="Control Group" showdropshadow="false">
         <bounds x="0" y="37" width="598" height="285" />
-        <tabbar orientation="right" depth="0"></tabbar>
+        <tabbar orientation="right" depth="0"/>
         <!--Controls 01-16-->
         <tab idx="1" name="Parameters 01-16">
           <component>
