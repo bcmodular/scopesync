@@ -9,11 +9,11 @@
               pluginCode="Ssi3" pluginChannelConfigs="{2,2}" pluginIsSynth="1"
               pluginWantsMidiIn="1" pluginProducesMidiOut="1" pluginSilenceInIsSilenceOut="0"
               pluginEditorRequiresKeys="1" pluginAUExportPrefix="ScopeSyncInstAU"
-              pluginRTASCategory="" aaxIdentifier="com.bcmodular.ScopeSync"
-              pluginAAXCategory="AAX_ePlugInCategory_None" jucerVersion="5.3.0"
-              companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
+              aaxIdentifier="com.bcmodular.ScopeSync" pluginAAXCategory="0"
+              jucerVersion="5.3.1" companyName="BC Modular" companyWebsite="http://www.scopesync.co.uk"
               companyEmail="support@scopesync.co.uk" pluginIsMidiEffectPlugin="0"
-              reportAppUsage="0" displaySplashScreen="0" buildVST3="0" buildStandalone="1">
+              reportAppUsage="0" displaySplashScreen="0" buildVST3="0" buildStandalone="1"
+              pluginFormats="buildVST,buildAU,buildStandalone" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn,pluginProducesMidiOut,pluginEditorRequiresKeys">
   <MAINGROUP id="zkEMvA" name="ScopeSyncInstPlugin">
     <GROUP id="{18C95006-FF59-C282-D9CF-1694B4AD1C49}" name="Source">
       <GROUP id="{A150B2E7-7C76-DAE0-FC32-F9929B5D5083}" name="Comms">
@@ -394,7 +394,9 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" vst3Folder="../../../vst3sdk">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSyncAUInst-Debug_1_0_3"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncAUInst_1_0_3"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncAUInst_1_0_3"
+                       vstBinaryLocation="${HOME}/Development/scopesync/Plugins/OSX/VST2/"
+                       auBinaryLocation="${HOME}/Development/scopesync/Plugins/OSX/AU/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
@@ -433,4 +435,7 @@
                JUCE_USE_CDBURNER="0" JUCE_USE_FLAC="0" JUCE_USE_OGGVORBIS="0"
                JUCE_USE_MP3AUDIOFORMAT="0" JUCE_USE_LAME_AUDIO_FORMAT="0" JUCE_USE_WINDOWS_MEDIA_FORMAT="0"
                JUCE_PLUGINHOST_VST3="0" JUCE_PLUGINHOST_AU="0" JUCE_ASIO="0"/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

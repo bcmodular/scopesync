@@ -234,30 +234,37 @@ namespace BinaryData
     const int            Undo_button_over_pngSize = 913;
 
     extern const char*   empty_configuration;
-    const int            empty_configurationSize = 216;
+    const int            empty_configurationSize = 204;
 
     extern const char*   loader_layout;
-    const int            loader_layoutSize = 511;
+    const int            loader_layoutSize = 499;
 
     extern const char*   standardFooterContent_layout;
-    const int            standardFooterContent_layoutSize = 836;
+    const int            standardFooterContent_layoutSize = 817;
 
     extern const char*   standardHeaderContent_layout;
-    const int            standardHeaderContent_layoutSize = 4823;
+    const int            standardHeaderContent_layoutSize = 4736;
 
     extern const char*   standardSliderLnFs_layout;
-    const int            standardSliderLnFs_layoutSize = 22039;
+    const int            standardSliderLnFs_layoutSize = 21563;
 
     extern const char*   system_lookandfeels;
-    const int            system_lookandfeelsSize = 6272;
+    const int            system_lookandfeelsSize = 6158;
+
+    // Number of elements in the namedResourceList and originalFileNames arrays.
+    const int namedResourceListSize = 81;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
 
-    // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 81;
+    // Points to the start of a list of resource filenames.
+    extern const char* originalFilenames[];
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).
-    const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes) throw();
+    const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes) noexcept;
+
+    // If you provide the name of one of the binary resource variables above, this function will
+    // return the corresponding original, non-mangled filename (or a null pointer if the name isn't found).
+    const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8) noexcept;
 }

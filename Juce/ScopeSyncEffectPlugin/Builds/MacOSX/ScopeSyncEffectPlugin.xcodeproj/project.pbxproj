@@ -687,7 +687,7 @@
 				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../../../JUCE/modules", "../../../../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST.plist;
 				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "../../VST Plugin/OSX/VST2/";
+				INSTALL_PATH = "${HOME}/Development/scopesync/Plugins/OSX/VST2/";
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -764,7 +764,7 @@
 				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../../../JUCE/modules", "../../../../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "../../VST Plugin/OSX/AU/";
+				INSTALL_PATH = "${HOME}/Development/scopesync/Plugins/OSX/AU/";
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
