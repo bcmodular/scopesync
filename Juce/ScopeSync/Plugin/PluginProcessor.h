@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -52,14 +52,6 @@ public:
 
     const String getName() const override;
 
-    int getNumParameters() override;
-
-    float getParameter (int index) override;
-    void setParameter (int index, float newValue) override;
-
-    const String getParameterName (int index) override;
-    const String getParameterText (int index) override;
-
     bool   acceptsMidi() const override;
     bool   producesMidi() const override;
     double getTailLengthSeconds() const override;
@@ -72,9 +64,7 @@ public:
 
     void   getStateInformation (MemoryBlock& destData) override;
     void   setStateInformation (const void* data, int sizeInBytes) override;
-    
-    void updateListeners(int index, float newHostValue);
-    
+        
     ScopeSync& getScopeSync() const { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 

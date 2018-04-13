@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/ComboBoxProperties.h"
 #include "../Core/Global.h"
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
 
 BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
     : ComboBox(name), BCMParameterWidget(owner)
@@ -60,7 +60,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 
     if (mapsToParameter)
     {
-		setEditableText(!parameter->isScopeInputOnly() ? props.editableText : false);
+		setEditableText(!parameter->isReadOnly() ? props.editableText : false);
 		clear(juce::dontSendNotification);
 
 		parameter->mapToUIValue(parameterValue);
@@ -71,8 +71,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 			ValueTree parameterSettings;
 			parameter->getSettings(parameterSettings);
             
-			String shortDesc;
-			parameter->getDescriptions(shortDesc, tooltip);
+			tooltip = parameter->getFullDescription(true);
 
 			for (int i = 0; i < parameterSettings.getNumChildren(); i++)
 			{
@@ -82,7 +81,7 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 				addItem(settingName, i + 1);
 			}
             
-			setSelectedItemIndex(roundDoubleToInt(parameterValue.getValue()), juce::dontSendNotification);
+			setSelectedItemIndex(roundToInt(parameterValue.getValue()), juce::dontSendNotification);
 		}
     }
     
@@ -96,7 +95,7 @@ void BCMComboBox::mouseDown(const MouseEvent& event)
     if (event.mods.isPopupMenu())
         showPopupMenu();
     else
-		if (hasParameter() && parameter->isScopeInputOnly())
+		if (hasParameter() && parameter->isReadOnly())
 			return;
 		else
 			ComboBox::mouseDown(event);
@@ -105,7 +104,7 @@ void BCMComboBox::mouseDown(const MouseEvent& event)
 void BCMComboBox::valueChanged(Value& value)
 {
     if (value.refersToSameSourceAs(parameterValue))
-        setSelectedItemIndex(roundDoubleToInt(value.getValue()), juce::dontSendNotification);
+        setSelectedItemIndex(roundToInt(value.getValue()), juce::dontSendNotification);
     else
         ComboBox::valueChanged(value);
 }

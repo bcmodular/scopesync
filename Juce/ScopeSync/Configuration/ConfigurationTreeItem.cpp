@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -30,7 +30,6 @@
 #include "Configuration.h"
 #include "ConfigurationPanel.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
  * ParameterRootItem: Parameter root node TreeViewItems
@@ -53,13 +52,15 @@ public:
     void addItem() override;
     void addItemFromClipboard() override;
 
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
 protected:
     void addNewSubItem() = delete;
     
 private:
-    void refreshSubItems() override;
+	SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     void addParameter(const ValueTree& definition);
@@ -80,12 +81,12 @@ public:
     var  getDragSourceDescription() override { return "Parameter"; }
     bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->parameter, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->parameter, Colours::grey); }
     virtual String getDisplayName() const override;
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -96,7 +97,9 @@ public:
 	void changePanel() override;
 
 private:
-    void refreshSubItems() override;
+	SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ParameterItem);
@@ -112,14 +115,14 @@ public:
         : ConfigurationItem(cm, v, um) {}
 
     bool mightContainSubItems() override { return false; }
-    virtual var getDragSourceDescription() override;
-    virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+    var getDragSourceDescription() override;
+    bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
 
     void deleteItem() override;
     void addItem() override;
     
-    virtual Icon getIcon() const override { return Icon(); };
-    virtual String getDisplayName() const override;
+    Icon getIcon() const override { return Icon(); };
+    String getDisplayName() const override;
 
 private:
     void refreshSubItems() override;
@@ -140,7 +143,7 @@ public:
 
     var  getDragSourceDescription() override { return "SliderMapping"; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->slider, Colours::grey); }
     
     void changePanel() override
     {
@@ -163,7 +166,7 @@ public:
 
     var  getDragSourceDescription() override { return "LabelMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->label, Colours::grey); }
     
     void changePanel() override
     {
@@ -186,7 +189,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComboBoxMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->combobox, Colours::grey); }
     
     void changePanel() override
     {
@@ -209,7 +212,7 @@ public:
 
     var  getDragSourceDescription() override { return "TabbedComponentMapping"; }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponent, Colours::grey); }
     
     void changePanel() override
     {
@@ -231,7 +234,7 @@ public:
         : MappingItem(cm, v, um) {}
 
     var  getDragSourceDescription() override { return "TextButtonMapping"; }
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->textbutton, Colours::grey); }
     void changePanel() override
     {
         configurationManager.changePanel(new TextButtonMappingPanel(tree, undoManager, configurationManager.getScopeSync(), commandManager));
@@ -277,7 +280,7 @@ public:
         : ConfigurationItem(cm, v, um) {}
 
     virtual var  getDragSourceDescription() override { return "Mapping Root Item"; }
-    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->mapping, Colours::bisque); }
+    virtual Icon getIcon() const override { return Icon(icons->mapping, Colours::bisque); }
 
     void addGenericMapping(const Identifier& mappingType);
 
@@ -303,7 +306,7 @@ public:
         return dragSourceDetails.description.toString() == "SliderMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->sliders, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::slider); }
     
 private:
@@ -333,7 +336,7 @@ public:
         return dragSourceDetails.description.toString() == "LabelMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->labels, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::label); }
     
 private:
@@ -363,7 +366,7 @@ public:
         return dragSourceDetails.description.toString() == "ComboBoxMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->comboboxes, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::comboBox); }
     
 private:
@@ -393,7 +396,7 @@ public:
         return dragSourceDetails.description.toString() == "TabbedComponentMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponents, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::tabbedComponent); }
     
 private:
@@ -423,7 +426,7 @@ public:
         return dragSourceDetails.description.toString() == "TextButtonMapping";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::bisque); }
+    Icon getIcon() const override { return Icon(icons->textbuttons, Colours::bisque); }
     void addItem() override { addGenericMapping(Ids::textButton); }
     
 private:
@@ -454,7 +457,7 @@ public:
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return styleOverrideClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -464,8 +467,9 @@ public:
     virtual String getDisplayName() const override;
 
 private:
-    void refreshSubItems() override;
-    
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	void refreshSubItems() override;
     void showPopupMenu() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideItem);
@@ -482,7 +486,7 @@ public:
 
     var  getDragSourceDescription() override { return "SliderStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->slider, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->slider, Colours::grey); }
     
     void changePanel() override
     {
@@ -505,7 +509,7 @@ public:
 
     var  getDragSourceDescription() override { return "LabelStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->label, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->label, Colours::grey); }
     
     void changePanel() override
     {
@@ -528,7 +532,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComboBoxStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->combobox, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->combobox, Colours::grey); }
     
     void changePanel() override
     {
@@ -551,7 +555,7 @@ public:
 
     var  getDragSourceDescription() override { return "TabbedComponentStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponent, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponent, Colours::grey); }
     
     void changePanel() override
     {
@@ -574,7 +578,7 @@ public:
 
     var  getDragSourceDescription() override { return "TextButtonStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbutton, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->textbutton, Colours::grey); }
     
     void changePanel() override
     {
@@ -597,7 +601,7 @@ public:
 
     var  getDragSourceDescription() override { return "ComponentStyleOverride"; };
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->component, Colours::grey); }
+    Icon getIcon() const override { return Icon(icons->component, Colours::grey); }
     
     void changePanel() override
     {
@@ -621,17 +625,18 @@ public:
     virtual var  getDragSourceDescription() override { return "StyleOverrideRoot"; }
     virtual bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    Icon getIcon() const override { return Icon(Icons::getInstance()->styleoverrides, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->styleoverrides, Colours::lightblue); }
     
-    bool canPasteItem() override { return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return styleOverrideClipboard->clipboardIsNotEmpty(); }
 
 protected:
     void addGenericStyleOverride(const Identifier& componentType);
     void addGenericItemFromClipboard(const Identifier& componentType);
 
 private:
-    virtual void refreshSubItems() override;
-    
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	virtual void refreshSubItems() override;
     void showPopupMenu() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StyleOverrideRootItem);
@@ -651,7 +656,7 @@ public:
         return dragSourceDetails.description.toString() == "SliderStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->sliders, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->sliders, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::slider); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::slider); }
     
@@ -682,7 +687,7 @@ public:
         return dragSourceDetails.description.toString() == "LabelStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->labels, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->labels, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::label); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::label); }
     
@@ -713,7 +718,7 @@ public:
         return dragSourceDetails.description.toString() == "ComboBoxStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->comboboxes, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->comboboxes, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::comboBox); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::comboBox); }
     
@@ -744,7 +749,7 @@ public:
         return dragSourceDetails.description.toString() == "TabbedComponentStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->tabbedcomponents, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->tabbedcomponents, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::tabbedComponent); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::tabbedComponent); }
     
@@ -775,7 +780,7 @@ public:
         return dragSourceDetails.description.toString() == "TextButtonStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->textbuttons, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->textbuttons, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::textButton); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::textButton); }
     
@@ -806,7 +811,7 @@ public:
         return dragSourceDetails.description.toString() == "ComponentStyleOverride";
     }
 
-    Icon getIcon() const override { return Icon(Icons::getInstance()->components, Colours::lightblue); }
+    Icon getIcon() const override { return Icon(icons->components, Colours::lightblue); }
     void addItem() override { addGenericStyleOverride(Ids::component); }
     void addItemFromClipboard() override { addGenericItemFromClipboard(Ids::component); }
     
@@ -850,7 +855,7 @@ Font ConfigurationItem::getFont() const { return Font (getItemHeight() * 0.7f); 
 
 float ConfigurationItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
-Icon ConfigurationItem::getIcon() const { return Icon(Icons::getInstance()->config, Colours::lightgreen); }
+Icon ConfigurationItem::getIcon() const { return Icon(icons->config, Colours::lightgreen); }
 
 var ConfigurationItem::getDragSourceDescription() { return "Configuration Root Item"; }
 
@@ -889,7 +894,7 @@ void ConfigurationItem::changePanel()
 Icon ParameterRootItem::getIcon() const
 {
     if (tree.hasType(Ids::parameters))
-        return Icon(Icons::getInstance()->parameters, Colours::aliceblue);
+        return Icon(icons->parameters, Colours::aliceblue);
     else
         return Icon();
 }
@@ -926,10 +931,10 @@ void ParameterRootItem::addItemFromClipboard()
 {
     ValueTree definition;
 
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
 
     addParameter(definition);
@@ -953,8 +958,11 @@ String ParameterItem::getDisplayName() const
     String displayName = tree[Ids::name].toString();
     displayName += " (" + tree[Ids::fullDescription].toString() + ")";
 
-	if (tree[Ids::scopeCode].toString().isNotEmpty())
-        displayName += " - " + tree[Ids::scopeCode].toString();
+	int scopeParamGroup = tree[Ids::scopeParamGroup];
+	int scopeParamId    = tree[Ids::scopeParamId];
+
+	if (scopeParamGroup != -1 && scopeParamId != -1)
+        displayName += " - " + String(scopeParamGroup) + ":" + String(scopeParamId);
 
     return displayName;
 }
@@ -996,10 +1004,10 @@ void ParameterItem::addItemFromClipboard()
 {
     ValueTree definition;
     
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
     
     insertParameterAt(definition, tree.getParent().indexOf(tree) + 1);
@@ -1016,13 +1024,13 @@ void ParameterItem::insertParameterAt(const ValueTree& definition, int index)
 
 void ParameterItem::copyItem()
 {
-    ParameterClipboard::getInstance()->copy(tree);
+    parameterClipboard->copy(tree);
 }
 
 void ParameterItem::pasteItem()
 {
     storeSelectionOnDelete();
-    ParameterClipboard::getInstance()->paste(tree, &undoManager);
+    parameterClipboard->paste(tree, &undoManager);
     changePanel();
 }
 
@@ -1180,10 +1188,10 @@ void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& compon
 {
     ValueTree styleOverride;
     
-    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    if (styleOverrideClipboard->clipboardIsNotEmpty())
     {
         styleOverride = ValueTree(componentType);
-        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+        styleOverrideClipboard->paste(styleOverride, nullptr);
     }
     
     storeSelectionOnAdd();
@@ -1241,10 +1249,10 @@ void StyleOverrideItem::addItemFromClipboard()
 {
     ValueTree styleOverride;
     
-    if (StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty())
+    if (styleOverrideClipboard->clipboardIsNotEmpty())
     {
         styleOverride = ValueTree(tree.getType());
-        StyleOverrideClipboard::getInstance()->paste(styleOverride, nullptr);
+        styleOverrideClipboard->paste(styleOverride, nullptr);
     }
     
     storeSelectionOnAdd();
@@ -1253,12 +1261,12 @@ void StyleOverrideItem::addItemFromClipboard()
 
 void StyleOverrideItem::copyItem()
 {
-    StyleOverrideClipboard::getInstance()->copy(tree);
+    styleOverrideClipboard->copy(tree);
 }
 
 void StyleOverrideItem::pasteItem()
 {
     storeSelectionOnDelete();
-    StyleOverrideClipboard::getInstance()->paste(tree, &undoManager);
+    styleOverrideClipboard->paste(tree, &undoManager);
     changePanel();
 }

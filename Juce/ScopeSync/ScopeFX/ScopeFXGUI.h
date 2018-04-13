@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -33,38 +33,46 @@ class ScopeFX;
 #include <JuceHeader.h>
 #include "../Core/ScopeSyncGUI.h"
 #include <Windows.h>
+#include "../Parameters/BCMParameterController.h"
 
 class BCMParameter;
 
 class ScopeFXGUI : public Component,
                    public Value::Listener,
-				   public Timer
+				   public ComponentListener,
+				   public MultiTimer
 {
 public:
-    ScopeFXGUI (ScopeFX* owner, HWND scopeWindow);
+    ScopeFXGUI (ScopeFX* owner);
     ~ScopeFXGUI();
 
-    // Handles resizing the window if the contents have changed in size
-    // and updating the window title
-    void refreshWindow();
+	void open(HWND scopeWindow);
 
     void valueChanged(Value& valueThatChanged) override;
-	void timerCallback() override;
-    
+	void componentMovedOrResized(Component&	component, bool wasMoved, bool wasResized) override;
+	    
 private:
+	enum MultiTimerType {userMoved, resizeOnLoad};
+
     ScopeFX*                    scopeFX;
+	BCMParameterController*     parameterController;
     ScopedPointer<ScopeSyncGUI> scopeSyncGUI;
     
     Value xPos;
     Value yPos;
+	Value configurationName;
 
-    void userTriedToCloseWindow();
-    void moved();
+    void userTriedToCloseWindow() override;
+    void moved() override;
 
-    String windowName;
-    bool   firstTimeShow; // Little hack to get the window to resize correctly on initial load
-    
-    void paint(Graphics& g) override;
+    bool firstTimeShow; // Little hack to get the window to resize correctly on initial load
+
+	bool ignoreXYFromScope; // If the user has recently been moving the window themselves,
+						    // then don't respond to incoming Scope values
+
+	void paint(Graphics& g) override;
+
+	void timerCallback(int timerID) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeFXGUI)
 };

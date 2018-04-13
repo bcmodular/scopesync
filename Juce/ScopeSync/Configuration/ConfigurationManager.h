@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -78,7 +78,8 @@ private:
     ScopedPointer<Component>   panel;
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     ScopeSync&                  scopeSync;
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
@@ -90,7 +91,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
 
-	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader);
 
     void timerCallback() override;
     void changeListenerCallback(ChangeBroadcaster* source) override;

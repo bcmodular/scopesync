@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,8 +28,11 @@
 #define BCMMISC_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID();
+
+String ipAddressFromHostName(StringRef hostName, StringRef port);
 
 /* =========================================================================
  * PropertyListBuilder: Utility class to help set up Property Lists
@@ -158,11 +161,11 @@ public:
         void changeListenerCallback(ChangeBroadcaster* source) override;
 
         class ColourSelectorComp : public Component,
-                                   public ButtonListener
+								   public Button::Listener
         {
         public:
             ColourSelectorComp(ColourEditorComponent* owner_,
-                               const bool canReset);
+                               bool canReset);
 
             void resized() override;
 
@@ -178,7 +181,10 @@ public:
 
                 Colour getSwatchColour(int index) const override;
 
-                void setSwatchColour(int index, const Colour& newColour) const override;
+                void setSwatchColour(int index, const Colour& newColour) override;
+            
+            private:
+				SharedResourcePointer<UserSettings> userSettings;
             };
 
             ColourEditorComponent* owner;

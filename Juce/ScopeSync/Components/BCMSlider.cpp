@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -32,9 +32,8 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
 #include "../Core/Global.h"
-#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 BCMSlider::BCMSlider(const String& name, ScopeSyncGUI& owner)
     : Slider(name), BCMParameterWidget(owner)
@@ -69,14 +68,14 @@ void BCMSlider::applyProperties(SliderProperties& props)
         props.textBoxWidth,
         props.textBoxHeight);
 
-    // Set up sliders for fixed Scope parameters
-    int fixedSliderIndex = fixedWidgetNames.indexOf(getName(), true);
+	if (props.name.equalsIgnoreCase("deviceinstance"))
+	{
+		setupDeviceInstanceSlider(props);
+		return;
+	}
 
-    if (fixedSliderIndex != -1)
-    {
-        setupFixedSlider(widgetScopeCodes[fixedSliderIndex], props);
+    if (setupFixedSlider(props))
         return;
-    }
 
 	double rangeMin = props.rangeMin;
     double rangeMax = props.rangeMax;
@@ -103,9 +102,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
 
     if (mapsToParameter)
     {
-        String shortDesc;
-        parameter->getDescriptions(shortDesc, tooltip);
-
+		tooltip = parameter->getFullDescription(true);
+		
         String uiSuffix = String::empty;
         parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
 
@@ -132,8 +130,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
         setRange(rangeMin, rangeMax, rangeInt);
         setTextValueSuffix(uiSuffix);
 
-        setDoubleClickReturnValue(!parameter->isScopeInputOnly(), parameter->getUIResetValue());
-        setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
+        setDoubleClickReturnValue(!parameter->isReadOnly(), parameter->getUIResetValue());
+        setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
 
         setSkewFactor(parameter->getUISkewFactor());
         
@@ -149,18 +147,43 @@ void BCMSlider::applyProperties(SliderProperties& props)
     setPopupMenuEnabled(true);
 }
 
-void BCMSlider::setupFixedSlider(const String& scopeCode, SliderProperties& props)
-{
-    fixed = true;
-    setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
+bool BCMSlider::setupFixedSlider(SliderProperties& props)
+{	
+	if (ScopeSync::fixedParameterNames.contains(props.name))
+	{
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
 
-    parameter->mapToUIValue(getValueObject());
+		if (bcmParameter != nullptr)
+		{
+			fixed = true;
+			setParameter(bcmParameter);
+
+			parameter->mapToUIValue(getValueObject());
+	
+			setRange(props.rangeMin, props.rangeMax, 1);
+			setTooltip(props.name);
+			setPopupMenuEnabled(false);
+
+			setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
+
+			return true;
+		}
+	}
+
+	return false;   
+}
+
+void BCMSlider::setupDeviceInstanceSlider(SliderProperties& props)
+{	
+	fixed = true;
+	
+	scopeSyncGUI.getScopeSync().referToDeviceInstance(getValueObject());
 	
 	setRange(props.rangeMin, props.rangeMax, 1);
 	setTooltip(props.name);
 	setPopupMenuEnabled(false);
 
-    setTextBoxIsEditable(!parameter->isScopeInputOnly() ? !props.textBoxReadOnly : false);
+	setTextBoxIsEditable(!props.textBoxReadOnly);
 }
 
 const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
@@ -168,46 +191,34 @@ const Identifier BCMSlider::getComponentType() const { return Ids::slider; };
 String BCMSlider::getTextFromValue(double v)
 {
     if (settingsNames.size() == 0)
-    {
 		return Slider::getTextFromValue(v);
-    }
-    else
-    {
-        return settingsNames[roundDoubleToInt(v)];
-    }
+    
+	return settingsNames[roundToInt(v)];
 }
 
 double BCMSlider::getValueFromText(const String& text)
 {
     if (settingsNames.size() == 0)
-    {
         return Slider::getValueFromText(text);
-    }
-    else
-    {
-        for (int i = 0; i < settingsNames.size(); i++)
-        {
-            if (settingsNames[i].containsIgnoreCase(text))
-            {
-                return i;
-            }
-        }
 
-        return text.getIntValue();
+	for (int i = 0; i < settingsNames.size(); i++)
+    {
+        if (settingsNames[i].containsIgnoreCase(text))
+            return i;
     }
+
+    return text.getIntValue();
 }
 
 void BCMSlider::mouseDown(const MouseEvent& event)
 {
     if (!fixed && event.mods.isPopupMenu())
-    {
         showPopupMenu();
-    }
     else
     {
         switchToTabs();
 
-        if (!hasParameter() || !parameter->isScopeInputOnly())
+        if (!hasParameter() || !parameter->isReadOnly())
             Slider::mouseDown(event);
     }
 }
@@ -245,7 +256,7 @@ void BCMSlider::switchToTabs() const
 
 void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)
 {
-    RotaryMovement rotaryMovementUserSetting = RotaryMovement(UserSettings::getInstance()->getAppProperties()->getIntValue("rotarymovement", 0));
+    RotaryMovement rotaryMovementUserSetting = RotaryMovement(userSettings->getAppProperties()->getIntValue("rotarymovement", 0));
 
     if (rotaryMovementUserSetting != noOverride_RM &&
         (  style == Rotary 
@@ -264,7 +275,7 @@ void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)
 
 void BCMSlider::overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode)
 {
-    IDBMode incDecButtonsUserSetting = IDBMode(UserSettings::getInstance()->getAppProperties()->getIntValue("incdecbuttonmode", 0));
+    IDBMode incDecButtonsUserSetting = IDBMode(userSettings->getAppProperties()->getIntValue("incdecbuttonmode", 0));
 
     if (incDecButtonsUserSetting != noOverride_IDB)
     {
@@ -279,17 +290,17 @@ void BCMSlider::overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonM
 
 void BCMSlider::overridePopupEnabled(bool popupEnabledFlag)
 {
-    PopupEnabled popupEnabledUserSetting = PopupEnabled(UserSettings::getInstance()->getAppProperties()->getIntValue("popupenabled", 0));
+    PopupEnabled popupEnabledUserSetting = PopupEnabled(userSettings->getAppProperties()->getIntValue("popupenabled", 0));
 
     if (popupEnabledUserSetting != noOverride_PE)
         popupEnabledFlag = (popupEnabledUserSetting == popupEnabled);
     
-    setPopupDisplayEnabled(popupEnabledFlag, nullptr);
+    setPopupDisplayEnabled(popupEnabledFlag, popupEnabledFlag, nullptr);
 }
 
 void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)
 {
-    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(UserSettings::getInstance()->getAppProperties()->getIntValue("velocitybasedmode", 0));
+    VelocityBasedMode velocityBasedModeUserSetting = VelocityBasedMode(userSettings->getAppProperties()->getIntValue("velocitybasedmode", 0));
 
     if (velocityBasedModeUserSetting != noOverride_VBM)
         velocityBasedMode = (velocityBasedModeUserSetting == velocityBasedModeOn);
@@ -299,7 +310,7 @@ void BCMSlider::overrideVelocityBasedMode(bool velocityBasedMode)
 
 bool BCMSlider::getEncoderSnap(bool encoderSnap)
 {
-    EncoderSnap encoderSnapUserSetting = EncoderSnap(UserSettings::getInstance()->getAppProperties()->getIntValue("encodersnap", 0));
+    EncoderSnap encoderSnapUserSetting = EncoderSnap(userSettings->getAppProperties()->getIntValue("encodersnap", 0));
     
     if (encoderSnapUserSetting != noOverride_ES)
         encoderSnap = (encoderSnapUserSetting == snap);

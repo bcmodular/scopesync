@@ -5,196 +5,196 @@
   <parameters>
     <parameter name="PARAM1" shortDescription="Param 01" fullDescription="Parameter 1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="1"/>
     <parameter name="PARAM2" shortDescription="Param 02" fullDescription="Parameter 2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="50" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A2"/>
+               scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="2"/>
     <parameter name="PARAM3" shortDescription="Param 03" fullDescription="Parameter 3" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="3"/>
     <parameter name="PARAM4" shortDescription="Param 04" fullDescription="Parameter 4" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="4"/>
     <parameter name="PARAM5" shortDescription="Param 05" fullDescription="Parameter 5" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="5"/>
     <parameter name="PARAM6" shortDescription="Param 06" fullDescription="Parameter 6" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="6"/>
     <parameter name="PARAM7" shortDescription="Param 07" fullDescription="Parameter 7" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="7"/>
     <parameter name="PARAM8" shortDescription="Param 08" fullDescription="Parameter 8" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="A8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="8"/>
     <parameter name="PARAM9" shortDescription="Param 09" fullDescription="Parameter 9" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="9"/>
     <parameter name="PARAM10" shortDescription="Param 10" fullDescription="Parameter 10" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="10"/>
     <parameter name="PARAM11" shortDescription="Param 11" fullDescription="Parameter 11" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="11"/>
     <parameter name="PARAM12" shortDescription="Param 12" fullDescription="Parameter 12" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="12"/>
     <parameter name="PARAM13" shortDescription="Param 13" fullDescription="Parameter 13" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="13"/>
     <parameter name="PARAM14" shortDescription="Param 14" fullDescription="Parameter 14" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="14"/>
     <parameter name="PARAM15" shortDescription="Param 15" fullDescription="Parameter 15" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="15"/>
     <parameter name="PARAM16" shortDescription="Param 16" fullDescription="Parameter 16" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="B8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="1" scopeParamId="16"/>
     <parameter name="PARAM17" shortDescription="Param 17" fullDescription="Parameter 17" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="1"/>
     <parameter name="PARAM18" shortDescription="Param 18" fullDescription="Parameter 18" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="2"/>
     <parameter name="PARAM19" shortDescription="Param 19" fullDescription="Parameter 19" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="3"/>
     <parameter name="PARAM20" shortDescription="Param 20" fullDescription="Parameter 20" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="4"/>
     <parameter name="PARAM21" shortDescription="Param 21" fullDescription="Parameter 21" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="5"/>
     <parameter name="PARAM22" shortDescription="Param 22" fullDescription="Parameter 22" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="6"/>
     <parameter name="PARAM23" shortDescription="Param 23" fullDescription="Parameter 23" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="7"/>
     <parameter name="PARAM24" shortDescription="Param 24" fullDescription="Parameter 24" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="C8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="8"/>
     <parameter name="PARAM25" shortDescription="Param 25" fullDescription="Parameter 25" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="9"/>
     <parameter name="PARAM26" shortDescription="Param 26" fullDescription="Parameter 26" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="10"/>
     <parameter name="PARAM27" shortDescription="Param 27" fullDescription="Parameter 27" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="11"/>
     <parameter name="PARAM28" shortDescription="Param 28" fullDescription="Parameter 28" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="12"/>
     <parameter name="PARAM29" shortDescription="Param 29" fullDescription="Parameter 29" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="13"/>
     <parameter name="PARAM30" shortDescription="Param 30" fullDescription="Parameter 30" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="14"/>
     <parameter name="PARAM31" shortDescription="Param 31" fullDescription="Parameter 31" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="15"/>
     <parameter name="PARAM32" shortDescription="Param 32" fullDescription="Parameter 32" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="D8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="2" scopeParamId="16"/>
     <parameter name="PARAM33" shortDescription="Param 33" fullDescription="Parameter 33" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="1"/>
     <parameter name="PARAM34" shortDescription="Param 34" fullDescription="Parameter 34" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="2"/>
     <parameter name="PARAM35" shortDescription="Param 35" fullDescription="Parameter 35" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="3"/>
     <parameter name="PARAM36" shortDescription="Param 36" fullDescription="Parameter 36" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="4"/>
     <parameter name="PARAM37" shortDescription="Param 37" fullDescription="Parameter 37" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="5"/>
     <parameter name="PARAM38" shortDescription="Param 38" fullDescription="Parameter 38" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="6"/>
     <parameter name="PARAM39" shortDescription="Param 39" fullDescription="Parameter 39" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="7"/>
     <parameter name="PARAM40" shortDescription="Param 40" fullDescription="Parameter 40" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="E8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="8"/>
     <parameter name="PARAM41" shortDescription="Param 41" fullDescription="Parameter 41" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="9"/>
     <parameter name="PARAM42" shortDescription="Param 42" fullDescription="Parameter 42" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="10"/>
     <parameter name="PARAM43" shortDescription="Param 43" fullDescription="Parameter 43" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="11"/>
     <parameter name="PARAM44" shortDescription="Param 44" fullDescription="Parameter 44" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="12"/>
     <parameter name="PARAM45" shortDescription="Param 45" fullDescription="Parameter 45" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="13"/>
     <parameter name="PARAM46" shortDescription="Param 46" fullDescription="Parameter 46" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="14"/>
     <parameter name="PARAM47" shortDescription="Param 47" fullDescription="Parameter 47" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="15"/>
     <parameter name="PARAM48" shortDescription="Param 48" fullDescription="Parameter 48" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="F8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="3" scopeParamId="16"/>
     <parameter name="PARAM49" shortDescription="Param 49" fullDescription="Parameter 49" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="1"/>
     <parameter name="PARAM50" shortDescription="Param 50" fullDescription="Parameter 50" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="2"/>
     <parameter name="PARAM51" shortDescription="Param 51" fullDescription="Parameter 51" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="3"/>
     <parameter name="PARAM52" shortDescription="Param 52" fullDescription="Parameter 52" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="4"/>
     <parameter name="PARAM53" shortDescription="Param 53" fullDescription="Parameter 53" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="5"/>
     <parameter name="PARAM54" shortDescription="Param 54" fullDescription="Parameter 54" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="6"/>
     <parameter name="PARAM55" shortDescription="Param 55" fullDescription="Parameter 55" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="7"/>
     <parameter name="PARAM56" shortDescription="Param 56" fullDescription="Parameter 56" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="G8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="8"/>
     <parameter name="PARAM57" shortDescription="Param 57" fullDescription="Parameter 57" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H1"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="9"/>
     <parameter name="PARAM58" shortDescription="Param 58" fullDescription="Parameter 58" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H2"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="10"/>
     <parameter name="PARAM59" shortDescription="Param 59" fullDescription="Parameter 59" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H3"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="11"/>
     <parameter name="PARAM60" shortDescription="Param 60" fullDescription="Parameter 60" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H4"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="12"/>
     <parameter name="PARAM61" shortDescription="Param 61" fullDescription="Parameter 61" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H5"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="13"/>
     <parameter name="PARAM62" shortDescription="Param 62" fullDescription="Parameter 62" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H6"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="14"/>
     <parameter name="PARAM63" shortDescription="Param 63" fullDescription="Parameter 63" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H7"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="15"/>
     <parameter name="PARAM64" shortDescription="Param 64" fullDescription="Parameter 64" scopeRangeMin="0" scopeRangeMax="2147483647" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="0" uiRangeMin="0" uiRangeMax="100"
-               uiRangeInterval="0.0001" uiSuffix="" scopeCode="H8"/>
+               uiRangeInterval="0.0001" uiSuffix="" scopeParamGroup="4" scopeParamId="16"/>
   </parameters>
   <mapping>
     <sliders>

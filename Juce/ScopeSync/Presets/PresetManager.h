@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -30,6 +30,9 @@
 
 #include <JuceHeader.h>
 #include "PresetFile.h"
+#include "../Resources/ImageLoader.h"
+#include "../Windows/UserSettings.h"
+
 class BCMTreeView;
 class PresetManagerWindow;
 class PresetFileChooser;
@@ -73,7 +76,9 @@ private:
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer treeSizeConstrainer;
     PresetFile&                presetFile;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+	SharedResourcePointer<UserSettings> userSettings;
+
     ApplicationCommandManager*  commandManager;
     UndoManager                 undoManager;
     PresetManagerWindow&        parentWindow;
@@ -86,7 +91,7 @@ private:
     bool perform(const InvocationInfo& info) override;
     ApplicationCommandTarget* getNextCommandTarget() override;
 
-    static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour);
+    static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader);
 
     void timerCallback() override;
     void actionListenerCallback(const String& message) override;
@@ -147,7 +152,7 @@ public:
     void unload();
     void discardChanges();
     void restoreWindowPosition();
-    static void updatePresetLibrary();
+    void updatePresetLibrary();
     void hidePresetManager(bool offerToSave = true);
 
     void showPresetFileChooser();
@@ -159,6 +164,8 @@ public:
 
     PresetFile& getPresetFile() { return presetFile; }
 
+	UserSettings* getUserSettings() { return userSettings; }
+
 private:
     ApplicationCommandManager*         commandManager;
     UndoManager&                       undoManager;
@@ -168,6 +175,8 @@ private:
     ScopedPointer<PresetMenuBarModel>  menuModel;
     File                               newPresetFile;
     bool                               offerToSaveOnExit;
+
+	SharedResourcePointer<UserSettings> userSettings;
 
     int numActions;
 

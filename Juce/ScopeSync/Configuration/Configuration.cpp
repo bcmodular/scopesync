@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,7 +28,6 @@
 #include "../Core/Global.h"
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
-#include "../Windows/UserSettings.h"
 #include "../Configuration/ConfigurationPanel.h"
 
 /* =========================================================================
@@ -64,7 +63,7 @@ NewConfigurationWindow::NewConfigurationWindow(int posX, int posY,
     setResizeLimits(400, 200, 32000, 32000);
 }
 
-NewConfigurationWindow::~NewConfigurationWindow() {}
+NewConfigurationWindow::~NewConfigurationWindow() = default;
 
 void NewConfigurationWindow::addConfiguration() const
 {
@@ -116,7 +115,7 @@ NewConfigurationEditor::NewConfigurationEditor(ScopeSync& ss,
     setBounds(0, 0, 600, 400);
 }
 
-NewConfigurationEditor::~NewConfigurationEditor() {}
+NewConfigurationEditor::~NewConfigurationEditor() = default;
 
 void NewConfigurationEditor::paint(Graphics& g)
 {
@@ -336,10 +335,15 @@ String Configuration::getConfigurationDirectory() const
 
 int Configuration::getConfigurationUID()
 {
-    if (configurationRoot.hasProperty(Ids::UID))
-        return configurationRoot.getProperty(Ids::UID);
-    else
-        return generateConfigurationUID();
+	if (configurationRoot.isValid())
+	{
+		if (configurationRoot.hasProperty(Ids::UID))
+			return configurationRoot.getProperty(Ids::UID);
+		
+		return generateConfigurationUID();
+	}
+
+	return 0;
 }
 
 int Configuration::generateConfigurationUID()
@@ -376,7 +380,7 @@ void Configuration::createConfiguration(const File& newFile, const ValueTree& in
     }
 }
 
-bool Configuration::replaceConfiguration(const String& newFileName)
+bool Configuration::replaceConfiguration(StringRef newFileName)
 {
     if (!(File::isAbsolutePath(newFileName)))
     {
@@ -406,9 +410,9 @@ bool Configuration::replaceConfiguration(const String& newFileName)
                 if (result.wasOk())
                 {
                     lastFailedFile = File();
-                    UserSettings::getInstance()->setLastTimeConfigurationLoaded(newFileName);
+                    userSettings->setLastTimeConfigurationLoaded(newFileName);
                     setMissingDefaultValues();
-					migrateFromV101();
+					migrateFromV102();
     
                     return true;
                 }
@@ -431,71 +435,38 @@ bool Configuration::replaceConfiguration(const String& newFileName)
     return true;
 }
 
-void Configuration::migrateFromV101()
+void Configuration::migrateFromV102()
 {
 	ValueTree parameters = getParameters();
 
-	ValueTree hostParameters = configurationRoot.getChildWithName(Ids::hostParameters);
-	
-	if (hostParameters.isValid())
+	if (parameters.isValid())
 	{
-		// Firstly migrate from old scopeSync property to new scopeCode
-		for (int i = 0; i < hostParameters.getNumChildren(); i++)
+		// Firstly migrate from old scopeCode property to new scopeParamGroup and scopeParamId in v103
+		for (int i = 0; i < parameters.getNumChildren(); i++)
 		{
-			ValueTree parameter(hostParameters.getChild(i));
+			ValueTree parameter(parameters.getChild(i));
         
-			if (!parameter[Ids::scopeSync].isVoid())
+			int scopeParamGroup = -1;
+			int scopeParamId    = -1;
+
+			if (!parameter[Ids::scopeCode].isVoid() && parameter[Ids::scopeCode].toString().isNotEmpty())
 			{
-				if (int(parameter[Ids::scopeSync]) >= 0)
-					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeSync])), nullptr);
-				
-				parameter.removeProperty(Ids::scopeSync, nullptr);
-                parameter.removeProperty(Ids::scopeLocal, nullptr);
-			}
+				String scopeCode(parameter[Ids::scopeCode].toString());
 
-		}
-		
-		// Then move the host parameters into the parameters node
-		while (hostParameters.getNumChildren() > 0)
-		{
-			ValueTree parameter(hostParameters.getChild(0));
-        
-			hostParameters.removeChild(parameter, nullptr);
-			parameters.addChild(parameter, -1, nullptr);
-		}
+				if (scopeCode.isNotEmpty())
+				{
+					const auto scopeOSCParamID(scopeCodeMapper->getScopeOSCParamIDByCode(parameter[Ids::scopeCode].toString())) ;
+					scopeParamGroup = scopeOSCParamID.paramGroup;
+					scopeParamId    = scopeOSCParamID.paramId;
+				}
 
-		configurationRoot.removeChild(configurationRoot.indexOf(hostParameters), nullptr);
-	}
-
-	ValueTree scopeParameters = configurationRoot.getChildWithName(Ids::scopeParameters);
-
-    if (scopeParameters.isValid())
-	{
-		// Firstly migrate from old scopeLocal property to new scopeCode
-		for (int i = 0; i < scopeParameters.getNumChildren(); i++)
-		{
-			ValueTree parameter(scopeParameters.getChild(i));
-        
-			if (!parameter[Ids::scopeLocal].isVoid())
-			{
-				if (int(parameter[Ids::scopeLocal]) >= 0)
-					parameter.setProperty(Ids::scopeCode, ScopeSync::getScopeCode(int(parameter[Ids::scopeLocal]) + 128), nullptr);
-				
-				parameter.removeProperty(Ids::scopeSync, nullptr);
-                parameter.removeProperty(Ids::scopeLocal, nullptr);
+				DBG("Configuration::migrateFromV102 - migrating scopeCode: " + scopeCode + " to: " + String(scopeParamGroup) + ":" + String(scopeParamId));
+				parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, nullptr);
+				parameter.setProperty(Ids::scopeParamId,    scopeParamId, nullptr);
+                
+                parameter.removeProperty(Ids::scopeCode, nullptr);
 			}
 		}
-
-		// Then move the scope parameters into the parameters node
-		while (scopeParameters.getNumChildren() > 0)
-		{
-			ValueTree parameter(scopeParameters.getChild(0));
-        
-			scopeParameters.removeChild(parameter, nullptr);
-			parameters.addChild(parameter, -1, nullptr);
-		}
-
-		configurationRoot.removeChild(configurationRoot.indexOf(scopeParameters), nullptr);
 	}
 }
 
@@ -552,17 +523,19 @@ void Configuration::addNewParameter(ValueTree& newParameter, const ValueTree& pa
 
     generateUniqueParameterNames(newParameter, um);
 
-    newParameter.setProperty(Ids::scopeCode, String::empty, um);
+	newParameter.setProperty(Ids::scopeParamGroup, -1, um);
+	newParameter.setProperty(Ids::scopeParamId, -1, um);
     
     getParameters().addChild(newParameter, targetIndex, um);
 }
 
 void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const
 {
-    String name      = parameter.getProperty(Ids::name);
-    String shortDesc = parameter.getProperty(Ids::shortDescription);
-    String fullDesc  = parameter.getProperty(Ids::fullDescription);
-    String scopeCode = parameter.getProperty(Ids::scopeCode);
+    String name            = parameter.getProperty(Ids::name);
+    String shortDesc       = parameter.getProperty(Ids::shortDescription);
+    String fullDesc        = parameter.getProperty(Ids::fullDescription);
+    String scopeParamGroup = parameter.getProperty(Ids::scopeParamGroup);
+	String scopeParamId    = parameter.getProperty(Ids::scopeParamId);
 
 	parameter.copyPropertiesFrom(preset, undoManager);
     parameter.removeProperty(Ids::presetFileName, undoManager);
@@ -580,7 +553,8 @@ void Configuration::updateParameterFromPreset(ValueTree& parameter, const ValueT
     if (settings.isValid())
         parameter.addChild(settings, -1, undoManager);
 
-    parameter.setProperty(Ids::scopeCode, scopeCode, undoManager);
+    parameter.setProperty(Ids::scopeParamGroup, scopeParamGroup, undoManager);
+	parameter.setProperty(Ids::scopeParamId, scopeParamId, undoManager);
     
     if (!overwriteNames)
     {
@@ -625,7 +599,8 @@ ValueTree Configuration::getDefaultParameter()
     defaultParameter.setProperty(Ids::name,             "PARAM",       nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeCode,        String::empty, nullptr);
+    defaultParameter.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeParamId,     -1,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -647,7 +622,8 @@ ValueTree Configuration::getDefaultFixedParameter()
     defaultParameter.setProperty(Ids::name,            "PARAM",        nullptr);
     defaultParameter.setProperty(Ids::shortDescription, "Param",       nullptr);
     defaultParameter.setProperty(Ids::fullDescription,  "Parameter",   nullptr);
-    defaultParameter.setProperty(Ids::scopeCode,        String::empty, nullptr);
+    defaultParameter.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
+    defaultParameter.setProperty(Ids::scopeParamId,     -1,            nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMin,    -2147483647,   nullptr);
     defaultParameter.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultParameter.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -737,7 +713,7 @@ void Configuration::addStyleOverrideToAll(const Identifier& componentType,
 Result Configuration::saveDocument (const File& /* file */)
 {
     generateConfigurationUID();
-    UserSettings::getInstance()->updateConfigurationLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), configurationRoot);
+    userSettings->updateConfigurationLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), configurationRoot);
 
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
 
@@ -862,7 +838,7 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
     String layoutName       = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
     String layoutLibrarySet = configurationRoot.getProperty(Ids::layoutLibrarySet, String::empty).toString();
 
-    String layoutFilename = UserSettings::getInstance()->getLayoutFilename(layoutName, layoutLibrarySet);
+    String layoutFilename = userSettings->getLayoutFilename(layoutName, layoutLibrarySet);
 
     if (layoutFilename.isEmpty())
     {

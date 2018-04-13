@@ -13,7 +13,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -42,7 +42,7 @@ class ScopeFXGUI;
 
 using namespace ScopeFXParameterDefinitions;
 
-class ScopeFX : public Effect, public Value::Listener
+class ScopeFX : public Effect, public Value::Listener, public Timer
 {
 public:
     ScopeFX();
@@ -62,7 +62,15 @@ public:
     ScopeSync& getScopeSync() { return *scopeSync; };
     void setGUIEnabled(bool shouldBeEnabled);
 
-    void valueChanged(Value& valueThatChanged) override;
+	void syncScope();
+	void snapshot();
+	void setPluginHostIP(StringRef address);
+	void setPluginHostIP(int oct1, int oct2, int oct3, int oct4);
+	void setPluginListenerPort(int port);
+	void setScopeSyncListenerPort(int port);
+	void setConfigUID(int newConfigUID);
+    
+	void valueChanged(Value& valueThatChanged) override;
 
 private:	
 	
@@ -71,14 +79,29 @@ private:
    
     // Show/hides the ScopeFX GUI window
 	void toggleWindow(bool show);
+
+	void timerCallback() override;
 	
     Value shouldShowWindow;
+	Value pluginHost;
+	Value pluginPort;
+	Value scopeSyncPort;
+	Value configurationUID;
 
     ScopedPointer<ScopeSync> scopeSync;	
-        
-	int currentValues[numParameters];
-
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
+
+	int deviceInstance;
+	std::atomic<int> snapshotValue;
+	std::atomic<int> syncScopeValue;
+	std::atomic<int> pluginHostOctet1;
+	std::atomic<int> pluginHostOctet2;
+	std::atomic<int> pluginHostOctet3;
+	std::atomic<int> pluginHostOctet4;
+	std::atomic<int> pluginListenerPort;
+	std::atomic<int> scopeSyncListenerPort;
+	std::atomic<int> configUID;
+	std::atomic<int> scopeConfigUID;
 };
 
 

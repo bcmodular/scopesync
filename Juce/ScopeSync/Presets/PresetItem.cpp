@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -29,7 +29,6 @@
 #include "../Utils/BCMTreeView.h"
 #include "PresetManager.h"
 #include "../Core/Global.h"
-#include "../Core/ScopeSyncApplication.h"
 
 /* =========================================================================
  * PresetItem: Preset TreeViewItems
@@ -44,12 +43,12 @@ public:
     var  getDragSourceDescription() override { return "Preset"; }
     bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& /* dragSourceDetails */) override { return false; }
     
-    virtual Icon getIcon() const override { return Icon(Icons::getInstance()->parameter, Colours::grey); }
+    virtual Icon getIcon() const override { return Icon(icons->parameter, Colours::grey); }
     virtual String getDisplayName() const override;
 
     void copyItem() override;
     void pasteItem() override;
-    bool canPasteItem() override { return ParameterClipboard::getInstance()->clipboardIsNotEmpty(); }
+    bool canPasteItem() override { return parameterClipboard->clipboardIsNotEmpty(); }
 
     void deleteItem() override;
     void addItem() override;
@@ -62,7 +61,7 @@ public:
         presetManager.changePanel(new PresetPanel(tree, undoManager, presetFile, commandManager));
     }
 private:
-    void refreshSubItems() override;
+	void refreshSubItems() override;
     void showPopupMenu() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PresetItem);
@@ -107,10 +106,10 @@ void PresetItem::addItemFromClipboard()
 {
     ValueTree definition;
     
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::preset);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
     
     insertPresetAt(definition, tree.getParent().indexOf(tree) + 1);
@@ -127,13 +126,13 @@ void PresetItem::insertPresetAt(const ValueTree& definition, int index)
 
 void PresetItem::copyItem()
 {
-    ParameterClipboard::getInstance()->copy(tree);
+    parameterClipboard->copy(tree);
 }
 
 void PresetItem::pasteItem()
 {
     storeSelectionOnDelete();
-    ParameterClipboard::getInstance()->paste(tree, &undoManager);
+    parameterClipboard->paste(tree, &undoManager);
     changePanel();
 }
 
@@ -165,7 +164,7 @@ Font PresetRootItem::getFont() const { return Font (getItemHeight() * 0.7f); }
 
 float PresetRootItem::getIconSize() const { return jmin (getItemHeight() - 4.0f, 18.0f); }
 
-Icon PresetRootItem::getIcon() const { return Icon(Icons::getInstance()->parameters, Colours::aliceblue); }
+Icon PresetRootItem::getIcon() const { return Icon(icons->parameters, Colours::aliceblue); }
 
 var PresetRootItem::getDragSourceDescription() { return "Preset File Root Item"; }
 
@@ -208,7 +207,7 @@ void PresetRootItem::changePanel()
 
 bool PresetRootItem::canPasteItem()
 { 
-    return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
+    return parameterClipboard->clipboardIsNotEmpty();
 }
 
 void PresetRootItem::addItem()
@@ -221,10 +220,10 @@ void PresetRootItem::addItemFromClipboard()
 {
     ValueTree definition;
 
-    if (ParameterClipboard::getInstance()->clipboardIsNotEmpty())
+    if (parameterClipboard->clipboardIsNotEmpty())
     {
         definition = ValueTree(Ids::preset);
-        ParameterClipboard::getInstance()->paste(definition, nullptr);
+        parameterClipboard->paste(definition, nullptr);
     }
 
     addPreset(definition);

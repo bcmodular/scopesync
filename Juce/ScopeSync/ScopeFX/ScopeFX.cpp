@@ -13,7 +13,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -31,15 +31,15 @@
  */
 #include "ScopeFX.h"
 #include "ScopeFXGUI.h"
-#include "../Resources/ImageLoader.h"
-#include "../Resources/Icons.h"
-#include "../Core/ScopeSyncApplication.h"
-#include "../Windows/UserSettings.h"
-#include "../Core/BCMParameterController.h"
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameterController.h"
+#include "../Parameters/BCMParameter.h"
+#include "../Utils/BCMMisc.h"
 
 #ifdef _WIN32
-#include <Windows.h>
+	#ifndef WIN32_LEAN_AND_MEAN
+		#define WIN32_LEAN_AND_MEAN
+	#endif
+	#include <Windows.h>
 #endif
 #include <float.h>
 
@@ -74,50 +74,51 @@ ScopeFX::ScopeFX() : Effect(&effectDescription)
 #endif
         initialiseJuce_GUI();
     }
-
+	
     scopeSync = new ScopeSync(this);
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByScopeCode("show")->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getParameterByName("Show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
+
+	pluginHost.addListener(this);
+	pluginPort.addListener(this);
+	scopeSyncPort.addListener(this);
+	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
+
+	configurationUID.addListener(this);
+	scopeSync->referToConfigurationUID(configurationUID);
 }
 
 ScopeFX::~ScopeFX()
 {
+	stopTimer();
+	
 	shouldShowWindow.removeListener(this);
 
     scopeFXGUI = nullptr;
     scopeSync->unload();
     scopeSync = nullptr;
 
-    DBG("ScopeFX::~ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
-    
-    ScopeSync::shutDownIfLastInstance();
+	if (ScopeSync::getNumScopeSyncInstances() == 0)
+        shutdownJuce_GUI();
 }
    
 void ScopeFX::initValues()
 {
     shouldShowWindow = false;
-
-	for (int i = 0; i < numParameters; i++)
-		currentValues[i] = 0;
 }
 
 void ScopeFX::toggleWindow(bool show)
 {
 	if (show && scopeFXGUI == nullptr)
 	{
-#ifdef _WIN32
 		if (scopeWindow == nullptr)
 			EnumWindows(EnumWindowsProc, 0);
-#else
-		// If Scope ever ends up on non-Windows, we'll
-		// probably want to implement something here
-		void* scopeWindow = nullptr;
-#endif
 
-		scopeFXGUI = new ScopeFXGUI(this, scopeWindow);
+		scopeFXGUI = new ScopeFXGUI(this);
+		scopeFXGUI->open(scopeWindow);
 	}
 	else if (!show)
 		scopeFXGUI = nullptr;
@@ -129,109 +130,131 @@ void ScopeFX::setGUIEnabled(bool shouldBeEnabled)
         scopeFXGUI->setEnabled(shouldBeEnabled);
 }
 
+void ScopeFX::snapshot()
+{
+	snapshotValue.fetch_add(1, std::memory_order_relaxed);
+}
+
+void ScopeFX::syncScope()
+{
+	DBG("ScopeFX::syncScope - starting timer");
+	// Race conditions on loading module mean we need to delay this
+	// for a little bit
+	startTimer(1000);
+}
+
+void ScopeFX::timerCallback()
+{
+	DBG("ScopeFX::timerCallback - setting sync Scope value");
+	stopTimer();
+	syncScopeValue.fetch_add(1, std::memory_order_relaxed);
+}
+
+void ScopeFX::setPluginHostIP(StringRef address)
+{
+	StringArray const octets(StringArray::fromTokens(ipAddressFromHostName(address, pluginPort.toString()), ".", String::empty));
+	DBG("ScopeFX::setPluginHostIP - address passed in: " + address);
+	DBG("ScopeFX::setPluginHostIP - num octets: " + String(octets.size()) + ", " + octets[0] + ";" + octets[1] + ";" + octets[2] + ";" + octets[3]);
+	setPluginHostIP(octets[0].getIntValue(), octets[1].getIntValue(), octets[2].getIntValue(), octets[3].getIntValue());
+}
+
+void ScopeFX::setPluginHostIP(int oct1, int oct2, int oct3, int oct4)
+{
+	pluginHostOctet1.store(oct1, std::memory_order_relaxed);
+	pluginHostOctet2.store(oct2, std::memory_order_relaxed);
+	pluginHostOctet3.store(oct3, std::memory_order_relaxed);
+	pluginHostOctet4.store(oct4, std::memory_order_relaxed);
+}
+
+void ScopeFX::setPluginListenerPort(int port)
+{
+	pluginListenerPort.store(port, std::memory_order_relaxed);
+}
+
+void ScopeFX::setScopeSyncListenerPort(int port)
+{
+	scopeSyncListenerPort.store(port, std::memory_order_relaxed);
+}
+
+void ScopeFX::setConfigUID(int newConfigUID)
+{
+	configUID.store(newConfigUID, std::memory_order_relaxed);
+}
+
 void ScopeFX::valueChanged(Value& valueThatChanged)
 {
 	if (valueThatChanged.refersToSameSourceAs(shouldShowWindow))
-		toggleWindow(int(shouldShowWindow.getValue()) > 0);
+	{
+		toggleWindow(int(valueThatChanged.getValue()) > 0);
+		return;
+	}
+	
+	if (valueThatChanged.refersToSameSourceAs(pluginHost))
+	{
+		setPluginHostIP(valueThatChanged.toString());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(pluginPort))
+	{
+		setPluginListenerPort(valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeSyncPort))
+	{
+		setScopeSyncListenerPort(valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(configurationUID))
+	{
+		setConfigUID(valueThatChanged.getValue());
+		return;
+	}
 }
 
 
 int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
                    PadData*  asyncOut, PadData* /*syncOut*/)
 {
-	int asyncValues[numParameters];
+	// TODO: this needs to be tweaked to be thread-safe
+	int newDeviceInstance = asyncIn[INPAD_DEVICE_INSTANCE]->itg;
 
-	int i = 0;
-	int j = 0;
-
-    int* parameterArray = (int*)asyncIn[INPAD_PARAMS]->itg;
-    
-    // Grab ScopeSync values from input
-	while (i < numScopeParameters)
+	if (newDeviceInstance != deviceInstance)
 	{
-		if (parameterArray != nullptr)
-			asyncValues[i] = parameterArray[j];
-		else
-			asyncValues[i] = 0;
-		
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-		j++;
+		deviceInstance = newDeviceInstance;
+		scopeSync->setDeviceInstance(deviceInstance);
+	}
+	else
+		deviceInstance = scopeSync->getDeviceInstance();
+	
+	int oldScopeConfigUID = scopeConfigUID.load(std::memory_order_relaxed);
+	int newScopeConfigUID = asyncIn[INPAD_CONFIGUID]->itg;
+
+	if (!scopeConfigUID.compare_exchange_weak(oldScopeConfigUID, newScopeConfigUID))
+	{
+		// Scope value has changed since the last async call, so let's tell ScopeSync about it
+		scopeSync->setConfigurationUID(scopeConfigUID.load(std::memory_order_relaxed));
+	}
+	else
+	{
+		// Scope value hasn't changed, so let's swap in the one from ScopeSync (could have been 
+		// updated in the valueChanged() method)
+		scopeConfigUID.store(configUID.load(std::memory_order_relaxed), std::memory_order_relaxed);
 	}
 
-    int* localArray = (int*)asyncIn[INPAD_LOCALS]->itg;
-
-    j = 0;
-	// Grab ScopeLocal values from input
-	while (j < numLocalParameters)
-	{
-		if (localArray != nullptr)
-			asyncValues[i] = localArray[j];
-		else
-			asyncValues[i] = 0;
-
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-		j++;
-	}
-
-	int* feedbackArray = (int*)asyncIn[INPAD_FEEDBACK]->itg;
+	asyncOut[OUTPAD_DEVICE_INSTANCE].itg         = deviceInstance;
+	asyncOut[OUTPAD_SNAPSHOT].itg                = snapshotValue.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg        = pluginHostOctet1.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT2].itg        = pluginHostOctet2.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT3].itg        = pluginHostOctet3.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg        = pluginHostOctet4.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg    = pluginListenerPort.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_SCOPESYNC_LISTENER_PORT].itg = scopeSyncListenerPort.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_CONFIGUID].itg               = scopeConfigUID.load(std::memory_order_relaxed);
+	asyncOut[OUTPAD_SYNC_SCOPE].itg              = syncScopeValue.load(std::memory_order_relaxed);
 	
-	j = 0;
-    // Grab Feedback values from input
-    while (j < numFeedbackParameters)
-    {
-        if (feedbackArray != nullptr)
-			asyncValues[i] = feedbackArray[j];
-		else
-			asyncValues[i] = 0;
-        
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-        j++;
-    }
-
-    // Grab fixed parameters values from input
-    j = INPAD_X;
-    while (j < INPAD_X + numFixedBiDirParameters + numFixedInputOnlyParameters)
-    {
-        asyncValues[i] = asyncIn[j]->itg;
-        
-		//DBG("INPUT: i = " + String(i) + ", j = " + String(j) + ", value = " + String(asyncValues[i]));
-		
-		i++;
-        j++;
-    }
-	
-	int enableScopeInputs = asyncValues[i];
-
-	if (enableScopeInputs != currentValues[i])
-		ScopeSyncAsync::setScopeInputEnablement(enableScopeInputs > 0);
-	
-    // Get ScopeSync to process the inputs and pass on changes from the SS system
-    if (scopeSync != nullptr)
-        scopeSync->getScopeSyncAsync().handleUpdate(asyncValues, currentValues);
-    
-	i = 0;
-
-	// Write to the async outputs for all output parameters
-    for (int k = 0; k < numParameters; k++)
-    {
-		if (   ScopeSync::getScopeCodeType(k) != BCMParameter::feedback
-			&& ScopeSync::getScopeCodeType(k) != BCMParameter::fixedInputOnly)
-		{
-			//DBG("OUTPUT: i = " + String(i) + ", k = " + String(k) + ", value = " + String(asyncValues[k]));
-			asyncOut[i].itg  = asyncValues[k];
-			i++;
-		}
-    }
-	
-	// Tell Scope when the DLL has been loaded
-	asyncOut[OUTPAD_LOADED].itg = (scopeSync != nullptr && scopeSync->isInitialised()) ? FRAC_MAX : 0;
-
 	return 0;
 }
 

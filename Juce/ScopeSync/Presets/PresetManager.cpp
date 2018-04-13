@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,7 +28,6 @@
 #include "PresetManager.h"
 #include "PresetItem.h"
 #include "../Utils/BCMTreeView.h"
-#include "../Resources/ImageLoader.h"
 #include "../Windows/PresetFileChooser.h"
 #include "../Windows/UserSettings.h"
 
@@ -47,7 +46,7 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
       presetFile(parent.getPresetFile()),
       parentWindow(parent)
 {
-    UserSettings::getInstance()->addActionListener(this);
+    userSettings->addActionListener(this);
     
     initialised = false;
 
@@ -61,35 +60,35 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
 
     commandManager->registerAllCommandsForTarget(this);
     
-    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack);
+    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack, imageLoader);
     addButton.setCommandToTrigger(commandManager, CommandIDs::addPresetFile, true);
     addAndMakeVisible(addButton);
 
-    setButtonImages(openButton, "loadConfigButtonOff", "loadConfigButtonOver", "loadConfigButtonOn", Colours::transparentBlack);
+    setButtonImages(openButton, "loadConfigButtonOff", "loadConfigButtonOver", "loadConfigButtonOn", Colours::transparentBlack, imageLoader);
     openButton.setCommandToTrigger(commandManager, CommandIDs::choosePresetFile, true);
     addAndMakeVisible(openButton);
     
-    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack, imageLoader);
     saveButton.setCommandToTrigger(commandManager, CommandIDs::savePresetFile, true);
     addAndMakeVisible(saveButton);
 
-    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack, imageLoader);
     saveAsButton.setCommandToTrigger(commandManager, CommandIDs::savePresetFileAs, true);
     addAndMakeVisible(saveAsButton);
 
-    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
+    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack, imageLoader);
     applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyPresetFileChanges, true);
     addAndMakeVisible(applyChangesButton);
 
-    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
+    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack, imageLoader);
     discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardPresetFileChanges, true);
     addAndMakeVisible(discardChangesButton);
 
-    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack, imageLoader);
     undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
     addAndMakeVisible(undoButton);
 
-    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack, imageLoader);
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
     addAndMakeVisible(redoButton);
 
@@ -123,12 +122,12 @@ PresetManager::PresetManager(PresetManagerWindow& parent)
     startTimer(500);
 }
 
-void PresetManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+void PresetManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
 {
     button.setImages(true, true, true,
-                     ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                     imgLoader->loadImage(normalImage, ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(overImage,   ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(downImage,   ""), 1.0f, overlayColour, 0);
 }
 
 PresetManager::~PresetManager()
@@ -150,7 +149,7 @@ ApplicationCommandManager* PresetManager::getCommandManager() const
 
 void PresetManager::unload()
 {
-    UserSettings::getInstance()->removeActionListener(this);
+    userSettings->removeActionListener(this);
     stopTimer();
     saveTreeViewState();
     presetFile.getPresetProperties().setValue("lastPresetMgrWidth", getWidth());
@@ -385,8 +384,8 @@ void PresetManager::paint(Graphics& g)
         g.fillRect(0, 0, getWidth(), 40);
         g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 174, 8);
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 268, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 174, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 268, 8);
     }
 }
 
@@ -619,25 +618,20 @@ void PresetManagerWindow::addPresetFile()
     // Rebuild the library, so we can check whether the new preset file
     // was put into a File Location. We will get an action callback
     // once the rebuild is complete
-    UserSettings::getInstance()->addActionListener(this);
-    UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
+    userSettings->addActionListener(this);
+    userSettings->rebuildFileLibrary(false, false, true);
 }
 
 void PresetManagerWindow::actionListenerCallback(const String& message)
 {
-    if (message == "presetlibraryupdated")
-    {
-        if (newPresetFileIsInLocation())
-        {
-            UserSettings::getInstance()->removeActionListener(this);
-        }
-    }
+    if (message == "presetlibraryupdated" && newPresetFileIsInLocation())
+		userSettings->removeActionListener(this);
 }
 
 
 bool PresetManagerWindow::newPresetFileIsInLocation()
 {
-    ValueTree pf = UserSettings::getInstance()->getPresetFileFromFilePath(presetFile.getFile().getFullPathName(), UserSettings::getInstance()->getPresetLibrary());
+    ValueTree pf = userSettings->getPresetFileFromFilePath(presetFile.getFile().getFullPathName(), userSettings->getPresetLibrary());
     
     if (!pf.isValid())
     {
@@ -663,13 +657,13 @@ void PresetManagerWindow::alertBoxLaunchLocationEditor(int result, Rectangle<int
     if (result)
     {
         // User clicked OK, so launch the location editor
-        UserSettings::getInstance()->editFileLocations(newConfigWindowPosition.getCentreX(),
-                                                       newConfigWindowPosition.getCentreY());    
+        pmw->getUserSettings()->editFileLocations(newConfigWindowPosition.getCentreX(),
+                                        newConfigWindowPosition.getCentreY());    
     }
     else
     {
         // User clicked cancel, so we just give up for now
-        UserSettings::getInstance()->removeActionListener(pmw);
+        pmw->getUserSettings()->removeActionListener(pmw);
     }
 }
 
@@ -713,12 +707,12 @@ void PresetManagerWindow::discardChanges()
 
 void PresetManagerWindow::updatePresetLibrary()
 {
-    UserSettings::getInstance()->rebuildFileLibrary(false, false, true);
+    userSettings->rebuildFileLibrary(false, false, true);
 }
 
 void PresetManagerWindow::hidePresetManager(bool offerToSave)
 {
     offerToSaveOnExit = offerToSave;
 
-    UserSettings::getInstance()->hidePresetManagerWindow();
+    userSettings->hidePresetManagerWindow();
 }

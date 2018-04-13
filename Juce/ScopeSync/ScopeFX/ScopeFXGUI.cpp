@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -30,18 +30,36 @@
 #include "ScopeFXGUI.h"
 #include "ScopeFX.h"
 #include "../Core/ScopeSync.h"
-#include "../Core/BCMParameterController.h"
 
-ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
-    scopeFX(owner)
+ScopeFXGUI::ScopeFXGUI(ScopeFX* owner) :
+	scopeFX(owner),
+	parameterController(owner->getScopeSync().getParameterController()),
+	firstTimeShow(true),
+	ignoreXYFromScope(false)
+{
+}
+
+ScopeFXGUI::~ScopeFXGUI()
+{
+	stopTimer(resizeOnLoad);
+	stopTimer(userMoved);
+	
+	scopeSyncGUI->removeComponentListener(this);
+	configurationName.removeListener(this);
+    xPos.removeListener(this);
+    yPos.removeListener(this);
+}
+
+void ScopeFXGUI::open(HWND scopeWindow)
 {
     setOpaque(true);
     setVisible(true);
     setName("ScopeSync");
 
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("X")->mapToUIValue(xPos);
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("Y")->mapToUIValue(yPos);
+    parameterController->getParameterByName("X")->mapToUIValue(xPos);
+    parameterController->getParameterByName("Y")->mapToUIValue(yPos);
 
+	configurationName.addListener(this);
     xPos.addListener(this);
     yPos.addListener(this);
 
@@ -53,83 +71,60 @@ ScopeFXGUI::ScopeFXGUI(ScopeFX* owner, HWND scopeWindow) :
     int width  = jmax(scopeSyncGUI->getWidth(), 100);
     int height = jmax(scopeSyncGUI->getHeight(), 100);
 
-    firstTimeShow = true;
-    
     DBG("ScopeFXGUI::ScopeFXGUI - Creating scopeSyncGUI, width=" + String(width) + ", height=" + String(height));
     
     setSize(width, height);
     addAndMakeVisible(scopeSyncGUI);
+	
+	scopeSyncGUI->addComponentListener(this);
+	scopeFX->getScopeSync().listenForConfigurationNameChanges(configurationName);
 
-	startTimer(100);
-}
+	grabKeyboardFocus();
 
-ScopeFXGUI::~ScopeFXGUI()
-{
-	stopTimer();
-    xPos.removeListener(this);
-    yPos.removeListener(this);
-    scopeFX = nullptr;
-}
-
-void ScopeFXGUI::timerCallback()
-{
-	refreshWindow();
-}
-
-void ScopeFXGUI::refreshWindow()
-{
-    // In case the mainComponent of the scopeSyncGUI has been changed
-    // such that the size has changed, then change our plugin size
-    bool sizeChanged = false;
-    int newWidth  = jmax(scopeSyncGUI->getWidth(), 100);
-    int newHeight = jmax(scopeSyncGUI->getHeight(), 100);
-
-    if (getWidth() != newWidth)
-    {
-        sizeChanged = true;
-    }
-
-    if (getHeight() != newHeight)
-    {
-        sizeChanged = true;
-    }
-
-    if (sizeChanged || firstTimeShow)
-    {
-        DBG("refreshWindow::timerCallback - GUI size changed: My size: " + String(getWidth()) + ", " + String(getHeight()) + " ScopeSyncGUI size: " + String(newWidth) + ", " + String(newHeight));
-        setSize(newWidth, newHeight);
-        grabKeyboardFocus();
-        firstTimeShow = false;
-    }
-
-    String newWindowName = scopeFX->getScopeSync().getConfigurationName(true);
-
-    if (windowName != newWindowName)
-    {
-        windowName = newWindowName;
-        setName(windowName);
-    }
+	startTimer(resizeOnLoad, 10);
 }
 
 void ScopeFXGUI::valueChanged(Value & valueThatChanged)
 {
-    if (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos))
+	// This will be called when Scope sets the values, typically on Project/Preset/Screenset load
+    if (!ignoreXYFromScope && (valueThatChanged.refersToSameSourceAs(xPos) || valueThatChanged.refersToSameSourceAs(yPos)))
     {
         DBG("ScopeFXGUI::valueChanged - new position: X = " + xPos.getValue().toString() + " Y = " + yPos.getValue().toString());
         setTopLeftPosition(xPos.getValue(), yPos.getValue());
+    }
+	else if (valueThatChanged.refersToSameSourceAs(configurationName))
+    {
+		setName(scopeFX->getScopeSync().getConfigurationName(true));
+    }
+}
+
+void ScopeFXGUI::componentMovedOrResized(Component& component, bool wasMoved, bool wasResized)
+{
+	(void)wasMoved;
+
+    if (wasResized || firstTimeShow)
+    {
+        setSize(jmax(component.getWidth(), 100), jmax(component.getHeight(), 100));
+        grabKeyboardFocus();
+    	firstTimeShow = false;
     }
 }
 
 void ScopeFXGUI::userTriedToCloseWindow()
 {
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("show")->setUIValue(0);
+   parameterController->getParameterByName("Show")->setUIValue(0);
 }
 
 void ScopeFXGUI::moved()
 {
+	// This is called when someone is physically moving the window
     DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("X")->setUIValue((float)getScreenPosition().getX());
-    scopeFX->getScopeSync().getParameterController()->getParameterByScopeCode("Y")->setUIValue((float)getScreenPosition().getY());
+    parameterController->getParameterByName("X")->setUIValue(float(getScreenPosition().getX()));
+    parameterController->getParameterByName("Y")->setUIValue(float(getScreenPosition().getY()));
+
+	// We don't want to be affected by values coming back from Scope, so ignore for half a second
+	ignoreXYFromScope = true;
+	startTimer(userMoved, 500);
 }
 
 void ScopeFXGUI::paint(Graphics& g)
@@ -137,4 +132,14 @@ void ScopeFXGUI::paint(Graphics& g)
     g.fillAll(Colour::fromString("FF2D3035"));
 }
 
-#endif  // __DLLEFFECT__
+void ScopeFXGUI::timerCallback(int timerId)
+{
+	switch (timerId)
+	{
+		case userMoved    : ignoreXYFromScope = false;
+		case resizeOnLoad : setSize(jmax(scopeSyncGUI->getWidth(), 100), jmax(scopeSyncGUI->getHeight(), 100));
+		default: stopTimer(timerId);
+	}	
+}
+
+#endif  // __DLL_EFFECT__

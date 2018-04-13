@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -26,7 +26,6 @@
 
 #include "BCMMisc.h"
 #include "BCMMath.h"
-#include "../Windows/UserSettings.h"
 
 String createAlphaNumericUID()
 {
@@ -44,6 +43,51 @@ String createAlphaNumericUID()
 
     return uid;
 }
+
+#ifdef __DLL_EFFECT__
+#ifndef NOGDI
+	#define NOGDI
+#endif
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+
+String ipAddressFromHostName(StringRef hostName, StringRef port)
+{
+	String ipAddress("127.0.0.1");
+
+	// Look up IP address from address
+    struct addrinfo hints;
+    zerostruct (hints);
+
+	// TODO - perhaps this should be changed to AF_INET
+    hints.ai_family   = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags    = AI_NUMERICSERV;
+
+    struct addrinfo* info = nullptr;
+
+    if (getaddrinfo(String(hostName).toRawUTF8(), String(port).toRawUTF8(), &hints, &info) == 0)
+    {
+	    if (info != nullptr)
+		{
+			for (auto* i = info; i != nullptr; i = i->ai_next)
+			{
+				if (i->ai_family == AF_INET)
+				{
+					auto sockaddr_ipv4 = reinterpret_cast<struct sockaddr_in*>(i->ai_addr);
+					ipAddress = String(inet_ntoa(sockaddr_ipv4->sin_addr));
+
+					DBG("ipAddressFromHostName: IP Address - " + ipAddress);
+				}
+			}
+
+			freeaddrinfo(info);
+		}
+	}
+
+	return ipAddress;
+}
+#endif // __DLL_EFFECT__
 
 /* =========================================================================
  * PropertyListBuilder
@@ -237,10 +281,10 @@ void ColourPropertyComponent::ColourEditorComponent::paint(Graphics& g)
 {
     g.fillAll (Colours::grey);
 
-    g.fillCheckerBoard (getLocalBounds().reduced (2, 2),
-                        10, 10,
-                        Colour (0xffdddddd).overlaidWith (colour),
-                        Colour (0xffffffff).overlaidWith (colour));
+	g.fillCheckerBoard (getLocalBounds().reduced (2, 2).toFloat(),
+						10.0f, 10.0f,
+						Colour (0xffdddddd).overlaidWith (colour),
+						Colour (0xffffffff).overlaidWith (colour));
 
     g.setColour (Colours::white.overlaidWith (colour).contrasting());
     g.setFont (Font (getHeight() * 0.6f, Font::bold));
@@ -312,21 +356,21 @@ void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::buttonC
     selector.setCurrentColour (owner->getColour());
 }
 
-ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::ColourSelectorWithSwatches() {}
+ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::ColourSelectorWithSwatches() = default;
 
 int ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getNumSwatches() const
 {
-    return UserSettings::getInstance()->swatchColours.size();
+    return userSettings->swatchColours.size();
 }
 
 Colour ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::getSwatchColour(int index) const
 {
-    return UserSettings::getInstance()->swatchColours [index];
+    return userSettings->swatchColours [index];
 }
 
-void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour) const
+void ColourPropertyComponent::ColourEditorComponent::ColourSelectorComp::ColourSelectorWithSwatches::setSwatchColour(int index, const Colour& newColour)
 {
-    UserSettings::getInstance()->swatchColours.set(index, newColour);
+    userSettings->swatchColours.set(index, newColour);
 }
 
 ColourPropertyComponent::ColourPropEditorComponent::ColourPropEditorComponent(ColourPropertyComponent* const owner_, const bool canReset): ColourEditorComponent(canReset), owner (owner_) {}

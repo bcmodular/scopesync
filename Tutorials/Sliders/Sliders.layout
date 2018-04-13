@@ -4,51 +4,57 @@
     <lookandfeels>
       <!--default lookandfeel - is used unless otherwise specified at component level.-->
       <!--When left empty as is the case here reverts to JUCE default lookandfeel.-->
-      <lookandfeel id="default"></lookandfeel>
+      <lookandfeel id="default"/>
       <!--ScopeSync Header lookandfeels-->
       <lookandfeel id="header tab">
         <colours>
-          <tabbedcomponent outlinecolourid="00000000"></tabbedcomponent>
-          <tabbar taboutlinecolourid="00000000" tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00"></tabbar>
+          <tabbedcomponent outlinecolourid="00000000"/>
+          <tabbar taboutlinecolourid="00000000" tabtextcolourid="ffc3cace" fronttextcolourid="ffff7f00"/>
         </colours>
       </lookandfeel>
       <!--Slider lookandfeels-->
       <lookandfeel id="sliders1">
         <colours>
-          <slider backgroundcolourid="2fefeff7" thumbcolourid="ffefeff7" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ff16171a" textboxbackgroundcolourid="dfefeff7" textboxhighlightcolourid="2f16171a" textboxoutlinecolourid="7f222222"></slider>
-          <label textcolourid="ff16171a"></label>
-          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="aa555555"></texteditor>
-          <textbutton textcolouroffid="ffffffff" textcolouronid="ffff4200" buttoncolourid="ff16171a"></textbutton>
+          <slider backgroundcolourid="2fefeff7" thumbcolourid="ffefeff7" trackcolourid="ff16171a"
+                  rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a"
+                  textboxtextcolourid="ff16171a" textboxbackgroundcolourid="dfefeff7"
+                  textboxhighlightcolourid="2f16171a" textboxoutlinecolourid="7f222222"/>
+          <label textcolourid="ff16171a"/>
+          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="aa555555"/>
+          <textbutton textcolouroffid="ffffffff" textcolouronid="ffff4200" buttoncolourid="ff16171a"/>
         </colours>
         <appliesto componenttype="slider" />
         <appliesto componenttype="label" />
       </lookandfeel>
       <lookandfeel id="sliders2" parentid="sliders1">
         <colours>
-          <slider thumbcolourid="ffff1000"></slider>
+          <slider thumbcolourid="ffff1000"/>
         </colours>
       </lookandfeel>
       <lookandfeel id="sliders3" parentid="sliders1">
         <colours>
-          <slider thumbcolourid="ff00ff10"></slider>
+          <slider thumbcolourid="ff00ff10"/>
         </colours>
       </lookandfeel>
       <lookandfeel id="sliders4" parentid="sliders1">
         <colours>
-          <slider thumbcolourid="ff1998FF"></slider>
+          <slider thumbcolourid="ff1998FF"/>
         </colours>
       </lookandfeel>
       <lookandfeel id="sliders5">
         <colours>
-          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a" rotarysliderfillcolourid="ffff4d00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
-          <label textcolourid="bbcad5d9"></label>
-          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="df111111"></texteditor>
-          <textbutton textcolouroffid="ffcad5d9" textcolouronid="ffff4200" buttoncolourid="ff4a5961"></textbutton>
+          <slider backgroundcolourid="00efeff7" thumbcolourid="ff849199" trackcolourid="ff16171a"
+                  rotarysliderfillcolourid="ffff4d00" rotaryslideroutlinecolourid="2f16171a"
+                  textboxtextcolourid="ffcad5d9" textboxbackgroundcolourid="df111111"
+                  textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"/>
+          <label textcolourid="bbcad5d9"/>
+          <texteditor backgroundcolourid="7f000000" textcolourid="00000000" focusedoutlinecolourid="df111111"/>
+          <textbutton textcolouroffid="ffcad5d9" textcolouronid="ffff4200" buttoncolourid="ff4a5961"/>
         </colours>
       </lookandfeel>
       <lookandfeel id="sliders6" parentid="sliders5">
         <colours>
-          <label textcolourid="ffdfe6eb"></label>
+          <label textcolourid="ffdfe6eb"/>
         </colours>
         <images>
           <slider>
@@ -59,13 +65,14 @@
               <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearhorizontal>
           </slider>
-          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png"
+                      mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"/>
         </images>
       </lookandfeel>
       <lookandfeel id="sliders7" parentid="sliders5">
         <colours>
-          <label textcolourid="ffdfe6eb"></label>
-          <slider backgroundcolourid="00fdfdfd" thumbcolourid="00fe8c00" trackcolourid="0016171a"></slider>
+          <label textcolourid="ffdfe6eb"/>
+          <slider backgroundcolourid="00fdfdfd" thumbcolourid="00fe8c00" trackcolourid="0016171a"/>
         </colours>
         <images>
           <slider>
@@ -76,17 +83,21 @@
               <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearvertical>
           </slider>
-          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png"
+                      mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"/>
         </images>
       </lookandfeel>
       <lookandfeel id="sliders8" parentid="sliders5">
         <colours>
-          <slider backgroundcolourid="fffdfdfd" thumbcolourid="fffe8c00" trackcolourid="ff16171a" rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a" textboxtextcolourid="ff000000" textboxbackgroundcolourid="df111111" textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"></slider>
+          <slider backgroundcolourid="fffdfdfd" thumbcolourid="fffe8c00" trackcolourid="ff16171a"
+                  rotarysliderfillcolourid="ffffde00" rotaryslideroutlinecolourid="2f16171a"
+                  textboxtextcolourid="ff000000" textboxbackgroundcolourid="df111111"
+                  textboxhighlightcolourid="ffcad5d9" textboxoutlinecolourid="ff000000"/>
         </colours>
       </lookandfeel>
       <lookandfeel id="sliders9" parentid="sliders5">
         <colours>
-          <label textcolourid="ffdfe6eb"></label>
+          <label textcolourid="ffdfe6eb"/>
         </colours>
         <images>
           <slider>
@@ -97,65 +108,66 @@
               <backgroundimage filename="Skins/Blank.png" numframes="1" ishorizontal="false" />
             </linearhorizontal>
           </slider>
-          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png" mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"></textbutton>
+          <textbutton upfilename="Skins/Button_Up.png" downfilename="Skins/Button_Down.png"
+                      mouseoverupfilename="Skins/Button_Up_MO.png" mouseoverdownfilename="Skins/Button_Down_MO.png"/>
         </images>
       </lookandfeel>
     </lookandfeels>
     <defaults>
       <slider name="defaultslider" style="rotaryverticaldrag">
-        <bounds x="30" y="48" width="67" height="82"></bounds>
-        <range min="0" max="100" int="0.0001"></range>
+        <bounds x="30" y="48" width="67" height="82"/>
+        <range min="0" max="100" int="0.0001"/>
         <textbox position="above" readonly="false" width="66" height="14">
-          <font height="12"></font>
+          <font height="12"/>
         </textbox>
       </slider>
       <label name="defaultlabel" text="Untitled">
-        <bounds x="18" y="26" width="67" height="15"></bounds>
-        <font bold="true" height="12"></font>
+        <bounds x="18" y="26" width="67" height="15"/>
+        <font bold="true" height="12"/>
         <justification horizontallycentred="true" />
       </label>
       <textbutton name="defaultbutton" tooltip="defaultbutton tooltip">
-        <bounds x="499" y="274" width="70" height="20"></bounds>
+        <bounds x="499" y="274" width="70" height="20"/>
       </textbutton>
       <combobox name="defaultcombobox" tooltip="defaultcombobox tooltip" editabletext="false" nothingselectedtext="-- Select item --" nochoicestext="-- No choices --">
         <justification horizontallycentred="true" />
-        <bounds x="0" y="0" width="150" height="24"></bounds>
+        <bounds x="0" y="0" width="150" height="24"/>
       </combobox>
     </defaults>
     <!--Main Component-->
     <component backgroundcolour="ff212426" lfid="default">
-      <bounds x="0" y="0" width="936" height="340"></bounds>
+      <bounds x="0" y="0" width="936" height="340"/>
       <!--Header Section-->
       <standardcontent type="header" />
       <!--Background-->
       <component>
-        <bounds x="0" y="40" width="936" height="260"></bounds>
+        <bounds x="0" y="40" width="936" height="260"/>
         <component backgroundcolour="ffefeff7">
-          <bounds x="0" y="0" width="312" height="260"></bounds>
+          <bounds x="0" y="0" width="312" height="260"/>
           <label name="Header" text="Without lookandfeel">
-            <bounds x="12" y="8" width="180" height="20"></bounds>
-            <font underlined="true" height="18"></font>
+            <bounds x="12" y="8" width="180" height="20"/>
+            <font underlined="true" height="18"/>
             <justification left="true" />
           </label>
         </component>
         <component backgroundcolour="ffb5c0c5">
-          <bounds x="312" y="0" width="312" height="260"></bounds>
+          <bounds x="312" y="0" width="312" height="260"/>
           <label name="Header" text="With lookandfeel colours">
-            <bounds x="12" y="8" width="180" height="20"></bounds>
-            <font underlined="true" height="18"></font>
+            <bounds x="12" y="8" width="180" height="20"/>
+            <font underlined="true" height="18"/>
             <justification left="true" />
           </label>
         </component>
         <component backgroundimage="Skins/background.png" backgroundcolour="ff364147">
-          <bounds x="624" y="0" width="312" height="260"></bounds>
+          <bounds x="624" y="0" width="312" height="260"/>
           <label lfid="sliders5" name="Header" text="With lookandfeel images">
-            <bounds x="12" y="8" width="180" height="20"></bounds>
-            <font underlined="true" height="18"></font>
+            <bounds x="12" y="8" width="180" height="20"/>
+            <font underlined="true" height="18"/>
             <justification left="true" />
           </label>
           <label lfid="sliders5" name="Header" text="With lookandfeel images">
-            <bounds x="12" y="8" width="180" height="20"></bounds>
-            <font underlined="true" height="18"></font>
+            <bounds x="12" y="8" width="180" height="20"/>
+            <font underlined="true" height="18"/>
             <justification left="true" />
           </label>
         </component>
@@ -166,13 +178,13 @@
         <label name="L1">
           <mappingparent componenttype="slider" componentname="S1" />
           <bounds x="5" y="5" width="180" height="15" />
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <slider name="S1" id="s1id" style="linearhorizontal">
           <bounds x="5" y="20" width="180" height="20" />
           <textbox position="right" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <label name="L2">
@@ -180,21 +192,21 @@
           <bounds>
             <bordersize top="45" bottom="170" left="5" right="127" />
           </bounds>
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <slider name="S2" style="linearhorizontal" popupenabled="true">
-          <bounds relativerectangle="s1id.left, parent.height - 170, left + 180, top + 20"></bounds>
-          <textbox position="none"></textbox>
+          <bounds relativerectangle="s1id.left, parent.height - 170, left + 180, top + 20"/>
+          <textbox position="none"/>
         </slider>
         <label name="L3">
           <mappingparent componenttype="slider" componentname="S3" />
-          <bounds x="5" y="85" width="180" height="15"></bounds>
+          <bounds x="5" y="85" width="180" height="15"/>
         </label>
         <slider name="S3" style="linearbar" velocitybasedmode="true">
           <bounds x="5" y="100" width="180" height="20" />
           <textbox readonly="false" width="56" height="15">
-            <font italic="true" height="14"></font>
+            <font italic="true" height="14"/>
             <justification left="true" />
           </textbox>
         </slider>
@@ -204,24 +216,24 @@
         </label>
         <slider name="S4" style="incdecbuttons">
           <bounds x="15" y="150" width="80" height="40" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label name="L5">
           <mappingparent componenttype="slider" componentname="S5" />
-          <bounds x="100" y="125" width="90" height="15"></bounds>
+          <bounds x="100" y="125" width="90" height="15"/>
         </label>
         <slider name="S5" style="rotary">
           <bounds x="100" y="140" width="90" height="75" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label name="L6">
           <mappingparent componenttype="slider" componentname="S6" />
-          <bounds x="190" y="5" width="60" height="15"></bounds>
+          <bounds x="190" y="5" width="60" height="15"/>
         </label>
         <slider name="S6" style="linearvertical">
           <bounds x="195" y="22" width="50" height="180" />
           <textbox position="below" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <label name="L7">
@@ -231,7 +243,7 @@
         <slider name="S7" style="linearbarvertical" popupenabled="true">
           <bounds x="262" y="22" width="24" height="180" />
           <textbox position="none" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
       </component>
@@ -241,36 +253,36 @@
         <label name="L8">
           <mappingparent componenttype="slider" componentname="S1" />
           <bounds x="5" y="5" width="180" height="15" />
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <slider lfid="sliders2" name="S8" style="linearhorizontal">
           <mappingparent componenttype="slider" componentname="S1" />
           <bounds x="5" y="20" width="180" height="20" />
           <textbox position="right" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <label name="L9">
           <mappingparent componenttype="slider" componentname="S2" />
           <bounds x="5" y="45" width="180" height="15" />
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <slider lfid="sliders3" name="S9" style="linearhorizontal" popupenabled="true">
           <mappingparent componenttype="slider" componentname="S2" />
           <bounds x="5" y="60" width="180" height="20" />
-          <textbox position="none"></textbox>
+          <textbox position="none"/>
         </slider>
         <label name="L10">
           <mappingparent componenttype="slider" componentname="S3" />
-          <bounds x="5" y="85" width="180" height="15"></bounds>
+          <bounds x="5" y="85" width="180" height="15"/>
         </label>
         <slider lfid="sliders1" name="S10" style="linearbar" velocitybasedmode="true">
           <mappingparent componenttype="slider" componentname="S3" />
           <bounds x="5" y="100" width="180" height="20" />
           <textbox readonly="false" width="56" height="15">
-            <font italic="true" height="14"></font>
+            <font italic="true" height="14"/>
             <justification left="true" />
           </textbox>
         </slider>
@@ -281,26 +293,26 @@
         <slider lfid="sliders1" name="S11" style="incdecbuttons">
           <mappingparent componenttype="slider" componentname="S4" />
           <bounds x="15" y="150" width="80" height="40" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label name="L12">
           <mappingparent componenttype="slider" componentname="S5" />
-          <bounds x="100" y="125" width="90" height="15"></bounds>
+          <bounds x="100" y="125" width="90" height="15"/>
         </label>
         <slider lfid="sliders1" name="S12" style="rotary">
           <mappingparent componenttype="slider" componentname="S5" />
           <bounds x="100" y="140" width="90" height="75" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label name="L13">
           <mappingparent componenttype="slider" componentname="S6" />
-          <bounds x="190" y="5" width="60" height="15"></bounds>
+          <bounds x="190" y="5" width="60" height="15"/>
         </label>
         <slider lfid="sliders4" name="S13" style="linearvertical">
           <mappingparent componenttype="slider" componentname="S6" />
           <bounds x="195" y="22" width="50" height="180" />
           <textbox position="below" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <label name="L14">
@@ -311,7 +323,7 @@
           <mappingparent componenttype="slider" componentname="S7" />
           <bounds x="262" y="22" width="24" height="180" />
           <textbox position="none" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
       </component>
@@ -321,7 +333,7 @@
         <label lfid="sliders5" name="L15">
           <mappingparent componenttype="slider" componentname="S1" />
           <bounds x="5" y="5" width="180" height="15" />
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <component backgroundimage="Skins/HSliderBack1.png" backgroundcolour="00364147">
@@ -331,7 +343,7 @@
           <mappingparent componenttype="slider" componentname="S1" />
           <bounds x="5" y="20" width="183" height="20" />
           <textbox position="right" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <component backgroundimage="Skins/HSliderBack2.png" backgroundcolour="00364147">
@@ -340,23 +352,23 @@
         <label lfid="sliders5" name="L16">
           <mappingparent componenttype="slider" componentname="S2" />
           <bounds x="5" y="45" width="180" height="15" />
-          <font bold="true" height="12"></font>
+          <font bold="true" height="12"/>
           <justification horizontallycentred="true" />
         </label>
         <slider lfid="sliders7" name="S16" style="linearhorizontal" popupenabled="true">
           <mappingparent componenttype="slider" componentname="S2" />
           <bounds x="8" y="60" width="180" height="20" />
-          <textbox position="none"></textbox>
+          <textbox position="none"/>
         </slider>
         <label lfid="sliders5" name="L17">
           <mappingparent componenttype="slider" componentname="S3" />
-          <bounds x="5" y="85" width="180" height="15"></bounds>
+          <bounds x="5" y="85" width="180" height="15"/>
         </label>
         <slider lfid="sliders8" name="S17" style="linearbar" velocitybasedmode="true">
           <mappingparent componenttype="slider" componentname="S3" />
           <bounds x="7" y="100" width="182" height="15" />
           <textbox readonly="true" width="56" height="15">
-            <font italic="true" height="14"></font>
+            <font italic="true" height="14"/>
             <justification left="true" />
           </textbox>
         </slider>
@@ -367,20 +379,20 @@
         <slider lfid="sliders6" name="S18" style="incdecbuttons">
           <mappingparent componenttype="slider" componentname="S4" />
           <bounds x="15" y="150" width="80" height="40" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label lfid="sliders5" name="L19">
           <mappingparent componenttype="slider" componentname="S5" />
-          <bounds x="100" y="125" width="90" height="15"></bounds>
+          <bounds x="100" y="125" width="90" height="15"/>
         </label>
         <slider lfid="sliders9" name="S19" style="rotary">
           <mappingparent componenttype="slider" componentname="S5" />
           <bounds x="100" y="140" width="90" height="79" />
-          <textbox position="above"></textbox>
+          <textbox position="above"/>
         </slider>
         <label lfid="sliders5" name="L20">
           <mappingparent componenttype="slider" componentname="S6" />
-          <bounds x="190" y="5" width="60" height="15"></bounds>
+          <bounds x="190" y="5" width="60" height="15"/>
         </label>
         <component backgroundimage="Skins/VSliderBack.png" backgroundcolour="00364147">
           <bounds x="195" y="24" width="50" height="151" />
@@ -389,7 +401,7 @@
           <mappingparent componenttype="slider" componentname="S6" />
           <bounds x="195" y="13" width="50" height="186" />
           <textbox position="below" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
         <label lfid="sliders5" name="L21">
@@ -400,7 +412,7 @@
           <mappingparent componenttype="slider" componentname="S7" />
           <bounds x="265" y="25" width="18" height="174" />
           <textbox position="none" readonly="false" width="56" height="14">
-            <font height="12"></font>
+            <font height="12"/>
           </textbox>
         </slider>
       </component>

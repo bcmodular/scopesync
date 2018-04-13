@@ -2,10 +2,11 @@
 
 <configuration name="Sliders Demo" layoutName="Sliders Demo" layoutLibrarySet="ScopeSyncTutorials" ID="RmkmEB" librarySet="ScopeSyncTutorials"
                author="ScopeSync" blurb="Demonstrates some of the ways to use Sliders in your Configurations." UID="-596374388">
-  <hostParameters>
+  <parameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Osc2 Waveform" scopeSync="0" scopeLocal="-1" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="">
+               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="false" uiRangeMin="0.00000000000000000000" uiRangeMax="5.00000000000000000000"
+               uiRangeInterval="0.0001" uiSuffix="" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="1">
       <settings>
         <setting name="Sine" value="0" intValue="0"/>
         <setting name="Tri" value="0.2" intValue="429496729"/>
@@ -17,57 +18,24 @@
     </parameter>
     <parameter name="PARAM2" shortDescription="Param 2" fullDescription="Mod Depth" scopeSync="1" scopeLocal="-1" scopeRangeMin="-2147483648"
                scopeRangeMax="2147483647" scopeRangeMinFlt="-1" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="0" uiSuffix=" %" uiSkewMidpoint=""/>
+               skewUIOnly="false" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="0" uiSuffix=" %" uiSkewMidpoint="" scopeParamGroup="1"
+               scopeParamId="2"/>
     <parameter name="PARAM3" shortDescription="Param 3" fullDescription="Cutoff" scopeSync="2" scopeLocal="-1" scopeRangeMin="1789569" scopeRangeMax="1789569705"
                scopeRangeMinFlt="0.000833333" scopeRangeMaxFlt="0.833333" scopeDBRef="0" valueType="0" uiResetValue="20" uiSkewFactor="0.2998514913"
-               skewUIOnly="false" uiRangeMin="20" uiRangeMax="20000" uiRangeInterval="0.001" uiSuffix=" Hz"/>
+               skewUIOnly="false" uiRangeMin="20" uiRangeMax="20000" uiRangeInterval="0.001" uiSuffix=" Hz" scopeParamGroup="1" scopeParamId="3"/>
     <parameter name="PARAM4" shortDescription="Param 4" fullDescription="Osc2 Detune" scopeSync="3" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1" skewUIOnly="false"
-               uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix=" cents"/>
+               uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix=" cents" scopeParamGroup="1" scopeParamId="4"/>
     <parameter name="PARAM5" shortDescription="Param 5" fullDescription="LFO Freq" scopeSync="4" scopeLocal="-1" scopeRangeMin="894" scopeRangeMax="1789569"
                scopeRangeMinFlt="4.16301e-007" scopeRangeMaxFlt="0.000833333" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="0.499945898"
-               skewUIOnly="false" uiRangeMin="0.001" uiRangeMax="20" uiRangeInterval="0.001" uiSuffix=" Hz"/>
+               skewUIOnly="false" uiRangeMin="0.001" uiRangeMax="20" uiRangeInterval="0.001" uiSuffix=" Hz" scopeParamGroup="1" scopeParamId="5"/>
     <parameter name="PARAM6" shortDescription="Param 6" fullDescription="Env Decay" scopeSync="5" scopeLocal="-1" scopeRangeMin="24" scopeRangeMax="240000"
                scopeRangeMinFlt="1.11759e-008" scopeRangeMaxFlt="0.000111759" scopeDBRef="0" valueType="0" uiResetValue="0.5" uiSkewFactor="0.3009123148"
-               skewUIOnly="false" uiRangeMin="0.0005" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix=" s"/>
+               skewUIOnly="false" uiRangeMin="0.0005" uiRangeMax="5" uiRangeInterval="0.0001" uiSuffix=" s" scopeParamGroup="1" scopeParamId="6"/>
     <parameter name="PARAM7" shortDescription="Param 7" fullDescription="Output Level" scopeSync="6" scopeLocal="-1" scopeRangeMin="0" scopeRangeMax="2147483647"
                scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="1.0" valueType="0" uiResetValue="-6" uiSkewFactor="5.034695882" skewUIOnly="0"
-               uiRangeMin="-186.6" uiRangeMax="0" uiRangeInterval="0.01" uiSuffix=" dB"/>
-  </hostParameters>
-  <scopeParameters>
-    <parameter name="CPHost" shortDescription="CPHost" fullDescription="Control Panel - Host" scopeSync="-1" scopeLocal="12" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
-      <settings>
-        <setting name="DISCONNECTED" value="0" intValue="0"/>
-        <setting name="CONNECTED" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PatchWindow" shortDescription="PatchWindow" fullDescription="Open Patch Window" scopeSync="-1" scopeLocal="13" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="PresetList" shortDescription="PresetList" fullDescription="Open Preset List" scopeSync="-1" scopeLocal="14" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-    <parameter name="LoadConfig" shortDescription="LoadConfig" fullDescription="Load New Configuration" scopeSync="-1" scopeLocal="15" scopeRangeMin="0"
-               scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0" valueType="1" uiResetValue="0" uiSkewFactor="1"
-               skewUIOnly="false" uiRangeMin="0" uiRangeMax="1" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
-      <settings>
-        <setting name="OFF" value="0" intValue="0"/>
-        <setting name="ON" value="1" intValue="2147483647"/>
-      </settings>
-    </parameter>
-  </scopeParameters>
+               uiRangeMin="-186.6" uiRangeMax="0" uiRangeInterval="0.01" uiSuffix=" dB" scopeParamGroup="1" scopeParamId="7"/>
+  </parameters>
   <mapping>
     <sliders>
       <slider name="S1" mapTo="PARAM1"/>
@@ -79,13 +47,7 @@
       <slider name="S7" mapTo="PARAM7"/>
     </sliders>
     <labels/>
-    <textButtons>
-      <textButton name="CPHost-Disconnected" mapTo="CPHost" settingDown="DISCONNECTED" type="1" radioGroup=""/>
-      <textButton name="CPHost-Connected" mapTo="CPHost" settingDown="CONNECTED" type="1" radioGroup=""/>
-      <textButton name="PatchWindow" mapTo="PatchWindow" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="PresetList" mapTo="PresetList" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="LoadConfig" mapTo="LoadConfig" settingDown="ON" type="0" radioGroup=""/>
-    </textButtons>
+    <textButtons/>
     <comboBoxes/>
     <tabbedComponents/>
   </mapping>

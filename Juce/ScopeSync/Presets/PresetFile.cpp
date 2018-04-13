@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -29,7 +29,6 @@
 #include "../Utils/BCMMisc.h"
 #include "../Configuration/ConfigurationPanel.h"
 #include "../Configuration/SettingsTable.h"
-#include "../Windows/UserSettings.h"
 
 /* =========================================================================
  * PresetFilePanel
@@ -85,7 +84,7 @@ void PresetPanel::rebuildProperties()
     propertyPanel.clear();
 
     PropertyListBuilder props;
-    ParameterPanel::createDescriptionProperties(props, undoManager, valueTree, BCMParameter::preset);
+    ParameterPanel::createDescriptionProperties(props, undoManager, valueTree, true);
     propertyPanel.addSection("Main Properties", props.components, true);
 
     ParameterPanel::createScopeProperties(props, undoManager, valueTree, valueType.getValue());
@@ -307,6 +306,8 @@ ValueTree PresetFile::getDefaultPreset()
     ValueTree defaultPreset(Ids::preset);
     defaultPreset.setProperty(Ids::name,             "Preset ",     nullptr);
     defaultPreset.setProperty(Ids::blurb,            String::empty, nullptr);
+    defaultPreset.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
+    defaultPreset.setProperty(Ids::scopeParamId,     -1,            nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMin,    0,             nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMax,    2147483647,    nullptr);
     defaultPreset.setProperty(Ids::scopeDBRef,       0,             nullptr);
@@ -332,7 +333,7 @@ bool PresetFile::presetNameExists(const String& presetName) const
 
 Result PresetFile::saveDocument (const File& /* file */)
 {
-    UserSettings::getInstance()->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
+    userSettings->updatePresetLibraryEntry(getFile().getFullPathName(), getFile().getFileName(), presetFileRoot);
 
     ScopedPointer<XmlElement> outputXml = presetFileRoot.createXml();
 

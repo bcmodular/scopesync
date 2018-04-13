@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/TabbedComponentProperties.h"
 #include "../Core/Global.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 BCMTabbedComponent::BCMTabbedComponent(TabbedButtonBar::Orientation orientation, ScopeSyncGUI& owner)
     : TabbedComponent(orientation), BCMParameterWidget(owner)
@@ -50,14 +50,17 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     setTabBarDepth(props.tabBarDepth);
     
-    int fixedWidgetIndex = fixedWidgetNames.indexOf(getName(), true);
-
-    if (fixedWidgetIndex != -1)
+    if (ScopeSync::fixedParameterNames.contains(getName()))
     {
-	    setParameter(scopeSync.getParameterController()->getParameterByScopeCode(widgetScopeCodes[fixedWidgetIndex]));
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(name));
+
+		if (bcmParameter != nullptr)
+		{
+			setParameter(bcmParameter);
         
-		parameterValue.addListener(this);
-        getParameter()->mapToUIValue(parameterValue);
+			parameterValue.addListener(this);
+			getParameter()->mapToUIValue(parameterValue);
+		}
 	}
     else
 		setupMapping(Ids::tabbedComponent, getName(), props.mappingParentType, props.mappingParent);
@@ -77,8 +80,8 @@ void BCMTabbedComponent::valueChanged(Value& value)
 	}
 	else
 	{
-		DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundDoubleToInt(value.getValue())));
-		setCurrentTabIndex(roundDoubleToInt(value.getValue()), true);
+		DBG("BCMTabbedComponent::valueChanged: new value: " + String(roundToInt(value.getValue())));
+		setCurrentTabIndex(roundToInt(value.getValue()), true);
 	}	
 }
 
@@ -106,8 +109,8 @@ void BCMTabbedComponent::attachToParameter()
 			parameterValue.addListener(this);
 		}
 
-		DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundDoubleToInt(parameterValue.getValue())));
-		setCurrentTabIndex(roundDoubleToInt(parameterValue.getValue()), false);
+		DBG("BCMTabbedComponent::attachToParameter: initialise tab: " + String(roundToInt(parameterValue.getValue())));
+		setCurrentTabIndex(roundToInt(parameterValue.getValue()), false);
 	}
 }
 

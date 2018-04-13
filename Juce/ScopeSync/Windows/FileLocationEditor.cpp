@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -26,7 +26,6 @@
 
 #include "FileLocationEditor.h"
 #include "../Core/Global.h"
-#include "UserSettings.h"
 
 FileLocationEditorWindow::FileLocationEditorWindow(int posX, int posY, 
                                                    ApplicationCommandManager* acm, 
@@ -66,7 +65,7 @@ bool FileLocationEditorWindow::locationsHaveChanged() const
 
 void FileLocationEditorWindow::closeButtonPressed()
 {
-    UserSettings::getInstance()->hideFileLocationsWindow();
+    userSettings->hideFileLocationsWindow();
 }
 
 void FileLocationEditorWindow::restoreWindowPosition(int posX, int posY)
@@ -160,7 +159,7 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     DBG("FileLocationEditor::FileLocationEditor");
     locationsChanged = false;
 
-    tree = UserSettings::getInstance()->getFileLocations();
+    tree = userSettings->getFileLocations();
     commandManager->registerAllCommandsForTarget(this);
 
     addAndMakeVisible(table);
@@ -557,7 +556,7 @@ void FileLocationEditor::moveFileLocations(bool moveUp)
 
 void FileLocationEditor::rebuildFileLibrary()
 {
-    UserSettings::getInstance()->updateFileLocations(tree);
+    userSettings->updateFileLocations(tree);
     locationsChanged = false;
 }
 

@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@
 #include "PluginProcessor.h"
 
 #include "PluginGUI.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 PluginProcessor::PluginProcessor()
 {
@@ -43,53 +43,11 @@ PluginProcessor::~PluginProcessor()
 {
     scopeSync->unload();
     scopeSync = nullptr;
-
-    ScopeSync::shutDownIfLastInstance();
 }
 
 const String PluginProcessor::getName() const
 {
     return JucePlugin_Name;
-}
-
-int PluginProcessor::getNumParameters()
-{
-    int numParameters = scopeSync->getParameterController()->getNumParametersForHost();
-    
-    //DBG("PluginProcessor::getNumParameters - " + String(numParameters));
-    return numParameters;
-}
-
-float PluginProcessor::getParameter (int index)
-{
-    float parameterValue = scopeSync->getParameterController()->getParameterHostValue(index);
-    
-    DBG("PluginProcessor::getParameter - " + String(parameterValue));
-    return parameterValue;
-}
-
-void PluginProcessor::setParameter(int index, float newValue)
-{
-    DBG("PluginProcessor::setParameter - index: " + String(index) + ", newValue: " + String(newValue));
-    scopeSync->getParameterController()->setParameterFromHost(index, newValue);
-}
-
-const String PluginProcessor::getParameterName(int index)
-{
-    String parameterName = String::empty;
-    scopeSync->getParameterController()->getParameterNameForHost(index, parameterName);
-    
-    DBG("PluginProcessor::getParameterName - " + parameterName);
-    return parameterName;
-}
-
-const String PluginProcessor::getParameterText (int index)
-{
-    String parameterText = String::empty;
-    scopeSync->getParameterController()->getParameterText(index, parameterText);
-
-    DBG("PluginProcessor::getParameterText - " + parameterText);
-    return parameterText;
 }
 
 bool PluginProcessor::acceptsMidi() const
@@ -197,8 +155,8 @@ void PluginProcessor::getStateInformation(MemoryBlock& destData)
     XmlElement* configurationFilePathXml = root.createNewChildElement("configurationfilepath");
     configurationFilePathXml->addTextElement(scopeSync->getConfigurationFile().getFullPathName());
 
-	XmlElement* oscUIDXml = root.createNewChildElement("oscuid");
-    oscUIDXml->addTextElement(String(scopeSync->getParameterController()->getOSCUID()));
+	XmlElement* deviceInstanceXml = root.createNewChildElement("deviceinstance");
+    deviceInstanceXml->addTextElement(String(scopeSync->getDeviceInstance()));
 
     copyXmlToBinary(root, destData);
 
@@ -230,22 +188,17 @@ void PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
             scopeSync->changeConfiguration(configurationFilePath);
         }
 
-		if (root->getChildByName("oscuid"))
+		if (root->getChildByName("deviceinstance"))
         {
-            int oscUID = root->getChildByName("oscuid")->getAllSubText().getIntValue();
+            int deviceInstance = root->getChildByName("deviceinstance")->getAllSubText().getIntValue();
 
-            scopeSync->getParameterController()->getParameterByScopeCode("osc")->setUIValue(static_cast<float>(oscUID));
+            scopeSync->setDeviceInstance(deviceInstance);
         }
     }
     else
     {
         DBG("PluginProcessor::setStateInformation - Could not restore XML");
     }
-}
-
-void PluginProcessor::updateListeners(int index, float newValue)
-{
-    sendParamChangeMessageToListeners(index, newValue);
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()

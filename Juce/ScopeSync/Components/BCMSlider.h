@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -34,6 +34,7 @@ class SliderProperties;
 
 #include <JuceHeader.h>
 #include "BCMWidget.h"
+#include "../Windows/UserSettings.h"
 
 class BCMSlider : public Slider,
                   public BCMParameterWidget
@@ -101,10 +102,13 @@ private:
     StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
     StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
     
-    bool fixed; // Is this a fixed Slider, i.e. one that is mapped to a parameter based on its name, not via a mapping tag
-	void setupFixedSlider(const String& scopeCode, SliderProperties& props);
+	SharedResourcePointer<UserSettings> userSettings;
 
-    // Returns a formatted string for a given value to be displayed in the Slider's Textbox
+    bool fixed; // Is this a fixed Slider, i.e. one that is mapped to a parameter based on its name, not via a mapping tag
+	bool setupFixedSlider(SliderProperties& props);
+	void setupDeviceInstanceSlider(SliderProperties& props);
+
+	// Returns a formatted string for a given value to be displayed in the Slider's Textbox
     String getTextFromValue(double v) override;
 
     void mouseDown(const MouseEvent& event) override;
@@ -119,7 +123,7 @@ private:
     void overrideIncDecButtonMode(Slider::IncDecButtonMode& incDecButtonMode);
     void overridePopupEnabled(bool popupEnabledFlag);
     void overrideVelocityBasedMode(bool velocityBasedMode);
-	static bool getEncoderSnap(bool encoderSnap);
+    bool getEncoderSnap(bool encoderSnap);
 
     // Switch any linked TabbedComponent's tabs as appropriate
     void switchToTabs() const;

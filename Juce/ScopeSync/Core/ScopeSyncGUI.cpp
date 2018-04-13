@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,8 +28,7 @@
 
 #include "ScopeSyncGUI.h"
 #include "ScopeSync.h"
-#include "BCMParameter.h"
-#include "../Windows/UserSettings.h"
+#include "../Parameters/BCMParameter.h"
 #include "Global.h"
 #include "ScopeSyncApplication.h"
 #include "../Components/BCMLookAndFeel.h"
@@ -44,29 +43,21 @@
 #include "../Properties/TabProperties.h"
 #include "../Windows/ConfigurationChooser.h"
 #include "../Resources/ImageLoader.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 const int ScopeSyncGUI::timerFrequency = 100;
-ScopedPointer<TooltipWindow> ScopeSyncGUI::tooltipWindow;
-
-juce_ImplementSingleton(AboutBoxWindow)
 
 AboutBoxWindow::AboutBoxWindow()
     : DocumentWindow ("About", Colour::fromString("ff2e2e2e"), closeButton, true)
 {
     setContentOwned(new AboutBox(), true);
-    Component::setVisible(true);
+    //Component::setVisible(true);
     setResizable(false, false);
 }
     
 void AboutBoxWindow::closeButtonPressed()
 {
     setVisible(false);
-}
-
-AboutBoxWindow::~AboutBoxWindow()
-{ 
-    clearSingletonInstance(); 
 }
 
 AboutBoxWindow::AboutBox::AboutBox()
@@ -102,7 +93,7 @@ AboutBoxWindow::AboutBox::AboutBox()
     
 void AboutBoxWindow::AboutBox::paint(Graphics& g)
 {
-    Image scopeSyncImage = ImageLoader::getInstance()->loadImage("scopeSyncLogo",  true, String::empty);
+    Image scopeSyncImage = imageLoader->loadImage("scopeSyncLogo", String::empty);
     g.drawImageWithin(scopeSyncImage, 0, 0, getWidth(), 40, RectanglePlacement::doNotResize);
 }
 
@@ -126,8 +117,8 @@ ScopeSyncGUI::ScopeSyncGUI(ScopeSync& owner) : scopeSync(owner)
     scopeSync.getCommandManager()->registerAllCommandsForTarget(this);
     
     addKeyListener(scopeSync.getCommandManager()->getKeyMappings());
-    createGUI(false);
-    scopeSync.setGUIReload(false);
+	createGUI(false);
+    scopeSync.setGUIReload(true);
     startTimer(timerFrequency);
 }
 
@@ -139,12 +130,12 @@ ScopeSyncGUI::~ScopeSyncGUI()
 
 void ScopeSyncGUI::hideUserSettings()
 {
-    UserSettings::getInstance()->hide();
+    userSettings->hide();
 }
 
 void ScopeSyncGUI::showUserSettings() const
 {
-    UserSettings::getInstance()->show(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
+    userSettings->show(mainComponent->getScreenBounds().getX(), mainComponent->getScreenBounds().getY());
 }
 
 void ScopeSyncGUI::chooseConfiguration()
@@ -229,8 +220,10 @@ Slider::SliderStyle ScopeSyncGUI::getDefaultRotarySliderStyle() const
 
 void ScopeSyncGUI::createGUI(bool forceReload)
 {
-    tooltipWindow = nullptr;
-    mainComponent = nullptr;
+	// Seems like this is the wrong thing to do:
+    // tooltipWindow = nullptr;
+    
+	mainComponent = nullptr;
     scopeSync.setGUIEnabled(true);
 
     tabbedComponents.clearQuick();
@@ -240,10 +233,9 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     scopeSync.clearBCMLookAndFeels();
 
     // Firstly add the system LookAndFeels
-    bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
     ScopedPointer<XmlElement> systemLookAndFeels = scopeSync.getSystemLookAndFeels();
     
-    setupLookAndFeels(*systemLookAndFeels, useImageCache);
+    setupLookAndFeels(*systemLookAndFeels);
 
     String errorText;
     String errorDetails;
@@ -257,12 +249,12 @@ void ScopeSyncGUI::createGUI(bool forceReload)
     XmlElement* child = layoutXml.getChildByName("lookandfeels");
 
     if (child)
-        setupLookAndFeels(*child, useImageCache);
+        setupLookAndFeels(*child);
 
-    BCMLookAndFeel* defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("default");
-
-    if (defaultLookAndFeel == nullptr)
-        defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("system:default");
+    //BCMLookAndFeel* defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("default");
+	//
+    //if (defaultLookAndFeel == nullptr)
+    //    defaultLookAndFeel = scopeSync.getBCMLookAndFeelById("system:default");
 
     child = layoutXml.getChildByName("defaults");
 
@@ -274,20 +266,26 @@ void ScopeSyncGUI::createGUI(bool forceReload)
         setupDefaults(defaults);
     }
 
-    int enableTooltipsUserSetting = UserSettings::getInstance()->getAppProperties()->getIntValue("enabletooltips", 0);
+    int enableTooltipsUserSetting = userSettings->getAppProperties()->getIntValue("enabletooltips", 0);
     
-    if ((tooltipWindow == nullptr && enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
+    if ((enableTooltipsUserSetting == 0 && settings.enableTooltips) || enableTooltipsUserSetting == 1)
     {
-        tooltipWindow = new TooltipWindow();
-        tooltipWindow->setLookAndFeel(defaultLookAndFeel);
+        tooltipWindow->setLookAndFeel(&LookAndFeel::getDefaultLookAndFeel());
 
-        int tooltipDelayTimeUserSetting = UserSettings::getInstance()->getAppProperties()->getIntValue("tooltipdelaytime", -1);
+        int tooltipDelayTimeUserSetting = userSettings->getAppProperties()->getIntValue("tooltipdelaytime", -1);
 
         if (tooltipDelayTimeUserSetting >= 0)
             settings.tooltipDelayTime = tooltipDelayTimeUserSetting;
 
         tooltipWindow->setMillisecondsBeforeTipAppears(settings.tooltipDelayTime);
     }
+	else
+	{
+		// Don't know a better way than to just make it invisible...
+		tooltipWindow->setColour(TooltipWindow::backgroundColourId, Colour());
+		tooltipWindow->setColour(TooltipWindow::textColourId , Colour());
+		tooltipWindow->setColour(TooltipWindow::outlineColourId , Colour());
+	}
 
     child = layoutXml.getChildByName("widgettemplates");
 
@@ -306,40 +304,40 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 
     setSize(mainComponent->getWidth(), mainComponent->getHeight());
 
-    grabKeyboardFocus();
+//    grabKeyboardFocus();
 }
 
-void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache)
+void ScopeSyncGUI::setupLookAndFeels(XmlElement& lookAndFeelsXML)
 {
     forEachXmlChildElement(lookAndFeelsXML, child)
     {
         if (child->hasTagName("lookandfeel"))
-            setupLookAndFeel(*child, useImageCache);
+            setupLookAndFeel(*child);
         else if (child->hasTagName("standardcontent"))
-            setupStandardLookAndFeels(*child, useImageCache);
+            setupStandardLookAndFeels(*child);
     }
 
     return;
 }
 
-void ScopeSyncGUI::setupStandardLookAndFeels(XmlElement& xml, bool useImageCache)
+void ScopeSyncGUI::setupStandardLookAndFeels(XmlElement& xml)
 {
     String lookAndFeelSet = xml.getStringAttribute("type");
 
     ScopedPointer<XmlElement> standardLookAndFeels = scopeSync.getStandardContent(lookAndFeelSet);
 
     if (standardLookAndFeels != nullptr)
-        setupLookAndFeels(*standardLookAndFeels, useImageCache);
+        setupLookAndFeels(*standardLookAndFeels);
 }
 
-void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache) const
+void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML) const
 {
     if (lookAndFeelXML.hasAttribute("id"))
     {
         String layoutDirectory = scopeSync.getLayoutDirectory();
         
         String id = lookAndFeelXML.getStringAttribute("id");
-        // DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
+        //DBG("ScopeSyncGUI::setupLookAndFeel: Setting up LookAndFeel: id = " + id);
 
         BCMLookAndFeel* bcmLookAndFeel;
 
@@ -350,15 +348,15 @@ void ScopeSyncGUI::setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCac
 
             if (parentBCMLookAndFeel != nullptr)
             {
-                // DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
+                //DBG("ScopeSyncGUI::setupLookAndFeel: Found parent: id = " + parentid);
                 bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, *parentBCMLookAndFeel, layoutDirectory);
             }
             else
-                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory, useImageCache);
+                bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory);
         }
         else
         {
-            bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory, useImageCache);
+            bcmLookAndFeel = new BCMLookAndFeel(lookAndFeelXML, layoutDirectory);
         }
 
         if (bcmLookAndFeel != nullptr)
@@ -714,8 +712,7 @@ void ScopeSyncGUI::reloadSavedConfiguration()
 
 void ScopeSyncGUI::showAboutBox() const
 {
-    AboutBoxWindow* dw = AboutBoxWindow::getInstance();
-    dw->setVisible(true);
-    dw->toFront(true);
-    dw->setCentrePosition(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
+    aboutBox->setVisible(true);
+    aboutBox->toFront(true);
+    aboutBox->setCentrePosition(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY());
 }

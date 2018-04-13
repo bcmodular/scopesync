@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -29,7 +29,9 @@
 #define PARAMETERPANEL_H_INCLUDED
 
 #include <JuceHeader.h>
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
+#include "../Windows/UserSettings.h"
+
 class SettingsTable;
 class Configuration;
 class PropertyListBuilder;
@@ -99,8 +101,8 @@ private:
     Value          layoutLibrarySet;
     bool           isNewConfiguration;
 
-    
     ScopedPointer<LayoutChooserWindow> layoutChooserWindow;
+	SharedResourcePointer<UserSettings> userSettings;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ConfigurationPanel)
 };
@@ -121,7 +123,7 @@ public:
     void childBoundsChanged(Component* child) override;
     
     static void setParameterUIRanges(double min, double max, double reset, UndoManager& undoManager, ValueTree& valueTree);
-    static void createDescriptionProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, BCMParameter::ParameterType parameterType);
+    static void createDescriptionProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, bool isPreset);
     static void createScopeProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
     static void createUIProperties(PropertyListBuilder& propertyPanel, UndoManager& undoManager, ValueTree& valueTree, int valueType);
 
@@ -135,8 +137,6 @@ private:
 
     ScopedPointer<ResizableEdgeComponent> resizerBar;
     ComponentBoundsConstrainer settingsTableConstrainer;
-
-    BCMParameter::ParameterType parameterType;
 
     void rebuildProperties() override;
     

@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -67,7 +67,6 @@ class Icons
 {
 public:
     Icons();
-    ~Icons();
 
     Path config, mapping, 
          parameters, parameter, 
@@ -77,8 +76,6 @@ public:
          comboboxes, combobox,
          tabbedcomponents, tabbedcomponent,
          styleoverrides, components, component;
-
-    juce_DeclareSingleton(Icons, false)
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Icons)

@@ -91,7 +91,7 @@
       <textbutton upfilename="scopeSyncLogoOff" downfilename="scopeSyncLogoOn" mouseoverupfilename="scopeSyncLogoOn" mouseoverdownfilename="scopeSyncLogoOn"></textbutton>
     </images>
   </lookandfeel>
-  <lookandfeel id="system:oscuid" parentid="system:nostyle">
+  <lookandfeel id="system:deviceinstance" parentid="system:nostyle">
       <images>
         <slider>
           <linearhorizontal>

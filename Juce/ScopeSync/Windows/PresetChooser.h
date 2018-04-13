@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,6 +28,8 @@
 #define PRESETCHOOSER_H_INCLUDED
 
 #include "../Core/Global.h"
+#include "../Windows/UserSettings.h"
+
 class ScopeSync;
 
 /* =========================================================================
@@ -80,6 +82,8 @@ private:
     TextButton   presetManagerButton;
     Label        blurb;
     Label        fileNameLabel;
+
+	SharedResourcePointer<UserSettings> userSettings;
     
     void editFileLocations() const;
     void chooseSelectedPreset();

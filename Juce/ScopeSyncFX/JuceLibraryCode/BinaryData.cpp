@@ -3001,21 +3001,21 @@ static const unsigned char temp_binary_data_77[] =
 "\r\n"
 "  <component>\r\n"
 "    <component id=\"footer\">\r\n"
-"      <bounds relativerectangle=\"right - 116, parent.height-40, parent.width-8, top + 40\" />\r\n"
-"      <label name=\"oscuid\" text=\"OSC UID\" lfid=\"system:oscuid\">\r\n"
-"        <bounds x=\"0\" width=\"112\" height=\"16\" y=\"12\" />\r\n"
+"      <bounds relativerectangle=\"right - 140, parent.height-40, parent.width-8, top + 40\" />\r\n"
+"      <label name=\"deviceinstance\" text=\"Device Instance\" lfid=\"system:deviceinstance\">\r\n"
+"        <bounds x=\"0\" width=\"136\" height=\"16\" y=\"12\" />\r\n"
 "        <font bold=\"true\" height=\"10\" />\r\n"
 "        <justification left=\"true\" />\r\n"
 "      </label>\r\n"
-"      <slider name=\"oscuid\" style=\"linearbar\" nostyleoverride=\"true\" lfid=\"system:oscuid\">\r\n"
-"        <bounds x=\"55\" width=\"56\" height=\"16\" y=\"12\" />\r\n"
-"        <range min=\"0\" max=\"127\" int=\"0.0001\"></range>\r\n"
+"      <slider name=\"deviceinstance\" style=\"linearbar\" nostyleoverride=\"true\" lfid=\"system:deviceinstance\">\r\n"
+"        <bounds x=\"80\" width=\"56\" height=\"16\" y=\"12\" />\r\n"
+"        <range min=\"0\" max=\"1000\" int=\"1\"></range>\r\n"
 "        <textbox position=\"above\" readonly=\"false\" width=\"71\" height=\"13\">\r\n"
 "          <font height=\"10\" bold=\"true\"></font>\r\n"
 "        </textbox>\r\n"
 "      </slider>\r\n"
 "    </component>\r\n"
-"  </component>";
+"  </component>\r\n";
 
 const char* standardFooterContent_layout = (const char*) temp_binary_data_77;
 
@@ -3691,7 +3691,7 @@ static const unsigned char temp_binary_data_80[] =
 "      <textbutton upfilename=\"scopeSyncLogoOff\" downfilename=\"scopeSyncLogoOn\" mouseoverupfilename=\"scopeSyncLogoOn\" mouseoverdownfilename=\"scopeSyncLogoOn\"></textbutton>\r\n"
 "    </images>\r\n"
 "  </lookandfeel>\r\n"
-"  <lookandfeel id=\"system:oscuid\" parentid=\"system:nostyle\">\r\n"
+"  <lookandfeel id=\"system:deviceinstance\" parentid=\"system:nostyle\">\r\n"
 "      <images>\r\n"
 "        <slider>\r\n"
 "          <linearhorizontal>\r\n"
@@ -3804,10 +3804,10 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
         case 0x9b9cb170:  numBytes = 913; return Undo_button_over_png;
         case 0x13f60184:  numBytes = 216; return empty_configuration;
         case 0xed361cd6:  numBytes = 511; return loader_layout;
-        case 0x2a922288:  numBytes = 798; return standardFooterContent_layout;
+        case 0x2a922288:  numBytes = 836; return standardFooterContent_layout;
         case 0x2695bffa:  numBytes = 4823; return standardHeaderContent_layout;
         case 0x383dda9c:  numBytes = 22039; return standardSliderLnFs_layout;
-        case 0x5ac2d7c5:  numBytes = 6264; return system_lookandfeels;
+        case 0x5ac2d7c5:  numBytes = 6272; return system_lookandfeels;
         default: break;
     }
 

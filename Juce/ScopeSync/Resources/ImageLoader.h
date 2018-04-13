@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -29,6 +29,8 @@
 #define IMAGELOADER_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Windows/UserSettings.h"
+
 class BCMLookAndFeel;
 
 class ImageLoader
@@ -44,18 +46,16 @@ public:
     };
     
     // Load image, either direct from file, via Image Cache, or from resources
-    Image         loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const;
+    Image loadImage(const String& imageFileName, const String& directoryPath) const;
     
-    juce_DeclareSingleton(ImageLoader, false)
-
 private:
     // Initialise image resources
     void loadImageResources();
     void addImageResource(String imageName, const char* image, int imageSize);
 
     OwnedArray<ImageResource> imageResources;
-    ScopedPointer<BCMLookAndFeel> defaultBCMLookAndFeel;
-
+	SharedResourcePointer<UserSettings> userSettings;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ImageLoader)
 };
 

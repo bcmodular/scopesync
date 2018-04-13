@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -31,6 +31,7 @@
 #define BCMCOMPONENT_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Resources/ImageLoader.h"
 
 class ComponentProperties;
 class BCMSlider;
@@ -44,12 +45,12 @@ class BCMImage;
 class EditToolbar;
 #include "../Core/ScopeSyncGUI.h"
 #include "../Components/BCMWidget.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 
 class BCMComponent : public BCMWidget,
                      public Component,
-                     public SliderListener,
-                     public ComboBoxListener,
+					 public Slider::Listener,
+					 public ComboBox::Listener,
                      public Value::Listener                                     
 {
 public:
@@ -105,6 +106,7 @@ private:
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
 
     BCMParameterController& parameterController;
+	SharedResourcePointer<ImageLoader> imageLoader;
 
     // Directory Path for the Layout file. Used for relative path sourcing of Images
     String layoutDirectory;
@@ -150,7 +152,7 @@ private:
     void drawBCMImage(Graphics& g, BCMImage& image) const;
 
     // To handle the right-click menu
-    void mouseDown(const MouseEvent& event);
+    void mouseDown(const MouseEvent& event) override;
 
     // Open the specific Style Override Panel for components as appropriate
     void overrideStyle() override;

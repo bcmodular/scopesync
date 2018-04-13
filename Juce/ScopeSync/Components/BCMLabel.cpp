@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -34,13 +34,13 @@
 #include "../Configuration/ConfigurationManager.h"
 
 BCMLabel::BCMLabel(String& name, String& text, ScopeSyncGUI& owner)
-    : Label(name, text), BCMParameterWidget(owner)
+    : Label(name, text), BCMParameterWidget(owner), maxTextLines(1)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
 }
 
-BCMLabel::~BCMLabel() {}
+BCMLabel::~BCMLabel() = default;
 
 void BCMLabel::applyProperties(LabelProperties& props) 
 {
@@ -63,20 +63,16 @@ void BCMLabel::applyProperties(LabelProperties& props)
 
         if (mapsToParameter)
         {
-            String shortDescription;
-            String fullDescription;
-            
-            parameter->getDescriptions(shortDescription, fullDescription);
-            tooltip = fullDescription;
+            tooltip = parameter->getFullDescription(true);
             
             if (props.parameterTextDisplay == LabelProperties::parameterName)
                 labelText = parameter->getName();
             else if (props.parameterTextDisplay == LabelProperties::shortDescription)
-                labelText = shortDescription;
+                labelText = parameter->getShortDescription();
             else if (props.parameterTextDisplay == LabelProperties::fullDescription)
-                labelText = fullDescription;
-            else if (props.parameterTextDisplay == LabelProperties::scopeCode)
-                labelText = parameter->getScopeCode();
+                labelText = parameter->getFullDescription();
+            else if (props.parameterTextDisplay == LabelProperties::scopeParam)
+                labelText = parameter->getScopeOSCParameter().getScopeParamText();
         }
     }
 

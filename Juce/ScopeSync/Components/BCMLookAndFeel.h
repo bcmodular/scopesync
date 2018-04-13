@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -31,6 +31,7 @@
 #define __BCMLOOKANDFEEL_HEADER__
 
 #include <JuceHeader.h>
+#include "../Resources/ImageLoader.h"
 
 class FilmStripImage
 {
@@ -47,12 +48,14 @@ public:
     void copyFrom(const FilmStripImage& source);
     void setUp(const String& fileName,       const String& mouseOverFileName,
                int           numberOfFrames, bool          fsIsHorizontal,
-               bool          useImageCache,  const String& layoutDirectory);
+               const String& layoutDirectory);
     
     // Cut a specific slice from a film-strip image
     Image getImageAtIndex(int frameIndex, bool isMouseOver) const;
     
 private:
+	SharedResourcePointer<ImageLoader> imageLoader;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilmStripImage);
 };
 
@@ -60,11 +63,11 @@ class BCMLookAndFeel : public LookAndFeel_V3
 {
 public:
     // In case no lookandfeel element provided, default constructor
-    BCMLookAndFeel(bool cacheImages);
+    BCMLookAndFeel();
     
     // Constructor for use when setting up LookAndFeel object from XML where we
     // are not copying values from a parent
-    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir, bool cacheImages);
+    BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir);
     
     // Constructor for use when overriding parent values for a specific LookAndFeel
     BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAndFeel& parentLookAndFeel, const String& layoutDirectory);
@@ -162,11 +165,11 @@ public:
     
 private:
     String id;            // Identifier for a BCMLookAndFeel
-    bool   useImageCache; // Flags as to whether the Image Cache should be used
     
     Array<Identifier> appliesTo; // Array of component types the BCMLookAndFeel is relevant to (used to
     // restrict drop-down lists for Style Overrides)
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     // Variables holding LookAndFeel attributes to be applied on drawing Components
     FilmStripImage rotary;
     Image rotaryFillBackground;
@@ -213,7 +216,7 @@ private:
     void setupColourIds();
     
     // Set sensible defaults for a LookAndFeel
-    void initialise(bool cacheImages);
+    void initialise();
     
     // Copy the properties from a parent LookAndFeel
     void copyProperties(const BCMLookAndFeel& parentLookAndFeel);
@@ -238,6 +241,18 @@ private:
     void drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics& g, int w, int h) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMLookAndFeel);
+};
+
+class BCMDefaultLookAndFeel
+{
+public:
+	BCMDefaultLookAndFeel();
+	~BCMDefaultLookAndFeel();
+
+private:
+	BCMLookAndFeel bcmLookAndFeel;
+
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMDefaultLookAndFeel);
 };
 
 #endif

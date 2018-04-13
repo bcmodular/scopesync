@@ -4,8 +4,7 @@
 
 */
 
-#ifndef BINARYDATA_H_38268870_INCLUDED
-#define BINARYDATA_H_38268870_INCLUDED
+#pragma once
 
 namespace BinaryData
 {
@@ -241,7 +240,7 @@ namespace BinaryData
     const int            loader_layoutSize = 511;
 
     extern const char*   standardFooterContent_layout;
-    const int            standardFooterContent_layoutSize = 798;
+    const int            standardFooterContent_layoutSize = 836;
 
     extern const char*   standardHeaderContent_layout;
     const int            standardHeaderContent_layoutSize = 4823;
@@ -250,7 +249,7 @@ namespace BinaryData
     const int            standardSliderLnFs_layoutSize = 22039;
 
     extern const char*   system_lookandfeels;
-    const int            system_lookandfeelsSize = 6264;
+    const int            system_lookandfeelsSize = 6272;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
@@ -262,5 +261,3 @@ namespace BinaryData
     // return the corresponding data and its size (or a null pointer if the name isn't found).
     const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes) throw();
 }
-
-#endif

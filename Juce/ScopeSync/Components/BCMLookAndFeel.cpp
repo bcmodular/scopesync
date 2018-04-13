@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -32,7 +32,6 @@
 #include "BCMComboBox.h"
 #include "BCMLabel.h"
 #include "../Properties/PropertiesHelper.h"
-#include "../Resources/ImageLoader.h"
 #include "../Configuration/Configuration.h"
 
 void FilmStripImage::initialise()
@@ -57,10 +56,10 @@ void FilmStripImage::copyFrom(const FilmStripImage& source)
 
 void FilmStripImage::setUp(const String& fileName,       const String& mouseOverFileName, 
                            int           numberOfFrames, bool          fsIsHorizontal, 
-                           bool          useImageCache,  const String& layoutDirectory)
+                           const String& layoutDirectory)
 {
-    Image newImage          = ImageLoader::getInstance()->loadImage(fileName, useImageCache, layoutDirectory);
-    Image newMouseOverImage = ImageLoader::getInstance()->loadImage(mouseOverFileName, useImageCache, layoutDirectory);
+    Image newImage          = imageLoader->loadImage(fileName, layoutDirectory);
+    Image newMouseOverImage = imageLoader->loadImage(mouseOverFileName, layoutDirectory);
 
     if (newImage.isValid())
     {
@@ -111,18 +110,18 @@ Image FilmStripImage::getImageAtIndex(int frameIndex, bool isMouseOver) const
     return imageToShow.getClippedImage(Rectangle<int>(srcX, srcY, frameWidth, frameHeight));
 }
 
-BCMLookAndFeel::BCMLookAndFeel(bool cacheImages)
+BCMLookAndFeel::BCMLookAndFeel()
 {
     id = "default";
-    initialise(cacheImages);
+    initialise();
     applyProperties();
 };
 
-BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir, bool cacheImages)
+BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const String& layoutDir)
 {
     layoutDirectory = layoutDir;
     id = lookAndFeelXML.getStringAttribute("id");
-    initialise(cacheImages);
+    initialise();
     setValuesFromXml(lookAndFeelXML);
     applyProperties();
 };
@@ -137,7 +136,10 @@ BCMLookAndFeel::BCMLookAndFeel(const XmlElement& lookAndFeelXML, const BCMLookAn
     applyProperties();
 };
 
-BCMLookAndFeel::~BCMLookAndFeel() {};
+BCMLookAndFeel::~BCMLookAndFeel()
+{
+	DBG("BCMLookAndFeel::~BCMLookAndFeel - destroying: " + id);
+};
 
 const String& BCMLookAndFeel::getId() const { return id; };
 
@@ -198,10 +200,8 @@ void BCMLookAndFeel::setupColourIds()
     bubbleComponentColours.set("outlinecolourid",    BubbleComponent::outlineColourId);
 }                       
 
-void BCMLookAndFeel::initialise(bool cacheImages)
+void BCMLookAndFeel::initialise()
 {
-    useImageCache = cacheImages;
-
     rotaryFillBackground          = Image();
     rotaryOutlineBackground       = Image();
     rotaryBackgroundFillBehind    = false;
@@ -222,8 +222,6 @@ void BCMLookAndFeel::initialise(bool cacheImages)
 
 void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
 {
-    useImageCache = parentLookAndFeel.useImageCache;
-
     rotary.copyFrom(parentLookAndFeel.rotary);
     linearVerticalBackground.copyFrom(parentLookAndFeel.linearVerticalBackground);
     linearHorizontalBackground.copyFrom(parentLookAndFeel.linearHorizontalBackground);
@@ -321,7 +319,7 @@ void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& 
 {
     if (fileName.isNotEmpty())
     {
-        Image newImage = ImageLoader::getInstance()->loadImage(fileName, useImageCache, layoutDirectory);
+        Image newImage = imageLoader->loadImage(fileName, layoutDirectory);
         
         if (newImage.isValid())
             imageToOverride = newImage;
@@ -340,7 +338,7 @@ void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStrip
         if (mouseOverFileName.isEmpty())
             mouseOverFileName = fileName;
 
-        filmStripImage.setUp(fileName, mouseOverFileName, numFrames, isHorizontal, useImageCache, layoutDirectory);
+        filmStripImage.setUp(fileName, mouseOverFileName, numFrames, isHorizontal, layoutDirectory);
     }
 }
 
@@ -788,4 +786,14 @@ void BCMLookAndFeel::drawTabAreaBehindFrontButton(TabbedButtonBar& bar, Graphics
 
     g.setColour (bar.findColour (TabbedButtonBar::tabOutlineColourId));
     g.fillRect (line);
+}
+
+BCMDefaultLookAndFeel::BCMDefaultLookAndFeel()
+{
+	LookAndFeel::setDefaultLookAndFeel(&bcmLookAndFeel);
+}
+
+BCMDefaultLookAndFeel::~BCMDefaultLookAndFeel()
+{
+	LookAndFeel::setDefaultLookAndFeel(nullptr);
 }

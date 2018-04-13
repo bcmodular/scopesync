@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.2"
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.3"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="4.1.0" defines="">
+              jucerVersion="5.3.0" defines="" displaySplashScreen="0" reportAppUsage="0"
+              splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
-      <GROUP id="{9A72096E-0E21-B6CC-11C5-DCAD6BB11A9E}" name="Presets">
-        <FILE id="A8poLd" name="PresetFile.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetFile.cpp"/>
-        <FILE id="RNaiVW" name="PresetFile.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetFile.h"/>
-        <FILE id="u6KOZK" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetItem.cpp"/>
-        <FILE id="ZDZOkU" name="PresetItem.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetItem.h"/>
-        <FILE id="ZGVEoe" name="PresetManager.cpp" compile="1" resource="0"
-              file="../ScopeSync/Presets/PresetManager.cpp"/>
-        <FILE id="gQsS8q" name="PresetManager.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetManager.h"/>
+      <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
+        <FILE id="mkUslb" name="OSCServer.cpp" compile="1" resource="0" file="../ScopeSync/Comms/OSCServer.cpp"/>
+        <FILE id="X3oEiH" name="OSCServer.h" compile="0" resource="0" file="../ScopeSync/Comms/OSCServer.h"/>
       </GROUP>
-      <GROUP id="{B9DB3447-CCFA-BE90-D842-742CAC387F61}" name="Windows">
-        <FILE id="G5wehz" name="ConfigurationChooser.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/ConfigurationChooser.cpp"/>
-        <FILE id="cnZlgC" name="ConfigurationChooser.h" compile="0" resource="0"
-              file="../ScopeSync/Windows/ConfigurationChooser.h"/>
-        <FILE id="JiJSHP" name="FileLocationEditor.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/FileLocationEditor.cpp"/>
-        <FILE id="HxWnV6" name="FileLocationEditor.h" compile="0" resource="0"
-              file="../ScopeSync/Windows/FileLocationEditor.h"/>
-        <FILE id="Zu9eEQ" name="LayoutChooser.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/LayoutChooser.cpp"/>
-        <FILE id="HwxW19" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/LayoutChooser.h"/>
-        <FILE id="waV313" name="PresetChooser.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/PresetChooser.cpp"/>
-        <FILE id="CkbimH" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/PresetChooser.h"/>
-        <FILE id="b1geGZ" name="PresetFileChooser.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/PresetFileChooser.cpp"/>
-        <FILE id="tI8x6w" name="PresetFileChooser.h" compile="0" resource="0"
-              file="../ScopeSync/Windows/PresetFileChooser.h"/>
-        <FILE id="XXeahd" name="UserSettings.cpp" compile="1" resource="0"
-              file="../ScopeSync/Windows/UserSettings.cpp"/>
-        <FILE id="ka3dUe" name="UserSettings.h" compile="0" resource="0" file="../ScopeSync/Windows/UserSettings.h"/>
+      <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
+        <FILE id="opsUkN" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMComboBox.cpp"/>
+        <FILE id="u35o30" name="BCMComboBox.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComboBox.h"/>
+        <FILE id="gV1YeT" name="BCMComponent.cpp" compile="1" resource="0"
+              file="../ScopeSync/Components/BCMComponent.cpp"/>
+        <FILE id="n4t2Ng" name="BCMComponent.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComponent.h"/>
+        <FILE id="rad6RY" name="BCMComponentBounds.h" compile="0" resource="0"
+              file="../ScopeSync/Components/BCMComponentBounds.h"/>
+        <FILE id="gVId9Q" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMGraphic.cpp"/>
+        <FILE id="VrmV5T" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSync/Components/BCMGraphic.h"/>
+        <FILE id="cUTARu" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMImage.cpp"/>
+        <FILE id="XTf8Mm" name="BCMImage.h" compile="0" resource="0" file="../ScopeSync/Components/BCMImage.h"/>
+        <FILE id="ogYQXA" name="BCMLabel.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMLabel.cpp"/>
+        <FILE id="HActY3" name="BCMLabel.h" compile="0" resource="0" file="../ScopeSync/Components/BCMLabel.h"/>
+        <FILE id="sfoi7n" name="BCMLookAndFeel.cpp" compile="1" resource="0"
+              file="../ScopeSync/Components/BCMLookAndFeel.cpp"/>
+        <FILE id="VDaILN" name="BCMLookAndFeel.h" compile="0" resource="0"
+              file="../ScopeSync/Components/BCMLookAndFeel.h"/>
+        <FILE id="osKvlP" name="BCMRectangle.cpp" compile="1" resource="0"
+              file="../ScopeSync/Components/BCMRectangle.cpp"/>
+        <FILE id="FTZXu4" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSync/Components/BCMRectangle.h"/>
+        <FILE id="imxBBU" name="BCMSlider.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMSlider.cpp"/>
+        <FILE id="VeDtlO" name="BCMSlider.h" compile="0" resource="0" file="../ScopeSync/Components/BCMSlider.h"/>
+        <FILE id="fpSC2i" name="BCMTabbedComponent.cpp" compile="1" resource="0"
+              file="../ScopeSync/Components/BCMTabbedComponent.cpp"/>
+        <FILE id="V5UWw6" name="BCMTabbedComponent.h" compile="0" resource="0"
+              file="../ScopeSync/Components/BCMTabbedComponent.h"/>
+        <FILE id="ehf53J" name="BCMTextButton.cpp" compile="1" resource="0"
+              file="../ScopeSync/Components/BCMTextButton.cpp"/>
+        <FILE id="IxrLpH" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSync/Components/BCMTextButton.h"/>
+        <FILE id="o8ybfy" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMWidget.cpp"/>
+        <FILE id="EexWke" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSync/Components/BCMWidget.h"/>
       </GROUP>
       <GROUP id="{58C29932-3BC2-959E-FEA8-03672E3C1581}" name="Configuration">
         <FILE id="FlS7YC" name="Configuration.cpp" compile="1" resource="0"
@@ -56,6 +62,87 @@
         <FILE id="I2vBbE" name="SettingsTable.cpp" compile="1" resource="0"
               file="../ScopeSync/Configuration/SettingsTable.cpp"/>
         <FILE id="YWpedR" name="SettingsTable.h" compile="0" resource="0" file="../ScopeSync/Configuration/SettingsTable.h"/>
+      </GROUP>
+      <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
+        <FILE id="iJBsZX" name="Clipboard.cpp" compile="1" resource="0" file="../ScopeSync/Core/Clipboard.cpp"/>
+        <FILE id="bKosiY" name="Clipboard.h" compile="0" resource="0" file="../ScopeSync/Core/Clipboard.h"/>
+        <FILE id="Bequ8I" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
+        <FILE id="TWAtId" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
+        <FILE id="a76cHR" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>
+        <FILE id="Gv5boE" name="ScopeSyncApplication.cpp" compile="1" resource="0"
+              file="../ScopeSync/Core/ScopeSyncApplication.cpp"/>
+        <FILE id="X4TEcd" name="ScopeSyncApplication.h" compile="0" resource="0"
+              file="../ScopeSync/Core/ScopeSyncApplication.h"/>
+        <FILE id="oUc8QK" name="ScopeSyncGUI.cpp" compile="1" resource="0"
+              file="../ScopeSync/Core/ScopeSyncGUI.cpp"/>
+        <FILE id="GvhbvO" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSyncGUI.h"/>
+      </GROUP>
+      <GROUP id="{56BA3D79-F9D5-1CA1-9B57-6128B1A1E3DE}" name="Include">
+        <GROUP id="{0E33D926-BB3A-9A94-5618-F29D1267E249}" name="SonicCore">
+          <FILE id="R3seE2" name="effclass.h" compile="0" resource="0" file="../../External/SonicCore/effclass.h"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{559AE421-D65C-C246-8CF2-E12D7674270A}" name="Parameters">
+        <FILE id="KzYiPk" name="BCMParameter.cpp" compile="1" resource="0"
+              file="../ScopeSync/Parameters/BCMParameter.cpp"/>
+        <FILE id="GbihPU" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSync/Parameters/BCMParameter.h"/>
+        <FILE id="UUFPyJ" name="BCMParameterController.cpp" compile="1" resource="0"
+              file="../ScopeSync/Parameters/BCMParameterController.cpp"/>
+        <FILE id="upNicS" name="BCMParameterController.h" compile="0" resource="0"
+              file="../ScopeSync/Parameters/BCMParameterController.h"/>
+        <FILE id="z2zpfs" name="HostParameter.cpp" compile="1" resource="0"
+              file="../ScopeSync/Parameters/HostParameter.cpp"/>
+        <FILE id="dIUS0W" name="HostParameter.h" compile="0" resource="0" file="../ScopeSync/Parameters/HostParameter.h"/>
+        <FILE id="O6mQyW" name="ScopeIDs.cpp" compile="1" resource="0" file="../ScopeSync/Parameters/ScopeIDs.cpp"/>
+        <FILE id="p3gCww" name="ScopeIDs.h" compile="0" resource="0" file="../ScopeSync/Parameters/ScopeIDs.h"/>
+        <FILE id="ToGgdn" name="ScopeOSCParameter.cpp" compile="1" resource="0"
+              file="../ScopeSync/Parameters/ScopeOSCParameter.cpp"/>
+        <FILE id="RgoW4b" name="ScopeOSCParameter.h" compile="0" resource="0"
+              file="../ScopeSync/Parameters/ScopeOSCParameter.h"/>
+      </GROUP>
+      <GROUP id="{9A72096E-0E21-B6CC-11C5-DCAD6BB11A9E}" name="Presets">
+        <FILE id="A8poLd" name="PresetFile.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetFile.cpp"/>
+        <FILE id="RNaiVW" name="PresetFile.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetFile.h"/>
+        <FILE id="u6KOZK" name="PresetItem.cpp" compile="1" resource="0" file="../ScopeSync/Presets/PresetItem.cpp"/>
+        <FILE id="ZDZOkU" name="PresetItem.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetItem.h"/>
+        <FILE id="ZGVEoe" name="PresetManager.cpp" compile="1" resource="0"
+              file="../ScopeSync/Presets/PresetManager.cpp"/>
+        <FILE id="gQsS8q" name="PresetManager.h" compile="0" resource="0" file="../ScopeSync/Presets/PresetManager.h"/>
+      </GROUP>
+      <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
+        <FILE id="K9cWrE" name="ComboBoxProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/ComboBoxProperties.cpp"/>
+        <FILE id="jzz8Os" name="ComboBoxProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/ComboBoxProperties.h"/>
+        <FILE id="Cec31r" name="ComponentProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/ComponentProperties.cpp"/>
+        <FILE id="uaErjC" name="ComponentProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/ComponentProperties.h"/>
+        <FILE id="hVVe46" name="LabelProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/LabelProperties.cpp"/>
+        <FILE id="uckvWe" name="LabelProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/LabelProperties.h"/>
+        <FILE id="usbkst" name="PropertiesHelper.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/PropertiesHelper.h"/>
+        <FILE id="CTK6XM" name="SliderProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/SliderProperties.cpp"/>
+        <FILE id="pObJX7" name="SliderProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/SliderProperties.h"/>
+        <FILE id="RLgV7I" name="TabbedComponentProperties.cpp" compile="1"
+              resource="0" file="../ScopeSync/Properties/TabbedComponentProperties.cpp"/>
+        <FILE id="IRvdIL" name="TabbedComponentProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/TabbedComponentProperties.h"/>
+        <FILE id="KhpX2m" name="TabProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/TabProperties.cpp"/>
+        <FILE id="Jss7CS" name="TabProperties.h" compile="0" resource="0" file="../ScopeSync/Properties/TabProperties.h"/>
+        <FILE id="hvXO29" name="TextButtonProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/TextButtonProperties.cpp"/>
+        <FILE id="mFmzU9" name="TextButtonProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/TextButtonProperties.h"/>
+        <FILE id="VAGVyW" name="WidgetProperties.cpp" compile="1" resource="0"
+              file="../ScopeSync/Properties/WidgetProperties.cpp"/>
+        <FILE id="lom4JI" name="WidgetProperties.h" compile="0" resource="0"
+              file="../ScopeSync/Properties/WidgetProperties.h"/>
       </GROUP>
       <GROUP id="{1C3EA794-EC12-4EA5-9D0F-FEA0D9C9E341}" name="Resources">
         <GROUP id="{23A805D2-A898-F2B1-2870-36B7F74CC045}" name="font">
@@ -229,88 +316,6 @@
         <FILE id="lBGuPm" name="ImageLoader.cpp" compile="1" resource="0" file="../ScopeSync/Resources/ImageLoader.cpp"/>
         <FILE id="rVfpd8" name="ImageLoader.h" compile="0" resource="0" file="../ScopeSync/Resources/ImageLoader.h"/>
       </GROUP>
-      <GROUP id="{EAD30A21-9D68-4D2A-17FB-E06B99B305F6}" name="Comms">
-        <FILE id="DddHDz" name="ScopeSyncAsync.cpp" compile="1" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncAsync.cpp"/>
-        <FILE id="F3VBH6" name="ScopeSyncAsync.h" compile="0" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncAsync.h"/>
-        <FILE id="QM4U5v" name="ScopeSyncOSC.cpp" compile="1" resource="0"
-              file="../ScopeSync/Comms/ScopeSyncOSC.cpp"/>
-        <FILE id="CJugOz" name="ScopeSyncOSC.h" compile="0" resource="0" file="../ScopeSync/Comms/ScopeSyncOSC.h"/>
-      </GROUP>
-      <GROUP id="{0BDAC503-B21F-BCED-7440-59B73481AA77}" name="Properties">
-        <FILE id="K9cWrE" name="ComboBoxProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/ComboBoxProperties.cpp"/>
-        <FILE id="jzz8Os" name="ComboBoxProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/ComboBoxProperties.h"/>
-        <FILE id="Cec31r" name="ComponentProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/ComponentProperties.cpp"/>
-        <FILE id="uaErjC" name="ComponentProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/ComponentProperties.h"/>
-        <FILE id="hVVe46" name="LabelProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/LabelProperties.cpp"/>
-        <FILE id="uckvWe" name="LabelProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/LabelProperties.h"/>
-        <FILE id="usbkst" name="PropertiesHelper.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/PropertiesHelper.h"/>
-        <FILE id="CTK6XM" name="SliderProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/SliderProperties.cpp"/>
-        <FILE id="pObJX7" name="SliderProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/SliderProperties.h"/>
-        <FILE id="RLgV7I" name="TabbedComponentProperties.cpp" compile="1"
-              resource="0" file="../ScopeSync/Properties/TabbedComponentProperties.cpp"/>
-        <FILE id="IRvdIL" name="TabbedComponentProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/TabbedComponentProperties.h"/>
-        <FILE id="KhpX2m" name="TabProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/TabProperties.cpp"/>
-        <FILE id="Jss7CS" name="TabProperties.h" compile="0" resource="0" file="../ScopeSync/Properties/TabProperties.h"/>
-        <FILE id="hvXO29" name="TextButtonProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/TextButtonProperties.cpp"/>
-        <FILE id="mFmzU9" name="TextButtonProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/TextButtonProperties.h"/>
-        <FILE id="VAGVyW" name="WidgetProperties.cpp" compile="1" resource="0"
-              file="../ScopeSync/Properties/WidgetProperties.cpp"/>
-        <FILE id="lom4JI" name="WidgetProperties.h" compile="0" resource="0"
-              file="../ScopeSync/Properties/WidgetProperties.h"/>
-      </GROUP>
-      <GROUP id="{0C3F0D97-DC17-F546-AE77-C3CD15D81AA1}" name="Components">
-        <FILE id="opsUkN" name="BCMComboBox.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMComboBox.cpp"/>
-        <FILE id="u35o30" name="BCMComboBox.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComboBox.h"/>
-        <FILE id="gV1YeT" name="BCMComponent.cpp" compile="1" resource="0"
-              file="../ScopeSync/Components/BCMComponent.cpp"/>
-        <FILE id="n4t2Ng" name="BCMComponent.h" compile="0" resource="0" file="../ScopeSync/Components/BCMComponent.h"/>
-        <FILE id="rad6RY" name="BCMComponentBounds.h" compile="0" resource="0"
-              file="../ScopeSync/Components/BCMComponentBounds.h"/>
-        <FILE id="gVId9Q" name="BCMGraphic.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMGraphic.cpp"/>
-        <FILE id="VrmV5T" name="BCMGraphic.h" compile="0" resource="0" file="../ScopeSync/Components/BCMGraphic.h"/>
-        <FILE id="cUTARu" name="BCMImage.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMImage.cpp"/>
-        <FILE id="XTf8Mm" name="BCMImage.h" compile="0" resource="0" file="../ScopeSync/Components/BCMImage.h"/>
-        <FILE id="ogYQXA" name="BCMLabel.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMLabel.cpp"/>
-        <FILE id="HActY3" name="BCMLabel.h" compile="0" resource="0" file="../ScopeSync/Components/BCMLabel.h"/>
-        <FILE id="sfoi7n" name="BCMLookAndFeel.cpp" compile="1" resource="0"
-              file="../ScopeSync/Components/BCMLookAndFeel.cpp"/>
-        <FILE id="VDaILN" name="BCMLookAndFeel.h" compile="0" resource="0"
-              file="../ScopeSync/Components/BCMLookAndFeel.h"/>
-        <FILE id="osKvlP" name="BCMRectangle.cpp" compile="1" resource="0"
-              file="../ScopeSync/Components/BCMRectangle.cpp"/>
-        <FILE id="FTZXu4" name="BCMRectangle.h" compile="0" resource="0" file="../ScopeSync/Components/BCMRectangle.h"/>
-        <FILE id="imxBBU" name="BCMSlider.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMSlider.cpp"/>
-        <FILE id="VeDtlO" name="BCMSlider.h" compile="0" resource="0" file="../ScopeSync/Components/BCMSlider.h"/>
-        <FILE id="fpSC2i" name="BCMTabbedComponent.cpp" compile="1" resource="0"
-              file="../ScopeSync/Components/BCMTabbedComponent.cpp"/>
-        <FILE id="V5UWw6" name="BCMTabbedComponent.h" compile="0" resource="0"
-              file="../ScopeSync/Components/BCMTabbedComponent.h"/>
-        <FILE id="ehf53J" name="BCMTextButton.cpp" compile="1" resource="0"
-              file="../ScopeSync/Components/BCMTextButton.cpp"/>
-        <FILE id="IxrLpH" name="BCMTextButton.h" compile="0" resource="0" file="../ScopeSync/Components/BCMTextButton.h"/>
-        <FILE id="o8ybfy" name="BCMWidget.cpp" compile="1" resource="0" file="../ScopeSync/Components/BCMWidget.cpp"/>
-        <FILE id="EexWke" name="BCMWidget.h" compile="0" resource="0" file="../ScopeSync/Components/BCMWidget.h"/>
-      </GROUP>
-      <GROUP id="{56BA3D79-F9D5-1CA1-9B57-6128B1A1E3DE}" name="Include">
-        <GROUP id="{0E33D926-BB3A-9A94-5618-F29D1267E249}" name="SonicCore">
-          <FILE id="R3seE2" name="effclass.h" compile="0" resource="0" file="../../External/SonicCore/effclass.h"/>
-        </GROUP>
-      </GROUP>
       <GROUP id="{734BDC74-2CCC-CC9B-07AE-98A76FF5F477}" name="ScopeFX">
         <FILE id="VNXisX" name="ScopeFX.cpp" compile="1" resource="0" file="../ScopeSync/ScopeFX/ScopeFX.cpp"/>
         <FILE id="f9uMuU" name="ScopeFX.h" compile="0" resource="0" file="../ScopeSync/ScopeFX/ScopeFX.h"/>
@@ -327,24 +332,28 @@
         <FILE id="vf7QkG" name="BCMTreeView.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMTreeView.h"/>
         <FILE id="jyN3zQ" name="BCMXml.h" compile="0" resource="0" file="../ScopeSync/Utils/BCMXml.h"/>
       </GROUP>
-      <GROUP id="{2D278A02-881C-51FB-54E4-0ED85172E23E}" name="Core">
-        <FILE id="ymb1Py" name="BCMParameter.cpp" compile="1" resource="0"
-              file="../ScopeSync/Core/BCMParameter.cpp"/>
-        <FILE id="woAiW3" name="BCMParameter.h" compile="0" resource="0" file="../ScopeSync/Core/BCMParameter.h"/>
-        <FILE id="rCbhsN" name="BCMParameterController.cpp" compile="1" resource="0"
-              file="../ScopeSync/Core/BCMParameterController.cpp"/>
-        <FILE id="SqbKCJ" name="BCMParameterController.h" compile="0" resource="0"
-              file="../ScopeSync/Core/BCMParameterController.h"/>
-        <FILE id="Bequ8I" name="Global.h" compile="0" resource="0" file="../ScopeSync/Core/Global.h"/>
-        <FILE id="TWAtId" name="ScopeSync.cpp" compile="1" resource="0" file="../ScopeSync/Core/ScopeSync.cpp"/>
-        <FILE id="a76cHR" name="ScopeSync.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSync.h"/>
-        <FILE id="Gv5boE" name="ScopeSyncApplication.cpp" compile="1" resource="0"
-              file="../ScopeSync/Core/ScopeSyncApplication.cpp"/>
-        <FILE id="X4TEcd" name="ScopeSyncApplication.h" compile="0" resource="0"
-              file="../ScopeSync/Core/ScopeSyncApplication.h"/>
-        <FILE id="oUc8QK" name="ScopeSyncGUI.cpp" compile="1" resource="0"
-              file="../ScopeSync/Core/ScopeSyncGUI.cpp"/>
-        <FILE id="GvhbvO" name="ScopeSyncGUI.h" compile="0" resource="0" file="../ScopeSync/Core/ScopeSyncGUI.h"/>
+      <GROUP id="{B9DB3447-CCFA-BE90-D842-742CAC387F61}" name="Windows">
+        <FILE id="G5wehz" name="ConfigurationChooser.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/ConfigurationChooser.cpp"/>
+        <FILE id="cnZlgC" name="ConfigurationChooser.h" compile="0" resource="0"
+              file="../ScopeSync/Windows/ConfigurationChooser.h"/>
+        <FILE id="JiJSHP" name="FileLocationEditor.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/FileLocationEditor.cpp"/>
+        <FILE id="HxWnV6" name="FileLocationEditor.h" compile="0" resource="0"
+              file="../ScopeSync/Windows/FileLocationEditor.h"/>
+        <FILE id="Zu9eEQ" name="LayoutChooser.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/LayoutChooser.cpp"/>
+        <FILE id="HwxW19" name="LayoutChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/LayoutChooser.h"/>
+        <FILE id="waV313" name="PresetChooser.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/PresetChooser.cpp"/>
+        <FILE id="CkbimH" name="PresetChooser.h" compile="0" resource="0" file="../ScopeSync/Windows/PresetChooser.h"/>
+        <FILE id="b1geGZ" name="PresetFileChooser.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/PresetFileChooser.cpp"/>
+        <FILE id="tI8x6w" name="PresetFileChooser.h" compile="0" resource="0"
+              file="../ScopeSync/Windows/PresetFileChooser.h"/>
+        <FILE id="XXeahd" name="UserSettings.cpp" compile="1" resource="0"
+              file="../ScopeSync/Windows/UserSettings.cpp"/>
+        <FILE id="ka3dUe" name="UserSettings.h" compile="0" resource="0" file="../ScopeSync/Windows/UserSettings.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
@@ -353,14 +362,17 @@
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_2"
+                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_3"
                        headerPath="../../../../External/SonicCore" libraryPath="..\..\..\..\External\SonicCore"
                        defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
-                       useRuntimeLibDLL="1"/>
+                       useRuntimeLibDLL="1" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_2" headerPath="../../../../External/SonicCore"
+                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_3" headerPath="../../../../External/SonicCore"
                        libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
-                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"/>
+                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
@@ -375,14 +387,14 @@
     </VS2013>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_WEB_BROWSER="disabled" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="disabled"/>
+  <JUCEOPTIONS JUCE_WEB_BROWSER="0" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="0"/>
 </JUCERPROJECT>

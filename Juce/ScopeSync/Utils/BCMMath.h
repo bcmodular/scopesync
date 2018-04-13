@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -65,9 +65,9 @@ namespace BCMMath
     inline int doubleToScopeInt(double doubleToConvert)
     {
         if (doubleToConvert > 0.0)
-            return roundDoubleToInt(doubleToConvert * 0x7FFFFFFF);
+            return roundToInt(doubleToConvert * 0x7FFFFFFF);
         else if (doubleToConvert < 0.0)
-            return roundDoubleToInt(doubleToConvert * 0x80000000);
+            return roundToInt(doubleToConvert * 0x80000000);
         else
             return 0;
     }
@@ -79,7 +79,7 @@ namespace BCMMath
 
     inline void skewValue(double& valueToSkew, double skewFactor, double minValue, double maxValue, bool invert)
     {
-        DBG("BCMMath::skewValue - valueToSkew: " + String(valueToSkew) + ", skewFactor: " + String(skewFactor) + ", minValue: " + String(minValue) + ", maxValue: " + String(maxValue) + ", invert: " + String(invert));
+        DBG("BCMMath::skewValue - valueToSkew: " + String(valueToSkew) + ", skewFactor: " + String(skewFactor) + ", minValue: " + String(minValue) + ", maxValue: " + String(maxValue) + ", invert: " + String((invert) ? "True" : "False"));
         
         if (skewFactor != 1.0)
         {

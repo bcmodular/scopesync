@@ -14,7 +14,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -35,6 +35,7 @@
 #define SCOPESYNCGUI_H_INCLUDED
 
 #include <JuceHeader.h>
+#include "../Components/BCMLookAndFeel.h"
 class ScopeSync;
 class Configuration;
 class BCMComponent;
@@ -50,17 +51,16 @@ class BCMParameter;
 class ConfigurationChooserWindow;
 class NewConfigurationWindow;
 #include "../Components/BCMSlider.h"
+#include "../Resources/ImageLoader.h"
+#include "../Windows/UserSettings.h"
 
 class AboutBoxWindow : public DocumentWindow
 {
 public:
     AboutBoxWindow();
-    ~AboutBoxWindow();
     
     void closeButtonPressed() override;
     
-    juce_DeclareSingleton (AboutBoxWindow, false)
-
 private:
 
     class AboutBox : public Component
@@ -76,6 +76,8 @@ private:
         Label           moduleVersion;
         Label           credits;
         HyperlinkButton scopeSyncLink;
+
+		SharedResourcePointer<ImageLoader> imageLoader;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AboutBox)
     };
@@ -93,7 +95,7 @@ public:
     ~ScopeSyncGUI();
 
     /* ========================== Public Actions ============================= */
-    static void          hideUserSettings();
+    void          hideUserSettings();
     void          showUserSettings() const;
     void          chooseConfiguration();
     BCMParameter* getUIMapping(Identifier componentTypeId, const String& componentName, ValueTree& mapping) const;
@@ -103,7 +105,6 @@ public:
     void getTabbedComponentsByName(const String& name, Array<BCMTabbedComponent*>& tabbedComponentArray) const;
     Slider::SliderStyle getDefaultRotarySliderStyle() const;
     
-    static void deleteTooltipWindow() { tooltipWindow = nullptr; }
     void hideConfigurationChooserWindow();
     
     /* ====================== Public member variables ========================= */
@@ -134,7 +135,7 @@ public:
         int  tooltipDelayTime;
     };
     
-    Settings settings;
+    Settings settings{};
 
 private:
     
@@ -146,19 +147,22 @@ private:
     
     ScopeSync& scopeSync;
     ValueTree  deviceMapping;
-    static ScopedPointer<TooltipWindow> tooltipWindow;
-    
+    SharedResourcePointer<TooltipWindow>  tooltipWindow;
+    SharedResourcePointer<BCMDefaultLookAndFeel> defaultBCMLookAndFeel;
+	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<AboutBoxWindow> aboutBox;
+
     static const int timerFrequency;
 
     /* =================== Private Configuration Methods =======================*/
     void createGUI(bool forceReload);
-    void setupLookAndFeels(XmlElement& lookAndFeelsXML, bool useImageCache); 
-    void setupStandardLookAndFeels(XmlElement& xml, bool useImageCache);
-    void setupLookAndFeel(XmlElement& lookAndFeelXML, bool useImageCache) const;
+    void setupLookAndFeels(XmlElement& lookAndFeelsXML); 
+    void setupStandardLookAndFeels(XmlElement& xml);
+    void setupLookAndFeel(XmlElement& lookAndFeelXML) const;
     void setupDefaults(XmlElement& defaultsXML);
     void clearWidgetTemplates();
     void setupWidgetTemplates(XmlElement& widgetTemplatesXML);
-    void readSettingsXml(XmlElement& defaultsXML);
+    void readSettingsXml(XmlElement& settingsXML);
     void createComponent(XmlElement& componentXML);
     void timerCallback() override;
     

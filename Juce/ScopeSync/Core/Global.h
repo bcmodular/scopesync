@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -44,8 +44,11 @@ namespace Ids
     DECLARE_ID(parameter);
     DECLARE_ID(shortDescription);
     DECLARE_ID(fullDescription);
-    DECLARE_ID(scopeCode);
 	DECLARE_ID(uiSuffix);
+	DECLARE_ID(scopeDeviceUID);
+	DECLARE_ID(scopeParamGroup);
+	DECLARE_ID(scopeParamId);
+	DECLARE_ID(scopeCode);
     DECLARE_ID(scopeRangeMin);
     DECLARE_ID(scopeRangeMax);
     DECLARE_ID(scopeDBRef);

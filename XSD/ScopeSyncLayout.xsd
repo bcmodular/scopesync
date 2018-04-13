@@ -2,26 +2,26 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout">
 
     <complexType name="mappingparenttype">
-        <attribute name="componenttype" type="tns:componenttypetype" use="optional"></attribute>
-        <attribute name="componentname" type="string" use="optional"></attribute>
+        <attribute name="componenttype" type="tns:componenttypetype"/>
+        <attribute name="componentname" type="string"/>
     </complexType>
     
     <simpleType name="componenttypetype">
     	<restriction base="string">
-    		<enumeration value="slider"></enumeration>
-    		<enumeration value="label"></enumeration>
-    		<enumeration value="textbutton"></enumeration>
-    		<enumeration value="tabbedcomponent"></enumeration>
-    		<enumeration value="combobox"></enumeration>
-    		<enumeration value="component"></enumeration>
-    		<enumeration value="none"></enumeration>
+            <enumeration value="slider"/>
+            <enumeration value="label"/>
+            <enumeration value="textbutton"/>
+            <enumeration value="tabbedcomponent"/>
+            <enumeration value="combobox"/>
+            <enumeration value="component"/>
+            <enumeration value="none"/>
     	</restriction>
     </simpleType>
 
     <complexType name="lookandfeelstype">
         <choice minOccurs="0" maxOccurs="unbounded">
-        	<element name="lookandfeel" type="tns:lookandfeeltype"></element>
-        	<element name="standardcontent" type="tns:standardlnfcontent"></element>
+            <element name="lookandfeel" type="tns:lookandfeeltype"/>
+            <element name="standardcontent" type="tns:standardlnfcontent"/>
         </choice>
     </complexType>
     
@@ -32,155 +32,155 @@
     		<element name="fonts" type="tns:lookandfeelfontstype" />
     		<element name="appliesto" type="tns:appliestotype" />
     	</choice>
-    	<attribute name="id" type="string" use="required"></attribute>
-    	<attribute name="parentid" type="string"></attribute>
+        <attribute name="id" type="string" use="required"/>
+        <attribute name="parentid" type="string"/>
 
     </complexType>
 
-    <complexType name="colourstype"></complexType>
+    <complexType name="colourstype"/>
 
 
     <complexType name="defaultstype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="slider" type="tns:slidertype" minOccurs="0" maxOccurs="1"></element>
-            <element name="label" type="tns:labeltype" minOccurs="0" maxOccurs="1"></element>
-            <element name="textbutton" type="tns:textbuttontype" minOccurs="0" maxOccurs="1"></element>
-            <element name="combobox" type="tns:comboboxtype" minOccurs="0" maxOccurs="1"></element>
-            <element name="component" type="tns:componenttype" minOccurs="0" maxOccurs="1"></element>
-            <element name="tabbedcomponent" type="tns:tabbedcomponenttype" minOccurs="0" maxOccurs="1"></element>
-            <element name="tab" type="tns:tabtype" minOccurs="0" maxOccurs="1"></element>
-            <element name="settings" type="tns:settingstype" minOccurs="0" maxOccurs="1"></element>
+        <all minOccurs="0">
+            <element name="slider" type="tns:slidertype" minOccurs="0"/>
+            <element name="label" type="tns:labeltype" minOccurs="0"/>
+            <element name="textbutton" type="tns:textbuttontype" minOccurs="0"/>
+            <element name="combobox" type="tns:comboboxtype" minOccurs="0"/>
+            <element name="component" type="tns:componenttype" minOccurs="0"/>
+            <element name="tabbedcomponent" type="tns:tabbedcomponenttype" minOccurs="0"/>
+            <element name="tab" type="tns:tabtype" minOccurs="0"/>
+            <element name="settings" type="tns:settingstype" minOccurs="0"/>
         </all>
     </complexType>
     
 	<complexType name="widgettemplatestype">
     	<choice minOccurs="0" maxOccurs="unbounded">
-    		<element name="component" type="tns:componenttype"></element>
-    		<element name="slider" type="tns:slidertype"></element>
-    		<element name="label" type="tns:labeltype"></element>
-    		<element name="textbutton" type="tns:textbuttontype"></element>
-    		<element name="tabbedcomponent" type="tns:tabbedcomponenttype"></element>
+            <element name="component" type="tns:componenttype"/>
+            <element name="slider" type="tns:slidertype"/>
+            <element name="label" type="tns:labeltype"/>
+            <element name="textbutton" type="tns:textbuttontype"/>
+            <element name="tabbedcomponent" type="tns:tabbedcomponenttype"/>
 
-    		<element name="combobox" type="tns:comboboxtype"></element>
+            <element name="combobox" type="tns:comboboxtype"/>
     	</choice>
     </complexType>
 
 	<complexType name="componenttype">
 		<choice minOccurs="0" maxOccurs="unbounded">
-			<element name="bounds" type="tns:boundstype"></element>
-			<element name="component" type="tns:componenttype"></element>
-			<element name="slider" type="tns:slidertype"></element>
-			<element name="label" type="tns:labeltype"></element>
-			<element name="textbutton" type="tns:textbuttontype"></element>
+            <element name="bounds" type="tns:boundstype"/>
+            <element name="component" type="tns:componenttype"/>
+            <element name="slider" type="tns:slidertype"/>
+            <element name="label" type="tns:labeltype"/>
+            <element name="textbutton" type="tns:textbuttontype"/>
 			<element name="tabbedcomponent"
 				type="tns:tabbedcomponenttype">
 			</element>
-			<element name="combobox" type="tns:comboboxtype"></element>
-			<element name="rectangle" type="tns:rectangletype"></element>
-			<element name="image" type="tns:imagetype"></element>
-			<element name="standardcontent" type="tns:standardcomponentcontentype"></element>
+            <element name="combobox" type="tns:comboboxtype"/>
+            <element name="rectangle" type="tns:rectangletype"/>
+            <element name="image" type="tns:imagetype"/>
+            <element name="standardcontent" type="tns:standardcomponentcontentype"/>
 		</choice>
-		<attribute name="name" type="string"></attribute>
-        <attribute name="id" type="string"></attribute>
-		<attribute name="backgroundcolour" type="tns:colouridtype"></attribute>
-		<attribute name="backgroundimage" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="backgroundcolour" type="tns:colouridtype"/>
+        <attribute name="backgroundimage" type="string"/>
 		<attribute name="backgroundimageplacement"
 			type="tns:rectangleplacementtype">
 		</attribute>
-		<attribute name="lfid" type="string"></attribute>
-		<attribute name="wtid" type="string"></attribute>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
 		<attribute name="displaycontext"
 			type="tns:displaycontexttype">
 		</attribute>
-		<attribute name="nostyleoverride" type="boolean"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
 
 	</complexType>
 
 	<complexType name="lookandfeelcolourstype">
-        <all minOccurs="0" maxOccurs="1">
-	        <element name="slider" type="tns:slidercolourstype" minOccurs="0"></element>
-	        <element name="label" type="tns:labelcolourstype" minOccurs="0"></element>
-	        <element name="textbutton" type="tns:textbuttoncolourstype" minOccurs="0"></element>
-	        <element name="tabbedcomponent" type="tns:tabbedcomponentcolourstype" minOccurs="0"></element>
-	        <element name="tabbar" type="tns:tabbarcolourstype" minOccurs="0"></element>
-	        <element name="texteditor" type="tns:texteditorcolourstype" minOccurs="0"></element>
-	        <element name="combobox" type="tns:comboboxcolourstype" minOccurs="0"></element>
-	        <element name="popupmenu" type="tns:popupmenucolourstype" minOccurs="0"></element>
-	        <element name="tooltip" type="tns:tooltipcolourstype" minOccurs="0"></element>
-	        <element name="bubblecomponent" type="tns:bubblecomponentcolourstype" minOccurs="0"></element>
+        <all minOccurs="0">
+            <element name="slider" type="tns:slidercolourstype" minOccurs="0"/>
+            <element name="label" type="tns:labelcolourstype" minOccurs="0"/>
+            <element name="textbutton" type="tns:textbuttoncolourstype" minOccurs="0"/>
+            <element name="tabbedcomponent" type="tns:tabbedcomponentcolourstype" minOccurs="0"/>
+            <element name="tabbar" type="tns:tabbarcolourstype" minOccurs="0"/>
+            <element name="texteditor" type="tns:texteditorcolourstype" minOccurs="0"/>
+            <element name="combobox" type="tns:comboboxcolourstype" minOccurs="0"/>
+            <element name="popupmenu" type="tns:popupmenucolourstype" minOccurs="0"/>
+            <element name="tooltip" type="tns:tooltipcolourstype" minOccurs="0"/>
+            <element name="bubblecomponent" type="tns:bubblecomponentcolourstype" minOccurs="0"/>
         </all>
     </complexType>
 
     <complexType name="slidercolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="thumbcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="trackcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="rotarysliderfillcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="rotaryslideroutlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textboxtextcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textboxbackgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textboxhighlightcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textboxoutlinecolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="thumbcolourid" type="tns:colouridtype"/>
+        <attribute name="trackcolourid" type="tns:colouridtype"/>
+        <attribute name="rotarysliderfillcolourid" type="tns:colouridtype"/>
+        <attribute name="rotaryslideroutlinecolourid" type="tns:colouridtype"/>
+        <attribute name="textboxtextcolourid" type="tns:colouridtype"/>
+        <attribute name="textboxbackgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textboxhighlightcolourid" type="tns:colouridtype"/>
+        <attribute name="textboxoutlinecolourid" type="tns:colouridtype"/>
     </complexType>
     
     <complexType name="labelcolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolourid" type="tns:colouridtype"/>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
     </complexType>
 
     <complexType name="texteditorcolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="highlightcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="highlightedtextcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="focusedoutlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="shadowcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolourid" type="tns:colouridtype"/>
+        <attribute name="highlightcolourid" type="tns:colouridtype"/>
+        <attribute name="highlightedtextcolourid" type="tns:colouridtype"/>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
+        <attribute name="focusedoutlinecolourid" type="tns:colouridtype"/>
+        <attribute name="shadowcolourid" type="tns:colouridtype"/>
     </complexType>
 
     <complexType name="tabbedcomponentcolourstype">
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
     </complexType>
 
     <complexType name="textbuttoncolourstype">
-        <attribute name="buttoncolourid" type="tns:colouridtype"></attribute>
-        <attribute name="buttononcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolouroffid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolouronid" type="tns:colouridtype"></attribute>
+        <attribute name="buttoncolourid" type="tns:colouridtype"/>
+        <attribute name="buttononcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolouroffid" type="tns:colouridtype"/>
+        <attribute name="textcolouronid" type="tns:colouridtype"/>
     </complexType>
 
     <complexType name="tabbarcolourstype">
-        <attribute name="taboutlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="tabtextcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="frontoutlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="fronttextcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="taboutlinecolourid" type="tns:colouridtype"/>
+        <attribute name="tabtextcolourid" type="tns:colouridtype"/>
+        <attribute name="frontoutlinecolourid" type="tns:colouridtype"/>
+        <attribute name="fronttextcolourid" type="tns:colouridtype"/>
     </complexType>
     
     <complexType name="tooltipcolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolourid" type="tns:colouridtype"/>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
     </complexType>
     
     <complexType name="bubblecomponentcolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
     </complexType>
     
     <complexType name="settingstype">
-        <attribute name="encodersnap" type="boolean"></attribute>
-        <attribute name="rotarymovement" type="tns:rotarymovementtype"></attribute>
-        <attribute name="incdecbuttonmode" type="tns:incdecbuttonmodetype"></attribute>
-        <attribute name="popupenabled" type="boolean"></attribute>
-        <attribute name="velocitybasedmode" type="boolean"></attribute>
-        <attribute name="enabletooltips" type="boolean"></attribute>
+        <attribute name="encodersnap" type="boolean"/>
+        <attribute name="rotarymovement" type="tns:rotarymovementtype"/>
+        <attribute name="incdecbuttonmode" type="tns:incdecbuttonmodetype"/>
+        <attribute name="popupenabled" type="boolean"/>
+        <attribute name="velocitybasedmode" type="boolean"/>
+        <attribute name="enabletooltips" type="boolean"/>
         <attribute name="tooltipdelaytime">
         	<simpleType>
         		<restriction base="int">
 
-        			<minInclusive value="0"></minInclusive>
+                    <minInclusive value="0"/>
         		</restriction>
         	</simpleType>
         </attribute>
@@ -188,52 +188,49 @@
     
     <simpleType name="colouridtype">
         <restriction base="string">
-            <length value="8"></length>
-            <whiteSpace value="collapse"></whiteSpace>
-            <pattern value="[0-9A-Fa-f]+"></pattern>
+            <length value="8"/>
+            <whiteSpace value="collapse"/>
+            <pattern value="[0-9A-Fa-f]+"/>
         </restriction>
     </simpleType>
 
     <complexType name="lookandfeelimagestype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="slider" type="tns:sliderimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="textbutton" type="tns:buttonimagestype" minOccurs="0" maxOccurs="1"></element>
+        <all minOccurs="0">
+            <element name="slider" type="tns:sliderimagestype" minOccurs="0"/>
+            <element name="textbutton" type="tns:buttonimagestype" minOccurs="0"/>
         </all>
     </complexType>
 
     <complexType name="sliderimagestype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="rotary" type="tns:sliderrotaryimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="linearhorizontal" type="tns:sliderlinearimagestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="linearvertical" type="tns:sliderlinearimagestype" minOccurs="0" maxOccurs="1"></element>
+        <all minOccurs="0">
+            <element name="rotary" type="tns:sliderrotaryimagestype" minOccurs="0"/>
+            <element name="linearhorizontal" type="tns:sliderlinearimagestype" minOccurs="0"/>
+            <element name="linearvertical" type="tns:sliderlinearimagestype" minOccurs="0"/>
         </all>
     </complexType>
 
     <complexType name="sliderrotaryimagestype">
     	<sequence>
     		<element name="image" type="tns:filmstripimagetype"
-    			maxOccurs="1" minOccurs="0">
+                     minOccurs="0">
     		</element>
     	</sequence>
 
 
-
-
-
-    	<attribute name="fillbackgroundfilename" type="string"></attribute>
-    	<attribute name="outlinebackgroundfilename" type="string"></attribute>
-        <attribute name="fillbackgroundbehind" type="boolean"></attribute>
-        <attribute name="backgrounduselnfcolours" type="boolean"></attribute>
+        <attribute name="fillbackgroundfilename" type="string"/>
+        <attribute name="outlinebackgroundfilename" type="string"/>
+        <attribute name="fillbackgroundbehind" type="boolean"/>
+        <attribute name="backgrounduselnfcolours" type="boolean"/>
 
     </complexType>
 
     <complexType name="sliderlinearimagestype">
     	<sequence>
-    		<element name="backgroundimage" type="tns:filmstripimagetype" maxOccurs="1" minOccurs="0"></element>
+            <element name="backgroundimage" type="tns:filmstripimagetype" minOccurs="0"/>
     	</sequence>
-    	<attribute name="thumbfilename" type="string"></attribute>
-    	<attribute name="thumbmouseoverfilename" type="string"></attribute>
-    	<attribute name="thumbborder" type="int"></attribute>
+        <attribute name="thumbfilename" type="string"/>
+        <attribute name="thumbmouseoverfilename" type="string"/>
+        <attribute name="thumbborder" type="int"/>
 
 
 
@@ -242,97 +239,97 @@
     </complexType>
 
     <complexType name="buttonimagestype">
-        <attribute name="upfilename" type="string"></attribute>
-        <attribute name="downfilename" type="string"></attribute>
-        <attribute name="mouseoverupfilename" type="string"></attribute>
-        <attribute name="mouseoverdownfilename" type="string"></attribute>
+        <attribute name="upfilename" type="string"/>
+        <attribute name="downfilename" type="string"/>
+        <attribute name="mouseoverupfilename" type="string"/>
+        <attribute name="mouseoverdownfilename" type="string"/>
     </complexType>
 
     <complexType name="comboboxcolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="outlinecolourid" type="tns:colouridtype"></attribute>
-        <attribute name="buttoncolourid" type="tns:colouridtype"></attribute>
-        <attribute name="arrowcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolourid" type="tns:colouridtype"/>
+        <attribute name="outlinecolourid" type="tns:colouridtype"/>
+        <attribute name="buttoncolourid" type="tns:colouridtype"/>
+        <attribute name="arrowcolourid" type="tns:colouridtype"/>
     </complexType>
 
 	<complexType name="popupmenucolourstype">
-        <attribute name="backgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="textcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="headertextcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="highlightedbackgroundcolourid" type="tns:colouridtype"></attribute>
-        <attribute name="highlightedtextcolourid" type="tns:colouridtype"></attribute>
+        <attribute name="backgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="textcolourid" type="tns:colouridtype"/>
+        <attribute name="headertextcolourid" type="tns:colouridtype"/>
+        <attribute name="highlightedbackgroundcolourid" type="tns:colouridtype"/>
+        <attribute name="highlightedtextcolourid" type="tns:colouridtype"/>
     </complexType>
 
     <simpleType name="rectangleplacementtype">
         <restriction base="string">
-            <enumeration value="xleft"></enumeration>
-            <enumeration value="xright"></enumeration>
-            <enumeration value="xmid"></enumeration>
-            <enumeration value="ytop"></enumeration>
-            <enumeration value="ybottom"></enumeration>
-            <enumeration value="ymid"></enumeration>
-            <enumeration value="stretchtofit"></enumeration>
-            <enumeration value="filldestination"></enumeration>
-            <enumeration value="onlyreduceinsize"></enumeration>
-            <enumeration value="onlyincreaseinsize"></enumeration>
-            <enumeration value="donotresize"></enumeration>
-            <enumeration value="centred"></enumeration>
+            <enumeration value="xleft"/>
+            <enumeration value="xright"/>
+            <enumeration value="xmid"/>
+            <enumeration value="ytop"/>
+            <enumeration value="ybottom"/>
+            <enumeration value="ymid"/>
+            <enumeration value="stretchtofit"/>
+            <enumeration value="filldestination"/>
+            <enumeration value="onlyreduceinsize"/>
+            <enumeration value="onlyincreaseinsize"/>
+            <enumeration value="donotresize"/>
+            <enumeration value="centred"/>
         </restriction>
     </simpleType>
 
     <complexType name="tabbedcomponenttype">
     	<choice minOccurs="0" maxOccurs="unbounded">
-    		<element name="bounds" type="tns:boundstype"></element>
-    		<element name="tabbar" type="tns:tabbartype"></element>
-    		<element name="tab" type="tns:tabtype"></element>
+            <element name="bounds" type="tns:boundstype"/>
+            <element name="tabbar" type="tns:tabbartype"/>
+            <element name="tab" type="tns:tabtype"/>
     		<element name="mappingparent"
     			type="tns:mappingparenttype">
     		</element>
     	</choice>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="showdropshadow" type="boolean"></attribute>
-    	<attribute name="lfid" type="string"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="showdropshadow" type="boolean"/>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
     	</attribute>
-    	<attribute name="nostyleoverride" type="boolean"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
     </complexType>
 
     <complexType name="tabbartype">
-        <attribute name="orientation" type="tns:tabbarorientationtype"></attribute>
-        <attribute name="depth" type="int"></attribute>
+        <attribute name="orientation" type="tns:tabbarorientationtype"/>
+        <attribute name="depth" type="int"/>
     </complexType>
 
     <simpleType name="tabbarorientationtype">
         <restriction base="string">
-            <enumeration value="bottom"></enumeration>
-            <enumeration value="left"></enumeration>
-            <enumeration value="right"></enumeration>
-            <enumeration value="top"></enumeration>
+            <enumeration value="bottom"/>
+            <enumeration value="left"/>
+            <enumeration value="right"/>
+            <enumeration value="top"/>
         </restriction>
     </simpleType>
 
     <complexType name="labeltype">
-    	<all minOccurs="0" maxOccurs="1">
-    		<element name="bounds" type="tns:boundstype"></element>
+    	<all minOccurs="0">
+            <element name="bounds" type="tns:boundstype"/>
     		<element name="font" type="tns:fonttype" minOccurs="0"
-    			maxOccurs="1">
+            >
     		</element>
     		<element name="justification" type="tns:justificationtype"
-    			minOccurs="0" maxOccurs="1">
+    			minOccurs="0">
     		</element>
     		<element name="mappingparent" type="tns:mappingparenttype"
-    			minOccurs="0" maxOccurs="1">
+    			minOccurs="0">
     		</element>
     	</all>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="text" type="string"></attribute>
-    	<attribute name="lfid" type="string"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="text" type="string"/>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
     	</attribute>
@@ -340,199 +337,199 @@
     	<attribute name="parametertextdisplay"
     		type="tns:parametertextdisplaytype">
     	</attribute>
-    	<attribute name="nostyleoverride" type="boolean"></attribute>
-    	<attribute name="maxtextlines" type="int"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="maxtextlines" type="int"/>
     </complexType>
 
     <complexType name="fonttype">
-        <attribute name="height" type="float"></attribute>
-        <attribute name="bold" type="boolean"></attribute>
-        <attribute name="italic" type="boolean"></attribute>
-        <attribute name="underlined" type="boolean"></attribute>
+        <attribute name="height" type="float"/>
+        <attribute name="bold" type="boolean"/>
+        <attribute name="italic" type="boolean"/>
+        <attribute name="underlined" type="boolean"/>
     </complexType>
 
     <complexType name="justificationtype">
-        <attribute name="left" type="boolean"></attribute>
-        <attribute name="right" type="boolean"></attribute>
-        <attribute name="horizontallycentred" type="boolean"></attribute>
-        <attribute name="top" type="boolean"></attribute>
-        <attribute name="bottom" type="boolean"></attribute>
-        <attribute name="verticallycentred" type="boolean"></attribute>
-        <attribute name="horizontallyjustified" type="boolean"></attribute>
+        <attribute name="left" type="boolean"/>
+        <attribute name="right" type="boolean"/>
+        <attribute name="horizontallycentred" type="boolean"/>
+        <attribute name="top" type="boolean"/>
+        <attribute name="bottom" type="boolean"/>
+        <attribute name="verticallycentred" type="boolean"/>
+        <attribute name="horizontallyjustified" type="boolean"/>
     </complexType>
 
     <complexType name="slidertype">
-    	<choice minOccurs="1" maxOccurs="unbounded">
-    		<element name="bounds" type="tns:boundstype"></element>
-    		<element name="range" type="tns:sliderrangetype"></element>
-    		<element name="textbox" type="tns:slidertextboxtype"></element>
-    		<element name="choosetab" type="tns:choosetabtype"></element>
+    	<choice maxOccurs="unbounded">
+            <element name="bounds" type="tns:boundstype"/>
+            <element name="range" type="tns:sliderrangetype"/>
+            <element name="textbox" type="tns:slidertextboxtype"/>
+            <element name="choosetab" type="tns:choosetabtype"/>
     		<element name="mappingparent"
     			type="tns:mappingparenttype">
     		</element>
     	</choice>
 
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="popupenabled" type="boolean"></attribute>
-    	<attribute name="velocitybasedmode" type="boolean"></attribute>
-    	<attribute name="encodersnap" type="boolean"></attribute>
-    	<attribute name="style" type="tns:sliderstyletype"></attribute>
-    	<attribute name="lfid" type="string"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="popupenabled" type="boolean"/>
+        <attribute name="velocitybasedmode" type="boolean"/>
+        <attribute name="encodersnap" type="boolean"/>
+        <attribute name="style" type="tns:sliderstyletype"/>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
     	</attribute>
     	<attribute name="incdecbuttonmode"
     		type="tns:incdecbuttonmodetype">
     	</attribute>
-    	<attribute name="nostyleoverride" type="boolean"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
     </complexType>
 
     <simpleType name="sliderstyletype">
     	<restriction base="string">
-    		<enumeration value="linearhorizontal"></enumeration>
-    		<enumeration value="linearvertical"></enumeration>
-    		<enumeration value="linearbar"></enumeration>
-    		<enumeration value="linearbarvertical"></enumeration>
-    		<enumeration value="rotary"></enumeration>
-    		<enumeration value="rotaryhorizontaldrag"></enumeration>
-    		<enumeration value="rotaryverticaldrag"></enumeration>
-    		<enumeration value="rotaryhorizontalverticaldrag"></enumeration>
-    		<enumeration value="incdecbuttons"></enumeration>
-    		<enumeration value="defaultrotarymovement"></enumeration>
+            <enumeration value="linearhorizontal"/>
+            <enumeration value="linearvertical"/>
+            <enumeration value="linearbar"/>
+            <enumeration value="linearbarvertical"/>
+            <enumeration value="rotary"/>
+            <enumeration value="rotaryhorizontaldrag"/>
+            <enumeration value="rotaryverticaldrag"/>
+            <enumeration value="rotaryhorizontalverticaldrag"/>
+            <enumeration value="incdecbuttons"/>
+            <enumeration value="defaultrotarymovement"/>
     	</restriction>
     </simpleType>
 
     <simpleType name="incdecbuttonmodetype">
     	<restriction base="string">
-    		<enumeration value="notdraggable"></enumeration>
-    		<enumeration value="autodirection"></enumeration>
-    		<enumeration value="horizontal"></enumeration>
-    		<enumeration value="vertical"></enumeration>
+            <enumeration value="notdraggable"/>
+            <enumeration value="autodirection"/>
+            <enumeration value="horizontal"/>
+            <enumeration value="vertical"/>
     	</restriction>
     </simpleType>
 
     <complexType name="sliderrangetype">
-        <attribute name="min" type="double"></attribute>
-        <attribute name="max" type="double"></attribute>
-        <attribute name="int" type="double"></attribute>
+        <attribute name="min" type="double"/>
+        <attribute name="max" type="double"/>
+        <attribute name="int" type="double"/>
     </complexType>
     
     <complexType name="slidertextboxtype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="font" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
-            <element name="justification" type="tns:justificationtype" minOccurs="0" maxOccurs="1"></element>
+        <all minOccurs="0">
+            <element name="font" type="tns:fonttype" minOccurs="0"/>
+            <element name="justification" type="tns:justificationtype" minOccurs="0"/>
         </all>
-        <attribute name="position" type="tns:slidertextboxpositiontype"></attribute>
-        <attribute name="readonly" type="boolean"></attribute>
-        <attribute name="width" type="int"></attribute>
-        <attribute name="height" type="int"></attribute>
+        <attribute name="position" type="tns:slidertextboxpositiontype"/>
+        <attribute name="readonly" type="boolean"/>
+        <attribute name="width" type="int"/>
+        <attribute name="height" type="int"/>
     </complexType>
 
     <simpleType name="slidertextboxpositiontype">
         <restriction base="string">
-            <enumeration value="none"></enumeration>
-            <enumeration value="left"></enumeration>
-            <enumeration value="right"></enumeration>
-            <enumeration value="above"></enumeration>
-            <enumeration value="below"></enumeration>
+            <enumeration value="none"/>
+            <enumeration value="left"/>
+            <enumeration value="right"/>
+            <enumeration value="above"/>
+            <enumeration value="below"/>
         </restriction>
     </simpleType>
 
     <complexType name="textbuttontype">
-    	<choice minOccurs="1" maxOccurs="unbounded">
-    		<element name="bounds" type="tns:boundstype"></element>
-    		<element name="choosetab" type="tns:choosetabtype"></element>
+    	<choice maxOccurs="unbounded">
+            <element name="bounds" type="tns:boundstype"/>
+            <element name="choosetab" type="tns:choosetabtype"/>
     		<element name="mappingparent"
     			type="tns:mappingparenttype">
     		</element>
     	</choice>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="text" type="string"></attribute>
-    	<attribute name="tooltip" type="string"></attribute>
-    	<attribute name="lfid" type="string"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
-    	<attribute name="radiogroup" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="text" type="string"/>
+        <attribute name="tooltip" type="string"/>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
+        <attribute name="radiogroup" type="string"/>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
     	</attribute>
-    	<attribute name="url" type="string"></attribute>
+        <attribute name="url" type="string"/>
 
-    	<attribute name="nostyleoverride" type="boolean"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
     </complexType>
 
     <complexType name="choosetabtype">
         <attribute name="tabbedcomponent">
             <simpleType>
                 <restriction base="string">
-                    <minLength value="1"></minLength>
+                    <minLength value="1"/>
                 </restriction>
             </simpleType>
         </attribute>
         <attribute name="tabname">
             <simpleType>
                 <restriction base="string">
-                    <minLength value="1"></minLength>
+                    <minLength value="1"/>
                 </restriction>
             </simpleType>
         </attribute>
     </complexType>
 
     <complexType name="comboboxtype">
-    	<choice minOccurs="1" maxOccurs="unbounded">
+    	<choice maxOccurs="unbounded">
     		<element name="justification"
     			type="tns:justificationtype">
     		</element>
-    		<element name="bounds" type="tns:boundstype"></element>
-    		<element name="font" type="tns:fonttype"></element>
-    		<element name="item" type="string"></element>
+            <element name="bounds" type="tns:boundstype"/>
+            <element name="font" type="tns:fonttype"/>
+            <element name="item" type="string"/>
     		<element name="mappingparent"
     			type="tns:mappingparenttype">
     		</element>
     	</choice>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="id" type="string"></attribute>
-    	<attribute name="tooltip" type="string"></attribute>
-    	<attribute name="editabletext" type="boolean"></attribute>
-    	<attribute name="nothingselectedtext" type="string"></attribute>
-    	<attribute name="nochoicestext" type="string"></attribute>
-    	<attribute name="lfid" type="string"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="id" type="string"/>
+        <attribute name="tooltip" type="string"/>
+        <attribute name="editabletext" type="boolean"/>
+        <attribute name="nothingselectedtext" type="string"/>
+        <attribute name="nochoicestext" type="string"/>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
     	<attribute name="displaycontext"
     		type="tns:displaycontexttype">
     	</attribute>
-    	<attribute name="nostyleoverride" type="boolean"></attribute>
+        <attribute name="nostyleoverride" type="boolean"/>
     </complexType>
 
     <complexType name="lookandfeelfontstype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="popupmenu" type="tns:fonttype" minOccurs="0" maxOccurs="1"></element>
+        <all minOccurs="0">
+            <element name="popupmenu" type="tns:fonttype" minOccurs="0"/>
         </all>
     </complexType>
 
     <complexType name="tabtype">
-        <all minOccurs="0" maxOccurs="1">
-            <element name="component" type="tns:componenttype"></element>
+        <all minOccurs="0">
+            <element name="component" type="tns:componenttype"/>
         </all>
-        <attribute name="name" type="string"></attribute>
+        <attribute name="name" type="string"/>
         <attribute name="idx">
         	<simpleType>
         		<restriction base="int">
-        			<minInclusive value="-1"></minInclusive>
+                    <minInclusive value="-1"/>
         		</restriction>
         	</simpleType>
         </attribute>
-        <attribute name="lfid" type="string"></attribute>
-        <attribute name="wtid" type="string"></attribute>
-    	<attribute name="displaycontext" type="tns:displaycontexttype"></attribute>
+        <attribute name="lfid" type="string"/>
+        <attribute name="wtid" type="string"/>
+        <attribute name="displaycontext" type="tns:displaycontexttype"/>
     </complexType>
 
     <element name="ScopeSyncLayout">
         <complexType>
             <all>
-                <element name="layout" type="tns:layouttype"></element>
+                <element name="layout" type="tns:layouttype"/>
             </all>
         </complexType>
     </element>
@@ -540,149 +537,150 @@
     <complexType name="layouttype">
     	<sequence>
     		<element name="lookandfeels" type="tns:lookandfeelstype"
-    			minOccurs="0" maxOccurs="1">
+    			minOccurs="0">
     		</element>
-    		<element name="defaults" type="tns:defaultstype" minOccurs="0" maxOccurs="1"></element>
-            <element name="widgettemplates" type="tns:widgettemplatestype" minOccurs="0" maxOccurs="1"></element>
-            <element name="component" type="tns:componenttype" minOccurs="0" maxOccurs="1">
+            <element name="defaults" type="tns:defaultstype" minOccurs="0"/>
+            <element name="widgettemplates" type="tns:widgettemplatestype" minOccurs="0"/>
+            <element name="component" type="tns:componenttype" minOccurs="0">
     		</element>
 
     	</sequence>
-    	<attribute name="name" type="string"></attribute>
-    	<attribute name="libraryset" type="string"></attribute>
-        <attribute name="author" type="string"></attribute>
-        <attribute name="thumbnail" type="string"></attribute>
-    	<attribute name="blurb" type="string"></attribute>
+        <attribute name="name" type="string"/>
+        <attribute name="libraryset" type="string"/>
+        <attribute name="author" type="string"/>
+        <attribute name="thumbnail" type="string"/>
+        <attribute name="blurb" type="string"/>
 
-    	<attribute name="excludefromchooser" type="boolean"></attribute>
-    	<attribute name="panelwidth" type="int"></attribute>
-    	<attribute name="panelheight" type="int"></attribute>
-    	<attribute name="numencoders" type="int"></attribute>
-    	<attribute name="numfaders" type="int"></attribute>
-    	<attribute name="numbuttons" type="int"></attribute>
-    	<attribute name="numparameters" type="int"></attribute>
+        <attribute name="excludefromchooser" type="boolean"/>
+        <attribute name="panelwidth" type="int"/>
+        <attribute name="panelheight" type="int"/>
+        <attribute name="numencoders" type="int"/>
+        <attribute name="numfaders" type="int"/>
+        <attribute name="numbuttons" type="int"/>
+        <attribute name="numparameters" type="int"/>
 
     </complexType>
 
     <simpleType name="displaycontexttype">
         <restriction base="string">
-            <enumeration value="host"></enumeration>
-            <enumeration value="scope"></enumeration>
+            <enumeration value="host"/>
+            <enumeration value="scope"/>
         </restriction>
     </simpleType>
 
     <complexType name="boundstype">
     	<choice minOccurs="0">
 
-    		<element name="bordersize" type="tns:bordersizetype"></element>
+            <element name="bordersize" type="tns:bordersizetype"/>
     	</choice>
-    	<attribute name="x" type="int"></attribute>
-    	<attribute name="y" type="int"></attribute>
-    	<attribute name="width" type="int"></attribute>
-    	<attribute name="height" type="int"></attribute>
-        <attribute name="relativerectangle" type="string"></attribute>
+        <attribute name="x" type="int"/>
+        <attribute name="y" type="int"/>
+        <attribute name="width" type="int"/>
+        <attribute name="height" type="int"/>
+        <attribute name="relativerectangle" type="string"/>
 
     </complexType>
 
     <complexType name="bordersizetype">
-    	<attribute name="top" type="int"></attribute>
-    	<attribute name="left" type="int"></attribute>
-    	<attribute name="bottom" type="int"></attribute>
-    	<attribute name="right" type="int"></attribute>
+        <attribute name="top" type="int"/>
+        <attribute name="left" type="int"/>
+        <attribute name="bottom" type="int"/>
+        <attribute name="right" type="int"/>
     </complexType>
 
     <complexType name="rectangletype">
     	<sequence>
-    		<element name="bounds" type="tns:boundstype"></element>
+            <element name="bounds" type="tns:boundstype"/>
     	</sequence>
     	<attribute name="cornersize">
 	        <simpleType>
                 <restriction base="float">
-                    <minInclusive value="0.0"></minInclusive>
-                    <maxInclusive value="200.0"></maxInclusive>
+                    <minInclusive value="0.0"/>
+                    <maxInclusive value="200.0"/>
                 </restriction>
             </simpleType>
         </attribute>
-    	<attribute name="fillcolour" type="tns:colouridtype"></attribute>
+        <attribute name="fillcolour" type="tns:colouridtype"/>
     	<attribute name="outlinethickness">
     	   <simpleType>
                 <restriction base="float">
-                    <minInclusive value="0.0"></minInclusive>
-                    <maxInclusive value="200.0"></maxInclusive>
+                    <minInclusive value="0.0"/>
+                    <maxInclusive value="200.0"/>
                 </restriction>
             </simpleType>
         </attribute>
-    	<attribute name="outlinecolour" type="tns:colouridtype"></attribute>
-    	<attribute name="wtid" type="string"></attribute>
+        <attribute name="outlinecolour" type="tns:colouridtype"/>
+        <attribute name="wtid" type="string"/>
     </complexType>
 
     <complexType name="imagetype">
     	<sequence>
-    		<element name="bounds" type="tns:boundstype"></element>
+            <element name="bounds" type="tns:boundstype"/>
     	</sequence>
 
-        <attribute name="filename" type="tns:filenametype" use="required"></attribute>
-        <attribute name="stretchmode" type="tns:stretchmodetype"></attribute>
+        <attribute name="filename" type="tns:filenametype" use="required"/>
+        <attribute name="stretchmode" type="tns:stretchmodetype"/>
     	<attribute name="opacity">
     	   <simpleType>
                 <restriction base="float">
-                    <minInclusive value="0.0"></minInclusive>
-                    <maxInclusive value="1.0"></maxInclusive>
+                    <minInclusive value="0.0"/>
+                    <maxInclusive value="1.0"/>
                 </restriction>
             </simpleType>
         </attribute>
-        <attribute name="wtid" type="string"></attribute>
+        <attribute name="wtid" type="string"/>
     </complexType>
     
     <simpleType name="stretchmodetype">
     	<restriction base="string">
-    		<enumeration value="stretchedtofit"></enumeration>
-    		<enumeration value="maintainaspect"></enumeration>
-    		<enumeration value="maintainspectonlyreduce"></enumeration>
+            <enumeration value="stretchedtofit"/>
+            <enumeration value="maintainaspect"/>
+            <enumeration value="maintainspectonlyreduce"/>
     	</restriction>
     </simpleType>
 
     <simpleType name="filenametype">
     	<restriction base="string">
-    		<minLength value="1"></minLength>
+            <minLength value="1"/>
     	</restriction>
     </simpleType>
 
 
     <simpleType name="parametertextdisplaytype">
     	<restriction base="string">
-    		<enumeration value="name"></enumeration>
-    		<enumeration value="shortdescription"></enumeration>
-    		<enumeration value="fulldescription"></enumeration>
-    		<enumeration value="scopecode"></enumeration>
+            <enumeration value="name"/>
+            <enumeration value="shortdescription"/>
+            <enumeration value="fulldescription"/>
+            <enumeration value="scopecode"/>
+            <enumeration value="scopeparam"/>
     	</restriction>
     </simpleType>
 
     <simpleType name="rotarymovementtype">
     	<restriction base="string">
-    		<enumeration value="rotary"></enumeration>
-    		<enumeration value="vertical"></enumeration>
-    		<enumeration value="horizontal"></enumeration>
-    		<enumeration value="horizontalvertical"></enumeration>
+            <enumeration value="rotary"/>
+            <enumeration value="vertical"/>
+            <enumeration value="horizontal"/>
+            <enumeration value="horizontalvertical"/>
     	</restriction>
     </simpleType>
 
     <complexType name="appliestotype">
-    	<attribute name="componenttype" type="tns:componenttypetype"></attribute>
+        <attribute name="componenttype" type="tns:componenttypetype"/>
     </complexType>
 
     <complexType name="filmstripimagetype">
-    	<attribute name="filename" type="string"></attribute>
-    	<attribute name="mouseoverfilename" type="string"></attribute>
-    	<attribute name="numframes" type="int"></attribute>
-    	<attribute name="ishorizontal" type="boolean"></attribute>
+        <attribute name="filename" type="string"/>
+        <attribute name="mouseoverfilename" type="string"/>
+        <attribute name="numframes" type="int"/>
+        <attribute name="ishorizontal" type="boolean"/>
     </complexType>
 
     <complexType name="standardlnfcontent">
     	<attribute name="type">
     		<simpleType>
     			<restriction base="string">
-    				<enumeration value="scopesyncsliderlnfs"></enumeration>
+                    <enumeration value="scopesyncsliderlnfs"/>
     			</restriction>
     		</simpleType>
     	</attribute>
@@ -692,8 +690,8 @@
     	<attribute name="type">
     		<simpleType>
     			<restriction base="string">
-    				<enumeration value="header"></enumeration>
-            <enumeration value="footer"></enumeration>
+                    <enumeration value="header"/>
+                    <enumeration value="footer"/>
     			</restriction>
     		</simpleType>
     	</attribute>

@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -31,6 +31,8 @@
 #include <JuceHeader.h>
 #include "../Utils/BCMTreeView.h"
 #include "../Resources/Icons.h"
+#include "../Core/Clipboard.h"
+
 class ConfigurationManager;
 class Configuration;
 
@@ -43,29 +45,30 @@ public:
     ConfigurationItem(ConfigurationManager& cm, const ValueTree& v, UndoManager& um);
     ~ConfigurationItem();
 
-    virtual bool mightContainSubItems() override;
+    bool mightContainSubItems() override;
     Font         getFont() const override;
-    virtual Icon getIcon() const override;
+    Icon getIcon() const override;
     float        getIconSize() const override;
-    virtual var  getDragSourceDescription() override;
-    virtual bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
-    virtual void changePanel() override;
+    var  getDragSourceDescription() override;
+    bool isInterestedInDragSource(const DragAndDropTarget::SourceDetails& dragSourceDetails) override;
+    void changePanel() override;
     
-    virtual void copyItem() override {}
-    virtual void pasteItem() override {}
-    virtual bool canPasteItem() override { return false; }
+    void copyItem() override {}
+    void pasteItem() override {}
+    bool canPasteItem() override { return false; }
 
-    virtual void deleteItem() override {}
-    virtual void addItem() override {}
-    virtual void addItemFromClipboard() override {}
+    void deleteItem() override {}
+    void addItem() override {}
+    void addItemFromClipboard() override {}
     
-    virtual void showPopupMenu() override {};
+    void showPopupMenu() override {};
     
-    virtual String getDisplayName() const override;
+    String getDisplayName() const override;
     
 protected:
     ConfigurationManager& configurationManager;
     Configuration&        configuration;
+	SharedResourcePointer<Icons> icons;
 
 private:
     virtual void refreshSubItems() override;

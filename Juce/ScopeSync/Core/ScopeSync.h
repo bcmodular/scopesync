@@ -19,7 +19,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -44,13 +44,11 @@ class ScopeFX;
 class Configuration;
 class ConfigurationManagerWindow;
 
-#ifdef __DLL_EFFECT__
-    #include "../Comms/ScopeSyncAsync.h"
-#endif // __DLL_EFFECT__
-
 #include <JuceHeader.h>
 #include "../Components/BCMLookAndFeel.h"
 #include "../Configuration/Configuration.h"
+#include "../Windows/UserSettings.h"
+#include "../Resources/Icons.h"
 
 class ScopeSync : public ActionListener,
                   public Value::Listener
@@ -64,20 +62,22 @@ public:
 #endif // __DLL_EFFECT__
     ~ScopeSync();
     void unload();
+	
+	static const String scopeSyncVersionString;
+	static const StringArray fixedParameterNames;
 
-    static const String scopeSyncVersionString;
-	static const int numScopeCodes;       // Number of Scope codes
-    
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
-	static bool oscUIDInUse(int uid, ScopeSync* currentInstance);
+	static bool deviceInstanceInUse(int uid, ScopeSync* currentInstance);
+	int  getDeviceInstance() const {return int(deviceInstance.getValue());}
+	void setDeviceInstance(int newUID) {deviceInstance.setValue(newUID);}
+
+	void initDeviceInstance();
+    void referToDeviceInstance(Value& valueToLink) const;
+
+	void referToConfigurationUID(Value& valueToLink) const;
+    
 	static void reloadAllGUIs();
-    static void shutDownIfLastInstance();
-    static const String& getScopeCode(int scopeSyncId);
-    static const StringArray& getScopeCodes();;
-	static BCMParameter::ParameterType getScopeCodeType(const String& scopeCode);
-    static BCMParameter::ParameterType getScopeCodeType(const int scopeCodeId);;
-    static int ScopeSync::getScopeCodeId(const String& scopeCode);
     static void snapshotAll();
     void setGUIEnabled(bool shouldBeEnabled) const;
     bool guiNeedsReloading() const;
@@ -97,12 +97,9 @@ public:
 
     BCMParameterController* getParameterController() const;
 
-#ifdef __DLL_EFFECT__
-    ScopeSyncAsync& getScopeSyncAsync();
-#else
+#ifndef __DLL_EFFECT__
     PluginProcessor* getPluginProcessor();
 #endif // __DLL_EFFECT__
-    
 
     UndoManager& getUndoManager() { return undoManager; }
 
@@ -121,6 +118,7 @@ public:
     Configuration& getConfiguration() const;
     ValueTree      getConfigurationRoot() const;
     String         getConfigurationName(bool showUnsavedIndicator) const;
+	void		   listenForConfigurationNameChanges(Value& listener) const;
     bool           configurationIsReadOnly() const;
     const File&    getConfigurationFile() const;
     const File&    getLastFailedConfigurationFile() const;
@@ -130,10 +128,10 @@ public:
     int            getConfigurationUID() const;
 
     String         getLayoutDirectory() const;
-    bool           hasConfigurationUpdate(String& fileName);
-    void           changeConfiguration(const String& fileName);
-    void           changeConfiguration(int uid);
-    bool           processConfigurationChange();
+    void           changeConfiguration(StringRef fileName);
+    void           changeConfigurationByUID(int uid);
+	void           setConfigurationUID(int uid);
+
 
     ValueTree      getMapping() const;
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) const;
@@ -144,6 +142,7 @@ public:
     Value&         getSystemErrorDetails();
     void           setSystemError(const String& errorText, const String& errorDetailsText);
     bool           newConfigIsInLocation();
+	UserSettings*  getUserSettings() const;
     static void    alertBoxLaunchLocationEditor(int result, juce::Rectangle<int> newConfigWindowPosition, ScopeSync* scopeSync);
     void           addConfiguration(File newFile, ValueTree newSettings);
     void           hideAddConfigurationWindow();
@@ -161,20 +160,24 @@ private:
     PluginProcessor* pluginProcessor;
 #else
     ScopeFX*       scopeFX;
-    ScopeSyncAsync scopeSyncAsync;
 #endif // __DLL_EFFECT__
 
     Value configurationID;
+	Value configurationName;
 
     OwnedArray<BCMLookAndFeel> bcmLookAndFeels;
     ScopedPointer<ApplicationCommandManager> commandManager;
     ScopedPointer<BCMParameterController>    parameterController;
-    static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
+	CriticalSection configUIDLock;
+
+	static Array<ScopeSync*>   scopeSyncInstances;     // Tracks instances of this object, so Juce can be shutdown when no more remain
 	
     ScopedPointer<ConfigurationManagerWindow> configurationManagerWindow;
     UndoManager                undoManager;
     ScopedPointer<NewConfigurationWindow>     addConfigurationWindow;
 	
+	SharedResourcePointer<BCMDefaultLookAndFeel> defaultBCMLookAndFeel;
+
     juce::Rectangle<int> newConfigWindowPosition;
     
     CriticalSection flagLock;
@@ -186,17 +189,15 @@ private:
     
     bool showEditToolbar; // Indicates whether the EditToolbar should be shown in the GUI's Main Component
 
-	Array<String, CriticalSection> configurationChanges;
-    ScopedPointer<Configuration>   configuration;
+	ScopedPointer<Configuration>   configuration;
 
-	// Global flag to disable Performance Mode (used by ScopeFX on project/preset load)
-	static int performanceModeGlobalDisable;
+	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<Icons> icons;
 
-	static const StringArray scopeCodes;  // Array of Scope codes for looking up during configuration
-	static const BCMParameter::ParameterType scopeCodeTypes[]; // Types of each of the scope codes
-    
     Value systemError;        // Latest system error text
     Value systemErrorDetails; // Latest system error details text
+
+	Value deviceInstance;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScopeSync)

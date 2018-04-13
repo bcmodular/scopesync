@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -63,31 +63,31 @@ ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWi
     fileNameLabel.setMinimumHorizontalScale(1.0f);
     addAndMakeVisible(fileNameLabel);
 
-    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack);
+    setButtonImages(addButton, "newConfigOff", "newConfigOver", "newConfigOn", Colours::transparentBlack, imageLoader);
     addButton.setCommandToTrigger(commandManager, CommandIDs::addConfig, true);
     addAndMakeVisible(addButton);
 
-    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+    setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack, imageLoader);
     saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
     addAndMakeVisible(saveButton);
 
-    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+    setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack, imageLoader);
     saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
     addAndMakeVisible(saveAsButton);
 
-    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack);
+    setButtonImages(applyChangesButton, "confirmOff", "confirmOver", "confirmOn", Colours::transparentBlack, imageLoader);
     applyChangesButton.setCommandToTrigger(commandManager, CommandIDs::applyConfigChanges, true);
     addAndMakeVisible(applyChangesButton);
 
-    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack);
+    setButtonImages(discardChangesButton, "closeOff", "closeOver", "closeOn", Colours::transparentBlack, imageLoader);
     discardChangesButton.setCommandToTrigger(commandManager, CommandIDs::discardConfigChanges, true);
     addAndMakeVisible(discardChangesButton);
 
-    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+    setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack, imageLoader);
     undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
     addAndMakeVisible(undoButton);
 
-    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+    setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack, imageLoader);
     redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
     addAndMakeVisible(redoButton);
 
@@ -114,16 +114,17 @@ ConfigurationManager::ConfigurationManager(ScopeSync& ss, ConfigurationManagerWi
     startTimer(500);
 }
 
-void ConfigurationManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+void ConfigurationManager::setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
 {
     button.setImages(true, true, true,
-                     ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                     ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                     imgLoader->loadImage(normalImage, ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(overImage,   ""), 1.0f, overlayColour,
+                     imgLoader->loadImage(downImage,   ""), 1.0f, overlayColour, 0);
 }
 
 ConfigurationManager::~ConfigurationManager()
 {
+	setLookAndFeel(nullptr);
     stopTimer();
 	removeKeyListener(commandManager->getKeyMappings());
 }
@@ -359,8 +360,8 @@ void ConfigurationManager::paint(Graphics& g)
     g.fillRect(0, 0, getWidth(), 40);
     g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 134, 8);
-    g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 228, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 134, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 228, 8);
 }
 
 void ConfigurationManager::paintOverChildren(Graphics& g)
@@ -410,6 +411,7 @@ ConfigurationManagerCallout::ConfigurationManagerCallout(
 
 ConfigurationManagerCallout::~ConfigurationManagerCallout()
 {
+	setLookAndFeel(nullptr);
     stopTimer();
     undoManager.beginNewTransaction();
     

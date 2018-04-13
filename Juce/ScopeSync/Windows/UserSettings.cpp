@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -31,7 +31,6 @@
 #include "../Utils/BCMMisc.h"
 #include "FileLocationEditor.h"
 #include "../Presets/PresetManager.h"
-#include "../Comms/ScopeSyncOSC.h"
 
 /* =========================================================================
  * EncoderSnapProperty
@@ -157,8 +156,6 @@ private:
     UserSettings& owner;
 };
 
-juce_ImplementSingleton(UserSettings)
-
 /* =========================================================================
  * UserSettings
  */
@@ -191,15 +188,21 @@ UserSettings::UserSettings()
 
     Component::setName("User Settings");
 
-	oscLocalPortNum.addListener(this);
-	oscLocalPortNum.setValue(getPropertyIntValue("osclocalportnum", ScopeSyncApplication::inPluginContext() ? 8000 : 9000));
+	pluginHost.addListener(this);
+	pluginHost.setValue(getPropertyValue("pluginhost", "127.0.0.1"));
     
-	oscRemoteHost.addListener(this);
-	oscRemoteHost.setValue(getPropertyValue("oscremotehost", "127.0.0.1"));
+	pluginListenerPort.addListener(this);
+	pluginListenerPort.setValue(getPropertyIntValue("pluginlistenerport", 8002));
     
-	oscRemotePortNum.addListener(this);
-	oscRemotePortNum.setValue(getPropertyIntValue("oscremoteportnum",  ScopeSyncApplication::inPluginContext() ? 9000 : 8000));
+	scopeHost.addListener(this);
+	scopeHost.setValue(getPropertyValue("scopehost", "127.0.0.1"));
     
+	scopeSyncModuleListenerPort.addListener(this);
+	scopeSyncModuleListenerPort.setValue(getPropertyIntValue("scopesyncmodulelistenerport", 8001));
+    
+	scopeOSCReceiverListenerPort.addListener(this);
+	scopeOSCReceiverListenerPort.setValue(getPropertyIntValue("scopeoscreceiverlistenerport",  8000));
+	    
     tooltipDelayTime.addListener(this);
 	tooltipDelayTime.setValue(getPropertyIntValue("tooltipdelaytime", -1));
     
@@ -232,7 +235,6 @@ UserSettings::~UserSettings()
     presetManagerWindow = nullptr;
     fileLocationEditorWindow = nullptr;
     tooltipDelayTime.removeListener(this);
-    clearSingletonInstance();
 }
 
 void UserSettings::setupPanel()
@@ -253,13 +255,15 @@ void UserSettings::setupPanel()
     props.add(new EncoderVelocityModeProperty(*this), "Choose whether Velocity Based Mode is enabled for sliders");
     
     propertyPanel.addSection("Slider Settings", props.components, true);
-
+	
 	props.clear();
-	props.add(new IntRangeProperty(oscLocalPortNum, "OSC Local Port", 1, 65535),       "Enter the port number that the local OSC Server should listen on");
-	props.add(new TextPropertyComponent(oscRemoteHost, "OSC Remote Host", 256, false), "Enter the host name or IP address that the remote OSC is hosted at (use localhost if on this machine)");
-	props.add(new IntRangeProperty(oscRemotePortNum, "OSC Remote Port", 1, 65535),     "Enter the port number that the remote OSC Server is listening on");
+	props.add(new TextPropertyComponent(pluginHost, "Plugin/DAW Host", 256, false), "Enter the host name or IP address for the computer that the ScopeSync Plugin is running on (leave as 127.0.0.1 if Scope and DAW on same machine)");
+	props.add(new IntRangeProperty(pluginListenerPort, "Plugin/DAW Listener Port", 1, 65535),  "Enter the port number that the ScopeSync Plugin should listen on (defaults to 8002)");
+	props.add(new TextPropertyComponent(scopeHost, "Scope Host", 256, false), "Enter the host name or IP address for the computer that Scope is running on (leave as 127.0.0.1 if Scope and DAW on same machine)");
+	props.add(new IntRangeProperty(scopeSyncModuleListenerPort, "ScopeSync Module Listener Port", 1, 65535), "Enter the port number that the ScopeSync module in Scope should listen on (defaults to 8001)");
+	props.add(new IntRangeProperty(scopeOSCReceiverListenerPort, "Scope OSC Receiver Listener Port", 1, 65535), "Enter the port number that the OSC Receiver module in Scope should listen on (defaults to 8000)");
 
-	propertyPanel.addSection("OSC Settings", props.components, true);
+	propertyPanel.addSection("Network Settings", props.components, true);
 
 	props.clear();
     props.add(new BooleanPropertyComponent(useImageCache,      "Image Cache",                   "Enabled"), "Disabling the Image Cache will mean that images will be refreshed immediately, but will slow down the GUI rendering");
@@ -326,28 +330,76 @@ void UserSettings::setPropertyBoolValue(const String& propertyName, bool newValu
     getAppProperties()->setValue(propertyName, newValue);
 }
 
+void UserSettings::referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort) const
+{
+	localPort.referTo(pluginListenerPort);
+	remoteHost.referTo(scopeHost);
+	remotePort.referTo(scopeOSCReceiverListenerPort);
+}
+
+#ifdef __DLL_EFFECT__
+void UserSettings::referToScopeSyncOSCSettings(Value& localPort, Value& remotePort) const
+{
+	localPort.referTo(scopeSyncModuleListenerPort);
+	remotePort.referTo(scopeOSCReceiverListenerPort);
+}
+
+void UserSettings::referToScopeFXOSCSettings(Value& plugHost, Value& plugPort, Value& scopeSyncPort) const
+{
+	plugHost.referTo(pluginHost);
+	plugPort.referTo(pluginListenerPort);
+	scopeSyncPort.referTo(scopeSyncModuleListenerPort);
+}
+#endif //__DLL_EFFECT__
+
 void UserSettings::valueChanged(Value& valueThatChanged)
 {
     if (valueThatChanged.refersToSameSourceAs(tooltipDelayTime))
+	{
         setPropertyIntValue("tooltipdelaytime", valueThatChanged.getValue());
-    else if (valueThatChanged.refersToSameSourceAs(useImageCache))
+		return;
+	}
+
+    if (valueThatChanged.refersToSameSourceAs(useImageCache))
+	{
         setPropertyBoolValue("useimagecache", valueThatChanged.getValue());
-	else if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(autoRebuildLibrary))
+	{
 		setPropertyBoolValue("autorebuildlibrary", valueThatChanged.getValue());
-    else if (valueThatChanged.refersToSameSourceAs(oscLocalPortNum))
-	{
-		setPropertyIntValue("osclocalportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setLocalPortNumber(valueThatChanged.getValue());
+		return;
 	}
-    else if (valueThatChanged.refersToSameSourceAs(oscRemoteHost))
+	
+	if (valueThatChanged.refersToSameSourceAs(pluginHost))
 	{
-        setPropertyValue("oscremotehost", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setRemoteHostname(valueThatChanged.getValue());
+		setPropertyValue("pluginhost", valueThatChanged.getValue());
+		return;
 	}
-	else if (valueThatChanged.refersToSameSourceAs(oscRemotePortNum))
+
+	if (valueThatChanged.refersToSameSourceAs(pluginListenerPort))
 	{
-		setPropertyIntValue("oscremoteportnum", valueThatChanged.getValue());
-		ScopeSyncOSCServer::getInstance()->setRemotePortNumber(valueThatChanged.getValue());
+		setPropertyIntValue("pluginlistenerport", valueThatChanged.getValue());
+		return;
+	}
+	
+	if (valueThatChanged.refersToSameSourceAs(scopeHost))
+	{
+		setPropertyValue("scopehost", valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeSyncModuleListenerPort))
+	{
+		setPropertyIntValue("scopesyncmodulelistenerport", valueThatChanged.getValue());
+		return;
+	}
+
+	if (valueThatChanged.refersToSameSourceAs(scopeOSCReceiverListenerPort))
+	{
+		setPropertyIntValue("scopeoscreceiverlistenerport", valueThatChanged.getValue());
+		return;
 	}
 }
 
@@ -828,22 +880,22 @@ void UserSettings::RebuildFileLibrary::run()
     if (rebuildLayouts)
     {
         updateLayoutLibrary(layoutFiles);
-        UserSettings::getInstance()->sendActionMessage("layoutlibraryupdated");
+        userSettings->sendActionMessage("layoutlibraryupdated");
     }
 
     if (rebuildConfigurations)
     {
         updateConfigurationLibrary(configurationFiles);
-        UserSettings::getInstance()->sendActionMessage("configurationlibraryupdated");
+        userSettings->sendActionMessage("configurationlibraryupdated");
     }
 
     if (rebuildPresets)
     {
         updatePresetLibrary(presetFiles);
-        UserSettings::getInstance()->sendActionMessage("presetlibraryupdated");
+        userSettings->sendActionMessage("presetlibraryupdated");
     }
 
-    UserSettings::getInstance()->getGlobalProperties()->saveIfNeeded();
+    userSettings->getGlobalProperties()->saveIfNeeded();
 }
 
 void UserSettings::RebuildFileLibrary::trimMissingFiles(const Array<File>& activeFiles, ValueTree& libraryToTrim)
@@ -879,7 +931,7 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
     setStatusMessage("Removing Layouts that no longer exist...");
     setProgress(0.0f);
         
-    ValueTree layoutLibrary = UserSettings::getInstance()->getLayoutLibrary();
+    ValueTree layoutLibrary = userSettings->getLayoutLibrary();
 
     trimMissingFiles(layoutFiles, layoutLibrary);
 
@@ -926,11 +978,11 @@ void UserSettings::RebuildFileLibrary::updateLayoutLibrary(const Array<File>& la
         }
 
         if (layoutName.isNotEmpty())
-            UserSettings::getInstance()->updateLayoutLibraryEntry(layoutFiles[i].getFullPathName(), layoutXml, layoutLibrary);
+            userSettings->updateLayoutLibraryEntry(layoutFiles[i].getFullPathName(), layoutXml, layoutLibrary);
     }
 
     ScopedPointer<XmlElement> xml = layoutLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::layoutLibrary.toString(), xml);
 }
 
 void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<File>& configurationFiles)
@@ -938,7 +990,7 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
     setStatusMessage("Removing Configurations that no longer exist...");
     setProgress(0.0f);
 
-    ValueTree configurationLibrary = UserSettings::getInstance()->getConfigurationLibrary();
+    ValueTree configurationLibrary = userSettings->getConfigurationLibrary();
 
     trimMissingFiles(configurationFiles, configurationLibrary);
 
@@ -972,13 +1024,13 @@ void UserSettings::RebuildFileLibrary::updateConfigurationLibrary(const Array<Fi
         String configurationName = configuration.getProperty(Ids::name);
 
         if (configurationName.isNotEmpty())
-            UserSettings::getInstance()->updateConfigurationLibraryEntry(configurationFiles[i].getFullPathName(),
+            userSettings->updateConfigurationLibraryEntry(configurationFiles[i].getFullPathName(),
                                                                          configurationFiles[i].getFileName(),
                                                                          configuration, configurationLibrary);
     }
 
     ScopedPointer<XmlElement> xml = configurationLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::configurationLibrary.toString(), xml);
 }
 
 void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& presetFiles)
@@ -986,7 +1038,7 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
     setStatusMessage("Removing Preset Files that no longer exist...");
     setProgress(0.0f);
 
-    ValueTree presetLibrary = UserSettings::getInstance()->getPresetLibrary();
+    ValueTree presetLibrary = userSettings->getPresetLibrary();
 
     trimMissingFiles(presetFiles, presetLibrary);
 
@@ -1020,13 +1072,13 @@ void UserSettings::RebuildFileLibrary::updatePresetLibrary(const Array<File>& pr
         //String presetFileName = presetFile.getProperty(Ids::name);
         //
         //if (presetFileName.isNotEmpty())
-            UserSettings::getInstance()->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
+            userSettings->updatePresetLibraryEntry(presetFiles[i].getFullPathName(),
                                                                   presetFiles[i].getFileName(),
                                                                   presetFile, presetLibrary);
     }
 
     ScopedPointer<XmlElement> xml = presetLibrary.createXml();
-    UserSettings::getInstance()->getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
+    userSettings->getGlobalProperties()->setValue(Ids::presetLibrary.toString(), xml);
 }
 
 void UserSettings::timerCallback()
@@ -1122,15 +1174,15 @@ void UserSettings::saveSwatchColours()
 
 int UserSettings::ColourSelectorWithSwatches::getNumSwatches() const
 {
-    return UserSettings::getInstance()->swatchColours.size();
+    return userSettings->swatchColours.size();
 }
 
 Colour UserSettings::ColourSelectorWithSwatches::getSwatchColour (int index) const
 {
-    return UserSettings::getInstance()->swatchColours[index];
+    return userSettings->swatchColours[index];
 }
 
-void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour) const
+void UserSettings::ColourSelectorWithSwatches::setSwatchColour (int index, const Colour& newColour)
 {
-    UserSettings::getInstance()->swatchColours.set(index, newColour);
+    userSettings->swatchColours.set(index, newColour);
 }

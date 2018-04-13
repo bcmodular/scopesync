@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -76,6 +76,12 @@ public:
                                   const String&    fileName,
                                   const ValueTree& sourceValueTree);
 
+	void referToPluginOSCSettings(Value& localPort, Value& remoteHost, Value& remotePort) const;
+#ifdef __DLL_EFFECT__
+	void referToScopeSyncOSCSettings(Value& localPort, Value& remotePort) const;
+	void referToScopeFXOSCSettings(Value& plugHost, Value& plugPort, Value& scopeSyncPort) const;
+#endif // __DLL_EFFECT__
+
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
 
@@ -93,12 +99,12 @@ public:
     public:
         ColourSelectorWithSwatches() {}
 
-        int getNumSwatches() const override;
+        int    getNumSwatches() const override;
         Colour getSwatchColour (int index) const override;
-        void setSwatchColour (int index, const Colour& newColour) const override;
+        void   setSwatchColour (int index, const Colour& newColour) override;
+    private:
+	    SharedResourcePointer<UserSettings> userSettings;
     };
-
-    juce_DeclareSingleton (UserSettings, false)
 
 private:
     ScopedPointer<ApplicationCommandManager> commandManager;
@@ -110,14 +116,16 @@ private:
     TextButton            presetManagerButton;
     ScopedPointer<FileLocationEditorWindow> fileLocationEditorWindow;
     ScopedPointer<PresetManagerWindow>      presetManagerWindow;
-    
+
     Value useImageCache;
     Value tooltipDelayTime;
 	Value autoRebuildLibrary;
 		  
-	Value oscLocalPortNum;
-	Value oscRemoteHost;
-	Value oscRemotePortNum;
+	Value pluginHost;
+	Value pluginListenerPort;
+	Value scopeHost;
+	Value scopeSyncModuleListenerPort;
+	Value scopeOSCReceiverListenerPort;
 	
     void userTriedToCloseWindow() override;
     void paint (Graphics& g) override;
@@ -174,6 +182,7 @@ private:
 
     private:
         ValueTree fileLocations;
+		SharedResourcePointer<UserSettings> userSettings;
 
         bool rebuildConfigurations;
         bool rebuildLayouts;

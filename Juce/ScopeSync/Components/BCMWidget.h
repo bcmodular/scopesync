@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -29,6 +29,8 @@
 
 #include <JuceHeader.h>
 #include "../Components/BCMComponentBounds.h"
+#include "../Core/Clipboard.h"
+
 class ScopeSyncGUI;
 class ScopeSync;
 class WidgetProperties;
@@ -53,8 +55,8 @@ protected:
     ValueTree          styleOverride;
     String             bcmLookAndFeelId;
     String             widgetTemplateId;
-
-    virtual const Identifier getComponentType() const = 0;
+	
+	virtual const Identifier getComponentType() const = 0;
 
     virtual void applyLookAndFeel(bool noStyleOverride);
     void applyWidgetProperties(WidgetProperties& properties);
@@ -64,20 +66,22 @@ protected:
     void copyStyleOverride() const;
     void copyStyleOverrideToAll() const;
     void pasteStyleOverride();
-	static bool canPasteStyleOverride();
+    bool canPasteStyleOverride() const;
 
     virtual void showPopupMenu();
 
     /* ================= Application Command Target overrides ================= */
-	virtual void getAllCommands(Array<CommandID>& commands) override;
-    virtual void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
-    virtual bool perform(const InvocationInfo& info) override;
-	virtual ApplicationCommandTarget* getNextCommandTarget() override;
+	void getAllCommands(Array<CommandID>& commands) override;
+    void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
+	ApplicationCommandTarget* getNextCommandTarget() override;
 
-	virtual void changeListenerCallback (ChangeBroadcaster* source) override;
+	void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-    void applyBounds() const;
+	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+
+	void applyBounds() const;
     
 };
 
@@ -96,9 +100,6 @@ public:
     BCMParameter* getParameter() const { return parameter.get(); };
 
 protected:
-    static const StringArray fixedWidgetNames;
-    static const StringArray widgetScopeCodes;
-    
     bool          mapsToParameter;         // Flag for whether the widget maps to a parameter
     WeakReference<BCMParameter> parameter; // Pointer to a mapped parameter
 
@@ -113,14 +114,15 @@ protected:
     void showPopupMenu() override;
 
 private:
-    
+    SharedResourcePointer<ParameterClipboard> parameterClipboard;
+
     void deleteMapping();
     void editMapping();
     void editMappedParameter();
     void deleteMappedParameter();
     void copyParameter();
     void pasteParameter();
-	static bool canPasteParameter();
+	bool canPasteParameter() const;
     void addParameter(bool fromClipboard) const;
 	void copyOSCPath();
 

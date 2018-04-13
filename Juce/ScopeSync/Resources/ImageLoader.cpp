@@ -8,7 +8,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,19 +28,14 @@
 #include "ImageLoader.h"
 #include "../Components/BCMLookAndFeel.h"
 
-juce_ImplementSingleton (ImageLoader)
-
 ImageLoader::ImageLoader()
 {
     loadImageResources();
-    defaultBCMLookAndFeel = new BCMLookAndFeel(true);
-    LookAndFeel::setDefaultLookAndFeel(defaultBCMLookAndFeel);
 }
 
 ImageLoader::~ImageLoader()
 {
     LookAndFeel::setDefaultLookAndFeel(nullptr);
-    clearSingletonInstance();
 }
 
 void ImageLoader::loadImageResources()
@@ -176,7 +171,7 @@ void ImageLoader::addImageResource(String imageName, const char* image, int imag
     imageResources.add(imageResource);
 }
 
-Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, const String& directoryPath) const
+Image ImageLoader::loadImage(const String& imageFileName, const String& directoryPath) const
 {
     for (int i = 0; i < imageResources.size(); i++)
     {
@@ -194,7 +189,7 @@ Image ImageLoader::loadImage(const String& imageFileName, bool useImageCache, co
         {
             File imageFile = directory.getChildFile(imageFileName);
 
-            if (useImageCache)
+            if (userSettings->getPropertyBoolValue("useimagecache", true))
                 return ImageCache::getFromFile(imageFile);
             else
                 return ImageFileFormat::loadFrom(imageFile);

@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -28,6 +28,8 @@
 #define CONFIGURATION_H_INCLUDED
 #include <JuceHeader.h>
 #include "../Configuration/ConfigurationPanel.h"
+#include "../Windows/UserSettings.h"
+#include "../Parameters/ScopeIDs.h"
 
 class ScopeSync;
 
@@ -98,7 +100,7 @@ private:
 class Configuration : public FileBasedDocument, public ValueTree::Listener
 {
 public:
-    Configuration();
+	Configuration();
     ~Configuration();
 
     // Overridden methods for FileBasedDocument
@@ -138,9 +140,10 @@ public:
     void      createConfiguration(const File& filePath, const ValueTree& initialSettings);
     ValueTree getEmptyConfiguration() const;
     
-    bool replaceConfiguration(const String& newFileName);
+    bool replaceConfiguration(StringRef newFileName);
+	void migrateFromV102();
 
-    void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
+	void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
     void updateParameterFromPreset(ValueTree& parameter, const ValueTree& preset, bool overwriteNames, UndoManager* undoManager) const;
 
     void deleteMapping(const Identifier& mappingType, 
@@ -199,6 +202,8 @@ private:
     StringArray textButtonNames;
 
     ScopedPointer<PropertiesFile> properties;
+	SharedResourcePointer<UserSettings> userSettings;
+	SharedResourcePointer<ScopeCodeMapper> scopeCodeMapper;
 
     File       lastFailedFile;
     String     lastError;
@@ -251,8 +256,6 @@ private:
 
     bool parameterNameExists(const String& parameterName) const;
     void generateUniqueParameterNames(ValueTree& parameter, UndoManager* undoManager) const;
-
-	void migrateFromV101();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Configuration)
 };

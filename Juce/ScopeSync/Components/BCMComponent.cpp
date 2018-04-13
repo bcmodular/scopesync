@@ -10,7 +10,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -37,7 +37,6 @@
 #include "../Components/BCMRectangle.h"
 #include "../Components/BCMImage.h"
 #include "../Properties/ComponentProperties.h"
-#include "../Windows/UserSettings.h"
 #include "../Core/ScopeSyncApplication.h"
 #include "../Core/Global.h"
 #include "../Properties/TabbedComponentProperties.h"
@@ -72,9 +71,9 @@ public:
         addAndMakeVisible(systemErrorLabel);
         
         systemErrorDetailsButton.setImages(false, true, true,
-            ImageLoader::getInstance()->loadImage("helpOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("helpOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("helpOff",  String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOver", String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOn",   String::empty), 1.0f, Colours::transparentBlack);
 
         details = errorDetails;
         addAndMakeVisible(systemErrorDetailsButton);
@@ -82,9 +81,9 @@ public:
         systemErrorDetailsButton.addListener(this);
 
         closeButton.setImages(false, true, true,
-            ImageLoader::getInstance()->loadImage("closeOff",  true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("closeOver", true, String::empty), 1.0f, Colours::transparentBlack,
-            ImageLoader::getInstance()->loadImage("closeOn",   true, String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("closeOff",  String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOver", String::empty), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOn",   String::empty), 1.0f, Colours::transparentBlack);
 
         addAndMakeVisible(closeButton);
         closeButton.addListener(this);
@@ -116,6 +115,8 @@ private:
     ImageButton   systemErrorDetailsButton;
     ImageButton   closeButton;
     bool          showDetails;
+
+	SharedResourcePointer<ImageLoader> imageLoader;
 
     void paint(Graphics& g) override
     {
@@ -186,23 +187,23 @@ public:
     {
         commandManager = scopeSync.getCommandManager();
         
-        setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack);
+        setButtonImages(saveButton, "saveOff", "saveOver", "saveOn", Colours::transparentBlack, imageLoader);
         saveButton.setCommandToTrigger(commandManager, CommandIDs::saveConfig, true);
         addAndMakeVisible(saveButton);
 
-        setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack);
+        setButtonImages(saveAsButton, "saveAsOff", "saveAsOver", "saveAsOn", Colours::transparentBlack, imageLoader);
         saveAsButton.setCommandToTrigger(commandManager, CommandIDs::saveConfigAs, true);
         addAndMakeVisible(saveAsButton);
 
-        setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack);
+        setButtonImages(undoButton, "undoOff", "undoOver", "undoOn", Colours::transparentBlack, imageLoader);
         undoButton.setCommandToTrigger(commandManager, CommandIDs::undo, true);
         addAndMakeVisible(undoButton);
 
-        setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack);
+        setButtonImages(redoButton, "redoOff", "redoOver", "redoOn", Colours::transparentBlack, imageLoader);
         redoButton.setCommandToTrigger(commandManager, CommandIDs::redo, true);
         addAndMakeVisible(redoButton);
 
-        setButtonImages(editToolbarShowButton, "toolbarOff", "toolbarOver", "toolbarOn", Colours::transparentBlack);
+        setButtonImages(editToolbarShowButton, "toolbarOff", "toolbarOver", "toolbarOn", Colours::transparentBlack, imageLoader);
         editToolbarShowButton.setCommandToTrigger(commandManager, CommandIDs::showHideEditToolbar, true);
         addAndMakeVisible(editToolbarShowButton);
 
@@ -212,7 +213,8 @@ public:
 private:
     ScopeSync&                 scopeSync;
     ApplicationCommandManager* commandManager;
-    
+    SharedResourcePointer<ImageLoader> imageLoader;
+
     ImageButton saveButton;
     ImageButton saveAsButton;
     ImageButton undoButton;
@@ -237,16 +239,16 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("toolbarBevel", true, String::empty), 0, 7);
-        g.drawImageAt(ImageLoader::getInstance()->loadImage("divider", true, String::empty), 65, 8);       
+        g.drawImageAt(imageLoader->loadImage("toolbarBevel", String::empty), 0, 7);
+        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 65, 8);       
     }
 
-	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour)
+	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
     {
         button.setImages(true, true, true,
-                         ImageLoader::getInstance()->loadImage(normalImage, true, ""), 1.0f, overlayColour,
-                         ImageLoader::getInstance()->loadImage(overImage,   true, ""), 1.0f, overlayColour,
-                         ImageLoader::getInstance()->loadImage(downImage,   true, ""), 1.0f, overlayColour, 0);
+                         imgLoader->loadImage(normalImage, ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(overImage,   ""), 1.0f, overlayColour,
+                         imgLoader->loadImage(downImage,   ""), 1.0f, overlayColour, 0);
     }
 };
 
@@ -298,9 +300,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     if (props.backgroundImageFileName.isNotEmpty())
     {
-        bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-
-        backgroundImage = ImageLoader::getInstance()->loadImage(props.backgroundImageFileName, useImageCache, layoutDirectory);
+        backgroundImage = imageLoader->loadImage(props.backgroundImageFileName, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
         {
@@ -322,15 +322,13 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
             editToolbar = new EditToolbar(scopeSyncGUI.getScopeSync(), componentBounds.width, 40);
         
             Rectangle<int> editToolbarBounds = getLocalBounds().removeFromBottom(40).removeFromLeft(200);
-        
-            bool showEditToolbar = scopeSync.shouldShowEditToolbar();
-            DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String(showEditToolbar));
+
+	        bool showEditToolbar = scopeSync.shouldShowEditToolbar();
+            DBG("BCMComponent::applyProperties - Show Edit Toolbar: " + String((showEditToolbar) ? "True" : "False"));
             
             if (!showEditToolbar)
-            {
                 editToolbarBounds.translate(-120, 0);
-            }
-        
+           
             editToolbar->setBounds(editToolbarBounds);
             addAndMakeVisible(editToolbar);
         }
@@ -370,8 +368,8 @@ void BCMComponent::setupStandardContent(XmlElement& contentXML)
 
         ScopedPointer<XmlElement> standardContent = scopeSync.getStandardContent(contentToShow);
 
-		DBG("BCMComponent::setupStandardContent: type = " + contentToShow + ", XML - ");
-		DBG(standardContent->createDocument(String::empty));
+		//DBG("BCMComponent::setupStandardContent: type = " + contentToShow + ", XML - ");
+		//DBG(standardContent->createDocument(String::empty));
 
         if (standardContent != nullptr)
             setupContent(*standardContent);
@@ -444,16 +442,14 @@ void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
         if (rectangle.outlineThickness > 0.0f)
         {
             g.setColour(Colour::fromString(rectangle.outlineColour));
-            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundDoubleToInt(rectangle.outlineThickness));
+            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundToInt(rectangle.outlineThickness));
         }
     }
 }
 
 void BCMComponent::drawBCMImage(Graphics& g, BCMImage& image) const
 {
-    bool useImageCache = UserSettings::getInstance()->getPropertyBoolValue("useimagecache", true);
-
-    Image loadedImage = ImageLoader::getInstance()->loadImage(image.fileName, useImageCache, layoutDirectory);
+    Image loadedImage = imageLoader->loadImage(image.fileName, layoutDirectory);
 
     if (loadedImage.isValid())
     {
@@ -739,7 +735,7 @@ void BCMComponent::showHideEditToolbar() const
     Rectangle<int> editToolbarBounds(getLocalBounds().removeFromBottom(40).removeFromLeft(200));
     
     bool showEditToolbar = scopeSync.shouldShowEditToolbar();
-    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String(showEditToolbar));
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar: " + String((showEditToolbar) ? "True" : "False"));
         
     if (showEditToolbar)
         editToolbarBounds.translate(-120, 0);
@@ -749,7 +745,7 @@ void BCMComponent::showHideEditToolbar() const
     scopeSync.toggleEditToolbar();
 
     showEditToolbar = scopeSync.shouldShowEditToolbar();
-    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String(showEditToolbar));
+    DBG("BCMComponent::showHideEditToolbar - Show Edit Toolbar (after toggle): " + String((showEditToolbar) ? "True" : "False"));
 }
 
 void BCMComponent::hideSystemErrorBar()
@@ -784,9 +780,7 @@ void BCMComponent::sliderDragStarted(Slider* slider)
     BCMSlider* bcmSlider = dynamic_cast<BCMSlider*>(slider);
 
     if (bcmSlider && bcmSlider->hasParameter())
-    {
-        parameterController.beginParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
-    }
+		bcmSlider->getParameter()->beginChangeGesture();
 }
 
 void BCMComponent::sliderDragEnded(Slider* slider)
@@ -794,9 +788,7 @@ void BCMComponent::sliderDragEnded(Slider* slider)
     BCMSlider* bcmSlider = dynamic_cast<BCMSlider*>(slider);
 
     if (bcmSlider && bcmSlider->hasParameter())
-    {
-        parameterController.endParameterChangeGesture(bcmSlider->getParameter()->getHostIdx());
-    }
+		bcmSlider->getParameter()->endChangeGesture();
 }
 
 void BCMComponent::overrideStyle()

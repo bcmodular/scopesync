@@ -7,7 +7,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -26,12 +26,11 @@
 
 #include "BCMWidget.h"
 #include "../Core/Global.h"
-#include "../Core/BCMParameter.h"
+#include "../Parameters/BCMParameter.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Core/ScopeSync.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Properties/WidgetProperties.h"
-#include "../Core/ScopeSyncApplication.h"
 
 BCMWidget::BCMWidget(ScopeSyncGUI& owner)
     : scopeSyncGUI(owner), scopeSync(owner.getScopeSync()),
@@ -69,7 +68,7 @@ void BCMWidget::applyBounds() const
     if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
     {
         DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
-        parentWidget->setBounds(componentBounds.relativeRectangleString);
+		RelativeRectangle(componentBounds.relativeRectangleString).applyToComponent(*parentWidget);
         DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
     }
     else if (componentBounds.boundsType == BCMComponentBounds::inset)
@@ -225,7 +224,7 @@ void BCMWidget::clearStyleOverride()
 
 void BCMWidget::copyStyleOverride() const
 {
-    StyleOverrideClipboard::getInstance()->copy(styleOverride);
+    styleOverrideClipboard->copy(styleOverride);
 
 }
 
@@ -248,23 +247,19 @@ void BCMWidget::pasteStyleOverride()
                                                                         -1, 
                                                                         &undoManager);
     
-    StyleOverrideClipboard::getInstance()->paste(styleOverride, &undoManager);
+    styleOverrideClipboard->paste(styleOverride, &undoManager);
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
 
-bool BCMWidget::canPasteStyleOverride()
+bool BCMWidget::canPasteStyleOverride() const
 {
-    return StyleOverrideClipboard::getInstance()->clipboardIsNotEmpty();
+    return styleOverrideClipboard->clipboardIsNotEmpty();
 }
 
 void BCMWidget::changeListenerCallback(ChangeBroadcaster* /* source */)
 {
     scopeSyncGUI.getScopeSync().applyConfiguration();
 }
-
-
-const StringArray BCMParameterWidget::fixedWidgetNames = StringArray::fromTokens("oscuid,voicecount,midiactivity,midichannel,Device Type,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow", ",", "");
-const StringArray BCMParameterWidget::widgetScopeCodes = StringArray::fromTokens("osc,vc,mida,midc,type,spr,spa,mono,byp,sspr", ",", "");
 
 BCMParameterWidget::BCMParameterWidget(ScopeSyncGUI& owner) : BCMWidget(owner) 
 {
@@ -401,7 +396,7 @@ void BCMParameterWidget::showPopupMenu()
 	if (parameter != nullptr) 
 	{
 		m.addSeparator();
-		m.addSectionHeader("OSC Path: " + parameter->getOSCPath());
+		m.addSectionHeader("OSC Path: " + parameter->getScopeOSCParameter().getOSCPath());
 		m.addCommandItem(commandManager, CommandIDs::copyOSCPath, "Copy OSC Path");
 	}
     
@@ -490,18 +485,18 @@ void BCMParameterWidget::deleteMappedParameter()
 
 void BCMParameterWidget::copyParameter()
 {
-    ParameterClipboard::getInstance()->copy(parameter->getDefinition());
+    parameterClipboard->copy(parameter->getDefinition());
 }
 
 void BCMParameterWidget::pasteParameter()
 {
-    ParameterClipboard::getInstance()->paste(parameter->getDefinition(), &undoManager);
+    parameterClipboard->paste(parameter->getDefinition(), &undoManager);
     scopeSync.applyConfiguration();
 }
 
-bool BCMParameterWidget::canPasteParameter()
+bool BCMParameterWidget::canPasteParameter() const
 {
-    return ParameterClipboard::getInstance()->clipboardIsNotEmpty();
+    return parameterClipboard->clipboardIsNotEmpty();
 }
 
 void BCMParameterWidget::addParameter(bool fromClipboard) const
@@ -512,7 +507,7 @@ void BCMParameterWidget::addParameter(bool fromClipboard) const
     if (fromClipboard)
     {
         definition = ValueTree(Ids::parameter);
-        ParameterClipboard::getInstance()->paste(definition, &undoManager);
+        parameterClipboard->paste(definition, &undoManager);
     }        
 
     scopeSync.getConfiguration().addNewParameter(newParameter, definition, -1, &undoManager);
@@ -526,5 +521,5 @@ void BCMParameterWidget::addParameter(bool fromClipboard) const
 
 void BCMParameterWidget::copyOSCPath()
 {
-	SystemClipboard::copyTextToClipboard(parameter->getOSCPath());
+	SystemClipboard::copyTextToClipboard(parameter->getScopeOSCParameter().getOSCPath());
 }

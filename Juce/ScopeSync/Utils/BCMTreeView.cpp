@@ -10,7 +10,6 @@
 
 #include "BCMTreeView.h"
 #include "../Core/Global.h"
-#include "../Resources/Icons.h"
 
 BCMTreeView::BCMTreeView(UndoManager& um, BCMTreeItem* root, PropertiesFile& props)
     : undoManager(um),
@@ -367,7 +366,7 @@ private:
 
 void BCMTreeItem::itemSelectionChanged(bool isNowSelected)
 {
-    DBG("BCMTreeItem::itemSelectionChanged - isNowSelected: " + String(isNowSelected) + ", item: " + getUniqueName());
+    DBG("BCMTreeItem::itemSelectionChanged - isNowSelected: " + String((isNowSelected) ? "True" : "False") + ", item: " + getUniqueName());
 
     if (isNowSelected)
     {

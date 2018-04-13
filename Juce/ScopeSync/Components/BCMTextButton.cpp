@@ -9,7 +9,7 @@
  *
  * ScopeSync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * ScopeSync is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@
 #include "../Properties/TextButtonProperties.h"
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
-#include "../Core/BCMParameterController.h"
+#include "../Parameters/BCMParameterController.h"
 #include "BCMTabbedComponent.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
@@ -88,14 +88,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 	// so let's do the remaining set up for parameter buttons
 	isCommandButton = false;
 	
-    // Set up buttons for fixed Scope parameters
-    int fixedButtonIndex = fixedWidgetNames.indexOf(getName(), true);
-
-    if (fixedButtonIndex != -1)
-    {
-        setupFixedButton(widgetScopeCodes[fixedButtonIndex], props);
+    if (setupFixedButton(props))
         return;
-    }
 	
     String tooltip(props.tooltip);
     String buttonText(props.text);
@@ -134,9 +128,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     {
         // DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         
-        String paramShortDesc;
-        parameter->getDescriptions(buttonText, tooltip);
-        parameter->getSettings(settings);
+		buttonText = parameter->getShortDescription();
+		tooltip    = parameter->getFullDescription(true);
+		parameter->getSettings(settings);
         parameter->mapToUIValue(parameterValue);
         
         // Grab the correct mapping type
@@ -150,7 +144,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         if (mappingType != toggle)
             setTriggeredOnMouseDown(true);
                 
-        int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
+        int currentSettingIdx   = roundToInt(parameterValue.getValue());
         int maxSettingIdx       = settings.getNumChildren() - 1;
 
         if (mapping.getProperty(Ids::radioGroup).isInt())
@@ -254,24 +248,36 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     setRadioGroupId(rgId);
 }
 
-void BCMTextButton::setupFixedButton(const String& scopeCode, TextButtonProperties& props)
+bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
 {
-    mappingType = toggle;
-	setClickingTogglesState(true);
+	if (ScopeSync::fixedParameterNames.contains(props.name))
+	{
+		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+
+		if (bcmParameter != nullptr)
+		{
+			mappingType = toggle;
+			setClickingTogglesState(true);
 	
-	upSettingIdx   = 0;
-	downSettingIdx = 1;
+			upSettingIdx   = 0;
+			downSettingIdx = 1;
 	
-	setParameter(scopeSync.getParameterController()->getParameterByScopeCode(scopeCode));
+			setParameter(bcmParameter);
     
-    setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
+			setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
 
-    getParameter()->mapToUIValue(parameterValue);
+			getParameter()->mapToUIValue(parameterValue);
 
-    parameterValue.addListener(this);
+			parameterValue.addListener(this);
 
-	setTooltip(props.tooltip);
-	setButtonText(props.text);
+			setTooltip(props.tooltip);
+			setButtonText(props.text);
+
+			return true;
+		}
+	}
+
+    return false;
 }
 
 
@@ -302,7 +308,7 @@ void BCMTextButton::switchToTabs() const
 
 void BCMTextButton::setNextValues()
 {
-    int currentSettingIdx   = roundDoubleToInt(parameterValue.getValue());
+    int currentSettingIdx   = roundToInt(parameterValue.getValue());
     int maxSettingIdx       = settings.getNumChildren() - 1;
         
     if (mappingType == inc)
@@ -345,13 +351,10 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     {
 		if (hasParameter())
 		{
-            if (parameter->isScopeInputOnly())
+            if (parameter->isReadOnly())
                 return;
 
-			int hostIdx = getParameter()->getHostIdx();
-
-			if (hostIdx != -1)
-				scopeSync.getParameterController()->beginParameterChangeGesture(hostIdx);
+			getParameter()->beginChangeGesture();
 		}
 		else
 			DBG("BCMTextButton::mouseDown - button " + getName() + " doesn't have a parameter");
@@ -368,7 +371,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
     {
         if (hasParameter())
 		{
-            if (parameter->isScopeInputOnly())
+            if (parameter->isReadOnly())
                 return;
 
             if (!isCommandButton && mappingType == noToggle)
@@ -379,10 +382,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
                     scopeSync.getParameterController()->setParameterFromGUI(*(parameter), valueToSet);
             }
 
-			int hostIdx = parameter->getHostIdx();
-			
-            if (hostIdx != -1)
-				scopeSync.getParameterController()->endParameterChangeGesture(hostIdx);
+			parameter->endChangeGesture();
 		}
 
         TextButton::mouseUp(event);
@@ -417,7 +417,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
     if (hasParameter())
     {
-        if (parameter->isScopeInputOnly())
+        if (parameter->isReadOnly())
             return;
 
         float valueToSet;
@@ -439,7 +439,7 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
 void BCMTextButton::mouseDrag(const MouseEvent& e)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::mouseDrag(e);
@@ -447,7 +447,7 @@ void BCMTextButton::mouseDrag(const MouseEvent& e)
 
 void BCMTextButton::focusGained(FocusChangeType f)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::focusGained(f);
@@ -455,7 +455,7 @@ void BCMTextButton::focusGained(FocusChangeType f)
 
 void BCMTextButton::focusLost(FocusChangeType f)
 {
-	if (hasParameter() && parameter->isScopeInputOnly())
+	if (hasParameter() && parameter->isReadOnly())
 		return;
 	else
 		TextButton::focusLost(f);
@@ -480,7 +480,7 @@ void BCMTextButton::valueChanged(Value& value)
         setButtonText(buttonText);
     }
 
-    if (roundDoubleToInt(value.getValue()) == downSettingIdx && getClickingTogglesState())
+    if (roundToInt(value.getValue()) == downSettingIdx && getClickingTogglesState())
     {
         setToggleState(true, dontSendNotification);
 
