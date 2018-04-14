@@ -49,6 +49,16 @@ public:
     // Callback for when the value of a mapped parameter changes
     void valueChanged(Value& value) override;
     
+    // Types of Button Display
+    enum DisplayType
+    {
+        currentSetting,   // Display the current setting for a parameter
+        downSetting,      // Display the setting that will be chosen on clicking the button
+        shortDescription, // Display a mapped parameter's Short Description
+        fullDescription,  // Display a mapped parameter's Full Description
+        custom            // Display a custom piece of text
+    };
+    
 protected:
     void applyLookAndFeel(bool noStyleOverride) override;
 
@@ -63,15 +73,6 @@ private:
         dec,      // Button that decrements a value, stopping at minimum
         incWrap,  // Button that increments a value, wrapping round to minimum after hitting maximum
         decWrap   // Button that decrements a value, wrapping round to maximum after hitting minimum
-    };
-
-    // Types of Button Display
-    enum DisplayType
-    {
-        currentSetting, // Display the current setting for a parameter
-        downSetting,    // Display the setting that will be chosen on clicking the button
-        parameterName,  // Display a mapped parameter's name
-        custom          // Display a custom piece of text
     };
     
     MappingType mappingType;

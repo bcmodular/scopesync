@@ -33,6 +33,7 @@
 #include "../Core/ScopeSync.h"
 #include "../Utils/BCMMisc.h"
 #include "../Windows/LayoutChooser.h"
+#include "../Components/BCMTextButton.h"
 
 //==============================================================================
 class ComponentBackgroundColourProperty : public  ColourPropertyComponent,
@@ -541,10 +542,8 @@ void TextButtonMappingPanel::rebuildProperties()
     Array<var>  settingValues;
     
     if (parameterName.toString().isNotEmpty())
-    {
         configuration.setupSettingLists(parameterName.toString(), settingNames, settingValues);
-    }
-
+    
     settingNames.insert(0, "- No Setting -");
     settingValues.insert(0, String::empty);
 
@@ -556,6 +555,25 @@ void TextButtonMappingPanel::rebuildProperties()
         
     // Radio Group
     props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::radioGroup, &undoManager), "Radio Group", 32, false), "Text identifier to match TextButtons within a radio group. Leave blank if no radio group needed.");
+
+    // Set up Setting Names
+    StringArray displayTypeNames;
+    Array<var>  displayTypeValues;
+    
+    displayTypeNames.add("Current Setting");
+    displayTypeNames.add("Down Setting");
+    displayTypeNames.add("Parameter Short Description");
+    displayTypeNames.add("Parameter Full Description");
+    displayTypeNames.add("Custom Text");
+    
+    displayTypeValues.add(BCMTextButton::DisplayType::currentSetting);
+    displayTypeValues.add(BCMTextButton::DisplayType::downSetting);
+    displayTypeValues.add(BCMTextButton::DisplayType::shortDescription);
+    displayTypeValues.add(BCMTextButton::DisplayType::fullDescription);
+    displayTypeValues.add(BCMTextButton::DisplayType::custom);
+    
+    props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::displayType, &undoManager), "Display Type", displayTypeNames, displayTypeValues), "What text to display on the Button");
+    props.add(new TextPropertyComponent(valueTree.getPropertyAsValue(Ids::customDisplay, &undoManager), "Custom Display Text", 32, false), "Text to use if Custom Text Display Type is chosen above");
 
     propertyPanel.addProperties(props.components);
 }

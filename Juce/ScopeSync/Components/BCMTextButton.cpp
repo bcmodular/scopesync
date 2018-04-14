@@ -138,6 +138,10 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
             
         if (displayType == downSetting)
             buttonText  = mapping.getProperty(Ids::settingDown);
+        else if (displayType == shortDescription)
+            buttonText  = parameter->getShortDescription();
+        else if (displayType == fullDescription)
+            buttonText  = parameter->getFullDescription();
         else if (displayType == custom)
             buttonText  = mapping.getProperty(Ids::customDisplay);
         else
