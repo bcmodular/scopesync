@@ -628,7 +628,10 @@
     </textButtons>
     <labels/>
     <comboBoxes/>
-    <tabbedComponents/>
+    <tabbedComponents>
+      <tabbedComponent name="GROUP STATE" mapTo="PARAM128"/>
+      <tabbedComponent name="ENCODER GROUPS" mapTo="PARAM127"/>
+    </tabbedComponents>
   </mapping>
   <styleOverrides>
     <components/>

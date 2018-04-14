@@ -33,7 +33,6 @@
 #include "../Core/Global.h"
 #include "../Configuration/ConfigurationManager.h"
 #include "../Parameters/BCMParameterController.h"
-#include "BCMTabbedComponent.h"
 
 BCMTextButton::BCMTextButton(ScopeSyncGUI& owner, String& name)
     : TextButton(name), BCMParameterWidget(owner)
@@ -48,7 +47,6 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 	// DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
     applyWidgetProperties(props);
-    mapsToTabs = false;
     mapsToParameter = false;
     isCommandButton = true;
     
@@ -96,25 +94,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
     int rgId = props.radioGroupId;
     
-    // Set up any mapping to TabbedComponent Tabs
     String radioGroupTag = String::empty;
-
-    for (int i = 0; i < props.tabbedComponents.size(); i++)
-    {
-        String tabbedComponentName = props.tabbedComponents[i];
-        String tabName = props.tabNames[i];
-
-        tabbedComponentNames.add(tabbedComponentName);
-        tabNames.add(tabName);
-
-        radioGroupTag += props.tabbedComponents[i];
-        mapsToTabs = true;
-            
-        // DBG("BCMTextButton::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName + ", RadioGrp: " + radioGroupTag);
-    }
-        
-    if (mapsToTabs)
-		rgId = radioGroupTag.hashCode();
 
     upSettingIdx   = -1;
     downSettingIdx = -1;
@@ -147,9 +127,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         int currentSettingIdx   = roundToInt(parameterValue.getValue());
         int maxSettingIdx       = settings.getNumChildren() - 1;
 
-        if (mapping.getProperty(Ids::radioGroup).isInt())
+        if (mapping.getProperty(Ids::radioGroup).toString().isNotEmpty())
         {
-			rgId = mapping.getProperty(Ids::radioGroup);
+			rgId = mapping.getProperty(Ids::radioGroup).toString().hashCode();
             // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
         }
                 
@@ -190,12 +170,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
                 setClickingTogglesState(true);
 
                 if (currentSettingIdx == downSettingIdx)
-                {
                     setToggleState(true, dontSendNotification);
-                        
-                    if (mapsToTabs)
-                        switchToTabs();
-                }
             }
         }
         else
@@ -280,31 +255,7 @@ bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
     return false;
 }
 
-
 const Identifier BCMTextButton::getComponentType() const { return Ids::textButton; };
-
-void BCMTextButton::switchToTabs() const
-{
-    for (int i = 0; i < tabbedComponentNames.size(); i++)
-    {
-        String tabbedComponentName = tabbedComponentNames[i];
-        String tabName             = tabNames[i];
-
-        Array<BCMTabbedComponent*> tabbedComponents;
-            
-        scopeSyncGUI.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
-        int numTabbedComponents = tabbedComponents.size();
-
-        for (int j = 0; j < numTabbedComponents; j++)
-        {
-            StringArray names = tabbedComponents[j]->getTabNames();
-            int tabIndex = names.indexOf(tabName, true);
-
-            DBG("BCMTextButton::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
-                tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);
-        }
-    }
-}
 
 void BCMTextButton::setNextValues()
 {
@@ -481,16 +432,9 @@ void BCMTextButton::valueChanged(Value& value)
     }
 
     if (roundToInt(value.getValue()) == downSettingIdx && getClickingTogglesState())
-    {
         setToggleState(true, dontSendNotification);
-
-        if (mapsToTabs)
-            switchToTabs();
-    }
     else
-    {
         setToggleState(false, dontSendNotification);
-    }
 
     setNextValues();
 }

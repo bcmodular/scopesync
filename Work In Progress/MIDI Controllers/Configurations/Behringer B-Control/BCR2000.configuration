@@ -683,16 +683,19 @@
       <textButton name="B46" mapTo="PARAM110" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B47" mapTo="PARAM111" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
       <textButton name="B48" mapTo="PARAM112" settingDown="ON" settingUp="OFF" type="1" radioGroup=""/>
-      <textButton name="B59" mapTo="PARAM127" settingDown="GROUP 1" type="1" radioGroup=""/>
-      <textButton name="B60" mapTo="PARAM127" settingDown="GROUP 2" type="1" radioGroup=""/>
-      <textButton name="B61" mapTo="PARAM127" settingDown="GROUP 3" type="1" radioGroup=""/>
-      <textButton name="B62" mapTo="PARAM127" settingDown="GROUP 4" type="1" radioGroup=""/>
-      <textButton name="B63" mapTo="PARAM128" settingDown="ROTARY" type="1" radioGroup=""/>
-      <textButton name="B64" mapTo="PARAM128" settingDown="PUSH" type="1" radioGroup=""/>
+      <textButton name="B59" mapTo="PARAM127" settingDown="GROUP 1" type="1" radioGroup="EncGrps"/>
+      <textButton name="B60" mapTo="PARAM127" settingDown="GROUP 2" type="1" radioGroup="EncGrps"/>
+      <textButton name="B61" mapTo="PARAM127" settingDown="GROUP 3" type="1" radioGroup="EncGrps"/>
+      <textButton name="B62" mapTo="PARAM127" settingDown="GROUP 4" type="1" radioGroup="EncGrps"/>
+      <textButton name="B63" mapTo="PARAM128" settingDown="ROTARY" type="1" radioGroup="GpState" settingUp=""/>
+      <textButton name="B64" mapTo="PARAM128" settingDown="PUSH" type="1" radioGroup="GpState" settingUp=""/>
     </textButtons>
     <labels/>
     <comboBoxes/>
-    <tabbedComponents/>
+    <tabbedComponents>
+      <tabbedComponent name="GROUP STATE" mapTo="PARAM128"/>
+      <tabbedComponent name="ENCODER GROUPS" mapTo="PARAM127"/>
+    </tabbedComponents>
   </mapping>
   <styleOverrides>
     <labels/>

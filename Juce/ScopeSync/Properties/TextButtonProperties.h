@@ -48,8 +48,6 @@ public:
     String             text;
     String             tooltip;
     int                radioGroupId;
-    StringArray        tabbedComponents;
-    StringArray        tabNames;
     URL                url;
 
 private:

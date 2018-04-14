@@ -27,7 +27,6 @@
  */
 
 #include "BCMSlider.h"
-#include "../Components/BCMTabbedComponent.h"
 #include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/SliderProperties.h"
@@ -82,22 +81,6 @@ void BCMSlider::applyProperties(SliderProperties& props)
     double rangeInt = props.rangeInt;
     String tooltip  = props.name;
     
-    // Set up any mapping to TabbedComponent Tabs
-    mapsToTabs = false;
-    
-    for (int i = 0; i < props.tabbedComponents.size(); i++)
-    {
-        String tabbedComponentName = props.tabbedComponents[i];
-        String tabName = props.tabNames[i];
-
-        tabbedComponentNames.add(tabbedComponentName);
-        tabNames.add(tabName);
-
-        mapsToTabs = true;
-            
-        // DBG("BCMSlider::applyProperties - mapped Tab: " + tabbedComponentName + ", " + tabName);
-    }
-
     setupMapping(Ids::slider, getName(), props.mappingParentType, props.mappingParent);
 
     if (mapsToParameter)
@@ -216,8 +199,6 @@ void BCMSlider::mouseDown(const MouseEvent& event)
         showPopupMenu();
     else
     {
-        switchToTabs();
-
         if (!hasParameter() || !parameter->isReadOnly())
             Slider::mouseDown(event);
     }
@@ -229,29 +210,6 @@ double BCMSlider::valueToProportionOfLength(double value)
     const double skew = getSkewFactor();
 
     return (skew == 1.0 || n < FLT_EPSILON) ? n : pow (n, skew);
-}
-
-void BCMSlider::switchToTabs() const
-{
-    for (int i = 0; i < tabbedComponentNames.size(); i++)
-    {
-        String tabbedComponentName = tabbedComponentNames[i];
-        String tabName             = tabNames[i];
-
-        Array<BCMTabbedComponent*> tabbedComponents;
-            
-        scopeSyncGUI.getTabbedComponentsByName(tabbedComponentName, tabbedComponents);
-        int numTabbedComponents = tabbedComponents.size();
-
-        for (int j = 0; j < numTabbedComponents; j++)
-        {
-            StringArray names = tabbedComponents[j]->getTabNames();
-            int tabIndex = names.indexOf(tabName, true);
-
-            // DBG("BCMSlider::switchToTabs - " + tabbedComponentName + ", " + tabName + ", " + String(tabIndex)); 
-            tabbedComponents[j]->setCurrentTabIndex(tabIndex, true);
-        }
-    }
 }
 
 void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)

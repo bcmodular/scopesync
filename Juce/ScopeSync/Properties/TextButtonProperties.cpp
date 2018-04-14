@@ -55,8 +55,6 @@ void TextButtonProperties::initialise()
     tooltip           = String::empty;
     url               = URL();
     radioGroupId      = 0;
-    tabbedComponents.clear();
-    tabNames.clear();
 }
 
 void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButtonProperties)
@@ -64,8 +62,6 @@ void TextButtonProperties::copyProperties(TextButtonProperties& parentTextButton
     text              = parentTextButtonProperties.text;
     tooltip           = parentTextButtonProperties.tooltip;
     radioGroupId      = parentTextButtonProperties.radioGroupId;
-    tabbedComponents  = StringArray(parentTextButtonProperties.tabbedComponents);
-    tabNames          = StringArray(parentTextButtonProperties.tabNames);
     url               = parentTextButtonProperties.url;
 }
 
@@ -78,18 +74,7 @@ void TextButtonProperties::setValuesFromXML(XmlElement& textButtonXML)
 
     if (urlString.isNotEmpty())
         url = URL(urlString);
-    
-    forEachXmlChildElementWithTagName(textButtonXML, chooseTabXml, "choosetab")
-    {
-        String tabbedComponent = chooseTabXml->getStringAttribute("tabbedcomponent", String::empty);
-        String tabName         = chooseTabXml->getStringAttribute("tabname", String::empty);
-            
-        if (tabbedComponent.isNotEmpty() && tabName.isNotEmpty())
-        {
-            tabbedComponents.add(tabbedComponent);
-            tabNames.add(tabName);
-        }
-    }
 
-    if (textButtonXML.hasAttribute("radiogroup")) radioGroupId = textButtonXML.getStringAttribute("radiogroup").hashCode();
+    if (textButtonXML.hasAttribute("radiogroup"))
+        radioGroupId = textButtonXML.getStringAttribute("radiogroup").hashCode();
 }

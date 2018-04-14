@@ -98,11 +98,7 @@ private:
     
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
 
-    bool        mapsToTabs;           // Does this slider map to one or more tabs in a tabbed component
-    StringArray tabbedComponentNames; // Array of tabbed component names that this slider maps to
-    StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this slider maps to
-    
-	SharedResourcePointer<UserSettings> userSettings;
+    SharedResourcePointer<UserSettings> userSettings;
 
     bool fixed; // Is this a fixed Slider, i.e. one that is mapped to a parameter based on its name, not via a mapping tag
 	bool setupFixedSlider(SliderProperties& props);
@@ -124,9 +120,6 @@ private:
     void overridePopupEnabled(bool popupEnabledFlag);
     void overrideVelocityBasedMode(bool velocityBasedMode);
     bool getEncoderSnap(bool encoderSnap);
-
-    // Switch any linked TabbedComponent's tabs as appropriate
-    void switchToTabs() const;
 
     // Returns true if this is a LinearBar-style Slider
     bool isLinearBar() const;

@@ -62,8 +62,6 @@ public:
     bool        popupEnabled;
     bool        velocityBasedMode;
     bool        encoderSnap;
-    StringArray tabbedComponents;
-    StringArray tabNames;
 
 private:
     ScopeSyncGUI& scopeSyncGUI;

@@ -81,10 +81,7 @@ private:
     
     URL url; // URL launched on clicking the button
 
-    bool        mapsToTabs;           // Does this button map to one or more tabs in a tabbed component
     bool        isCommandButton;      // Does this button map to a Command Manager command
-    StringArray tabbedComponentNames; // Array of tabbed component names that this button maps to
-    StringArray tabNames;             // Names of specific tabs within the mapped tabbed components that this button maps to
     
     int downSettingIdx; // Discrete parameter setting that maps to BCMTextButton's down state
     int upSettingIdx;   // Discrete parameter setting that maps to BCMTextButton's up state
@@ -92,9 +89,6 @@ private:
     ValueTree settings; // Discrete parameter settings
     
 	bool setupFixedButton(TextButtonProperties& props);
-
-    // Switch any linked TabbedComponent's tabs as appropriate
-    void switchToTabs() const;
 
     // For incrementing and decrementing MappingTypes, update the "next" values to be set
     void setNextValues();
