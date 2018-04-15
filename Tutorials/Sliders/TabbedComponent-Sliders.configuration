@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="TabbedComponents Demo" layoutName="TabbedComponents Demo" layoutLibrarySet="ScopeSyncTutorials" ID="RmkmEB" librarySet="ScopeSyncTutorials"
-               author="ScopeSync" blurb="Demonstrates some of the ways to use TabbedComponents in your Configurations." UID="905999486">
+<configuration name="TabbedComponent Sliders" layoutName="TabbedComponent Sliders" layoutLibrarySet="ScopeSyncTutorials" ID="RmkmEB" librarySet="ScopeSyncTutorials"
+               author="ScopeSync" blurb="Demonstrates how to use a TabbedComponent inside the Sliders Demo." UID="1379743866">
   <parameters>
     <parameter name="PARAM1" shortDescription="Param 1" fullDescription="Osc2 Waveform" scopeSync="0" scopeLocal="-1" scopeRangeMin="0"
                scopeRangeMax="2147483647" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"

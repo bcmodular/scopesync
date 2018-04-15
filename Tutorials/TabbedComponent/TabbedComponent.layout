@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
+    <layout name="TabbedComponent Demo" libraryset="ScopeSyncTutorials" author="ScopeSync" numencoders="3"
+            numfaders="15" numbuttons="6" numparameters="7" panelheight="340" panelwidth="624"
+            blurb="Demonstration layout to show how to use a TabbedComponent"
+            thumbnail="Sliders-thumb.png" excludefromchooser="false">
+        <!--Main Component-->
+        <component backgroundcolour="ff212426" lfid="default">
+            <bounds x="0" y="0" width="624" height="340"/>
+            <!--Header Section-->
+            <standardcontent type="header"/>
+            <!--TabbedComponent for Slider tabs-->
+            <tabbedcomponent id="Tabs Id" name="Tabs">
+                <bounds x="312" y="40" width="312" height="260"/>
+                <tab idx="1" name="Tab 1">
+                    <!--First Tab-->
+                    <component backgroundcolour="ffefeff7">
+                        <bounds x="0" y="0" width="312" height="260"/>
+                        <label name="Header" text="Tab 1">
+                            <bounds x="12" y="8" width="180" height="20"/>
+                            <font underlined="true" height="18"/>
+                            <justification left="true"/>
+                        </label>
+                        <component>
+                            <bounds x="3" y="35" width="312" height="230"/>
+                            <label name="L1" parametertextdisplay="fulldescription">
+                                <mappingparent componenttype="slider" componentname="S1"/>
+                                <bounds x="5" y="5" width="180" height="15"/>
+                                <font bold="true" height="12"/>
+                                <justification horizontallycentred="true"/>
+                            </label>
+                            <slider name="S1" id="s1id" style="linearhorizontal">
+                                <bounds x="5" y="20" width="180" height="20"/>
+                                <textbox position="right" readonly="false" width="56" height="14">
+                                    <font height="12"/>
+                                </textbox>
+                            </slider>
+                        </component>
+                    </component>
+                </tab>
+                <tab idx="2" name="Tab 2">
+                    <!--Second Tab-->
+                    <component backgroundcolour="fff4e9d4">
+                        <bounds x="0" y="0" width="312" height="260"/>
+                        <label name="Header" text="Tab 2">
+                            <bounds x="12" y="8" width="180" height="20"/>
+                            <font underlined="true" height="18"/>
+                            <justification left="true"/>
+                        </label>
+                        <component>
+                            <bounds x="3" y="35" width="312" height="230"/>
+                            <label name="L2" parametertextdisplay="fulldescription">
+                                <mappingparent componenttype="slider" componentname="S2"/>
+                                <bounds x="5" y="5" width="180" height="15"/>
+                                <font bold="true" height="12"/>
+                                <justification horizontallycentred="true"/>
+                            </label>
+                            <slider name="S2" id="s1id" style="linearhorizontal">
+                                <bounds x="5" y="20" width="180" height="20"/>
+                                <textbox position="right" readonly="false" width="56" height="14">
+                                    <font height="12"/>
+                                </textbox>
+                            </slider>
+                        </component>
+                    </component>
+                </tab>
+                <tab idx="3" name="Tab 3">
+                    <!--Third Tab-->
+                    <component backgroundcolour="fff4d4f0">
+                        <bounds x="0" y="0" width="312" height="260"/>
+                        <label name="Header" text="Tab 3">
+                            <bounds x="12" y="8" width="180" height="20"/>
+                            <font underlined="true" height="18"/>
+                            <justification left="true"/>
+                        </label>
+                        <component>
+                            <bounds x="3" y="35" width="312" height="230"/>
+                            <label name="L3" parametertextdisplay="fulldescription">
+                                <mappingparent componenttype="slider" componentname="S3"/>
+                                <bounds x="5" y="5" width="180" height="15"/>
+                                <font bold="true" height="12"/>
+                                <justification horizontallycentred="true"/>
+                            </label>
+                            <slider name="S3" id="s1id" style="linearhorizontal">
+                                <bounds x="5" y="20" width="180" height="20"/>
+                                <textbox position="right" readonly="false" width="56" height="14">
+                                    <font height="12"/>
+                                </textbox>
+                            </slider>
+                        </component>
+                    </component>
+                </tab>
+            </tabbedcomponent>
+            <component>
+                <bounds x="3" y="75" width="312" height="230"/>
+                <textbutton id="Tab1" name="Tab 1" text="Tab 1">
+                    <bounds x="15" y="30" width="100" height="30"/>
+                </textbutton>
+                <textbutton id="Tab2" name="Tab 2" text="Tab 2">
+                    <bounds x="15" y="70" width="100" height="30"/>
+                </textbutton>
+                <textbutton id="Tab3" name="Tab 3" text="Tab 3">
+                    <bounds x="15" y="110" width="100" height="30"/>
+                </textbutton>
+            </component>
+        </component>
+    </layout>
+</tns:ScopeSyncLayout>
+

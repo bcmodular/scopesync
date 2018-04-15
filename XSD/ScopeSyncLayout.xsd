@@ -82,7 +82,13 @@
             <element name="standardcontent" type="tns:standardcomponentcontentype"/>
         </choice>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string"/>
+        <attribute name="id" type="string">
+                <annotation>
+                    <documentation>
+                        Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    </documentation>
+                </annotation>
+        </attribute>
         <attribute name="backgroundcolour" type="tns:colouridtype"/>
         <attribute name="backgroundimage" type="string"/>
         <attribute name="backgroundimageplacement"
