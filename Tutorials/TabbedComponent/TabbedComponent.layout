@@ -96,14 +96,25 @@
             <component>
                 <bounds x="3" y="75" width="312" height="230"/>
                 <textbutton id="Tab1" name="Tab 1" text="Tab 1">
-                    <bounds x="15" y="30" width="100" height="30"/>
+                    <bounds x="15" y="5" width="50" height="20"/>
                 </textbutton>
                 <textbutton id="Tab2" name="Tab 2" text="Tab 2">
-                    <bounds x="15" y="70" width="100" height="30"/>
+                    <bounds x="15" y="30" width="50" height="20"/>
                 </textbutton>
                 <textbutton id="Tab3" name="Tab 3" text="Tab 3">
-                    <bounds x="15" y="110" width="100" height="30"/>
+                    <bounds x="15" y="55" width="50" height="20"/>
                 </textbutton>
+                <combobox>
+                    <mappingparent componenttype="tabbedcomponent" componentname="Tabs"/>
+                    <bounds x="15" y="100" width="100" height="30"/>
+                    <item>Tab1</item>
+                    <item>Tab2</item>
+                    <item>Tab3</item>
+                </combobox>
+                <slider encodersnap="true">
+                    <mappingparent componenttype="tabbedcomponent" componentname="Tabs"/>
+                    <bounds x="15" y="140" width="100" height="60"/>
+                </slider>
             </component>
         </component>
     </layout>

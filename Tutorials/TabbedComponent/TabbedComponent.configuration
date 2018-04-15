@@ -58,9 +58,9 @@
     </sliders>
     <labels/>
     <textButtons>
-      <textButton name="Tab 1" mapTo="PARAM8" type="1" settingDown="Tab 1" displayType="1" radioGroup="TabChoice"/>
-      <textButton name="Tab 2" mapTo="PARAM8" type="1" settingDown="Tab 2" displayType="1" radioGroup="TabChoice"/>
-      <textButton name="Tab 3" mapTo="PARAM8" type="1" settingDown="Tab 3" displayType="1" radioGroup="TabChoice" customDisplay=""/>
+      <textButton name="Tab 1" mapTo="PARAM8" type="1" settingDown="Tab 1" radioGroup="Tabs" displayType="1"/>
+      <textButton name="Tab 2" mapTo="PARAM8" type="1" settingDown="Tab 2" radioGroup="Tabs" displayType="1"/>
+      <textButton name="Tab 3" mapTo="PARAM8" type="1" settingDown="Tab 3" radioGroup="Tabs" displayType="1"/>
     </textButtons>
     <comboBoxes/>
     <tabbedComponents>

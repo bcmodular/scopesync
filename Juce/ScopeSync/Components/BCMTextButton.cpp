@@ -102,6 +102,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     mappingType = noToggle;
     displayType = currentSetting;
 
+    props.mappingParentType = Identifier();
+    props.mappingParent = String();
+    
     setupMapping(Ids::textButton, getName(), props.mappingParentType, props.mappingParent);
     
     if (mapsToParameter && parameter->isDiscrete())
