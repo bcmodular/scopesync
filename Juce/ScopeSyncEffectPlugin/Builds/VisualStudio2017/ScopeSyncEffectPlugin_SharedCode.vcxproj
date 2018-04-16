@@ -135,7 +135,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)\ScopeSyncVSTFX-Debug_1_0_3.bsc</OutputFile>
     </Bscmake>
-    <Lib/>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -180,7 +179,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)\ScopeSyncVSTFX-Debug-x64_1_0_3.bsc</OutputFile>
     </Bscmake>
-    <Lib/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -224,7 +222,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)\ScopeSyncVSTFX_1_0_3.bsc</OutputFile>
     </Bscmake>
-    <Lib/>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -274,7 +271,6 @@ if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>$(IntDir)\ScopeSyncVSTFX-x64_1_0_3.bsc</OutputFile>
     </Bscmake>
-    <Lib/>
     <PostBuildEvent>
       <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;
 if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;</Command>
@@ -2809,9 +2805,6 @@ if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy
     <None Include="..\..\..\..\..\JUCE\modules\juce_audio_formats\codecs\oggvorbis\Ogg Vorbis Licence.txt"/>
     <None Include="..\..\..\..\..\JUCE\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt"/>
     <None Include="..\..\..\..\..\JUCE\modules\juce_graphics\image_formats\pnglib\libpng_readme.txt"/>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include=".\resources.rc"/>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
   <ImportGroup Label="ExtensionTargets"/>

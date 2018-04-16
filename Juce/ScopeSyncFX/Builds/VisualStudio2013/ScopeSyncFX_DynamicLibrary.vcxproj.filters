@@ -1579,6 +1579,9 @@
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.cpp">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.cpp">
+      <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.cpp">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClCompile>
@@ -3103,6 +3106,9 @@
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_ChoicePropertyComponent.h">
+      <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_MultiChoicePropertyComponent.h">
       <Filter>JUCE Modules\juce_gui_basics\properties</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_gui_basics\properties\juce_PropertyComponent.h">

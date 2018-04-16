@@ -3717,8 +3717,7 @@ static const unsigned char temp_binary_data_80[] =
 const char* system_lookandfeels = (const char*) temp_binary_data_80;
 
 
-const char* getNamedResource (const char*, int&) throw();
-const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw()
+const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) noexcept
 {
     unsigned int hash = 0;
     if (resourceNameUTF8 != 0)
@@ -3812,7 +3811,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     }
 
     numBytes = 0;
-    return 0;
+    return nullptr;
 }
 
 const char* namedResourceList[] =
@@ -3899,5 +3898,101 @@ const char* namedResourceList[] =
     "standardSliderLnFs_layout",
     "system_lookandfeels"
 };
+
+const char* originalFilenames[] =
+{
+    "erbos_draco_1st_nbp.ttf",
+    "erbos_draco_1st_open_nbp.ttf",
+    "Montserrat-Bold.ttf",
+    "Montserrat-Regular.ttf",
+    "Close_button_off.png",
+    "Close_button_on.png",
+    "Close_button_over.png",
+    "config_manager_button_off.png",
+    "config_manager_button_on.png",
+    "config_manager_button_over.png",
+    "confirm_button_off.png",
+    "confirm_button_on.png",
+    "confirm_button_over.png",
+    "Copy_button_off.png",
+    "Copy_button_on.png",
+    "Copy_button_over.png",
+    "divider.png",
+    "FXbypass_button_off.png",
+    "FXbypass_button_on.png",
+    "FXbypass_button_over.png",
+    "FXmono_button_off.png",
+    "FXmono_button_on.png",
+    "FXmono_button_over.png",
+    "help_button_off.png",
+    "help_button_on.png",
+    "help_button_over.png",
+    "load_config_button_off.png",
+    "load_config_button_on.png",
+    "load_config_button_over.png",
+    "NewConfig_button_off.png",
+    "NewConfig_button_on.png",
+    "NewConfig_button_over.png",
+    "Paste_button_off.png",
+    "Paste_button_on.png",
+    "Paste_button_over.png",
+    "Patch_Window_button_off.png",
+    "Patch_Window_button_on.png",
+    "Patch_Window_button_over.png",
+    "Perf_Mode_button_off.png",
+    "Perf_Mode_button_on.png",
+    "Perf_Mode_button_over.png",
+    "Presets_button_off.png",
+    "Presets_button_on.png",
+    "Presets_button_over.png",
+    "Redo_button_off.png",
+    "Redo_button_on.png",
+    "Redo_button_over.png",
+    "reload_button_off.png",
+    "reload_button_on.png",
+    "reload_button_over.png",
+    "remove_button_off.png",
+    "remove_button_on.png",
+    "remove_button_over.png",
+    "Save_button_off.png",
+    "Save_button_on.png",
+    "Save_button_over.png",
+    "SaveAs_button_off.png",
+    "SaveAs_button_on.png",
+    "SaveAs_button_over.png",
+    "ScopeSync_Logo.png",
+    "ScopeSync_Logo_off.png",
+    "ScopeSync_Logo_on.png",
+    "settings_button_off.png",
+    "settings_button_on.png",
+    "settings_button_over.png",
+    "Snapshot_button_off.png",
+    "Snapshot_button_on.png",
+    "Snapshot_button_over.png",
+    "toolbar_bevel.png",
+    "toolbar_button_off.png",
+    "toolbar_button_on.png",
+    "toolbar_button_over.png",
+    "Undo_button_off.png",
+    "Undo_button_on.png",
+    "Undo_button_over.png",
+    "empty.configuration",
+    "loader.layout",
+    "standardFooterContent.layout",
+    "standardHeaderContent.layout",
+    "standardSliderLnFs.layout",
+    "system.lookandfeels"
+};
+
+const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8) noexcept
+{
+    for (unsigned int i = 0; i < (sizeof (namedResourceList) / sizeof (namedResourceList[0])); ++i)
+    {
+        if (namedResourceList[i] == resourceNameUTF8)
+            return originalFilenames[i];
+    }
+
+    return nullptr;
+}
 
 }

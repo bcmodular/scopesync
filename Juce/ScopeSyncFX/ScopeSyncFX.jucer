@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.3"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="5.3.0" defines="" displaySplashScreen="0" reportAppUsage="0"
+              jucerVersion="5.3.1" defines="" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
@@ -397,4 +397,7 @@
     <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_WEB_BROWSER="0" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="0"/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>
