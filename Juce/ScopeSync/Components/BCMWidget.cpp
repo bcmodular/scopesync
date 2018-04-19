@@ -65,23 +65,27 @@ void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
 
 void BCMWidget::applyBounds() const
 {
-    if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
-    {
-        DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
-		RelativeRectangle(componentBounds.relativeRectangleString).applyToComponent(*parentWidget);
-        DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
-    }
-    else if (componentBounds.boundsType == BCMComponentBounds::inset)
-        parentWidget->setBoundsInset(componentBounds.borderSize);
-    else
-    {
-        parentWidget->setBounds(
-            componentBounds.x,
-            componentBounds.y,
-            componentBounds.width,
-            componentBounds.height
-        );
-    }
+	if (componentBounds.boundsType == BCMComponentBounds::relativeRectangle)
+	{
+		DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID());
+		RelativeRectangle rectBounds(componentBounds.relativeRectangleString);
+		rectBounds.applyToComponent(*parentWidget);
+		DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
+		DBG("BCMWidget::applyBounds - result: x=" + String(parentWidget->getX()) + ", y=" + String(parentWidget->getY()) + ", width=" + String(parentWidget->getWidth()) + ", height=" + String(parentWidget->getHeight()));
+	}
+	else if (componentBounds.boundsType == BCMComponentBounds::inset)
+		parentWidget->setBoundsInset(componentBounds.borderSize);
+	else if (componentBounds.boundsType == BCMComponentBounds::standard)
+	{
+		parentWidget->setBounds(
+			componentBounds.x,
+			componentBounds.y,
+			componentBounds.width,
+			componentBounds.height
+		);
+	}
+	else
+		parentWidget->setBoundsInset(BorderSize<int>(0));
 }
 
 void BCMWidget::applyLookAndFeel(bool noStyleOverride)

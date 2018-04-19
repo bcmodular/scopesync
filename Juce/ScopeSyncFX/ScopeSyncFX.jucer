@@ -385,6 +385,29 @@
         <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
+    <VS2017 targetFolder="Builds/VisualStudio2017" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
+            extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSync-Debug_1_0_3" headerPath="../../../../External/SonicCore"
+                       libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
+                       postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       winArchitecture="Win32"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSync_1_0_3" headerPath="../../../../External/SonicCore"
+                       libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
+                       winArchitecture="Win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2017>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>

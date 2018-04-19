@@ -1,0 +1,20 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2017
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScopeSyncFX - Dynamic Library", "ScopeSyncFX_DynamicLibrary.vcxproj", "{ECB8F1E3-59F1-9CB0-E9D0-4A1327A4D686}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECB8F1E3-59F1-9CB0-E9D0-4A1327A4D686}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECB8F1E3-59F1-9CB0-E9D0-4A1327A4D686}.Debug|Win32.Build.0 = Debug|Win32
+		{ECB8F1E3-59F1-9CB0-E9D0-4A1327A4D686}.Release|Win32.ActiveCfg = Release|Win32
+		{ECB8F1E3-59F1-9CB0-E9D0-4A1327A4D686}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

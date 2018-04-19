@@ -2,6 +2,12 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.scopesync.co.uk/ScopeSyncLayout"
         xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout">
 
+    <simpleType name="idString">
+        <restriction base="string">
+            <pattern value="[A-Za-z0-9]+" />
+        </restriction>
+    </simpleType>
+
     <complexType name="mappingparenttype">
         <attribute name="componenttype" type="tns:componenttypetype"/>
         <attribute name="componentname" type="string"/>
@@ -82,10 +88,11 @@
             <element name="standardcontent" type="tns:standardcomponentcontentype"/>
         </choice>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
                 <annotation>
                     <documentation>
-                        Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                        Used by the RelativeRectangle implementation, to allow components to reference each other.
+                        Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                     </documentation>
                 </annotation>
         </attribute>
@@ -295,10 +302,11 @@
             </element>
         </choice>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
             <annotation>
                 <documentation>
-                    Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    Used by the RelativeRectangle implementation, to allow components to reference each other.
+                    Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                 </documentation>
             </annotation>
         </attribute>
@@ -342,10 +350,11 @@
             </element>
         </all>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
             <annotation>
                 <documentation>
-                    Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    Used by the RelativeRectangle implementation, to allow components to reference each other.
+                    Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                 </documentation>
             </annotation>
         </attribute>
@@ -394,10 +403,11 @@
         </choice>
 
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
             <annotation>
                 <documentation>
-                    Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    Used by the RelativeRectangle implementation, to allow components to reference each other.
+                    Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                 </documentation>
             </annotation>
         </attribute>
@@ -472,10 +482,11 @@
             <element name="bounds" type="tns:boundstype"/>
         </choice>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
             <annotation>
                 <documentation>
-                    Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    Used by the RelativeRectangle implementation, to allow components to reference each other.
+                    Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                 </documentation>
             </annotation>
         </attribute>
@@ -508,10 +519,11 @@
             </element>
         </choice>
         <attribute name="name" type="string"/>
-        <attribute name="id" type="string">
+        <attribute name="id" type="tns:idString">
             <annotation>
                 <documentation>
-                    Used by the RelativeRectangle implementation, to allow components to reference each other. Defaults to value supplied as "name" if not supplied.
+                    Used by the RelativeRectangle implementation, to allow components to reference each other.
+                    Defaults to value supplied as "name" if not supplied. *Must only use alphanumeric characters*
                 </documentation>
             </annotation>
         </attribute>
@@ -601,7 +613,24 @@
         <attribute name="y" type="int"/>
         <attribute name="width" type="int"/>
         <attribute name="height" type="int"/>
-        <attribute name="relativerectangle" type="string"/>
+        <attribute name="relativerectangle" type="string">
+            <annotation>
+                <documentation>
+                    A way to specify size and location of a GUI element in relation to other elements. String format is:
+                    "left, top, right, bottom" Full details on how to specify a RelativeRectangle string can be found here:
+                    https://docs.juce.com/master/classRelativeCoordinate.html#details
+                </documentation>
+            </annotation>
+        </attribute>
+
+    </complexType>
+
+    <complexType name="graphicboundstype">
+        <attribute name="fillparent" type="boolean"/>
+        <attribute name="x" type="int"/>
+        <attribute name="y" type="int"/>
+        <attribute name="width" type="int"/>
+        <attribute name="height" type="int"/>
 
     </complexType>
 
@@ -614,7 +643,7 @@
 
     <complexType name="rectangletype">
         <sequence>
-            <element name="bounds" type="tns:boundstype"/>
+            <element name="bounds" type="tns:graphicboundstype"/>
         </sequence>
         <attribute name="cornersize">
             <simpleType>
@@ -639,7 +668,7 @@
 
     <complexType name="imagetype">
         <sequence>
-            <element name="bounds" type="tns:boundstype"/>
+            <element name="bounds" type="tns:graphicboundstype"/>
         </sequence>
 
         <attribute name="filename" type="tns:filenametype" use="required"/>

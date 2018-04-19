@@ -137,21 +137,21 @@ namespace PropertiesHelper
     {
         XmlElement* borderSizeXml = xml.getChildByName("bordersize");
         
-        if (xml.hasAttribute("relativerectangle"))
-        {
-            bounds.relativeRectangleString = xml.getStringAttribute("relativerectangle");
-            bounds.boundsType              = BCMComponentBounds::relativeRectangle;
-        }
-        else if (borderSizeXml != nullptr)
-        {
-            bounds.borderSize.setTop   (borderSizeXml->getIntAttribute("top",    bounds.borderSize.getTop()));
-            bounds.borderSize.setLeft  (borderSizeXml->getIntAttribute("left",   bounds.borderSize.getLeft()));
-            bounds.borderSize.setBottom(borderSizeXml->getIntAttribute("bottom", bounds.borderSize.getBottom()));
-            bounds.borderSize.setRight (borderSizeXml->getIntAttribute("right",  bounds.borderSize.getRight()));
+		if (xml.getStringAttribute("relativerectangle").isNotEmpty())
+		{
+			bounds.relativeRectangleString = xml.getStringAttribute("relativerectangle");
+			bounds.boundsType = BCMComponentBounds::relativeRectangle;
+		}
+		else if (borderSizeXml != nullptr)
+		{
+			bounds.borderSize.setTop(borderSizeXml->getIntAttribute("top", bounds.borderSize.getTop()));
+			bounds.borderSize.setLeft(borderSizeXml->getIntAttribute("left", bounds.borderSize.getLeft()));
+			bounds.borderSize.setBottom(borderSizeXml->getIntAttribute("bottom", bounds.borderSize.getBottom()));
+			bounds.borderSize.setRight(borderSizeXml->getIntAttribute("right", bounds.borderSize.getRight()));
 
-            bounds.boundsType = BCMComponentBounds::inset;
-        }
-        else
+			bounds.boundsType = BCMComponentBounds::inset;
+		}
+		else if (xml.hasAttribute("x") || xml.hasAttribute("y") || xml.hasAttribute("width") || xml.hasAttribute("height"))
         {
             bounds.x      = xml.getIntAttribute("x",      bounds.x);
             bounds.y      = xml.getIntAttribute("y",      bounds.y);
@@ -160,7 +160,9 @@ namespace PropertiesHelper
 
             bounds.boundsType = BCMComponentBounds::standard;
         }
-    }
+		else
+			bounds.boundsType = BCMComponentBounds::fillParent;
+	}
 
     inline void getMappingParentFromXml(XmlElement& xml, Identifier& componentType, String& componentName)
     {

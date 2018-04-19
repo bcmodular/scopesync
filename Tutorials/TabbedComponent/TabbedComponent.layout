@@ -6,8 +6,18 @@
             numfaders="15" numbuttons="6" numparameters="7" panelheight="340" panelwidth="624"
             blurb="Demonstration layout to show how to use a TabbedComponent"
             thumbnail="Sliders-thumb.png" excludefromchooser="false">
+        <lookandfeels>
+            <lookandfeel id="maintheme" parentid="system:default">
+                <colours>
+                    <slider backgroundcolourid="00000000" thumbcolourid="ffff0000" rotarysliderfillcolourid="ffff0000"
+                            textboxbackgroundcolourid="ffffffff" textboxtextcolourid="ff000000"/>
+                    <textbutton buttoncolourid="ffaaaaaa" buttononcolourid="ffff0000" textcolouroffid="ff000000"
+                                textcolouronid="ff000000"/>
+                </colours>
+            </lookandfeel>
+        </lookandfeels>
         <!--Main Component-->
-        <component backgroundcolour="ff212426" lfid="default">
+        <component backgroundcolour="ff212426" lfid="maintheme">
             <bounds x="0" y="0" width="624" height="340"/>
             <!--Header Section-->
             <standardcontent type="header"/>

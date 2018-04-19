@@ -61,10 +61,10 @@ public:
     const Identifier getComponentType() const override;
     
     // Returns width of the BCMComponent
-	int getWidth() const;
+//	int getWidth() const;
     
     // Returns height of the BCMComponent
-	int getHeight() const;
+//	int getHeight() const;
     
     // Called when the Juce graphics system redraws
     void paint(Graphics& g) override;
@@ -146,7 +146,7 @@ private:
     void setupTab(XmlElement& tabXML, TabbedComponent& tabbedComponent) const;
 
     // Draw a BCMRectangle on the canvas
-	static void drawBCMRectangle(Graphics& g, BCMRectangle& rectangle);
+	static void drawBCMRectangle(Graphics& g, BCMRectangle& rectangle, BCMComponent* parent);
     
     // Draw a BCMImage on the canvas
     void drawBCMImage(Graphics& g, BCMImage& image) const;

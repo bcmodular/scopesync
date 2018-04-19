@@ -243,13 +243,13 @@ namespace BinaryData
     const int            standardFooterContent_layoutSize = 836;
 
     extern const char*   standardHeaderContent_layout;
-    const int            standardHeaderContent_layoutSize = 4823;
+    const int            standardHeaderContent_layoutSize = 5375;
 
     extern const char*   standardSliderLnFs_layout;
     const int            standardSliderLnFs_layoutSize = 22039;
 
     extern const char*   system_lookandfeels;
-    const int            system_lookandfeelsSize = 6272;
+    const int            system_lookandfeelsSize = 7053;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 81;

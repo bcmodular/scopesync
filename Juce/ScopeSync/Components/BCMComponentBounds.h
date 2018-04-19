@@ -57,7 +57,7 @@ public:
     Justification::Flags justificationFlags;
     bool                 onlyReduceInSize;
 
-    enum BoundsType {standard, relativeRectangle, inset};
+    enum BoundsType {standard, relativeRectangle, inset, fillParent};
 
     BoundsType boundsType;
 

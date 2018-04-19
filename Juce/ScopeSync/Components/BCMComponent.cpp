@@ -378,15 +378,15 @@ void BCMComponent::setupStandardContent(XmlElement& contentXML)
 
 const Identifier BCMComponent::getComponentType() const { return Ids::component; }
 
-int BCMComponent::getWidth() const
-{
-	return componentBounds.width;
-};
-
-int BCMComponent::getHeight() const
-{
-	return componentBounds.height;
-}
+//int BCMComponent::getWidth() const
+//{
+//	return componentBounds.width;
+//};
+//
+//int BCMComponent::getHeight() const
+//{
+//	return componentBounds.height;
+//}
 
 void BCMComponent::paint(Graphics& g)
 {
@@ -404,7 +404,7 @@ void BCMComponent::paint(Graphics& g)
     
         if (rectangle)
         {
-            drawBCMRectangle(g, *rectangle);
+            drawBCMRectangle(g, *rectangle, this);
             continue;
         }
 
@@ -418,31 +418,35 @@ void BCMComponent::paint(Graphics& g)
     }
 }
 
-void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle)
+void BCMComponent::drawBCMRectangle(Graphics& g, BCMRectangle& rectangle, BCMComponent* parent)
 {
+	int x = (rectangle.bounds.boundsType == BCMComponentBounds::fillParent) ? 0 : rectangle.bounds.x;
+	int y = (rectangle.bounds.boundsType == BCMComponentBounds::fillParent) ? 0 : rectangle.bounds.y;
+	int width = (rectangle.bounds.boundsType == BCMComponentBounds::fillParent) ? parent->getWidth() : rectangle.bounds.width;
+	int height = (rectangle.bounds.boundsType == BCMComponentBounds::fillParent) ? parent->getHeight() : rectangle.bounds.height;
+
     if (rectangle.cornerSize >= 1.0f)
     {
         // We're drawing a rounded rectangle
         g.setColour(Colour::fromString(rectangle.fillColour));
-        g.fillRoundedRectangle(static_cast<float>(rectangle.bounds.x), static_cast<float>(rectangle.bounds.y), static_cast<float>(rectangle.bounds.width), static_cast<float>(rectangle.bounds.height), rectangle.cornerSize);
+		g.fillRoundedRectangle(float(x), float(y), float(width), float(height), rectangle.cornerSize);
 
         if (rectangle.outlineThickness > 0.0f)
         {
             g.setColour(Colour::fromString(rectangle.outlineColour));
-            g.drawRoundedRectangle(static_cast<float>(rectangle.bounds.x), static_cast<float>(rectangle.bounds.y), static_cast<float>(rectangle.bounds.width), static_cast<float>(rectangle.bounds.height), 
-                                    rectangle.cornerSize, rectangle.outlineThickness);
+            g.drawRoundedRectangle(float(x), float(y), float(width), float(height), rectangle.cornerSize, rectangle.outlineThickness);
         }
     }
     else
     {
         // We're drawing a regular rectangle
         g.setColour(Colour::fromString(rectangle.fillColour));
-        g.fillRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height);
+        g.fillRect(x, y, width, height);
 
         if (rectangle.outlineThickness > 0.0f)
         {
             g.setColour(Colour::fromString(rectangle.outlineColour));
-            g.drawRect(rectangle.bounds.x, rectangle.bounds.y, rectangle.bounds.width, rectangle.bounds.height, roundToInt(rectangle.outlineThickness));
+            g.drawRect(x, y, width, height, roundToInt(rectangle.outlineThickness));
         }
     }
 }
