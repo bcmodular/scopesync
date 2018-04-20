@@ -72,16 +72,51 @@
         </choice>
     </complexType>
 
+    <simpleType name="backgroundimageplacementtype">
+        <restriction base="string">
+            <enumeration value="xleft"/>
+            <enumeration value="xright"/>
+            <enumeration value="xmid"/>
+            <enumeration value="ytop"/>
+            <enumeration value="ybottom"/>
+            <enumeration value="ymid"/>
+            <enumeration value="stretchtofit"/>
+            <enumeration value="filldestination"/>
+            <enumeration value="onlyreduceinsize"/>
+            <enumeration value="onlyincreaseinsize"/>
+            <enumeration value="donotresize"/>
+            <enumeration value="centred"/>
+        </restriction>
+    </simpleType>
+
     <complexType name="componenttype">
+        <annotation>
+            <documentation>
+                Creates a container Component that can display a background image, or have a background colour. Can also
+                then act as a parent to any number of sub-elements. A special feature of the &lt;bounds&gt; tag for a
+                Component is that if width=0 and height=0, then it will use the size of any background image to size
+                itself.
+            </documentation>
+        </annotation>
         <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="backgroundimageplacement">
+                <annotation>
+                    <documentation>
+                        Use this element to specify how a background image should be positioned within the component.
+                        Makes use of the RectanglePlacement class in Juce: https://docs.juce.com/master/classRectanglePlacement.html#details
+                        Multiple flags can be set by separating with spaces, e.g. &lt;backgroundimageplacement&gt;ymid xtop&lt;/backgroundimageplacement&gt;
+                    </documentation>
+                </annotation>
+                <simpleType>
+                    <list itemType="tns:backgroundimageplacementtype"/>
+                </simpleType>
+            </element>
             <element name="bounds" type="tns:boundstype"/>
             <element name="component" type="tns:componenttype"/>
             <element name="slider" type="tns:slidertype"/>
             <element name="label" type="tns:labeltype"/>
             <element name="textbutton" type="tns:textbuttontype"/>
-            <element name="tabbedcomponent"
-                     type="tns:tabbedcomponenttype">
-            </element>
+            <element name="tabbedcomponent" type="tns:tabbedcomponenttype"/>
             <element name="combobox" type="tns:comboboxtype"/>
             <element name="rectangle" type="tns:rectangletype"/>
             <element name="image" type="tns:imagetype"/>
@@ -98,9 +133,6 @@
         </attribute>
         <attribute name="backgroundcolour" type="tns:colouridtype"/>
         <attribute name="backgroundimage" type="string"/>
-        <attribute name="backgroundimageplacement"
-                   type="tns:rectangleplacementtype">
-        </attribute>
         <attribute name="lfid" type="string"/>
         <attribute name="wtid" type="string"/>
         <attribute name="displaycontext"
@@ -271,23 +303,6 @@
         <attribute name="highlightedbackgroundcolourid" type="tns:colouridtype"/>
         <attribute name="highlightedtextcolourid" type="tns:colouridtype"/>
     </complexType>
-
-    <simpleType name="rectangleplacementtype">
-        <restriction base="string">
-            <enumeration value="xleft"/>
-            <enumeration value="xright"/>
-            <enumeration value="xmid"/>
-            <enumeration value="ytop"/>
-            <enumeration value="ybottom"/>
-            <enumeration value="ymid"/>
-            <enumeration value="stretchtofit"/>
-            <enumeration value="filldestination"/>
-            <enumeration value="onlyreduceinsize"/>
-            <enumeration value="onlyincreaseinsize"/>
-            <enumeration value="donotresize"/>
-            <enumeration value="centred"/>
-        </restriction>
-    </simpleType>
 
     <complexType name="tabbedcomponenttype">
         <choice minOccurs="0" maxOccurs="unbounded">

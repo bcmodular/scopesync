@@ -77,11 +77,10 @@ protected:
 	ApplicationCommandTarget* getNextCommandTarget() override;
 
 	void changeListenerCallback (ChangeBroadcaster* source) override;
+	void applyBounds() const;
 
 private:
 	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
-
-	void applyBounds() const;
     
 };
 

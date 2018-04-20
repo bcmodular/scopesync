@@ -300,6 +300,8 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     if (props.backgroundImageFileName.isNotEmpty())
     {
+		backgroundImagePlacement = props.backgroundImagePlacement;
+
         backgroundImage = imageLoader->loadImage(props.backgroundImageFileName, layoutDirectory);
         
         if (componentBounds.width == 0 || componentBounds.height == 0)
@@ -308,6 +310,7 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
             {
                 componentBounds.width  = backgroundImage.getWidth();
                 componentBounds.height = backgroundImage.getHeight();
+				applyBounds();
             }
         }
     }

@@ -67,21 +67,36 @@ void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
 {
     backgroundColour         = componentXML.getStringAttribute("backgroundcolour", backgroundColour);
     backgroundImageFileName  = componentXML.getStringAttribute("backgroundimage", backgroundImageFileName);
-    getRectanglePlacementFromString(componentXML.getStringAttribute("backgroundimageplacement"), backgroundImagePlacement);
+
+
+	String placementString;
+
+	XmlElement* placementXml = componentXML.getChildByName("backgroundimageplacement");
+	
+	if (placementXml != nullptr)
+		placementString = placementXml->getAllSubText();
+	
+	getRectanglePlacementFromString(placementString);
 }
 
-void ComponentProperties::getRectanglePlacementFromString(String string, RectanglePlacement& placement)
+void ComponentProperties::getRectanglePlacementFromString(String string)
 {
-         if (string == "xleft")              placement = RectanglePlacement::xLeft;
-    else if (string == "xright")             placement = RectanglePlacement::xRight;
-    else if (string == "xmid")               placement = RectanglePlacement::xMid;
-    else if (string == "ytop")               placement = RectanglePlacement::yTop;
-    else if (string == "ybottom")            placement = RectanglePlacement::yBottom;
-    else if (string == "ymid")               placement = RectanglePlacement::yMid;
-    else if (string == "stretchtofit")       placement = RectanglePlacement::stretchToFit;
-    else if (string == "filldestination")    placement = RectanglePlacement::fillDestination;
-    else if (string == "onlyreduceinsize")   placement = RectanglePlacement::onlyReduceInSize;
-    else if (string == "onlyincreaseinsize") placement = RectanglePlacement::onlyIncreaseInSize;
-    else if (string == "donotresize")        placement = RectanglePlacement::doNotResize;
-    else if (string == "centred")            placement = RectanglePlacement::centred;
+	if (string.isEmpty())
+	{
+		backgroundImagePlacement = 0;
+		return;
+	}
+
+	backgroundImagePlacement = (string.containsIgnoreCase("filldestination") ? RectanglePlacement::fillDestination : 0)
+		| (string.containsIgnoreCase("xleft") ? RectanglePlacement::xLeft
+			: (string.containsIgnoreCase("xright") ? RectanglePlacement::xRight
+				: (string.containsIgnoreCase("xmid") ? RectanglePlacement::xMid : 0)))
+		| (string.containsIgnoreCase("ytop") ? RectanglePlacement::yTop
+			: (string.containsIgnoreCase("ybottom") ? RectanglePlacement::yBottom
+				: (string.containsIgnoreCase("ymid") ? RectanglePlacement::yMid : 0)))
+		| (string.containsIgnoreCase("stretchtofit") ? RectanglePlacement::stretchToFit : 0)
+		| (string.containsIgnoreCase("filldestination") ? RectanglePlacement::fillDestination : 0)
+		| (string.containsIgnoreCase("onlyreduceinsize") ? RectanglePlacement::onlyReduceInSize : 0)
+		| (string.containsIgnoreCase("donotresize") ? RectanglePlacement::doNotResize : 0)
+		| (string.containsIgnoreCase("centred") ? RectanglePlacement::centred : 0);
 }
