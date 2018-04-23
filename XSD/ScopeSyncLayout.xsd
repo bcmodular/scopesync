@@ -139,6 +139,7 @@
                    type="tns:displaycontexttype">
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
 
     </complexType>
 
@@ -332,6 +333,7 @@
                    type="tns:displaycontexttype">
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
     </complexType>
 
     <complexType name="tabbartype">
@@ -384,6 +386,7 @@
                    type="tns:parametertextdisplaytype">
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
         <attribute name="maxtextlines" type="int"/>
     </complexType>
 
@@ -439,6 +442,7 @@
                    type="tns:incdecbuttonmodetype">
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
     </complexType>
 
     <simpleType name="sliderstyletype">
@@ -516,6 +520,7 @@
         <attribute name="url" type="string"/>
 
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
     </complexType>
 
     <complexType name="comboboxtype">
@@ -552,6 +557,7 @@
                    type="tns:displaycontexttype">
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
+        <attribute name="debugwidgetposition" type="boolean"/>
     </complexType>
 
     <complexType name="lookandfeelfontstype">

@@ -52,6 +52,8 @@ void BCMWidget::setParentWidget(Component* parent)
 
 void BCMWidget::applyWidgetProperties(WidgetProperties& properties)
 {
+	debugWidgetPosition = properties.debugWidgetPosition;
+
     parentWidget->setComponentID(properties.id);
 
     properties.bounds.copyValues(componentBounds);
@@ -72,6 +74,18 @@ void BCMWidget::applyBounds() const
 		rectBounds.applyToComponent(*parentWidget);
 		DBG("BCMWidget::applyBounds - component: " + parentWidget->getComponentID() + ", set relativeRectangle bounds: " + componentBounds.relativeRectangleString);
 		DBG("BCMWidget::applyBounds - result: x=" + String(parentWidget->getX()) + ", y=" + String(parentWidget->getY()) + ", width=" + String(parentWidget->getWidth()) + ", height=" + String(parentWidget->getHeight()));
+		
+		if (debugWidgetPosition)
+		{
+			String position("Component: " + parentWidget->getComponentID());
+			position << newLine;
+			position << "x=" + String(parentWidget->getX()) + ", y=" + String(parentWidget->getY()) + ", width=" + String(parentWidget->getWidth()) + ", height=" + String(parentWidget->getHeight());
+
+			AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon,
+				"Debug Component Position",
+				position,
+				String::empty);
+		}
 	}
 	else if (componentBounds.boundsType == BCMComponentBounds::inset)
 		parentWidget->setBoundsInset(componentBounds.borderSize);

@@ -61,21 +61,23 @@ void WidgetProperties::initialiseWidget()
     mappingParentType    = Identifier();
     mappingParent        = String::empty;
     noStyleOverride      = false;
+	debugWidgetPosition  = false;
 };
 
 void WidgetProperties::copyWidgetProperties(const WidgetProperties& parentWidgetProperties)
 {
-    name              = parentWidgetProperties.name;
-    id                = parentWidgetProperties.id;
-    bounds.x          = parentWidgetProperties.bounds.x;
-    bounds.y          = parentWidgetProperties.bounds.y;
-    bounds.width      = parentWidgetProperties.bounds.width;
-    bounds.height     = parentWidgetProperties.bounds.height;
-    bcmLookAndFeelId  = parentWidgetProperties.bcmLookAndFeelId;
-    widgetTemplateId  = parentWidgetProperties.widgetTemplateId;
-    mappingParentType = parentWidgetProperties.mappingParentType;
-    mappingParent     = parentWidgetProperties.mappingParent;
-    noStyleOverride   = parentWidgetProperties.noStyleOverride;
+    name                = parentWidgetProperties.name;
+    id                  = parentWidgetProperties.id;
+    bounds.x            = parentWidgetProperties.bounds.x;
+    bounds.y            = parentWidgetProperties.bounds.y;
+    bounds.width        = parentWidgetProperties.bounds.width;
+    bounds.height       = parentWidgetProperties.bounds.height;
+    bcmLookAndFeelId    = parentWidgetProperties.bcmLookAndFeelId;
+    widgetTemplateId    = parentWidgetProperties.widgetTemplateId;
+    mappingParentType   = parentWidgetProperties.mappingParentType;
+    mappingParent       = parentWidgetProperties.mappingParent;
+    noStyleOverride     = parentWidgetProperties.noStyleOverride;
+	debugWidgetPosition = parentWidgetProperties.debugWidgetPosition;
 };
 
 void WidgetProperties::setWidgetValuesFromXML(const XmlElement& widgetXML)
@@ -92,6 +94,7 @@ void WidgetProperties::setWidgetValuesFromXML(const XmlElement& widgetXML)
         getMappingParentFromXml(*mappingParentXml, mappingParentType, mappingParent);
 
     noStyleOverride  = widgetXML.getBoolAttribute("nostyleoverride", noStyleOverride);
+	debugWidgetPosition = widgetXML.getBoolAttribute("debugwidgetposition", debugWidgetPosition);
     bcmLookAndFeelId = widgetXML.getStringAttribute("lfid", bcmLookAndFeelId);
     widgetTemplateId = widgetXML.getStringAttribute("wtid", widgetTemplateId);
 };

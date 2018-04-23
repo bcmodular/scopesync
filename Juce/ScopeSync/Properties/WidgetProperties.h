@@ -53,6 +53,7 @@ public:
     Identifier         mappingParentType;
     String             mappingParent;  
     bool               noStyleOverride;
+	bool               debugWidgetPosition;
 
 private:
     void initialiseWidget();

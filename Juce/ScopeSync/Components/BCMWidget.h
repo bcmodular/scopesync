@@ -81,6 +81,8 @@ protected:
 
 private:
 	SharedResourcePointer<StyleOverrideClipboard> styleOverrideClipboard;
+	
+	bool debugWidgetPosition;
     
 };
 
