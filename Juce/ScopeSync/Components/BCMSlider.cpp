@@ -54,6 +54,8 @@ void BCMSlider::applyProperties(SliderProperties& props)
     fontStyleFlags = props.fontStyleFlags;
     justificationFlags = props.justificationFlags;
 
+    inverted = props.inverted;
+    
     applyWidgetProperties(props);
 
     if (props.style == Slider::IncDecButtons)
@@ -209,7 +211,13 @@ double BCMSlider::valueToProportionOfLength(double value)
     const double n = (value - getMinimum()) / (getMaximum() - getMinimum());
     const double skew = getSkewFactor();
 
-    return (skew == 1.0 || n < FLT_EPSILON) ? n : pow (n, skew);
+    double proportion = (skew == 1.0 || n < FLT_EPSILON) ? n : pow (n, skew);
+    return inverted ? 1.0f - proportion : proportion;
+}
+
+double BCMSlider::proportionOfLengthToValue(double proportion)
+{
+    return inverted ? Slider::proportionOfLengthToValue(1.0f - proportion) : Slider::proportionOfLengthToValue(proportion);
 }
 
 void BCMSlider::overrideSliderStyle(Slider::SliderStyle& style)

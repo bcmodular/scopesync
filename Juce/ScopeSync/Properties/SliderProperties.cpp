@@ -69,6 +69,7 @@ void SliderProperties::initialise()
     popupEnabled       = (scopeSyncGUI.settings.popupEnabled      == BCMSlider::popupEnabled);
     velocityBasedMode  = (scopeSyncGUI.settings.velocityBasedMode == BCMSlider::velocityBasedModeOn);
     encoderSnap        = (scopeSyncGUI.settings.encoderSnap       == BCMSlider::snap);
+    inverted           = false;
 }
 
 void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
@@ -88,6 +89,7 @@ void SliderProperties::copyProperties(SliderProperties& parentSliderProperties)
     popupEnabled       = parentSliderProperties.popupEnabled;
     velocityBasedMode  = parentSliderProperties.velocityBasedMode;
     encoderSnap        = parentSliderProperties.encoderSnap;
+    inverted           = parentSliderProperties.inverted;
 }
 
 void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
@@ -95,6 +97,7 @@ void SliderProperties::setValuesFromXML(XmlElement& sliderXML)
     popupEnabled      = sliderXML.getBoolAttribute  ("popupenabled",      popupEnabled);
     velocityBasedMode = sliderXML.getBoolAttribute  ("velocitybasedmode", velocityBasedMode);
     encoderSnap       = sliderXML.getBoolAttribute  ("encodersnap",       encoderSnap);
+    inverted          = sliderXML.getBoolAttribute  ("inverted",          inverted);
     
     getSliderStyleFromXml(sliderXML.getStringAttribute("style"), style);
     getIncDecButtonModeFromXml(sliderXML.getStringAttribute("incdecbuttonsmode"), incDecButtonMode);

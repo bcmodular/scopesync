@@ -62,6 +62,7 @@ public:
     bool        popupEnabled;
     bool        velocityBasedMode;
     bool        encoderSnap;
+    bool        inverted;
 
 private:
     ScopeSyncGUI& scopeSyncGUI;

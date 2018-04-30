@@ -97,6 +97,7 @@ protected:
 private:
     
     StringArray settingsNames; // Names of discrete settings for the parameter mapped to
+    bool inverted;
 
     SharedResourcePointer<UserSettings> userSettings;
 
@@ -109,6 +110,7 @@ private:
 
     void mouseDown(const MouseEvent& event) override;
     double valueToProportionOfLength(double value) override;
+    double proportionOfLengthToValue(double proportion) override;
 
     // Interprets input typed into a Slider's Textbox and converts it into a value.
     // Includes support for discrete parameter settings

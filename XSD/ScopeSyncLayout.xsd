@@ -432,6 +432,7 @@
         <attribute name="popupenabled" type="boolean"/>
         <attribute name="velocitybasedmode" type="boolean"/>
         <attribute name="encodersnap" type="boolean"/>
+        <attribute name="inverted" type="boolean"/>
         <attribute name="style" type="tns:sliderstyletype"/>
         <attribute name="lfid" type="string"/>
         <attribute name="wtid" type="string"/>
