@@ -7,6 +7,7 @@
         <appliesto componenttype="none" />
         <colours>
           <label textcolourid="ff000000" />
+          <slider textboxtextcolourid="ff000000" textboxbackgroundcolourid="ffffffff" backgroundcolourid="ffffffff" />
         </colours>
       </lookandfeel>
       <!--These define styles for specific knob types (starting with bipolar100knob), which can then be referenced by-->
@@ -245,6 +246,13 @@
         <justification horizontallycentred="true" />
         <font height="10" />
       </label>
+      <slider style="linearbar" velocitybasedmode="true" lfid="maintheme" wtid="cvbar">
+        <bounds x="0" y="0" />
+        <textbox readonly="false">
+          <font bold="true" height="10"/>
+          <justification left="true"/>
+        </textbox>
+      </slider>
     </widgettemplates>
     <!--Main Component-->
     <component backgroundimage="gfx/thumbnail_CMS3tr.png" backgroundcolour="ffffffff" lfid="maintheme">
@@ -880,6 +888,12 @@
           <slider name="ConstValA" id="ConstValASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
             <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
             <textbox position="none" />
+          </slider>
+          <slider name="ConstValABipolarBar" id="ConstValABipolarBar" wtid="cvbar">
+            <bounds relativerectangle="ConstValASlider.right, 12, ConstValBSlider.left, top + 15" />
+          </slider>
+          <slider name="ConstValAFreqBar" id="ConstValAFreqBar" wtid="cvbar">
+            <bounds relativerectangle="ConstValASlider.right, ConstValABipolarBar.bottom + 2, ConstValBSlider.left, top + 15" />
           </slider>
           <label name="ConstValA" id="ConstValALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
             <bounds relativerectangle="ConstValASlider.left, ConstValASlider.bottom + 2, ConstValASlider.right, top + 8" />

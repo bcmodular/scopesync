@@ -324,6 +324,12 @@
     <parameter name="ConstValA" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="ConstValA" fullDescription="ConstValA"/>
+    <parameter name="ConstValABar1" shortDescription="ConstValABar1" fullDescription="ConstValABar1" scopeParamGroup="1" scopeParamId="3"
+               scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="0"/>
+    <parameter name="ConstValABar2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="12000" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000" uiRangeInterval="0.01" uiSuffix=" Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="12000" scopeParamGroup="1" scopeParamId="3" shortDescription="ConstValABar2" fullDescription="ConstValABar2"/>
     <parameter name="ConstValB" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="ConstValB" fullDescription="ConstValB"/>
@@ -693,6 +699,8 @@
       <slider name="VU2" mapTo="VU2"/>
       <slider name="MatrixSlider1" mapTo="MatrixOSC1FDest"/>
       <slider name="MatrixSlider2" mapTo="MatrixOSC1Mod"/>
+      <slider name="ConstValABipolarBar" mapTo="ConstValABar1"/>
+      <slider name="ConstValAFreqBar" mapTo="ConstValABar2"/>
     </sliders>
     <labels/>
     <comboBoxes/>
