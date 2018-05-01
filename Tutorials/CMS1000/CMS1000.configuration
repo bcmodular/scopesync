@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration name="CMS1000_X" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000_X" layoutLibrarySet="CWM"
-               UID="-866259090" ID="UhbHEc">
+               UID="-1415587545" ID="UhbHEc">
   <parameters>
     <parameter name="OSC1 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"

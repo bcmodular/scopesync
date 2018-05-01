@@ -991,56 +991,56 @@
             <bounds relativerectangle="0, 15, left + 40, top + 40" />
           </textbutton>
           <label name="SeqGt1Label" id="SeqGt1Label" text="SeqGt1" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt1.left + 5, SeqGt1.bottom - 2, SeqGt1.right - 20, top + 8 " />
+            <bounds relativerectangle="SeqGt1.left, SeqGt1.bottom - 2, SeqGt1.right, top + 8 " />
             <mappingparent componentname="SeqGt1" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt2" name="SeqGt2" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt1.right - 4, SeqGt1.top, left + SeqGt1.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt2" id="SeqGt2Label" text="SeqGt2" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt2.left + 5, SeqGt2.bottom - 2, SeqGt2.right - 20, top + 8 " />
+            <bounds relativerectangle="SeqGt2.left, SeqGt2.bottom - 2, SeqGt2.right, top + 8 " />
             <mappingparent componentname="SeqGt2" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt3" name="SeqGt3" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt2.right - 4, SeqGt2.top, left + SeqGt2.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt3" id="SeqGt3Label" text="SeqGt3" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt3.left + 5, SeqGt3.bottom - 2, SeqGt3.right - 20, top + 8 " />
+            <bounds relativerectangle="SeqGt3.left, SeqGt3.bottom - 2, SeqGt3.right, top + 8 " />
             <mappingparent componentname="SeqGt3" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt4" name="SeqGt4" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt3.right - 4, SeqGt3.top, left + SeqGt3.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt4" id="SeqGt4Label" text="SeqGt4" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt4.left + 5, SeqGt4.bottom - 2, SeqGt4.right - 20, top + 8 " />
+            <bounds relativerectangle="SeqGt4.left, SeqGt4.bottom - 2, SeqGt4.right, top + 8 " />
             <mappingparent componentname="SeqGt4" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt5" name="SeqGt5" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt4.right - 4, SeqGt4.top, left + SeqGt4.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt5" id="SeqGt5Label" text="SeqGt5" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt5.left + 5, SeqGt5.bottom - 2, SeqGt5.right - 20, top + 8 " />
+            <bounds relativerectangle="SeqGt5.left, SeqGt5.bottom - 2, SeqGt5.right, top + 8 " />
             <mappingparent componentname="SeqGt5" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt6" name="SeqGt6" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt5.right - 4, SeqGt5.top, left + SeqGt5.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt6" id="SeqGt6Label" text="SeqGt6" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt6.left + 5, SeqGt6.bottom - 2, SeqGt6.right - 20, top + 8" />
+            <bounds relativerectangle="SeqGt6.left, SeqGt6.bottom - 2, SeqGt6.right, top + 8" />
             <mappingparent componentname="SeqGt6" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt7" name="SeqGt7" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt6.right - 4, SeqGt6.top, left + SeqGt6.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt7" id="SeqGt7Label" text="SeqGt7" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt7.left + 5, SeqGt7.bottom - 2, SeqGt7.right - 20, top + 8" />
+            <bounds relativerectangle="SeqGt7.left, SeqGt7.bottom - 2, SeqGt7.right, top + 8" />
             <mappingparent componentname="SeqGt7" componenttype="textbutton" />
           </label>
           <textbutton id="SeqGt8" name="SeqGt8" lfid="RetrigButton" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt7.right - 4, SeqGt7.top, left + SeqGt7.width, top + SeqGt1.height" />
           </textbutton>
           <label name="SeqGt8" id="SeqGt8Label" text="SeqGt8" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="SeqGt8.left + 5, SeqGt8.bottom - 2, SeqGt8.right - 20, top + 8" />
+            <bounds relativerectangle="SeqGt8.left, SeqGt8.bottom - 2, SeqGt8.right, top + 8" />
             <mappingparent componentname="SeqGt8" componenttype="textbutton" />
           </label>
         </component>
