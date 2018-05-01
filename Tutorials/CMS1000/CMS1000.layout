@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-  <layout name="CMS1000_X" libraryset="CWM" author="Roy Thinnes" panelheight="684" panelwidth="1280" blurb="Layout for CMS1000" thumbnail="gfx/thumbnail_CMS3.png" excludefromchooser="false">
+  <layout name="CMS1000" libraryset="CWM" author="Roy Thinnes" panelheight="684" panelwidth="1280" blurb="Layout for CMS1000" thumbnail="gfx/thumbnail_CMS3.png" excludefromchooser="false">
     <lookandfeels>
       <lookandfeel id="maintheme" parentid="system:default">
         <!--This is just to exclude the lookandfeel from Style Override options, so probably not relevant eventually-->
@@ -221,6 +221,19 @@
             </rotary>
           </slider>
         </images>
+      </lookandfeel>
+      <lookandfeel id="matrixfader" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <linearvertical thumbfilename="gfx/Slider-Thumb.png" thumbmouseoverfilename="gfx/Slider-Thumb.png" thumbborder="0">
+              <!--  <backgroundimage filename="gfx/slider-background.png" numframes="1"/>-->
+            </linearvertical>
+          </slider>
+        </images>
+        <colours>
+          <slider trackcolourid="00000000" backgroundcolourid="00000000"/>
+        </colours>
       </lookandfeel>
     </lookandfeels>
     <widgettemplates>
@@ -1445,6 +1458,18 @@
             <mappingparent componentname="VU2" componenttype="slider" />
           </label>
         </component>
+      </component>
+      <!--Fader Matrix-->
+      <component backgroundimage="gfx/CMSMatrix624x408.png" name="Matrix" id="matrix">
+        <bounds x="313" y="176" height="408" width="624"/>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider1" name="MatrixSlider1" lfid="matrixfader">
+          <textbox position="none"/>
+          <bounds relativerectangle="0, 0, left + parent.width/52, parent.height"/>
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider2" name="MatrixSlider2" lfid="matrixfader">
+          <textbox position="none"/>
+          <bounds relativerectangle="MatrixSlider1.right, 0, left + parent.width/52, parent.height"/>
+        </slider>
       </component>
       <standardcontent type="footer" />
     </component>

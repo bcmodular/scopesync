@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="CMS1000_X" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000_X" layoutLibrarySet="CWM"
-               UID="-1415587545" ID="UhbHEc">
+<configuration name="CMS1000" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000" layoutLibrarySet="CWM"
+               UID="-1968465504" ID="UhbHEc">
   <parameters>
     <parameter name="OSC1 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
@@ -476,6 +476,88 @@
     <parameter name="VU2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="VU2" fullDescription="VU2"/>
+    <parameter name="MatrixOSC1FDest" shortDescription="OSC1F" fullDescription="Matrix OSC1F Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixOSC1Mod" shortDescription="OSC1Mod" fullDescription="Matrix OSC1 Mod Destination" scopeParamGroup="5" scopeParamId="2"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
   </parameters>
   <mapping>
     <textButtons>
@@ -609,6 +691,8 @@
       <slider name="PitchSeq8" mapTo="PitchSeq8"/>
       <slider name="VU1" mapTo="VU1"/>
       <slider name="VU2" mapTo="VU2"/>
+      <slider name="MatrixSlider1" mapTo="MatrixOSC1FDest"/>
+      <slider name="MatrixSlider2" mapTo="MatrixOSC1Mod"/>
     </sliders>
     <labels/>
     <comboBoxes/>
