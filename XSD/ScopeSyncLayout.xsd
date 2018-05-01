@@ -140,6 +140,19 @@
         </attribute>
         <attribute name="nostyleoverride" type="boolean"/>
         <attribute name="debugwidgetposition" type="boolean"/>
+        <attribute name="showcrosshair" type="boolean">
+            <annotation>
+                <documentation>
+                    Show a crosshair on the component that has its crossover point where the mouse is pointing. Only
+                    displays if the mouse is inside the component. The horizontal and vertical lines may have different
+                    colours and thicknesses.
+                </documentation>
+            </annotation>
+        </attribute>
+        <attribute name="horizontalcrosshairthickness" type="int"/>
+        <attribute name="verticalcrosshairthickness" type="int"/>
+        <attribute name="horizontalcrosshaircolour" type="tns:colouridtype"/>
+        <attribute name="verticalcrosshaircolour" type="tns:colouridtype"/>
 
     </complexType>
 

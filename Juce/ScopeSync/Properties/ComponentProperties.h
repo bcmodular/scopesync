@@ -47,6 +47,11 @@ public:
     String             backgroundColour;
     String             backgroundImageFileName;
     RectanglePlacement backgroundImagePlacement;
+    bool               showCrossHair;
+    int                horizontalCrossHairThickness;
+    int                verticalCrossHairThickness;
+    String             horizontalCrossHairColour;
+    String             verticalCrossHairColour;
     
 private:
     void initialise();

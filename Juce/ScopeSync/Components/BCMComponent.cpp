@@ -253,7 +253,7 @@ private:
 };
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool isMainComponent)
-    : BCMWidget(owner), Component(name), parameterController(pc), mainComponent(isMainComponent)
+    : BCMWidget(owner), Component(name), drawCrossHair(false), parameterController(pc), mainComponent(isMainComponent)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
@@ -313,6 +313,12 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
 				applyBounds();
             }
         }
+    }
+    
+    if (props.showCrossHair)
+    {
+        // Grab settings for CrossHair here
+        drawCrossHair = true;
     }
 
     // Then loop through child component elements
@@ -418,6 +424,15 @@ void BCMComponent::paint(Graphics& g)
             drawBCMImage(g, *image);
             continue;
         }
+    }
+    
+    // Draw cross-hair if needed
+    if (drawCrossHair)
+    {
+        int mousePosY = 100;
+        Rectangle<int> horizontalLine(0, mousePosY, this->getWidth(), 10);
+        g.setColour(Colour::fromString("ff00ff00"));
+        g.fillRect(horizontalLine);
     }
 }
 

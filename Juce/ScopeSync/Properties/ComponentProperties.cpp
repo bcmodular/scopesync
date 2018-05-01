@@ -51,9 +51,14 @@ ComponentProperties::~ComponentProperties() {}
 void ComponentProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    backgroundColour         = "00000000";
-    backgroundImageFileName  = String::empty;
-    backgroundImagePlacement = RectanglePlacement::doNotResize;
+    backgroundColour             = "00000000";
+    backgroundImageFileName      = String::empty;
+    backgroundImagePlacement     = RectanglePlacement::doNotResize;
+    showCrossHair                = false;
+    horizontalCrossHairThickness = 10;
+    verticalCrossHairThickness   = 10;
+    horizontalCrossHairColour    = "00000000";
+    verticalCrossHairColour      = "00000000";
 }
 
 void ComponentProperties::copyProperties(ComponentProperties& parentComponentProperties)
@@ -61,6 +66,11 @@ void ComponentProperties::copyProperties(ComponentProperties& parentComponentPro
     backgroundColour         = parentComponentProperties.backgroundColour;
     backgroundImageFileName  = parentComponentProperties.backgroundImageFileName;
     backgroundImagePlacement = parentComponentProperties.backgroundImagePlacement;
+    showCrossHair                = parentComponentProperties.showCrossHair;
+    horizontalCrossHairThickness = parentComponentProperties.horizontalCrossHairThickness;
+    verticalCrossHairThickness   = parentComponentProperties.verticalCrossHairThickness;
+    horizontalCrossHairColour    = parentComponentProperties.horizontalCrossHairColour;
+    verticalCrossHairColour      = parentComponentProperties.verticalCrossHairColour;
 }
 
 void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
@@ -77,6 +87,12 @@ void ComponentProperties::setValuesFromXML(XmlElement& componentXML)
 		placementString = placementXml->getAllSubText();
 	
 	getRectanglePlacementFromString(placementString);
+    
+    showCrossHair                = componentXML.getBoolAttribute("showcrosshair", showCrossHair);
+    horizontalCrossHairThickness = componentXML.getIntAttribute("horizontalcrosshairthickness", horizontalCrossHairThickness);
+    verticalCrossHairThickness   = componentXML.getIntAttribute("verticalcrosshairthickness", verticalCrossHairThickness);
+    horizontalCrossHairColour    = componentXML.getStringAttribute("horizontalcrosshaircolour", horizontalCrossHairColour);
+    verticalCrossHairColour      = componentXML.getStringAttribute("verticalcrosshaircolour", verticalCrossHairColour);
 }
 
 void ComponentProperties::getRectanglePlacementFromString(String string)

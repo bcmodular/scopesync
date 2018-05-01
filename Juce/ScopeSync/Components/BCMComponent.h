@@ -104,7 +104,8 @@ private:
     String                         backgroundColour;          // Background colour
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
-
+    bool                           drawCrossHair;             // Do we need to draw a cross-hair?
+    
     BCMParameterController& parameterController;
 	SharedResourcePointer<ImageLoader> imageLoader;
 
