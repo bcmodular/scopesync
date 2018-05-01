@@ -1,0 +1,1445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
+  <layout name="CMS1000_X" libraryset="CWM" author="Roy Thinnes" panelheight="684" panelwidth="1280" blurb="Layout for CMS1000" thumbnail="gfx/thumbnail_CMS3.png" excludefromchooser="false">
+    <lookandfeels>
+      <lookandfeel id="maintheme" parentid="system:default">
+        <!--This is just to exclude the lookandfeel from Style Override options, so probably not relevant eventually-->
+        <appliesto componenttype="none" />
+        <colours>
+          <label textcolourid="ff000000" />
+        </colours>
+      </lookandfeel>
+      <!--These define styles for specific knob types (starting with bipolar100knob), which can then be referenced by-->
+      <!-- specific Slider elements in the main body -->
+      <lookandfeel id="bipolar100knob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_-+100+.png" numframes="201" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="wavechoiceknob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_OscWaves+.png" numframes="4" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="bipolar48knob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_-+48+.png" numframes="97" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="white2darkknob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_White2Darkfade+.png" numframes="99" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="radiolight" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <textbutton downfilename="gfx/button-on.png" upfilename="gfx/button-off.png" mouseoverdownfilename="gfx/button-on.png" mouseoverupfilename="gfx/button-off.png" />
+        </images>
+      </lookandfeel>
+      <lookandfeel id="LfoDividerKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40LfoDivider.png" numframes="21" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="RetrigButton" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="00000000" textcolouronid="00000000" />
+        </colours>
+        <images>
+          <textbutton downfilename="gfx/ToggleSw1.png" upfilename="gfx/ToggleSw0.png" mouseoverdownfilename="gfx/ToggleSw1.png" mouseoverupfilename="gfx/ToggleSw0.png" />
+        </images>
+      </lookandfeel>
+      <lookandfeel id="LfoWaveKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/LfoWaveKnob.png" numframes="6" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="WhiteKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMSwhite.png" numframes="99" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="BPMKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMTempo.png" numframes="121" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="PhaseKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMPhase.png" numframes="361" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="0-127Knob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_0-127x4.png" numframes="128" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="portaKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_portaTypes.png" numframes="5" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="SeqDivKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_SeqDiv.png" numframes="3" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="Seq1-8" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/40x40CMS_1-8.png" numframes="8" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="bipolar24knob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/30x30CMS_-+24Knob.png" numframes="49" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="MetalKnob" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/30x30CMS_MetalKnob.png" numframes="99" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+      <lookandfeel id="VUMeter" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/VUmeter.png" numframes="99" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
+    </lookandfeels>
+    <widgettemplates>
+      <!-- We set up a WidgetTemplate for our labels here, in case we want to change things like font height -->
+      <!-- for all the Labels. This saves us changing throughout the layout file -->
+      <label wtid="parameterlabel">
+        <bounds x="0" y="0" />
+        <!-- Multiple justification attributes can be supplied here if needed -->
+        <justification horizontallycentred="true" />
+        <font height="10" />
+      </label>
+    </widgettemplates>
+    <!--Main Component-->
+    <component backgroundimage="gfx/thumbnail_CMS3tr.png" backgroundcolour="ffffffff" lfid="maintheme">
+      <backgroundimageplacement>ytop</backgroundimageplacement>
+      <bounds height="720" width="1280" />
+      <!--ScopeSync Header (might well want to replace with a custom header with reduced functionality)-->
+      <standardcontent type="header" />
+      <!--First row of controls-->
+      <component backgroundcolour="44ff0000" name="First Row" id="firstrow">
+        <!--Using relativerectangle for bounds makes it easy to position elements relative to others.-->
+        <!--Format is left, top, right, bottom. You can reference parent (like here) or use the id for -->
+        <!--the related element (must be siblings though).-->
+        <bounds relativerectangle="10, 33, parent.width - 10, top + 65" />
+        <!--OSC 1 controls-->
+        <component backgroundcolour="4400ff00" name="OSC1" id="OSC1">
+          <bounds relativerectangle="0, 0, left + 288, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="OSC1 Coarse" id="OSC1CoarseSlider" lfid="bipolar48knob">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 Coarse" id="OSC1CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1CoarseSlider.left, OSC1CoarseSlider.bottom + 2, OSC1CoarseSlider.right, top + 8  " />
+            <!-- We always want the label to follow the mapping of the Slider, so link them together -->
+            <!-- using the mappingparent element. This means we don't need to map the Labels explicitly -->
+            <!-- in the ScopeSync configuration -->
+            <mappingparent componentname="OSC1 Coarse" componenttype="slider" />
+            <!-- For now, only size and weight of font can be specified, but this is where the font -->
+            <!-- itself will be defined when that has been implemented -->
+          </label>
+          <slider name="OSC1 Fine" id="OSC1FineSlider" popupenabled="true" lfid="bipolar100knob">
+            <bounds relativerectangle="OSC1CoarseSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 Fine" id="OSC1FineLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1FineSlider.left, OSC1FineSlider.bottom + 2, OSC1FineSlider.right, top + OSC1CoarseLabel.height " />
+            <mappingparent componentname="OSC1 Fine" componenttype="slider" />
+          </label>
+          <!-- We set encodersnap="true" here, so the knob will jump between valid settings, rather than -->
+          <!-- the usual continuous rotation -->
+          <!--Osc1-->
+          <slider name="OSC1 Wave" id="OSC1WaveSlider" popupenabled="true" encodersnap="true" lfid="wavechoiceknob" debugwidgetposition="false">
+            <bounds relativerectangle="OSC1FineSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 Wave" id="OSC1WaveLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1WaveSlider.left, OSC1WaveSlider.bottom + 2, OSC1WaveSlider.right, top + OSC1CoarseLabel.height " />
+            <mappingparent componentname="OSC1 Wave" componenttype="slider" />
+          </label>
+          <slider name="OSC1 Shape" id="OSC1ShapeSlider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC1WaveSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 Shape" id="OSC1ShapeLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1ShapeSlider.left, OSC1ShapeSlider.bottom + 2, OSC1ShapeSlider.right, top + OSC1CoarseLabel.height " />
+            <mappingparent componentname="OSC1 Shape" componenttype="slider" />
+          </label>
+          <slider name="OSC1 WsMod1" id="OSC1WsMod1Slider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC1ShapeSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 WsMod1" id="OSC1WsMod1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1WsMod1Slider.left, OSC1WsMod1Slider.bottom + 2, OSC1WsMod1Slider.right, top + OSC1CoarseLabel.height " />
+            <mappingparent componentname="OSC1 WsMod1" componenttype="slider" />
+          </label>
+          <slider name="OSC1 WsMod2" id="OSC1WsMod2Slider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC1WsMod1Slider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC1 WsMod2" id="OSC1WsMod2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC1WsMod2Slider.left, OSC1WsMod2Slider.bottom + 2, OSC1WsMod2Slider.right, top + OSC1CoarseLabel.height " />
+            <mappingparent componentname="OSC1 WsMod2" componenttype="slider" />
+          </label>
+        </component>
+        <!--OSC 2 controls-->
+        <component backgroundcolour="4400ff00" name="OSC2" id="OSC2">
+          <bounds relativerectangle="OSC1.right + 8, 0, left + 285, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="OSC2 Coarse" id="OSC2CoarseSlider" popupenabled="true" lfid="bipolar48knob">
+            <bounds relativerectangle="5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 Coarse" id="OSC2CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2CoarseSlider.left, OSC2CoarseSlider.bottom + 2, OSC2CoarseSlider.right, top + 8  " />
+            <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
+          </label>
+          <slider name="OSC2 Fine" id="OSC2FineSlider" popupenabled="true" lfid="bipolar100knob">
+            <bounds relativerectangle="OSC2CoarseSlider.right + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 Fine" id="OSC2FineLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2FineSlider.left, OSC2FineSlider.bottom + 2, OSC2FineSlider.right, top + 8  " />
+            <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
+          </label>
+          <slider name="OSC2 Wave" id="OSC2WaveSlider" popupenabled="true" encodersnap="true" lfid="wavechoiceknob">
+            <bounds relativerectangle="OSC2FineSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 Wave" id="OSC2WaveLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2WaveSlider.left, OSC2WaveSlider.bottom + 2, OSC2WaveSlider.right, top + OSC2CoarseLabel.height " />
+            <mappingparent componentname="OSC2 Wave" componenttype="slider" />
+          </label>
+          <slider name="OSC2 Shape" id="OSC2ShapeSlider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC2WaveSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 Shape" id="OSC2ShapeLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2ShapeSlider.left, OSC2ShapeSlider.bottom + 2, OSC2ShapeSlider.right, top + OSC2CoarseLabel.height " />
+            <mappingparent componentname="OSC2 Shape" componenttype="slider" />
+          </label>
+          <slider name="OSC2 WsMod1" id="OSC2WsMod1Slider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC2ShapeSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 WsMod1" id="OSC2WsMod1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2WsMod1Slider.left, OSC2WsMod1Slider.bottom + 2, OSC2WsMod1Slider.right, top + OSC2CoarseLabel.height " />
+            <mappingparent componentname="OSC2 WsMod1" componenttype="slider" />
+          </label>
+          <slider name="OSC2 WsMod2" id="OSC2WsMod2Slider" popupenabled="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="OSC2WsMod1Slider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC2 WsMod2" id="OSC2WsMod2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC2WsMod2Slider.left, OSC2WsMod2Slider.bottom + 2, OSC2WsMod2Slider.right, top + OSC2CoarseLabel.height " />
+            <mappingparent componentname="OSC2 WsMod2" componenttype="slider" />
+          </label>
+        </component>
+        <!--OSC 3 controls-->
+        <component backgroundcolour="4400ff00" name="OSC3" id="OSC3">
+          <bounds relativerectangle="OSC2.right + 8, 0, left + 88, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="true" lfid="bipolar48knob">
+            <bounds relativerectangle="5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC3 Coarse" id="OSC3CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC3CoarseSlider.left, OSC3CoarseSlider.bottom + 2, OSC3CoarseSlider.right, top + 8  " />
+            <mappingparent componentname="OSC3 Coarse" componenttype="slider" />
+          </label>
+          <slider name="OSC3 Fine" id="OSC3FineSlider" popupenabled="true" lfid="bipolar100knob">
+            <bounds relativerectangle="OSC3CoarseSlider.right + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="OSC3 Fine" id="OSC3FineLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="OSC3FineSlider.left, OSC3FineSlider.bottom + 2, OSC3FineSlider.right, top + 8  " />
+            <mappingparent componentname="OSC3 Fine" componenttype="slider" />
+          </label>
+        </component>
+        <!--BpfNoise controls-->
+        <component backgroundcolour="4400ff00" name="BPF" id="BPF">
+          <bounds relativerectangle="OSC3.right + 8, 0, left + 78, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Bpf Freq" id="BpfFreqSlider" popupenabled="true" lfid="white2darkknob">
+            <bounds relativerectangle="18, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Bpf Freq" id="BpfFrqLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="BpfFreqSlider.left, BpfFreqSlider.bottom + 2, BpfFreqSlider.right, top + 8  " />
+            <mappingparent componentname="Bpf Freq" componenttype="slider" />
+          </label>
+        </component>
+        <!--LFO controls-->
+        <component backgroundcolour="4400ff00" name="LFO" id="LFO">
+          <bounds relativerectangle="BPF.right + 8, 0, left + 438, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <textbutton id="LFOFreqSrcKnob" name="LFOFreqSrcKnob" lfid="radiolight">
+            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+          </textbutton>
+          <textbutton id="LFOFreqSrcFrqDiv" name="LFOFreqSrcFrqDiv" lfid="radiolight">
+            <bounds relativerectangle="LFOFreqSrcKnob.left, LFOFreqSrcKnob.bottom + 3, left + LFOFreqSrcKnob.width, top + LFOFreqSrcKnob.height" />
+          </textbutton>
+          <textbutton id="LFOFreqSrcMatrix" name="LFOFreqSrcMatrix" lfid="radiolight">
+            <bounds relativerectangle="LFOFreqSrcKnob.left, LFOFreqSrcFrqDiv.bottom + 3, left + LFOFreqSrcKnob.width, top + LFOFreqSrcKnob.height" />
+          </textbutton>
+          <label name="LFOFreqSrcLabel" id="LFOFreqSrcLabel" text="FreqSrc" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOFreqSrcKnob.left, LFOFreqSrcMatrix.bottom + 2, left + 38, top + 10 " />
+          </label>
+          <tabbedcomponent name="FreqSrcTabs" id="FreqSrcTabs">
+            <bounds relativerectangle="LFOFreqSrcKnob.right - 10, 0, left + 60, parent.height" />
+            <tab idx="1" name="LFOKnobTab">
+              <component name="LFOKnobTabComponent" backgroundcolour="00ff0000">
+                <slider name="LfoFrqSrcKnob" id="LfoFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+                <label name="LfoFrqSrcKnob" id="LfoFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+                  <bounds relativerectangle="LfoFrqSrcKnobSlider.left, LfoFrqSrcKnobSlider.bottom + 2, LfoFrqSrcKnobSlider.right, top + 8  " />
+                  <mappingparent componentname="LfoFrqSrcKnob" componenttype="slider" />
+                </label>
+              </component>
+            </tab>
+            <tab idx="2" name="LFOFrqDivTab">
+              <component name="LFOFrqDivTabComponent" backgroundcolour="0000ff00">
+                <slider name="LfoFrqSrcDiv" id="LfoFrqSrcDivSlider" popupenabled="true" lfid="LfoDividerKnob">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+                <label name="LfoFrqSrcDiv" id="LfoFrqSrcDivLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+                  <bounds relativerectangle="LfoFrqSrcDivSlider.left, LfoFrqSrcDivSlider.bottom + 2, LfoFrqSrcDivSlider.right, top + 8  " />
+                  <mappingparent componentname="LfoFrqSrcDiv" componenttype="slider" />
+                </label>
+              </component>
+            </tab>
+            <tab idx="3" name="LFOMatrixTab">
+              <component name="LFOMatrixTabComponent" backgroundcolour="330000ff" />
+            </tab>
+          </tabbedcomponent>
+          <textbutton id="LFOGateSrcMVC" name="LFOGateSrcMVC" lfid="radiolight">
+            <bounds relativerectangle="110, 8, left + 50, top + 12" />
+          </textbutton>
+          <textbutton id="LFOGateSrcSeq" name="LFOGateSrcSeq" lfid="radiolight">
+            <bounds relativerectangle="LFOGateSrcMVC.left, LFOGateSrcMVC.bottom + 3, left + LFOGateSrcMVC.width, top + LFOGateSrcMVC.height" />
+          </textbutton>
+          <textbutton id="LFOGateSrcRandGate" name="LFOGateSrcRandGate" lfid="radiolight">
+            <bounds relativerectangle="LFOGateSrcSeq.left, LFOGateSrcSeq.bottom + 3, left + LFOGateSrcSeq.width, top + LFOGateSrcSeq.height" />
+          </textbutton>
+          <label name="LFOGateSrcLabel" id="LFOGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOGateSrcMVC.left, LFOGateSrcRandGate.bottom + 2, left + 38, top + 8 " />
+          </label>
+          <textbutton id="LFORetrig" name="LFORetrig" lfid="RetrigButton">
+            <bounds relativerectangle="LFOGateSrcMVC.right - 7, 15, LFOGateSrcSeq.left + 105, top + 35" />
+          </textbutton>
+          <label name="LFORetrigLabel" id="LFORetrigLabel" text="Retrig" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="LFORetrig.left - 4, LFORetrig.bottom + 2, LFORetrig.right - 20, top + 8 " />
+          </label>
+          <slider name="LFO Wave" id="LFOWaveSlider" popupenabled="true" encodersnap="true" lfid="LfoWaveKnob">
+            <bounds relativerectangle="LFORetrig.right - 15, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LFOWaveLabel" id="LFOWaveLabel" text="Wave" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOWaveSlider.left, LFOWaveSlider.bottom + 2, LFOWaveSlider.right, top + 8 " />
+          </label>
+          <slider name="LFO Fade In" id="LFOFadeInSlider" popupenabled="true" encodersnap="true" lfid="White2DarkKnob">
+            <bounds relativerectangle="LFOWaveSlider.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LFOFadeInLabel" id="LFOFadeInLabel" text="FadeIn" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOFadeInSlider.left, LFOFadeInSlider.bottom + 2, LFOFadeInSlider.right, top + 8 " />
+          </label>
+          <slider name="LFO Phase" id="LFOPhaseSlider" popupenabled="true" encodersnap="true" lfid="PhaseKnob">
+            <bounds relativerectangle="LFOFadeInSlider.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LFOPhaseLabel" id="LFOPhaseLabel" text="Phase" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOPhaseSlider.left, LFOPhaseSlider.bottom + 2, LFOPhaseSlider.right, top + 8 " />
+          </label>
+          <slider name="LFO Gain" id="LFOGainSlider" popupenabled="true" encodersnap="true" lfid="WhiteKnob">
+            <bounds relativerectangle="LFOPhaseSlider.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LFOGainLabel" id="LFOGainLabel" text="Gain" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOGainSlider.left, LFOGainSlider.bottom + 2, LFOGainSlider.right, top + 8 " />
+          </label>
+          <slider name="LFO VolMod" id="LFOVolModSlider" popupenabled="true" encodersnap="true" lfid="WhiteKnob">
+            <bounds relativerectangle="LFOGainSlider.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LFOVolModLabel" id="LFOVolModLabel" text="VolMod" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LFOVolModSlider.left, LFOVolModSlider.bottom + 2, LFOVolModSlider.right, top + 8 " />
+          </label>
+        </component>
+        <!--BPM-->
+        <component backgroundcolour="4400ff00" name="BPM" id="BPM">
+          <bounds relativerectangle="LFO.right + 8, 0, parent.width, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="FF000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Tempo" debugwidgetposition="false" id="TempoSlider" popupenabled="true" encodersnap="true" lfid="BPMKnob">
+            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="TempoLabel" id="TempoLabel" text="BPM" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="TempoSlider.left, TempoSlider.bottom + 2, TempoSlider.right, top + 8 " />
+            <mappingparent componentname="TempoLabel" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--ADSR controls-->
+      <component backgroundcolour="44ff0000" name="ADSR" id="ADSR">
+        <bounds relativerectangle="firstrow.left, firstrow.bottom + 8, left + 290, top + 65" />
+        <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+          <bounds fillparent="true" />
+        </rectangle>
+        <textbutton id="AdsrGateSrcMVC" name="AdsrGateSrcMVC" lfid="radiolight">
+          <bounds relativerectangle="5, 8, left + 50, top + 12" />
+        </textbutton>
+        <textbutton id="AdsrGateSrcSeq" name="AdsrGateSrcSeq" lfid="radiolight">
+          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcMVC.bottom, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
+        </textbutton>
+        <textbutton id="AdsrGateSrcRG" name="AdsrGateSrcRG" lfid="radiolight">
+          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcSeq.bottom + 3, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
+        </textbutton>
+        <slider name="AdsrAtt" id="AdsrAttSlider" popupenabled="true" lfid="WhiteKnob">
+          <bounds relativerectangle="AdsrGateSrcMVC.right, 10, left + 40, top + 40" />
+          <textbox position="none" />
+        </slider>
+        <label name="AdsrAtt" id="AdsrAttLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrAttSlider.left, AdsrAttSlider.bottom + 2, AdsrAttSlider.right, top + 8  " />
+          <mappingparent componentname="AdsrAtt" componenttype="slider" />
+        </label>
+        <slider name="AdsrDec" id="AdsrDecSlider" popupenabled="true" lfid="WhiteKnob">
+          <bounds relativerectangle="AdsrAttSlider.right + 8, AdsrAttSlider.top, left + AdsrAttSlider.width, top + AdsrAttSlider.height" />
+          <textbox position="none" />
+        </slider>
+        <label name="AdsrDec" id="AdsrDecLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrDecSlider.left, AdsrDecSlider.bottom + 2, AdsrDecSlider.right, top + AdsrAttLabel.height  " />
+          <mappingparent componentname="AdsrDec" componenttype="slider" />
+        </label>
+        <slider name="AdsrSus" id="AdsrSusSlider" popupenabled="true" lfid="0-127Knob">
+          <bounds relativerectangle="AdsrDecSlider.right + 8, AdsrDecSlider.top, left + AdsrDecSlider.width, top + AdsrDecSlider.height" />
+          <textbox position="none" />
+        </slider>
+        <label name="AdsrSus" id="AdsrSusLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrSusSlider.left, AdsrSusSlider.bottom + 2, AdsrSusSlider.right, top + AdsrAttLabel.height  " />
+          <mappingparent componentname="AdsrSus" componenttype="slider" />
+        </label>
+        <slider name="AdsrRel" id="AdsrRelSlider" popupenabled="true" lfid="WhiteKnob">
+          <bounds relativerectangle="AdsrSusSlider.right + 8, AdsrSusSlider.top, left + AdsrSusSlider.width, top + AdsrSusSlider.height" />
+          <textbox position="none" />
+        </slider>
+        <label name="AdsrRel" id="AdsrRelLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrRelSlider.left, AdsrRelSlider.bottom + 2, AdsrRelSlider.right, top + AdsrAttLabel.height  " />
+          <mappingparent componentname="AdsrRel" componenttype="slider" />
+        </label>
+        <slider name="AdsrSlp" id="AdsrSlpSlider" popupenabled="true" lfid="0-127Knob">
+          <bounds relativerectangle="AdsrRelSlider.right + 8, AdsrRelSlider.top, left + AdsrRelSlider.width, top + AdsrRelSlider.height" />
+          <textbox position="none" />
+        </slider>
+        <label name="AdsrSlp" id="AdsrSlpLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrSlpSlider.left, AdsrSlpSlider.bottom + 2, AdsrSlpSlider.right, top + AdsrAttLabel.height  " />
+          <mappingparent componentname="AdsrSlp" componenttype="slider" />
+        </label>
+        <label name="AdsrGateSrc" id="AdsrGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
+          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcRG.bottom + 2, left + 38, top + 14 " />
+        </label>
+      </component>
+      <!--AD+RGATE controls-->
+      <component backgroundcolour="44ff0000" name="AD and RGATE" id="ADnRGATE">
+        <bounds relativerectangle="right - 288, firstrow.bottom + 8, firstrow.right, top + 65" />
+        <!--RGATE control-->
+        <component backgroundcolour="4400ff00" name="RGATE" id="RGATE">
+          <bounds relativerectangle="right - 43, 0, parent.width, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="RandGtSens" id="RandGtSensSlider" lfid="0-127Knob" debugwidgetposition="false">
+            <bounds relativerectangle="ADnRGATE.right + 8, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="RandGtSens" id="RandGtSensLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="1, RandGtSensSlider.bottom + 2, parent.width, top + 8" />
+            <mappingparent componentname="RandGtSens" componenttype="slider" />
+          </label>
+        </component>
+        <!--AD controls-->
+        <component backgroundcolour="4400ff00" name="AD" id="AD">
+          <bounds relativerectangle="0, 0, RGATE.left - 8, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <textbutton id="AdGateSrcMVC" name="AdGateSrcMVC" lfid="radiolight">
+            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+          </textbutton>
+          <textbutton id="AdGateSrcSeq" name="AdGateSrcSeq" lfid="radiolight">
+            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcMVC.bottom, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
+          </textbutton>
+          <textbutton id="AdGateSrcRG" name="AdGateSrcRG" lfid="radiolight">
+            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcSeq.bottom + 3, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
+          </textbutton>
+          <label name="AdGateSrc" id="AdGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcRG.bottom + 2, left + 38, top + 14 " />
+          </label>
+          <slider name="AdAtt" id="AdAttSlider" popupenabled="true" lfid="WhiteKnob">
+            <bounds relativerectangle="AdGateSrcMVC.right - 10, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="AdAtt" id="AdAttLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdAttSlider.left, AdAttSlider.bottom + 2, AdAttSlider.right, top + 8  " />
+            <mappingparent componentname="AdAtt" componenttype="slider" />
+          </label>
+          <slider name="AdDec" id="AdDecSlider" popupenabled="true" lfid="WhiteKnob">
+            <bounds relativerectangle="AdAttSlider.right + 8, AdAttSlider.top, left + AdAttSlider.width, top + AdAttSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="AdAtt" id="AdAttLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdAttSlider.left, AdAttSlider.bottom + 2, AdAttSlider.right, top + 8  " />
+            <mappingparent componentname="AdAtt" componenttype="slider" />
+          </label>
+          <slider name="AdDec" id="AdDecSlider" popupenabled="true" lfid="WhiteKnob">
+            <bounds relativerectangle="AdAttSlider.right + 8, AdAttSlider.top, left + AdAttSlider.width, top + AdAttSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="AdDec" id="AdDecLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdDecSlider.left, AdDecSlider.bottom + 2, AdDecSlider.right, top + AdAttLabel.height  " />
+            <mappingparent componentname="AdDec" componenttype="slider" />
+          </label>
+          <slider name="AdAttSlp" id="AdAttSlpSlider" popupenabled="true" lfid="0-127Knob">
+            <bounds relativerectangle="AdDecSlider.right + 8, AdDecSlider.top, left + AdDecSlider.width, top + AdDecSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="AdAttSlp" id="AdAttSlpLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdAttSlpSlider.left, AdAttSlpSlider.bottom + 2, AdAttSlpSlider.right, top + AdAttLabel.height  " />
+            <mappingparent componentname="AdAttSlp" componenttype="slider" />
+          </label>
+          <slider name="AdDecSlp" id="AdDecSlpSlider" popupenabled="true" lfid="0-127Knob">
+            <bounds relativerectangle="AdAttSlpSlider.right + 8, AdAttSlpSlider.top, left + AdAttSlpSlider.width, top + AdAttSlpSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="AdDecSlp" id="AdDecSlpLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="AdDecSlpSlider.left, AdDecSlpSlider.bottom + 2, AdDecSlpSlider.right, top + AdDecLabel.height  " />
+            <mappingparent componentname="AdDecSlp" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--Filter & delay controls-->
+      <component backgroundcolour="44ff0000" name="Filter and Delay" id="FilternDelay">
+        <bounds relativerectangle="firstrow.left, ADSR.bottom + 8, left + 192, top + 284" />
+        <!--LP controls-->
+        <component backgroundcolour="4400ff00" name="LP" id="LP">
+          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="LpCf" id="LpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="LpCf" id="LpCfLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LpCfSlider.left, LpCfSlider.bottom + 2, LpCfSlider.right, top + 8  " />
+            <mappingparent componentname="LpCf" componenttype="slider" />
+          </label>
+          <slider name="LpCfm1" id="LpCfm1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="LpCfSlider.right + 8, LpCfSlider.top, left + LpCfSlider.width, top +  LpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="LpCfm1" id="LpCfm1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LpCfm1Slider.left, LpCfm1Slider.bottom + 2, LpCfm1Slider.right, top + 8" />
+            <mappingparent componentname="LpCfm1" componenttype="slider" />
+          </label>
+          <slider name="LpCfm2" id="LpCfm2Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="LpCfm1Slider.right + 8, LpCfSlider.top, left + LpCfSlider.width, top +  LpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="LpCfm2" id="LpCfm2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LpCfm2Slider.left, LpCfm2Slider.bottom + 2, LpCfm2Slider.right, top + 8" />
+            <mappingparent componentname="LpCfm2" componenttype="slider" />
+          </label>
+          <slider name="LpQ" id="LpQSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="LpCfm2Slider.right + 8, LpCfSlider.top, left + LpCfSlider.width, top +  LpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="LpQ" id="LpQLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="LpQSlider.left, LpQSlider.bottom + 2, LpQSlider.right, top + 8" />
+            <mappingparent componentname="LpQ" componenttype="slider" />
+          </label>
+        </component>
+        <!--HP controls-->
+        <component backgroundcolour="4400ff00" name="HP" id="HP">
+          <bounds relativerectangle="0, LP.bottom + 8, parent.width, top + LP.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="HpCf" id="HpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="HpCf" id="HpCfLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="HpCfSlider.left, HpCfSlider.bottom + 2, HpCfSlider.right, top + 8  " />
+            <mappingparent componentname="HpCf" componenttype="slider" />
+          </label>
+          <slider name="HpCfm1" id="HpCfm1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="HpCfSlider.right + 8, HpCfSlider.top, left + HpCfSlider.width, top +  HpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="HpCfm1" id="HpCfm1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="HpCfm1Slider.left, HpCfm1Slider.bottom + 2, HpCfm1Slider.right, top + 8" />
+            <mappingparent componentname="HpCfm1" componenttype="slider" />
+          </label>
+          <slider name="HpCfm2" id="HpCfm2Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="HpCfm1Slider.right + 8, HpCfSlider.top, left + HpCfSlider.width, top +  HpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="HpCfm2" id="HpCfm2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="HpCfm2Slider.left, HpCfm2Slider.bottom + 2, HpCfm2Slider.right, top + 8" />
+            <mappingparent componentname="HpCfm2" componenttype="slider" />
+          </label>
+          <slider name="HpQ" id="HpQSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="HpCfm2Slider.right + 8, HpCfSlider.top, left + HpCfSlider.width, top +  HpCfSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="HpQ" id="HpQLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="HpQSlider.left, HpQSlider.bottom + 2, HpQSlider.right, top + 8" />
+            <mappingparent componentname="HpQ" componenttype="slider" />
+          </label>
+        </component>
+        <!--DEL1 controls-->
+        <component backgroundcolour="4400ff00" name="DEL1" id="DEL1">
+          <bounds relativerectangle="0, HP.bottom + 8, parent.width, top + LP.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Del1DT1" id="Del1DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Del1DT1" id="Del1DT1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del1DT1Slider.left, Del1DT1Slider.bottom + 2, Del1DT1Slider.right, top + 8  " />
+            <mappingparent componentname="Del1DT1" componenttype="slider" />
+          </label>
+          <slider name="Del1DT2" id="Del1DT2Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del1DT1Slider.right + 8, Del1DT1Slider.top, left + Del1DT1Slider.width, top +  Del1DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del1DT2" id="Del1DT2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del1DT2Slider.left, Del1DT2Slider.bottom + 2, Del1DT2Slider.right, top + 8" />
+            <mappingparent componentname="Del1DT2" componenttype="slider" />
+          </label>
+          <slider name="Del1Fb" id="Del1FbSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del1DT2Slider.right + 8, Del1DT2Slider.top, left + Del1DT2Slider.width, top +  Del1DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del1Fb" id="Del1FbLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del1FbSlider.left, Del1FbSlider.bottom + 2, Del1FbSlider.right, top + 8" />
+            <mappingparent componentname="Del1Fb" componenttype="slider" />
+          </label>
+          <slider name="Del1Gain" id="Del1GainSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del1FbSlider.right + 8, Del1FbSlider.top, left + Del1FbSlider.width, top +  Del1DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del1Gain" id="Del1GainLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del1GainSlider.left, Del1GainSlider.bottom + 2, Del1GainSlider.right, top + 8" />
+            <mappingparent componentname="Del1Gain" componenttype="slider" />
+          </label>
+        </component>
+        <!--DEL2 controls-->
+        <component backgroundcolour="4400ff00" name="DEL2" id="DEL2">
+          <bounds relativerectangle="0, DEL1.bottom + 8, parent.width, top + LP.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Del2DT1" id="Del2DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Del2DT1" id="Del2DT1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del2DT1Slider.left, Del2DT1Slider.bottom + 2, Del2DT1Slider.right, top + 8  " />
+            <mappingparent componentname="Del2DT1" componenttype="slider" />
+          </label>
+          <slider name="Del2DT2" id="Del2DT2Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del2DT1Slider.right + 8, Del2DT1Slider.top, left + Del2DT1Slider.width, top +  Del2DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del2DT2" id="Del2DT2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del2DT2Slider.left, Del2DT2Slider.bottom + 2, Del2DT2Slider.right, top + 8" />
+            <mappingparent componentname="Del2DT2" componenttype="slider" />
+          </label>
+          <slider name="Del2Fb" id="Del2FbSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del2DT2Slider.right + 8, Del2DT2Slider.top, left + Del2DT2Slider.width, top +  Del2DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del2Fb" id="Del2FbLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del2FbSlider.left, Del2FbSlider.bottom + 2, Del2FbSlider.right, top + 8" />
+            <mappingparent componentname="Del2Fb" componenttype="slider" />
+          </label>
+          <slider name="Del2Gain" id="Del2GainSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Del2FbSlider.right + 8, Del2FbSlider.top, left + Del2FbSlider.width, top +  Del2DT1Slider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="Del2Gain" id="Del2GainLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Del2GainSlider.left, Del2GainSlider.bottom + 2, Del2GainSlider.right, top + 8" />
+            <mappingparent componentname="Del2Gain" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--ExpVca & Velo & AT & ConstValAB-->
+      <component backgroundcolour="44ff0000" name="ExpVca &amp; Velo &amp; AT &amp; ConstValA+B" id="VcaVelo">
+        <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right, top + 138" />
+        <!--ExpVcaVeloAT controls-->
+        <component backgroundcolour="4400ff00" name="ExpVca" id="ExpVca">
+          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="ExpVcaSlp" id="ExpVcaSlpSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="ExpVcaSlp" id="ExpVcaSlpLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ExpVcaSlpSlider.left, ExpVcaSlpSlider.bottom + 2, ExpVcaSlpSlider.right, top + 8  " />
+            <mappingparent componentname="ExpVcaSlp" componenttype="slider" />
+          </label>
+          <slider name="AdsrVelo" id="AdsrVeloSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="ExpVcaSlpSlider.right + 8, ExpVcaSlpSlider.top, left + ExpVcaSlpSlider.width, top +  ExpVcaSlpSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="AdsrVelo" id="AdsrVeloLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdsrVeloSlider.left, AdsrVeloSlider.bottom + 2, AdsrVeloSlider.right, top + 8  " />
+            <mappingparent componentname="AdsrVelo" componenttype="slider" />
+          </label>
+          <slider name="AdVelo" id="AdVeloSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="AdsrVeloSlider.right + 8, AdsrVeloSlider.top, left + AdsrVeloSlider.width, top +  AdsrVeloSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="AdVelo" id="AdVeloLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="AdVeloSlider.left, AdVeloSlider.bottom + 2, AdVeloSlider.right, top + 8  " />
+            <mappingparent componentname="AdVelo" componenttype="slider" />
+          </label>
+          <slider name="ATSmooth" id="ATSmoothSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="AdVeloSlider.right + 8, AdVeloSlider.top, left + AdVeloSlider.width, top +  AdVeloSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="ATSmooth" id="ATSmoothLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="ATSmoothSlider.left, ATSmoothSlider.bottom + 2, ATSmoothSlider.right, top + 8  " />
+            <mappingparent componentname="ATSmooth" componenttype="slider" />
+          </label>
+        </component>
+        <!--ConstValAB controls-->
+        <component backgroundcolour="4400ff00" name="ConstValAB" id="ConstValAB">
+          <bounds relativerectangle="0, ExpVca.bottom + 8, parent.width, top + ExpVca.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="ConstValA" id="ConstValASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="ConstValA" id="ConstValALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ConstValASlider.left, ConstValASlider.bottom + 2, ConstValASlider.right, top + 8" />
+            <mappingparent componentname="ConstValA" componenttype="slider" />
+          </label>
+          <slider name="ConstValB" id="ConstValBSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="ConstValASlider.right + 60, ConstValASlider.top, left + ConstValASlider.width, top +  ConstValASlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="ConstValB" id="ConstValBLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="ConstValBSlider.left, ConstValBSlider.bottom + 2, ConstValBSlider.right, top + 8  " />
+            <mappingparent componentname="ConstValB" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--Last row-->
+      <component backgroundcolour="44ff0000" name="Last Row" id="lastrow">
+        <bounds relativerectangle="firstrow.left, VcaVelo.bottom + 8, firstrow.right, top + 65" />
+        <!--Porta-->
+        <component backgroundcolour="4400ff00" name="Porta" id="Porta">
+          <bounds relativerectangle="0, 0, left + 96, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="PortaTime" id="PortaTimeSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="PortaTime" id="PortaTimeLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="PortaTimeSlider.left, PortaTimeSlider.bottom + 2, PortaTimeSlider.right, top + 8  " />
+            <mappingparent componentname="PortaTime" componenttype="slider" />
+          </label>
+          <slider name="PortaType" id="PortaTypeSlider" lfid="portaKnob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PortaTimeSlider.right + 8, PortaTimeSlider.top, left + PortaTimeSlider.width, top +  PortaTimeSlider.height " />
+            <textbox position="none" />
+          </slider>
+          <label name="PortaType" id="PortaTypeLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="PortaTypeSlider.left, PortaTypeSlider.bottom + 2, PortaTypeSlider.right, top + 8  " />
+            <mappingparent componentname="PortaType" componenttype="slider" />
+          </label>
+        </component>
+        <!--Seq controls-->
+        <component backgroundcolour="4400ff00" name="Seq" id="Seq">
+          <bounds relativerectangle="Porta.right + 8, 0, left + 244, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <textbutton id="SeqFreqSrcKnob" name="SeqFreqSrcKnob" lfid="radiolight">
+            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+          </textbutton>
+          <textbutton id="SeqFreqSrcDiv" name="SeqFreqSrcDiv" lfid="radiolight">
+            <bounds relativerectangle="SeqFreqSrcKnob.left, SeqFreqSrcKnob.bottom + 3, left + SeqFreqSrcKnob.width, top + SeqFreqSrcKnob.height" />
+          </textbutton>
+          <textbutton id="SeqFreqSrcMVC" name="SeqFreqSrcMVC" lfid="radiolight">
+            <bounds relativerectangle="SeqFreqSrcKnob.left, SeqFreqSrcDiv.bottom + 3, left + SeqFreqSrcKnob.width, top + SeqFreqSrcKnob.height" />
+          </textbutton>
+          <label name="SeqFreqSrcLabel" id="SeqFreqSrcLabel" text="FreqSrc" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="SeqFreqSrcKnob.left, SeqFreqSrcMVC.bottom + 2, left + 38, top + 10 " />
+          </label>
+          <tabbedcomponent name="SeqFreqSrcTabs" id="SeqFreqSrcTabs">
+            <bounds relativerectangle="SeqFreqSrcKnob.right - 10, 0, left + 60, parent.height" />
+            <tab idx="1" name="SeqKnobTab">
+              <component name="SeqKnobTabComponent" backgroundcolour="00ff0000">
+                <slider name="SeqFrqSrcKnob" id="SeqFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob" debugwidgetposition="false">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+                <label name="SeqFrqSrcKnob" id="SeqFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+                  <bounds relativerectangle="SeqFrqSrcKnobSlider.left, SeqFrqSrcKnobSlider.bottom + 2, SeqFrqSrcKnobSlider.right, top + 8  " />
+                  <mappingparent componentname="SeqFrqSrcKnob" componenttype="slider" />
+                </label>
+              </component>
+            </tab>
+            <tab idx="2" name="SeqFrqDivTab">
+              <component name="SeqFrqDivTabComponent" backgroundcolour="0000ff00">
+                <slider name="SeqFrqSrcDiv" id="SeqFrqSrcDivSlider" popupenabled="true" lfid="SeqDivKnob">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+                <label name="SeqFrqSrcDiv" id="SeqFrqSrcDivLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+                  <bounds relativerectangle="SeqFrqSrcDivSlider.left, SeqFrqSrcDivSlider.bottom + 2, SeqFrqSrcDivSlider.right, top + 8  " />
+                  <mappingparent componentname="SeqFrqSrcDiv" componenttype="slider" />
+                </label>
+              </component>
+            </tab>
+            <tab idx="3" name="SeqMVCTab">
+              <component name="SeqMVCTabComponent" backgroundcolour="330000ff" />
+            </tab>
+          </tabbedcomponent>
+          <slider name="SeqStartStep" id="SeqStartStepSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="parent.left - 3, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="SeqStartStep" id="SeqStartStepLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="SeqStartStepSlider.left, SeqStartStepSlider.bottom + 2, SeqStartStepSlider.right, top + 8  " />
+            <mappingparent componentname="SeqStartStep" componenttype="slider" />
+          </label>
+          <slider name="SeqLength" id="SeqLengthSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="SeqStartStepSlider.right + 8, SeqStartStepSlider.top, left + SeqStartStepSlider.width, top + SeqStartStepSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="SeqStartStep" id="SeqStartStepLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="SeqLengthSlider.left, SeqLengthSlider.bottom + 2, SeqLengthSlider.right, top + 8  " />
+            <mappingparent componentname="SeqLength" componenttype="slider" />
+          </label>
+          <slider name="SeqSwing" id="SeqSwingSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="SeqLengthSlider.right + 8, SeqLengthSlider.top, left + SeqLengthSlider.width, top + SeqStartStepSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="SeqSwing" id="SeqSwingLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqSwingSlider.left, SeqSwingSlider.bottom + 2, SeqSwingSlider.right, top + 8  " />
+            <mappingparent componentname="SeqSwing" componenttype="slider" />
+          </label>
+        </component>
+        <!--GateSeq controls-->
+        <component backgroundcolour="4400ff00" name="GSeq" id="GSeq">
+          <bounds relativerectangle="Seq.right + 12, 0, left + 288, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <textbutton id="SeqGt1" name="SeqGt1" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="0, 15, left + 40, top + 40" />
+          </textbutton>
+          <label name="SeqGt1Label" id="SeqGt1Label" text="SeqGt1" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt1.left + 5, SeqGt1.bottom + 2, SeqGt1.right - 20, top + 8 " />
+            <mappingparent componenttype="textbutton" componentname="SeqGt1"/>
+          </label>
+          <textbutton id="SeqGt2" name="SeqGt2" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt1.right - 4, SeqGt1.top, left + SeqGt1.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt2Label" id="SeqGt2Label" text="SeqGt2" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt2.left, SeqGt2.bottom + 2, SeqGt2.right - 20, top + 8 " />
+          </label>
+          <textbutton id="SeqGt3" name="SeqGt3" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt2.right - 4, SeqGt2.top, left + SeqGt2.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt3Label" id="SeqGt3Label" text="SeqGt3" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt3.left, SeqGt3.bottom + 2, SeqGt3.right - 20, top + 8 " />
+          </label>
+          <textbutton id="SeqGt4" name="SeqGt4" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt3.right - 4, SeqGt3.top, left + SeqGt3.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt4Label" id="SeqGt4Label" text="SeqGt4" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt4.left, SeqGt4.bottom + 2, SeqGt4.right - 20, top + 8 " />
+          </label>
+          <textbutton id="SeqGt5" name="SeqGt5" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt4.right - 4, SeqGt4.top, left + SeqGt4.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt5Label" id="SeqGt5Label" text="SeqGt5" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt5.left, SeqGt5.bottom + 2, SeqGt5.right - 20, top + 8 " />
+          </label>
+          <textbutton id="SeqGt6" name="SeqGt6" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt5.right - 4, SeqGt5.top, left + SeqGt5.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt6Label" id="SeqGt6Label" text="SeqGt6" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt6.left, SeqGt6.bottom + 2, SeqGt6.right - 20, top + 8" />
+          </label>
+          <textbutton id="SeqGt7" name="SeqGt7" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt6.right - 4, SeqGt6.top, left + SeqGt6.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt7Label" id="SeqGt7Label" text="SeqGt7" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt7.left, SeqGt7.bottom + 2, SeqGt7.right - 20, top + 8" />
+          </label>
+          <textbutton id="SeqGt8" name="SeqGt8" lfid="RetrigButton" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt7.right - 4, SeqGt7.top, left + SeqGt7.width, top + SeqGt1.height" />
+          </textbutton>
+          <label name="SeqGt8Label" id="SeqGt8Label" text="SeqGt8" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="SeqGt8.left, SeqGt8.bottom + 2, SeqGt8.right - 20, top + 8" />
+          </label>
+        </component>
+        <!--ContrSeq controls-->
+        <component backgroundcolour="4400ff00" name="CSeq" id="CSeq">
+          <bounds relativerectangle="GSeq.right + 16, 0, left + 288, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="ContrSeq1" id="ContrSeq1slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="0, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq1" id="ContrSeq1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq1slider.left, ContrSeq1slider.bottom + 2, ContrSeq1slider.right, top + 8  " />
+            <mappingparent componentname="ContrSeq1" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq2" id="ContrSeq2slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq1slider.right - 4, ContrSeq1slider.top, left + ContrSeq1slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq2" id="ContrSeq2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq2slider.left, ContrSeq2slider.bottom + 2, ContrSeq2slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq2" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq3" id="ContrSeq3slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq2slider.right - 4, ContrSeq2slider.top, left + ContrSeq2slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq3" id="ContrSeq3Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq3slider.left, ContrSeq3slider.bottom + 2, ContrSeq3slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq3" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq4" id="ContrSeq4slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq3slider.right - 4, ContrSeq3slider.top, left + ContrSeq3slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq4" id="ContrSeq4Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq4slider.left, ContrSeq4slider.bottom + 2, ContrSeq4slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq4" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq5" id="ContrSeq5slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq4slider.right - 4, ContrSeq4slider.top, left + ContrSeq4slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq5" id="ContrSeq5Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq5slider.left, ContrSeq5slider.bottom + 2, ContrSeq5slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq5" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq6" id="ContrSeq6slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq5slider.right - 4, ContrSeq5slider.top, left + ContrSeq5slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq6" id="ContrSeq6Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq6slider.left, ContrSeq6slider.bottom + 2, ContrSeq6slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq6" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq7" id="ContrSeq7slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq6slider.right - 4, ContrSeq6slider.top, left + ContrSeq6slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq7" id="ContrSeq7Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq7slider.left, ContrSeq7slider.bottom + 2, ContrSeq7slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq6" componenttype="slider" />
+          </label>
+          <slider name="ContrSeq8" id="ContrSeq8slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq7slider.right - 4, ContrSeq7slider.top, left + ContrSeq7slider.width, top + ContrSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="ContrSeq8" id="ContrSeq8Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
+            <bounds relativerectangle="ContrSeq8slider.left, ContrSeq8slider.bottom + 2, ContrSeq8slider.right, top + ContrSeq1Label.height " />
+            <mappingparent componentname="ContrSeq6" componenttype="slider" />
+          </label>
+        </component>
+        <!--PitchSeq controls-->
+        <component backgroundcolour="4400ff00" name="PSeq" id="PSeq">
+          <bounds relativerectangle="CSeq.right + 16, 0, left + 288, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="PitchSeq1" id="PitchSeq1slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="0, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq1" id="PitchSeq1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq1slider.left, PitchSeq1slider.bottom + 2, PitchSeq1slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq1" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq2" id="PitchSeq2slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="PitchSeq1slider.right - 4, PitchSeq1slider.top, left + PitchSeq1slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq2" id="PitchSeq2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq2slider.left, PitchSeq2slider.bottom + 2, PitchSeq2slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq2" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq3" id="PitchSeq3slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="PitchSeq2slider.right - 4, PitchSeq2slider.top, left + PitchSeq2slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq3" id="PitchSeq3Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq3slider.left, PitchSeq3slider.bottom + 2, PitchSeq3slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq3" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq4" id="PitchSeq4slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
+            <bounds relativerectangle="PitchSeq3slider.right - 4, PitchSeq3slider.top, left + PitchSeq3slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq4" id="PitchSeq4Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq4slider.left, PitchSeq4slider.bottom + 2, PitchSeq4slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq4" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq5" id="PitchSeq5slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PitchSeq4slider.right - 4, PitchSeq4slider.top, left + PitchSeq4slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq5" id="PitchSeq5Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq5slider.left, PitchSeq5slider.bottom + 2, PitchSeq5slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq5" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq6" id="PitchSeq6slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PitchSeq5slider.right - 4, PitchSeq5slider.top, left + PitchSeq5slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq6" id="PitchSeq6Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq6slider.left, PitchSeq6slider.bottom + 2, PitchSeq6slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq6" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq7" id="PitchSeq7slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PitchSeq6slider.right - 4, PitchSeq6slider.top, left + PitchSeq6slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq7" id="PitchSeq7Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq7slider.left, PitchSeq7slider.bottom + 2, PitchSeq7slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq7" componenttype="slider" />
+          </label>
+          <slider name="PitchSeq8" id="PitchSeq8slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PitchSeq7slider.right - 4, PitchSeq7slider.top, left + PitchSeq7slider.width, top + PitchSeq1slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PitchSeq8" id="PitchSeq8Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PitchSeq8slider.left, PitchSeq8slider.bottom + 2, PitchSeq8slider.right, top + 8  " />
+            <mappingparent componentname="PitchSeq8" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--PMOD & Mix controls-->
+      <component backgroundcolour="44ff0000" name="PMOD and Mix" id="PMODnMix">
+        <bounds relativerectangle="ADnRGATE.left, ADnRGATE.bottom + 8, ADnRGATE.right, FilternDelay.bottom" />
+        <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
+        <component backgroundcolour="4400ff00" name="PMod1-3" id="PMod">
+          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="PMod1A" id="PMod1ASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod1A" id="PMod1ALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod1ASlider.left, PMod1ASlider.bottom + 2, PMod1ASlider.right, top + 8  " />
+            <mappingparent componentname="PMod1A" componenttype="slider" />
+          </label>
+          <slider name="PMod1B" id="PMod1BSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PMod1ASlider.right + 8, PMod1ASlider.top, left + PMod1ASlider.width, top + PMod1ASlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod1B" id="PMod1BLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod1BSlider.left, PMod1BSlider.bottom + 2, PMod1BSlider.right, top + 8  " />
+            <mappingparent componentname="PMod1B" componenttype="slider" />
+          </label>
+          <slider name="PMod2A" id="PMod2ASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PMod1BSlider.right + 8, PMod1BSlider.top, left + PMod1BSlider.width, top + PMod1BSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod2A" id="PMod2ALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod2ASlider.left, PMod2ASlider.bottom + 2, PMod2ASlider.right, top + 8  " />
+            <mappingparent componentname="PMod2A" componenttype="slider" />
+          </label>
+          <slider name="PMod2B" id="PMod2BSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PMod2ASlider.right + 8, PMod2ASlider.top, left + PMod2ASlider.width, top + PMod1BSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod2B" id="PMod2BLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod2BSlider.left, PMod2BSlider.bottom + 2, PMod2BSlider.right, top + 8  " />
+            <mappingparent componentname="PMod2B" componenttype="slider" />
+          </label>
+          <slider name="PMod3A" id="PMod3ASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PMod2BSlider.right + 8, PMod2BSlider.top, left + PMod2BSlider.width, top + PMod1BSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod3A" id="PMod3ALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod3ASlider.left, PMod3ASlider.bottom + 2, PMod3ASlider.right, top + 8  " />
+            <mappingparent componentname="PMod3A" componenttype="slider" />
+          </label>
+          <slider name="PMod3B" id="PMod3BSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="PMod3ASlider.right + 8, PMod3ASlider.top, left + PMod3ASlider.width, top + PMod1BSlider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="PMod3B" id="PMod3BLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="PMod3BSlider.left, PMod3BSlider.bottom + 2, PMod3BSlider.right, top + 8  " />
+            <mappingparent componentname="PMod3A" componenttype="slider" />
+          </label>
+          <!--Mix2-->
+        </component>
+        <!--Mix2A, Mix2B, VolMod-->
+        <component backgroundcolour="4400ff00" name="Mix2AB" id="Mix2AB">
+          <bounds relativerectangle="0, PMod.bottom + 8, parent.width, top + PMod.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Mix2A1" id="Mix2A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix2A1" id="Mix2A1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix2A1Slider.left, Mix2A1Slider.bottom + 2, Mix2A1Slider.right, top + 8  " />
+            <mappingparent componentname="Mix2A1" componenttype="slider" />
+          </label>
+          <slider name="Mix2A2" id="Mix2A2Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix2A1Slider.right + 8, Mix2A1Slider.top, left + Mix2A1Slider.width, top + Mix2A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix2A2" id="Mix2A2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix2A2Slider.left, Mix2A2Slider.bottom + 2, Mix2A2Slider.right, top + 8  " />
+            <mappingparent componentname="Mix2A2" componenttype="slider" />
+          </label>
+          <slider name="Mix2B1" id="Mix2B1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix2A2Slider.right + 8, Mix2A2Slider.top, left + Mix2A2Slider.width, top + Mix2A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix2B1" id="Mix2B1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix2B1Slider.left, Mix2B1Slider.bottom + 2, Mix2B1Slider.right, top + 8  " />
+            <mappingparent componentname="Mix2B1" componenttype="slider" />
+          </label>
+          <slider name="Mix2B2" id="Mix2B2Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix2B1Slider.right + 8, Mix2B1Slider.top, left + Mix2B1Slider.width, top + Mix2A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix2B2" id="Mix2B2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix2B2Slider.left, Mix2B2Slider.bottom + 2, Mix2B2Slider.right, top + 8  " />
+            <mappingparent componentname="Mix2B2" componenttype="slider" />
+          </label>
+          <slider name="VolMod1" id="VolMod1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix2B2Slider.right + 8, Mix2B2Slider.top, left + Mix2B2Slider.width, top + Mix2A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="VolMod1" id="VolMod1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="VolMod1Slider.left, VolMod1Slider.bottom + 2, VolMod1Slider.right, top + 8  " />
+            <mappingparent componentname="VolMod1" componenttype="slider" />
+          </label>
+          <slider name="VolMod2" id="VolMod2Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="VolMod1Slider.right + 8, VolMod1Slider.top, left + VolMod1Slider.width, top + Mix2A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="VolMod2" id="VolMod2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="VolMod2Slider.left, VolMod2Slider.bottom + 2, VolMod2Slider.right, top + 8  " />
+            <mappingparent componentname="VolMod2" componenttype="slider" />
+          </label>
+        </component>
+        <!--Mix3A, Mix3B-->
+        <component backgroundcolour="4400ff00" name="Mix3AB" id="Mix3AB">
+          <bounds relativerectangle="0, Mix2AB.bottom + 8, parent.width, top + Mix2AB.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Mix3A1" id="Mix3A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3A1" id="Mix3A1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3A1Slider.left, Mix3A1Slider.bottom + 2, Mix3A1Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3A1" componenttype="slider" />
+          </label>
+          <slider name="Mix3A2" id="Mix3A2Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix3A1Slider.right + 8, Mix3A1Slider.top, left + Mix3A1Slider.width, top + Mix3A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3A2" id="Mix3A2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3A2Slider.left, Mix3A2Slider.bottom + 2, Mix3A2Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3A2" componenttype="slider" />
+          </label>
+          <slider name="Mix3A3" id="Mix3A3Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix3A2Slider.right + 8, Mix3A2Slider.top, left + Mix3A2Slider.width, top + Mix3A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3A3" id="Mix3A3Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3A3Slider.left, Mix3A3Slider.bottom + 2, Mix3A3Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3A3" componenttype="slider" />
+          </label>
+          <slider name="Mix3B1" id="Mix3B1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix3A3Slider.right + 8, Mix3A3Slider.top, left + Mix3A3Slider.width, top + Mix3A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3B1" id="Mix3B1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3B1Slider.left, Mix3B1Slider.bottom + 2, Mix3B1Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3B1" componenttype="slider" />
+          </label>
+          <slider name="Mix3B2" id="Mix3B2Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix3B1Slider.right + 8, Mix3B1Slider.top, left + Mix3B1Slider.width, top + Mix3A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3B2" id="Mix3B2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3B2Slider.left, Mix3B2Slider.bottom + 2, Mix3B2Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3B2" componenttype="slider" />
+          </label>
+          <slider name="Mix3B3" id="Mix3B3Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Mix3B2Slider.right + 8, Mix3B2Slider.top, left + Mix3B2Slider.width, top + Mix3A1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Mix3B3" id="Mix3B3Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Mix3B3Slider.left, Mix3B3Slider.bottom + 2, Mix3B3Slider.right, top + 8  " />
+            <mappingparent componentname="Mix3B3" componenttype="slider" />
+          </label>
+        </component>
+        <!--Pan+Out-->
+        <component backgroundcolour="4400ff00" name="Pan+Out" id="PanOut">
+          <bounds relativerectangle="0, Mix3AB.bottom + 8, parent.width, top + Mix3AB.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="Pan1" id="Pan1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <textbox position="none" />
+          </slider>
+          <label name="Pan1" id="Pan1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Pan1Slider.left, Pan1Slider.bottom + 2, Pan1Slider.right, top + 8  " />
+            <mappingparent componentname="Pan1" componenttype="slider" />
+          </label>
+          <slider name="Pan1Mod" id="Pan1ModSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Pan1Slider.right + 8, Pan1Slider.top, left + Pan1Slider.width, top + Pan1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Pan1Mod" id="Pan1ModLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Pan1ModSlider.left, Pan1ModSlider.bottom + 2, Pan1ModSlider.right, top + 8  " />
+            <mappingparent componentname="Pan1Mod" componenttype="slider" />
+          </label>
+          <slider name="MGain1" id="MGain1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Pan1ModSlider.right + 8, Pan1ModSlider.top, left + Pan1ModSlider.width, top + Pan1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="MGain1" id="MGain1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="MGain1Slider.left, MGain1Slider.bottom + 2, MGain1Slider.right, top + 8  " />
+            <mappingparent componentname="MGain1" componenttype="slider" />
+          </label>
+          <slider name="Pan2" id="Pan2Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="MGain1Slider.right + 8, MGain1Slider.top, left + MGain1Slider.width, top + Pan1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Pan2" id="Pan2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Pan2Slider.left, Pan2Slider.bottom + 2, Pan2Slider.right, top + 8  " />
+            <mappingparent componentname="Pan2" componenttype="slider" />
+          </label>
+          <slider name="Pan2Mod" id="Pan2ModSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Pan2Slider.right + 8, Pan2Slider.top, left + Pan2Slider.width, top + Pan1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="Pan2Mod" id="Pan2ModLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="Pan2ModSlider.left, Pan2ModSlider.bottom + 2, Pan2ModSlider.right, top + 8  " />
+            <mappingparent componentname="Pan2Mod" componenttype="slider" />
+          </label>
+          <slider name="MGain2" id="MGain2Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="Pan2ModSlider.right + 8, Pan2ModSlider.top, left + Pan2ModSlider.width, top + Pan1Slider.height" />
+            <textbox position="none" />
+          </slider>
+          <label name="MGain2" id="MGain2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="MGain2Slider.left, MGain2Slider.bottom + 2, MGain2Slider.right, top + 8  " />
+            <mappingparent componentname="MGain2" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <!--VU-->
+      <component backgroundcolour="44ff0000" name="VU" id="VU">
+        <!--Position VU half-way between PMODnMix and lastrow-->
+        <bounds relativerectangle="ADnRGATE.left, PMODnMix.bottom + (lastrow.top - PMODnMix.bottom)/2 - height/2, ADnRGATE.right, top + 94" />
+        <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
+        <component backgroundcolour="4400ff00" name="VU1" id="VU1">
+          <bounds relativerectangle="0, 0, left + parent.width/2 - 4, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="VU1" id="VU1slider" lfid="VUMeter" debugwidgetposition="false">
+            <bounds relativerectangle="parent.left + 9, 20, left + 120, top + 68" />
+            <textbox position="none" />
+          </slider>
+          <label name="VU1" id="VU1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="VU1slider.left, VU1slider.bottom - 82, VU1slider.right, top + 8  " />
+            <mappingparent componentname="VU1" componenttype="slider" />
+          </label>
+        </component>
+        <component backgroundcolour="4400ff00" name="VU2" id="VU2">
+          <bounds relativerectangle="VU1.right + 8, 0, parent.width, parent.height" />
+          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
+            <bounds fillparent="true" />
+          </rectangle>
+          <slider name="VU2" id="VU2slider" lfid="VUMeter" debugwidgetposition="false">
+            <bounds relativerectangle="9, 20, left + 120, top + 68" />
+            <textbox position="none" />
+          </slider>
+          <label name="VU2" id="VU2Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
+            <bounds relativerectangle="VU2slider.left, VU2slider.bottom - 82, VU2slider.right, top + 8  " />
+            <mappingparent componentname="VU2" componenttype="slider" />
+          </label>
+        </component>
+      </component>
+      <standardcontent type="footer" />
+    </component>
+  </layout>
+</tns:ScopeSyncLayout>
