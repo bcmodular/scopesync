@@ -354,10 +354,10 @@
                scopeParamGroup="1" scopeParamId="3" shortDescription="StartStep" fullDescription="Start"/>
     <parameter name="SeqLength" scopeRangeMin="0" scopeRangeMax="7" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="1" uiRangeMax="8" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="0"
-               scopeParamGroup="1" scopeParamId="3" shortDescription="SeqLength" fullDescription="SeqLength"/>
+               scopeParamGroup="1" scopeParamId="3" shortDescription="Length" fullDescription="SeqLength"/>
     <parameter name="SeqSwing" scopeRangeMin="0" scopeRangeMax="158435456" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="SeqSwing" fullDescription="SeqSwing"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="Swing" fullDescription="SeqSwing"/>
     <parameter name="SeqGt1" shortDescription="1" fullDescription="SeqGt1 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
@@ -366,7 +366,7 @@
         <setting name="SeqGt1On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt2" shortDescription="SeqGt2" fullDescription="SeqGt2 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt2" shortDescription="2" fullDescription="SeqGt2 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -374,7 +374,7 @@
         <setting name="SeqGt2On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt3" shortDescription="SeqGt3" fullDescription="SeqGt3 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt3" shortDescription="3" fullDescription="SeqGt3 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -382,7 +382,7 @@
         <setting name="SeqGt3On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt4" shortDescription="SeqGt4" fullDescription="SeqGt4 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt4" shortDescription="4" fullDescription="SeqGt4 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -390,7 +390,7 @@
         <setting name="SeqGt4On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt5" shortDescription="SeqGt5" fullDescription="SeqGt5 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt5" shortDescription="5" fullDescription="SeqGt5 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -398,7 +398,7 @@
         <setting name="SeqGt5On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt6" shortDescription="SeqGt6" fullDescription="SeqGt6 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt6" shortDescription="6" fullDescription="SeqGt6 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -406,7 +406,7 @@
         <setting name="SeqGt6On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt7" shortDescription="SeqGt7" fullDescription="SeqGt7 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt7" shortDescription="7" fullDescription="SeqGt7 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -414,7 +414,7 @@
         <setting name="SeqGt7On" intValue="1"/>
       </settings>
     </parameter>
-    <parameter name="SeqGt8" shortDescription="SeqGt8" fullDescription="SeqGt8 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
+    <parameter name="SeqGt8" shortDescription="8" fullDescription="SeqGt8 Off/On" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
                scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -424,52 +424,52 @@
     </parameter>
     <parameter name="CtrlSeq1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq1" fullDescription="CtrlSeq1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="1" fullDescription="CtrlSeq1"/>
     <parameter name="CtrlSeq2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq2" fullDescription="CtrlSeq2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="2" fullDescription="CtrlSeq2"/>
     <parameter name="CtrlSeq3" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq3" fullDescription="CtrlSeq3"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="3" fullDescription="CtrlSeq3"/>
     <parameter name="CtrlSeq4" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq4" fullDescription="CtrlSeq4"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="4" fullDescription="CtrlSeq4"/>
     <parameter name="CtrlSeq5" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq5" fullDescription="CtrlSeq5"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="5" fullDescription="CtrlSeq5"/>
     <parameter name="CtrlSeq6" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq6" fullDescription="CtrlSeq6"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="6" fullDescription="CtrlSeq6"/>
     <parameter name="CtrlSeq7" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq7" fullDescription="CtrlSeq7"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="7" fullDescription="CtrlSeq7"/>
     <parameter name="CtrlSeq8" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="CtrlSeq8" fullDescription="CtrlSeq8"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="8" fullDescription="CtrlSeq8"/>
     <parameter name="PitchSeq1" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq1" fullDescription="PitchSeq1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="1" fullDescription="PitchSeq1"/>
     <parameter name="PitchSeq2" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq2" fullDescription="PitchSeq2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="2" fullDescription="PitchSeq2"/>
     <parameter name="PitchSeq3" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq3" fullDescription="PitchSeq3"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="3" fullDescription="PitchSeq3"/>
     <parameter name="PitchSeq4" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq4" fullDescription="PitchSeq4"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="4" fullDescription="PitchSeq4"/>
     <parameter name="PitchSeq5" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq5" fullDescription="PitchSeq5"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="5" fullDescription="PitchSeq5"/>
     <parameter name="PitchSeq6" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq6" fullDescription="PitchSeq6"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="6" fullDescription="PitchSeq6"/>
     <parameter name="PitchSeq7" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq7" fullDescription="PitchSeq7"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="7" fullDescription="PitchSeq7"/>
     <parameter name="PitchSeq8" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PitchSeq8" fullDescription="PitchSeq8"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="8" fullDescription="PitchSeq8"/>
     <parameter name="VU1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="VU1" fullDescription="VU1"/>
@@ -582,6 +582,8 @@
       <slider name="AdsrVelo" mapTo="AdsrVelo"/>
       <slider name="AdVelo" mapTo="AdVelo"/>
       <slider name="ATSmooth" mapTo="ATSmooth"/>
+      <slider name="ConstValA" mapTo="ConstValA"/>
+      <slider name="ConstValB" mapTo="ConstValB"/>
       <slider name="PortaTime" mapTo="PortaTime"/>
       <slider name="PortaType" mapTo="PortaType"/>
       <slider name="SeqFrqSrcKnob" mapTo="SeqFrqSrcKnob"/>
@@ -607,8 +609,6 @@
       <slider name="PitchSeq8" mapTo="PitchSeq8"/>
       <slider name="VU1" mapTo="VU1"/>
       <slider name="VU2" mapTo="VU2"/>
-      <slider name="ConstValA" mapTo="ConstValA"/>
-      <slider name="ConstValB" mapTo="ConstValB"/>
     </sliders>
     <labels/>
     <comboBoxes/>
