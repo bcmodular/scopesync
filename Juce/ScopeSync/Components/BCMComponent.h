@@ -51,7 +51,7 @@ class BCMComponent : public BCMWidget,
                      public Component,
 					 public Slider::Listener,
 					 public ComboBox::Listener,
-                     public Value::Listener                                     
+                     public Value::Listener
 {
 public:
     BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool showEditToolbar = false);
@@ -105,6 +105,13 @@ private:
     Image                          backgroundImage;           // Image to display on the background
     RectanglePlacement             backgroundImagePlacement;  // Alignment of background image
     bool                           drawCrossHair;             // Do we need to draw a cross-hair?
+
+	int horizontalCrossHairThickness;
+	int verticalCrossHairThickness;
+	Colour horizontalCrossHairColour;
+	Colour verticalCrossHairColour;
+
+	Point<int> mousePosition;
     
     BCMParameterController& parameterController;
 	SharedResourcePointer<ImageLoader> imageLoader;
@@ -154,6 +161,9 @@ private:
 
     // To handle the right-click menu
     void mouseDown(const MouseEvent& event) override;
+
+	// For cross-hair positioning
+	void mouseMove(const MouseEvent& event) override;
 
     // Open the specific Style Override Panel for components as appropriate
     void overrideStyle() override;

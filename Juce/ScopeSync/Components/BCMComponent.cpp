@@ -253,7 +253,9 @@ private:
 };
 
 BCMComponent::BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, const String& name, bool isMainComponent)
-    : BCMWidget(owner), Component(name), drawCrossHair(false), parameterController(pc), mainComponent(isMainComponent)
+	: BCMWidget(owner), Component(name),
+	  drawCrossHair(false), horizontalCrossHairThickness(10), verticalCrossHairThickness(10), horizontalCrossHairColour(), verticalCrossHairColour(),
+	  parameterController(pc), mainComponent(isMainComponent)
 {
     setParentWidget(this);
     setWantsKeyboardFocus(true);
@@ -264,6 +266,8 @@ BCMComponent::BCMComponent(ScopeSyncGUI& owner, BCMParameterController& pc, cons
 
 BCMComponent::~BCMComponent()
 {
+	Desktop::getInstance().removeGlobalMouseListener(this);
+
     if (mainComponent)
         scopeSync.getSystemError().removeListener(this);
 }
@@ -317,8 +321,15 @@ void BCMComponent::applyProperties(XmlElement& componentXML, const String& layou
     
     if (props.showCrossHair)
     {
+		Desktop::getInstance().addGlobalMouseListener(this);
+
         // Grab settings for CrossHair here
         drawCrossHair = true;
+
+		horizontalCrossHairThickness = props.horizontalCrossHairThickness;
+		verticalCrossHairThickness   = props.verticalCrossHairThickness;
+		horizontalCrossHairColour    = Colour::fromString(props.horizontalCrossHairColour);
+		verticalCrossHairColour      = Colour::fromString(props.verticalCrossHairColour);
     }
 
     // Then loop through child component elements
@@ -429,10 +440,18 @@ void BCMComponent::paint(Graphics& g)
     // Draw cross-hair if needed
     if (drawCrossHair)
     {
-        int mousePosY = 100;
-        Rectangle<int> horizontalLine(0, mousePosY, this->getWidth(), 10);
-        g.setColour(Colour::fromString("ff00ff00"));
-        g.fillRect(horizontalLine);
+		Rectangle<int> screenBounds(getScreenBounds());
+
+		if (screenBounds.contains(mousePosition))
+		{
+			Rectangle<int> horizontalLine(0, getLocalPoint(nullptr, mousePosition).getY() - (horizontalCrossHairThickness / 2), this->getWidth(), horizontalCrossHairThickness);
+			g.setColour(horizontalCrossHairColour);
+			g.fillRect(horizontalLine);
+
+			Rectangle<int> verticalLine(getLocalPoint(nullptr, mousePosition).getX() - (verticalCrossHairThickness / 2), 0, verticalCrossHairThickness, this->getHeight());
+			g.setColour(verticalCrossHairColour);
+			g.fillRect(verticalLine);
+		}
     }
 }
 
@@ -618,13 +637,14 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
 
         SliderProperties sliderProperties(scopeSyncGUI, sliderXML, *parentProperties);
         BCMSlider*       slider;
-
+		
         // Setup slider object
         addAndMakeVisible(slider = new BCMSlider(sliderProperties.name, scopeSyncGUI));
-        slider->addListener(this);
+		slider->addListener(this);
 
         slider->applyProperties(sliderProperties);
         sliders.add(slider);
+		slider->setOpaque(false);
     }
 }
 
@@ -823,15 +843,21 @@ void BCMComponent::overrideStyle()
 
 void BCMComponent::mouseDown(const MouseEvent& event)
 {
-    DBG("BCMComponent::mouseDown  - component id: " + getComponentID());
+    // We're potentially listening to Global mouse events, so let's check
+	// we're actually getting one for this component here
+	if (event.eventComponent == this)
+	{
+		DBG("BCMComponent::mouseDown - component id: " + getComponentID());
+		
+		if (event.mods.isPopupMenu())
+			showPopupMenu();
+		else
+			Component::mouseDown(event);		
+	}
+}
 
-    if (event.mods.isPopupMenu())
-    {
-        //grabKeyboardFocus();
-        showPopupMenu();
-    }
-    else
-    {
-        Component::mouseDown(event);
-    }
+void BCMComponent::mouseMove(const MouseEvent & event)
+{
+	mousePosition = event.getScreenPosition();
+	repaint();
 }
