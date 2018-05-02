@@ -233,7 +233,7 @@
           </slider>
         </images>
         <colours>
-          <slider trackcolourid="00000000" backgroundcolourid="00000000"/>
+          <slider trackcolourid="00000000" backgroundcolourid="33000000" />
         </colours>
       </lookandfeel>
     </lookandfeels>
@@ -249,13 +249,13 @@
       <slider style="linearbar" velocitybasedmode="true" lfid="maintheme" wtid="cvbar">
         <bounds x="0" y="0" />
         <textbox readonly="false">
-          <font bold="true" height="10"/>
-          <justification left="true"/>
+          <font bold="true" height="10" />
+          <justification left="true" />
         </textbox>
       </slider>
     </widgettemplates>
     <!--Main Component-->
-    <component backgroundimage="gfx/thumbnail_CMS3tr.png" backgroundcolour="ffffffff" lfid="maintheme">
+    <component backgroundimage="gfx/thumbnail_CMS3wh.png" backgroundcolour="ffffffff" lfid="maintheme">
       <backgroundimageplacement>ytop</backgroundimageplacement>
       <bounds height="720" width="1280" />
       <!--ScopeSync Header (might well want to replace with a custom header with reduced functionality)-->
@@ -839,10 +839,10 @@
       </component>
       <!--ExpVca & Velo & AT & ConstValAB-->
       <component backgroundcolour="44ff0000" name="ExpVca &amp; Velo &amp; AT &amp; ConstValA+B" id="VcaVelo">
-        <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right, top + 138" />
+        <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right + 20, top + 138" />
         <!--ExpVcaVeloAT controls-->
         <component backgroundcolour="4400ff00" name="ExpVca" id="ExpVca">
-          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <bounds relativerectangle="0, 0, parent.width - 20, top + 65" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
@@ -896,15 +896,21 @@
             <bounds relativerectangle="ConstValASlider.right, ConstValABipolarBar.bottom + 2, ConstValBSlider.left, top + 15" />
           </slider>
           <label name="ConstValA" id="ConstValALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="ConstValASlider.left, ConstValASlider.bottom + 2, ConstValASlider.right, top + 8" />
+            <bounds relativerectangle="ConstValASlider.left + 30, ConstValASlider.bottom + 2, ConstValASlider.right + 40, top + 8" />
             <mappingparent componentname="ConstValA" componenttype="slider" />
           </label>
           <slider name="ConstValB" id="ConstValBSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
             <bounds relativerectangle="ConstValASlider.right + 60, ConstValASlider.top, left + ConstValASlider.width, top +  ConstValASlider.height " />
             <textbox position="none" />
           </slider>
+          <slider name="ConstValBBipolarBar" id="ConstValBBipolarBar" wtid="cvbar">
+            <bounds relativerectangle="ConstValBSlider.right, 12, ConstValBSlider.right + 60, top + 15" />
+          </slider>
+          <slider name="ConstValBFreqBar" id="ConstValBFreqBar" wtid="cvbar">
+            <bounds relativerectangle="ConstValBSlider.right, ConstValABipolarBar.bottom + 2, ConstValBSlider.right + 60, top + 15" />
+          </slider>
           <label name="ConstValB" id="ConstValBLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
-            <bounds relativerectangle="ConstValBSlider.left, ConstValBSlider.bottom + 2, ConstValBSlider.right, top + 8  " />
+            <bounds relativerectangle="ConstValBSlider.left + 30, ConstValBSlider.bottom + 2, ConstValBSlider.right + 40, top + 8  " />
             <mappingparent componentname="ConstValB" componenttype="slider" />
           </label>
         </component>
@@ -1474,15 +1480,218 @@
         </component>
       </component>
       <!--Fader Matrix-->
-      <component backgroundimage="gfx/CMSMatrix624x408.png" name="Matrix" id="matrix">
-        <bounds x="313" y="176" height="408" width="624"/>
+      <component backgroundimage="gfx/Matrix624x418newMatrix.png" name="Matrix" id="matrix">
+        <bounds x="313" y="176" height="418" width="624" />
+        <!--Fader Matrix 1-12-->
         <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider1" name="MatrixSlider1" lfid="matrixfader">
-          <textbox position="none"/>
-          <bounds relativerectangle="0, 0, left + parent.width/52, parent.height"/>
+          <textbox position="none" />
+          <bounds relativerectangle="0, 0, left + parent.width/52, parent.height" />
         </slider>
         <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider2" name="MatrixSlider2" lfid="matrixfader">
-          <textbox position="none"/>
-          <bounds relativerectangle="MatrixSlider1.right, 0, left + parent.width/52, parent.height"/>
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider1.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider3" name="MatrixSlider3" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider2.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider4" name="MatrixSlider4" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider3.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider5" name="MatrixSlider5" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider4.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider6" name="MatrixSlider6" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider5.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider7" name="MatrixSlider7" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider6.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider8" name="MatrixSlider8" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider7.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider9" name="MatrixSlider9" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider8.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider10" name="MatrixSlider10" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider9.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider11" name="MatrixSlider11" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider10.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider12" name="MatrixSlider12" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider11.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <!--Fader Matrix 13-24-->
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider13" name="MatrixSlider13" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider12.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider14" name="MatrixSlider14" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider13.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider15" name="MatrixSlider15" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider14.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider16" name="MatrixSlider16" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider15.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider17" name="MatrixSlider17" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider16.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider18" name="MatrixSlider18" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider17.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider19" name="MatrixSlider19" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider18.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider20" name="MatrixSlider20" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider19.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider21" name="MatrixSlider21" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider20.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider22" name="MatrixSlider22" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider21.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider23" name="MatrixSlider23" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider22.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider24" name="MatrixSlider24" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider23.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <!--Fader Matrix 25-remain -->
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider25" name="MatrixSlider25" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider24.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider26" name="MatrixSlider26" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider25.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider27" name="MatrixSlider27" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider26.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider28" name="MatrixSlider28" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider27.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider29" name="MatrixSlider29" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider28.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider30" name="MatrixSlider30" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider29.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider31" name="MatrixSlider31" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider30.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider32" name="MatrixSlider32" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider31.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider33" name="MatrixSlider33" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider32.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider34" name="MatrixSlider34" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider33.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider35" name="MatrixSlider35" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider34.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider36" name="MatrixSlider36" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider35.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider37" name="MatrixSlider37" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider36.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider38" name="MatrixSlider38" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider37.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider39" name="MatrixSlider39" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider38.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider40" name="MatrixSlider40" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider39.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider41" name="MatrixSlider41" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider40.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider42" name="MatrixSlider42" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider41.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider43" name="MatrixSlider43" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider42.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider44" name="MatrixSlider44" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider43.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider45" name="MatrixSlider45" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider44.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider46" name="MatrixSlider46" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider45.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider47" name="MatrixSlider47" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider46.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider48" name="MatrixSlider48" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider47.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider49" name="MatrixSlider49" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider48.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider50" name="MatrixSlider50" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider49.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider51" name="MatrixSlider51" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider50.right, 0, left + parent.width/52, parent.height" />
+        </slider>
+        <slider style="linearvertical" encodersnap="true" popupenabled="true" inverted="true" id="MatrixSlider52" name="MatrixSlider52" lfid="matrixfader">
+          <textbox position="none" />
+          <bounds relativerectangle="MatrixSlider51.right, 0, left + parent.width/52, parent.height" />
         </slider>
       </component>
       <standardcontent type="footer" />

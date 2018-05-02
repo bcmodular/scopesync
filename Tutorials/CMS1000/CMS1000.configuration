@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration name="CMS1000" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000" layoutLibrarySet="CWM"
-               UID="-1968465504" ID="UhbHEc">
+               UID="-866259090" ID="eUyKig">
   <parameters>
     <parameter name="OSC1 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
@@ -333,6 +333,12 @@
     <parameter name="ConstValB" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="ConstValB" fullDescription="ConstValB"/>
+    <parameter name="ConstValBBar1" shortDescription="ConstValBBar1" fullDescription="ConstValBBar1" scopeParamGroup="1" scopeParamId="3"
+               scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="0"/>
+    <parameter name="ConstValBBar2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="12000" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000" uiRangeInterval="0.01" uiSuffix=" Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="12000" scopeParamGroup="1" scopeParamId="3" shortDescription="ConstValBBar2" fullDescription="ConstValBBar2"/>
     <parameter name="PortaTime" scopeRangeMin="0" scopeRangeMax="127" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="3" shortDescription="PortaTime" fullDescription="PortaTime"/>
@@ -564,6 +570,2056 @@
         <setting name="In 2" intValue="33"/>
       </settings>
     </parameter>
+    <parameter name="MatrixOSC2FDest" shortDescription="OSC2F" fullDescription="Matrix OSC2F Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixOSC2ModDest" shortDescription="OSC2Mod" fullDescription="Matrix OSC2Mod Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixOSC3FDest" shortDescription="OSC3F" fullDescription="Matrix OSC3F Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixLfoFrqDest" shortDescription="LfoF" fullDescription="Matrix LfoF Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixLfoVolMDest" shortDescription="LfoVolM" fullDescription="Matrix LfoVolM Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixLpInDest" shortDescription="LpIn" fullDescription="Matrix LpIn Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixLpCfm1Dest" shortDescription="LpCfm1" fullDescription="Matrix LpCfm1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixLpCfm2Dest" shortDescription="LpCfm2" fullDescription="Matrix LpCfm2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixHpInDest" shortDescription="HpIn" fullDescription="Matrix HpIn Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixHpCfm1Dest" shortDescription="HpCfm1" fullDescription="Matrix HpCfm1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixHpCfm2Dest" shortDescription="HpCfm2" fullDescription="Matrix HpCfm2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod1InDest" shortDescription="PMod1In" fullDescription="Matrix PMod1In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod1ADest" shortDescription="PMod1A" fullDescription="Matrix PMod1A Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod1BDest" shortDescription="PMod1B" fullDescription="Matrix PMod1B Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod2InDest" shortDescription="PMod2In" fullDescription="Matrix PMod2In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod2ADest" shortDescription="PMod2A" fullDescription="Matrix PMod2A Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod2BDest" shortDescription="PMod2B" fullDescription="Matrix PMod2B Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod3InDest" shortDescription="PMod3In" fullDescription="Matrix PMod3In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod3ADest" shortDescription="PMod3A" fullDescription="Matrix PMod3A Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPMod3BDest" shortDescription="PMod3B" fullDescription="Matrix PMod3B Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVca1InDest" shortDescription="Vca1In" fullDescription="Matrix Vca1In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVca1ModDest" shortDescription="Vca1Mod" fullDescription="Matrix Vca1Mod Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVca2InDest" shortDescription="Vca2In" fullDescription="Matrix Vca2In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVca2ModDest" shortDescription="Vca2Mod" fullDescription="Matrix Vca2Mod Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixExpVcaInDest" shortDescription="ExpVcaIn" fullDescription="Matrix ExpVcaIn Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixExpVcaModDest" shortDescription="ExpVcaMod" fullDescription="Matrix ExpVcaMod Destination" scopeParamGroup="5"
+               scopeParamId="1" scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVolModInDest" shortDescription="VolModIn" fullDescription="Matrix VolModIn Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVolModM1Dest" shortDescription="VolModM1" fullDescription="Matrix VolModM1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVolModM2Dest" shortDescription="VolModM2" fullDescription="Matrix VolModM2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix2AIn1Dest" shortDescription="Mix2AIn1" fullDescription="Matrix Mix2AIn1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix2AIn2Dest" shortDescription="Mix2AIn2" fullDescription="Matrix Mix2AIn2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix2BIn1Dest" shortDescription="Mix2BIn1" fullDescription="Matrix Mix2BIn1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix2BIn2Dest" shortDescription="Mix2BIn2" fullDescription="Matrix Mix2BIn2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3AIn1Dest" shortDescription="Mix3AIn1" fullDescription="Matrix Mix3AIn1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3AIn2Dest" shortDescription="Mix3AIn2" fullDescription="Matrix Mix3AIn2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3AIn3Dest" shortDescription="Mix3AIn3" fullDescription="Matrix Mix3AIn3 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3BIn1Dest" shortDescription="Mix3BIn1" fullDescription="Matrix Mix3BIn1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3BIn2Dest" shortDescription="Mix3BIn2" fullDescription="Matrix Mix3BIn2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixMix3BIn3Dest" shortDescription="Mix3BIn3" fullDescription="Matrix Mix3BIn3 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixRMIn1Dest" shortDescription="RMIn1" fullDescription="Matrix RMIn1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixRMIn2Dest" shortDescription="RMIn2" fullDescription="Matrix RMIn2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixB2UInDest" shortDescription="B2UIn" fullDescription="Matrix B2UIn Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixDel1InDest" shortDescription="Del1In" fullDescription="Matrix Del1In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixDel2InDest" shortDescription="Del2In" fullDescription="Matrix Del2In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPanMod1Dest" shortDescription="PanMod1" fullDescription="Matrix PanMod1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixPanMod2Dest" shortDescription="PanMod2" fullDescription="Matrix PanMod2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVU1InDest" shortDescription="VU1In" fullDescription="Matrix VU1In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixVU2InDest" shortDescription="VU2In" fullDescription="Matrix VU2In Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixOut1Dest" shortDescription="Out1" fullDescription="Matrix Out1 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
+    <parameter name="MatrixOut2Dest" shortDescription="Out2" fullDescription="Matrix Out2 Destination" scopeParamGroup="5" scopeParamId="1"
+               scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+      <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="33.00000000000000000000" uiResetValue="0.00000000000000000000">
+        <setting name="--" intValue="0"/>
+        <setting name="OSC1" intValue="1"/>
+        <setting name="OSC2" intValue="2"/>
+        <setting name="OSC3" intValue="3"/>
+        <setting name="LFO" intValue="4"/>
+        <setting name="AD" intValue="5"/>
+        <setting name="ADSR" intValue="6"/>
+        <setting name="CntrSeq" intValue="7"/>
+        <setting name="PitchSeq" intValue="8"/>
+        <setting name="Pmod1" intValue="9"/>
+        <setting name="Pmod2" intValue="10"/>
+        <setting name="Pmod3" intValue="11"/>
+        <setting name="VCA1" intValue="12"/>
+        <setting name="VCA2" intValue="13"/>
+        <setting name="ExpVCA" intValue="14"/>
+        <setting name="VolMod" intValue="15"/>
+        <setting name="Mix2A" intValue="16"/>
+        <setting name="Mix2B" intValue="17"/>
+        <setting name="Mix3A" intValue="18"/>
+        <setting name="Mix3B" intValue="19"/>
+        <setting name="LP" intValue="20"/>
+        <setting name="HP" intValue="21"/>
+        <setting name="RingMod" intValue="22"/>
+        <setting name="MvcFrq" intValue="23"/>
+        <setting name="MvcAT" intValue="24"/>
+        <setting name="Delay1" intValue="25"/>
+        <setting name="Delay2" intValue="26"/>
+        <setting name="ConstVA" intValue="27"/>
+        <setting name="ConstVB" intValue="28"/>
+        <setting name="ConstVC" intValue="29"/>
+        <setting name="White Nz" intValue="30"/>
+        <setting name="Bip2Uni" intValue="31"/>
+        <setting name="In 1" intValue="32"/>
+        <setting name="In 2" intValue="33"/>
+      </settings>
+    </parameter>
   </parameters>
   <mapping>
     <textButtons>
@@ -671,7 +2727,11 @@
       <slider name="AdVelo" mapTo="AdVelo"/>
       <slider name="ATSmooth" mapTo="ATSmooth"/>
       <slider name="ConstValA" mapTo="ConstValA"/>
+      <slider name="ConstValABipolarBar" mapTo="ConstValABar1"/>
+      <slider name="ConstValAFreqBar" mapTo="ConstValABar2"/>
       <slider name="ConstValB" mapTo="ConstValB"/>
+      <slider name="ConstValBBipolarBar" mapTo="ConstValBBar1"/>
+      <slider name="ConstValBFreqBar" mapTo="ConstValBBar2"/>
       <slider name="PortaTime" mapTo="PortaTime"/>
       <slider name="PortaType" mapTo="PortaType"/>
       <slider name="SeqFrqSrcKnob" mapTo="SeqFrqSrcKnob"/>
@@ -699,8 +2759,56 @@
       <slider name="VU2" mapTo="VU2"/>
       <slider name="MatrixSlider1" mapTo="MatrixOSC1FDest"/>
       <slider name="MatrixSlider2" mapTo="MatrixOSC1Mod"/>
-      <slider name="ConstValABipolarBar" mapTo="ConstValABar1"/>
-      <slider name="ConstValAFreqBar" mapTo="ConstValABar2"/>
+      <slider name="MatrixSlider3" mapTo="MatrixOSC2FDest"/>
+      <slider name="MatrixSlider4" mapTo="MatrixOSC2ModDest"/>
+      <slider name="MatrixSlider5" mapTo="MatrixOSC3FDest"/>
+      <slider name="MatrixSlider6" mapTo="MatrixLfoFrqDest"/>
+      <slider name="MatrixSlider7" mapTo="MatrixLfoVolMDest"/>
+      <slider name="MatrixSlider8" mapTo="MatrixLpInDest"/>
+      <slider name="MatrixSlider9" mapTo="MatrixLpCfm1Dest"/>
+      <slider name="MatrixSlider10" mapTo="MatrixLpCfm2Dest"/>
+      <slider name="MatrixSlider11" mapTo="MatrixHpInDest"/>
+      <slider name="MatrixSlider12" mapTo="MatrixHpCfm1Dest"/>
+      <slider name="MatrixSlider13" mapTo="MatrixHpCfm2Dest"/>
+      <slider name="MatrixSlider14" mapTo="MatrixPMod1InDest"/>
+      <slider name="MatrixSlider15" mapTo="MatrixPMod1ADest"/>
+      <slider name="MatrixSlider16" mapTo="MatrixPMod1BDest"/>
+      <slider name="MatrixSlider17" mapTo="MatrixPMod2InDest"/>
+      <slider name="MatrixSlider18" mapTo="MatrixPMod2ADest"/>
+      <slider name="MatrixSlider19" mapTo="MatrixPMod2BDest"/>
+      <slider name="MatrixSlider20" mapTo="MatrixPMod3InDest"/>
+      <slider name="MatrixSlider21" mapTo="MatrixPMod3ADest"/>
+      <slider name="MatrixSlider22" mapTo="MatrixPMod3BDest"/>
+      <slider name="MatrixSlider23" mapTo="MatrixVca1InDest"/>
+      <slider name="MatrixSlider24" mapTo="MatrixVca1ModDest"/>
+      <slider name="MatrixSlider25" mapTo="MatrixVca2InDest"/>
+      <slider name="MatrixSlider26" mapTo="MatrixVca2ModDest"/>
+      <slider name="MatrixSlider27" mapTo="MatrixExpVcaInDest"/>
+      <slider name="MatrixSlider28" mapTo="MatrixExpVcaModDest"/>
+      <slider name="MatrixSlider29" mapTo="MatrixVolModInDest"/>
+      <slider name="MatrixSlider30" mapTo="MatrixVolModM1Dest"/>
+      <slider name="MatrixSlider31" mapTo="MatrixVolModM2Dest"/>
+      <slider name="MatrixSlider32" mapTo="MatrixMix2AIn1Dest"/>
+      <slider name="MatrixSlider33" mapTo="MatrixMix2AIn2Dest"/>
+      <slider name="MatrixSlider34" mapTo="MatrixMix2BIn1Dest"/>
+      <slider name="MatrixSlider35" mapTo="MatrixMix2BIn2Dest"/>
+      <slider name="MatrixSlider36" mapTo="MatrixMix3AIn1Dest"/>
+      <slider name="MatrixSlider37" mapTo="MatrixMix3AIn2Dest"/>
+      <slider name="MatrixSlider38" mapTo="MatrixMix3AIn3Dest"/>
+      <slider name="MatrixSlider39" mapTo="MatrixMix3BIn1Dest"/>
+      <slider name="MatrixSlider40" mapTo="MatrixMix3BIn2Dest"/>
+      <slider name="MatrixSlider41" mapTo="MatrixMix3BIn3Dest"/>
+      <slider name="MatrixSlider42" mapTo="MatrixRMIn1Dest"/>
+      <slider name="MatrixSlider43" mapTo="MatrixRMIn2Dest"/>
+      <slider name="MatrixSlider44" mapTo="MatrixB2UInDest"/>
+      <slider name="MatrixSlider45" mapTo="MatrixDel1InDest"/>
+      <slider name="MatrixSlider46" mapTo="MatrixDel2InDest"/>
+      <slider name="MatrixSlider47" mapTo="MatrixPanMod1Dest"/>
+      <slider name="MatrixSlider48" mapTo="MatrixPanMod2Dest"/>
+      <slider name="MatrixSlider49" mapTo="MatrixVU1InDest"/>
+      <slider name="MatrixSlider50" mapTo="MatrixVU2InDest"/>
+      <slider name="MatrixSlider51" mapTo="MatrixOut1Dest"/>
+      <slider name="MatrixSlider52" mapTo="MatrixOut2Dest"/>
     </sliders>
     <labels/>
     <comboBoxes/>
