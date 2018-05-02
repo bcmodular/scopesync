@@ -644,7 +644,7 @@ void BCMComponent::setupSlider(XmlElement& sliderXML)
 
         slider->applyProperties(sliderProperties);
         sliders.add(slider);
-		slider->setOpaque(false);
+		//slider->setOpaque(false);
     }
 }
 
