@@ -210,6 +210,19 @@
           </slider>
         </images>
       </lookandfeel>
+      <lookandfeel id="MatrixText" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/36x36TextMatrix.png" numframes="1" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
+      </lookandfeel>
       <lookandfeel id="VUMeter" parentid="maintheme">
         <appliesto componenttype="none" />
         <colours>
@@ -227,14 +240,27 @@
         <appliesto componenttype="none" />
         <images>
           <slider>
-            <linearvertical thumbfilename="gfx/Slider-Thumb.png" thumbmouseoverfilename="gfx/Slider-Thumb.png" thumbborder="0">
+            <linearvertical thumbfilename="gfx/Slider-ThumbBlWh.png" thumbmouseoverfilename="gfx/Slider-ThumbBlTu.png" thumbborder="0">
               <!--  <backgroundimage filename="gfx/slider-background.png" numframes="1"/>-->
             </linearvertical>
           </slider>
         </images>
         <colours>
-          <slider trackcolourid="00000000" backgroundcolourid="33000000" />
+          <slider trackcolourid="00000000" backgroundcolourid="00000000" />
         </colours>
+      </lookandfeel>
+      <lookandfeel id="MVCText" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <slider>
+            <rotary>
+              <image filename="gfx/12x36TextMVC.png" numframes="1" ishorizontal="false" />
+            </rotary>
+          </slider>
+        </images>
       </lookandfeel>
     </lookandfeels>
     <widgettemplates>
@@ -259,19 +285,19 @@
       </slider>
     </widgettemplates>
     <!--Main Component-->
-    <component backgroundimage="gfx/thumbnail_CMS3wh.png" backgroundcolour="ffffffff" lfid="maintheme">
+    <component backgroundimage="gfx/CWMbackgrDark.png" backgroundcolour="ffffffff" lfid="maintheme">
       <backgroundimageplacement>ytop</backgroundimageplacement>
-      <bounds height="720" width="1280" />
+      <bounds height="746" width="1280" />
       <!--ScopeSync Header (might well want to replace with a custom header with reduced functionality)-->
       <standardcontent type="header" />
       <!--First row of controls-->
-      <component backgroundcolour="44ff0000" name="First Row" id="firstrow">
+      <component backgroundcolour="00ff0000" name="First Row" id="firstrow">
         <!--Using relativerectangle for bounds makes it easy to position elements relative to others.-->
         <!--Format is left, top, right, bottom. You can reference parent (like here) or use the id for -->
         <!--the related element (must be siblings though).-->
         <bounds relativerectangle="10, 33, parent.width - 10, top + 65" />
         <!--OSC 1 controls-->
-        <component backgroundcolour="4400ff00" name="OSC1" id="OSC1">
+        <component backgroundcolour="ffdbdbdb" name="OSC1" id="OSC1">
           <bounds relativerectangle="0, 0, left + 288, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -289,7 +315,7 @@
             <!-- For now, only size and weight of font can be specified, but this is where the font -->
             <!-- itself will be defined when that has been implemented -->
           </label>
-          <slider name="OSC1 Fine" id="OSC1FineSlider" popupenabled="true" lfid="bipolar100knob">
+          <slider name="OSC1 Fine" id="OSC1FineSlider" popupenabled="false" lfid="bipolar100knob">
             <bounds relativerectangle="OSC1CoarseSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -300,7 +326,7 @@
           <!-- We set encodersnap="true" here, so the knob will jump between valid settings, rather than -->
           <!-- the usual continuous rotation -->
           <!--Osc1-->
-          <slider name="OSC1 Wave" id="OSC1WaveSlider" popupenabled="true" encodersnap="true" lfid="wavechoiceknob" debugwidgetposition="false">
+          <slider name="OSC1 Wave" id="OSC1WaveSlider" popupenabled="false" encodersnap="true" lfid="wavechoiceknob" debugwidgetposition="false">
             <bounds relativerectangle="OSC1FineSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -308,7 +334,7 @@
             <bounds relativerectangle="OSC1WaveSlider.left, OSC1WaveSlider.bottom + 2, OSC1WaveSlider.right, top + OSC1CoarseLabel.height " />
             <mappingparent componentname="OSC1 Wave" componenttype="slider" />
           </label>
-          <slider name="OSC1 Shape" id="OSC1ShapeSlider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC1 Shape" id="OSC1ShapeSlider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC1WaveSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -316,7 +342,7 @@
             <bounds relativerectangle="OSC1ShapeSlider.left, OSC1ShapeSlider.bottom + 2, OSC1ShapeSlider.right, top + OSC1CoarseLabel.height " />
             <mappingparent componentname="OSC1 Shape" componenttype="slider" />
           </label>
-          <slider name="OSC1 WsMod1" id="OSC1WsMod1Slider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC1 WsMod1" id="OSC1WsMod1Slider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC1ShapeSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -324,7 +350,7 @@
             <bounds relativerectangle="OSC1WsMod1Slider.left, OSC1WsMod1Slider.bottom + 2, OSC1WsMod1Slider.right, top + OSC1CoarseLabel.height " />
             <mappingparent componentname="OSC1 WsMod1" componenttype="slider" />
           </label>
-          <slider name="OSC1 WsMod2" id="OSC1WsMod2Slider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC1 WsMod2" id="OSC1WsMod2Slider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC1WsMod1Slider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -334,12 +360,12 @@
           </label>
         </component>
         <!--OSC 2 controls-->
-        <component backgroundcolour="4400ff00" name="OSC2" id="OSC2">
+        <component backgroundcolour="ffdbdbdb" name="OSC2" id="OSC2">
           <bounds relativerectangle="OSC1.right + 8, 0, left + 285, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
-          <slider name="OSC2 Coarse" id="OSC2CoarseSlider" popupenabled="true" lfid="bipolar48knob">
+          <slider name="OSC2 Coarse" id="OSC2CoarseSlider" popupenabled="false" lfid="bipolar48knob">
             <bounds relativerectangle="5, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -347,7 +373,7 @@
             <bounds relativerectangle="OSC2CoarseSlider.left, OSC2CoarseSlider.bottom + 2, OSC2CoarseSlider.right, top + 8  " />
             <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
           </label>
-          <slider name="OSC2 Fine" id="OSC2FineSlider" popupenabled="true" lfid="bipolar100knob">
+          <slider name="OSC2 Fine" id="OSC2FineSlider" popupenabled="false" lfid="bipolar100knob">
             <bounds relativerectangle="OSC2CoarseSlider.right + 5, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -355,7 +381,7 @@
             <bounds relativerectangle="OSC2FineSlider.left, OSC2FineSlider.bottom + 2, OSC2FineSlider.right, top + 8  " />
             <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
           </label>
-          <slider name="OSC2 Wave" id="OSC2WaveSlider" popupenabled="true" encodersnap="true" lfid="wavechoiceknob">
+          <slider name="OSC2 Wave" id="OSC2WaveSlider" popupenabled="false" encodersnap="true" lfid="wavechoiceknob">
             <bounds relativerectangle="OSC2FineSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -363,7 +389,7 @@
             <bounds relativerectangle="OSC2WaveSlider.left, OSC2WaveSlider.bottom + 2, OSC2WaveSlider.right, top + OSC2CoarseLabel.height " />
             <mappingparent componentname="OSC2 Wave" componenttype="slider" />
           </label>
-          <slider name="OSC2 Shape" id="OSC2ShapeSlider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC2 Shape" id="OSC2ShapeSlider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC2WaveSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -371,7 +397,7 @@
             <bounds relativerectangle="OSC2ShapeSlider.left, OSC2ShapeSlider.bottom + 2, OSC2ShapeSlider.right, top + OSC2CoarseLabel.height " />
             <mappingparent componentname="OSC2 Shape" componenttype="slider" />
           </label>
-          <slider name="OSC2 WsMod1" id="OSC2WsMod1Slider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC2 WsMod1" id="OSC2WsMod1Slider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC2ShapeSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -379,7 +405,7 @@
             <bounds relativerectangle="OSC2WsMod1Slider.left, OSC2WsMod1Slider.bottom + 2, OSC2WsMod1Slider.right, top + OSC2CoarseLabel.height " />
             <mappingparent componentname="OSC2 WsMod1" componenttype="slider" />
           </label>
-          <slider name="OSC2 WsMod2" id="OSC2WsMod2Slider" popupenabled="true" lfid="White2DarkKnob">
+          <slider name="OSC2 WsMod2" id="OSC2WsMod2Slider" popupenabled="false" lfid="0-127Knob">
             <bounds relativerectangle="OSC2WsMod1Slider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
             <textbox position="none" />
           </slider>
@@ -389,12 +415,12 @@
           </label>
         </component>
         <!--OSC 3 controls-->
-        <component backgroundcolour="4400ff00" name="OSC3" id="OSC3">
+        <component backgroundcolour="ffdbdbdb" name="OSC3" id="OSC3">
           <bounds relativerectangle="OSC2.right + 8, 0, left + 88, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
-          <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="true" lfid="bipolar48knob">
+          <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="false" lfid="bipolar48knob">
             <bounds relativerectangle="5, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -402,7 +428,7 @@
             <bounds relativerectangle="OSC3CoarseSlider.left, OSC3CoarseSlider.bottom + 2, OSC3CoarseSlider.right, top + 8  " />
             <mappingparent componentname="OSC3 Coarse" componenttype="slider" />
           </label>
-          <slider name="OSC3 Fine" id="OSC3FineSlider" popupenabled="true" lfid="bipolar100knob">
+          <slider name="OSC3 Fine" id="OSC3FineSlider" popupenabled="false" lfid="bipolar100knob">
             <bounds relativerectangle="OSC3CoarseSlider.right + 5, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -412,7 +438,7 @@
           </label>
         </component>
         <!--BpfNoise controls-->
-        <component backgroundcolour="4400ff00" name="BPF" id="BPF">
+        <component backgroundcolour="ffdbdbdb" name="BPF" id="BPF">
           <bounds relativerectangle="OSC3.right + 8, 0, left + 78, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -427,7 +453,7 @@
           </label>
         </component>
         <!--LFO controls-->
-        <component backgroundcolour="4400ff00" name="LFO" id="LFO">
+        <component backgroundcolour="ffdbdbdb" name="LFO" id="LFO">
           <bounds relativerectangle="BPF.right + 8, 0, left + 438, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -460,7 +486,7 @@
             </tab>
             <tab idx="2" name="LFOFrqDivTab">
               <component name="LFOFrqDivTabComponent" backgroundcolour="0000ff00">
-                <slider name="LfoFrqSrcDiv" id="LfoFrqSrcDivSlider" popupenabled="true" lfid="LfoDividerKnob">
+                <slider name="LfoFrqSrcDiv" id="LfoFrqSrcDivSlider" popupenabled="false" lfid="LfoDividerKnob">
                   <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
                   <textbox position="none" />
                 </slider>
@@ -471,7 +497,12 @@
               </component>
             </tab>
             <tab idx="3" name="LFOMatrixTab">
-              <component name="LFOMatrixTabComponent" backgroundcolour="330000ff" />
+              <component name="LFOMatrixTabComponent" backgroundcolour="00000000">
+                <slider name="LfoMatrixText" id="LfoMatrixText" popupenabled="false" lfid="MatrixText">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+              </component>
             </tab>
           </tabbedcomponent>
           <textbutton id="LFOGateSrcMVC" name="LFOGateSrcMVC" lfid="radiolight">
@@ -492,7 +523,7 @@
           <label name="LFORetrigLabel" id="LFORetrigLabel" text="Retrig" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
             <bounds relativerectangle="LFORetrig.left - 4, LFORetrig.bottom + 2, LFORetrig.right - 20, top + 8 " />
           </label>
-          <slider name="LFO Wave" id="LFOWaveSlider" popupenabled="true" encodersnap="true" lfid="LfoWaveKnob">
+          <slider name="LFO Wave" id="LFOWaveSlider" popupenabled="false" encodersnap="true" lfid="LfoWaveKnob">
             <bounds relativerectangle="LFORetrig.right - 15, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -506,21 +537,21 @@
           <label name="LFOFadeInLabel" id="LFOFadeInLabel" text="FadeIn" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOFadeInSlider.left, LFOFadeInSlider.bottom + 2, LFOFadeInSlider.right, top + 8 " />
           </label>
-          <slider name="LFO Phase" id="LFOPhaseSlider" popupenabled="true" encodersnap="true" lfid="PhaseKnob">
+          <slider name="LFO Phase" id="LFOPhaseSlider" popupenabled="false" encodersnap="true" lfid="PhaseKnob">
             <bounds relativerectangle="LFOFadeInSlider.right + 8, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
           <label name="LFOPhaseLabel" id="LFOPhaseLabel" text="Phase" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOPhaseSlider.left, LFOPhaseSlider.bottom + 2, LFOPhaseSlider.right, top + 8 " />
           </label>
-          <slider name="LFO Gain" id="LFOGainSlider" popupenabled="true" encodersnap="true" lfid="WhiteKnob">
+          <slider name="LFO Gain" id="LFOGainSlider" popupenabled="false" encodersnap="true" lfid="0-127Knob">
             <bounds relativerectangle="LFOPhaseSlider.right + 8, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
           <label name="LFOGainLabel" id="LFOGainLabel" text="Gain" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOGainSlider.left, LFOGainSlider.bottom + 2, LFOGainSlider.right, top + 8 " />
           </label>
-          <slider name="LFO VolMod" id="LFOVolModSlider" popupenabled="true" encodersnap="true" lfid="WhiteKnob">
+          <slider name="LFO VolMod" id="LFOVolModSlider" popupenabled="false" encodersnap="true" lfid="0-127Knob">
             <bounds relativerectangle="LFOGainSlider.right + 8, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
@@ -529,7 +560,7 @@
           </label>
         </component>
         <!--BPM-->
-        <component backgroundcolour="4400ff00" name="BPM" id="BPM">
+        <component backgroundcolour="ffdbdbdb" name="BPM" id="BPM">
           <bounds relativerectangle="LFO.right + 8, 0, parent.width, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="FF000000" cornersize="5">
             <bounds fillparent="true" />
@@ -545,7 +576,7 @@
         </component>
       </component>
       <!--ADSR controls-->
-      <component backgroundcolour="44ff0000" name="ADSR" id="ADSR">
+      <component backgroundcolour="ffdbdbdb" name="ADSR" id="ADSR">
         <bounds relativerectangle="firstrow.left, firstrow.bottom + 8, left + 290, top + 65" />
         <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
           <bounds fillparent="true" />
@@ -554,7 +585,7 @@
           <bounds relativerectangle="5, 8, left + 50, top + 12" />
         </textbutton>
         <textbutton id="AdsrGateSrcSeq" name="AdsrGateSrcSeq" lfid="radiolight">
-          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcMVC.bottom, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
+          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcMVC.bottom + 3, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
         </textbutton>
         <textbutton id="AdsrGateSrcRG" name="AdsrGateSrcRG" lfid="radiolight">
           <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcSeq.bottom + 3, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
@@ -604,10 +635,10 @@
         </label>
       </component>
       <!--AD+RGATE controls-->
-      <component backgroundcolour="44ff0000" name="AD and RGATE" id="ADnRGATE">
+      <component backgroundcolour="00ff0000" name="AD and RGATE" id="ADnRGATE">
         <bounds relativerectangle="right - 288, firstrow.bottom + 8, firstrow.right, top + 65" />
         <!--RGATE control-->
-        <component backgroundcolour="4400ff00" name="RGATE" id="RGATE">
+        <component backgroundcolour="ffdbdbdb" name="RGATE" id="RGATE">
           <bounds relativerectangle="right - 43, 0, parent.width, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -622,7 +653,7 @@
           </label>
         </component>
         <!--AD controls-->
-        <component backgroundcolour="4400ff00" name="AD" id="AD">
+        <component backgroundcolour="ffdbdbdb" name="AD" id="AD">
           <bounds relativerectangle="0, 0, RGATE.left - 8, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -631,7 +662,7 @@
             <bounds relativerectangle="5, 8, left + 50, top + 12" />
           </textbutton>
           <textbutton id="AdGateSrcSeq" name="AdGateSrcSeq" lfid="radiolight">
-            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcMVC.bottom, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
+            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcMVC.bottom + 3, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
           </textbutton>
           <textbutton id="AdGateSrcRG" name="AdGateSrcRG" lfid="radiolight">
             <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcSeq.bottom + 3, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
@@ -682,10 +713,10 @@
         </component>
       </component>
       <!--Filter & delay controls-->
-      <component backgroundcolour="44ff0000" name="Filter and Delay" id="FilternDelay">
+      <component backgroundcolour="00ff0000" name="Filter and Delay" id="FilternDelay">
         <bounds relativerectangle="firstrow.left, ADSR.bottom + 8, left + 192, top + 284" />
         <!--LP controls-->
-        <component backgroundcolour="4400ff00" name="LP" id="LP">
+        <component backgroundcolour="ffdbdbdb" name="LP" id="LP">
           <bounds relativerectangle="0, 0, parent.width, top + 65" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -724,7 +755,7 @@
           </label>
         </component>
         <!--HP controls-->
-        <component backgroundcolour="4400ff00" name="HP" id="HP">
+        <component backgroundcolour="ffdbdbdb" name="HP" id="HP">
           <bounds relativerectangle="0, LP.bottom + 8, parent.width, top + LP.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -763,7 +794,7 @@
           </label>
         </component>
         <!--DEL1 controls-->
-        <component backgroundcolour="4400ff00" name="DEL1" id="DEL1">
+        <component backgroundcolour="ffdbdbdb" name="DEL1" id="DEL1">
           <bounds relativerectangle="0, HP.bottom + 8, parent.width, top + LP.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -802,7 +833,7 @@
           </label>
         </component>
         <!--DEL2 controls-->
-        <component backgroundcolour="4400ff00" name="DEL2" id="DEL2">
+        <component backgroundcolour="ffdbdbdb" name="DEL2" id="DEL2">
           <bounds relativerectangle="0, DEL1.bottom + 8, parent.width, top + LP.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -842,10 +873,10 @@
         </component>
       </component>
       <!--ExpVca & Velo & AT & ConstValAB-->
-      <component backgroundcolour="44ff0000" name="ExpVca &amp; Velo &amp; AT &amp; ConstValA+B" id="VcaVelo">
+      <component backgroundcolour="00000000" name="ExpVca &amp; Velo &amp; AT &amp; ConstValA+B" id="VcaVelo">
         <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right + 20, top + 138" />
         <!--ExpVcaVeloAT controls-->
-        <component backgroundcolour="4400ff00" name="ExpVca" id="ExpVca">
+        <component backgroundcolour="ffdbdbdb" name="ExpVca" id="ExpVca">
           <bounds relativerectangle="0, 0, parent.width - 20, top + 65" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -884,7 +915,7 @@
           </label>
         </component>
         <!--ConstValAB controls-->
-        <component backgroundcolour="4400ff00" name="ConstValAB" id="ConstValAB">
+        <component backgroundcolour="ffdbdbdb" name="ConstValAB" id="ConstValAB">
           <bounds relativerectangle="0, ExpVca.bottom + 8, parent.width, top + ExpVca.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -920,10 +951,10 @@
         </component>
       </component>
       <!--Last row-->
-      <component backgroundcolour="44ff0000" name="Last Row" id="lastrow">
+      <component backgroundcolour="00ff0000" name="Last Row" id="lastrow">
         <bounds relativerectangle="firstrow.left, VcaVelo.bottom + 8, firstrow.right, top + 65" />
         <!--Porta-->
-        <component backgroundcolour="4400ff00" name="Porta" id="Porta">
+        <component backgroundcolour="ffdbdbdb" name="Porta" id="Porta">
           <bounds relativerectangle="0, 0, left + 96, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -946,7 +977,7 @@
           </label>
         </component>
         <!--Seq controls-->
-        <component backgroundcolour="4400ff00" name="Seq" id="Seq">
+        <component backgroundcolour="ffdbdbdb" name="Seq" id="Seq">
           <bounds relativerectangle="Porta.right + 8, 0, left + 244, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -990,7 +1021,12 @@
               </component>
             </tab>
             <tab idx="3" name="SeqMVCTab">
-              <component name="SeqMVCTabComponent" backgroundcolour="330000ff" />
+              <component name="SeqMVCTabComponent" backgroundcolour="000000ff">
+                <slider name="SeqFreqSrcMVCText" id="SeqFreqSrcMVCText" popupenabled="false" lfid="MVCText">
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <textbox position="none" />
+                </slider>
+              </component>
             </tab>
           </tabbedcomponent>
           <slider name="SeqStartStep" id="SeqStartStepSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -1009,7 +1045,7 @@
             <bounds relativerectangle="SeqLengthSlider.left, SeqLengthSlider.bottom + 2, SeqLengthSlider.right, top + 8  " />
             <mappingparent componentname="SeqLength" componenttype="slider" />
           </label>
-          <slider name="SeqSwing" id="SeqSwingSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true">
+          <slider name="SeqSwing" id="SeqSwingSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
             <bounds relativerectangle="SeqLengthSlider.right + 8, SeqLengthSlider.top, left + SeqLengthSlider.width, top + SeqStartStepSlider.height" />
             <textbox position="none" />
           </slider>
@@ -1019,7 +1055,7 @@
           </label>
         </component>
         <!--GateSeq controls-->
-        <component backgroundcolour="4400ff00" name="GSeq" id="GSeq">
+        <component backgroundcolour="ffdbdbdb" name="GSeq" id="GSeq">
           <bounds relativerectangle="Seq.right + 12, 0, left + 288, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1082,7 +1118,7 @@
           </label>
         </component>
         <!--ContrSeq controls-->
-        <component backgroundcolour="4400ff00" name="CSeq" id="CSeq">
+        <component backgroundcolour="ffdbdbdb" name="CSeq" id="CSeq">
           <bounds relativerectangle="GSeq.right + 16, 0, left + 288, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1153,7 +1189,7 @@
           </label>
         </component>
         <!--PitchSeq controls-->
-        <component backgroundcolour="4400ff00" name="PSeq" id="PSeq">
+        <component backgroundcolour="ffdbdbdb" name="PSeq" id="PSeq">
           <bounds relativerectangle="CSeq.right + 16, 0, left + 288, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1225,10 +1261,10 @@
         </component>
       </component>
       <!--PMOD & Mix controls-->
-      <component backgroundcolour="44ff0000" name="PMOD and Mix" id="PMODnMix">
+      <component backgroundcolour="00ff0000" name="PMOD and Mix" id="PMODnMix">
         <bounds relativerectangle="ADnRGATE.left, ADnRGATE.bottom + 8, ADnRGATE.right, FilternDelay.bottom" />
         <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
-        <component backgroundcolour="4400ff00" name="PMod1-3" id="PMod">
+        <component backgroundcolour="ffdbdbdb" name="PMod1-3" id="PMod">
           <bounds relativerectangle="0, 0, parent.width, top + 65" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1284,7 +1320,7 @@
           <!--Mix2-->
         </component>
         <!--Mix2A, Mix2B, VolMod-->
-        <component backgroundcolour="4400ff00" name="Mix2AB" id="Mix2AB">
+        <component backgroundcolour="ffdbdbdb" name="Mix2AB" id="Mix2AB">
           <bounds relativerectangle="0, PMod.bottom + 8, parent.width, top + PMod.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1339,7 +1375,7 @@
           </label>
         </component>
         <!--Mix3A, Mix3B-->
-        <component backgroundcolour="4400ff00" name="Mix3AB" id="Mix3AB">
+        <component backgroundcolour="ffdbdbdb" name="Mix3AB" id="Mix3AB">
           <bounds relativerectangle="0, Mix2AB.bottom + 8, parent.width, top + Mix2AB.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1394,7 +1430,7 @@
           </label>
         </component>
         <!--Pan+Out-->
-        <component backgroundcolour="4400ff00" name="Pan+Out" id="PanOut">
+        <component backgroundcolour="ffdbdbdb" name="Pan+Out" id="PanOut">
           <bounds relativerectangle="0, Mix3AB.bottom + 8, parent.width, top + Mix3AB.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1450,11 +1486,11 @@
         </component>
       </component>
       <!--VU-->
-      <component backgroundcolour="44ff0000" name="VU" id="VU">
+      <component backgroundcolour="00ff0000" name="VU" id="VU">
         <!--Position VU half-way between PMODnMix and lastrow-->
         <bounds relativerectangle="ADnRGATE.left, PMODnMix.bottom + (lastrow.top - PMODnMix.bottom)/2 - height/2, ADnRGATE.right, top + 94" />
         <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
-        <component backgroundcolour="4400ff00" name="VU1" id="VU1">
+        <component backgroundcolour="ffdbdbdb" name="VU1" id="VU1">
           <bounds relativerectangle="0, 0, left + parent.width/2 - 4, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1468,7 +1504,7 @@
             <mappingparent componentname="VU1" componenttype="slider" />
           </label>
         </component>
-        <component backgroundcolour="4400ff00" name="VU2" id="VU2">
+        <component backgroundcolour="ffdbdbdb" name="VU2" id="VU2">
           <bounds relativerectangle="VU1.right + 8, 0, parent.width, parent.height" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5">
             <bounds fillparent="true" />
@@ -1484,169 +1520,175 @@
         </component>
       </component>
       <!--Fader Matrix-->
-      <component backgroundimage="gfx/Matrix624x418newMatrix.png" name="Matrix" id="matrix" showcrosshair="true" verticalcrosshaircolour="3300ff00" verticalcrosshairthickness="12" horizontalcrosshaircolour="330000ff" horizontalcrosshairthickness="12">
+      <component backgroundimage="gfx/Matrix624x418newMatrixC.png" name="Matrix" id="matrix" showcrosshair="true" verticalcrosshaircolour="3300ff00" verticalcrosshairthickness="12" horizontalcrosshaircolour="330000ff" horizontalcrosshairthickness="12">
         <bounds x="313" y="176" height="418" width="624" />
         <!--Fader Matrix 1-12-->
         <slider id="MatrixSlider1" name="MatrixSlider1" wtid="matrixfader">
           <bounds relativerectangle="0, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider2" name="MatrixSlider2" wtid="matrixfader">
+        <slider id="MatrixSlider2" name="MatrixSlider2" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider1.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider3" name="MatrixSlider3" wtid="matrixfader">
+        <slider id="MatrixSlider3" name="MatrixSlider3" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider2.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider4" name="MatrixSlider4" wtid="matrixfader">
+        <slider id="MatrixSlider4" name="MatrixSlider4" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider3.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider5" name="MatrixSlider5" wtid="matrixfader">
+        <slider id="MatrixSlider5" name="MatrixSlider5" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider4.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider6" name="MatrixSlider6" wtid="matrixfader">
+        <slider id="MatrixSlider6" name="MatrixSlider6" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider5.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider7" name="MatrixSlider7" wtid="matrixfader">
+        <slider id="MatrixSlider7" name="MatrixSlider7" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider6.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider8" name="MatrixSlider8" wtid="matrixfader">
+        <slider id="MatrixSlider8" name="MatrixSlider8" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider7.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider9" name="MatrixSlider9" wtid="matrixfader">
+        <slider id="MatrixSlider9" name="MatrixSlider9" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider8.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider10" name="MatrixSlider10" wtid="matrixfader">
+        <slider id="MatrixSlider10" name="MatrixSlider10" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider9.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider11" name="MatrixSlider11" wtid="matrixfader">
+        <slider id="MatrixSlider11" name="MatrixSlider11" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider10.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider12" name="MatrixSlider12" wtid="matrixfader">
+        <slider id="MatrixSlider12" name="MatrixSlider12" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider11.right, 0, left + parent.width/52, parent.height" />
         </slider>
         <!--Fader Matrix 13-24-->
-        <slider  id="MatrixSlider13" name="MatrixSlider13" wtid="matrixfader">
+        <slider id="MatrixSlider13" name="MatrixSlider13" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider12.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider14" name="MatrixSlider14" wtid="matrixfader">
+        <slider id="MatrixSlider14" name="MatrixSlider14" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider13.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider15" name="MatrixSlider15" wtid="matrixfader">
+        <slider id="MatrixSlider15" name="MatrixSlider15" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider14.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider16" name="MatrixSlider16" wtid="matrixfader">
+        <slider id="MatrixSlider16" name="MatrixSlider16" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider15.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider17" name="MatrixSlider17" wtid="matrixfader">
+        <slider id="MatrixSlider17" name="MatrixSlider17" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider16.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider18" name="MatrixSlider18" wtid="matrixfader">
+        <slider id="MatrixSlider18" name="MatrixSlider18" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider17.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider19" name="MatrixSlider19" wtid="matrixfader">
+        <slider id="MatrixSlider19" name="MatrixSlider19" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider18.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider20" name="MatrixSlider20" wtid="matrixfader">
+        <slider id="MatrixSlider20" name="MatrixSlider20" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider19.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider21" name="MatrixSlider21" wtid="matrixfader">
+        <slider id="MatrixSlider21" name="MatrixSlider21" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider20.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider22" name="MatrixSlider22" wtid="matrixfader">
+        <slider id="MatrixSlider22" name="MatrixSlider22" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider21.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider23" name="MatrixSlider23" wtid="matrixfader">
+        <slider id="MatrixSlider23" name="MatrixSlider23" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider22.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider24" name="MatrixSlider24" wtid="matrixfader">
+        <slider id="MatrixSlider24" name="MatrixSlider24" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider23.right, 0, left + parent.width/52, parent.height" />
         </slider>
         <!--Fader Matrix 25-remain -->
-        <slider  id="MatrixSlider25" name="MatrixSlider25" wtid="matrixfader">
+        <slider id="MatrixSlider25" name="MatrixSlider25" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider24.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider26" name="MatrixSlider26" wtid="matrixfader">
+        <slider id="MatrixSlider26" name="MatrixSlider26" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider25.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider27" name="MatrixSlider27" wtid="matrixfader">
+        <slider id="MatrixSlider27" name="MatrixSlider27" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider26.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider28" name="MatrixSlider28" wtid="matrixfader">
+        <slider id="MatrixSlider28" name="MatrixSlider28" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider27.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider29" name="MatrixSlider29" wtid="matrixfader">
+        <slider id="MatrixSlider29" name="MatrixSlider29" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider28.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider30" name="MatrixSlider30" wtid="matrixfader">
+        <slider id="MatrixSlider30" name="MatrixSlider30" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider29.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider31" name="MatrixSlider31" wtid="matrixfader">
+        <slider id="MatrixSlider31" name="MatrixSlider31" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider30.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider32" name="MatrixSlider32" wtid="matrixfader">
+        <slider id="MatrixSlider32" name="MatrixSlider32" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider31.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider33" name="MatrixSlider33" wtid="matrixfader">
+        <slider id="MatrixSlider33" name="MatrixSlider33" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider32.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider34" name="MatrixSlider34" wtid="matrixfader">
+        <slider id="MatrixSlider34" name="MatrixSlider34" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider33.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider35" name="MatrixSlider35" wtid="matrixfader">
+        <slider id="MatrixSlider35" name="MatrixSlider35" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider34.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider36" name="MatrixSlider36" wtid="matrixfader">
+        <slider id="MatrixSlider36" name="MatrixSlider36" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider35.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider37" name="MatrixSlider37" wtid="matrixfader">
+        <slider id="MatrixSlider37" name="MatrixSlider37" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider36.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider38" name="MatrixSlider38" wtid="matrixfader">
+        <slider id="MatrixSlider38" name="MatrixSlider38" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider37.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider39" name="MatrixSlider39" wtid="matrixfader">
+        <slider id="MatrixSlider39" name="MatrixSlider39" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider38.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider40" name="MatrixSlider40" wtid="matrixfader">
+        <slider id="MatrixSlider40" name="MatrixSlider40" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider39.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider41" name="MatrixSlider41" wtid="matrixfader">
+        <slider id="MatrixSlider41" name="MatrixSlider41" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider40.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider42" name="MatrixSlider42" wtid="matrixfader">
+        <slider id="MatrixSlider42" name="MatrixSlider42" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider41.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider43" name="MatrixSlider43" wtid="matrixfader">
+        <slider id="MatrixSlider43" name="MatrixSlider43" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider42.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider44" name="MatrixSlider44" wtid="matrixfader">
+        <slider id="MatrixSlider44" name="MatrixSlider44" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider43.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider45" name="MatrixSlider45" wtid="matrixfader">
+        <slider id="MatrixSlider45" name="MatrixSlider45" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider44.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider46" name="MatrixSlider46" wtid="matrixfader">
+        <slider id="MatrixSlider46" name="MatrixSlider46" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider45.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider47" name="MatrixSlider47" wtid="matrixfader">
+        <slider id="MatrixSlider47" name="MatrixSlider47" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider46.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider48" name="MatrixSlider48" wtid="matrixfader">
+        <slider id="MatrixSlider48" name="MatrixSlider48" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider47.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider49" name="MatrixSlider49" wtid="matrixfader">
+        <slider id="MatrixSlider49" name="MatrixSlider49" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider48.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider50" name="MatrixSlider50" wtid="matrixfader">
+        <slider id="MatrixSlider50" name="MatrixSlider50" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider49.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider51" name="MatrixSlider51" wtid="matrixfader">
+        <slider id="MatrixSlider51" name="MatrixSlider51" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider50.right, 0, left + parent.width/52, parent.height" />
         </slider>
-        <slider  id="MatrixSlider52" name="MatrixSlider52" wtid="matrixfader">
+        <slider id="MatrixSlider52" name="MatrixSlider52" wtid="matrixfader">
           <bounds relativerectangle="MatrixSlider51.right, 0, left + parent.width/52, parent.height" />
         </slider>
       </component>
       <standardcontent type="footer" />
+      <component backgroundimage="gfx/TextY_MatrixSources_63x418.png" name="Matrix" id="matrix">
+        <bounds x="251" y="177" height="418" width="63" />
+      </component>
+      <component backgroundimage="gfx/TextX_Matrix_Destinations640x76.png" name="Matrix" id="matrix">
+        <bounds x="312" y="100" height="76" width="640" />
+      </component>
     </component>
   </layout>
 </tns:ScopeSyncLayout>
