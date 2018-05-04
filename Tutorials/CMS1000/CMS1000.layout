@@ -391,7 +391,7 @@
         <!--OSC 3 controls-->
         <component backgroundcolour="00000000" name="OSC3" id="OSC3">
           <bounds relativerectangle="OSC2.right + 8, 0, left + 88, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000"  fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="false" lfid="bipolar48knob">
@@ -478,7 +478,7 @@
               </component>
             </tab>
           </tabbedcomponent>
-          <textbutton id="LFOGateSrcMVC" name="LFOGateSrcMVC" lfid="radiolight">
+          <textbutton id="LFOGateSrcMVC" name="LFOGateSrcMVC" lfid="radiolight" debugwidgetposition="false">
             <bounds relativerectangle="110, 8, left + 50, top + 12" />
           </textbutton>
           <textbutton id="LFOGateSrcSeq" name="LFOGateSrcSeq" lfid="radiolight">
@@ -531,6 +531,9 @@
           <label name="LFOVolModLabel" id="LFOVolModLabel" text="VolMod" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOVolModSlider.left, LFOVolModSlider.bottom + 2, LFOVolModSlider.right, top + 8 " />
           </label>
+          <component name="LfoHeaderText" id="LfoHeaderText" backgroundimage="gfx/ModuleHeaderLFO50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="190, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--BPM-->
         <component backgroundcolour="00000000" name="BPM" id="BPM">
