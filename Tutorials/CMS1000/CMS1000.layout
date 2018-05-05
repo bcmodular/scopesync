@@ -332,6 +332,9 @@
             <bounds relativerectangle="OSC1WsMod2Slider.left, OSC1WsMod2Slider.bottom + 2, OSC1WsMod2Slider.right, top + OSC1CoarseLabel.height " />
             <mappingparent componentname="OSC1 WsMod2" componenttype="slider" />
           </label>
+          <component name="Osc1HeaderText" id="Osc1HeaderText" backgroundimage="gfx/ModuleHeaderOSC1_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--OSC 2 controls-->
         <component backgroundcolour="00000000" name="OSC2" id="OSC2">
@@ -387,6 +390,9 @@
             <bounds relativerectangle="OSC2WsMod2Slider.left, OSC2WsMod2Slider.bottom + 2, OSC2WsMod2Slider.right, top + OSC2CoarseLabel.height " />
             <mappingparent componentname="OSC2 WsMod2" componenttype="slider" />
           </label>
+          <component name="Osc2HeaderText" id="Osc2HeaderText" backgroundimage="gfx/ModuleHeaderOSC2_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--OSC 3 controls-->
         <component backgroundcolour="00000000" name="OSC3" id="OSC3">
@@ -410,6 +416,9 @@
             <bounds relativerectangle="OSC3FineSlider.left, OSC3FineSlider.bottom + 2, OSC3FineSlider.right, top + 8  " />
             <mappingparent componentname="OSC3 Fine" componenttype="slider" />
           </label>
+          <component name="Osc3HeaderText" id="Osc3HeaderText" backgroundimage="gfx/ModuleHeaderOSC3_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--BpfNoise controls-->
         <component backgroundcolour="00000000" name="BPF" id="BPF">
@@ -425,6 +434,9 @@
             <bounds relativerectangle="BpfFreqSlider.left, BpfFreqSlider.bottom + 2, BpfFreqSlider.right, top + 8  " />
             <mappingparent componentname="Bpf Freq" componenttype="slider" />
           </label>
+          <component name="BpNzHeaderText" id="BpNzHeaderText" backgroundimage="gfx/ModuleHeaderBpNz_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--LFO controls-->
         <component backgroundcolour="00000000" name="LFO" id="LFO">
@@ -549,6 +561,9 @@
             <bounds relativerectangle="TempoSlider.left, TempoSlider.bottom + 2, TempoSlider.right, top + 8 " />
             <mappingparent componentname="TempoLabel" componenttype="slider" />
           </label>
+          <component name="BPMHeaderText" id="BPMHeaderText" backgroundimage="gfx/ModuleHeaderTempo_45x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="0, 0, left + 45, top + 14" />
+          </component>
         </component>
       </component>
       <!--ADSR controls-->
@@ -609,6 +624,9 @@
         <label name="AdsrGateSrc" id="AdsrGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
           <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcRG.bottom + 2, left + 38, top + 14 " />
         </label>
+        <component name="AdsrHeaderText" id="AdsrHeaderText" backgroundimage="gfx/ModuleHeaderAdsr_50x14.png" debugwidgetposition="false">
+          <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+        </component>
       </component>
       <!--AD+RGATE controls-->
       <component backgroundcolour="00ff0000" name="AD and RGATE" id="ADnRGATE">
@@ -687,6 +705,12 @@
             <mappingparent componentname="AdDecSlp" componenttype="slider" />
           </label>
         </component>
+        <component name="AdHeaderText" id="AdHeaderText" backgroundimage="gfx/ModuleHeaderAd_50x14.png" debugwidgetposition="false">
+          <bounds relativerectangle="(parent.width / 2) - 45, 0, left + 50, top + 14" />
+        </component>
+        <component name="RdGtHeaderText" id="RdGtHeaderText" backgroundimage="gfx/ModuleHeaderRdGt_50x14.png" debugwidgetposition="false">
+          <bounds relativerectangle="(parent.width / 2) + 100, 0, left + 50, top + 14" />
+        </component>
       </component>
       <!--Filter & delay controls-->
       <component backgroundcolour="00ff0000" name="Filter and Delay" id="FilternDelay">
@@ -729,6 +753,9 @@
             <bounds relativerectangle="LpQSlider.left, LpQSlider.bottom + 2, LpQSlider.right, top + 8" />
             <mappingparent componentname="LpQ" componenttype="slider" />
           </label>
+          <component name="LpHeaderText" id="LpHeaderText" backgroundimage="gfx/ModuleHeaderLp24_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--HP controls-->
         <component backgroundcolour="00000000" name="HP" id="HP">
@@ -768,6 +795,9 @@
             <bounds relativerectangle="HpQSlider.left, HpQSlider.bottom + 2, HpQSlider.right, top + 8" />
             <mappingparent componentname="HpQ" componenttype="slider" />
           </label>
+          <component name="HpHeaderText" id="HpHeaderText" backgroundimage="gfx/ModuleHeaderHp24_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--DEL1 controls-->
         <component backgroundcolour="00000000" name="DEL1" id="DEL1">
@@ -807,6 +837,9 @@
             <bounds relativerectangle="Del1GainSlider.left, Del1GainSlider.bottom + 2, Del1GainSlider.right, top + 8" />
             <mappingparent componentname="Del1Gain" componenttype="slider" />
           </label>
+          <component name="Del1HeaderText" id="Del1HeaderText" backgroundimage="gfx/ModuleHeaderDel1_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--DEL2 controls-->
         <component backgroundcolour="00000000" name="DEL2" id="DEL2">
@@ -846,6 +879,9 @@
             <bounds relativerectangle="Del2GainSlider.left, Del2GainSlider.bottom + 2, Del2GainSlider.right, top + 8" />
             <mappingparent componentname="Del2Gain" componenttype="slider" />
           </label>
+          <component name="Del2HeaderText" id="Del2HeaderText" backgroundimage="gfx/ModuleHeaderDel2_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
       </component>
       <!--ExpVca & Velo & AT & ConstValAB-->
@@ -881,7 +917,7 @@
             <bounds relativerectangle="AdVeloSlider.left, AdVeloSlider.bottom + 2, AdVeloSlider.right, top + 8  " />
             <mappingparent componentname="AdVelo" componenttype="slider" />
           </label>
-          <slider name="ATSmooth" id="ATSmoothSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
+          <slider name="ATSmooth" id="ATSmoothSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" inverted="true">
             <bounds relativerectangle="AdVeloSlider.right + 8, AdVeloSlider.top, left + AdVeloSlider.width, top +  AdVeloSlider.height " />
             <textbox position="none" />
           </slider>
@@ -889,6 +925,15 @@
             <bounds relativerectangle="ATSmoothSlider.left, ATSmoothSlider.bottom + 2, ATSmoothSlider.right, top + 8  " />
             <mappingparent componentname="ATSmooth" componenttype="slider" />
           </label>
+          <component name="EVcaHeaderText" id="EVcaHeaderText" backgroundimage="gfx/ModuleHeaderEVca_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 95, 0, left + 50, top + 14" />
+          </component>
+          <component name="VeloHeaderText" id="VeloHeaderText" backgroundimage="gfx/ModuleHeaderVelo_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
+          <component name="ATHeaderText" id="ATHeaderText" backgroundimage="gfx/ModuleHeaderAT_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--ConstValAB controls-->
         <component backgroundcolour="00000000" name="ConstValAB" id="ConstValAB">
@@ -924,6 +969,9 @@
             <bounds relativerectangle="ConstValBSlider.left + 30, ConstValBSlider.bottom + 2, ConstValBSlider.right + 40, top + 8  " />
             <mappingparent componentname="ConstValB" componenttype="slider" />
           </label>
+          <component name="ConstHeaderText" id="ConstHeaderText" backgroundimage="gfx/ModuleHeaderConstVal_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
+          </component>
         </component>
       </component>
       <!--Last row-->
@@ -951,6 +999,9 @@
             <bounds relativerectangle="PortaTypeSlider.left, PortaTypeSlider.bottom + 2, PortaTypeSlider.right, top + 8  " />
             <mappingparent componentname="PortaType" componenttype="slider" />
           </label>
+          <component name="PortaHeaderText" id="PortaHeaderText" backgroundimage="gfx/ModuleHeaderPorta_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
+          </component>
         </component>
         <!--Seq controls-->
         <component backgroundcolour="00000000" name="Seq" id="Seq">
@@ -1028,6 +1079,9 @@
             <bounds relativerectangle="SeqSwingSlider.left, SeqSwingSlider.bottom + 2, SeqSwingSlider.right, top + 8  " />
             <mappingparent componentname="SeqSwing" componenttype="slider" />
           </label>
+          <component name="SeqHeaderText" id="SeqHeaderText" backgroundimage="gfx/ModuleHeaderSeqSet_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--GateSeq controls-->
         <component backgroundcolour="00000000" name="GSeq" id="GSeq">
@@ -1091,7 +1145,7 @@
             <bounds relativerectangle="SeqGt8.left, SeqGt8.bottom - 2, SeqGt8.right, top + 8" />
             <mappingparent componentname="SeqGt8" componenttype="textbutton" />
           </label>
-          <component name="GtSeqHeaderText" id="GtSeqHeaderText" backgroundimage="gfx/ModuleHeaderGateSeq100x14.png" debugwidgetposition="true">
+          <component name="GtSeqHeaderText" id="GtSeqHeaderText" backgroundimage="gfx/ModuleHeaderGateSeq100x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
           </component>
         </component>
@@ -1165,6 +1219,9 @@
             <bounds relativerectangle="ContrSeq8slider.left, ContrSeq8slider.bottom + 2, ContrSeq8slider.right, top + ContrSeq1Label.height " />
             <mappingparent componentname="ContrSeq6" componenttype="slider" />
           </label>
+          <component name="ContrSeqHeaderText" id="ContrSeqHeaderText" backgroundimage="gfx/ModuleHeaderContrSeq_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--PitchSeq controls-->
         <component backgroundcolour="00000000" name="PSeq" id="PSeq">
@@ -1236,6 +1293,9 @@
             <bounds relativerectangle="PitchSeq8slider.left, PitchSeq8slider.bottom + 2, PitchSeq8slider.right, top + 8  " />
             <mappingparent componentname="PitchSeq8" componenttype="slider" />
           </label>
+          <component name="PitchSeqHeaderText" id="PitchSeqHeaderText" backgroundimage="gfx/ModuleHeaderPitchSeq_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
+          </component>
         </component>
       </component>
       <!--PMOD & Mix controls-->
@@ -1296,6 +1356,15 @@
             <mappingparent componentname="PMod3A" componenttype="slider" />
           </label>
           <!--Mix2-->
+          <component name="PMod1HeaderText" id="PMod1HeaderText" backgroundimage="gfx/ModuleHeaderPMod1_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 150, 0, left + 100, top + 14" />
+          </component>
+          <component name="PMod2HeaderText" id="PMod2HeaderText" backgroundimage="gfx/ModuleHeaderPMod2_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 55, 0, left + 100, top + 14" />
+          </component>
+          <component name="PMod3HeaderText" id="PMod3HeaderText" backgroundimage="gfx/ModuleHeaderPMod3_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--Mix2A, Mix2B, VolMod-->
         <component backgroundcolour="00000000" name="Mix2AB" id="Mix2AB">
@@ -1351,6 +1420,15 @@
             <bounds relativerectangle="VolMod2Slider.left, VolMod2Slider.bottom + 2, VolMod2Slider.right, top + 8  " />
             <mappingparent componentname="VolMod2" componenttype="slider" />
           </label>
+          <component name="Mix2AHeaderText" id="Mix2AHeaderText" backgroundimage="gfx/ModuleHeaderMix2A_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 150, 0, left + 100, top + 14" />
+          </component>
+          <component name="Mix2BHeaderText" id="Mix2BHeaderText" backgroundimage="gfx/ModuleHeaderMix2B_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 52, 0, left + 100, top + 14" />
+          </component>
+          <component name="VolMHeaderText" id="VolMHeaderText" backgroundimage="gfx/ModuleHeaderVolM_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--Mix3A, Mix3B-->
         <component backgroundcolour="00000000" name="Mix3AB" id="Mix3AB">
@@ -1406,6 +1484,12 @@
             <bounds relativerectangle="Mix3B3Slider.left, Mix3B3Slider.bottom + 2, Mix3B3Slider.right, top + 8  " />
             <mappingparent componentname="Mix3B3" componenttype="slider" />
           </label>
+          <component name="Mix3AHeaderText" id="Mix3AHeaderText" backgroundimage="gfx/ModuleHeaderMix3A_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 125, 0, left + 100, top + 14" />
+          </component>
+          <component name="Mix3BHeaderText" id="Mix3BHeaderText" backgroundimage="gfx/ModuleHeaderMix3B_50x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) + 22, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--Pan+Out-->
         <component backgroundcolour="00000000" name="Pan+Out" id="PanOut">
@@ -1461,6 +1545,12 @@
             <bounds relativerectangle="MGain2Slider.left, MGain2Slider.bottom + 2, MGain2Slider.right, top + 8  " />
             <mappingparent componentname="MGain2" componenttype="slider" />
           </label>
+          <component name="PanOut1Text" id="PanOut1Text" backgroundimage="gfx/ModuleHeaderPanOut1_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) - 125, 0, left + 100, top + 14" />
+          </component>
+          <component name="PanOut2Text" id="PanOut2Text" backgroundimage="gfx/ModuleHeaderPanOut2_100x14.png" debugwidgetposition="false">
+            <bounds relativerectangle="(parent.width / 2) + 18, 0, left + 100, top + 14" />
+          </component>
         </component>
       </component>
       <!--VU-->
