@@ -554,7 +554,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Tempo" debugwidgetposition="false" id="TempoSlider" popupenabled="true" encodersnap="true" lfid="BPMKnob">
-            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="TempoLabel" id="TempoLabel" text="BPM" lfid="maintheme" wtid="parameterlabel">
