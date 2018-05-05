@@ -5,10 +5,10 @@
   <parameters>
     <parameter name="OSC1 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="1" shortDescription="Coarse" fullDescription="OSC1 Coarse"/>
+               uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="1" shortDescription="Coarse" fullDescription="OSC1 Coarse"/>
     <parameter name="OSC1 Fine" scopeRangeMin="-100" scopeRangeMax="100" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="2" shortDescription="Fine" fullDescription="OSC1 Fine"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="2" shortDescription="Fine" fullDescription="OSC1 Fine"/>
     <parameter name="OSC1 Wave" scopeRangeMin="0" scopeRangeMax="3" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="3.00000000000000000000"
                uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="3"
@@ -31,10 +31,10 @@
                scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="6" shortDescription="ShpM2" fullDescription="Osc1WaveShapeMod2"/>
     <parameter name="OSC2 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="7" shortDescription="Coarse" fullDescription="OSC2 Coarse"/>
+               uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="7" shortDescription="Coarse" fullDescription="OSC2 Coarse"/>
     <parameter name="OSC2 Fine" scopeRangeMin="-100" scopeRangeMax="100" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="8" shortDescription="Fine" fullDescription="OSC2 Fine"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="8" shortDescription="Fine" fullDescription="OSC2 Fine"/>
     <parameter name="OSC2 Wave" scopeRangeMin="0" scopeRangeMax="3" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="3.00000000000000000000"
                uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="9"
@@ -60,13 +60,14 @@
                fullDescription="Osc2WaveShapeMod2"/>
     <parameter name="OSC3 Coarse" scopeRangeMin="-48" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="13" shortDescription="Coarse" fullDescription="OSC3 Coarse"/>
+               uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="13" shortDescription="Coarse" fullDescription="OSC3 Coarse"/>
     <parameter name="OSC3 Fine" scopeRangeMin="-100" scopeRangeMax="100" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="1" scopeParamId="14" shortDescription="Fine" fullDescription="OSC3 Fine"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="14" shortDescription="Fine" fullDescription="OSC3 Fine"/>
     <parameter name="LFOFreqSrc" shortDescription="FreqSrc" fullDescription="LFO Frequency Source" scopeParamGroup="2" scopeParamId="1"
-               scopeRangeMin="0" scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
-               skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="2.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
+               scopeRangeMin="0" scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="2.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="Knob" intValue="0"/>
         <setting name="FrqDiv" intValue="1"/>
@@ -109,7 +110,7 @@
       </settings>
     </parameter>
     <parameter name="GateSrc" shortDescription="GateSrc" fullDescription="LFO Gate Source" scopeParamGroup="2" scopeParamId="4" scopeRangeMin="0"
-               scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="2.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="MVC" intValue="0"/>
@@ -138,13 +139,12 @@
         <setting name="Random" intValue="5" value="5"/>
       </settings>
     </parameter>
-    <parameter name="LFO FadeIn" scopeRangeMin="0" scopeRangeMax="144000" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+    <parameter name="LFO FadeIn" scopeRangeMin="0" scopeRangeMax="144000" scopeDBRef="0" valueType="0" uiResetValue="1500" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="3000" uiRangeInterval="1" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="1073741824" scopeParamGroup="2" scopeParamId="7" shortDescription="Fade In" fullDescription="LFO FadeIn"/>
-    <parameter name="LFO Phase" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
-               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-180" uiRangeMax="180" uiRangeInterval="1" uiSuffix="&#176;"
-               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="2" scopeParamId="8" shortDescription="Phase"
-               fullDescription="LFO Phase"/>
+               uiSkewMidpoint="" scopeParamGroup="2" scopeParamId="7" shortDescription="Fade In" fullDescription="LFO FadeIn"/>
+    <parameter name="LFO Phase" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="-180" uiRangeMax="180" uiRangeInterval="1" uiSuffix="&#176;" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="" scopeParamGroup="2" scopeParamId="8" shortDescription="Phase" fullDescription="LFO Phase"/>
     <parameter name="LFO Gain" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="2" scopeParamId="9" shortDescription="Gain" fullDescription="LFO Gain"/>
@@ -153,9 +153,9 @@
                uiSkewMidpoint="" scopeParamGroup="2" scopeParamId="10" shortDescription="VolMod" fullDescription="LFO VolMod"/>
     <parameter name="Tempo" scopeRangeMin="60" scopeRangeMax="180" scopeDBRef="0" valueType="0" uiResetValue="120" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="60" uiRangeMax="180" uiRangeInterval="1" uiSuffix="BPM" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="120" scopeParamGroup="2" scopeParamId="11" shortDescription="BPM" fullDescription="Tempo"/>
+               uiSkewMidpoint="" scopeParamGroup="2" scopeParamId="11" shortDescription="BPM" fullDescription="Tempo"/>
     <parameter name="AdsrGateSrc" shortDescription="AdsrGateSrc" fullDescription="AdsrGateSrc" scopeParamGroup="3" scopeParamId="1" scopeRangeMin="0"
-               scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="2.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="MVC" intValue="0"/>
@@ -169,9 +169,9 @@
     <parameter name="AdsrDec" scopeRangeMin="180" scopeRangeMax="239996" scopeDBRef="0" valueType="0" uiResetValue="457" uiSkewFactor="0.28881141543388366699"
                skewUIOnly="0" uiRangeMin="3.75" uiRangeMax="5000" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="457" scopeParamGroup="3" scopeParamId="3" shortDescription="Dec" fullDescription="AdsrDec"/>
-    <parameter name="AdsrSus" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+    <parameter name="AdsrSus" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="3" scopeParamId="4" shortDescription="Sus" fullDescription="AdsrSus"/>
+               uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="4" shortDescription="Sus" fullDescription="AdsrSus"/>
     <parameter name="AdsrRel" scopeRangeMin="180" scopeRangeMax="239996" scopeDBRef="0" valueType="0" uiResetValue="347" uiSkewFactor="0.28881141543388366699"
                skewUIOnly="0" uiRangeMin="3.75" uiRangeMax="5000" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="457" scopeParamGroup="3" scopeParamId="5" shortDescription="Rel" fullDescription="AdsrRel"/>
@@ -193,75 +193,75 @@
     <parameter name="AdDec" scopeRangeMin="16" scopeRangeMax="239996" scopeDBRef="0" valueType="0" uiResetValue="454" uiSkewFactor="0.28819581866264343262"
                skewUIOnly="0" uiRangeMin="3" uiRangeMax="5000" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="454" scopeParamGroup="3" scopeParamId="10" shortDescription="Dec" fullDescription="AdDec"/>
-    <parameter name="AdAttSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+    <parameter name="AdAttSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="3" scopeParamId="11" shortDescription="AttSlp" fullDescription="AdAttSlp"/>
-    <parameter name="AdDecSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="11" shortDescription="AttSlp" fullDescription="AdAttSlp"/>
+    <parameter name="AdDecSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="3" scopeParamId="12" shortDescription="DecSlp" fullDescription="AdDecSlp"/>
-    <parameter name="RandGtSens" scopeRangeMin="976855817" scopeRangeMax="1079196798" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="12" shortDescription="DecSlp" fullDescription="AdDecSlp"/>
+    <parameter name="RandGtSens" scopeRangeMin="976855817" scopeRangeMax="1079196798" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="3" scopeParamId="14" shortDescription="RGT" fullDescription="RandGtSens"/>
+               uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="14" shortDescription="RGT" fullDescription="RandGtSens"/>
     <parameter name="LpCf" scopeRangeMin="1789569" scopeRangeMax="1789569705" scopeDBRef="0" valueType="0" uiResetValue="2000" uiSkewFactor="0.29985147714614868164"
                skewUIOnly="0" uiRangeMin="20" uiRangeMax="20000" uiRangeInterval="0.01" uiSuffix="Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="2000" scopeParamGroup="4" scopeParamId="1" shortDescription="LpCf" fullDescription="LpCf"/>
     <parameter name="LpCfm1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="2" shortDescription="LpCfm1" fullDescription="LpCfm1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="2" shortDescription="LpCfm1" fullDescription="LpCfm1"/>
     <parameter name="LpCfm2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="3" shortDescription="LpCfm2" fullDescription="LpCfm2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="3" shortDescription="LpCfm2" fullDescription="LpCfm2"/>
     <parameter name="LpQ" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="4" shortDescription="LpQ" fullDescription="LpQ"/>
     <parameter name="PMod1A" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="5" shortDescription="PMod1A" fullDescription="PMod1A"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="5" shortDescription="PMod1A" fullDescription="PMod1A"/>
     <parameter name="PMod1B" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="6" shortDescription="PMod1B" fullDescription="PMod1B"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="6" shortDescription="PMod1B" fullDescription="PMod1B"/>
     <parameter name="PMod2A" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="7" shortDescription="PMod2A" fullDescription="PMod2A"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="7" shortDescription="PMod2A" fullDescription="PMod2A"/>
     <parameter name="PMod2B" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="8" shortDescription="PMod2B" fullDescription="PMod2B"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="8" shortDescription="PMod2B" fullDescription="PMod2B"/>
     <parameter name="PMod3A" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="9" shortDescription="PMod3A" fullDescription="PMod3A"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="9" shortDescription="PMod3A" fullDescription="PMod3A"/>
     <parameter name="PMod3B" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="4" scopeParamId="10" shortDescription="PMod3B" fullDescription="PMod3B"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="4" scopeParamId="10" shortDescription="PMod3B" fullDescription="PMod3B"/>
     <parameter name="HpCf" scopeRangeMin="1789569" scopeRangeMax="1789569705" scopeDBRef="0" valueType="0" uiResetValue="2000" uiSkewFactor="0.29985147714614868164"
                skewUIOnly="0" uiRangeMin="20" uiRangeMax="20000" uiRangeInterval="0.01" uiSuffix="Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="2000" scopeParamGroup="5" scopeParamId="1" shortDescription="HpCf" fullDescription="HpCf"/>
     <parameter name="HpCfm1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="5" scopeParamId="2" shortDescription="HpCfm1" fullDescription="HpCfm1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="2" shortDescription="HpCfm1" fullDescription="HpCfm1"/>
     <parameter name="HpCfm2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="5" scopeParamId="3" shortDescription="HpCfm2" fullDescription="HpCfm2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="3" shortDescription="HpCfm2" fullDescription="HpCfm2"/>
     <parameter name="HpQ" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="4" shortDescription="HpQ" fullDescription="HpQ"/>
     <parameter name="Mix2A1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="5" shortDescription="Mix2A1" fullDescription="Mix2A1"/>
-    <parameter name="Mix2A2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+    <parameter name="Mix2A2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="5" scopeParamId="6" shortDescription="Mix2A2" fullDescription="Mix2A2"/>
-    <parameter name="Mix2B1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="6" shortDescription="Mix2A2" fullDescription="Mix2A2"/>
+    <parameter name="Mix2B1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="5" scopeParamId="7" shortDescription="Mix2B1" fullDescription="Mix2B1"/>
-    <parameter name="Mix2B2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="7" shortDescription="Mix2B1" fullDescription="Mix2B1"/>
+    <parameter name="Mix2B2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="5" scopeParamId="8" shortDescription="Mix2B2" fullDescription="Mix2B2"/>
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="8" shortDescription="Mix2B2" fullDescription="Mix2B2"/>
     <parameter name="VolMod1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="5" scopeParamId="9" shortDescription="VolMod1" fullDescription="VolMod1"/>
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="9" shortDescription="VolMod1" fullDescription="VolMod1"/>
     <parameter name="VolMod2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="5" scopeParamId="10" shortDescription="VolMod2" fullDescription="VolMod2"/>
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="10" shortDescription="VolMod2" fullDescription="VolMod2"/>
     <parameter name="Del1DT1" scopeRangeMin="194" scopeRangeMax="262144" scopeDBRef="0" valueType="0" uiResetValue="171" uiSkewFactor="0.19879971444606781006"
                skewUIOnly="0" uiRangeMin="4" uiRangeMax="5461" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="1" shortDescription="Del1DT1" fullDescription="Del1DT1"/>
@@ -270,28 +270,28 @@
                uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="2" shortDescription="Del1DT2" fullDescription="Del1DT2"/>
     <parameter name="Del1Fb" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="6" scopeParamId="3" shortDescription="Del1Fb" fullDescription="Del1Fb"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="3" shortDescription="Del1Fb" fullDescription="Del1Fb"/>
     <parameter name="Del1Gain" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="6" scopeParamId="4" shortDescription="Del1Gain" fullDescription="Del1Gain"/>
-    <parameter name="Mix3A1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="4" shortDescription="Del1Gain" fullDescription="Del1Gain"/>
+    <parameter name="Mix3A1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="9" shortDescription="Mix3A1" fullDescription="Mix3A1"/>
-    <parameter name="Mix3A2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="9" shortDescription="Mix3A1" fullDescription="Mix3A1"/>
+    <parameter name="Mix3A2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="10" shortDescription="Mix3A2" fullDescription="Mix3A2"/>
-    <parameter name="Mix3A3" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="10" shortDescription="Mix3A2" fullDescription="Mix3A2"/>
+    <parameter name="Mix3A3" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="11" shortDescription="Mix3A3" fullDescription="Mix3A3"/>
-    <parameter name="Mix3B1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="11" shortDescription="Mix3A3" fullDescription="Mix3A3"/>
+    <parameter name="Mix3B1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="12" shortDescription="Mix3B1" fullDescription="Mix3B1"/>
-    <parameter name="Mix3B2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="12" shortDescription="Mix3B1" fullDescription="Mix3B1"/>
+    <parameter name="Mix3B2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="13" shortDescription="Mix3B2" fullDescription="Mix3B2"/>
-    <parameter name="Mix3B3" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="13" shortDescription="Mix3B2" fullDescription="Mix3B2"/>
+    <parameter name="Mix3B3" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="6" scopeParamId="14" shortDescription="Mix3B3" fullDescription="Mix3B3"/>
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="14" shortDescription="Mix3B3" fullDescription="Mix3B3"/>
     <parameter name="Del2DT1" scopeRangeMin="194" scopeRangeMax="262144" scopeDBRef="0" valueType="0" uiResetValue="171" uiSkewFactor="0.19879971444606781006"
                skewUIOnly="0" uiRangeMin="4" uiRangeMax="5461" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="5" shortDescription="Del2DT1" fullDescription="Del2DT1"/>
@@ -300,67 +300,68 @@
                uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="6" shortDescription="Del2DT2" fullDescription="Del2DT2"/>
     <parameter name="Del2Fb" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="6" scopeParamId="7" shortDescription="Del2Fb" fullDescription="Del2Fb"/>
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="7" shortDescription="Del2Fb" fullDescription="Del2Fb"/>
     <parameter name="Del2Gain" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="6" scopeParamId="8" shortDescription="Del2Gain" fullDescription="Del2Gain"/>
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="8" shortDescription="Del2Gain" fullDescription="Del2Gain"/>
     <parameter name="Pan1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="1" shortDescription="Pan1" fullDescription="Pan1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="1" shortDescription="Pan1" fullDescription="Pan1"/>
     <parameter name="Pan1Mod" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="2" shortDescription="Pan1Mod" fullDescription="Pan1Mod"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="2" shortDescription="Pan1Mod" fullDescription="Pan1Mod"/>
     <parameter name="MGain1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.25" valueType="0" uiResetValue="0" uiSkewFactor="5.03469657897949218750"
                skewUIOnly="0" uiRangeMin="-174.6" uiRangeMax="12" uiRangeInterval="0.01" uiSuffix=" dB" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="-12" shortDescription="MGain1" fullDescription="MGain1" scopeSync="0" scopeLocal="0" scopeParamGroup="7"
                scopeParamId="3"/>
     <parameter name="Pan2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="4" shortDescription="Pan2" fullDescription="Pan2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="4" shortDescription="Pan2" fullDescription="Pan2"/>
     <parameter name="Pan2Mod" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="5" shortDescription="Pan2Mod" fullDescription="Pan2Mod"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="5" shortDescription="Pan2Mod" fullDescription="Pan2Mod"/>
     <parameter name="MGain2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.25" valueType="0" uiResetValue="0" uiSkewFactor="5.03469657897949218750"
                skewUIOnly="0" uiRangeMin="-174.6" uiRangeMax="12" uiRangeInterval="0.01" uiSuffix=" dB" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="-12" shortDescription="MGain2" fullDescription="MGain2" scopeSync="0" scopeLocal="0" scopeParamGroup="7"
                scopeParamId="6"/>
-    <parameter name="ExpVcaSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+    <parameter name="ExpVcaSlp" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="7" scopeParamId="7" shortDescription="ExpVcaSlp" fullDescription="ExpVcaSlp"/>
+               uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="7" shortDescription="ExpVcaSlp" fullDescription="ExpVcaSlp"/>
     <parameter name="AdsrVelo" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="3" scopeParamId="7" shortDescription="AdsrVelo" fullDescription="AdsrVelo"/>
+               uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="7" shortDescription="AdsrVelo" fullDescription="AdsrVelo"/>
     <parameter name="AdVelo" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="3" scopeParamId="13" shortDescription="AdVelo" fullDescription="AdVelo"/>
-    <parameter name="ATSmooth" scopeRangeMin="252952" scopeRangeMax="25295200" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.55314183235168457031"
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="13" shortDescription="AdVelo" fullDescription="AdVelo"/>
+    <parameter name="ATSmooth" scopeRangeMin="252952" scopeRangeMax="25295200" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="7" scopeParamId="8" shortDescription="ATSmooth" fullDescription="ATSmooth"/>
+               uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="8" shortDescription="ATSmooth" fullDescription="ATSmooth"/>
     <parameter name="ConstValA" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="0.001" uiSuffix=""
-               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="9" shortDescription="ConstValA"
+               scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="9" shortDescription="ConstValA"
                fullDescription="ConstValA"/>
     <parameter name="ConstValABar1" shortDescription="ConstValABar1" fullDescription="ConstValABar1" scopeParamGroup="7" scopeParamId="9"
                scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
-               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="0"/>
+               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint=""/>
     <parameter name="ConstValABar2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="12000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000" uiRangeInterval="0.01" uiSuffix=" Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="12000" scopeParamGroup="7" scopeParamId="9" shortDescription="ConstValABar2" fullDescription="ConstValABar2"/>
+               uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="9" shortDescription="ConstValABar2" fullDescription="ConstValABar2"/>
     <parameter name="ConstValB" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="7" scopeParamId="10" shortDescription="ConstValB" fullDescription="ConstValB"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="10" shortDescription="ConstValB" fullDescription="ConstValB"/>
     <parameter name="ConstValBBar1" shortDescription="ConstValBBar1" fullDescription="ConstValBBar1" scopeParamGroup="7" scopeParamId="10"
                scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
-               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="0"/>
+               skewUIOnly="0" uiRangeMin="-2147483648" uiRangeMax="2147483647" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint=""/>
     <parameter name="ConstValBBar2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="12000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000" uiRangeInterval="0.01" uiSuffix=" Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="12000" scopeParamGroup="7" scopeParamId="10" shortDescription="ConstValBBar2" fullDescription="ConstValBBar2"/>
-    <parameter name="PortaTime" scopeRangeMin="0" scopeRangeMax="127" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.01144480705261230469"
+               uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="10" shortDescription="ConstValBBar2" fullDescription="ConstValBBar2"/>
+    <parameter name="PortaTime" scopeRangeMin="0" scopeRangeMax="127" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="64" scopeParamGroup="7" scopeParamId="11" shortDescription="PortaTime" fullDescription="PortaTime"/>
-    <parameter name="PortaType" scopeRangeMin="0" scopeRangeMax="4" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
-               skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="4.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="12" shortDescription="PortaType" fullDescription="PortaType">
+               uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="11" shortDescription="PortaTime" fullDescription="PortaTime"/>
+    <parameter name="PortaType" scopeRangeMin="0" scopeRangeMax="4" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="4.00000000000000000000"
+               uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="12"
+               shortDescription="PortaType" fullDescription="PortaType">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="4.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="Off" intValue="0"/>
         <setting name="Porta" intValue="1"/>
@@ -381,7 +382,7 @@
     <parameter name="SeqFrqSrcKnob" scopeRangeMin="894" scopeRangeMax="134217727" scopeDBRef="0" valueType="0" uiResetValue="46" uiSkewFactor="0.11077650636434555054"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="24000" uiRangeInterval="0.01" uiSuffix="Hz" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="46" scopeParamGroup="8" scopeParamId="2" shortDescription="Knob" fullDescription="SeqFrqSrcKnob"/>
-    <parameter name="SeqFrqSrcDiv" scopeRangeMin="0" scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="1"
+    <parameter name="SeqFrqSrcDiv" scopeRangeMin="0" scopeRangeMax="2" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="2.00000000000000000000"
                uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="8" scopeParamId="3"
                shortDescription="Divider" fullDescription="SeqFrqSrcDiv">
@@ -391,17 +392,17 @@
         <setting name="1/2" intValue="2"/>
       </settings>
     </parameter>
-    <parameter name="StartSt" scopeRangeMin="0" scopeRangeMax="7" scopeDBRef="0" valueType="0" uiResetValue="1" uiSkewFactor="0.81806790828704833984"
-               skewUIOnly="0" uiRangeMin="1" uiRangeMax="8" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="4"
+    <parameter name="StartSt" scopeRangeMin="0" scopeRangeMax="7" scopeDBRef="0" valueType="0" uiResetValue="1" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="1" uiRangeMax="8" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint=""
                scopeParamGroup="8" scopeParamId="4" shortDescription="StartStep" fullDescription="Start"/>
-    <parameter name="SeqLength" scopeRangeMin="0" scopeRangeMax="7" scopeDBRef="0" valueType="0" uiResetValue="8" uiSkewFactor="0.81806790828704833984"
-               skewUIOnly="0" uiRangeMin="1" uiRangeMax="8" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="4"
+    <parameter name="SeqLength" scopeRangeMin="0" scopeRangeMax="7" scopeDBRef="0" valueType="0" uiResetValue="8" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="1" uiRangeMax="8" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint=""
                scopeParamGroup="8" scopeParamId="5" shortDescription="Length" fullDescription="SeqLength"/>
     <parameter name="SeqSwing" scopeRangeMin="0" scopeRangeMax="158435456" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="0" scopeParamGroup="8" scopeParamId="6" shortDescription="Swing" fullDescription="SeqSwing"/>
+               uiSkewMidpoint="" scopeParamGroup="8" scopeParamId="6" shortDescription="Swing" fullDescription="SeqSwing"/>
     <parameter name="SeqGt1" shortDescription="1" fullDescription="SeqGt1 Off/On" scopeParamGroup="8" scopeParamId="9" scopeRangeMin="0"
-               scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="SeqGt1Off" intValue="0"/>
@@ -409,7 +410,7 @@
       </settings>
     </parameter>
     <parameter name="SeqGt2" shortDescription="2" fullDescription="SeqGt2 Off/On" scopeParamGroup="8" scopeParamId="10" scopeRangeMin="0"
-               scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
+               scopeRangeMax="1" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="1.00000000000000000000" uiRangeInterval="1" uiSuffix="" uiSkewMidpoint="">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="2.00000000000000000000" uiResetValue="0.00000000000000000000">
         <setting name="SeqGt2Off" intValue="0"/>
@@ -466,58 +467,58 @@
     </parameter>
     <parameter name="CtrlSeq1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="1" shortDescription="1" fullDescription="CtrlSeq1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="1" shortDescription="1" fullDescription="CtrlSeq1"/>
     <parameter name="CtrlSeq2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="2" shortDescription="2" fullDescription="CtrlSeq2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="2" shortDescription="2" fullDescription="CtrlSeq2"/>
     <parameter name="CtrlSeq3" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="3" shortDescription="3" fullDescription="CtrlSeq3"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="3" shortDescription="3" fullDescription="CtrlSeq3"/>
     <parameter name="CtrlSeq4" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="4" shortDescription="4" fullDescription="CtrlSeq4"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="4" shortDescription="4" fullDescription="CtrlSeq4"/>
     <parameter name="CtrlSeq5" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="5" shortDescription="5" fullDescription="CtrlSeq5"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="5" shortDescription="5" fullDescription="CtrlSeq5"/>
     <parameter name="CtrlSeq6" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="6" shortDescription="6" fullDescription="CtrlSeq6"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="6" shortDescription="6" fullDescription="CtrlSeq6"/>
     <parameter name="CtrlSeq7" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="7" shortDescription="7" fullDescription="CtrlSeq7"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="7" shortDescription="7" fullDescription="CtrlSeq7"/>
     <parameter name="CtrlSeq8" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="8" shortDescription="8" fullDescription="CtrlSeq8"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="8" shortDescription="8" fullDescription="CtrlSeq8"/>
     <parameter name="PitchSeq1" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="9" shortDescription="1" fullDescription="PitchSeq1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="9" shortDescription="1" fullDescription="PitchSeq1"/>
     <parameter name="PitchSeq2" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="10" shortDescription="2" fullDescription="PitchSeq2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="10" shortDescription="2" fullDescription="PitchSeq2"/>
     <parameter name="PitchSeq3" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="11" shortDescription="3" fullDescription="PitchSeq3"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="11" shortDescription="3" fullDescription="PitchSeq3"/>
     <parameter name="PitchSeq4" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="12" shortDescription="4" fullDescription="PitchSeq4"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="12" shortDescription="4" fullDescription="PitchSeq4"/>
     <parameter name="PitchSeq5" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="13" shortDescription="5" fullDescription="PitchSeq5"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="13" shortDescription="5" fullDescription="PitchSeq5"/>
     <parameter name="PitchSeq6" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="14" shortDescription="6" fullDescription="PitchSeq6"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="14" shortDescription="6" fullDescription="PitchSeq6"/>
     <parameter name="PitchSeq7" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="15" shortDescription="7" fullDescription="PitchSeq7"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="15" shortDescription="7" fullDescription="PitchSeq7"/>
     <parameter name="PitchSeq8" scopeRangeMin="0" scopeRangeMax="48" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-24" uiRangeMax="24" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="9" scopeParamId="16" shortDescription="8" fullDescription="PitchSeq8"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="9" scopeParamId="16" shortDescription="8" fullDescription="PitchSeq8"/>
     <parameter name="VU1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="8" scopeParamId="7" shortDescription="VU1" fullDescription="VU1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="8" scopeParamId="7" shortDescription="VU1" fullDescription="VU1"/>
     <parameter name="VU2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="0" scopeParamGroup="8" scopeParamId="8" shortDescription="VU2" fullDescription="VU2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="8" scopeParamId="8" shortDescription="VU2" fullDescription="VU2"/>
     <parameter name="MatrixOSC1FDest" shortDescription="OSC1F" fullDescription="Matrix OSC1F Destination" scopeParamGroup="10" scopeParamId="1"
                scopeRangeMin="0" scopeRangeMax="33" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="33.00000000000000000000"
