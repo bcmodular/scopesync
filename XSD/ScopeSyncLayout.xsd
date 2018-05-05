@@ -267,6 +267,7 @@
             <element name="linearhorizontal" type="tns:sliderlinearimagestype" minOccurs="0"/>
             <element name="linearvertical" type="tns:sliderlinearimagestype" minOccurs="0"/>
         </all>
+        <attribute name="nobackground" type="boolean"/>
     </complexType>
 
     <complexType name="sliderrotaryimagestype">

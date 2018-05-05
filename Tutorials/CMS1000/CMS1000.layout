@@ -226,7 +226,7 @@
       <lookandfeel id="matrixfader" parentid="maintheme">
         <appliesto componenttype="none" />
         <images>
-          <slider>
+          <slider nobackground="true">
             <linearvertical thumbfilename="gfx/Slider-ThumbBlWh.png" thumbmouseoverfilename="gfx/Slider-ThumbBlTu.png" thumbborder="0">
               <!--  <backgroundimage filename="gfx/slider-background.png" numframes="1"/>-->
             </linearvertical>

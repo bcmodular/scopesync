@@ -202,6 +202,7 @@ void BCMLookAndFeel::setupColourIds()
 
 void BCMLookAndFeel::initialise()
 {
+    noSliderBackground            = false;
     rotaryFillBackground          = Image();
     rotaryOutlineBackground       = Image();
     rotaryBackgroundFillBehind    = false;
@@ -226,6 +227,7 @@ void BCMLookAndFeel::copyProperties(const BCMLookAndFeel& parentLookAndFeel)
     linearVerticalBackground.copyFrom(parentLookAndFeel.linearVerticalBackground);
     linearHorizontalBackground.copyFrom(parentLookAndFeel.linearHorizontalBackground);
     
+    noSliderBackground             = parentLookAndFeel.noSliderBackground;
     rotaryFillBackground           = parentLookAndFeel.rotaryFillBackground;
     rotaryOutlineBackground        = parentLookAndFeel.rotaryOutlineBackground;
     rotaryBackgroundUseLnFColours  = parentLookAndFeel.rotaryBackgroundUseLnFColours;
@@ -263,6 +265,8 @@ void BCMLookAndFeel::setValuesFromXml(const XmlElement& lookAndFeelXML)
             {
                 if (subChild->hasTagName("slider"))
                 {
+                    noSliderBackground = subChild->getBoolAttribute("nobackground", noSliderBackground);
+                    
                     forEachXmlChildElement(*subChild, subSubChild)
                     {
                              if (subSubChild->hasTagName("rotary"))           getRotarySliderImagesFromXml(*subSubChild);
@@ -561,6 +565,9 @@ void BCMLookAndFeel::drawLinearSliderBackground
     Slider&   slider
 )
 {
+    if (noSliderBackground)
+        return;
+    
     if (style == Slider::LinearVertical && linearVerticalBackground.numFrames > 0)
     {
         int   frameIndex = static_cast<int>((slider.getValue() - slider.getMinimum()) / (slider.getMaximum() - slider.getMinimum()) * (linearVerticalBackground.numFrames - 1));

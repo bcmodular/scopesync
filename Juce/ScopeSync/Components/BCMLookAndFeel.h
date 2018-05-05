@@ -171,6 +171,8 @@ private:
     SharedResourcePointer<ImageLoader> imageLoader;
 
     // Variables holding LookAndFeel attributes to be applied on drawing Components
+    bool noSliderBackground;
+    
     FilmStripImage rotary;
     Image rotaryFillBackground;
     Image rotaryOutlineBackground;
