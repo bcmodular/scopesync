@@ -532,7 +532,7 @@
             <bounds relativerectangle="LFOVolModSlider.left, LFOVolModSlider.bottom + 2, LFOVolModSlider.right, top + 8 " />
           </label>
           <component name="LfoHeaderText" id="LfoHeaderText" backgroundimage="gfx/ModuleHeaderLFO50x14.png" debugwidgetposition="false">
-            <bounds relativerectangle="190, 0, left + 50, top + 14" />
+            <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
           </component>
         </component>
         <!--BPM-->
@@ -1091,6 +1091,9 @@
             <bounds relativerectangle="SeqGt8.left, SeqGt8.bottom - 2, SeqGt8.right, top + 8" />
             <mappingparent componentname="SeqGt8" componenttype="textbutton" />
           </label>
+          <component name="GtSeqHeaderText" id="GtSeqHeaderText" backgroundimage="gfx/ModuleHeaderGateSeq100x14.png" debugwidgetposition="true">
+            <bounds relativerectangle="(parent.width / 2) - 50, 0, left + 100, top + 14" />
+          </component>
         </component>
         <!--ContrSeq controls-->
         <component backgroundcolour="00000000" name="CSeq" id="CSeq">
