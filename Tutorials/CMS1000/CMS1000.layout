@@ -269,7 +269,7 @@
         <!--Using relativerectangle for bounds makes it easy to position elements relative to others.-->
         <!--Format is left, top, right, bottom. You can reference parent (like here) or use the id for -->
         <!--the related element (must be siblings though).-->
-        <bounds relativerectangle="10, 33, parent.width - 10, top + 65" />
+        <bounds relativerectangle="10, 33, parent.width - 10, top + 70" />
         <!--OSC 1 controls-->
         <component backgroundcolour="00000000" name="OSC1" id="OSC1">
           <bounds relativerectangle="0, 0, left + 288, parent.height" />
@@ -277,7 +277,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC1 Coarse" id="OSC1CoarseSlider" lfid="bipolar48knob">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="OSC1 Coarse" id="OSC1CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -343,7 +343,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC2 Coarse" id="OSC2CoarseSlider" popupenabled="false" lfid="bipolar48knob">
-            <bounds relativerectangle="5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="OSC2 Coarse" id="OSC2CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -351,12 +351,12 @@
             <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
           </label>
           <slider name="OSC2 Fine" id="OSC2FineSlider" popupenabled="false" lfid="bipolar100knob">
-            <bounds relativerectangle="OSC2CoarseSlider.right + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="OSC2CoarseSlider.right + 5, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="OSC2 Fine" id="OSC2FineLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="OSC2FineSlider.left, OSC2FineSlider.bottom + 2, OSC2FineSlider.right, top + 8  " />
-            <mappingparent componentname="OSC2 Coarse" componenttype="slider" />
+            <mappingparent componentname="OSC2 Fine" componenttype="slider" />
           </label>
           <slider name="OSC2 Wave" id="OSC2WaveSlider" popupenabled="false" encodersnap="true" lfid="wavechoiceknob">
             <bounds relativerectangle="OSC2FineSlider.right + 8, OSC2CoarseSlider.top, left + OSC2CoarseSlider.width, top + OSC2CoarseSlider.height" />
@@ -401,7 +401,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="false" lfid="bipolar48knob">
-            <bounds relativerectangle="5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="OSC3 Coarse" id="OSC3CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -409,7 +409,7 @@
             <mappingparent componentname="OSC3 Coarse" componenttype="slider" />
           </label>
           <slider name="OSC3 Fine" id="OSC3FineSlider" popupenabled="false" lfid="bipolar100knob">
-            <bounds relativerectangle="OSC3CoarseSlider.right + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="OSC3CoarseSlider.right + 5, OSC3CoarseSlider.top, left + OSC3CoarseSlider.width, top + OSC3CoarseSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="OSC3 Fine" id="OSC3FineLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -427,7 +427,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Bpf Freq" id="BpfFreqSlider" popupenabled="true" lfid="white2darkknob">
-            <bounds relativerectangle="18, 10, left + 40, top + 40" />
+            <bounds relativerectangle="18, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Bpf Freq" id="BpfFrqLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -445,7 +445,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="LFOFreqSrcKnob" name="LFOFreqSrcKnob" lfid="radiolight">
-            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+            <bounds relativerectangle="5, 8, left + 50, top + 14" />
           </textbutton>
           <textbutton id="LFOFreqSrcFrqDiv" name="LFOFreqSrcFrqDiv" lfid="radiolight">
             <bounds relativerectangle="LFOFreqSrcKnob.left, LFOFreqSrcKnob.bottom + 3, left + LFOFreqSrcKnob.width, top + LFOFreqSrcKnob.height" />
@@ -461,7 +461,7 @@
             <tab idx="1" name="LFOKnobTab">
               <component name="LFOKnobTabComponent" backgroundcolour="00ff0000">
                 <slider name="LfoFrqSrcKnob" id="LfoFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="LfoFrqSrcKnob" id="LfoFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -491,7 +491,7 @@
             </tab>
           </tabbedcomponent>
           <textbutton id="LFOGateSrcMVC" name="LFOGateSrcMVC" lfid="radiolight" debugwidgetposition="false">
-            <bounds relativerectangle="110, 8, left + 50, top + 12" />
+            <bounds relativerectangle="110, 8, left + 50, top + 14" />
           </textbutton>
           <textbutton id="LFOGateSrcSeq" name="LFOGateSrcSeq" lfid="radiolight">
             <bounds relativerectangle="LFOGateSrcMVC.left, LFOGateSrcMVC.bottom + 3, left + LFOGateSrcMVC.width, top + LFOGateSrcMVC.height" />
@@ -503,41 +503,41 @@
             <bounds relativerectangle="LFOGateSrcMVC.left, LFOGateSrcRandGate.bottom + 2, left + 38, top + 8 " />
           </label>
           <textbutton id="LFORetrig" name="LFORetrig" lfid="RetrigButton">
-            <bounds relativerectangle="LFOGateSrcMVC.right - 7, 15, LFOGateSrcSeq.left + 105, top + 35" />
+            <bounds relativerectangle="LFOGateSrcMVC.right - 7, 20, LFOGateSrcSeq.left + 105, top + 35" />
           </textbutton>
           <label name="LFORetrigLabel" id="LFORetrigLabel" text="Retrig" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
             <bounds relativerectangle="LFORetrig.left - 4, LFORetrig.bottom + 2, LFORetrig.right - 20, top + 8 " />
           </label>
           <slider name="LFO Wave" id="LFOWaveSlider" popupenabled="false" encodersnap="true" lfid="LfoWaveKnob">
-            <bounds relativerectangle="LFORetrig.right - 15, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFORetrig.right - 15, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="LFOWaveLabel" id="LFOWaveLabel" text="Wave" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOWaveSlider.left, LFOWaveSlider.bottom + 2, LFOWaveSlider.right, top + 8 " />
           </label>
           <slider name="LFO Fade In" id="LFOFadeInSlider" popupenabled="true" encodersnap="true" lfid="White2DarkKnob">
-            <bounds relativerectangle="LFOWaveSlider.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFOWaveSlider.right + 8, LFOWaveSlider.top, left + LFOWaveSlider.width, top + LFOWaveSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="LFOFadeInLabel" id="LFOFadeInLabel" text="FadeIn" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOFadeInSlider.left, LFOFadeInSlider.bottom + 2, LFOFadeInSlider.right, top + 8 " />
           </label>
           <slider name="LFO Phase" id="LFOPhaseSlider" popupenabled="false" encodersnap="true" lfid="PhaseKnob">
-            <bounds relativerectangle="LFOFadeInSlider.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFOFadeInSlider.right + 8, LFOWaveSlider.top, left + LFOWaveSlider.width, top + LFOWaveSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="LFOPhaseLabel" id="LFOPhaseLabel" text="Phase" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOPhaseSlider.left, LFOPhaseSlider.bottom + 2, LFOPhaseSlider.right, top + 8 " />
           </label>
           <slider name="LFO Gain" id="LFOGainSlider" popupenabled="false" encodersnap="true" lfid="0-127Knob">
-            <bounds relativerectangle="LFOPhaseSlider.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFOPhaseSlider.right + 8, LFOWaveSlider.top, left + LFOWaveSlider.width, top + LFOWaveSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="LFOGainLabel" id="LFOGainLabel" text="Gain" lfid="maintheme" wtid="parameterlabel">
             <bounds relativerectangle="LFOGainSlider.left, LFOGainSlider.bottom + 2, LFOGainSlider.right, top + 8 " />
           </label>
           <slider name="LFO VolMod" id="LFOVolModSlider" popupenabled="false" encodersnap="true" lfid="0-127Knob">
-            <bounds relativerectangle="LFOGainSlider.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="LFOGainSlider.right + 8, LFOWaveSlider.top, left + LFOWaveSlider.width, top + LFOWaveSlider.height" />
             <textbox position="none" />
           </slider>
           <label name="LFOVolModLabel" id="LFOVolModLabel" text="VolMod" lfid="maintheme" wtid="parameterlabel">
