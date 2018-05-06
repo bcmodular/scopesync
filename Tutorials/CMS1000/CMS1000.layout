@@ -281,7 +281,7 @@
             <textbox position="none" />
           </slider>
           <label name="OSC1 Coarse" id="OSC1CoarseLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
-            <bounds relativerectangle="OSC1CoarseSlider.left, OSC1CoarseSlider.bottom + 2, OSC1CoarseSlider.right, top + 8  " />
+            <bounds relativerectangle="OSC1CoarseSlider.left, OSC1CoarseSlider.bottom + 2, OSC1CoarseSlider.right, top + 8" />
             <!-- We always want the label to follow the mapping of the Slider, so link them together -->
             <!-- using the mappingparent element. This means we don't need to map the Labels explicitly -->
             <!-- in the ScopeSync configuration -->
@@ -554,7 +554,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Tempo" debugwidgetposition="false" id="TempoSlider" popupenabled="true" encodersnap="true" lfid="BPMKnob">
-            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 45" />
+            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
           <label name="TempoLabel" id="TempoLabel" text="BPM" lfid="maintheme" wtid="parameterlabel">
@@ -568,12 +568,12 @@
       </component>
       <!--ADSR controls-->
       <component backgroundcolour="00000000" name="ADSR" id="ADSR">
-        <bounds relativerectangle="firstrow.left, firstrow.bottom + 8, left + 290, top + 65" />
+        <bounds relativerectangle="firstrow.left, firstrow.bottom + 8, left + 290, top + 70" />
         <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
           <bounds fillparent="true" />
         </rectangle>
         <textbutton id="AdsrGateSrcMVC" name="AdsrGateSrcMVC" lfid="radiolight">
-          <bounds relativerectangle="5, 8, left + 50, top + 12" />
+          <bounds relativerectangle="5, 8, left + 50, top + 14" />
         </textbutton>
         <textbutton id="AdsrGateSrcSeq" name="AdsrGateSrcSeq" lfid="radiolight">
           <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcMVC.bottom + 3, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
@@ -582,7 +582,7 @@
           <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcSeq.bottom + 3, left + AdsrGateSrcMVC.width, top + AdsrGateSrcMVC.height" />
         </textbutton>
         <slider name="AdsrAtt" id="AdsrAttSlider" popupenabled="true" lfid="WhiteKnob">
-          <bounds relativerectangle="AdsrGateSrcMVC.right, 10, left + 40, top + 40" />
+          <bounds relativerectangle="AdsrGateSrcMVC.right, 10, left + 40, top + 45" />
           <textbox position="none" />
         </slider>
         <label name="AdsrAtt" id="AdsrAttLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -622,7 +622,7 @@
           <mappingparent componentname="AdsrSlp" componenttype="slider" />
         </label>
         <label name="AdsrGateSrc" id="AdsrGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
-          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcRG.bottom + 2, left + 38, top + 14 " />
+          <bounds relativerectangle="AdsrGateSrcMVC.left, AdsrGateSrcRG.bottom + 2, left + 38, top + 10" />
         </label>
         <component name="AdsrHeaderText" id="AdsrHeaderText" backgroundimage="gfx/ModuleHeaderAdsr_50x14.png" debugwidgetposition="false">
           <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
@@ -630,7 +630,7 @@
       </component>
       <!--AD+RGATE controls-->
       <component backgroundcolour="00ff0000" name="AD and RGATE" id="ADnRGATE">
-        <bounds relativerectangle="right - 288, firstrow.bottom + 8, firstrow.right, top + 65" />
+        <bounds relativerectangle="right - 288, firstrow.bottom + 8, firstrow.right, top + 70" />
         <!--RGATE control-->
         <component backgroundcolour="00000000" name="RGATE" id="RGATE">
           <bounds relativerectangle="right - 43, 0, parent.width, parent.height" />
@@ -638,7 +638,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="RandGtSens" id="RandGtSensSlider" lfid="0-127Knob" debugwidgetposition="false">
-            <bounds relativerectangle="ADnRGATE.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="ADnRGATE.right + 8, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="RandGtSens" id="RandGtSensLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
@@ -653,7 +653,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="AdGateSrcMVC" name="AdGateSrcMVC" lfid="radiolight">
-            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+            <bounds relativerectangle="5, 8, left + 50, top + 14" />
           </textbutton>
           <textbutton id="AdGateSrcSeq" name="AdGateSrcSeq" lfid="radiolight">
             <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcMVC.bottom + 3, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
@@ -662,10 +662,10 @@
             <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcSeq.bottom + 3, left + AdGateSrcMVC.width, top + AdGateSrcMVC.height" />
           </textbutton>
           <label name="AdGateSrc" id="AdGateSrcLabel" text="GateSrc" lfid="maintheme" wtid="parameterlabel">
-            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcRG.bottom + 2, left + 38, top + 14 " />
+            <bounds relativerectangle="AdGateSrcMVC.left, AdGateSrcRG.bottom + 2, left + 38, top + 10 " />
           </label>
           <slider name="AdAtt" id="AdAttSlider" popupenabled="true" lfid="WhiteKnob">
-            <bounds relativerectangle="AdGateSrcMVC.right - 10, 10, left + 40, top + 40" />
+            <bounds relativerectangle="AdGateSrcMVC.right - 10, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="AdAtt" id="AdAttLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -714,15 +714,15 @@
       </component>
       <!--Filter & delay controls-->
       <component backgroundcolour="00ff0000" name="Filter and Delay" id="FilternDelay">
-        <bounds relativerectangle="firstrow.left, ADSR.bottom + 8, left + 192, top + 284" />
+        <bounds relativerectangle="firstrow.left, ADSR.bottom + 8, left + 192, top + 303" />
         <!--LP controls-->
         <component backgroundcolour="00000000" name="LP" id="LP">
-          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <bounds relativerectangle="0, 0, parent.width, top + 70" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="LpCf" id="LpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="LpCf" id="LpCfLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -764,7 +764,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="HpCf" id="HpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="HpCf" id="HpCfLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -806,7 +806,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Del1DT1" id="Del1DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Del1DT1" id="Del1DT1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -848,7 +848,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Del2DT1" id="Del2DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Del2DT1" id="Del2DT1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -886,15 +886,15 @@
       </component>
       <!--ExpVca & Velo & AT & ConstValAB-->
       <component backgroundcolour="00000000" name="ExpVca &amp; Velo &amp; AT &amp; ConstValA+B" id="VcaVelo">
-        <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right + 20, top + 138" />
+        <bounds relativerectangle="firstrow.left, FilternDelay.bottom + 8, FilternDelay.right + 20, top + 148" />
         <!--ExpVcaVeloAT controls-->
         <component backgroundcolour="00000000" name="ExpVca" id="ExpVca">
-          <bounds relativerectangle="0, 0, parent.width - 20, top + 65" />
+          <bounds relativerectangle="0, 0, parent.width - 20, top + 70" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ExpVcaSlp" id="ExpVcaSlpSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="ExpVcaSlp" id="ExpVcaSlpLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
@@ -942,11 +942,11 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ConstValA" id="ConstValASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <slider name="ConstValABipolarBar" id="ConstValABipolarBar" wtid="cvbar">
-            <bounds relativerectangle="ConstValASlider.right, 12, ConstValBSlider.left, top + 15" />
+            <bounds relativerectangle="ConstValASlider.right, 17, ConstValBSlider.left, top + 15" />
           </slider>
           <slider name="ConstValAFreqBar" id="ConstValAFreqBar" wtid="cvbar">
             <bounds relativerectangle="ConstValASlider.right, ConstValABipolarBar.bottom + 2, ConstValBSlider.left, top + 15" />
@@ -960,7 +960,7 @@
             <textbox position="none" />
           </slider>
           <slider name="ConstValBBipolarBar" id="ConstValBBipolarBar" wtid="cvbar">
-            <bounds relativerectangle="ConstValBSlider.right, 12, ConstValBSlider.right + 60, top + 15" />
+            <bounds relativerectangle="ConstValBSlider.right, 17, ConstValBSlider.right + 60, top + 15" />
           </slider>
           <slider name="ConstValBFreqBar" id="ConstValBFreqBar" wtid="cvbar">
             <bounds relativerectangle="ConstValBSlider.right, ConstValABipolarBar.bottom + 2, ConstValBSlider.right + 60, top + 15" />
@@ -976,7 +976,7 @@
       </component>
       <!--Last row-->
       <component backgroundcolour="00ff0000" name="Last Row" id="lastrow">
-        <bounds relativerectangle="firstrow.left, VcaVelo.bottom + 8, firstrow.right, top + 65" />
+        <bounds relativerectangle="firstrow.left, VcaVelo.bottom + 8, firstrow.right, top + 70" />
         <!--Porta-->
         <component backgroundcolour="00000000" name="Porta" id="Porta">
           <bounds relativerectangle="0, 0, left + 96, parent.height" />
@@ -984,7 +984,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PortaTime" id="PortaTimeSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="PortaTime" id="PortaTimeLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
@@ -1010,7 +1010,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="SeqFreqSrcKnob" name="SeqFreqSrcKnob" lfid="radiolight">
-            <bounds relativerectangle="5, 8, left + 50, top + 12" />
+            <bounds relativerectangle="5, 8, left + 50, top + 14" />
           </textbutton>
           <textbutton id="SeqFreqSrcDiv" name="SeqFreqSrcDiv" lfid="radiolight">
             <bounds relativerectangle="SeqFreqSrcKnob.left, SeqFreqSrcKnob.bottom + 3, left + SeqFreqSrcKnob.width, top + SeqFreqSrcKnob.height" />
@@ -1026,7 +1026,7 @@
             <tab idx="1" name="SeqKnobTab">
               <component name="SeqKnobTabComponent" backgroundcolour="00ff0000">
                 <slider name="SeqFrqSrcKnob" id="SeqFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob" debugwidgetposition="false">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="SeqFrqSrcKnob" id="SeqFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1038,7 +1038,7 @@
             <tab idx="2" name="SeqFrqDivTab">
               <component name="SeqFrqDivTabComponent" backgroundcolour="0000ff00">
                 <slider name="SeqFrqSrcDiv" id="SeqFrqSrcDivSlider" popupenabled="true" lfid="SeqDivKnob">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="SeqFrqSrcDiv" id="SeqFrqSrcDivLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1050,13 +1050,13 @@
             <tab idx="3" name="SeqMVCTab">
               <component name="SeqMVCTabComponent" backgroundcolour="000000ff">
                 <component name="SeqFreqSrcMVCText" id="SeqFreqSrcMVCText" backgroundimage="gfx/12x36TextMVC.png">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="parent.left + 5, 18, left + 40, top + 40" />
                 </component>
               </component>
             </tab>
           </tabbedcomponent>
           <slider name="SeqStartStep" id="SeqStartStepSlider" lfid="Seq1-8" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="parent.left - 3, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left - 3, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="SeqStartStep" id="SeqStartStepLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1090,7 +1090,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="SeqGt1" name="SeqGt1" lfid="RetrigButton" debugwidgetposition="false">
-            <bounds relativerectangle="0, 15, left + 40, top + 40" />
+            <bounds relativerectangle="0, 20, left + 40, top + 40" />
           </textbutton>
           <label name="SeqGt1Label" id="SeqGt1Label" text="SeqGt1" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
             <bounds relativerectangle="SeqGt1.left, SeqGt1.bottom - 2, SeqGt1.right, top + 8 " />
@@ -1156,7 +1156,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ContrSeq1" id="ContrSeq1slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="0, 10, left + 40, top + 40" />
+            <bounds relativerectangle="0, 15, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
           <label name="ContrSeq1" id="ContrSeq1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
@@ -1230,7 +1230,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PitchSeq1" id="PitchSeq1slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
-            <bounds relativerectangle="0, 10, left + 40, top + 40" />
+            <bounds relativerectangle="0, 15, left + 40, top + 40" />
             <textbox position="none" />
           </slider>
           <label name="PitchSeq1" id="PitchSeq1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1303,7 +1303,7 @@
         <bounds relativerectangle="ADnRGATE.left, ADnRGATE.bottom + 8, ADnRGATE.right, FilternDelay.bottom" />
         <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
         <component backgroundcolour="00000000" name="PMod1-3" id="PMod">
-          <bounds relativerectangle="0, 0, parent.width, top + 65" />
+          <bounds relativerectangle="0, 0, parent.width, top + 70" />
           <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
@@ -1589,7 +1589,7 @@
       </component>
       <!--Fader Matrix-->
       <component backgroundimage="gfx/Matrix624x418newMatrixC.png" name="Matrix" id="matrix" showcrosshair="true" verticalcrosshaircolour="3300ff00" verticalcrosshairthickness="12" horizontalcrosshaircolour="330000ff" horizontalcrosshairthickness="12">
-        <bounds x="313" y="176" height="418" width="624" />
+        <bounds x="313" y="200" height="418" width="624" />
         <!--Fader Matrix 1-12-->
         <slider id="MatrixSlider1" name="MatrixSlider1" wtid="matrixfader">
           <bounds relativerectangle="0, 0, left + parent.width/52, parent.height" />
@@ -1751,11 +1751,17 @@
         </slider>
       </component>
       <standardcontent type="footer" />
-      <component backgroundimage="gfx/TextY_MatrixSources_63x418.png" name="Matrix" id="matrix">
-        <bounds x="251" y="177" height="418" width="63" />
+      <component backgroundimage="gfx/TextY_Backgr.png" name="MatrixYTextBackgr" id="matrixYTextBackgr">
+        <bounds x="248" y="195" height="428" width="63" />
       </component>
-      <component backgroundimage="gfx/TextX_Matrix_Destinations640x76.png" name="Matrix" id="matrix">
-        <bounds x="312" y="100" height="76" width="640" />
+      <component backgroundimage="gfx/TextY_MatrixSources_63x418.png" name="MatrixYText" id="matrixYText">
+        <bounds x="250" y="200" height="418" width="63" />
+      </component>
+      <component backgroundimage="gfx/TextX_Backgr.png" name="MatrixXTextBackgr" id="matrixXTextBackgr">
+        <bounds x="312" y="120" height="76" width="640" />
+      </component>
+      <component backgroundimage="gfx/TextX_Matrix_Destinations640x76.png" name="MatrixXText" id="matrixXText">
+        <bounds x="312" y="120" height="76" width="640" />
       </component>
     </component>
   </layout>
