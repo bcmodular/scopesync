@@ -78,7 +78,8 @@ public:
 	void referToConfigurationUID(Value& valueToLink) const;
     
 	static void reloadAllGUIs();
-    static void snapshotAll();
+	static void snapshotAll();
+	void snapshotFX();
     void setGUIEnabled(bool shouldBeEnabled) const;
     bool guiNeedsReloading() const;
     void setGUIReload(bool reloadGUIFlag);
@@ -108,7 +109,7 @@ public:
     bool shouldShowEditToolbar() const;
 
     /* =================== Public Configuration Methods ====================== */
-    void           applyConfiguration();
+    void           applyConfiguration(bool storeCurrentValues = true);
 	bool           isInitialised() const;
     void           saveConfiguration() const;
     bool           saveConfigurationAs();
@@ -128,7 +129,7 @@ public:
     int            getConfigurationUID() const;
 
     String         getLayoutDirectory() const;
-    void           changeConfiguration(StringRef fileName);
+    void           changeConfiguration(StringRef fileName, bool storeCurrentValues = true);
     void           changeConfigurationByUID(int uid);
 	void           setConfigurationUID(int uid);
 

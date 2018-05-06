@@ -142,6 +142,10 @@ void BCMParameterController::snapshot() const
 {
 	for (auto parameter : parameters)
 		parameter->getScopeOSCParameter().sendCurrentValue();
+
+#ifdef __DLL_EFFECT__
+	scopeSync->snapshotFX();
+#endif // __DLL_EFFECT__
 }
 
 BCMParameter* BCMParameterController::getParameterByName(StringRef name) const

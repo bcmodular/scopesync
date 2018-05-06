@@ -63,10 +63,15 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM /* lParam */)
 
 using namespace ScopeFXParameterDefinitions;
 
-ScopeFX::ScopeFX() : Effect(&effectDescription)
+ScopeFX::ScopeFX() 
+	: Effect(&effectDescription), 
+	  snapshotValue(0), syncScopeValue(0), 
+	  pluginHostOctet1(127), pluginHostOctet2(0), pluginHostOctet3(0), pluginHostOctet4(1),
+	  pluginListenerPort(8002), scopeSyncListenerPort(8001),
+	  configUID(0), scopeConfigUID(0)
 {
-    initValues();
-    
+	shouldShowWindow = false;
+
     if (ScopeSync::getNumScopeSyncInstances() == 0)
     {
 #ifdef _WIN32
@@ -105,11 +110,6 @@ ScopeFX::~ScopeFX()
         shutdownJuce_GUI();
 }
    
-void ScopeFX::initValues()
-{
-    shouldShowWindow = false;
-}
-
 void ScopeFX::toggleWindow(bool show)
 {
 	if (show && scopeFXGUI == nullptr)

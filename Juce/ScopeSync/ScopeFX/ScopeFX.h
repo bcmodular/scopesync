@@ -73,10 +73,7 @@ public:
 	void valueChanged(Value& valueThatChanged) override;
 
 private:	
-	
-	// Initialise member variables
-    void initValues();
-   
+	   
     // Show/hides the ScopeFX GUI window
 	void toggleWindow(bool show);
 

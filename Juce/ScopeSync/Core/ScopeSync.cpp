@@ -192,6 +192,13 @@ void ScopeSync::snapshotAll()
 	for (int i = 0; i < getNumScopeSyncInstances(); i++)
 		scopeSyncInstances[i]->getParameterController()->snapshot();
 }
+
+void ScopeSync::snapshotFX()
+{
+#ifdef __DLL_EFFECT__
+	scopeFX->snapshot();
+#endif // __DLL_EFFECT__	
+}
 	
 bool ScopeSync::guiNeedsReloading() const
 {
@@ -255,12 +262,10 @@ XmlElement& ScopeSync::getLayout(String& errorText, String& errorDetails, bool f
     return configuration->getLayout(errorText, errorDetails, forceReload);
 }
 
-void ScopeSync::changeConfiguration(StringRef fileName)
+void ScopeSync::changeConfiguration(StringRef fileName, bool storeCurrentValues)
 {
-    parameterController->storeParameterValues(); 
-
     if (configuration->replaceConfiguration(fileName))
-        applyConfiguration();
+        applyConfiguration(storeCurrentValues);
     else
         setSystemError(configuration->getLastError(), configuration->getLastErrorDetails());
 }
@@ -300,7 +305,7 @@ bool ScopeSync::shouldShowEditToolbar() const
     return showEditToolbar;
 }
 
-void ScopeSync::applyConfiguration()
+void ScopeSync::applyConfiguration(bool storeCurrentValues)
 {
 	DBG("ScopeSync::applyConfiguration");
 	// TODO: Disable OSC here?
@@ -310,7 +315,8 @@ void ScopeSync::applyConfiguration()
     systemError        = String::empty;
     systemErrorDetails = String::empty;
     
-    parameterController->storeParameterValues();
+    if (storeCurrentValues)
+		parameterController->storeParameterValues();
 
     parameterController->reset();
     
