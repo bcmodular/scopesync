@@ -51,7 +51,7 @@ class ConfigurationManagerWindow;
 #include "../Resources/Icons.h"
 
 class ScopeSync : public ActionListener,
-                  public Value::Listener
+				  public Timer
 {
 public:
     /* ========================== Initialisation ============================= */
@@ -131,8 +131,6 @@ public:
     String         getLayoutDirectory() const;
     void           changeConfiguration(StringRef fileName, bool storeCurrentValues = true);
     void           changeConfigurationByUID(int uid);
-	void           setConfigurationUID(int uid);
-
 
     ValueTree      getMapping() const;
     XmlElement&    getLayout(String& errorText, String& errorDetails, bool forceReload) const;
@@ -154,7 +152,7 @@ private:
     /* ========================== Initialisation ============================== */
     void initialise();
     
-    void valueChanged(Value& valueThatChanged) override;
+	void timerCallback() override;
 
     /* ===================== Private member variables ========================= */
 #ifndef __DLL_EFFECT__

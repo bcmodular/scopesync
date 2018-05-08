@@ -68,7 +68,7 @@ ScopeFX::ScopeFX()
 	  snapshotValue(0), syncScopeValue(0), 
 	  pluginHostOctet1(127), pluginHostOctet2(0), pluginHostOctet3(0), pluginHostOctet4(1),
 	  pluginListenerPort(8002), scopeSyncListenerPort(8001),
-	  configUID(0), scopeConfigUID(0)
+	  configUID(0), ignoreConfigUIDUpdates(0)
 {
 	shouldShowWindow = false;
 
@@ -91,9 +91,6 @@ ScopeFX::ScopeFX()
 	pluginPort.addListener(this);
 	scopeSyncPort.addListener(this);
 	scopeSync->getUserSettings()->referToScopeFXOSCSettings(pluginHost, pluginPort, scopeSyncPort);
-
-	configurationUID.addListener(this);
-	scopeSync->referToConfigurationUID(configurationUID);
 }
 
 ScopeFX::~ScopeFX()
@@ -206,12 +203,6 @@ void ScopeFX::valueChanged(Value& valueThatChanged)
 		setScopeSyncListenerPort(valueThatChanged.getValue());
 		return;
 	}
-
-	if (valueThatChanged.refersToSameSourceAs(configurationUID))
-	{
-		setConfigUID(valueThatChanged.getValue());
-		return;
-	}
 }
 
 
@@ -229,22 +220,53 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	else
 		deviceInstance = scopeSync->getDeviceInstance();
 	
-	int oldScopeConfigUID = scopeConfigUID.load(std::memory_order_relaxed);
-	int newScopeConfigUID = asyncIn[INPAD_CONFIGUID]->itg;
+	// Possible scenarios re. scopeConfigUID and configUID:
+	//   1) They're the same as each other, which means that no new configuration has been loaded through the Configuration Manager
+	//      or Scope (or a new one is not completely loaded)
+	//   2) It's different to configUID, which either means
+	//      a) that a new Configuration has been loaded through the Configuration Manager
+	//      b) that a Project/Preset load has happened in Scope since last checked or
 
-	if (!scopeConfigUID.compare_exchange_weak(oldScopeConfigUID, newScopeConfigUID))
+	if (scopeConfigUID != configUID)
 	{
-		// Scope value has changed since the last async call, so let's tell ScopeSync about it
-		scopeSync->setConfigurationUID(scopeConfigUID.load(std::memory_order_relaxed));
+		// This is scenario 2a). ScopeSync has a new ConfigUID for us to pass on to Scope
+		// There is a minor race condition risk here that the Configuration UID will be updated while
+		// we're checking, but given the ConfigUID will have already changed once, it's very unlikely
+		// to happen and actually we end up with the right configUID anyway
+		scopeConfigUID.exchange(configUID, std::memory_order_relaxed);
+
+		// Let's ignore the next few updates from Scope to ensure that it can internally synchronise
+		ignoreConfigUIDUpdates = 30;
 	}
 	else
 	{
-		// Scope value hasn't changed, so let's swap in the one from ScopeSync (could have been 
-		// updated in the valueChanged() method)
-		scopeConfigUID.store(configUID.load(std::memory_order_relaxed), std::memory_order_relaxed);
-	}
+		if (ignoreConfigUIDUpdates == 0)
+		{
+			// Let's grab the Scope value to see if it's changed since we last heard from Scope
+			int newScopeConfigUID = asyncIn[INPAD_CONFIGUID]->itg;
 
+			if (scopeConfigUID != newScopeConfigUID)
+			{
+				// This is scenario 2b). Scope has a new ConfigUID for us to tell ScopeSync about, so we
+				// update both the scopeConfigUID and the configUID. ScopeSync will check the configUID
+				// soon and detect the change, resulting in a new Configuration being loaded, or it
+				// returning to the old Config UID if there's a failure to load the new one
+				scopeConfigUID.exchange(newScopeConfigUID, std::memory_order_relaxed);
+				configUID.exchange(newScopeConfigUID, std::memory_order_relaxed);
+			}
+		}
+		else
+		{
+			// We're still ignoring ConfigUID updates since the last change from ScopeSync
+			--ignoreConfigUIDUpdates;
+		}
+	}
+	
+	// These are the In+Out parameters
 	asyncOut[OUTPAD_DEVICE_INSTANCE].itg         = deviceInstance;
+	asyncOut[OUTPAD_CONFIGUID].itg               = scopeConfigUID.load(std::memory_order_relaxed);
+	
+	// These are Out only (nice and easy!)
 	asyncOut[OUTPAD_SNAPSHOT].itg                = snapshotValue.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_PLUGIN_HOST_OCT1].itg        = pluginHostOctet1.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_PLUGIN_HOST_OCT2].itg        = pluginHostOctet2.load(std::memory_order_relaxed);
@@ -252,7 +274,6 @@ int ScopeFX::async(PadData** asyncIn,  PadData* /*syncIn*/,
 	asyncOut[OUTPAD_PLUGIN_HOST_OCT4].itg        = pluginHostOctet4.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_PLUGIN_LISTENER_PORT].itg    = pluginListenerPort.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_SCOPESYNC_LISTENER_PORT].itg = scopeSyncListenerPort.load(std::memory_order_relaxed);
-	asyncOut[OUTPAD_CONFIGUID].itg               = scopeConfigUID.load(std::memory_order_relaxed);
 	asyncOut[OUTPAD_SYNC_SCOPE].itg              = syncScopeValue.load(std::memory_order_relaxed);
 	
 	return 0;

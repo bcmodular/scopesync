@@ -198,12 +198,7 @@ Configuration::Configuration(): FileBasedDocument(configurationFileExtension,
                                                   loaderLayoutXml(Ids::layout)
 {
     lastFailedFile = File();
-    loadLoaderConfiguration();
-    setConfigurationRoot(loaderConfigurationRoot);
-    loadLoaderLayout();
-    layoutXml = loaderLayoutXml;
-    layoutLoaded = true;
-    setChangedFlag(false);
+	switchToLoader();
     configurationRoot.addListener(this);
 }
 
@@ -211,6 +206,16 @@ Configuration::~Configuration()
 {
     configurationRoot.removeListener(this);
 };
+
+void Configuration::switchToLoader()
+{
+	loadLoaderConfiguration();
+	setConfigurationRoot(loaderConfigurationRoot);
+	loadLoaderLayout();
+	layoutXml = loaderLayoutXml;
+	layoutLoaded = true;
+	setChangedFlag(false);
+}
 
 void Configuration::setConfigurationRoot(const ValueTree& newRoot)
 {
@@ -260,7 +265,7 @@ void Configuration::loadLoaderConfiguration()
     newTree.setProperty(Ids::name, "No configuration loaded...", nullptr);
     newTree.setProperty(Ids::readOnly, true, nullptr);
     newTree.setProperty(Ids::excludeFromChooser, true, nullptr);
-    newTree.setProperty(Ids::UID, 0, nullptr);
+    newTree.setProperty(Ids::UID, -1, nullptr);
 
     loaderConfigurationRoot = newTree;
 }

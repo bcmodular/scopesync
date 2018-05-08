@@ -69,7 +69,8 @@ public:
 	void setPluginListenerPort(int port);
 	void setScopeSyncListenerPort(int port);
 	void setConfigUID(int newConfigUID);
-    
+	int  getConfigUID() { return configUID.load(std::memory_order_relaxed); }
+
 	void valueChanged(Value& valueThatChanged) override;
 
 private:	
@@ -83,23 +84,23 @@ private:
 	Value pluginHost;
 	Value pluginPort;
 	Value scopeSyncPort;
-	Value configurationUID;
 
     ScopedPointer<ScopeSync> scopeSync;	
     ScopedPointer<ScopeFXGUI> scopeFXGUI;
 
 	int deviceInstance;
-	std::atomic<int> snapshotValue;
-	std::atomic<int> syncScopeValue;
-	std::atomic<int> pluginHostOctet1;
-	std::atomic<int> pluginHostOctet2;
-	std::atomic<int> pluginHostOctet3;
-	std::atomic<int> pluginHostOctet4;
-	std::atomic<int> pluginListenerPort;
-	std::atomic<int> scopeSyncListenerPort;
-	std::atomic<int> configUID;
-	std::atomic<int> scopeConfigUID;
-};
+	std::atomic<int> snapshotValue;          // (Out only)     A change in this value will trigger a snapshot for any connected Scope OSCSender modules (meant for those connecting to the Plugin)
+	std::atomic<int> syncScopeValue;         // (Output only)  A change in this value wlll trigger a snapshot for any connected Scope OSCSender modules (meant for those connecting back to ScopeSync)
+	std::atomic<int> pluginHostOctet1;       // (Output only)  1st Octet of the Plugin Host IP (from User Settings)
+	std::atomic<int> pluginHostOctet2;       // (Output only)  2nd Octet of the Plugin Host IP (from User Settings)
+	std::atomic<int> pluginHostOctet3;       // (Output only)  3rd Octet of the Plugin Host IP (from User Settings)
+	std::atomic<int> pluginHostOctet4;       // (Output only)  4th Octet of the Plugin Host IP (from User Settings)
+	std::atomic<int> pluginListenerPort;     // (Output only)  Listener Port of the Plugin Host (from User Settings)
+	std::atomic<int> scopeSyncListenerPort;  // (Output only)  Listener Port of ScopeSync (from User Settings)
+	std::atomic<int> scopeConfigUID;		 // (Input+Output) Configuration UID that Scope thinks we currently have. ScopeSync will periodically check if this is different to configUID and trigger an update if needed
+	std::atomic<int> configUID;				 // Configuration UID that ScopeSync thinks we should have. It will change this once a new Configuration has successfully loaded
 
+	int ignoreConfigUIDUpdates;
+};
 
 #endif  // SCOPEFX_H_INCLUDED

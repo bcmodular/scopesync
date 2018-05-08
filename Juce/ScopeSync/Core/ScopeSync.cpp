@@ -61,14 +61,27 @@ ScopeSync::ScopeSync(ScopeFX* owner)
     scopeSyncInstances.add(this);
     scopeFX = owner;
     initialise();
+
+	// Our timer checks for Configuration UID updates coming from Scope
+	startTimer(200);
 }
 #endif // __DLL_EFFECT__
 
 ScopeSync::~ScopeSync()
 {
 #ifdef __DLL_EFFECT__
-	configurationID.removeListener(this);
-#endif // __DLL_EFFECT__
+	// Stop listening for Configuration UID updates from Scope
+	stopTimer();
+#endif __DLL_EFFECT__
+
+	if (configurationManagerWindow != nullptr)
+	{
+		configurationManagerWindow->unload();
+		configurationManagerWindow = nullptr;
+	}
+
+	configuration->saveIfNeededAndUserAgrees(false);
+
 	userSettings->removeActionListener(this);        
     hideConfigurationManager();
     scopeSyncInstances.removeAllInstancesOf(this);
@@ -76,10 +89,6 @@ ScopeSync::~ScopeSync()
 
 void ScopeSync::initialise()
 {
-#ifdef __DLL_EFFECT__
-	configurationID.addListener(this);
-#endif // __DLL_EFFECT__
-
     showEditToolbar = false;
     commandManager = new ApplicationCommandManager();
 
@@ -95,10 +104,14 @@ void ScopeSync::initialise()
 	initialised = true;
 }
 
-void ScopeSync::valueChanged(Value& valueThatChanged)
+void ScopeSync::timerCallback()
 {
-    if (valueThatChanged.refersToSameSourceAs(configurationID))
-        changeConfigurationByUID(int(valueThatChanged.getValue()));
+#ifdef __DLL_EFFECT__
+	int scopeConfigUID = scopeFX->getConfigUID();
+
+	if (configuration->getConfigurationUID() != scopeConfigUID)
+		changeConfigurationByUID(scopeConfigUID);
+#endif __DLL_EFFECT__
 }
 
 bool ScopeSync::deviceInstanceInUse(int uid, ScopeSync* currentInstance)
@@ -167,13 +180,6 @@ PluginProcessor* ScopeSync::getPluginProcessor()
 
 void ScopeSync::unload()
 {
-    if (configurationManagerWindow != nullptr)
-    {
-        configurationManagerWindow->unload();
-        configurationManagerWindow = nullptr;
-    }
-
-    configuration->saveIfNeededAndUserAgrees(false);
 }
 
 int ScopeSync::getNumScopeSyncInstances() 
@@ -278,15 +284,12 @@ void ScopeSync::changeConfigurationByUID(int uid)
 
         if (fileName.isNotEmpty())
             changeConfiguration(fileName);
+		else
+		{
+			setSystemError("Scope Config Load error", "Scope tried to load a Config that couldn't be found by ScopeSync");
+			unloadConfiguration();
+		}
     }
-}
-
-void ScopeSync::setConfigurationUID(int uid)
-{
-	// Try to update the ConfigUID and wait if it's already being updated
-	const ScopedLock scopedLock(configUIDLock);
-
-	configurationID.setValue(uid);
 }
 
 void ScopeSync::unloadConfiguration()
@@ -308,6 +311,12 @@ bool ScopeSync::shouldShowEditToolbar() const
 void ScopeSync::applyConfiguration(bool storeCurrentValues)
 {
 	DBG("ScopeSync::applyConfiguration");
+
+#ifdef __DLL_EFFECT__
+	// Stop listening for Configuration UID updates from Scope
+	stopTimer();
+#endif // __DLL_EFFECT__
+
 	// TODO: Disable OSC here?
 	
 	setGUIEnabled(false);
@@ -348,7 +357,8 @@ void ScopeSync::applyConfiguration(bool storeCurrentValues)
 
 	configurationName = configuration->getDocumentTitle();
 #ifdef __DLL_EFFECT__
-	setConfigurationUID(configuration->getConfigurationUID());
+	scopeFX->setConfigUID(configuration->getConfigurationUID());
+	startTimer(200);
 #endif // __DLL_EFFECT__
 }
 

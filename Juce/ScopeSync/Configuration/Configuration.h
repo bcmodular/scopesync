@@ -103,6 +103,8 @@ public:
 	Configuration();
     ~Configuration();
 
+	void switchToLoader();
+
     // Overridden methods for FileBasedDocument
     String getDocumentTitle() override;
     Result loadDocument(const File& file) override;
@@ -114,7 +116,7 @@ public:
     
     void          setLastFailedFile(const File& file) { lastFailedFile = file; };
     const File&   getLastFailedFile() const { return lastFailedFile; };
-    const String& getLastError() const { return lastError; };
+	const String& getLastError() const { return lastError; };
     const String& getLastErrorDetails() const { return lastErrorDetails; };
     SaveResult    saveIfNeededAndUserAgrees(bool offerCancelOption);
 
@@ -141,6 +143,7 @@ public:
     ValueTree getEmptyConfiguration() const;
     
     bool replaceConfiguration(StringRef newFileName);
+	void loadLoaderConfiguration();
 	void migrateFromV102();
 
 	void addNewParameter(ValueTree& newParameter, const ValueTree& paramValues, int targetIndex, UndoManager* um) const;
@@ -215,7 +218,6 @@ private:
 
     void        setConfigurationRoot(const ValueTree& newRoot);
     void        setupConfigurationProperties();
-    void        loadLoaderConfiguration();
     void        loadLoaderLayout();
     XmlElement& loadLayoutXml(String& errorText, String& errorDetails);
     
