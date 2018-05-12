@@ -253,8 +253,9 @@ double BCMParameter::convertHostToUIValue(double newValue) const
 void BCMParameter::setHostValue(float newValue, bool forceUpdate)
 {
 	double newUIValue = convertHostToUIValue(newValue);
-    
-	setParameterValues(hostUpdate, newValue, newUIValue, forceUpdate);
+	double newLinearNormalisedValue = convertUIToLinearNormalisedValue(newUIValue);
+
+	setParameterValues(hostUpdate, newLinearNormalisedValue, newUIValue, forceUpdate);
     
 	DBG("BCMParameter::setHostValue - " + name + " linearNormalisedValue: " + linearNormalisedValue.toString() + ", uiValue: " + uiValue.toString());
 }

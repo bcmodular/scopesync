@@ -51,11 +51,11 @@ public:
 	void updateValue(int newValue);
 	void updateValue(double linearNormalisedValue, double uiValue, double uiMinValue, double uiMaxValue);
 
-	void startListening() {isListening = true;}
-	void stopListening() {isListening = false;}
+	void startListening();
+	void stopListening();
 
-	void startSending() {isSending = true;}
-	void stopSending() {isSending = false;}
+	void startSending();
+	void stopSending();
 
 private:
 	SharedResourcePointer<OSCServer> oscServer;

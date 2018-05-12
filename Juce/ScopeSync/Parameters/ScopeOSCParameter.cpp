@@ -125,6 +125,30 @@ void ScopeOSCParameter::updateValue(double linearNormalisedValue, double uiValue
 		sendCurrentValue();
 }
 
+void ScopeOSCParameter::startListening()
+{
+	isListening = true; 
+	DBG("ScopeOSCParameter::startListening to " + getOSCPath());
+}
+
+void ScopeOSCParameter::stopListening() 
+{
+	isListening = false; 
+	DBG("ScopeOSCParameter::stopListening to " + getOSCPath());
+}
+
+void ScopeOSCParameter::startSending()
+{
+	isSending = true; 
+	DBG("ScopeOSCParameter::startSending to " + getOSCPath());
+}
+
+void ScopeOSCParameter::stopSending() 
+{ 
+	isSending = false; 
+	DBG("ScopeOSCParameter::stopSending to " + getOSCPath());
+}
+
 double ScopeOSCParameter::dbSkew(double valueToSkew, double ref, double uiMinValue, double uiMaxValue, bool invert) const
 {
     if (!invert)
