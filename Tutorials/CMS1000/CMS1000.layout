@@ -27,7 +27,7 @@
         <images>
           <slider>
             <rotary>
-              <image filename="gfx/40x40CMS_OscWaves+.png" numframes="4" ishorizontal="false" />
+              <image filename="gfx/40x40CMS_5OscWaves+.png" numframes="5" ishorizontal="false" />
             </rotary>
           </slider>
         </images>
@@ -300,7 +300,7 @@
           <!-- We set encodersnap="true" here, so the knob will jump between valid settings, rather than -->
           <!-- the usual continuous rotation -->
           <!--Osc1-->
-          <slider name="OSC1 Wave" id="OSC1WaveSlider" popupenabled="false" encodersnap="true" lfid="wavechoiceknob" debugwidgetposition="false">
+          <slider name="OSC1 Wave" id="OSC1WaveSlider" popupenabled="false" encodersnap="true" lfid="wavechoiceknob">
             <bounds relativerectangle="OSC1FineSlider.right + 8, OSC1CoarseSlider.top, left + OSC1CoarseSlider.width, top + OSC1CoarseSlider.height" />
             <textbox position="none" />
           </slider>
