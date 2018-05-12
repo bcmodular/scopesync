@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration name="CMS1000" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000" layoutLibrarySet="CWM"
+               UID="-1856778408" ID="WnsEXN">
+  <parameters>
+    <parameter name="Del1DT1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="171" uiSkewFactor="0.19879971444606781006"
+               skewUIOnly="0" uiRangeMin="4" uiRangeMax="5461" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="1" shortDescription="Del1DT1" fullDescription="Del1DT1"/>
+    <parameter name="Del1DT2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="171" uiSkewFactor="0.19879971444606781006"
+               skewUIOnly="0" uiRangeMin="4" uiRangeMax="5461" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="2" shortDescription="Del1DT2" fullDescription="Del1DT2"/>
+    <parameter name="Del1Fb" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="3" shortDescription="Del1Fb" fullDescription="Del1Fb"/>
+    <parameter name="Del1Gain" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
+               skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
+               uiSkewMidpoint="" scopeParamGroup="6" scopeParamId="4" shortDescription="Del1Gain" fullDescription="Del1Gain"/>
+  </parameters>
+  <mapping>
+    <textButtons>
+      <textButton name="LFOFreqSrcKnob" mapTo="LFOFreqSrc" type="1" settingDown="Knob" radioGroup="LFOFreqSrcRG" displayType="1"/>
+      <textButton name="LFOFreqSrcFrqDiv" mapTo="LFOFreqSrc" type="1" settingDown="FrqDiv" radioGroup="LFOFreqSrcRG" displayType="1"/>
+      <textButton name="LFOFreqSrcMatrix" mapTo="LFOFreqSrc" type="1" settingDown="Matrix" radioGroup="LFOFreqSrcRG" displayType="1"/>
+      <textButton name="LFOGateSrcMVC" mapTo="GateSrc" type="1" settingDown="MVC" radioGroup="LFOGateSrcRG" displayType="1"/>
+      <textButton name="LFOGateSrcSeq" mapTo="GateSrc" type="1" settingDown="Seq" radioGroup="LFOGateSrcRG" displayType="1"/>
+      <textButton name="LFOGateSrcRandGate" mapTo="GateSrc" type="1" settingDown="RandGate" radioGroup="LFOGateSrcRG" displayType="1"/>
+      <textButton name="LFORetrig" mapTo="LFORetrig" type="1" settingDown="RetrigOn" displayType="0" settingUp="RetrigOff"/>
+      <textButton name="AdsrGateSrcMVC" mapTo="AdsrGateSrc" type="1" settingDown="MVC" radioGroup="AdsrGateSrcRG" displayType="1"/>
+      <textButton name="AdsrGateSrcSeq" mapTo="AdsrGateSrc" type="1" settingDown="Seq" radioGroup="AdsrGateSrcRG" displayType="1"/>
+      <textButton name="AdsrGateSrcRG" mapTo="AdsrGateSrc" type="1" settingDown="RG" radioGroup="AdsrGateSrcRG" displayType="1"/>
+      <textButton name="AdGateSrcMVC" mapTo="AdGateSrc" type="1" settingDown="MVC" radioGroup="AdGateSrcRG" displayType="1"/>
+      <textButton name="AdGateSrcSeq" mapTo="AdGateSrc" type="1" settingDown="Seq" radioGroup="AdGateSrcRG" displayType="1"/>
+      <textButton name="AdGateSrcRG" mapTo="AdGateSrc" type="1" settingDown="RG" radioGroup="AdGateSrcRG" displayType="1"/>
+      <textButton name="SeqFreqSrcKnob" mapTo="SeqFrqSrc" type="1" settingDown="Knob" radioGroup="SeqFrqSrcRG" displayType="1"/>
+      <textButton name="SeqFreqSrcDiv" mapTo="SeqFrqSrc" type="1" settingDown="Div" radioGroup="SeqFrqSrcRG" displayType="1"/>
+      <textButton name="SeqFreqSrcMVC" mapTo="SeqFrqSrc" type="1" settingDown="MVC" radioGroup="SeqFrqSrcRG" displayType="1"/>
+      <textButton name="SeqGt1" mapTo="SeqGt1" type="1" settingDown="SeqGt1On" displayType="0" settingUp="SeqGt1Off"/>
+      <textButton name="SeqGt2" mapTo="SeqGt2" type="1" settingDown="SeqGt2On" displayType="0" settingUp="SeqGt2Off"/>
+      <textButton name="SeqGt3" mapTo="SeqGt3" type="1" settingDown="SeqGt3On" displayType="0" settingUp="SeqGt3Off"/>
+      <textButton name="SeqGt4" mapTo="SeqGt4" type="1" settingDown="SeqGt4On" displayType="0" settingUp="SeqGt4Off"/>
+      <textButton name="SeqGt5" mapTo="SeqGt5" type="1" settingDown="SeqGt5On" displayType="0" settingUp="SeqGt5Off"/>
+      <textButton name="SeqGt6" mapTo="SeqGt6" type="1" settingDown="SeqGt6On" displayType="0" settingUp="SeqGt6Off"/>
+      <textButton name="SeqGt7" mapTo="SeqGt7" type="1" settingDown="SeqGt7On" displayType="0" settingUp="SeqGt7Off"/>
+      <textButton name="SeqGt8" mapTo="SeqGt8" type="1" settingDown="SeqGt8On" displayType="0" settingUp="SeqGt8Off"/>
+    </textButtons>
+    <sliders>
+      <slider name="OSC1 Coarse" mapTo="OSC1 Coarse"/>
+      <slider name="OSC1 Fine" mapTo="OSC1 Fine"/>
+      <slider name="OSC1 Wave" mapTo="OSC1 Wave"/>
+      <slider name="OSC1 Shape" mapTo="OSC1 Shaper"/>
+      <slider name="OSC1 WsMod1" mapTo="OSC1 WsMod1"/>
+      <slider name="OSC1 WsMod2" mapTo="OSC1 WsMod2"/>
+      <slider name="OSC2 Coarse" mapTo="OSC2 Coarse"/>
+      <slider name="OSC2 Fine" mapTo="OSC2 Fine"/>
+      <slider name="OSC2 Wave" mapTo="OSC2 Wave"/>
+      <slider name="OSC2 Shape" mapTo="OSC2 Shaper"/>
+      <slider name="OSC2 WsMod1" mapTo="OSC2 WsMod1"/>
+      <slider name="OSC2 WsMod2" mapTo="OSC2 WsMod2"/>
+      <slider name="OSC3 Coarse" mapTo="OSC3 Coarse"/>
+      <slider name="OSC3 Fine" mapTo="OSC3 Fine"/>
+      <slider name="LfoFrqSrcKnob" mapTo="LFOFreqSrcKnob"/>
+      <slider name="Bpf Freq" mapTo="Bpf Freq"/>
+      <slider name="LfoFrqSrcDiv" mapTo="LFOFreqSrcDiv"/>
+      <slider name="LFO Wave" mapTo="LFO Wave"/>
+      <slider name="LFO Fade In" mapTo="LFO FadeIn"/>
+      <slider name="LFO Phase" mapTo="LFO Phase"/>
+      <slider name="LFO Gain" mapTo="LFO Gain"/>
+      <slider name="LFO VolMod" mapTo="LFO VolMod"/>
+      <slider name="Tempo" mapTo="Tempo"/>
+      <slider name="AdsrAtt" mapTo="AdsrAtt"/>
+      <slider name="AdsrDec" mapTo="AdsrDec"/>
+      <slider name="AdsrSus" mapTo="AdsrSus"/>
+      <slider name="AdsrRel" mapTo="AdsrRel"/>
+      <slider name="AdsrSlp" mapTo="AdsrSlp"/>
+      <slider name="AdAtt" mapTo="AdAtt"/>
+      <slider name="AdDec" mapTo="AdDec"/>
+      <slider name="AdAttSlp" mapTo="AdAttSlp"/>
+      <slider name="AdDecSlp" mapTo="AdDecSlp"/>
+      <slider name="RandGtSens" mapTo="RandGtSens"/>
+      <slider name="LpCf" mapTo="LpCf"/>
+      <slider name="LpCfm1" mapTo="LpCfm1"/>
+      <slider name="LpCfm2" mapTo="LpCfm2"/>
+      <slider name="LpQ" mapTo="LpQ"/>
+      <slider name="PMod1A" mapTo="PMod1A"/>
+      <slider name="PMod1B" mapTo="PMod1B"/>
+      <slider name="PMod2A" mapTo="PMod2A"/>
+      <slider name="PMod2B" mapTo="PMod2B"/>
+      <slider name="PMod3A" mapTo="PMod3A"/>
+      <slider name="PMod3B" mapTo="PMod3B"/>
+      <slider name="HpCf" mapTo="HpCf"/>
+      <slider name="HpCfm1" mapTo="HpCfm1"/>
+      <slider name="HpCfm2" mapTo="HpCfm2"/>
+      <slider name="HpQ" mapTo="HpQ"/>
+      <slider name="Mix2A1" mapTo="Mix2A1"/>
+      <slider name="Mix2A2" mapTo="Mix2A2"/>
+      <slider name="Mix2B1" mapTo="Mix2B1"/>
+      <slider name="Mix2B2" mapTo="Mix2B2"/>
+      <slider name="VolMod1" mapTo="VolMod1"/>
+      <slider name="VolMod2" mapTo="VolMod2"/>
+      <slider name="Del1DT1" mapTo="Del1DT1"/>
+      <slider name="Del1DT2" mapTo="Del1DT2"/>
+      <slider name="Del1Fb" mapTo="Del1Fb"/>
+      <slider name="Del1Gain" mapTo="Del1Gain"/>
+      <slider name="Mix3A1" mapTo="Mix3A1"/>
+      <slider name="Mix3A2" mapTo="Mix3A2"/>
+      <slider name="Mix3A3" mapTo="Mix3A3"/>
+      <slider name="Mix3B1" mapTo="Mix3B1"/>
+      <slider name="Mix3B2" mapTo="Mix3B2"/>
+      <slider name="Mix3B3" mapTo="Mix3B3"/>
+      <slider name="Del2DT1" mapTo="Del2DT1"/>
+      <slider name="Del2DT2" mapTo="Del2DT2"/>
+      <slider name="Del2Fb" mapTo="Del2Fb"/>
+      <slider name="Del2Gain" mapTo="Del2Gain"/>
+      <slider name="Pan1" mapTo="Pan1"/>
+      <slider name="Pan1Mod" mapTo="Pan1Mod"/>
+      <slider name="MGain1" mapTo="MGain1"/>
+      <slider name="Pan2" mapTo="Pan2"/>
+      <slider name="Pan2Mod" mapTo="Pan2Mod"/>
+      <slider name="MGain2" mapTo="MGain2"/>
+      <slider name="ExpVcaSlp" mapTo="ExpVcaSlp"/>
+      <slider name="AdsrVelo" mapTo="AdsrVelo"/>
+      <slider name="AdVelo" mapTo="AdVelo"/>
+      <slider name="ATSmooth" mapTo="ATSmooth"/>
+      <slider name="ConstValA" mapTo="ConstValA"/>
+      <slider name="ConstValABipolarBar" mapTo="ConstValABar1"/>
+      <slider name="ConstValAFreqBar" mapTo="ConstValABar2"/>
+      <slider name="ConstValB" mapTo="ConstValB"/>
+      <slider name="ConstValBBipolarBar" mapTo="ConstValBBar1"/>
+      <slider name="ConstValBFreqBar" mapTo="ConstValBBar2"/>
+      <slider name="PortaTime" mapTo="PortaTime"/>
+      <slider name="PortaType" mapTo="PortaType"/>
+      <slider name="SeqFrqSrcKnob" mapTo="SeqFrqSrcKnob"/>
+      <slider name="SeqFrqSrcDiv" mapTo="SeqFrqSrcDiv"/>
+      <slider name="SeqStartStep" mapTo="StartSt"/>
+      <slider name="SeqLength" mapTo="SeqLength"/>
+      <slider name="SeqSwing" mapTo="SeqSwing"/>
+      <slider name="ContrSeq1" mapTo="CtrlSeq1"/>
+      <slider name="ContrSeq2" mapTo="CtrlSeq2"/>
+      <slider name="ContrSeq3" mapTo="CtrlSeq3"/>
+      <slider name="ContrSeq4" mapTo="CtrlSeq4"/>
+      <slider name="ContrSeq5" mapTo="CtrlSeq5"/>
+      <slider name="ContrSeq6" mapTo="CtrlSeq6"/>
+      <slider name="ContrSeq7" mapTo="CtrlSeq7"/>
+      <slider name="ContrSeq8" mapTo="CtrlSeq8"/>
+      <slider name="PitchSeq1" mapTo="PitchSeq1"/>
+      <slider name="PitchSeq2" mapTo="PitchSeq2"/>
+      <slider name="PitchSeq3" mapTo="PitchSeq3"/>
+      <slider name="PitchSeq4" mapTo="PitchSeq4"/>
+      <slider name="PitchSeq5" mapTo="PitchSeq5"/>
+      <slider name="PitchSeq6" mapTo="PitchSeq6"/>
+      <slider name="PitchSeq7" mapTo="PitchSeq7"/>
+      <slider name="PitchSeq8" mapTo="PitchSeq8"/>
+      <slider name="VU1" mapTo="VU1"/>
+      <slider name="VU2" mapTo="VU2"/>
+      <slider name="MatrixSlider1" mapTo="MatrixOSC1FDest"/>
+      <slider name="MatrixSlider2" mapTo="MatrixOSC1Mod"/>
+      <slider name="MatrixSlider3" mapTo="MatrixOSC2FDest"/>
+      <slider name="MatrixSlider4" mapTo="MatrixOSC2ModDest"/>
+      <slider name="MatrixSlider5" mapTo="MatrixOSC3FDest"/>
+      <slider name="MatrixSlider6" mapTo="MatrixLfoFrqDest"/>
+      <slider name="MatrixSlider7" mapTo="MatrixLfoVolMDest"/>
+      <slider name="MatrixSlider8" mapTo="MatrixLpInDest"/>
+      <slider name="MatrixSlider9" mapTo="MatrixLpCfm1Dest"/>
+      <slider name="MatrixSlider10" mapTo="MatrixLpCfm2Dest"/>
+      <slider name="MatrixSlider11" mapTo="MatrixHpInDest"/>
+      <slider name="MatrixSlider12" mapTo="MatrixHpCfm1Dest"/>
+      <slider name="MatrixSlider13" mapTo="MatrixHpCfm2Dest"/>
+      <slider name="MatrixSlider14" mapTo="MatrixPMod1InDest"/>
+      <slider name="MatrixSlider15" mapTo="MatrixPMod1ADest"/>
+      <slider name="MatrixSlider16" mapTo="MatrixPMod1BDest"/>
+      <slider name="MatrixSlider17" mapTo="MatrixPMod2InDest"/>
+      <slider name="MatrixSlider18" mapTo="MatrixPMod2ADest"/>
+      <slider name="MatrixSlider19" mapTo="MatrixPMod2BDest"/>
+      <slider name="MatrixSlider20" mapTo="MatrixPMod3InDest"/>
+      <slider name="MatrixSlider21" mapTo="MatrixPMod3ADest"/>
+      <slider name="MatrixSlider22" mapTo="MatrixPMod3BDest"/>
+      <slider name="MatrixSlider23" mapTo="MatrixVca1InDest"/>
+      <slider name="MatrixSlider24" mapTo="MatrixVca1ModDest"/>
+      <slider name="MatrixSlider25" mapTo="MatrixVca2InDest"/>
+      <slider name="MatrixSlider26" mapTo="MatrixVca2ModDest"/>
+      <slider name="MatrixSlider27" mapTo="MatrixExpVcaInDest"/>
+      <slider name="MatrixSlider28" mapTo="MatrixExpVcaModDest"/>
+      <slider name="MatrixSlider29" mapTo="MatrixVolModInDest"/>
+      <slider name="MatrixSlider30" mapTo="MatrixVolModM1Dest"/>
+      <slider name="MatrixSlider31" mapTo="MatrixVolModM2Dest"/>
+      <slider name="MatrixSlider32" mapTo="MatrixMix2AIn1Dest"/>
+      <slider name="MatrixSlider33" mapTo="MatrixMix2AIn2Dest"/>
+      <slider name="MatrixSlider34" mapTo="MatrixMix2BIn1Dest"/>
+      <slider name="MatrixSlider35" mapTo="MatrixMix2BIn2Dest"/>
+      <slider name="MatrixSlider36" mapTo="MatrixMix3AIn1Dest"/>
+      <slider name="MatrixSlider37" mapTo="MatrixMix3AIn2Dest"/>
+      <slider name="MatrixSlider38" mapTo="MatrixMix3AIn3Dest"/>
+      <slider name="MatrixSlider39" mapTo="MatrixMix3BIn1Dest"/>
+      <slider name="MatrixSlider40" mapTo="MatrixMix3BIn2Dest"/>
+      <slider name="MatrixSlider41" mapTo="MatrixMix3BIn3Dest"/>
+      <slider name="MatrixSlider42" mapTo="MatrixRMIn1Dest"/>
+      <slider name="MatrixSlider43" mapTo="MatrixRMIn2Dest"/>
+      <slider name="MatrixSlider44" mapTo="MatrixB2UInDest"/>
+      <slider name="MatrixSlider45" mapTo="MatrixDel1InDest"/>
+      <slider name="MatrixSlider46" mapTo="MatrixDel2InDest"/>
+      <slider name="MatrixSlider47" mapTo="MatrixPanMod1Dest"/>
+      <slider name="MatrixSlider48" mapTo="MatrixPanMod2Dest"/>
+      <slider name="MatrixSlider49" mapTo="MatrixVU1InDest"/>
+      <slider name="MatrixSlider50" mapTo="MatrixVU2InDest"/>
+      <slider name="MatrixSlider51" mapTo="MatrixOut1Dest"/>
+      <slider name="MatrixSlider52" mapTo="MatrixOut2Dest"/>
+    </sliders>
+    <labels/>
+    <comboBoxes/>
+    <tabbedComponents>
+      <tabbedComponent name="FreqSrcTabs" mapTo="LFOFreqSrc"/>
+      <tabbedComponent name="GateSrcTabs" mapTo="LFOGateSrc"/>
+      <tabbedComponent name="AdsrGateSrcTabs" mapTo="AdsrGateSrc"/>
+      <tabbedComponent name="AdGateSrcTabs" mapTo="AdGateSrc"/>
+      <tabbedComponent name="SeqFreqSrcTabs" mapTo="SeqFrqSrc"/>
+    </tabbedComponents>
+  </mapping>
+  <styleOverrides>
+    <components/>
+    <sliders/>
+    <textButtons/>
+    <labels/>
+    <comboBoxes/>
+    <tabbedComponents/>
+    <tabs/>
+  </styleOverrides>
+</configuration>
