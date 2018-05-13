@@ -10,7 +10,7 @@
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="2" shortDescription="Fine" fullDescription="OSC1 Fine"/>
     <parameter name="OSC1 Wave" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
-               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="3.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="4.00000000000000000000"
                uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="3"
                shortDescription="Wave" fullDescription="OSC1 Wave">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="4.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -37,7 +37,7 @@
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100.00000000000000000000" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="8" shortDescription="Fine" fullDescription="OSC2 Fine"/>
     <parameter name="OSC2 Wave" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="1" uiResetValue="0.00000000000000000000"
-               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="3.00000000000000000000"
+               uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="4.00000000000000000000"
                uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="9"
                shortDescription="Wave" fullDescription="OSC2 Wave">
       <settings uiRangeMin="0.00000000000000000000" uiSkewFactor="1.00000000000000000000" uiRangeMax="4.00000000000000000000" uiResetValue="0.00000000000000000000">
@@ -335,7 +335,7 @@
     <parameter name="AdVelo" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
                scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="3" scopeParamId="13" shortDescription="AdVelo" fullDescription="AdVelo"/>
-    <parameter name="ATSmooth" scopeRangeMin="252952" scopeRangeMax="25295200" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
+    <parameter name="ATSmooth" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="64" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="0" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="7" scopeParamId="8" shortDescription="ATSmooth" fullDescription="ATSmooth"/>
     <parameter name="ConstValA" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0.00000000000000000000"
