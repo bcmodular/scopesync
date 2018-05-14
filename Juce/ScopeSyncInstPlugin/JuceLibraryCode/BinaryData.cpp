@@ -3744,7 +3744,7 @@ static const unsigned char temp_binary_data_80[] =
 const char* system_lookandfeels = (const char*) temp_binary_data_80;
 
 
-const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) noexcept
+const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 {
     unsigned int hash = 0;
     if (resourceNameUTF8 != 0)
@@ -4011,7 +4011,7 @@ const char* originalFilenames[] =
     "system.lookandfeels"
 };
 
-const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8) noexcept
+const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8)
 {
     for (unsigned int i = 0; i < (sizeof (namedResourceList) / sizeof (namedResourceList[0])); ++i)
     {
