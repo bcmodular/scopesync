@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.3"
               bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
-              jucerVersion="5.3.1" defines="" displaySplashScreen="0" reportAppUsage="0"
+              jucerVersion="5.3.2" defines="" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
   <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
     <GROUP id="{64BE5796-E2DE-9B95-D294-1AB7E82FE7E7}" name="Source">
@@ -358,33 +358,6 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2013 targetFolder="Builds/VisualStudio2013" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
-            extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="ScopeSync-Debug_1_0_3"
-                       headerPath="../../../../External/SonicCore" libraryPath="..\..\..\..\External\SonicCore"
-                       defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib" postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
-                       useRuntimeLibDLL="1" debugInformationFormat="ProgramDatabase"
-                       enablePluginBinaryCopyStep="0"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="ScopeSync_1_0_3" headerPath="../../../../External/SonicCore"
-                       libraryPath="..\..\..\..\External\SonicCore" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
-                       useRuntimeLibDLL="1" postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
-                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
-                       linkTimeOptimisation="1"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
-        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
-      </MODULEPATHS>
-    </VS2013>
     <VS2017 targetFolder="Builds/VisualStudio2017" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};">
       <CONFIGURATIONS>

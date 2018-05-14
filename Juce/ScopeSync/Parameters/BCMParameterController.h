@@ -33,7 +33,7 @@
 #include "../Core/ScopeSync.h"
 #include "HostParameter.h"
 
-class BCMParameterController
+class BCMParameterController : public Timer
 {
 public:
 
@@ -51,11 +51,15 @@ public:
 	BCMParameter* getParameterByName(StringRef name) const;
 	
     static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
-    void  snapshot() const;
+    void  snapshot();
+
+	void sendAllCurrentValues();
+	void sendAllMinValues();
+	void sendAllMaxValues();
 
     void         storeParameterValues();
     void         storeParameterValues(XmlElement& parameterValues);
-    void         restoreParameterValues() const;
+    void         restoreParameterValues();
     XmlElement&  getParameterValueStore() { return parameterValueStore; };
     
 private:
@@ -68,6 +72,11 @@ private:
     XmlElement                     parameterValueStore;
     
     ScopeSync* scopeSync;
+
+	enum SnapshotStage {sendMin, sendMax, sendCurrent};
+	SnapshotStage currentStage;
+
+	void timerCallback() override;
 };
 
 #endif  // BCMPARAMETERCONTROLLER_H_INCLUDED

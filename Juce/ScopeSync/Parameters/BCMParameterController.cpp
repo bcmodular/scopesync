@@ -138,14 +138,56 @@ void BCMParameterController::reset()
 #endif // __DLL_EFFECT__
 }
 
-void BCMParameterController::snapshot() const
+void BCMParameterController::snapshot()
+{
+#ifdef __DLL_EFFECT__
+	sendAllCurrentValues();
+	scopeSync->snapshotFX();
+#else
+	// To perform a snapshot from the Plugin, we need to force the update
+	// by sending all values as minimum, then maximum, then current, with a 
+	// small delay between each step. This gets around some weird behaviour in
+	// Scope
+	currentStage = sendMin;
+	startTimer(100);
+#endif // __DLL_EFFECT__
+}
+
+void BCMParameterController::timerCallback()
+{
+	if (currentStage == sendMin)
+	{
+		sendAllMinValues();
+		currentStage = sendMax;
+	}
+	else if (currentStage == sendMax)
+	{
+		sendAllMaxValues();
+		currentStage = sendCurrent;
+	}
+	else
+	{
+		sendAllCurrentValues();
+		stopTimer();
+	}
+}
+
+void BCMParameterController::sendAllCurrentValues()
 {
 	for (auto parameter : parameters)
 		parameter->getScopeOSCParameter().sendCurrentValue();
+}
 
-#ifdef __DLL_EFFECT__
-	scopeSync->snapshotFX();
-#endif // __DLL_EFFECT__
+void BCMParameterController::sendAllMinValues()
+{
+	for (auto parameter : parameters)
+		parameter->getScopeOSCParameter().sendMinValue();
+}
+
+void BCMParameterController::sendAllMaxValues()
+{
+	for (auto parameter : parameters)
+		parameter->getScopeOSCParameter().sendMaxValue();
 }
 
 BCMParameter* BCMParameterController::getParameterByName(StringRef name) const
@@ -183,7 +225,7 @@ void BCMParameterController::storeParameterValues(XmlElement& parameterValues)
     //DBG("ScopeSync::storeParameterValues - Storing XML: " + parameterValueStore.createDocument(""));
 }
 
-void BCMParameterController::restoreParameterValues() const
+void BCMParameterController::restoreParameterValues()
 {
 #ifndef __DLL_EFFECT__
 	Array<float> parameterValues;
@@ -193,8 +235,12 @@ void BCMParameterController::restoreParameterValues() const
 
 	for (int i = 0; i < dynamicParameters.size(); i++)
 		dynamicParameters[i]->setHostValue(parameterValues[i], true);
+
+	// Make sure Scope really does have the current values by performing a snapshot
+	snapshot();
     
     DBG("ScopeSync::restoreParameterValues - Restoring XML: " + parameterValueStore.createDocument(""));
 #endif // __DLL_EFFECT__
-} 
+}
+
 

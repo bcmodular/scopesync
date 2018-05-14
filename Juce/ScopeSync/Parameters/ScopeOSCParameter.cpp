@@ -81,6 +81,22 @@ void ScopeOSCParameter::sendCurrentValue()
 	startTimer(500);
 }
 
+void ScopeOSCParameter::sendMinValue()
+{
+	DBG("ScopeOSCParameter::sendMinValue - " + getOSCPath() + " " + String(minValue));
+	oscServer->sendIntMessage(getOSCPath(), minValue);
+	stopListening();
+	startTimer(500);
+}
+
+void ScopeOSCParameter::sendMaxValue()
+{
+	DBG("ScopeOSCParameter::sendCurrentValue - " + getOSCPath() + " " + String(maxValue));
+	oscServer->sendIntMessage(getOSCPath(), maxValue);
+	stopListening();
+	startTimer(500);
+}
+
 void ScopeOSCParameter::updateValue(int newValue)
 {
 	DBG("ScopeOSCParameter::updateValue " + String(newValue));
