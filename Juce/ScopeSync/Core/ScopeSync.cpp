@@ -294,7 +294,7 @@ void ScopeSync::changeConfigurationByUID(int uid)
 
 void ScopeSync::unloadConfiguration()
 {
-    configuration->replaceConfiguration(String::empty);
+    configuration->replaceConfiguration(String());
     applyConfiguration();
 }
 
@@ -321,8 +321,8 @@ void ScopeSync::applyConfiguration(bool storeCurrentValues)
 	
 	setGUIEnabled(false);
     
-    systemError        = String::empty;
-    systemErrorDetails = String::empty;
+    systemError        = String();
+    systemErrorDetails = String();
     
     if (storeCurrentValues)
 		parameterController->storeParameterValues();
@@ -493,8 +493,8 @@ bool ScopeSync::newConfigIsInLocation()
         AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
                                     "Check locations",
                                     errorMessage,
-                                    String::empty,
-                                    String::empty,
+                                    String(),
+                                    String(),
                                     nullptr,
                                     ModalCallbackFunction::withParam(alertBoxLaunchLocationEditor, newConfigWindowPosition, this));
         return false;
@@ -632,7 +632,7 @@ StringArray ScopeSync::getBCMLookAndFeelIds(const Identifier& componentType) con
             genericList.add(bcmLookAndFeels[i]->getId());
     }
 
-    specificList.add(String::empty);
+    specificList.add(String());
     specificList.addArray(genericList);
 
     return specificList;

@@ -384,8 +384,8 @@ void PresetManager::paint(Graphics& g)
         g.fillRect(0, 0, getWidth(), 40);
         g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 174, 8);
-        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 268, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", String()), 174, 8);
+        g.drawImageAt(imageLoader->loadImage("divider", String()), 268, 8);
     }
 }
 
@@ -642,8 +642,8 @@ bool PresetManagerWindow::newPresetFileIsInLocation()
         AlertWindow::showOkCancelBox(AlertWindow::InfoIcon,
                                     "Check locations",
                                     errorMessage,
-                                    String::empty,
-                                    String::empty,
+                                    String(),
+                                    String(),
                                     nullptr,
                                     ModalCallbackFunction::withParam(alertBoxLaunchLocationEditor, getParentMonitorArea(), this));
         return false;

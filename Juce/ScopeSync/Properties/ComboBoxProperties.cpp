@@ -52,7 +52,7 @@ ComboBoxProperties::~ComboBoxProperties() {}
 void ComboBoxProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    tooltip             = String::empty;
+    tooltip             = String();
     editableText        = false;
     fontHeight          = 15.00f;
     fontStyleFlags      = Font::plain;

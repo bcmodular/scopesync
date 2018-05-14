@@ -88,7 +88,7 @@ void LabelProperties::setValuesFromXML(const XmlElement& labelXML)
 
 void LabelProperties::getParameterTextDisplayFromXml(const XmlElement& labelXML, ParameterTextDisplay& paramTextDisplay)
 {
-    String parameterTextDisplayString = labelXML.getStringAttribute("parametertextdisplay", String::empty);
+    String parameterTextDisplayString = labelXML.getStringAttribute("parametertextdisplay", String());
 
     if (parameterTextDisplayString.equalsIgnoreCase("name"))
 		paramTextDisplay = parameterName;

@@ -71,9 +71,9 @@ public:
         addAndMakeVisible(systemErrorLabel);
         
         systemErrorDetailsButton.setImages(false, true, true,
-            imageLoader->loadImage("helpOff",  String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("helpOver", String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("helpOn",   String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("helpOff",  String()), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOver", String()), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("helpOn",   String()), 1.0f, Colours::transparentBlack);
 
         details = errorDetails;
         addAndMakeVisible(systemErrorDetailsButton);
@@ -81,9 +81,9 @@ public:
         systemErrorDetailsButton.addListener(this);
 
         closeButton.setImages(false, true, true,
-            imageLoader->loadImage("closeOff",  String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("closeOver", String::empty), 1.0f, Colours::transparentBlack,
-            imageLoader->loadImage("closeOn",   String::empty), 1.0f, Colours::transparentBlack);
+            imageLoader->loadImage("closeOff",  String()), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOver", String()), 1.0f, Colours::transparentBlack,
+            imageLoader->loadImage("closeOn",   String()), 1.0f, Colours::transparentBlack);
 
         addAndMakeVisible(closeButton);
         closeButton.addListener(this);
@@ -239,8 +239,8 @@ private:
 
     void paint(Graphics& g) override
     {
-        g.drawImageAt(imageLoader->loadImage("toolbarBevel", String::empty), 0, 7);
-        g.drawImageAt(imageLoader->loadImage("divider", String::empty), 65, 8);       
+        g.drawImageAt(imageLoader->loadImage("toolbarBevel", String()), 0, 7);
+        g.drawImageAt(imageLoader->loadImage("divider", String()), 65, 8);       
     }
 
 	static void setButtonImages(ImageButton& button, const String& normalImage, const String& overImage, const String& downImage, const Colour& overlayColour, ImageLoader* imgLoader)
@@ -389,7 +389,7 @@ void BCMComponent::setupStandardContent(XmlElement& contentXML)
         ScopedPointer<XmlElement> standardContent = scopeSync.getStandardContent(contentToShow);
 
 		//DBG("BCMComponent::setupStandardContent: type = " + contentToShow + ", XML - ");
-		//DBG(standardContent->createDocument(String::empty));
+		//DBG(standardContent->createDocument(String()));
 
         if (standardContent != nullptr)
             setupContent(*standardContent);

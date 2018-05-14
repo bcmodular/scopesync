@@ -93,7 +93,7 @@ AboutBoxWindow::AboutBox::AboutBox()
     
 void AboutBoxWindow::AboutBox::paint(Graphics& g)
 {
-    Image scopeSyncImage = imageLoader->loadImage("scopeSyncLogo", String::empty);
+    Image scopeSyncImage = imageLoader->loadImage("scopeSyncLogo", String());
     g.drawImageWithin(scopeSyncImage, 0, 0, getWidth(), 40, RectanglePlacement::doNotResize);
 }
 
@@ -702,8 +702,8 @@ void ScopeSyncGUI::reloadSavedConfiguration()
         AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
                                      "Are you sure?",
                                      "There are unsaved changes. This will discard them and clear the undo history.",
-                                     String::empty,
-                                     String::empty,
+                                     String(),
+                                     String(),
                                      this,
                                      ModalCallbackFunction::forComponent(alertBoxReloadConfirm, this));
     else

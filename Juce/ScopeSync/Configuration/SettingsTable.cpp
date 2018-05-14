@@ -46,8 +46,8 @@ public:
 
         if (columnId == 2)
         {
-            String firstString  = first.getProperty(Ids::name, String::empty);
-            String secondString = second.getProperty(Ids::name, String::empty);
+            String firstString  = first.getProperty(Ids::name, String());
+            String secondString = second.getProperty(Ids::name, String());
             result = firstString.compareNatural(secondString);
         }
         else if (columnId == 3)
@@ -74,7 +74,7 @@ class SettingsTable::LabelComp : public Component
 {
 public:
     LabelComp(Value& valueToEdit)
-        : label(String::empty, String::empty),
+        : label(String(), String()),
           value(valueToEdit)
     {
         addAndMakeVisible(label);
@@ -102,7 +102,7 @@ private:
 SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, ApplicationCommandManager* acm,
                              ValueTree& param, ApplicationCommandTarget* act)
     : font(14.0f), tree(valueTree), undoManager(um), commandManager(acm),
-      numSettingsTextLabel(String::empty, "Num to add:"),
+      numSettingsTextLabel(String(), "Num to add:"),
       addSettingsButton("Add"),
       removeSettingsButton("Remove"),
       autoFillValuesButton("Auto-fill"),
@@ -120,7 +120,7 @@ SettingsTable::SettingsTable(const ValueTree& valueTree, UndoManager& um, Applic
     table.setColour(ListBox::outlineColourId, Colours::grey);
     table.setOutlineThickness (1);
     
-    table.getHeader().addColumn(String::empty,     1, 30,  30, 30,  TableHeaderComponent::notResizableOrSortable);
+    table.getHeader().addColumn(String(),     1, 30,  30, 30,  TableHeaderComponent::notResizableOrSortable);
     table.getHeader().addColumn("Name",            2, 150, 50, 400, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Scope Int Value", 3, 150, 50, 400, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     

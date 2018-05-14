@@ -175,7 +175,7 @@ void PresetPanel::createSettingsTable()
     ParameterPanel::setParameterUIRanges(0, maxValue, 0, undoManager, valueTree);
 
     // Reset Skew values to default to save confusion
-    valueTree.setProperty(Ids::uiSkewMidpoint, String::empty, &undoManager);
+    valueTree.setProperty(Ids::uiSkewMidpoint, String(), &undoManager);
     valueTree.setProperty(Ids::scopeDBRef, 0.0f, &undoManager);
 
     settingsTable = new SettingsTable(settings, undoManager, commandManager, valueTree, commandManager->getFirstCommandTarget(CommandIDs::addPresetFile));
@@ -219,7 +219,7 @@ const char* PresetFile::presetFileFileExtension = ".presets";
 
 String PresetFile::getDocumentTitle()
 {
-    return presetFileRoot.getProperty(Ids::name, String::empty);
+    return presetFileRoot.getProperty(Ids::name, String());
 }
 
 void PresetFile::setupPresetProperties()
@@ -305,7 +305,7 @@ ValueTree PresetFile::getDefaultPreset()
 {
     ValueTree defaultPreset(Ids::preset);
     defaultPreset.setProperty(Ids::name,             "Preset ",     nullptr);
-    defaultPreset.setProperty(Ids::blurb,            String::empty, nullptr);
+    defaultPreset.setProperty(Ids::blurb,            String(), nullptr);
     defaultPreset.setProperty(Ids::scopeParamGroup,  -1,            nullptr);
     defaultPreset.setProperty(Ids::scopeParamId,     -1,            nullptr);
     defaultPreset.setProperty(Ids::scopeRangeMin,    0,             nullptr);
@@ -318,7 +318,7 @@ ValueTree PresetFile::getDefaultPreset()
     defaultPreset.setProperty(Ids::uiRangeMin,       0,             nullptr);
     defaultPreset.setProperty(Ids::uiRangeMax,       100,           nullptr);
     defaultPreset.setProperty(Ids::uiRangeInterval,  0.0001,        nullptr);
-    defaultPreset.setProperty(Ids::uiSuffix,         String::empty, nullptr);
+    defaultPreset.setProperty(Ids::uiSuffix,         String(), nullptr);
     
     return defaultPreset;
 }
@@ -337,7 +337,7 @@ Result PresetFile::saveDocument (const File& /* file */)
 
     ScopedPointer<XmlElement> outputXml = presetFileRoot.createXml();
 
-    if (outputXml->writeToFile(getFile(), String::empty, "UTF-8", 120))
+    if (outputXml->writeToFile(getFile(), String(), "UTF-8", 120))
         return Result::ok();
     else
         return Result::fail("Failed to save Preset File");

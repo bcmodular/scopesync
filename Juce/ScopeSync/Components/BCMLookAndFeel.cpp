@@ -332,8 +332,8 @@ void BCMLookAndFeel::overrideImageIfValid(Image& imageToOverride, const String& 
 
 void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStripImage& filmStripImage) const
 {
-    String fileName          = xml.getStringAttribute("filename",          String::empty);
-    String mouseOverFileName = xml.getStringAttribute("mouseoverfilename", String::empty);
+    String fileName          = xml.getStringAttribute("filename",          String());
+    String mouseOverFileName = xml.getStringAttribute("mouseoverfilename", String());
     int    numFrames         = xml.getIntAttribute   ("numframes",         filmStripImage.numFrames);
     bool   isHorizontal      = xml.getBoolAttribute  ("ishorizontal",      filmStripImage.isHorizontal);
     
@@ -348,8 +348,8 @@ void BCMLookAndFeel::setupFilmStripImageFromXml(const XmlElement& xml, FilmStrip
 
 void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 {
-    overrideImageIfValid(rotaryFillBackground,    xml.getStringAttribute("fillbackgroundfilename", String::empty));
-    overrideImageIfValid(rotaryOutlineBackground, xml.getStringAttribute("outlinebackgroundfilename", String::empty));
+    overrideImageIfValid(rotaryFillBackground,    xml.getStringAttribute("fillbackgroundfilename", String()));
+    overrideImageIfValid(rotaryOutlineBackground, xml.getStringAttribute("outlinebackgroundfilename", String()));
     rotaryBackgroundFillBehind    = xml.getBoolAttribute("fillbackgroundbehind", false);
     rotaryBackgroundUseLnFColours = xml.getBoolAttribute("backgrounduselnfcolours", true);
     XmlElement* child = xml.getChildByName("image");
@@ -360,8 +360,8 @@ void BCMLookAndFeel::getRotarySliderImagesFromXml(const XmlElement& xml)
 
 void BCMLookAndFeel::getLinearHorizontalSliderImagesFromXml(const XmlElement& xml)
 {
-    overrideImageIfValid(linearHorizontalThumb,          xml.getStringAttribute("thumbfilename", String::empty));
-    overrideImageIfValid(linearHorizontalThumbMouseOver, xml.getStringAttribute("thumbmouseoverfilename", String::empty));
+    overrideImageIfValid(linearHorizontalThumb,          xml.getStringAttribute("thumbfilename", String()));
+    overrideImageIfValid(linearHorizontalThumbMouseOver, xml.getStringAttribute("thumbmouseoverfilename", String()));
     linearHorizontalThumbBorder                        = xml.getIntAttribute   ("thumbborder", linearHorizontalThumbBorder);
     
     XmlElement* child = xml.getChildByName("backgroundimage");
@@ -372,8 +372,8 @@ void BCMLookAndFeel::getLinearHorizontalSliderImagesFromXml(const XmlElement& xm
 
 void BCMLookAndFeel::getLinearVerticalSliderImagesFromXml(const XmlElement& xml)
 {
-    overrideImageIfValid(linearVerticalThumb,          xml.getStringAttribute("thumbfilename", String::empty));
-    overrideImageIfValid(linearVerticalThumbMouseOver, xml.getStringAttribute("thumbmouseoverfilename", String::empty));
+    overrideImageIfValid(linearVerticalThumb,          xml.getStringAttribute("thumbfilename", String()));
+    overrideImageIfValid(linearVerticalThumbMouseOver, xml.getStringAttribute("thumbmouseoverfilename", String()));
     linearVerticalThumbBorder                        = xml.getIntAttribute   ("thumbborder", linearHorizontalThumbBorder);
     
     XmlElement* child = xml.getChildByName("backgroundimage");
@@ -384,10 +384,10 @@ void BCMLookAndFeel::getLinearVerticalSliderImagesFromXml(const XmlElement& xml)
 
 void BCMLookAndFeel::getTextButtonImagesFromXml(const XmlElement& xml)
 {
-    overrideImageIfValid(textButtonUp,       xml.getStringAttribute("upfilename", String::empty));
-    overrideImageIfValid(textButtonDown,     xml.getStringAttribute("downfilename", String::empty));
-    overrideImageIfValid(textButtonOverUp,   xml.getStringAttribute("mouseoverupfilename", String::empty));
-    overrideImageIfValid(textButtonOverDown, xml.getStringAttribute("mouseoverdownfilename", String::empty));
+    overrideImageIfValid(textButtonUp,       xml.getStringAttribute("upfilename", String()));
+    overrideImageIfValid(textButtonDown,     xml.getStringAttribute("downfilename", String()));
+    overrideImageIfValid(textButtonOverUp,   xml.getStringAttribute("mouseoverupfilename", String()));
+    overrideImageIfValid(textButtonOverDown, xml.getStringAttribute("mouseoverdownfilename", String()));
 }
     
 void BCMLookAndFeel::getColoursFromXml(const String& colourSet, const XmlElement& xml)
@@ -642,7 +642,7 @@ Label* BCMLookAndFeel::createSliderTextBox(Slider& slider)
 
 Button* BCMLookAndFeel::createSliderButton(Slider& slider, bool isIncrement)
 {
-    TextButton* textButton = new TextButton (isIncrement ? "+" : "-", String::empty);
+    TextButton* textButton = new TextButton (isIncrement ? "+" : "-", String());
 
     textButton->setColour(TextButton::buttonColourId,  slider.findColour(TextButton::buttonColourId));
     textButton->setColour(TextButton::textColourOffId, slider.findColour(TextButton::textColourOffId));

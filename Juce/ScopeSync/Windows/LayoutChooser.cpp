@@ -92,22 +92,22 @@ public:
         // Sort by name
         if (columnId == 2)
         {
-            String firstString  = first.getProperty(Ids::name, String::empty);
-            String secondString = second.getProperty(Ids::name, String::empty);
+            String firstString  = first.getProperty(Ids::name, String());
+            String secondString = second.getProperty(Ids::name, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by librarySet
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::librarySet, String::empty);
-            String secondString = second.getProperty(Ids::librarySet, String::empty);
+            String firstString  = first.getProperty(Ids::librarySet, String());
+            String secondString = second.getProperty(Ids::librarySet, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by author
         else if (columnId == 4)
         {
-            String firstString  = first.getProperty(Ids::author, String::empty);
-            String secondString = second.getProperty(Ids::author, String::empty);
+            String firstString  = first.getProperty(Ids::author, String());
+            String secondString = second.getProperty(Ids::author, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by panelWidth
@@ -148,8 +148,8 @@ public:
         // Sort by mruTime
         else if (columnId == 10)
         {
-            String firstString  = first.getProperty(Ids::mruTime, String::empty);
-            String secondString = second.getProperty(Ids::mruTime, String::empty);
+            String firstString  = first.getProperty(Ids::mruTime, String());
+            String secondString = second.getProperty(Ids::mruTime, String());
             result = firstString.compareNatural(secondString);
         }
         
@@ -174,7 +174,7 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
       chooseButton("Choose Layout"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
-      blurb(String::empty)
+      blurb(String())
 {
     userSettings->addActionListener(this);
     
@@ -203,7 +203,7 @@ LayoutChooser::LayoutChooser(const Value& layoutName,
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness (4);
     
-    table.getHeader().addColumn(String::empty, 1,  10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String(), 1,  10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Name",        2,  120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Library Set", 3,  120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Author",      4,  100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
@@ -330,7 +330,7 @@ void LayoutChooser::paintCell(Graphics& g, int rowNumber, int columnId, int widt
 
     switch (columnId)
     {
-        case 1:  text = String::empty; break;
+        case 1:  text = String(); break;
         case 2:  text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
         case 3:  text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
         case 4:  text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
@@ -461,7 +461,7 @@ void LayoutChooser::attachToTree()
     
     ScopedPointer<XmlElement> xml(viewTree.createXml());
 
-    DBG("LayoutChooser::attachToTree - new tree: " + xml->createDocument(String::empty));
+    DBG("LayoutChooser::attachToTree - new tree: " + xml->createDocument(String()));
 
     LayoutSorter sorter(10, false);
     viewTree.sort(sorter, nullptr, true);

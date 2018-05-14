@@ -1076,7 +1076,7 @@ void MappingRootItem::addGenericMapping(const Identifier& mappingType)
     storeSelectionOnAdd();
     
     ValueTree newMapping;
-    configuration.addNewMapping(mappingType, String::empty, String::empty, newMapping, 0, &undoManager);
+    configuration.addNewMapping(mappingType, String(), String(), newMapping, 0, &undoManager);
 }
 
 /* =========================================================================
@@ -1133,7 +1133,7 @@ void MappingItem::addItem()
     storeSelectionOnAdd();
 
     ValueTree newMapping;
-    configuration.addNewMapping(tree.getType(), String::empty, String::empty, newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
+    configuration.addNewMapping(tree.getType(), String(), String(), newMapping, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 /* =========================================================================
@@ -1181,7 +1181,7 @@ void StyleOverrideRootItem::addGenericStyleOverride(const Identifier& componentT
     storeSelectionOnAdd();
     
     ValueTree newStyleOverride;
-    configuration.addStyleOverride(componentType, String::empty, String::empty, newStyleOverride, 0, &undoManager);
+    configuration.addStyleOverride(componentType, String(), String(), newStyleOverride, 0, &undoManager);
 }
 
 void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& componentType)
@@ -1195,7 +1195,7 @@ void StyleOverrideRootItem::addGenericItemFromClipboard(const Identifier& compon
     }
     
     storeSelectionOnAdd();
-    configuration.addStyleOverride(componentType, String::empty, String::empty, styleOverride, 0, &undoManager);
+    configuration.addStyleOverride(componentType, String(), String(), styleOverride, 0, &undoManager);
 }
 
 /* =========================================================================
@@ -1242,7 +1242,7 @@ void StyleOverrideItem::addItem()
     storeSelectionOnAdd();
 
     ValueTree newStyleOverride;
-    configuration.addStyleOverride(tree.getType(), String::empty, String::empty, newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+    configuration.addStyleOverride(tree.getType(), String(), String(), newStyleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 void StyleOverrideItem::addItemFromClipboard()
@@ -1256,7 +1256,7 @@ void StyleOverrideItem::addItemFromClipboard()
     }
     
     storeSelectionOnAdd();
-    configuration.addStyleOverride(tree.getType(), String::empty, String::empty, styleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
+    configuration.addStyleOverride(tree.getType(), String(), String(), styleOverride, tree.getParent().indexOf(tree) + 1, &undoManager);
 }
 
 void StyleOverrideItem::copyItem()

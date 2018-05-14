@@ -91,7 +91,7 @@ void PluginProcessor::setCurrentProgram (int index)
 const String PluginProcessor::getProgramName (int index)
 {
     (void)index;
-    return String::empty;
+    return String();
 }
 
 void PluginProcessor::changeProgramName (int index, const String& newName)

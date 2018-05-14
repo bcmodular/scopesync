@@ -91,50 +91,50 @@ public:
         // Sort by name
         if (columnId == 2)
         {
-            String firstString  = first.getProperty(Ids::name, String::empty);
-            String secondString = second.getProperty(Ids::name, String::empty);
+            String firstString  = first.getProperty(Ids::name, String());
+            String secondString = second.getProperty(Ids::name, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by librarySet
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::librarySet, String::empty);
-            String secondString = second.getProperty(Ids::librarySet, String::empty);
+            String firstString  = first.getProperty(Ids::librarySet, String());
+            String secondString = second.getProperty(Ids::librarySet, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by author
         else if (columnId == 4)
         {
-            String firstString  = first.getProperty(Ids::author, String::empty);
-            String secondString = second.getProperty(Ids::author, String::empty);
+            String firstString  = first.getProperty(Ids::author, String());
+            String secondString = second.getProperty(Ids::author, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by layoutName
         if (columnId == 5)
         {
-            String firstString  = first.getProperty(Ids::layoutName, String::empty);
-            String secondString = second.getProperty(Ids::layoutName, String::empty);
+            String firstString  = first.getProperty(Ids::layoutName, String());
+            String secondString = second.getProperty(Ids::layoutName, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by layoutLibrarySet
         else if (columnId == 6)
         {
-            String firstString  = first.getProperty(Ids::layoutLibrarySet, String::empty);
-            String secondString = second.getProperty(Ids::layoutLibrarySet, String::empty);
+            String firstString  = first.getProperty(Ids::layoutLibrarySet, String());
+            String secondString = second.getProperty(Ids::layoutLibrarySet, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by fileName
         else if (columnId == 7)
         {
-            String firstString  = first.getProperty(Ids::fileName, String::empty);
-            String secondString = second.getProperty(Ids::fileName, String::empty);
+            String firstString  = first.getProperty(Ids::fileName, String());
+            String secondString = second.getProperty(Ids::fileName, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by mruTime
         else if (columnId == 8)
         {
-            String firstString  = first.getProperty(Ids::mruTime, String::empty);
-            String secondString = second.getProperty(Ids::mruTime, String::empty);
+            String firstString  = first.getProperty(Ids::mruTime, String());
+            String secondString = second.getProperty(Ids::mruTime, String());
             result = firstString.compareNatural(secondString);
         }
 
@@ -160,8 +160,8 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
       rebuildLibraryButton("Rebuild Library"),
       unloadConfigButton("Unload Configuration"),
       editLocationsButton("File Locations..."),
-      blurb(String::empty),
-      fileNameLabel(String::empty)
+      blurb(String()),
+      fileNameLabel(String())
 {
     userSettings->addActionListener(this);
     attachToTree();
@@ -196,7 +196,7 @@ ConfigurationChooser::ConfigurationChooser(ScopeSync& ss,
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness(4);
     
-    table.getHeader().addColumn(String::empty,        1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String(),        1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Name",               2, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Library Set",        3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Author",             4, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
@@ -314,7 +314,7 @@ void ConfigurationChooser::paintCell(Graphics& g, int rowNumber, int columnId, i
 
     switch (columnId)
     {
-        case 1: text = String::empty; break;
+        case 1: text = String(); break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
         case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
         case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
@@ -420,8 +420,8 @@ void ConfigurationChooser::chooseConfiguration(const String& newFileName)
             AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
                                          "Are you sure?",
                                          "There are unsaved changes. This will discard them and clear the undo history.",
-                                         String::empty,
-                                         String::empty,
+                                         String(),
+                                         String(),
                                          this,
                                          ModalCallbackFunction::forComponent(alertBoxReloadConfirm, this));
 

@@ -89,7 +89,7 @@ void BCMSlider::applyProperties(SliderProperties& props)
     {
 		tooltip = parameter->getFullDescription(true);
 		
-        String uiSuffix = String::empty;
+        String uiSuffix = String();
         parameter->getUIRanges(rangeMin, rangeMax, rangeInt, uiSuffix);
 
         if (parameter->isDiscrete())

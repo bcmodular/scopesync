@@ -286,7 +286,7 @@ void ParameterPanel::createScopeProperties(PropertyListBuilder& props, UndoManag
     if (valueType == 0)
     {
         props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::scopeDBRef,    &undoManager), "Scope dB Reference"),          "Scope dB Reference Value (only set for dB-based parameters)");
-        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String::empty), "Only apply the Skew factor to the UI elements, not Scope values");
+        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::skewUIOnly,    &undoManager), "Skew UI Only", String()), "Only apply the Skew factor to the UI elements, not Scope values");
     }
 }
 
@@ -327,7 +327,7 @@ void ParameterPanel::createUIProperties(PropertyListBuilder& props, UndoManager&
     }
 
     props.add(new FltProperty             (valueTree.getPropertyAsValue(Ids::uiRangeInterval, &undoManager), "Value Interval"),                     valIntTooltip);
-    props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String::empty), "Use a set of discrete parameter values relating to specific control settings");
+    props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::valueType,       &undoManager), "Use discrete values", String()), "Use a set of discrete parameter values relating to specific control settings");
 }
 
 void ParameterPanel::childBoundsChanged(Component* child)
@@ -422,7 +422,7 @@ void ParameterPanel::createSettingsTable()
     setParameterUIRanges(0, maxValue, 0, undoManager, valueTree);
 
     // Reset Skew values to default to save confusion
-    valueTree.setProperty(Ids::uiSkewMidpoint, String::empty, &undoManager);
+    valueTree.setProperty(Ids::uiSkewMidpoint, String(), &undoManager);
     valueTree.setProperty(Ids::scopeDBRef, 0.0f, &undoManager);
 
     settingsTable = new SettingsTable(settings, undoManager, commandManager, valueTree, commandManager->getFirstCommandTarget(CommandIDs::addConfig));
@@ -480,7 +480,7 @@ void MappingPanel::rebuildProperties()
         for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
 
         componentNames.insert(0, "- No Component -");
-        componentValues.insert(0, String::empty);
+        componentValues.insert(0, String());
 
         String componentTypeName = Configuration::getComponentTypeName(componentType);
         
@@ -496,7 +496,7 @@ void MappingPanel::rebuildProperties()
     configuration.setupParameterLists(parameterNames, parameterValues, discreteOnly);
 
     parameterNames.insert(0, "- No Mapping -");
-    parameterValues.insert(0, String::empty);
+    parameterValues.insert(0, String());
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::mapTo, &undoManager), "Parameter", parameterNames, parameterValues), "Choose the Parameter to map to");
 
@@ -545,7 +545,7 @@ void TextButtonMappingPanel::rebuildProperties()
         configuration.setupSettingLists(parameterName.toString(), settingNames, settingValues);
     
     settingNames.insert(0, "- No Setting -");
-    settingValues.insert(0, String::empty);
+    settingValues.insert(0, String());
 
     if (int(mappingType.getValue()) < 2)
     {
@@ -623,7 +623,7 @@ void StyleOverridePanel::rebuildProperties()
         for (int i = 0; i < componentNames.size(); i++) componentValues.add(componentNames[i]);
 
         componentNames.insert(0, "- No Component -");
-        componentValues.insert(0, String::empty);
+        componentValues.insert(0, String());
         
         props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::name, &undoManager), componentTypeName + " Name", componentNames, componentValues), "Choose the "+ componentTypeName + " to override style for");
     }
@@ -634,11 +634,11 @@ void StyleOverridePanel::rebuildProperties()
 
     for (int i = 0; i < lookAndFeelIds.size(); i++) lookAndFeelValues.add(lookAndFeelIds[i]);
     
-    lookAndFeelIds.insert(0, String::empty);
-    lookAndFeelValues.insert(0, String::empty);
+    lookAndFeelIds.insert(0, String());
+    lookAndFeelValues.insert(0, String());
     
     lookAndFeelIds.insert(0, "- No Override -");
-    lookAndFeelValues.insert(0, String::empty);
+    lookAndFeelValues.insert(0, String());
 
     props.add(new ChoicePropertyComponent(valueTree.getPropertyAsValue(Ids::lookAndFeelId, &undoManager), "LookAndFeel", lookAndFeelIds, lookAndFeelValues), "Choose the LookAndFeel to use");
     
@@ -653,7 +653,7 @@ void StyleOverridePanel::rebuildProperties()
 
     if (componentType == Ids::slider || componentType == Ids::label || componentType == Ids::component || componentType == Ids::textButton)
     {
-        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager), "Use Colour Overrides", String::empty), "Check the box to enable individual colour overrides");
+        props.add(new BooleanPropertyComponent(valueTree.getPropertyAsValue(Ids::useColourOverrides, &undoManager), "Use Colour Overrides", String()), "Check the box to enable individual colour overrides");
     }
 
     if (bool(valueTree.getProperty(Ids::useColourOverrides, true)))

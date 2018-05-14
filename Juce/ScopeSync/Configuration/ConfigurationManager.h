@@ -217,10 +217,10 @@ public:
                                const Identifier& componentType, 
                                const String& componentName, 
                                const String& widgetTemplateId, 
-                               const String& fillColour  = String::empty,
-                               const String& lineColour  = String::empty,
-                               const String& fillColour2 = String::empty,
-                               const String& lineColour2 = String::empty) const;
+                               const String& fillColour  = String(),
+                               const String& lineColour  = String(),
+                               const String& fillColour2 = String(),
+                               const String& lineColour2 = String()) const;
     
 private:
     ScopeSync&                 scopeSync;

@@ -84,7 +84,7 @@ void BCMWidget::applyBounds() const
 			AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon,
 				"Debug Component Position",
 				position,
-				String::empty);
+				String());
 		}
 	}
 	else if (componentBounds.boundsType == BCMComponentBounds::inset)
@@ -122,7 +122,7 @@ void BCMWidget::applyLookAndFeel(bool noStyleOverride)
     if (bcmLookAndFeel != nullptr)
         parentWidget->setLookAndFeel(bcmLookAndFeel);
     else
-        bcmLookAndFeelId = String::empty;
+        bcmLookAndFeelId = String();
 }
 
 void BCMWidget::getAllCommands(Array<CommandID>& commands)

@@ -51,8 +51,8 @@ TextButtonProperties::~TextButtonProperties() {}
 void TextButtonProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    text              = String::empty;
-    tooltip           = String::empty;
+    text              = String();
+    tooltip           = String();
     url               = URL();
     radioGroupId      = 0;
 }

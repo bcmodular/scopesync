@@ -46,29 +46,29 @@ public:
         // Sort by name
         if (columnId == 2)
         {
-            String firstString  = first.getProperty(Ids::name, String::empty);
-            String secondString = second.getProperty(Ids::name, String::empty);
+            String firstString  = first.getProperty(Ids::name, String());
+            String secondString = second.getProperty(Ids::name, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by librarySet
         else if (columnId == 3)
         {
-            String firstString  = first.getProperty(Ids::librarySet, String::empty);
-            String secondString = second.getProperty(Ids::librarySet, String::empty);
+            String firstString  = first.getProperty(Ids::librarySet, String());
+            String secondString = second.getProperty(Ids::librarySet, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by author
         else if (columnId == 4)
         {
-            String firstString  = first.getProperty(Ids::author, String::empty);
-            String secondString = second.getProperty(Ids::author, String::empty);
+            String firstString  = first.getProperty(Ids::author, String());
+            String secondString = second.getProperty(Ids::author, String());
             result = firstString.compareNatural(secondString);
         }
         // Sort by fileName
         else if (columnId == 5)
         {
-            String firstString  = first.getProperty(Ids::fileName, String::empty);
-            String secondString = second.getProperty(Ids::fileName, String::empty);
+            String firstString  = first.getProperty(Ids::fileName, String());
+            String secondString = second.getProperty(Ids::fileName, String());
             result = firstString.compareNatural(secondString);
         }
         
@@ -94,8 +94,8 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
       chooseButton("Choose Preset File"),
       rebuildLibraryButton("Rebuild Library"),
       editLocationsButton("File Locations..."),
-      blurb(String::empty),
-      fileNameLabel(String::empty),
+      blurb(String()),
+      fileNameLabel(String()),
       parentWindow(parent)
 {
     userSettings->addActionListener(this);
@@ -123,7 +123,7 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
     fileNameLabel.setJustificationType(Justification::topLeft);
     fileNameLabel.setFont(Font(12.0f, Font::bold));
     fileNameLabel.setText("Choose a Preset File from the list below...", dontSendNotification);
-    fileNameLabel.setTooltip(String::empty);
+    fileNameLabel.setTooltip(String());
     addAndMakeVisible(fileNameLabel);
 
     addAndMakeVisible(table);
@@ -133,7 +133,7 @@ PresetFileChooser::PresetFileChooser(File& pf, ApplicationCommandManager* acm, U
     table.setColour(ListBox::outlineColourId, Colours::darkgrey);
     table.setOutlineThickness(4);
     
-    table.getHeader().addColumn(String::empty,        1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String(),        1, 10,  10, 10, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Name",               2, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Library Set",        3, 120, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Author",             4, 100, 40, -1, TableHeaderComponent::defaultFlags & ~TableHeaderComponent::draggable);
@@ -222,7 +222,7 @@ void PresetFileChooser::paintCell(Graphics& g, int rowNumber, int columnId, int 
 
     switch (columnId)
     {
-        case 1: text = String::empty; break;
+        case 1: text = String(); break;
         case 2: text = viewTree.getChild(rowNumber).getProperty(Ids::name); break;
         case 3: text = viewTree.getChild(rowNumber).getProperty(Ids::librarySet); break;
         case 4: text = viewTree.getChild(rowNumber).getProperty(Ids::author); break;
@@ -258,7 +258,7 @@ void PresetFileChooser::selectedRowsChanged(int lastRowSelected)
     else
     {
         fileNameLabel.setText("Choose a Preset File from the list below...", dontSendNotification);
-        fileNameLabel.setTooltip(String::empty);
+        fileNameLabel.setTooltip(String());
     }
 
     commandManager->commandStatusChanged();

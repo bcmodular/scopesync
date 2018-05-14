@@ -77,7 +77,7 @@ class FileLocationEditor::LabelComp : public Component
 {
 public:
     LabelComp(Value& valueToEdit)
-        : label(String::empty, String::empty),
+        : label(String(), String()),
           value(valueToEdit)
     {
         addAndMakeVisible(label);
@@ -169,9 +169,9 @@ FileLocationEditor::FileLocationEditor(UndoManager& um, ApplicationCommandManage
     table.setColour(ListBox::outlineColourId, Colours::grey);
     table.setOutlineThickness (1);
     
-    table.getHeader().addColumn(String::empty, 1, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String(), 1, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     table.getHeader().addColumn("Location",    2, 200, 100, -1, TableHeaderComponent::defaultFlags & TableHeaderComponent::notSortable & ~TableHeaderComponent::draggable);
-    table.getHeader().addColumn(String::empty, 3, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
+    table.getHeader().addColumn(String(), 3, 30,  30,  30, TableHeaderComponent::notResizableOrSortable & ~TableHeaderComponent::draggable);
     
     table.getHeader().setStretchToFitActive(true);
     table.setMultipleSelectionEnabled (true);
@@ -232,8 +232,8 @@ void FileLocationEditor::timerCallback()
 		AlertWindow::showOkCancelBox(AlertWindow::QuestionIcon,
 			"Add stock location?",
 			"Would you like to add the stock library location (" + stockFileName + ")?",
-			String::empty,
-			String::empty,
+			String(),
+			String(),
 			this,
 			ModalCallbackFunction::forComponent(alertBoxAddStockLocationConfirm, this, stockFileName));
 	}

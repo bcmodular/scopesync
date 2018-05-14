@@ -52,7 +52,7 @@ void ComponentProperties::initialise()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
     backgroundColour             = "00000000";
-    backgroundImageFileName      = String::empty;
+    backgroundImageFileName      = String();
     backgroundImagePlacement     = RectanglePlacement::doNotResize;
     showCrossHair                = false;
     horizontalCrossHairThickness = 10;

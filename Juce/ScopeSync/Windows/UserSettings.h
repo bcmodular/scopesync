@@ -85,7 +85,7 @@ public:
     PropertiesFile* getAppProperties();
     PropertiesFile* getGlobalProperties();
 
-    String getPropertyValue(const String& propertyName, const String& defaultValue = String::empty);
+    String getPropertyValue(const String& propertyName, const String& defaultValue = String());
     void   setPropertyValue(const String& propertyName, const String& newValue);
     int    getPropertyIntValue(const String& propertyName, int defaultValue = 0);
     void   setPropertyIntValue(const String& propertyName, int newValue);

@@ -489,7 +489,7 @@ String UserSettings::getLayoutFilename(const String& name, const String& library
         }
     }
 
-    return String::empty;
+    return String();
 }
 
 ValueTree UserSettings::getConfigurationFromFilePath(const String& filePath, const ValueTree& configurationLibrary)
@@ -515,7 +515,7 @@ String UserSettings::getConfigurationFilePathFromUID(int uid)
             return configuration.getProperty(Ids::filePath);
     }
 
-    return String::empty;
+    return String();
 }
 
 ValueTree UserSettings::getPresetFileFromFilePath(const String& filePath, const ValueTree& presetLibrary)
@@ -1114,7 +1114,7 @@ bool UserSettings::perform(const InvocationInfo& info)
     switch (info.commandID)
     {
         case CommandIDs::editFileLocations:    editFileLocations(getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
-        case CommandIDs::showPresetManager:    showPresetManagerWindow(String::empty, getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
+        case CommandIDs::showPresetManager:    showPresetManagerWindow(String(), getParentMonitorArea().getCentreX(), getParentMonitorArea().getCentreY()); break;
         default:                               return false;
     }
 

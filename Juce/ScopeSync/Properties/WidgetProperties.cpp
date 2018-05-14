@@ -50,16 +50,16 @@ WidgetProperties::~WidgetProperties() {}
 void WidgetProperties::initialiseWidget()
 {
     // Ultimate fall-back defaults, in case no defaults supplied in the XML
-    name                 = String::empty;
-    id                   = String::empty;
+    name                 = String();
+    id                   = String();
     bounds.width         = 100;
     bounds.height        = 100;
     bounds.x             = 0;
     bounds.y             = 0;
-    bcmLookAndFeelId     = String::empty;
-    widgetTemplateId     = String::empty;
+    bcmLookAndFeelId     = String();
+    widgetTemplateId     = String();
     mappingParentType    = Identifier();
-    mappingParent        = String::empty;
+    mappingParent        = String();
     noStyleOverride      = false;
 	debugWidgetPosition  = false;
 };

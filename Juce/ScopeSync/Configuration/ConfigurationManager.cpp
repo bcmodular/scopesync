@@ -360,8 +360,8 @@ void ConfigurationManager::paint(Graphics& g)
     g.fillRect(0, 0, getWidth(), 40);
     g.fillRect(0, 0, getWidth(), getHeight() - 40);
 
-    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 134, 8);
-    g.drawImageAt(imageLoader->loadImage("divider", String::empty), 228, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String()), 134, 8);
+    g.drawImageAt(imageLoader->loadImage("divider", String()), 228, 8);
 }
 
 void ConfigurationManager::paintOverChildren(Graphics& g)
@@ -702,7 +702,7 @@ ConfigurationManagerCalloutWindow::~ConfigurationManagerCalloutWindow()
 void ConfigurationManagerCalloutWindow::setMappingPanel(ValueTree& mapping, const Identifier& compType, const String& compName) const
 {
     if (!(mapping.isValid()))
-         scopeSync.getConfiguration().addNewMapping(compType, compName, String::empty, mapping, -1, &undoManager);
+         scopeSync.getConfiguration().addNewMapping(compType, compName, String(), mapping, -1, &undoManager);
 
     MappingPanel* panelToShow;
 

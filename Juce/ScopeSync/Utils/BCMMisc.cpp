@@ -115,7 +115,7 @@ class NumericProperty::LabelComp  : public Label
 {
 public:
     LabelComp (NumericProperty& np, const String& validInputString)
-        : Label (String::empty, String::empty),
+        : Label (String(), String()),
           owner(np), validInput(validInputString)
     {
         setEditable(true, true, false);
@@ -142,7 +142,7 @@ public:
     void clearError()
     {
         setColour(backgroundColourId, owner.findColour(NumericProperty::backgroundColourId));
-        setTooltip(String::empty);
+        setTooltip(String());
     }
 
 private:

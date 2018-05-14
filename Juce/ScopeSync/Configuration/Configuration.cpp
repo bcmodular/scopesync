@@ -290,7 +290,7 @@ void Configuration::loadLoaderLayout()
 
 String Configuration::getDocumentTitle()
 {
-    return configurationRoot.getProperty(Ids::name, String::empty);
+    return configurationRoot.getProperty(Ids::name, String());
 }
 
 void Configuration::setupConfigurationProperties()
@@ -335,7 +335,7 @@ String Configuration::getConfigurationDirectory() const
     if (getFile() != File::nonexistent)
         return getFile().getParentDirectory().getFullPathName();
     else
-        return String::empty;
+        return String();
 }
 
 int Configuration::getConfigurationUID()
@@ -616,7 +616,7 @@ ValueTree Configuration::getDefaultParameter()
     defaultParameter.setProperty(Ids::uiRangeMin,       0,             nullptr);
     defaultParameter.setProperty(Ids::uiRangeMax,       100,           nullptr);
     defaultParameter.setProperty(Ids::uiRangeInterval,  0.0001,        nullptr);
-    defaultParameter.setProperty(Ids::uiSuffix,         String::empty, nullptr);
+    defaultParameter.setProperty(Ids::uiSuffix,         String(), nullptr);
     
     return defaultParameter;
 }
@@ -639,7 +639,7 @@ ValueTree Configuration::getDefaultFixedParameter()
     defaultParameter.setProperty(Ids::uiRangeMin,       -2147483647,   nullptr);
     defaultParameter.setProperty(Ids::uiRangeMax,       2147483647,    nullptr);
     defaultParameter.setProperty(Ids::uiRangeInterval,  1,             nullptr);
-    defaultParameter.setProperty(Ids::uiSuffix,         String::empty, nullptr);
+    defaultParameter.setProperty(Ids::uiSuffix,         String(), nullptr);
 
     return defaultParameter;
 }
@@ -686,7 +686,7 @@ void Configuration::addStyleOverride(const Identifier& componentType,
     if (!newStyleOverride.isValid())
     {
         newStyleOverride = ValueTree(componentType);
-        newStyleOverride.setProperty(Ids::lookAndFeelId, String::empty, um);
+        newStyleOverride.setProperty(Ids::lookAndFeelId, String(), um);
     }
 
     newStyleOverride.setProperty(Ids::name,             componentName, um);
@@ -722,7 +722,7 @@ Result Configuration::saveDocument (const File& /* file */)
 
     ScopedPointer<XmlElement> outputXml = configurationRoot.createXml();
 
-    if (outputXml->writeToFile(getFile(), String::empty, "UTF-8", 120))
+    if (outputXml->writeToFile(getFile(), String(), "UTF-8", 120))
         return Result::ok();
     else
         return Result::fail("Failed to save configuration file");
@@ -836,12 +836,12 @@ XmlElement& Configuration::getLayout(String& errorText, String& errorDetails, bo
 
 XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails)
 {
-    layoutDirectory = String::empty;
+    layoutDirectory = String();
     layoutXml       = loaderLayoutXml;
     layoutLoaded    = false;
     
-    String layoutName       = configurationRoot.getProperty(Ids::layoutName,     String::empty).toString();
-    String layoutLibrarySet = configurationRoot.getProperty(Ids::layoutLibrarySet, String::empty).toString();
+    String layoutName       = configurationRoot.getProperty(Ids::layoutName,     String()).toString();
+    String layoutLibrarySet = configurationRoot.getProperty(Ids::layoutLibrarySet, String()).toString();
 
     String layoutFilename = userSettings->getLayoutFilename(layoutName, layoutLibrarySet);
 
@@ -947,10 +947,10 @@ void Configuration::getComponentNamesFromXml(XmlElement& xml)
 {
     forEachXmlChildElement(xml, child)
     {
-        String componentName    = child->getStringAttribute("name", String::empty);
+        String componentName    = child->getStringAttribute("name", String());
         String componentType    = child->getTagName();
         bool   noStyleOverride  = child->getBoolAttribute("nostyleoverride", false);
-        String widgetTemplateId = child->getStringAttribute("wtid", String::empty);
+        String widgetTemplateId = child->getStringAttribute("wtid", String());
         
         if (componentName.isNotEmpty() 
             && 
@@ -1051,7 +1051,7 @@ String Configuration::getComponentTypeName(const Identifier& type)
     else if (type == Ids::tabbedComponent) return "Tabbed Component";
     else if (type == Ids::textButton)      return "Text Button";
     else if (type == Ids::component)       return "Component";
-    else                                   return String::empty;
+    else                                   return String();
 }
 
 ValueTree Configuration::getStyleOverride(const Identifier& componentType, const String& componentName) const

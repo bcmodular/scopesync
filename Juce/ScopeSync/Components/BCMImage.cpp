@@ -28,7 +28,7 @@
 
 BCMImage::BCMImage(XmlElement& xml) : BCMGraphic(xml)
 {
-    fileName    = xml.getStringAttribute("filename", String::empty);
+    fileName    = xml.getStringAttribute("filename", String());
     stretchMode = getStretchModeFromXml(xml);
     opacity     = static_cast<float>(xml.getDoubleAttribute("opacity", 1.0f));
 }

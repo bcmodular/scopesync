@@ -53,7 +53,7 @@ void TabProperties::initialise()
     name              = "def";
     backgroundColour  = "00000000";
     idx               = -1;
-    bcmLookAndFeelId  = String::empty;
+    bcmLookAndFeelId  = String();
 }
 
 void TabProperties::copyProperties(TabProperties& parentTabProperties)

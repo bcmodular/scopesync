@@ -94,7 +94,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
     int rgId = props.radioGroupId;
     
-    String radioGroupTag = String::empty;
+    String radioGroupTag = String();
 
     upSettingIdx   = -1;
     downSettingIdx = -1;
