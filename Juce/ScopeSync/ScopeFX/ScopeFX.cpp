@@ -149,7 +149,7 @@ void ScopeFX::timerCallback()
 
 void ScopeFX::setPluginHostIP(StringRef address)
 {
-	StringArray const octets(StringArray::fromTokens(ipAddressFromHostName(address, pluginPort.toString()), ".", String::empty));
+	StringArray const octets(StringArray::fromTokens(ipAddressFromHostName(address, pluginPort.toString()), ".", String()));
 	DBG("ScopeFX::setPluginHostIP - address passed in: " + address);
 	DBG("ScopeFX::setPluginHostIP - num octets: " + String(octets.size()) + ", " + octets[0] + ";" + octets[1] + ";" + octets[2] + ";" + octets[3]);
 	setPluginHostIP(octets[0].getIntValue(), octets[1].getIntValue(), octets[2].getIntValue(), octets[3].getIntValue());

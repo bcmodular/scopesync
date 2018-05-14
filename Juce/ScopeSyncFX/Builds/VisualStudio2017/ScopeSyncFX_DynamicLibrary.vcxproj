@@ -99,7 +99,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalDependencies>ScopeDLLd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ScopeDLLd.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
@@ -107,7 +107,7 @@
       <OutputFile>$(IntDir)\ScopeSync-Debug_1_0_3.bsc</OutputFile>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>ScopeDLLd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ScopeDLLd.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
-      <AdditionalDependencies>ScopeDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ScopeDLL.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <Bscmake>
@@ -160,7 +160,7 @@
       <OutputFile>$(IntDir)\ScopeSync_1_0_3.bsc</OutputFile>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>ScopeDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ScopeDLL.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\..\External\SonicCore;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
