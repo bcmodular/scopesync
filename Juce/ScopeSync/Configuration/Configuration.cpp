@@ -332,7 +332,7 @@ Result Configuration::loadDocument(const File& file)
 
 String Configuration::getConfigurationDirectory() const
 {
-    if (getFile() != File::nonexistent)
+    if (getFile().existsAsFile())
         return getFile().getParentDirectory().getFullPathName();
     else
         return String();
@@ -735,7 +735,7 @@ void Configuration::setLastDocumentOpened (const File& file)  { lastDocumentOpen
 
 FileBasedDocument::SaveResult Configuration::saveIfNeededAndUserAgrees(bool offerCancelOption)
 {
-    if (!(hasChangedSinceSaved()) || getFile() == File::nonexistent)
+    if (!(hasChangedSinceSaved()) || !getFile().existsAsFile())
         return savedOk;
 
     int result;
@@ -858,7 +858,7 @@ XmlElement& Configuration::loadLayoutXml(String& errorText, String& errorDetails
     
     File layoutFile;
 
-    if (File::isAbsolutePath(layoutFilename) && File(layoutFilename) != File::nonexistent)
+    if (File::isAbsolutePath(layoutFilename) && File(layoutFilename).existsAsFile())
     {
         layoutFile = File(layoutFilename);
         

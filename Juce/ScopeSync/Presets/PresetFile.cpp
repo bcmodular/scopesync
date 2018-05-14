@@ -360,7 +360,7 @@ const String& PresetFile::getLastErrorDetails() const
 
 FileBasedDocument::SaveResult PresetFile::saveIfNeededAndUserAgrees(bool offerCancelOption)
 {
-    if (!(hasChangedSinceSaved()) || getFile() == File::nonexistent)
+    if (!(hasChangedSinceSaved()) || !getFile().existsAsFile())
         return savedOk;
 
     int result;

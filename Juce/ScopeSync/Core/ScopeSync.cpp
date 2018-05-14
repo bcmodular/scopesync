@@ -417,7 +417,7 @@ void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
     newConfigWindowPosition = windowPosition;
 
     FileChooser fileChooser("New Configuration File...",
-                            File::nonexistent,
+                            File(),
                             "*.configuration");
     
     File newFile;
