@@ -232,8 +232,8 @@ UserSettings::~UserSettings()
 
     saveSwatchColours();
 
-    presetManagerWindow = nullptr;
-    fileLocationEditorWindow = nullptr;
+    presetManagerWindow.reset();
+    fileLocationEditorWindow.reset();
     tooltipDelayTime.removeListener(this);
 }
 
@@ -790,7 +790,7 @@ void UserSettings::hidePresetManagerWindow()
         rebuildFileLibrary(false, false, true);
     }
 
-    presetManagerWindow = nullptr;
+    presetManagerWindow.reset();
 }
 
 void UserSettings::updateFileLocations(const ValueTree& fileLocations)

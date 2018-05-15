@@ -457,11 +457,11 @@
             <bounds relativerectangle="LFOFreqSrcKnob.left, LFOFreqSrcMatrix.bottom + 2, left + 38, top + 10 " />
           </label>
           <tabbedcomponent name="FreqSrcTabs" id="FreqSrcTabs">
-            <bounds relativerectangle="LFOFreqSrcKnob.right - 10, 0, left + 60, parent.height" />
+            <bounds relativerectangle="45, 0, left + 60, top + 70" />
             <tab idx="1" name="LFOKnobTab">
               <component name="LFOKnobTabComponent" backgroundcolour="00ff0000">
                 <slider name="LfoFrqSrcKnob" id="LfoFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
+                  <bounds relativerectangle="5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="LfoFrqSrcKnob" id="LfoFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -473,7 +473,7 @@
             <tab idx="2" name="LFOFrqDivTab">
               <component name="LFOFrqDivTabComponent" backgroundcolour="0000ff00">
                 <slider name="LfoFrqSrcDiv" id="LfoFrqSrcDivSlider" popupenabled="false" lfid="LfoDividerKnob">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="LfoFrqSrcDiv" id="LfoFrqSrcDivLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -485,7 +485,7 @@
             <tab idx="3" name="LFOMatrixTab">
               <component name="LFOMatrixTabComponent" backgroundcolour="00000000">
                 <component name="LfoMatrixText" id="LfoMatrixText" backgroundimage="gfx/36x36TextMatrix.png">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 40" />
+                  <bounds relativerectangle="5, 10, left + 40, top + 40" />
                 </component>
               </component>
             </tab>
@@ -554,7 +554,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Tempo" debugwidgetposition="false" id="TempoSlider" popupenabled="true" encodersnap="true" lfid="BPMKnob">
-            <bounds relativerectangle="LFO.right + 8, 10, left + 40, top + 40" />
+            <bounds relativerectangle="0, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="TempoLabel" id="TempoLabel" text="BPM" lfid="maintheme" wtid="parameterlabel">
@@ -638,11 +638,11 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="RandGtSens" id="RandGtSensSlider" lfid="0-127Knob" debugwidgetposition="false">
-            <bounds relativerectangle="ADnRGATE.right + 8, 10, left + 40, top + 45" />
+            <bounds relativerectangle="0, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="RandGtSens" id="RandGtSensLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel" debugwidgetposition="false">
-            <bounds relativerectangle="1, RandGtSensSlider.bottom + 2, parent.width, top + 8" />
+            <bounds relativerectangle="0, RandGtSensSlider.bottom + 2, parent.width, top + 8" />
             <mappingparent componentname="RandGtSens" componenttype="slider" />
           </label>
         </component>
@@ -945,6 +945,10 @@
             <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
+          <slider name="ConstValB" id="ConstValBSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
+            <bounds relativerectangle="ConstValASlider.right + 60, ConstValASlider.top, left + ConstValASlider.width, top +  ConstValASlider.height " />
+            <textbox position="none" />
+          </slider>
           <slider name="ConstValABipolarBar" id="ConstValABipolarBar" wtid="cvbar">
             <bounds relativerectangle="ConstValASlider.right, 17, ConstValBSlider.left, top + 15" />
           </slider>
@@ -955,10 +959,6 @@
             <bounds relativerectangle="ConstValASlider.left + 30, ConstValASlider.bottom + 2, ConstValASlider.right + 40, top + 8" />
             <mappingparent componentname="ConstValA" componenttype="slider" />
           </label>
-          <slider name="ConstValB" id="ConstValBSlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="ConstValASlider.right + 60, ConstValASlider.top, left + ConstValASlider.width, top +  ConstValASlider.height " />
-            <textbox position="none" />
-          </slider>
           <slider name="ConstValBBipolarBar" id="ConstValBBipolarBar" wtid="cvbar">
             <bounds relativerectangle="ConstValBSlider.right, 17, ConstValBSlider.right + 60, top + 15" />
           </slider>
@@ -1022,11 +1022,11 @@
             <bounds relativerectangle="SeqFreqSrcKnob.left, SeqFreqSrcMVC.bottom + 2, left + 38, top + 10 " />
           </label>
           <tabbedcomponent name="SeqFreqSrcTabs" id="SeqFreqSrcTabs">
-            <bounds relativerectangle="SeqFreqSrcKnob.right - 10, 0, left + 60, parent.height" />
+            <bounds relativerectangle="45, 0, left + 60, 75" />
             <tab idx="1" name="SeqKnobTab">
               <component name="SeqKnobTabComponent" backgroundcolour="00ff0000">
                 <slider name="SeqFrqSrcKnob" id="SeqFrqSrcKnobSlider" popupenabled="true" lfid="white2darkknob" debugwidgetposition="false">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
+                  <bounds relativerectangle="5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="SeqFrqSrcKnob" id="SeqFrqSrcKnobLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1038,7 +1038,7 @@
             <tab idx="2" name="SeqFrqDivTab">
               <component name="SeqFrqDivTabComponent" backgroundcolour="0000ff00">
                 <slider name="SeqFrqSrcDiv" id="SeqFrqSrcDivSlider" popupenabled="true" lfid="SeqDivKnob">
-                  <bounds relativerectangle="parent.left + 5, 10, left + 40, top + 45" />
+                  <bounds relativerectangle="5, 10, left + 40, top + 45" />
                   <textbox position="none" />
                 </slider>
                 <label name="SeqFrqSrcDiv" id="SeqFrqSrcDivLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1050,7 +1050,7 @@
             <tab idx="3" name="SeqMVCTab">
               <component name="SeqMVCTabComponent" backgroundcolour="000000ff">
                 <component name="SeqFreqSrcMVCText" id="SeqFreqSrcMVCText" backgroundimage="gfx/12x36TextMVC.png">
-                  <bounds relativerectangle="parent.left + 5, 18, left + 40, top + 40" />
+                  <bounds relativerectangle="5, 18, left + 40, top + 40" />
                 </component>
               </component>
             </tab>
@@ -1308,7 +1308,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PMod1A" id="PMod1ASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="PMod1A" id="PMod1ALabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1373,7 +1373,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Mix2A1" id="Mix2A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Mix2A1" id="Mix2A1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1437,7 +1437,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Mix3A1" id="Mix3A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Mix3A1" id="Mix3A1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
@@ -1498,7 +1498,7 @@
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Pan1" id="Pan1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
-            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 40" />
+            <bounds relativerectangle="parent.left + 1, 10, left + 40, top + 45" />
             <textbox position="none" />
           </slider>
           <label name="Pan1" id="Pan1Label" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">

@@ -160,7 +160,7 @@ void ScopeSyncGUI::chooseConfiguration()
 
 void ScopeSyncGUI::hideConfigurationChooserWindow()
 { 
-    configurationChooserWindow = nullptr;
+    configurationChooserWindow.reset();
 }
 
 BCMParameter* ScopeSyncGUI::getUIMapping(Identifier compTypeId, const String& compName, ValueTree& mapping) const
@@ -223,7 +223,7 @@ void ScopeSyncGUI::createGUI(bool forceReload)
 	// Seems like this is the wrong thing to do:
     // tooltipWindow = nullptr;
     
-	mainComponent = nullptr;
+	mainComponent.reset();
     scopeSync.setGUIEnabled(true);
 
     tabbedComponents.clearQuick();

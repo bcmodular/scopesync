@@ -77,7 +77,7 @@ ScopeSync::~ScopeSync()
 	if (configurationManagerWindow != nullptr)
 	{
 		configurationManagerWindow->unload();
-		configurationManagerWindow = nullptr;
+		configurationManagerWindow.reset();
 	}
 
 	configuration->saveIfNeededAndUserAgrees(false);
@@ -158,7 +158,7 @@ void ScopeSync::showConfigurationManager(int posX, int posY)
 
 void ScopeSync::hideConfigurationManager()
 {
-	configurationManagerWindow = nullptr;
+	configurationManagerWindow.reset();
 }
 
 ApplicationCommandManager* ScopeSync::getCommandManager() const
@@ -450,7 +450,7 @@ void ScopeSync::addConfiguration(Rectangle<int> windowPosition)
 
 void ScopeSync::hideAddConfigurationWindow()
 {
-    addConfigurationWindow = nullptr;
+    addConfigurationWindow.reset();
 }
 
 void ScopeSync::addConfiguration(File newFile, ValueTree newSettings)

@@ -181,7 +181,7 @@ void ConfigurationPanel::rebuildProperties()
 
 void ConfigurationPanel::hideLayoutChooser()
 {
-    layoutChooserWindow = nullptr;
+    layoutChooserWindow.reset();
 }
 
 void ConfigurationPanel::updateLayout()
@@ -438,8 +438,8 @@ void ParameterPanel::rebuild()
 {
 	if (int(valueType.getValue()) == 0)
 	{
-		resizerBar = nullptr;
-		settingsTable = nullptr;
+		resizerBar.reset();
+		settingsTable.reset();
 		rebuildProperties();
 		resized();
 	}

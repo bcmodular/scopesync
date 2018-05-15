@@ -142,8 +142,8 @@ void PresetPanel::valueChanged(Value& valueThatChanged)
 {
     if (int(valueThatChanged.getValue()) == 0)
     {
-        resizerBar = nullptr;
-        settingsTable = nullptr;
+        resizerBar.reset();
+        settingsTable.reset();
         ParameterPanel::setParameterUIRanges(0, 100, 0, undoManager, valueTree);
         rebuildProperties();
         resized();

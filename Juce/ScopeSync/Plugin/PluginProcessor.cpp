@@ -42,7 +42,7 @@ PluginProcessor::PluginProcessor()
 PluginProcessor::~PluginProcessor()
 {
     scopeSync->unload();
-    scopeSync = nullptr;
+    scopeSync.reset();
 }
 
 const String PluginProcessor::getName() const

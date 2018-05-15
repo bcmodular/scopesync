@@ -392,7 +392,7 @@ void BCMTreeItem::itemDoubleClicked(const MouseEvent&)
 
 void BCMTreeItem::cancelDelayedSelectionTimer()
 {
-    delayedSelectionTimer = nullptr;
+    delayedSelectionTimer.reset();
 }
 
 void BCMTreeItem::storeSelectionOnAdd() const
