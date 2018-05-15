@@ -45,7 +45,7 @@ void BCMParameterController::initialise()
 	for (int i = 0; i < 512; i++)
 		scopeSync->getPluginProcessor()->addParameter(new HostParameter());
 #else
-	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Config ID,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
+	const StringArray scopeFixedParameters = StringArray::fromTokens("DUMMY,X,Y,Show,Show Preset Window,Show Patch Window,Mono Effect,BypassEffect,Show Shell Preset Window,Voice Count,MIDI Channel,Device Type,MIDI Activity",",", "");
     
     for (int i = 1; i < scopeFixedParameters.size(); i++)
         addFixedScopeParameter(scopeFixedParameters[i], i);

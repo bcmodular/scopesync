@@ -10,6 +10,9 @@
           <slider textboxtextcolourid="ff000000" textboxbackgroundcolourid="ffffffff" backgroundcolourid="ffffffff" />
         </colours>
       </lookandfeel>
+      <lookandfeel id="configname" parentid="maintheme">
+        <colours><label backgroundcolourid="00000000" textcolourid="90ffffff"/></colours>
+      </lookandfeel>
       <!--These define styles for specific knob types (starting with bipolar100knob), which can then be referenced by-->
       <!-- specific Slider elements in the main body -->
       <lookandfeel id="bipolar100knob" parentid="maintheme">
@@ -262,8 +265,45 @@
     <component backgroundimage="gfx/CWMbackgrDark.png" backgroundcolour="ffffffff" lfid="maintheme">
       <backgroundimageplacement>ytop</backgroundimageplacement>
       <bounds height="746" width="1280" />
-      <!--ScopeSync Header (might well want to replace with a custom header with reduced functionality)-->
-      <standardcontent type="header" />
+      <!--ScopeSync Header-->
+      <component>
+        <component id="header">
+          <bounds relativerectangle="0, 1, parent.width, top + 40"/>
+          <textbutton lfid="system:scopesynclogo_button" name="showaboutbox" id="showaboutbox" text=""
+                      tooltip="Show About Box">
+            <bounds relativerectangle="13, 11, left + 151, top + 21"/>
+          </textbutton>
+          <label lfid="configname" name="configurationname" text="Current Configuration">
+            <bounds relativerectangle="showaboutbox.right + 8, 9, left + 131, top + 17" />
+            <font height="24"/>
+            <justification verticallycentred="true" horizontallycentred="true"/>
+          </label>
+          <textbutton lfid="system:new_config_button" name="newconfiguration" tooltip="New Configuration">
+            <bounds x="311" y="9" width="20" height="21"/>
+          </textbutton>
+          <textbutton lfid="system:load_config_button" name="chooseconfiguration" tooltip="Load Configuration">
+            <bounds x="331" y="9" width="21" height="21"/>
+          </textbutton>
+          <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
+            <bounds x="356" y="9" width="21" height="21"/>
+          </textbutton>
+          <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager"
+                      id="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+            <bounds x="379" y="9" width="21" height="21"/>
+          </textbutton>
+          <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text=""
+                      tooltip="Open User Settings panel">
+            <bounds relativerectangle="right - 28, 9, parent.width - 4, top + 21"/>
+          </textbutton>
+          <textbutton lfid="system:snapshot_button" name="snapshot" id="snapshot" text=""
+                      tooltip="Send a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances">
+            <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 3, top + 21"/>
+          </textbutton>
+          <textbutton lfid="system:presets_button" name="Show Preset Window" tooltip="Open Preset Browser" displaycontext="scope">
+            <bounds relativerectangle="right - 19, snapshot.top, snapshot.left - 3, top + 21" />
+          </textbutton>
+        </component>
+      </component>
       <!--First row of controls-->
       <component backgroundcolour="00ff0000" name="First Row" id="firstrow">
         <!--Using relativerectangle for bounds makes it easy to position elements relative to others.-->

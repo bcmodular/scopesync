@@ -43,7 +43,6 @@
 #endif // __DLL_EFFECT__
 
 const String ScopeSync::scopeSyncVersionString = "0.6.0-Prerelease";
-const StringArray ScopeSync::fixedParameterNames = StringArray::fromTokens("DUMMY,posX,posY,show,presetlist,patchwindow,monoeffect,bypasseffect,shellpresetwindow,voicecount,midichannel,Device Type,midiactivity", ",", "");
 
 Array<ScopeSync*> ScopeSync::scopeSyncInstances;
 

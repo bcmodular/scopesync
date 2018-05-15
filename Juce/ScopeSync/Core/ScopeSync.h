@@ -64,8 +64,7 @@ public:
     void unload();
 	
 	static const String scopeSyncVersionString;
-	static const StringArray fixedParameterNames;
-
+	
     /* ========================== Public Actions ============================= */
     static int  getNumScopeSyncInstances();
 	static bool deviceInstanceInUse(int uid, ScopeSync* currentInstance);

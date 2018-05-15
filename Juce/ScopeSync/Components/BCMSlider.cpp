@@ -134,27 +134,24 @@ void BCMSlider::applyProperties(SliderProperties& props)
 
 bool BCMSlider::setupFixedSlider(SliderProperties& props)
 {	
-	if (ScopeSync::fixedParameterNames.contains(props.name))
+	BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+
+	if (bcmParameter != nullptr)
 	{
-		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+		fixed = true;
+		setParameter(bcmParameter);
 
-		if (bcmParameter != nullptr)
-		{
-			fixed = true;
-			setParameter(bcmParameter);
-
-			parameter->mapToUIValue(getValueObject());
+		parameter->mapToUIValue(getValueObject());
 	
-			setRange(props.rangeMin, props.rangeMax, 1);
-			setTooltip(props.name);
-			setPopupMenuEnabled(false);
+		setRange(props.rangeMin, props.rangeMax, 1);
+		setTooltip(props.name);
+		setPopupMenuEnabled(false);
 
-			setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
+		setTextBoxIsEditable(!parameter->isReadOnly() ? !props.textBoxReadOnly : false);
 
-			return true;
-		}
+		return true;
 	}
-
+	
 	return false;   
 }
 

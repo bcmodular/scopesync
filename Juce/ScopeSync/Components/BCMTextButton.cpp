@@ -232,31 +232,28 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
 bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
 {
-	if (ScopeSync::fixedParameterNames.contains(props.name))
+	BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+
+	if (bcmParameter != nullptr)
 	{
-		BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
-
-		if (bcmParameter != nullptr)
-		{
-			mappingType = toggle;
-			setClickingTogglesState(true);
+		mappingType = toggle;
+		setClickingTogglesState(true);
 	
-			upSettingIdx   = 0;
-			downSettingIdx = 1;
+		upSettingIdx   = 0;
+		downSettingIdx = 1;
 	
-			setParameter(bcmParameter);
+		setParameter(bcmParameter);
     
-			setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
+		setToggleState(getParameter()->getUIValue() > 0, dontSendNotification);
 
-			getParameter()->mapToUIValue(parameterValue);
+		getParameter()->mapToUIValue(parameterValue);
 
-			parameterValue.addListener(this);
+		parameterValue.addListener(this);
 
-			setTooltip(props.tooltip);
-			setButtonText(props.text);
+		setTooltip(props.tooltip);
+		setButtonText(props.text);
 
-			return true;
-		}
+		return true;
 	}
 
     return false;
