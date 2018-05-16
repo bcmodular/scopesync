@@ -309,11 +309,11 @@
         <!--Using relativerectangle for bounds makes it easy to position elements relative to others.-->
         <!--Format is left, top, right, bottom. You can reference parent (like here) or use the id for -->
         <!--the related element (must be siblings though).-->
-        <bounds relativerectangle="10, 33, parent.width - 10, top + 70" />
+        <bounds relativerectangle="10, 43, parent.width - 10, top + 70" />
         <!--OSC 1 controls-->
         <component backgroundcolour="00000000" name="OSC1" id="OSC1">
           <bounds relativerectangle="0, 0, left + 288, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" cornersize="5" fillcolour="ffdbdbdb">
+          <rectangle outlinethickness="2" outlinecolour="00000000" cornersize="5" fillcolour="ffdbdbdb">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC1 Coarse" id="OSC1CoarseSlider" lfid="bipolar48knob">
@@ -379,7 +379,7 @@
         <!--OSC 2 controls-->
         <component backgroundcolour="00000000" name="OSC2" id="OSC2">
           <bounds relativerectangle="OSC1.right + 8, 0, left + 285, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC2 Coarse" id="OSC2CoarseSlider" popupenabled="false" lfid="bipolar48knob">
@@ -437,7 +437,7 @@
         <!--OSC 3 controls-->
         <component backgroundcolour="00000000" name="OSC3" id="OSC3">
           <bounds relativerectangle="OSC2.right + 8, 0, left + 88, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="OSC3 Coarse" id="OSC3CoarseSlider" popupenabled="false" lfid="bipolar48knob">
@@ -463,7 +463,7 @@
         <!--BpfNoise controls-->
         <component backgroundcolour="00000000" name="BPF" id="BPF">
           <bounds relativerectangle="OSC3.right + 8, 0, left + 78, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Bpf Freq" id="BpfFreqSlider" popupenabled="true" lfid="white2darkknob">
@@ -481,7 +481,7 @@
         <!--LFO controls-->
         <component backgroundcolour="00000000" name="LFO" id="LFO">
           <bounds relativerectangle="BPF.right + 8, 0, left + 438, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="LFOFreqSrcKnob" name="LFOFreqSrcKnob" lfid="radiolight">
@@ -590,7 +590,7 @@
         <!--BPM-->
         <component backgroundcolour="00000000" name="BPM" id="BPM">
           <bounds relativerectangle="LFO.right + 8, 0, parent.width, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="FF000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Tempo" debugwidgetposition="false" id="TempoSlider" popupenabled="true" encodersnap="true" lfid="BPMKnob">
@@ -609,7 +609,7 @@
       <!--ADSR controls-->
       <component backgroundcolour="00000000" name="ADSR" id="ADSR">
         <bounds relativerectangle="firstrow.left, firstrow.bottom + 8, left + 290, top + 70" />
-        <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+        <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
           <bounds fillparent="true" />
         </rectangle>
         <textbutton id="AdsrGateSrcMVC" name="AdsrGateSrcMVC" lfid="radiolight">
@@ -674,7 +674,7 @@
         <!--RGATE control-->
         <component backgroundcolour="00000000" name="RGATE" id="RGATE">
           <bounds relativerectangle="right - 43, 0, parent.width, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="RandGtSens" id="RandGtSensSlider" lfid="0-127Knob" debugwidgetposition="false">
@@ -689,7 +689,7 @@
         <!--AD controls-->
         <component backgroundcolour="00000000" name="AD" id="AD">
           <bounds relativerectangle="0, 0, RGATE.left - 8, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="AdGateSrcMVC" name="AdGateSrcMVC" lfid="radiolight">
@@ -758,7 +758,7 @@
         <!--LP controls-->
         <component backgroundcolour="00000000" name="LP" id="LP">
           <bounds relativerectangle="0, 0, parent.width, top + 70" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="LpCf" id="LpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
@@ -800,7 +800,7 @@
         <!--HP controls-->
         <component backgroundcolour="00000000" name="HP" id="HP">
           <bounds relativerectangle="0, LP.bottom + 8, parent.width, top + LP.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="HpCf" id="HpCfSlider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
@@ -842,7 +842,7 @@
         <!--DEL1 controls-->
         <component backgroundcolour="00000000" name="DEL1" id="DEL1">
           <bounds relativerectangle="0, HP.bottom + 8, parent.width, top + LP.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Del1DT1" id="Del1DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
@@ -884,7 +884,7 @@
         <!--DEL2 controls-->
         <component backgroundcolour="00000000" name="DEL2" id="DEL2">
           <bounds relativerectangle="0, DEL1.bottom + 8, parent.width, top + LP.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Del2DT1" id="Del2DT1Slider" lfid="white2darkknob" popupenabled="true" encodersnap="true">
@@ -930,7 +930,7 @@
         <!--ExpVcaVeloAT controls-->
         <component backgroundcolour="00000000" name="ExpVca" id="ExpVca">
           <bounds relativerectangle="0, 0, parent.width - 20, top + 70" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ExpVcaSlp" id="ExpVcaSlpSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -978,7 +978,7 @@
         <!--ConstValAB controls-->
         <component backgroundcolour="00000000" name="ConstValAB" id="ConstValAB">
           <bounds relativerectangle="0, ExpVca.bottom + 8, parent.width, top + ExpVca.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ConstValA" id="ConstValASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -1020,7 +1020,7 @@
         <!--Porta-->
         <component backgroundcolour="00000000" name="Porta" id="Porta">
           <bounds relativerectangle="0, 0, left + 96, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PortaTime" id="PortaTimeSlider" lfid="0-127Knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -1046,7 +1046,7 @@
         <!--Seq controls-->
         <component backgroundcolour="00000000" name="Seq" id="Seq">
           <bounds relativerectangle="Porta.right + 8, 0, left + 244, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="SeqFreqSrcKnob" name="SeqFreqSrcKnob" lfid="radiolight">
@@ -1126,7 +1126,7 @@
         <!--GateSeq controls-->
         <component backgroundcolour="00000000" name="GSeq" id="GSeq">
           <bounds relativerectangle="Seq.right + 12, 0, left + 288, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <textbutton id="SeqGt1" name="SeqGt1" lfid="RetrigButton" debugwidgetposition="false">
@@ -1192,7 +1192,7 @@
         <!--ContrSeq controls-->
         <component backgroundcolour="00000000" name="CSeq" id="CSeq">
           <bounds relativerectangle="GSeq.right + 16, 0, left + 288, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="ContrSeq1" id="ContrSeq1slider" lfid="MetalKnob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -1266,7 +1266,7 @@
         <!--PitchSeq controls-->
         <component backgroundcolour="00000000" name="PSeq" id="PSeq">
           <bounds relativerectangle="CSeq.right + 16, 0, left + 288, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PitchSeq1" id="PitchSeq1slider" lfid="bipolar24knob" popupenabled="true" encodersnap="true" debugwidgetposition="false">
@@ -1344,7 +1344,7 @@
         <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
         <component backgroundcolour="00000000" name="PMod1-3" id="PMod">
           <bounds relativerectangle="0, 0, parent.width, top + 70" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="PMod1A" id="PMod1ASlider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
@@ -1409,7 +1409,7 @@
         <!--Mix2A, Mix2B, VolMod-->
         <component backgroundcolour="00000000" name="Mix2AB" id="Mix2AB">
           <bounds relativerectangle="0, PMod.bottom + 8, parent.width, top + PMod.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Mix2A1" id="Mix2A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
@@ -1473,7 +1473,7 @@
         <!--Mix3A, Mix3B-->
         <component backgroundcolour="00000000" name="Mix3AB" id="Mix3AB">
           <bounds relativerectangle="0, Mix2AB.bottom + 8, parent.width, top + Mix2AB.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Mix3A1" id="Mix3A1Slider" lfid="0-127Knob" popupenabled="true" encodersnap="true">
@@ -1534,7 +1534,7 @@
         <!--Pan+Out-->
         <component backgroundcolour="00000000" name="Pan+Out" id="PanOut">
           <bounds relativerectangle="0, Mix3AB.bottom + 8, parent.width, top + Mix3AB.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="Pan1" id="Pan1Slider" lfid="bipolar100knob" popupenabled="true" encodersnap="true">
@@ -1600,7 +1600,7 @@
         <!--PMod1-3, Mix2, Mix3, Pan&Out controls-->
         <component backgroundcolour="00000000" name="VU1" id="VU1">
           <bounds relativerectangle="0, 0, left + parent.width/2 - 4, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="VU1" id="VU1slider" lfid="VUMeter" debugwidgetposition="false">
@@ -1614,7 +1614,7 @@
         </component>
         <component backgroundcolour="00000000" name="VU2" id="VU2">
           <bounds relativerectangle="VU1.right + 8, 0, parent.width, parent.height" />
-          <rectangle outlinethickness="2" outlinecolour="ff000000" fillcolour="ffdbdbdb" cornersize="5">
+          <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
           <slider name="VU2" id="VU2slider" lfid="VUMeter" debugwidgetposition="false">
