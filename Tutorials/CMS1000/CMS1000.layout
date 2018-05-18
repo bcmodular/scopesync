@@ -260,7 +260,7 @@
           <combobox backgroundcolourid="00000000" textcolourid="7fdbdbdb" outlinecolourid="00000000"
                     buttoncolourid="7fdbdbdb" arrowcolourid="7fdbdbdb" focusedoutlinecolourid="00000000" />
           <label textcolourid="7fdbdbdb" outlinecolourid="00000000"/>
-          <popupmenu textcolourid="ffdbdbdb" backgroundcolourid="ff262d32" headertextcolourid="" highlightedbackgroundcolourid="ffdbdbdb" highlightedtextcolourid="ff262d32"/>
+          <popupmenu textcolourid="ffdbdbdb" backgroundcolourid="ff262d32" highlightedbackgroundcolourid="ffdbdbdb" highlightedtextcolourid="ff262d32"/>
         </colours>
       </lookandfeel>
     </lookandfeels>
