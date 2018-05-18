@@ -136,7 +136,9 @@ bool BCMSlider::setupFixedSlider(SliderProperties& props)
 {	
 	BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
 
-	if (bcmParameter != nullptr)
+	setParameter(bcmParameter);
+
+	if (parameter != nullptr)
 	{
 		fixed = true;
 		setParameter(bcmParameter);

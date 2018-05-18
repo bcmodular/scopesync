@@ -69,7 +69,6 @@ void ComboBoxProperties::copyProperties(ComboBoxProperties& parentComboBoxProper
     fontStyleFlags      = parentComboBoxProperties.fontStyleFlags;
     justificationFlags  = parentComboBoxProperties.justificationFlags;
     nothingSelectedText = parentComboBoxProperties.nothingSelectedText;
-    items               = parentComboBoxProperties.items;
     noChoicesText       = parentComboBoxProperties.noChoicesText;
 };
 
@@ -86,10 +85,5 @@ void ComboBoxProperties::setValuesFromXML(XmlElement& comboBoxXML)
 
     XmlElement* justificationXml = comboBoxXML.getChildByName("justification");
     if (justificationXml != nullptr)
-        getJustificationFlagsFromXml(*justificationXml, justificationFlags);
-
-    forEachXmlChildElementWithTagName(comboBoxXML, child, "item")
-    {
-        items.add(child->getAllSubText());
-    }   
+        getJustificationFlagsFromXml(*justificationXml, justificationFlags); 
 }

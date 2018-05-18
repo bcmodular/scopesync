@@ -356,7 +356,8 @@ void ScopeSync::applyConfiguration(bool storeCurrentValues)
 
 	configurationName = configuration->getDocumentTitle();
 #ifdef __DLL_EFFECT__
-	scopeFX->setConfigUID(configuration->getConfigurationUID());
+	configurationID = configuration->getConfigurationUID();
+	scopeFX->setConfigUID(configurationID.getValue());
 	startTimer(200);
 #endif // __DLL_EFFECT__
 }

@@ -180,11 +180,12 @@ void BCMLookAndFeel::setupColourIds()
     textEditorColours.set("focusedoutlinecolourid",  TextEditor::focusedOutlineColourId);
     textEditorColours.set("shadowcolourid",          TextEditor::shadowColourId);
 
-    comboBoxColours.set("backgroundcolourid", ComboBox::backgroundColourId);
-    comboBoxColours.set("textcolourid",       ComboBox::textColourId);
-    comboBoxColours.set("outlinecolourid",    ComboBox::outlineColourId);
-    comboBoxColours.set("buttoncolourid",     ComboBox::buttonColourId);
-    comboBoxColours.set("arrowcolourid",      ComboBox::arrowColourId);
+    comboBoxColours.set("backgroundcolourid",     ComboBox::backgroundColourId);
+    comboBoxColours.set("textcolourid",           ComboBox::textColourId);
+    comboBoxColours.set("outlinecolourid",        ComboBox::outlineColourId);
+    comboBoxColours.set("buttoncolourid",         ComboBox::buttonColourId);
+    comboBoxColours.set("arrowcolourid",          ComboBox::arrowColourId);
+	comboBoxColours.set("focusedoutlinecolourid", ComboBox::focusedOutlineColourId);
 
     popupMenuColours.set("backgroundcolourid",            PopupMenu::backgroundColourId);
     popupMenuColours.set("textcolourid",                  PopupMenu::textColourId);

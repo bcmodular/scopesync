@@ -44,7 +44,7 @@ public:
 
     void applyProperties(ComboBoxProperties& props);
     const Identifier getComponentType() const override;
-
+		
     void valueChanged(Value& value) override;
 
     float                fontHeight;     // Height of font for BCMComboBox's current value (use PopupMenu LookAndFeel for other fonts)
@@ -53,7 +53,9 @@ public:
 private:
     Value parameterValue;  // Maintains a link to a mapped parameter's UI value
     
-    void mouseDown(const MouseEvent& event) override;
+	bool setupFixedComboBox(ComboBoxProperties& props);
+	void processParamSettings(StringRef tooltip);
+	void mouseDown(const MouseEvent& event) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BCMComboBox);
 };

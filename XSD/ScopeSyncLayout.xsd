@@ -309,6 +309,7 @@
         <attribute name="outlinecolourid" type="tns:colouridtype"/>
         <attribute name="buttoncolourid" type="tns:colouridtype"/>
         <attribute name="arrowcolourid" type="tns:colouridtype"/>
+        <attribute name="focusedoutlinecolourid" type="tns:colouridtype"/>focusedoutlinecolourid
     </complexType>
 
     <complexType name="popupmenucolourstype">
@@ -545,7 +546,6 @@
             </element>
             <element name="bounds" type="tns:boundstype"/>
             <element name="font" type="tns:fonttype"/>
-            <element name="item" type="string"/>
             <element name="mappingparent"
                      type="tns:mappingparenttype">
                 <annotation>

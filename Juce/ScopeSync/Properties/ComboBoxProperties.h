@@ -48,7 +48,6 @@ public:
     bool                 editableText;
     String               nothingSelectedText;
     String               noChoicesText;
-    StringArray          items;
     String               tooltip;
     float                fontHeight;
     Font::FontStyleFlags fontStyleFlags;

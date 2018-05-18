@@ -63,6 +63,30 @@ void BCMParameterController::addFixedScopeParameter(const String& name, const in
     tmpParameter.setProperty(Ids::scopeParamId, scopeParamId, nullptr);
 	tmpParameter.setProperty(Ids::scopeParamGroup, 0, nullptr);
 
+	if (name == "MIDI Channel")
+	{
+		// MIDI Channel is a Discrete parameter, with settings (1-16 + Omni)
+		tmpParameter.setProperty(Ids::valueType, 1, nullptr);
+
+		ValueTree tmpSettings(Ids::settings);
+		
+		for (int i = 0; i < 17; i++)
+		{
+			ValueTree tmpSetting(Ids::setting);
+
+			tmpSetting.setProperty(Ids::intValue, i, nullptr);
+
+			if (i < 16)
+				tmpSetting.setProperty(Ids::name, String(i + 1), nullptr);
+			else
+				tmpSetting.setProperty(Ids::name, "Omni", nullptr);
+
+			tmpSettings.addChild(tmpSetting, -1, nullptr);
+		}
+
+		tmpParameter.addChild(tmpSettings, -1, nullptr);
+	}
+
     addParameter(tmpParameter, true);
 }
 

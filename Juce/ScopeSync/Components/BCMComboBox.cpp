@@ -27,10 +27,12 @@
  */
 
 #include "BCMComboBox.h"
+#include "../Core/ScopeSync.h"
 #include "../Core/ScopeSyncGUI.h"
 #include "../Properties/ComboBoxProperties.h"
 #include "../Core/Global.h"
 #include "../Parameters/BCMParameter.h"
+#include "../Parameters/BCMParameterController.h"
 
 BCMComboBox::BCMComboBox(String& name, ScopeSyncGUI& owner)
     : ComboBox(name), BCMParameterWidget(owner)
@@ -53,10 +55,13 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
     setJustificationType(Justification(props.justificationFlags));
     setTextWhenNothingSelected(props.nothingSelectedText);
     setTextWhenNoChoicesAvailable(props.noChoicesText);
-    
-    String tooltip  = props.tooltip;
-    
-    setupMapping(Ids::comboBox, getName(), props.mappingParentType, props.mappingParent);
+
+	String tooltip = props.tooltip;
+
+	if (setupFixedComboBox(props))
+		return;
+	
+	setupMapping(Ids::comboBox, getName(), props.mappingParentType, props.mappingParent);
 
     if (mapsToParameter)
     {
@@ -66,29 +71,57 @@ void BCMComboBox::applyProperties(ComboBoxProperties& props)
 		parameter->mapToUIValue(parameterValue);
         parameterValue.addListener(this);
 
-		if (parameter->isDiscrete())
-		{
-			ValueTree parameterSettings;
-			parameter->getSettings(parameterSettings);
-            
-			tooltip = parameter->getFullDescription(true);
-
-			for (int i = 0; i < parameterSettings.getNumChildren(); i++)
-			{
-				ValueTree parameterSetting = parameterSettings.getChild(i);
-				String    settingName      = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
-
-				addItem(settingName, i + 1);
-			}
-            
-			setSelectedItemIndex(roundToInt(parameterValue.getValue()), juce::dontSendNotification);
-		}
+		processParamSettings(tooltip);
     }
     
     setTooltip(tooltip);
 }
 
 const Identifier BCMComboBox::getComponentType() const { return Ids::comboBox; };
+
+bool BCMComboBox::setupFixedComboBox(ComboBoxProperties& props)
+{
+	String tooltip = props.tooltip;
+
+	BCMParameter* bcmParameter(scopeSyncGUI.getScopeSync().getParameterController()->getParameterByName(props.name));
+	setParameter(bcmParameter);
+
+	if (parameter != nullptr)
+	{
+		clear(juce::dontSendNotification);
+
+		parameter->mapToUIValue(parameterValue);
+		parameterValue.addListener(this);
+
+		processParamSettings(tooltip);
+
+		return true;
+	}
+	else
+		return false;
+
+}
+
+void BCMComboBox::processParamSettings(StringRef tooltip)
+{
+	if (parameter->isDiscrete())
+	{
+		ValueTree parameterSettings;
+		parameter->getSettings(parameterSettings);
+
+		tooltip = parameter->getFullDescription(true);
+
+		for (int i = 0; i < parameterSettings.getNumChildren(); i++)
+		{
+			ValueTree parameterSetting = parameterSettings.getChild(i);
+			String    settingName = parameterSetting.getProperty(Ids::name, "__NO_NAME__");
+
+			addItem(settingName, i + 1);
+		}
+
+		setSelectedItemIndex(roundToInt(parameterValue.getValue()), juce::dontSendNotification);
+	}
+}
 
 void BCMComboBox::mouseDown(const MouseEvent& event)
 {

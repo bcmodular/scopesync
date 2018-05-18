@@ -239,6 +239,30 @@
           <slider trackcolourid="00000000" backgroundcolourid="00000000" />
         </colours>
       </lookandfeel>
+      <lookandfeel id="headercontrols" parentid="maintheme">
+        <appliesto componenttype="none"/>
+        <images>
+          <slider>
+            <linearhorizontal>
+              <backgroundimage/>
+            </linearhorizontal>
+          </slider>
+        </images>
+        <colours>
+          <slider backgroundcolourid="00000000"
+                  textboxoutlinecolourid="00ffffff" textboxtextcolourid="7fffffff"/>
+          <label textcolourid="7fdbdbdb" outlinecolourid="7fdbdbdb"/>
+        </colours>
+      </lookandfeel>
+      <lookandfeel id="midichannelcombo" parentid="headercontrols">
+        <appliesto componenttype="none"/>
+        <colours>
+          <combobox backgroundcolourid="00000000" textcolourid="7fdbdbdb" outlinecolourid="00000000"
+                    buttoncolourid="7fdbdbdb" arrowcolourid="7fdbdbdb" focusedoutlinecolourid="00000000" />
+          <label textcolourid="7fdbdbdb" outlinecolourid="00000000"/>
+          <popupmenu textcolourid="ffdbdbdb" backgroundcolourid="ff262d32" headertextcolourid="" highlightedbackgroundcolourid="ffdbdbdb" highlightedtextcolourid="ff262d32"/>
+        </colours>
+      </lookandfeel>
     </lookandfeels>
     <widgettemplates>
       <!-- We set up a WidgetTemplate for our labels here, in case we want to change things like font height -->
@@ -299,9 +323,29 @@
                       tooltip="Send a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances">
             <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 3, top + 21"/>
           </textbutton>
-          <textbutton lfid="system:presets_button" name="Show Preset Window" tooltip="Open Preset Browser" displaycontext="scope">
+          <textbutton lfid="system:presets_button" name="Show Preset Window" id="showpreset" tooltip="Open Preset Browser" displaycontext="scope">
             <bounds relativerectangle="right - 19, snapshot.top, snapshot.left - 3, top + 21" />
           </textbutton>
+          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols">
+            <bounds relativerectangle="right - 160, snapshot.top, showpreset.left - 5, snapshot.bottom" />
+            <font bold="true" height="14" />
+            <justification left="true" />
+          </label>
+          <slider name="deviceinstance" id="deviceinstanceslider" style="linearbar" nostyleoverride="true" lfid="headercontrols">
+            <bounds relativerectangle="right - 46, snapshot.top, showpreset.left - 5, snapshot.bottom" />
+            <range min="0" max="1000" int="1"></range>
+            <textbox position="above" readonly="false">
+              <font height="14" bold="true"></font>
+            </textbox>
+          </slider>
+          <label name="MIDI Channel" id="midichannellabel" text="MIDI Channel" lfid="headercontrols">
+            <bounds relativerectangle="right - 170, snapshot.top, deviceinstancelabel.left - 5, snapshot.bottom" />
+            <font bold="true" height="14" />
+            <justification left="true" />
+          </label>
+          <combobox name="MIDI Channel" id="midichannelcombo" nostyleoverride="true" lfid="midichannelcombo" editabletext="false" nochoicestext="-- MIDI Ch --" nothingselectedtext="" tooltip="Choose MIDI Channel for this CMS1000 instance">
+            <bounds relativerectangle="right - 66, snapshot.top, deviceinstancelabel.left - 5, snapshot.bottom" />
+          </combobox>
         </component>
       </component>
       <!--First row of controls-->
@@ -1790,7 +1834,6 @@
           <bounds relativerectangle="MatrixSlider51.right, 0, left + parent.width/52, parent.height" />
         </slider>
       </component>
-      <standardcontent type="footer" />
       <component backgroundimage="gfx/TextY_Backgr.png" name="MatrixYTextBackgr" id="matrixYTextBackgr">
         <bounds x="248" y="195" height="428" width="63" />
       </component>

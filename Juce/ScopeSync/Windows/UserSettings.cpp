@@ -767,7 +767,7 @@ void UserSettings::hideFileLocationsWindow()
         updateFileLocations(fileLocations);
     }
 
-    fileLocationEditorWindow = nullptr;
+    fileLocationEditorWindow.reset();
 }
 
 void UserSettings::showPresetManagerWindow(const String& filePath, int posX, int posY)
