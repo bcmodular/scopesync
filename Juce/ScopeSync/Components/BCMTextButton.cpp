@@ -44,7 +44,7 @@ BCMTextButton::~BCMTextButton() {};
 
 void BCMTextButton::applyProperties(TextButtonProperties& props)
 {
-	// DBG("BCMTextButton::applyProperties - setting up button: " + getName());
+	DBG("BCMTextButton::applyProperties - setting up button: " + getName());
 
     applyWidgetProperties(props);
     mapsToParameter = false;
@@ -109,7 +109,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
     
     if (mapsToParameter && parameter->isDiscrete())
     {
-        // DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
+        DBG("BCMTextButton::applyProperties - mapping found: " + mapping.toXmlString());
         
 		buttonText = parameter->getShortDescription();
 		tooltip    = parameter->getFullDescription(true);
@@ -133,7 +133,7 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
         if (mapping.getProperty(Ids::radioGroup).toString().isNotEmpty())
         {
 			rgId = mapping.getProperty(Ids::radioGroup).toString().hashCode();
-            // DBG("BCMTextButton::applyProperties - radioGroupId: " + String(radioGroupId));
+            DBG("BCMTextButton::applyProperties - radioGroupId: " + String(rgId));
         }
                 
         // Set up the button display type and the initial button text
@@ -215,6 +215,9 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
                 
         }
 
+		if (parameter->isReadOnly())
+			setInterceptsMouseClicks(false, false);
+
         parameterValue.addListener(this);
     }
     else
@@ -232,7 +235,8 @@ void BCMTextButton::applyProperties(TextButtonProperties& props)
 
 bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
 {
-	BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(props.name));
+	// TODO: This needs to check whether it's actually a fixed parameter...
+	BCMParameter* bcmParameter(scopeSync.getParameterController()->getFixedParameterByName(props.name));
 
 	if (bcmParameter != nullptr)
 	{
@@ -252,6 +256,9 @@ bool BCMTextButton::setupFixedButton(TextButtonProperties& props)
 
 		setTooltip(props.tooltip);
 		setButtonText(props.text);
+
+		if (props.name == "MIDI Activity")
+			setInterceptsMouseClicks(false, false);
 
 		return true;
 	}
@@ -305,12 +312,7 @@ void BCMTextButton::mouseDown(const MouseEvent& event)
     else
     {
 		if (hasParameter())
-		{
-            if (parameter->isReadOnly())
-                return;
-
-			getParameter()->beginChangeGesture();
-		}
+            getParameter()->beginChangeGesture();
 		else
 			DBG("BCMTextButton::mouseDown - button " + getName() + " doesn't have a parameter");
 	
@@ -326,10 +328,7 @@ void BCMTextButton::mouseUp(const MouseEvent& event)
     {
         if (hasParameter())
 		{
-            if (parameter->isReadOnly())
-                return;
-
-            if (!isCommandButton && mappingType == noToggle)
+			if (!isCommandButton && mappingType == noToggle)
             {
                 float valueToSet = static_cast<float>(upSettingIdx);
             
@@ -372,9 +371,6 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
 
     if (hasParameter())
     {
-        if (parameter->isReadOnly())
-            return;
-
         float valueToSet;
 
         if (mappingType == toggle)
@@ -390,30 +386,6 @@ void BCMTextButton::clicked(const ModifierKeys& modifiers)
         if (valueToSet >= 0)
             parameter->setUIValue(valueToSet);
     }
-}
-
-void BCMTextButton::mouseDrag(const MouseEvent& e)
-{
-	if (hasParameter() && parameter->isReadOnly())
-		return;
-	else
-		TextButton::mouseDrag(e);
-}
-
-void BCMTextButton::focusGained(FocusChangeType f)
-{
-	if (hasParameter() && parameter->isReadOnly())
-		return;
-	else
-		TextButton::focusGained(f);
-}
-
-void BCMTextButton::focusLost(FocusChangeType f)
-{
-	if (hasParameter() && parameter->isReadOnly())
-		return;
-	else
-		TextButton::focusLost(f);
 }
 
 void BCMTextButton::valueChanged(Value& value)

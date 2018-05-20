@@ -49,6 +49,8 @@ public:
 	ScopeSync* getScopeSync() {return scopeSync;}
 
 	BCMParameter* getParameterByName(StringRef name) const;
+
+	BCMParameter * getFixedParameterByName(StringRef name) const;
 	
     static void  setParameterFromGUI(BCMParameter& parameter, float newValue);
     void  snapshot();

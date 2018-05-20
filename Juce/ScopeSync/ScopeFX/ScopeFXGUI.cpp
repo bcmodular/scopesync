@@ -56,8 +56,8 @@ void ScopeFXGUI::open(HWND scopeWindow)
     setVisible(true);
     setName("ScopeSync");
 
-    parameterController->getParameterByName("X")->mapToUIValue(xPos);
-    parameterController->getParameterByName("Y")->mapToUIValue(yPos);
+    parameterController->getFixedParameterByName("X")->mapToUIValue(xPos);
+    parameterController->getFixedParameterByName("Y")->mapToUIValue(yPos);
 
 	configurationName.addListener(this);
     xPos.addListener(this);
@@ -119,8 +119,8 @@ void ScopeFXGUI::moved()
 {
 	// This is called when someone is physically moving the window
     DBG("ScopeFXGUI::moved - new position: X = " + String(getScreenPosition().getX()) + " Y = " + String(getScreenPosition().getY()));
-    parameterController->getParameterByName("X")->setUIValue(float(getScreenPosition().getX()));
-    parameterController->getParameterByName("Y")->setUIValue(float(getScreenPosition().getY()));
+    parameterController->getFixedParameterByName("X")->setUIValue(float(getScreenPosition().getX()));
+    parameterController->getFixedParameterByName("Y")->setUIValue(float(getScreenPosition().getY()));
 
 	// We don't want to be affected by values coming back from Scope, so ignore for half a second
 	ignoreXYFromScope = true;

@@ -83,7 +83,7 @@ bool BCMComboBox::setupFixedComboBox(ComboBoxProperties& props)
 {
 	String tooltip = props.tooltip;
 
-	BCMParameter* bcmParameter(scopeSyncGUI.getScopeSync().getParameterController()->getParameterByName(props.name));
+	BCMParameter* bcmParameter(scopeSyncGUI.getScopeSync().getParameterController()->getFixedParameterByName(props.name));
 	setParameter(bcmParameter);
 
 	if (parameter != nullptr)

@@ -2847,9 +2847,6 @@
     <comboBoxes/>
     <tabbedComponents>
       <tabbedComponent name="FreqSrcTabs" mapTo="LFOFreqSrc"/>
-      <tabbedComponent name="GateSrcTabs" mapTo="LFOGateSrc"/>
-      <tabbedComponent name="AdsrGateSrcTabs" mapTo="AdsrGateSrc"/>
-      <tabbedComponent name="AdGateSrcTabs" mapTo="AdGateSrc"/>
       <tabbedComponent name="SeqFreqSrcTabs" mapTo="SeqFrqSrc"/>
     </tabbedComponents>
   </mapping>

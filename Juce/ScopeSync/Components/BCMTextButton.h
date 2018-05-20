@@ -96,11 +96,6 @@ private:
 
 	virtual void mouseDown(const MouseEvent& event) override;
 	virtual void mouseUp(const MouseEvent& event) override;
-
-	virtual void mouseDrag(const MouseEvent& e) override;
-
-	virtual void focusGained(FocusChangeType f) override;
-	virtual void focusLost(FocusChangeType f) override;
     
     // Callback for when a BCMTextButton is clicked
 	virtual void clicked(const ModifierKeys& modifiers) override;

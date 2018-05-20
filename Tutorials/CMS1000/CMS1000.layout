@@ -64,6 +64,15 @@
           <textbutton downfilename="gfx/button-on.png" upfilename="gfx/button-off.png" mouseoverdownfilename="gfx/button-on.png" mouseoverupfilename="gfx/button-off.png" />
         </images>
       </lookandfeel>
+      <lookandfeel id="midilight" parentid="maintheme">
+        <appliesto componenttype="none" />
+        <colours>
+          <textbutton textcolouroffid="ff000000" textcolouronid="ff000000" />
+        </colours>
+        <images>
+          <textbutton downfilename="gfx/MidiActivity-On.png" upfilename="gfx/MidiActivity-Off.png" mouseoverdownfilename="gfx/MidiActivity-On.png" mouseoverupfilename="gfx/MidiActivity-Off.png" />
+        </images>
+      </lookandfeel>
       <lookandfeel id="LfoDividerKnob" parentid="maintheme">
         <appliesto componenttype="none" />
         <images>
@@ -338,14 +347,19 @@
               <font height="14" bold="true"></font>
             </textbox>
           </slider>
-          <label name="MIDI Channel" id="midichannellabel" text="MIDI Channel" lfid="headercontrols">
-            <bounds relativerectangle="right - 170, snapshot.top, deviceinstancelabel.left - 5, snapshot.bottom" />
+          <label name="MIDI Channel" id="midichannellabel" text="MIDI Channel" lfid="headercontrols" displaycontext="scope">
+            <bounds relativerectangle="right - 180, snapshot.top, deviceinstancelabel.left - 5, snapshot.bottom" />
             <font bold="true" height="14" />
             <justification left="true" />
           </label>
-          <combobox name="MIDI Channel" id="midichannelcombo" nostyleoverride="true" lfid="midichannelcombo" editabletext="false" nochoicestext="-- MIDI Ch --" nothingselectedtext="" tooltip="Choose MIDI Channel for this CMS1000 instance">
-            <bounds relativerectangle="right - 66, snapshot.top, deviceinstancelabel.left - 5, snapshot.bottom" />
+          <combobox name="MIDI Channel" id="midichannelcombo" nostyleoverride="true" lfid="midichannelcombo" editabletext="false" nochoicestext="-- MIDI Ch --" nothingselectedtext="" tooltip="Choose MIDI Channel for this CMS1000 instance" displaycontext="scope">
+            <bounds relativerectangle="right - 66, snapshot.top, deviceinstancelabel.left - 25, snapshot.bottom" />
+            <justification right="true"/>
+            <font bold="true"/>
           </combobox>
+          <textbutton name="MIDI Activity" id="midiactbutton" lfid="midilight" displaycontext="scope" tooltip="MIDI Activity">
+            <bounds relativerectangle="right - 10, midichannellabel.top + (midichannellabel.height / 2) - 5, deviceinstancelabel.left - 10, top + 10"/>
+          </textbutton>
         </component>
       </component>
       <!--First row of controls-->

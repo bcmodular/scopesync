@@ -84,7 +84,7 @@ ScopeFX::ScopeFX()
 
     DBG("ScopeFX::ScopeFX - Number of module instances: " + String(ScopeSync::getNumScopeSyncInstances()));
 
-	scopeSync->getParameterController()->getParameterByName("Show")->mapToUIValue(shouldShowWindow);
+	scopeSync->getParameterController()->getFixedParameterByName("Show")->mapToUIValue(shouldShowWindow);
     shouldShowWindow.addListener(this);
 
 	pluginHost.addListener(this);

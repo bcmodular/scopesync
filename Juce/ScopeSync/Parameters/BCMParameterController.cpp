@@ -222,6 +222,16 @@ BCMParameter* BCMParameterController::getParameterByName(StringRef name) const
 	return nullptr;
 }
 
+BCMParameter* BCMParameterController::getFixedParameterByName(StringRef name) const
+{
+	BCMParameter* parameter = getParameterByName(name);
+
+	if (!fixedParameters.contains(parameter))
+		parameter = nullptr;
+
+	return parameter;
+}
+
 void BCMParameterController::setParameterFromGUI(BCMParameter& parameter, float newValue)
 {
     parameter.setUIValue(newValue);

@@ -50,7 +50,7 @@ void BCMTabbedComponent::applyProperties(TabbedComponentProperties& props)
 
     setTabBarDepth(props.tabBarDepth);
     
-    BCMParameter* bcmParameter(scopeSync.getParameterController()->getParameterByName(name));
+    BCMParameter* bcmParameter(scopeSync.getParameterController()->getFixedParameterByName(name));
 
 	if (bcmParameter != nullptr)
 	{
