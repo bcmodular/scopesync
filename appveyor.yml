@@ -9,7 +9,7 @@
 #---------------------------------#
 
 # version format
-version: 0.6.{build}
+version: 0.6.0.{build}
 
 # branches to build
 branches:
@@ -19,7 +19,7 @@ branches:
 
 # Maximum number of concurrent jobs for the project
 max_jobs: 1
-
+  
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
@@ -29,7 +29,7 @@ image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  - git config --global core.autocrlf input
+  - cmd: git config --global core.autocrlf input
 
 # clone directory
 clone_folder: c:\scopesync
@@ -39,6 +39,7 @@ shallow_clone: true                 # default is "false"
 
 # scripts that run after cloning repository
 install:
+  - cmd: cd c:\
   - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
   - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
   - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
