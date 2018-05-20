@@ -43,8 +43,7 @@ install:
   - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
   - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
   - cmd: msbuild c:/JUCE/extras/Projucer/Builds/VisualStudio2017/Projucer.sln /property:Platform=x64
-  - cmd: SET PROJUCER="c:\\JUCE\\extras\\Projucer\\Builds\\VisualStudio2017\\x64\\Debug\\App\\Projucer.exe"
-  - cmd: %PROJUCER% --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
   
 #---------------------------------#
 #       build configuration       #
