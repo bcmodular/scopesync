@@ -60,7 +60,7 @@ before_build:
 # scripts to run after build
 after_build:
   - cmd: cd "c:\scopesync\Setup Script"
-  - cmd: "C:\\Program Files (x86)\\Inno Setup 5\\iscc.exe" ScopeSync.iss  
+  - cmd: "C:\\Program Files (x86)\\Inno Setup 5\\iscc.exe" ScopeSync.iss
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
