@@ -335,13 +335,25 @@
           <textbutton lfid="system:presets_button" name="Show Preset Window" id="showpreset" tooltip="Open Preset Browser" displaycontext="scope">
             <bounds relativerectangle="right - 19, snapshot.top, snapshot.left - 3, top + 21" />
           </textbutton>
-          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols">
+          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols" displaycontext="scope">
             <bounds relativerectangle="right - 160, snapshot.top, showpreset.left - 5, snapshot.bottom" />
             <font bold="true" height="14" />
             <justification left="true" />
           </label>
-          <slider name="deviceinstance" id="deviceinstanceslider" style="linearbar" nostyleoverride="true" lfid="headercontrols">
+          <slider name="deviceinstance" id="deviceinstanceslider" style="linearbar" nostyleoverride="true" lfid="headercontrols" displaycontext="scope">
             <bounds relativerectangle="right - 46, snapshot.top, showpreset.left - 5, snapshot.bottom" />
+            <range min="0" max="1000" int="1"></range>
+            <textbox position="above" readonly="false">
+              <font height="14" bold="true"></font>
+            </textbox>
+          </slider>
+          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols"  displaycontext="host">
+            <bounds relativerectangle="right - 160, snapshot.top, snapshot.left - 5, snapshot.bottom" />
+            <font bold="true" height="14" />
+            <justification left="true" />
+          </label>
+          <slider name="deviceinstance" id="deviceinstanceslider" style="linearbar" nostyleoverride="true" lfid="headercontrols" displaycontext="host">
+            <bounds relativerectangle="right - 46, snapshot.top, snapshot.left - 5, snapshot.bottom" />
             <range min="0" max="1000" int="1"></range>
             <textbox position="above" readonly="false">
               <font height="14" bold="true"></font>
