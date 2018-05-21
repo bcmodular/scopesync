@@ -67,10 +67,10 @@ after_build:
 build_script:
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_StandalonePlugin /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_StandalonePlugin /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_StandalonePlugin /p:Configuration=Release-x64 /property:Platform=x64
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_VST /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_VST /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_VST /p:Configuration=Release-x64 /property:Platform=x64
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_StandalonePlugin /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_StandalonePlugin /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_StandalonePlugin /p:Configuration=Release-x64 /property:Platform=x64
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_VST /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_VST /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_VST /p:Configuration=Release-x64 /property:Platform=x64
