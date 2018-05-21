@@ -236,8 +236,8 @@
       <AdditionalDependencies>ScopeSyncVSTInst_1_0_3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;
-if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;</Command>
+      <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;
+if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (x64)|x64'">
@@ -286,8 +286,8 @@ if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy
       <AdditionalDependencies>ScopeSyncVSTInst-x64_1_0_3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;
-if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; copy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;</Command>
+      <Command>if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\64bit\&quot;
+if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\64bit\&quot;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

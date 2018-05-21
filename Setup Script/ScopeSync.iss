@@ -52,7 +52,8 @@ Source: "..\Configurations\*"; DestDir: "{app}\Configurations"; Flags: ignorever
 Source: "..\Layouts\*"; DestDir: "{app}\Layouts"; Flags: ignoreversion recursesubdirs; Components: Layouts
 Source: "..\Presets\*"; DestDir: "{app}\Presets"; Flags: ignoreversion recursesubdirs; Components: Presets
 Source: "..\Tutorials\*"; DestDir: "{app}\Tutorials"; Flags: ignoreversion recursesubdirs; Components: Tutorials
-Source: "..\MS\vcredist_x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
+Source: "..\MS\VC_redist.x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
+Source: "..\MS\VC_redist.x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
@@ -71,7 +72,8 @@ Name: "VSTPlugin\64VST2"; Description: "64-bit VST2 Plugin"; Types: full typical
 ;Name: "VSTPlugin\64VST3"; Description: "64-bit VST3 Plugin (Experimental)"; Check: Is64BitInstallMode
 
 [Run]
-Filename: "{tmp}\vcredist_x86.exe"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; StatusMsg: Installing 2010 RunTime...
+Filename: "{tmp}\VC_redist.x64.exe"; Parameters: "/install /passive /norestart"; Check: Is64BitInstallMode; StatusMsg: Installing 2017 RunTime...
+Filename: "{tmp}\VC_redist.x86.exe"; Parameters: "/install /passive /norestart"; Check: "not Is64BitInstallMode"; StatusMsg: Installing 2017 RunTime...
 
 [Registry]
 Root: HKCU; Subkey: "Software\ScopeSync"; ValueType: string; ValueName: "InstallLocation"; ValueData: "{app}"

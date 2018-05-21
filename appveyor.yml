@@ -45,6 +45,10 @@ install:
   - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
   - cmd: msbuild c:/JUCE/extras/Projucer/Builds/VisualStudio2017/Projucer.sln /property:Platform=x64
   - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
+  - cmd: mkdir MS
+  - cmd: cd MS
+  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x86.exe'
+  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x64.exe'
   
 #---------------------------------#
 #       build configuration       #
@@ -55,6 +59,8 @@ before_build:
 
 # scripts to run after build
 after_build:
+  - cmd: cd "c:\scopesync\Setup Script"
+  - cmd: iscc ScopeSync.iss  
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
