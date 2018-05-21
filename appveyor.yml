@@ -60,8 +60,16 @@ before_build:
 # scripts to run after build
 after_build:
   - cmd: cd "c:\scopesync\Setup Script"
-  - cmd: iscc ScopeSync.iss  
+  - cmd: "C:\Program Files (x86)\Inno Setup 5\iscc.exe" ScopeSync.iss  
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_StandalonePlugin /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_StandalonePlugin /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_VST /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017\ScopeSyncInstPlugin.sln /t:ScopeSyncInstPlugin_VST /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_StandalonePlugin /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_StandalonePlugin /p:Configuration="Release (x64)"" /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_VST /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017\ScopeSyncEffectPlugin.sln /t:ScopeSyncEffectPlugin_VST /p:Configuration="Release (x64)"" /property:Platform=x64
