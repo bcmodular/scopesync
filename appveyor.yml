@@ -47,6 +47,7 @@ install:
   - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
   - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncInstPlugin\ScopeSyncInstPlugin.jucer
   - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncEffectPlugin\ScopeSyncEffectPlugin.jucer
+  - cmd: cd c:\scopesync
   - cmd: mkdir MS
   - cmd: cd MS
   - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x86.exe'
