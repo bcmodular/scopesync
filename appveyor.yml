@@ -29,6 +29,7 @@ image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - cmd: git config --global core.autocrlf input
 
 # clone directory
@@ -68,8 +69,11 @@ build_script:
   - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
   - cmd: cd C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017
   - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
+  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release_x64
   - cmd: cd C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017
   - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
-  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
+  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release_x64
+  
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   
