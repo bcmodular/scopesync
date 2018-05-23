@@ -46,6 +46,8 @@ install:
   - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
   - cmd: msbuild c:/JUCE/extras/Projucer/Builds/VisualStudio2017/Projucer.sln /property:Platform=x64
   - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncInstPlugin\ScopeSyncInstPlugin.jucer
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncEffectPlugin\ScopeSyncEffectPlugin.jucer
   - cmd: mkdir MS
   - cmd: cd MS
   - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x86.exe'
