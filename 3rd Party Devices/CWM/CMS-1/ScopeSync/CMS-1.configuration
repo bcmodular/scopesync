@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration name="CMS1000" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS1000" layoutName="CMS1000" layoutLibrarySet="CWM"
-               UID="-1968465504" ID="xUlHLV">
+<configuration name="CMS-1" librarySet="CWM" author="Roy Thinnes" blurb="Configuration for CMS-1" layoutName="CMS-1" layoutLibrarySet="CWM"
+               UID="2069042966" ID="WLnVCY">
   <parameters>
     <parameter name="OSC1 Coarse" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
@@ -23,13 +23,13 @@
     </parameter>
     <parameter name="OSC1 Shaper" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="4" shortDescription="Shaper" fullDescription="Osc1Shaper"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="4" shortDescription="WsDry" fullDescription="Osc1Shaper"/>
     <parameter name="OSC1 WsMod1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="5" shortDescription="ShpM1" fullDescription="Osc1WaveShapeMod1"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="5" shortDescription="WsWet" fullDescription="Osc1WaveShapeMod1"/>
     <parameter name="OSC1 WsMod2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0" uiRangeMax="127" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0"
-               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="6" shortDescription="ShpM2" fullDescription="Osc1WaveShapeMod2"/>
+               scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="6" shortDescription="WsMod" fullDescription="Osc1WaveShapeMod2"/>
     <parameter name="OSC2 Coarse" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="7" shortDescription="Coarse" fullDescription="OSC2 Coarse"/>
@@ -50,15 +50,15 @@
     </parameter>
     <parameter name="OSC2 Shaper" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="127" uiRangeInterval="1"
-               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="10" shortDescription="Shaper"
+               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="10" shortDescription="WsDry"
                fullDescription="Osc2Shaper"/>
     <parameter name="OSC2 WsMod1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="127" uiRangeInterval="1"
-               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="11" shortDescription="ShpM1"
+               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="11" shortDescription="WsWet"
                fullDescription="Osc2WaveShapeMod1"/>
     <parameter name="OSC2 WsMod2" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0.00000000000000000000" valueType="0" uiResetValue="0"
                uiSkewFactor="1.00000000000000000000" skewUIOnly="0" uiRangeMin="0.00000000000000000000" uiRangeMax="127" uiRangeInterval="1"
-               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="12" shortDescription="ShpM2"
+               uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1" uiSkewMidpoint="" scopeParamGroup="1" scopeParamId="12" shortDescription="WsMod"
                fullDescription="Osc2WaveShapeMod2"/>
     <parameter name="OSC3 Coarse" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-48" uiRangeMax="48" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
@@ -260,10 +260,10 @@
                uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="8" shortDescription="Mix2B2" fullDescription="Mix2B2"/>
     <parameter name="VolMod1" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="9" shortDescription="VolMod1" fullDescription="VolMod1"/>
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="9" shortDescription="Gain" fullDescription="VolMod1"/>
     <parameter name="VolMod2" scopeRangeMin="-2147483648" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="0" uiSkewFactor="1.00000000000000000000"
                skewUIOnly="0" uiRangeMin="-100" uiRangeMax="100" uiRangeInterval="1" uiSuffix="" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
-               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="10" shortDescription="VolMod2" fullDescription="VolMod2"/>
+               uiSkewMidpoint="" scopeParamGroup="5" scopeParamId="10" shortDescription="Offset" fullDescription="VolMod2"/>
     <parameter name="Del1DT1" scopeRangeMin="0" scopeRangeMax="2147483647" scopeDBRef="0" valueType="0" uiResetValue="171" uiSkewFactor="0.19879971444606781006"
                skewUIOnly="0" uiRangeMin="4" uiRangeMax="5461" uiRangeInterval="0.01" uiSuffix="ms" scopeRangeMinFlt="0" scopeRangeMaxFlt="1"
                uiSkewMidpoint="171" scopeParamGroup="6" scopeParamId="1" shortDescription="Del1DT1" fullDescription="Del1DT1"/>

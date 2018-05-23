@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tns:ScopeSyncLayout xmlns:tns="http://www.scopesync.co.uk/ScopeSyncLayout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.scopesync.co.uk/ScopeSyncLayout https://raw.githubusercontent.com/bcmodular/scopesync/master/XSD/ScopeSyncLayout.xsd ">
-  <layout name="CMS1000" libraryset="CWM" author="Roy Thinnes" panelheight="684" panelwidth="1280" blurb="Layout for CMS1000" thumbnail="gfx/thumbnail_CMS3.png" excludefromchooser="false">
+  <layout name="CMS-1" libraryset="CWM" author="Roy Thinnes" panelheight="684" panelwidth="1280" blurb="Layout for CMS-1" thumbnail="gfx/thumbnail_CMS3.png" excludefromchooser="false">
     <lookandfeels>
       <lookandfeel id="maintheme" parentid="system:default">
         <!--This is just to exclude the lookandfeel from Style Override options, so probably not relevant eventually-->
@@ -11,7 +11,9 @@
         </colours>
       </lookandfeel>
       <lookandfeel id="configname" parentid="maintheme">
-        <colours><label backgroundcolourid="00000000" textcolourid="90ffffff"/></colours>
+        <colours>
+          <label backgroundcolourid="00000000" textcolourid="90ffffff" />
+        </colours>
       </lookandfeel>
       <!--These define styles for specific knob types (starting with bipolar100knob), which can then be referenced by-->
       <!-- specific Slider elements in the main body -->
@@ -249,27 +251,25 @@
         </colours>
       </lookandfeel>
       <lookandfeel id="headercontrols" parentid="maintheme">
-        <appliesto componenttype="none"/>
+        <appliesto componenttype="none" />
         <images>
           <slider>
             <linearhorizontal>
-              <backgroundimage/>
+              <backgroundimage />
             </linearhorizontal>
           </slider>
         </images>
         <colours>
-          <slider backgroundcolourid="00000000"
-                  textboxoutlinecolourid="00ffffff" textboxtextcolourid="7fffffff"/>
-          <label textcolourid="7fdbdbdb" outlinecolourid="7fdbdbdb"/>
+          <slider backgroundcolourid="00000000" textboxoutlinecolourid="00ffffff" textboxtextcolourid="7fffffff" />
+          <label textcolourid="7fdbdbdb" outlinecolourid="7fdbdbdb" />
         </colours>
       </lookandfeel>
       <lookandfeel id="midichannelcombo" parentid="headercontrols">
-        <appliesto componenttype="none"/>
+        <appliesto componenttype="none" />
         <colours>
-          <combobox backgroundcolourid="00000000" textcolourid="7fdbdbdb" outlinecolourid="00000000"
-                    buttoncolourid="7fdbdbdb" arrowcolourid="7fdbdbdb" focusedoutlinecolourid="00000000" />
-          <label textcolourid="7fdbdbdb" outlinecolourid="00000000"/>
-          <popupmenu textcolourid="ffdbdbdb" backgroundcolourid="ff262d32" highlightedbackgroundcolourid="ffdbdbdb" highlightedtextcolourid="ff262d32"/>
+          <combobox backgroundcolourid="00000000" textcolourid="7fdbdbdb" outlinecolourid="00000000" buttoncolourid="7fdbdbdb" arrowcolourid="7fdbdbdb" focusedoutlinecolourid="00000000" />
+          <label textcolourid="7fdbdbdb" outlinecolourid="00000000" />
+          <popupmenu textcolourid="ffdbdbdb" backgroundcolourid="ff262d32" highlightedbackgroundcolourid="ffdbdbdb" highlightedtextcolourid="ff262d32" />
         </colours>
       </lookandfeel>
     </lookandfeels>
@@ -301,36 +301,32 @@
       <!--ScopeSync Header-->
       <component>
         <component id="header">
-          <bounds relativerectangle="0, 1, parent.width, top + 40"/>
-          <textbutton lfid="system:scopesynclogo_button" name="showaboutbox" id="showaboutbox" text=""
-                      tooltip="Show About Box">
-            <bounds relativerectangle="13, 11, left + 151, top + 21"/>
+          <bounds relativerectangle="0, 1, parent.width, top + 40" />
+          <textbutton lfid="system:scopesynclogo_button" name="showaboutbox" id="showaboutbox" text="" tooltip="Show About Box">
+            <bounds relativerectangle="13, 11, left + 151, top + 21" />
           </textbutton>
           <label lfid="configname" name="configurationname" text="Current Configuration">
             <bounds relativerectangle="showaboutbox.right + 8, 9, left + 131, top + 17" />
-            <font height="24"/>
-            <justification verticallycentred="true" horizontallycentred="true"/>
+            <font height="24" />
+            <justification verticallycentred="true" horizontallycentred="true" />
           </label>
           <textbutton lfid="system:new_config_button" name="newconfiguration" tooltip="New Configuration">
-            <bounds x="311" y="9" width="20" height="21"/>
+            <bounds x="311" y="9" width="20" height="21" />
           </textbutton>
           <textbutton lfid="system:load_config_button" name="chooseconfiguration" tooltip="Load Configuration">
-            <bounds x="331" y="9" width="21" height="21"/>
+            <bounds x="331" y="9" width="21" height="21" />
           </textbutton>
           <textbutton lfid="system:reload_button" name="reloadconfiguration" tooltip="Reload Current Configuration">
-            <bounds x="356" y="9" width="21" height="21"/>
+            <bounds x="356" y="9" width="21" height="21" />
           </textbutton>
-          <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager"
-                      id="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
-            <bounds x="379" y="9" width="21" height="21"/>
+          <textbutton lfid="system:showconfigurationmanager_button" name="showconfigurationmanager" id="showconfigurationmanager" text="" tooltip="Open Configuration Manager panel">
+            <bounds x="379" y="9" width="21" height="21" />
           </textbutton>
-          <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text=""
-                      tooltip="Open User Settings panel">
-            <bounds relativerectangle="right - 28, 9, parent.width - 4, top + 21"/>
+          <textbutton lfid="system:settings_button" name="showusersettings" id="showusersettings" text="" tooltip="Open User Settings panel">
+            <bounds relativerectangle="right - 28, 9, parent.width - 4, top + 21" />
           </textbutton>
-          <textbutton lfid="system:snapshot_button" name="snapshot" id="snapshot" text=""
-                      tooltip="Send a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances">
-            <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 3, top + 21"/>
+          <textbutton lfid="system:snapshot_button" name="snapshot" id="snapshot" text="" tooltip="Send a snapshot of all current parameter values. Ctrl-click to send snapshot for all ScopeSync instances">
+            <bounds relativerectangle="right - 32, showusersettings.top, showusersettings.left - 3, top + 21" />
           </textbutton>
           <textbutton lfid="system:presets_button" name="Show Preset Window" id="showpreset" tooltip="Open Preset Browser" displaycontext="scope">
             <bounds relativerectangle="right - 19, snapshot.top, snapshot.left - 3, top + 21" />
@@ -347,7 +343,7 @@
               <font height="14" bold="true"></font>
             </textbox>
           </slider>
-          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols"  displaycontext="host">
+          <label name="deviceinstance" id="deviceinstancelabel" text="Device Instance" lfid="headercontrols" displaycontext="host">
             <bounds relativerectangle="right - 160, snapshot.top, snapshot.left - 5, snapshot.bottom" />
             <font bold="true" height="14" />
             <justification left="true" />
@@ -366,11 +362,11 @@
           </label>
           <combobox name="MIDI Channel" id="midichannelcombo" nostyleoverride="true" lfid="midichannelcombo" editabletext="false" nochoicestext="-- MIDI Ch --" nothingselectedtext="" tooltip="Choose MIDI Channel for this CMS1000 instance" displaycontext="scope">
             <bounds relativerectangle="right - 66, snapshot.top, deviceinstancelabel.left - 25, snapshot.bottom" />
-            <justification right="true"/>
-            <font bold="true"/>
+            <justification right="true" />
+            <font bold="true" />
           </combobox>
           <textbutton name="MIDI Activity" id="midiactbutton" lfid="midilight" displaycontext="scope" tooltip="MIDI Activity">
-            <bounds relativerectangle="right - 10, midichannellabel.top + (midichannellabel.height / 2) - 5, deviceinstancelabel.left - 10, top + 10"/>
+            <bounds relativerectangle="right - 10, midichannellabel.top + (midichannellabel.height / 2) - 5, deviceinstancelabel.left - 10, top + 10" />
           </textbutton>
         </component>
       </component>
@@ -536,14 +532,13 @@
           <rectangle outlinethickness="2" outlinecolour="00000000" fillcolour="ffdbdbdb" cornersize="5">
             <bounds fillparent="true" />
           </rectangle>
-          <slider name="Bpf Freq" id="BpfFreqSlider" popupenabled="true" lfid="white2darkknob">
-            <bounds relativerectangle="18, 10, left + 40, top + 45" />
-            <textbox position="none" />
+          <slider name="Bpf Freq" id="BpfFreqSlider" popupenabled="false" lfid="white2darkknob">
+            <bounds relativerectangle="4, 14, parent.width - 4, top + 52" />
+            <textbox position="below" height="14" width="100">
+              <font bold="false" height="12" />
+              <justification horizontallycentred="true" />
+            </textbox>
           </slider>
-          <label name="Bpf Freq" id="BpfFrqLabel" parametertextdisplay="shortdescription" lfid="maintheme" wtid="parameterlabel">
-            <bounds relativerectangle="BpfFreqSlider.left, BpfFreqSlider.bottom + 2, BpfFreqSlider.right, top + 8  " />
-            <mappingparent componentname="Bpf Freq" componenttype="slider" />
-          </label>
           <component name="BpNzHeaderText" id="BpNzHeaderText" backgroundimage="gfx/ModuleHeaderBpNz_50x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
           </component>
@@ -1036,13 +1031,22 @@
             <mappingparent componentname="ATSmooth" componenttype="slider" />
           </label>
           <component name="EVcaHeaderText" id="EVcaHeaderText" backgroundimage="gfx/ModuleHeaderEVca_50x14.png" debugwidgetposition="false">
-            <bounds relativerectangle="(parent.width / 2) - 95, 0, left + 50, top + 14" />
+            <bounds relativerectangle="(parent.width / 2) - 95, 0, left + 48, top + 14" />
           </component>
           <component name="VeloHeaderText" id="VeloHeaderText" backgroundimage="gfx/ModuleHeaderVelo_50x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) - 25, 0, left + 50, top + 14" />
           </component>
           <component name="ATHeaderText" id="ATHeaderText" backgroundimage="gfx/ModuleHeaderAT_50x14.png" debugwidgetposition="false">
-            <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 50, top + 14" />
+            <bounds relativerectangle="(parent.width / 2) + 49, 0, left + 46, top + 14" />
+          </component>
+          <component name="ExpVca-AdsrVeloLine" id="ExpVca-AdsrVeloLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="ExpVcaSlpSlider.right + 4, ExpVcaSlpSlider.top + 10, left + 1, 63" />
+          </component>
+          <component name="AdsrVelo-AdVeloLine" id="AdsrVelo-AdVeloLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="AdsrVeloSlider.right + 4, ExpVcaSlpSlider.top + 10, left + 1, 63" />
+          </component>
+          <component name="AdVelo-AtSmoothLine" id="AdVelo-AtSmoothLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="AdVeloSlider.right + 4, ExpVcaSlpSlider.top + 10, left + 1, 63" />
           </component>
         </component>
         <!--ConstValAB controls-->
@@ -1475,6 +1479,12 @@
           <component name="PMod3HeaderText" id="PMod3HeaderText" backgroundimage="gfx/ModuleHeaderPMod3_50x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 100, top + 14" />
           </component>
+          <component name="PMod1-2Line" id="PMod1-2Line" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="PMod1BSlider.right + 4, PMod1BSlider.top, left + 1, 63" />
+          </component>
+          <component name="PMod2-3Line" id="PMod2-3Line" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="PMod2BSlider.right + 4, PMod1BSlider.top, left + 1, 63" />
+          </component>
         </component>
         <!--Mix2A, Mix2B, VolMod-->
         <component backgroundcolour="00000000" name="Mix2AB" id="Mix2AB">
@@ -1539,6 +1549,12 @@
           <component name="VolMHeaderText" id="VolMHeaderText" backgroundimage="gfx/ModuleHeaderVolM_50x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) + 45, 0, left + 100, top + 14" />
           </component>
+          <component name="Mix2A-BLine" id="Mix2A-BLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="Mix2A2Slider.right + 4, Mix2A1Slider.top, left + 1, 63" />
+          </component>
+          <component name="Mix2B-VolModLine" id="Mix2B-VolModLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="Mix2B2Slider.right + 4, Mix2A1Slider.top, left + 1, 63" />
+          </component>
         </component>
         <!--Mix3A, Mix3B-->
         <component backgroundcolour="00000000" name="Mix3AB" id="Mix3AB">
@@ -1600,6 +1616,9 @@
           <component name="Mix3BHeaderText" id="Mix3BHeaderText" backgroundimage="gfx/ModuleHeaderMix3B_50x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) + 22, 0, left + 100, top + 14" />
           </component>
+          <component name="Mix3A-BLine" id="Mix3A-BLine" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="Mix3A3Slider.right + 4, Mix3A1Slider.top, left + 1, 63" />
+          </component>
         </component>
         <!--Pan+Out-->
         <component backgroundcolour="00000000" name="Pan+Out" id="PanOut">
@@ -1660,6 +1679,9 @@
           </component>
           <component name="PanOut2Text" id="PanOut2Text" backgroundimage="gfx/ModuleHeaderPanOut2_100x14.png" debugwidgetposition="false">
             <bounds relativerectangle="(parent.width / 2) + 18, 0, left + 100, top + 14" />
+          </component>
+          <component name="PanOut1-2Line" id="PanOut1-2Line" backgroundimage="gfx/line_1x63.png" debugwidgetposition="false">
+            <bounds relativerectangle="MGain1Slider.right + 4, MGain1Slider.top, left + 1, 63" />
           </component>
         </component>
       </component>
