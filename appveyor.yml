@@ -72,8 +72,8 @@ after_build:
   - cmd: mkdir Output
   - cmd: cd Output
   - cmd: type nul > setup.exe
-  - cmd: 7z a $(APPVEYOR_BUILD_VERSION).zip setup.exe
-  - cmd: mv $(APPVEYOR_BUILD_VERSION).zip ..\..
+  - cmd: 7z a %APPVEYOR_BUILD_VERSION%.zip setup.exe
+  - cmd: mv %APPVEYOR_BUILD_VERSION%.zip ..\..
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
