@@ -65,6 +65,7 @@ after_build:
   - cmd: set PATH=%PATH%;"C:\\Program Files (x86)\\Inno Setup 5"  
   - cmd: cd "c:\scopesync\Setup Script"
  # - cmd: iscc ScopeSync.iss
+  - cmd: mkdir Output
   - cmd: cd Output
   - cmd: type nul > setup.exe
   - cmd: 7z a $(APPVEYOR_BUILD_VERSION).zip setup.exe
