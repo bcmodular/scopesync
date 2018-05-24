@@ -41,18 +41,18 @@ shallow_clone: true                 # default is "false"
 # scripts that run after cloning repository
 install:
   - cmd: cd c:\
-#  - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
-#  - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
-#  - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
-#  - cmd: msbuild c:/JUCE/extras/Projucer/Builds/VisualStudio2017/Projucer.sln /property:Platform=x64
-#  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
-#  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncInstPlugin\ScopeSyncInstPlugin.jucer
-#  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncEffectPlugin\ScopeSyncEffectPlugin.jucer
-#  - cmd: cd c:\scopesync
-#  - cmd: mkdir MS
-#  - cmd: cd MS
-#  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x86.exe'
-#  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x64.exe'
+  - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
+  - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
+  - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
+  - cmd: msbuild c:/JUCE/extras/Projucer/Builds/VisualStudio2017/Projucer.sln /property:Platform=x64
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncFX\ScopeSyncFX.jucer
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncInstPlugin\ScopeSyncInstPlugin.jucer
+  - cmd: c:\JUCE\extras\Projucer\Builds\VisualStudio2017\x64\Debug\App\Projucer.exe --resave C:\scopesync\Juce\ScopeSyncEffectPlugin\ScopeSyncEffectPlugin.jucer
+  - cmd: cd c:\scopesync
+  - cmd: mkdir MS
+  - cmd: cd MS
+  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x86.exe'
+  - ps: Start-FileDownload 'https://aka.ms/vs/15/release/vc_redist.x64.exe'
   
 #---------------------------------#
 #       build configuration       #
@@ -68,23 +68,20 @@ before_build:
 after_build:
   - cmd: set PATH=%PATH%;"C:\\Program Files (x86)\\Inno Setup 5"  
   - cmd: cd "c:\scopesync\Setup Script"
- # - cmd: iscc ScopeSync.iss
-  - cmd: mkdir Output
+  - cmd: iscc ScopeSync.iss
   - cmd: cd Output
-  - cmd: type nul > setup.exe
   - cmd: 7z a %APPVEYOR_BUILD_VERSION%.zip setup.exe
   - cmd: mv %APPVEYOR_BUILD_VERSION%.zip ..\..
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - echo script1
-#  - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
-#  - cmd: cd C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017
-#  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
-#  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
-#  - cmd: cd C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017
-#  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
-#  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
+  - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
+  - cmd: cd C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017
+  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
+  - cmd: cd C:\scopesync\Juce\ScopeSyncEffectPlugin\Builds\VisualStudio2017
+  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
+  - cmd: msbuild ScopeSyncEffectPlugin.sln /t:Rebuild /p:Configuration=Release_x64 /property:Platform=x64
 
 #---------------------------------#
 #       deployment configuration  #
