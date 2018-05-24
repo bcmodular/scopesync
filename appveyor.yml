@@ -72,6 +72,7 @@ after_build:
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
+  - echo script1
 #  - cmd: msbuild C:\scopesync\Juce\ScopeSyncFX\Builds\VisualStudio2017\ScopeSyncFX.sln /p:Configuration=Release /property:Platform=Win32
 #  - cmd: cd C:\scopesync\Juce\ScopeSyncInstPlugin\Builds\VisualStudio2017
 #  - cmd: msbuild ScopeSyncInstPlugin.sln /t:Rebuild /p:Configuration=Release /property:Platform=Win32
