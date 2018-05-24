@@ -70,6 +70,7 @@ after_build:
   - cmd: cd "c:\scopesync\Setup Script"
   - cmd: iscc ScopeSync.iss
   - cmd: cd Output
+  - cmd: mv mysetup.exe setup.exe
   - cmd: 7z a %APPVEYOR_BUILD_VERSION%.zip setup.exe
   - cmd: mv %APPVEYOR_BUILD_VERSION%.zip ..\..
 
