@@ -58,6 +58,9 @@ install:
 #       build configuration       #
 #---------------------------------#
 
+  on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 # scripts to run before build
 before_build:
 
@@ -99,5 +102,3 @@ deploy:
   folder: builds
   artifact: setup
   
-  on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
