@@ -91,12 +91,12 @@ artifacts:
   - path: $(APPVEYOR_BUILD_VERSION).zip
     name: setup
 
-deploy:
-  provider: S3
-  access_key_id: $(ARTIFACTS_KEY) 
-  secret_access_key: $(ARTIFACTS_SECRET) 
-  bucket: $(ARTIFACTS_BUCKET)
-  region: eu-central-1
-  folder: builds
-  artifact: setup
+#deploy:
+#  provider: S3
+#  access_key_id: $(ARTIFACTS_KEY) 
+#  secret_access_key: $(ARTIFACTS_SECRET) 
+#  bucket: $(ARTIFACTS_BUCKET)
+#  region: eu-central-1
+#  folder: builds
+#  artifact: setup
   
