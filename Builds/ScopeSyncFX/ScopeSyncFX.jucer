@@ -38,8 +38,6 @@
             file="../../scopesync-shared/Components/BCMTabbedComponent.h"/>
       <FILE id="OKUNmS" name="BCMTextButton.cpp" compile="1" resource="0"
             file="../../scopesync-shared/Components/BCMTextButton.cpp"/>
-      <FILE id="cRLCAn" name="BCMTextButton.cpp~RFf32de60.TMP" compile="0"
-            resource="1" file="../../scopesync-shared/Components/BCMTextButton.cpp~RFf32de60.TMP"/>
       <FILE id="qf1jGf" name="BCMTextButton.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMTextButton.h"/>
       <FILE id="VvgrWN" name="BCMWidget.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMWidget.cpp"/>
       <FILE id="jjexvY" name="BCMWidget.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMWidget.h"/>
@@ -47,8 +45,6 @@
     <GROUP id="{825C0E1D-76B6-F7C4-EDBC-E04927513C58}" name="Configuration">
       <FILE id="ANIYLt" name="Configuration.cpp" compile="1" resource="0"
             file="../../scopesync-shared/Configuration/Configuration.cpp"/>
-      <FILE id="c9fc1h" name="Configuration.cpp~RF195d3e91.TMP" compile="0"
-            resource="1" file="../../scopesync-shared/Configuration/Configuration.cpp~RF195d3e91.TMP"/>
       <FILE id="OkLWv9" name="Configuration.h" compile="0" resource="0" file="../../scopesync-shared/Configuration/Configuration.h"/>
       <FILE id="JzHQYJ" name="ConfigurationManager.cpp" compile="1" resource="0"
             file="../../scopesync-shared/Configuration/ConfigurationManager.cpp"/>
