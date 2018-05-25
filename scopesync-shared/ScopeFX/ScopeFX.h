@@ -37,7 +37,7 @@
 #include <JuceHeader.h>
 #include "../Core/ScopeSync.h"
 class ScopeFXGUI;
-#include "../../../External/SonicCore/effclass.h"
+#include "../SonicCore/effclass.h"
 #include "ScopeFXParameterDefinitions.h"
 
 using namespace ScopeFXParameterDefinitions;

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="JG4Lct" name="ScopeSyncFX" projectType="dll" version="1.0.3"
+              bundleIdentifier="com.yourcompany.ScopeSyncFX" includeBinaryInAppConfig="1"
+              jucerVersion="5.3.2" defines="" displaySplashScreen="0" reportAppUsage="0"
+              splashScreenColour="Dark" cppLanguageStandard="11" companyCopyright="">
+  <MAINGROUP id="NHuEI4" name="ScopeSyncFX">
+    <GROUP id="{EA6FDF3B-90D4-E24C-D0A0-A601AEFDFE00}" name="Comms">
+      <FILE id="TB9JOP" name="OSCServer.cpp" compile="1" resource="0" file="../../scopesync-shared/Comms/OSCServer.cpp"/>
+      <FILE id="D8VUYH" name="OSCServer.h" compile="0" resource="0" file="../../scopesync-shared/Comms/OSCServer.h"/>
+    </GROUP>
+    <GROUP id="{D7804D71-5D05-D1C0-552F-3B1E597E1F4D}" name="Components">
+      <FILE id="S4l6RW" name="BCMComboBox.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMComboBox.cpp"/>
+      <FILE id="iD2LIV" name="BCMComboBox.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMComboBox.h"/>
+      <FILE id="S2U2Wl" name="BCMComponent.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Components/BCMComponent.cpp"/>
+      <FILE id="nIjOd6" name="BCMComponent.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMComponent.h"/>
+      <FILE id="tdXiwe" name="BCMComponentBounds.h" compile="0" resource="0"
+            file="../../scopesync-shared/Components/BCMComponentBounds.h"/>
+      <FILE id="zcB47N" name="BCMGraphic.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMGraphic.cpp"/>
+      <FILE id="BJhQQh" name="BCMGraphic.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMGraphic.h"/>
+      <FILE id="OYWer2" name="BCMImage.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMImage.cpp"/>
+      <FILE id="GlAWkU" name="BCMImage.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMImage.h"/>
+      <FILE id="uWvfos" name="BCMLabel.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMLabel.cpp"/>
+      <FILE id="mwnJFB" name="BCMLabel.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMLabel.h"/>
+      <FILE id="YtdeqS" name="BCMLookAndFeel.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Components/BCMLookAndFeel.cpp"/>
+      <FILE id="bbuoee" name="BCMLookAndFeel.h" compile="0" resource="0"
+            file="../../scopesync-shared/Components/BCMLookAndFeel.h"/>
+      <FILE id="M6KqzP" name="BCMRectangle.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Components/BCMRectangle.cpp"/>
+      <FILE id="LWlBFm" name="BCMRectangle.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMRectangle.h"/>
+      <FILE id="dXATaY" name="BCMSlider.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMSlider.cpp"/>
+      <FILE id="LSJLgx" name="BCMSlider.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMSlider.h"/>
+      <FILE id="D1xL4T" name="BCMTabbedComponent.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Components/BCMTabbedComponent.cpp"/>
+      <FILE id="rXATXL" name="BCMTabbedComponent.h" compile="0" resource="0"
+            file="../../scopesync-shared/Components/BCMTabbedComponent.h"/>
+      <FILE id="OKUNmS" name="BCMTextButton.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Components/BCMTextButton.cpp"/>
+      <FILE id="cRLCAn" name="BCMTextButton.cpp~RFf32de60.TMP" compile="0"
+            resource="1" file="../../scopesync-shared/Components/BCMTextButton.cpp~RFf32de60.TMP"/>
+      <FILE id="qf1jGf" name="BCMTextButton.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMTextButton.h"/>
+      <FILE id="VvgrWN" name="BCMWidget.cpp" compile="1" resource="0" file="../../scopesync-shared/Components/BCMWidget.cpp"/>
+      <FILE id="jjexvY" name="BCMWidget.h" compile="0" resource="0" file="../../scopesync-shared/Components/BCMWidget.h"/>
+    </GROUP>
+    <GROUP id="{825C0E1D-76B6-F7C4-EDBC-E04927513C58}" name="Configuration">
+      <FILE id="ANIYLt" name="Configuration.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Configuration/Configuration.cpp"/>
+      <FILE id="c9fc1h" name="Configuration.cpp~RF195d3e91.TMP" compile="0"
+            resource="1" file="../../scopesync-shared/Configuration/Configuration.cpp~RF195d3e91.TMP"/>
+      <FILE id="OkLWv9" name="Configuration.h" compile="0" resource="0" file="../../scopesync-shared/Configuration/Configuration.h"/>
+      <FILE id="JzHQYJ" name="ConfigurationManager.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationManager.cpp"/>
+      <FILE id="uGtuxn" name="ConfigurationManager.h" compile="0" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationManager.h"/>
+      <FILE id="Q50OQo" name="ConfigurationPanel.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationPanel.cpp"/>
+      <FILE id="mQtcVA" name="ConfigurationPanel.h" compile="0" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationPanel.h"/>
+      <FILE id="Z9CaHr" name="ConfigurationTreeItem.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationTreeItem.cpp"/>
+      <FILE id="mSNe5u" name="ConfigurationTreeItem.h" compile="0" resource="0"
+            file="../../scopesync-shared/Configuration/ConfigurationTreeItem.h"/>
+      <FILE id="OirCCA" name="SettingsTable.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Configuration/SettingsTable.cpp"/>
+      <FILE id="KGC3e1" name="SettingsTable.h" compile="0" resource="0" file="../../scopesync-shared/Configuration/SettingsTable.h"/>
+    </GROUP>
+    <GROUP id="{776F08D3-71A0-B44B-9767-669E1BF89222}" name="Core">
+      <FILE id="BS4d19" name="Clipboard.cpp" compile="1" resource="0" file="../../scopesync-shared/Core/Clipboard.cpp"/>
+      <FILE id="vtqmJc" name="Clipboard.h" compile="0" resource="0" file="../../scopesync-shared/Core/Clipboard.h"/>
+      <FILE id="FD7Nkq" name="Global.h" compile="0" resource="0" file="../../scopesync-shared/Core/Global.h"/>
+      <FILE id="m23BHZ" name="ScopeSync.cpp" compile="1" resource="0" file="../../scopesync-shared/Core/ScopeSync.cpp"/>
+      <FILE id="wnvyu9" name="ScopeSync.h" compile="0" resource="0" file="../../scopesync-shared/Core/ScopeSync.h"/>
+      <FILE id="u6NpNC" name="ScopeSyncApplication.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Core/ScopeSyncApplication.cpp"/>
+      <FILE id="GdfMbT" name="ScopeSyncApplication.h" compile="0" resource="0"
+            file="../../scopesync-shared/Core/ScopeSyncApplication.h"/>
+      <FILE id="OvMUuz" name="ScopeSyncGUI.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Core/ScopeSyncGUI.cpp"/>
+      <FILE id="s8nLjW" name="ScopeSyncGUI.h" compile="0" resource="0" file="../../scopesync-shared/Core/ScopeSyncGUI.h"/>
+    </GROUP>
+    <GROUP id="{BFD083ED-6F45-5C76-9495-B8ABF10CFF26}" name="Parameters">
+      <FILE id="JyXV0L" name="BCMParameter.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Parameters/BCMParameter.cpp"/>
+      <FILE id="TZFF2Q" name="BCMParameter.h" compile="0" resource="0" file="../../scopesync-shared/Parameters/BCMParameter.h"/>
+      <FILE id="uLUPsK" name="BCMParameterController.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Parameters/BCMParameterController.cpp"/>
+      <FILE id="bG9rF7" name="BCMParameterController.h" compile="0" resource="0"
+            file="../../scopesync-shared/Parameters/BCMParameterController.h"/>
+      <FILE id="DiXkq1" name="HostParameter.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Parameters/HostParameter.cpp"/>
+      <FILE id="jp1jRx" name="HostParameter.h" compile="0" resource="0" file="../../scopesync-shared/Parameters/HostParameter.h"/>
+      <FILE id="LE0zPP" name="ScopeIDs.cpp" compile="1" resource="0" file="../../scopesync-shared/Parameters/ScopeIDs.cpp"/>
+      <FILE id="SUfEiQ" name="ScopeIDs.h" compile="0" resource="0" file="../../scopesync-shared/Parameters/ScopeIDs.h"/>
+      <FILE id="XNrkrt" name="ScopeOSCParameter.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Parameters/ScopeOSCParameter.cpp"/>
+      <FILE id="uZcUja" name="ScopeOSCParameter.h" compile="0" resource="0"
+            file="../../scopesync-shared/Parameters/ScopeOSCParameter.h"/>
+    </GROUP>
+    <GROUP id="{27B08611-447E-4494-AC7D-F40A3D40ADA2}" name="Plugin">
+      <FILE id="VGUfU6" name="PluginGUI.cpp" compile="1" resource="0" file="../../scopesync-shared/Plugin/PluginGUI.cpp"/>
+      <FILE id="p7W0bH" name="PluginGUI.h" compile="0" resource="0" file="../../scopesync-shared/Plugin/PluginGUI.h"/>
+      <FILE id="MkZhmJ" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Plugin/PluginProcessor.cpp"/>
+      <FILE id="WwBbbJ" name="PluginProcessor.h" compile="0" resource="0"
+            file="../../scopesync-shared/Plugin/PluginProcessor.h"/>
+    </GROUP>
+    <GROUP id="{B0BFFF74-2FDB-48AD-1A23-175A60872FCA}" name="Presets">
+      <FILE id="dG6WaT" name="PresetFile.cpp" compile="1" resource="0" file="../../scopesync-shared/Presets/PresetFile.cpp"/>
+      <FILE id="JX9hUI" name="PresetFile.h" compile="0" resource="0" file="../../scopesync-shared/Presets/PresetFile.h"/>
+      <FILE id="xN01pH" name="PresetItem.cpp" compile="1" resource="0" file="../../scopesync-shared/Presets/PresetItem.cpp"/>
+      <FILE id="qO7i1A" name="PresetItem.h" compile="0" resource="0" file="../../scopesync-shared/Presets/PresetItem.h"/>
+      <FILE id="kukKyf" name="PresetManager.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Presets/PresetManager.cpp"/>
+      <FILE id="QeiJbp" name="PresetManager.h" compile="0" resource="0" file="../../scopesync-shared/Presets/PresetManager.h"/>
+    </GROUP>
+    <GROUP id="{5E52A107-4175-FCF6-E23E-F3AE7CE4C37B}" name="Properties">
+      <FILE id="TFpJaf" name="ComboBoxProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/ComboBoxProperties.cpp"/>
+      <FILE id="miQRgn" name="ComboBoxProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/ComboBoxProperties.h"/>
+      <FILE id="cRx3lE" name="ComponentProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/ComponentProperties.cpp"/>
+      <FILE id="Dia2id" name="ComponentProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/ComponentProperties.h"/>
+      <FILE id="y7QVzl" name="LabelProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/LabelProperties.cpp"/>
+      <FILE id="IKEua6" name="LabelProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/LabelProperties.h"/>
+      <FILE id="SzIMDd" name="PropertiesHelper.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/PropertiesHelper.h"/>
+      <FILE id="qE0YYc" name="SliderProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/SliderProperties.cpp"/>
+      <FILE id="ygw9Hk" name="SliderProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/SliderProperties.h"/>
+      <FILE id="OQfiZY" name="TabbedComponentProperties.cpp" compile="1"
+            resource="0" file="../../scopesync-shared/Properties/TabbedComponentProperties.cpp"/>
+      <FILE id="J9Et6B" name="TabbedComponentProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/TabbedComponentProperties.h"/>
+      <FILE id="VqfMLX" name="TabProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/TabProperties.cpp"/>
+      <FILE id="uxrEw6" name="TabProperties.h" compile="0" resource="0" file="../../scopesync-shared/Properties/TabProperties.h"/>
+      <FILE id="GHApEL" name="TextButtonProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/TextButtonProperties.cpp"/>
+      <FILE id="ogOD4D" name="TextButtonProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/TextButtonProperties.h"/>
+      <FILE id="lJq4wx" name="WidgetProperties.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Properties/WidgetProperties.cpp"/>
+      <FILE id="mbDZFF" name="WidgetProperties.h" compile="0" resource="0"
+            file="../../scopesync-shared/Properties/WidgetProperties.h"/>
+    </GROUP>
+    <GROUP id="{68C90446-4556-32A6-1CD4-B42B54FF9B74}" name="Resources">
+      <GROUP id="{E2B30576-0D7F-762D-CC62-FF07480120AE}" name="font">
+        <FILE id="qkz9tC" name="erbos_draco_1st_nbp.ttf" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/font/erbos_draco_1st_nbp.ttf"/>
+        <FILE id="WXH5cu" name="erbos_draco_1st_open_nbp.ttf" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/font/erbos_draco_1st_open_nbp.ttf"/>
+        <FILE id="lUU0GO" name="Montserrat-Bold.ttf" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/font/Montserrat-Bold.ttf"/>
+        <FILE id="Zff589" name="Montserrat-Regular.ttf" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/font/Montserrat-Regular.ttf"/>
+      </GROUP>
+      <GROUP id="{F45AA97D-12AE-D080-9C4E-E63580304EE9}" name="image">
+        <FILE id="NHfRFZ" name="Close_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Close_button_off.png"/>
+        <FILE id="dovhAl" name="Close_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Close_button_on.png"/>
+        <FILE id="i9OzmL" name="Close_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Close_button_over.png"/>
+        <FILE id="CqgVaC" name="config_manager_button_off.png" compile="0"
+              resource="1" file="../../scopesync-shared/Resources/image/config_manager_button_off.png"/>
+        <FILE id="KXYD8s" name="config_manager_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/config_manager_button_on.png"/>
+        <FILE id="L7NHFH" name="config_manager_button_over.png" compile="0"
+              resource="1" file="../../scopesync-shared/Resources/image/config_manager_button_over.png"/>
+        <FILE id="sMDIZn" name="confirm_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/confirm_button_off.png"/>
+        <FILE id="cla5Dw" name="confirm_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/confirm_button_on.png"/>
+        <FILE id="c3FpeC" name="confirm_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/confirm_button_over.png"/>
+        <FILE id="YuIfzV" name="Copy_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Copy_button_off.png"/>
+        <FILE id="RWZEGf" name="Copy_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Copy_button_on.png"/>
+        <FILE id="yfzrhw" name="Copy_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Copy_button_over.png"/>
+        <FILE id="H8cQVU" name="divider.png" compile="0" resource="1" file="../../scopesync-shared/Resources/image/divider.png"/>
+        <FILE id="EerKG3" name="FXbypass_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXbypass_button_off.png"/>
+        <FILE id="TT1jrT" name="FXbypass_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXbypass_button_on.png"/>
+        <FILE id="zL9CV6" name="FXbypass_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXbypass_button_over.png"/>
+        <FILE id="X7pDH6" name="FXmono_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXmono_button_off.png"/>
+        <FILE id="Gzih1m" name="FXmono_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXmono_button_on.png"/>
+        <FILE id="vqEFsz" name="FXmono_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/FXmono_button_over.png"/>
+        <FILE id="SjxPcH" name="help_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/help_button_off.png"/>
+        <FILE id="uUIlDk" name="help_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/help_button_on.png"/>
+        <FILE id="QU2bSG" name="help_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/help_button_over.png"/>
+        <FILE id="oXELtt" name="load_config_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/load_config_button_off.png"/>
+        <FILE id="rkkj8a" name="load_config_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/load_config_button_on.png"/>
+        <FILE id="bqTyrT" name="load_config_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/load_config_button_over.png"/>
+        <FILE id="rTXJOE" name="NewConfig_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/NewConfig_button_off.png"/>
+        <FILE id="soviM3" name="NewConfig_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/NewConfig_button_on.png"/>
+        <FILE id="jvo0CK" name="NewConfig_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/NewConfig_button_over.png"/>
+        <FILE id="VflSL1" name="Paste_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Paste_button_off.png"/>
+        <FILE id="vYeRoy" name="Paste_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Paste_button_on.png"/>
+        <FILE id="uPsLd4" name="Paste_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Paste_button_over.png"/>
+        <FILE id="lvckO5" name="Patch_Window_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Patch_Window_button_off.png"/>
+        <FILE id="GTVQ61" name="Patch_Window_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Patch_Window_button_on.png"/>
+        <FILE id="ikFXCY" name="Patch_Window_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Patch_Window_button_over.png"/>
+        <FILE id="FmcJJN" name="Perf_Mode_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Perf_Mode_button_off.png"/>
+        <FILE id="hRqULB" name="Perf_Mode_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Perf_Mode_button_on.png"/>
+        <FILE id="OEJDjt" name="Perf_Mode_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Perf_Mode_button_over.png"/>
+        <FILE id="AQ59aL" name="Presets_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Presets_button_off.png"/>
+        <FILE id="fkyZyC" name="Presets_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Presets_button_on.png"/>
+        <FILE id="UiWnlF" name="Presets_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Presets_button_over.png"/>
+        <FILE id="RYME64" name="Redo_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Redo_button_off.png"/>
+        <FILE id="RE2IDW" name="Redo_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Redo_button_on.png"/>
+        <FILE id="JIMB1g" name="Redo_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Redo_button_over.png"/>
+        <FILE id="loowjy" name="reload_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/reload_button_off.png"/>
+        <FILE id="P3PZ5Z" name="reload_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/reload_button_on.png"/>
+        <FILE id="pNSMJp" name="reload_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/reload_button_over.png"/>
+        <FILE id="h7m0sC" name="remove_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/remove_button_off.png"/>
+        <FILE id="JYJtI6" name="remove_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/remove_button_on.png"/>
+        <FILE id="AyffCb" name="remove_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/remove_button_over.png"/>
+        <FILE id="aYg1qL" name="Save_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Save_button_off.png"/>
+        <FILE id="rklikr" name="Save_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Save_button_on.png"/>
+        <FILE id="ulMwfW" name="Save_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Save_button_over.png"/>
+        <FILE id="KhcFqG" name="SaveAs_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/SaveAs_button_off.png"/>
+        <FILE id="cjYUBe" name="SaveAs_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/SaveAs_button_on.png"/>
+        <FILE id="otgQse" name="SaveAs_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/SaveAs_button_over.png"/>
+        <FILE id="p3HWPL" name="ScopeSync_Logo.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/ScopeSync_Logo.png"/>
+        <FILE id="y9CXUs" name="ScopeSync_Logo_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/ScopeSync_Logo_off.png"/>
+        <FILE id="kbXlMv" name="ScopeSync_Logo_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/ScopeSync_Logo_on.png"/>
+        <FILE id="RlEIFG" name="settings_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/settings_button_off.png"/>
+        <FILE id="M6nSd7" name="settings_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/settings_button_on.png"/>
+        <FILE id="hOCznu" name="settings_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/settings_button_over.png"/>
+        <FILE id="BPvGDv" name="Snapshot_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Snapshot_button_off.png"/>
+        <FILE id="GpvZwr" name="Snapshot_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Snapshot_button_on.png"/>
+        <FILE id="yowJtb" name="Snapshot_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Snapshot_button_over.png"/>
+        <FILE id="ttYT2d" name="toolbar_bevel.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/toolbar_bevel.png"/>
+        <FILE id="wsFgW4" name="toolbar_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/toolbar_button_off.png"/>
+        <FILE id="ADz8zf" name="toolbar_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/toolbar_button_on.png"/>
+        <FILE id="BwnZD8" name="toolbar_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/toolbar_button_over.png"/>
+        <FILE id="BwMb8G" name="Undo_button_off.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Undo_button_off.png"/>
+        <FILE id="bgEIkj" name="Undo_button_on.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Undo_button_on.png"/>
+        <FILE id="k8n876" name="Undo_button_over.png" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/image/Undo_button_over.png"/>
+      </GROUP>
+      <GROUP id="{886C71CB-BE6B-0CA8-27B1-775D7CFE80AF}" name="xml">
+        <FILE id="CRbnbJ" name="empty.configuration" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/xml/empty.configuration"/>
+        <FILE id="U9mwmI" name="loader.layout" compile="0" resource="1" file="../../scopesync-shared/Resources/xml/loader.layout"/>
+        <FILE id="Af25GL" name="standardFooterContent.layout" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/xml/standardFooterContent.layout"/>
+        <FILE id="eMJcL3" name="standardHeaderContent.layout" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/xml/standardHeaderContent.layout"/>
+        <FILE id="GPYoeM" name="standardSliderLnFs.layout" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/xml/standardSliderLnFs.layout"/>
+        <FILE id="SOxXaf" name="system.lookandfeels" compile="0" resource="1"
+              file="../../scopesync-shared/Resources/xml/system.lookandfeels"/>
+      </GROUP>
+      <FILE id="QL5iJS" name="Icons.cpp" compile="1" resource="0" file="../../scopesync-shared/Resources/Icons.cpp"/>
+      <FILE id="oTLUpp" name="Icons.h" compile="0" resource="0" file="../../scopesync-shared/Resources/Icons.h"/>
+      <FILE id="gI1JjP" name="ImageLoader.cpp" compile="1" resource="0" file="../../scopesync-shared/Resources/ImageLoader.cpp"/>
+      <FILE id="lkKtT6" name="ImageLoader.h" compile="0" resource="0" file="../../scopesync-shared/Resources/ImageLoader.h"/>
+    </GROUP>
+    <GROUP id="{2EEF7BE3-EFF2-5432-D64B-E93AA07B92ED}" name="ScopeFX">
+      <FILE id="HuhFih" name="ScopeFX.cpp" compile="1" resource="0" file="../../scopesync-shared/ScopeFX/ScopeFX.cpp"/>
+      <FILE id="ZEvYGx" name="ScopeFX.h" compile="0" resource="0" file="../../scopesync-shared/ScopeFX/ScopeFX.h"/>
+      <FILE id="sOCCQV" name="ScopeFXGUI.cpp" compile="1" resource="0" file="../../scopesync-shared/ScopeFX/ScopeFXGUI.cpp"/>
+      <FILE id="b58GoG" name="ScopeFXGUI.h" compile="0" resource="0" file="../../scopesync-shared/ScopeFX/ScopeFXGUI.h"/>
+      <FILE id="YBvICq" name="ScopeFXParameterDefinitions.h" compile="0"
+            resource="0" file="../../scopesync-shared/ScopeFX/ScopeFXParameterDefinitions.h"/>
+    </GROUP>
+    <GROUP id="{048E1C7E-507E-FF3F-096A-DB85103096AB}" name="SonicCore">
+      <FILE id="vLfiWL" name="effclass.h" compile="0" resource="0" file="../../scopesync-shared/SonicCore/effclass.h"/>
+    </GROUP>
+    <GROUP id="{1C4C8871-FB11-809E-5CA4-192693EBA060}" name="Utils">
+      <FILE id="g4ID8s" name="BCMMath.h" compile="0" resource="0" file="../../scopesync-shared/Utils/BCMMath.h"/>
+      <FILE id="JHn2jT" name="BCMMisc.cpp" compile="1" resource="0" file="../../scopesync-shared/Utils/BCMMisc.cpp"/>
+      <FILE id="shmcp1" name="BCMMisc.h" compile="0" resource="0" file="../../scopesync-shared/Utils/BCMMisc.h"/>
+      <FILE id="ttoQhM" name="BCMTreeView.cpp" compile="1" resource="0" file="../../scopesync-shared/Utils/BCMTreeView.cpp"/>
+      <FILE id="NdgmHD" name="BCMTreeView.h" compile="0" resource="0" file="../../scopesync-shared/Utils/BCMTreeView.h"/>
+      <FILE id="BGnZsp" name="BCMXml.h" compile="0" resource="0" file="../../scopesync-shared/Utils/BCMXml.h"/>
+    </GROUP>
+    <GROUP id="{8F79B9FC-BDDE-3F81-7E43-C27FE9442B95}" name="Windows">
+      <FILE id="z9ek14" name="ConfigurationChooser.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/ConfigurationChooser.cpp"/>
+      <FILE id="qPoA6f" name="ConfigurationChooser.h" compile="0" resource="0"
+            file="../../scopesync-shared/Windows/ConfigurationChooser.h"/>
+      <FILE id="jS2RTq" name="FileLocationEditor.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/FileLocationEditor.cpp"/>
+      <FILE id="FoyCrd" name="FileLocationEditor.h" compile="0" resource="0"
+            file="../../scopesync-shared/Windows/FileLocationEditor.h"/>
+      <FILE id="auIY1I" name="LayoutChooser.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/LayoutChooser.cpp"/>
+      <FILE id="b5F1cT" name="LayoutChooser.h" compile="0" resource="0" file="../../scopesync-shared/Windows/LayoutChooser.h"/>
+      <FILE id="ZUnkEl" name="PresetChooser.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/PresetChooser.cpp"/>
+      <FILE id="jc99yw" name="PresetChooser.h" compile="0" resource="0" file="../../scopesync-shared/Windows/PresetChooser.h"/>
+      <FILE id="WPxpsD" name="PresetFileChooser.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/PresetFileChooser.cpp"/>
+      <FILE id="DWdpoA" name="PresetFileChooser.h" compile="0" resource="0"
+            file="../../scopesync-shared/Windows/PresetFileChooser.h"/>
+      <FILE id="BjyfOZ" name="UserSettings.cpp" compile="1" resource="0"
+            file="../../scopesync-shared/Windows/UserSettings.cpp"/>
+      <FILE id="fTvi8o" name="UserSettings.h" compile="0" resource="0" file="../../scopesync-shared/Windows/UserSettings.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <VS2017 targetFolder="Builds/VisualStudio2017" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
+            extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};legacy_stdio_definitions.lib">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSync-Debug_1_0_3" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
+                       postbuildCommand="copy /Y &quot;$(OutDir)\$(TargetFileName)&quot; &quot;C:\Program Files\SCOPE SDK XITE\App\Dll&quot;"
+                       winArchitecture="Win32" libraryPath="..\..\..\..\scopesync-shared\SonicCore"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSync_1_0_3" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLL.lib"
+                       postbuildCommand="xcopy /Y &quot;$(TargetPath)&quot; &quot;..\..\..\..\Scope DLL\&quot;"
+                       winArchitecture="Win32" libraryPath="..\..\..\..\scopesync-shared\SonicCore"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2017>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_WEB_BROWSER="0" JUCE_ENABLE_LIVE_CONSTANT_EDITOR="0"/>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>

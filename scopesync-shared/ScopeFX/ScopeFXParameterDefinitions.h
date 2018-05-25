@@ -28,7 +28,7 @@
 
 #ifndef SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
 #define SCOPEFXPARAMETERDEFINITIONS_H_INCLUDED
-#include <effclass.h>
+#include "../SonicCore/effclass.h"
 
 namespace ScopeFXParameterDefinitions {
 
