@@ -365,7 +365,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2017 targetFolder="Builds/VisualStudio2017" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE"
+    <VS2017 targetFolder="Builds/VisualStudio2017" extraDefs="_XKEYCHECK_H&#10;JUCE_NO_COMPILER_THREAD_LOCAL=1&#10;_CRT_SECURE_NO_DEPRECATE&#10;SCOPE_MODULE_NAME=&quot;ScopeSync\ 1.0.3&quot;"
             extraLinkerFlags="/SAFESEH:NO" externalLibraries="${SCOPELIB};legacy_stdio_definitions.lib">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSync-Debug_1_0_3" defines="__DLL_EFFECT__&#10;SCOPELIB=ScopeDLLd.lib"
