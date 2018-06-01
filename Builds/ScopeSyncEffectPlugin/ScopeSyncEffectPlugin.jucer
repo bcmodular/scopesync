@@ -361,7 +361,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2017 targetFolder="Builds/VisualStudio2017" vst3Folder="../../../vst3sdk">
+    <VS2017 targetFolder="Builds/VisualStudio2017" vst3Folder="../../../vst3sdk"
+            extraDefs="FIXED_PARAMETER_COUNT=512">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSyncVSTFX-Debug_1_0_3"
                        winArchitecture="Win32" useRuntimeLibDLL="0"/>
