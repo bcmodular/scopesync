@@ -365,9 +365,10 @@
             extraDefs="FIXED_PARAMETER_COUNT=512">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="ScopeSyncVSTInst-Debug_1_0_3"
-                       winArchitecture="Win32" useRuntimeLibDLL="0"/>
+                       winArchitecture="Win32" useRuntimeLibDLL="0" enablePluginBinaryCopyStep="1"
+                       vstBinaryLocation="c:\VST\ScopeSync"/>
         <CONFIGURATION isDebug="1" name="Debug_x64" targetName="ScopeSyncVSTInst-Debug-x64_1_0_3"
-                       useRuntimeLibDLL="0"/>
+                       useRuntimeLibDLL="0" enablePluginBinaryCopyStep="1" vstBinaryLocation="c:\VST\ScopeSync"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="ScopeSyncVSTInst_1_0_3"
                        useRuntimeLibDLL="0" winArchitecture="Win32" optimisation="4"
                        postbuildCommand="if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_VST&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\VST2\32bit\&quot;&#10;if &quot;$(ProjectName)&quot;==&quot;$(SolutionName)_StandalonePlugin&quot; xcopy /Y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)..\..\..\..\..\..\..\Plugins\Windows\Standalone\32bit\&quot;"/>
