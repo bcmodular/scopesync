@@ -1,3 +1,5 @@
+AppVeyor - [![Build status](https://ci.appveyor.com/api/projects/status/79on29os4gsaokcn?svg=true)](https://ci.appveyor.com/project/wellis/scopesync)
+
 ScopeSync
 =========
 ### Welcome to ScopeSync.
