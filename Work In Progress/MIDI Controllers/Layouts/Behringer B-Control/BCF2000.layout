@@ -22,6 +22,10 @@
                         </linearvertical>
                     </slider>
                 </images>
+                <colours>
+                    <textbutton textcolouroffid="00ffffff" textcolouronid="00ff0000"
+                                buttoncolourid="00ff0000"/>
+                </colours>
             </lookandfeel>
             <lookandfeel id="BCMbutton" parentid="default">
                 <colours>
