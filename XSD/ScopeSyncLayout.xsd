@@ -630,6 +630,7 @@
         <attribute name="numfaders" type="int"/>
         <attribute name="numbuttons" type="int"/>
         <attribute name="numparameters" type="int"/>
+        <attribute name="showparamidintooltips" type="boolean"/>
 
     </complexType>
 
