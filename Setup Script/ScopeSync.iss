@@ -47,7 +47,7 @@ Source: "..\Plugins\Windows\VST2\64bit\*"; DestDir: "{code:GetVST2Dir}\{#AppName
 Source: "..\Scope DLL\*"; DestDir: "{code:GetScopeDir}\App\Dll"; Flags: ignoreversion solidbreak; Components: ScopeDLL
 Source: "..\BC Modular Modules\*"; DestDir: "{code:GetModularDir}"; Flags: ignoreversion; Components: BCMod
 Source: "..\Plugins\Windows\VST2\32bit\*"; DestDir: "{code:GetVST2Dir}\{#AppName}"; Flags: ignoreversion; Components:VSTPlugin\32VST2
-;Source: "..\VST Plugin\VST3\32bit\*"; DestDir: "{cf32}\{#AppName}"; Flags: ignoreversion; Components:VSTPlugin\32VST3
+;Source: "..\VST Plugin\VST3\32bit\*"; DestDir: "{cf32}\VST3\{#AppName}"; Flags: ignoreversion; Components:VSTPlugin\32VST3
 Source: "..\Configurations\*"; DestDir: "{app}\Configurations"; Flags: ignoreversion recursesubdirs; Components: Configurations
 Source: "..\Layouts\*"; DestDir: "{app}\Layouts"; Flags: ignoreversion recursesubdirs; Components: Layouts
 Source: "..\Presets\*"; DestDir: "{app}\Presets"; Flags: ignoreversion recursesubdirs; Components: Presets
