@@ -151,6 +151,12 @@
         </attribute>
         <attribute name="horizontalcrosshairthickness" type="int"/>
         <attribute name="verticalcrosshairthickness" type="int"/>
+        <attribute name="crosshairgridcubewidth" type="int"/>
+        <attribute name="crosshairgridcubeheight" type="int"/>
+        <attribute name="crosshairdetectfromx" type="int"/>
+        <attribute name="crosshairdetectfromy" type="int"/>
+        <attribute name="crosshairdetectwidth" type="int"/>
+        <attribute name="crosshairdetectheight" type="int"/>
         <attribute name="horizontalcrosshaircolour" type="tns:colouridtype"/>
         <attribute name="verticalcrosshaircolour" type="tns:colouridtype"/>
 
