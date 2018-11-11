@@ -43,7 +43,7 @@ install:
   - cmd: cd c:\
 # Replacing this with a VST2 download, as JUCE contains VST3
 #  - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
-  - ps: Start-FileDownload 'https://docs.google.com/uc?export=download&id=1YXqVRD2jk0niNhJGskQospv846j7OZrr'
+  - ps: Start-FileDownload 'https://docs.google.com/uc?export=download&id=1YXqVRD2jk0niNhJGskQospv846j7OZrr' -FileName 'VST2_SDK.zip'
   - cmd: 7z x VST2_SDK.zip
   - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
   - cmd: git clone --depth 1 https://github.com/bcmodular/scopesync-shared.git
