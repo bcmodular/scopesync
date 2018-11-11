@@ -41,7 +41,10 @@ shallow_clone: true                 # default is "false"
 # scripts that run after cloning repository
 install:
   - cmd: cd c:\
-  - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
+# Replacing this with a VST2 download, as JUCE contains VST3
+#  - cmd: git clone --recursive --depth 1 -j8 https://github.com/steinbergmedia/vst3sdk.git
+  - ps: Start-FileDownload 'https://drive.google.com/file/d/1YXqVRD2jk0niNhJGskQospv846j7OZrr/view?usp=sharing'
+  - cmd: 7z x VST2_SDK.zip
   - cmd: git clone --depth 1 https://github.com/WeAreROLI/JUCE.git -b develop
   - cmd: git clone --depth 1 https://github.com/bcmodular/scopesync-shared.git
   - ps: (Get-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h") | ForEach-Object {$_ -Replace "#define JUCER_ENABLE_GPL_MODE 0", "#define JUCER_ENABLE_GPL_MODE 1"} | Set-Content -Path "c:/JUCE/extras/Projucer/JuceLibraryCode/AppConfig.h"
@@ -91,13 +94,4 @@ build_script:
 artifacts:
   - path: $(APPVEYOR_BUILD_VERSION).zip
     name: setup
-
-#deploy:
-#  provider: S3
-#  access_key_id: $(ARTIFACTS_KEY) 
-#  secret_access_key: $(ARTIFACTS_SECRET) 
-#  bucket: $(ARTIFACTS_BUCKET)
-#  region: eu-central-1
-#  folder: builds
-#  artifact: setup
   
